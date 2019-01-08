@@ -1,0 +1,7 @@
+<ng-container>
+
+  <data-table-list *ngIf="action == 'list'" [uiElement]="uiElement"></data-table-list>
+  <data-table-detail *ngIf="action == 'detail'" [uiElement]="uiElement"></data-table-detail>
+  <data-table-add *ngIf="action == 'add'" [uiElement]="uiElement"></data-table-add>
+
+</ng-container>

@@ -1,0 +1,52 @@
+{
+  "_id": ObjectId("000000000000000000000013"),  
+  "type": "data-table",
+  "label": "Angular Navigation Data Table",
+  "src": "/adminapi/angular.navigation",
+  "list": {
+    "src": "/adminapi/angular.navigation?_sort=client_name",
+    "size": 1000,
+    "method": "get",
+    "transform": "response.data",
+    "filters": [
+      {
+        "key": "navigation_name",
+        "label": "Navigation",
+        "optionSrc": "`/adminapi/core.navigation?_sort=title&module=000000000000000000000000&_search=${this.value}`",
+        "optionTransform": "response.data",
+        "optionLabel": "name"
+      }
+    ],
+    "table": {
+      "groupBy": "navigation_name",
+      "columns": [
+        {
+          "key": "name",
+          "label": "name",
+          "link": "`detail/${row._id}`"
+        },
+        {
+          "key": "type",
+          "label": "type"
+        }
+      ]
+    }
+  },
+  "detail": {
+    "src": "`/adminapi/angular.navigation?_id=${this.id}`",
+    "method": "get",
+    "transform": "response.data[0]",
+    "screen": [
+      {
+        "name": "angular.navigation",
+        "screen": [
+          {
+            "path": ".",
+            "label": "angular.navigation",
+            "type": "json-editor"
+          }
+        ]
+      }
+    ]
+  }
+}

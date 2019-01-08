@@ -1,0 +1,14 @@
+<!-- Filters -->
+<mat-expansion-panel *ngIf="uiElement.filters" [expanded]="filterOpen" class="filter-group">
+    <mat-expansion-panel-header>
+        Filter
+    </mat-expansion-panel-header>
+
+    <div fxLayoutAlign="center center" fxLayout="column" fxLayout.gt-xs="row wrap" fxLayoutAlign.gt-xs="space-between center">
+        <ng-container *ngFor="let filter of uiElement.filters">
+            <filter [uiElement]="filter"></filter>
+        </ng-container>
+    </div>
+
+</mat-expansion-panel>
+<!-- / Filters -->

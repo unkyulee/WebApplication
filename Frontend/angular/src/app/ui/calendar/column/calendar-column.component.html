@@ -1,0 +1,20 @@
+<mat-list class="mat-elevation-z2 pb-8" [style.background]="day.toDateString() != today.toDateString() ? '#EEEEEE' : 'orange' ">
+
+    <h3 mat-subheader [style.background]="getWeekNum(this.day) == 7 ? '#AD172B' : '#3B4251' ">
+        {{getWeekday(day)}}
+        <small>{{getShortDate(day)}}</small>
+    </h3>
+
+    <mat-divider></mat-divider>
+
+    <div *ngFor="let item of items" class="mat-elevation-z2 item" style="cursor:pointer;" (click)="click(item)">
+        <mat-card-content>
+            <ng-container *ngFor="let content of contents">
+                <span [style.fontWeight]="content.fontWeight">
+                    {{format(content.label, item)}}
+                </span><br />
+            </ng-container>
+        </mat-card-content>
+    </div>
+
+</mat-list>

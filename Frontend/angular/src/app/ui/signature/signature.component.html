@@ -1,0 +1,16 @@
+<div #container (window:resize)="beResponsive()">
+    <signature-pad  [options]="options"                     
+                    (onBeginEvent)="drawStart()" 
+                    (onEndEvent)="drawComplete()">
+    </signature-pad>
+</div>
+
+<div fxLayout="row">
+    <button mat-raised-button class="mb-4" (click)="save()" color="warn">
+        Save
+    </button>
+    <div fxFlex></div>
+    <button mat-raised-button class="mb-4" (click)="clear()">
+        Clear
+    </button>
+</div>

@@ -1,0 +1,77 @@
+{
+    "_id": ObjectId("000000000000000000000005"),
+    "type": "data-table",
+    "name": "CMS Contents Data Table",
+    "src": "/adminapi/cms",
+    "list": {
+        "src": "/adminapi/cms",
+        "size": 1000,
+        "method": "get",
+        "transform": "response.data",
+        "table": {
+            "groupBy": "navigation_name",
+            "columns": [
+                {
+                    "key": "name",
+                    "label": "name",
+                    "link": "`detail/${row._id}`"
+                },
+                {
+                    "key": "folder",
+                    "label": "folder"
+                },
+                {
+                    "key": "type",
+                    "label": "type"
+                }
+            ]
+        }
+    },
+    "detail": {
+        "src": "`/adminapi/cms?_id=${this.id}`",
+        "method": "get",
+        "transform": "response.data[0]",
+        "screen": [
+            {
+                "screen": [
+                    {
+                        "key": "navigation_id",
+                        "label": "Select base url",
+                        "type": "selection",
+                        "optionSrc": "`/adminapi/core.navigation?_sort=title&module=cms`",
+                        "optionLabel": "name",
+                        "optionKey": "_id",
+                        "optionTransform": "response.data",
+                        "updateAlso": [
+                            {
+                                "sourceKey": "name",
+                                "targetKey": "navigation_name"
+                            },
+                            {
+                                "sourceKey": "url",
+                                "targetKey": "navigation_url"
+                            }
+                        ]
+                    },
+                    {
+                        "key": "name",
+                        "label": "name"
+                    },
+                    {
+                        "key": "folder",
+                        "label": "folder"
+                    },
+                    {
+                        "key": "content_type",
+                        "label": "content_type"
+                    },
+                    {
+                        "key": "content",
+                        "label": "content",
+                        "type": "text-area"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,47 @@
+{
+  "_id": ObjectId("000000000000000000000016"),
+  "type": "data-table",
+  "name": "Angular UI Elements Data Table",
+  "src": "/adminapi/angular.ui",
+  "list": {
+      "src": "/adminapi/angular.ui",
+      "size": 1000,
+      "method": "get",
+      "transform": "response.data",
+      "table": {
+          "columns": [
+              {
+                  "key": "name",
+                  "label": "name",
+                  "link": "`detail/${row._id}`"
+              },
+              {
+                  "key": "type",
+                  "label": "type",
+                  "canAutoResize": false
+              },
+              {
+                  "key": "_id",
+                  "label": "_id"
+              }
+          ]
+      }
+  },
+  "detail": {
+      "src": "`/adminapi/angular.ui?_id=${this.id}`",
+      "method": "get",
+      "transform": "response.data[0]",
+      "screen": [
+          {
+              "name": "Angular UI Element Specification",
+              "screen": [
+                  {
+                      "path": ".",
+                      "label": "UI Element",
+                      "type": "json-editor"
+                  }
+              ]
+          }
+      ]
+  }
+}

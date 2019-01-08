@@ -1,0 +1,21 @@
+.ngx-datatable {
+    margin: 12px 12px 12px 12px;
+}
+
+.table-link{
+    color: #039BE5;
+    cursor: pointer;
+}
+
+.loading {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }

@@ -1,0 +1,7 @@
+{
+    "_id": ObjectId("000000000000000000000000"),
+    "navigation_id": "000000000000000000000020",
+    "navigation_name": "Admin",
+    "name": "Administrators",
+    "users": [ "000000000000000000000000" ]
+}

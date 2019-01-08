@@ -1,0 +1,11 @@
+<mat-form-field *ngIf="condition()" [fxFlex]="uiElement.width ? uiElement.width : 100">
+  <mat-label>{{uiElement.label}}</mat-label>
+  <mat-select #select [placeholder]="uiElement.label" [evalValidate]="uiElement.errorCondition" [multiple]="uiElement.multiple"
+    [(ngModel)]="value">
+    <mat-option *ngFor="let option of uiElement.options" [value]="option[uiElement.optionKey]">
+      {{ format(option, uiElement) }}
+    </mat-option>
+  </mat-select>
+  <mat-hint *ngIf="uiElement.hint">{{uiElement.hint}}</mat-hint>
+  <mat-error>{{uiElement.errorMessage}}</mat-error>
+</mat-form-field>

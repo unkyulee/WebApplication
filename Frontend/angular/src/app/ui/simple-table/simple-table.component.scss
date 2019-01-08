@@ -1,0 +1,26 @@
+.ngx-datatable.material {
+    box-shadow: 0px 0px 0px rgba(0,0,0,0);
+}
+
+.mb-24 {
+    margin: 0 0 24px 0;
+}
+
+.table-link{
+    color: #039BE5;
+    cursor: pointer;
+}
+
+
+.loading {
+    position: relative;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }

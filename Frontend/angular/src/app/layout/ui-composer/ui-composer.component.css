@@ -1,0 +1,6 @@
+.fullscreen {
+    width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    padding: 0 0 100px 0;
+}

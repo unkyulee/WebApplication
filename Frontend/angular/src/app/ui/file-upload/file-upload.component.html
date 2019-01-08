@@ -1,0 +1,79 @@
+<ng-container *ngIf="condition()">
+    <!-- Saved Files -->
+    <mat-table #tableFiles *ngIf="value && value.length > 0" [dataSource]="value" class="mb-12">
+
+        <ng-container matColumnDef="Name">
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <a href="{{rest.host()}}{{row?.url}}{{extra(row)}}" target="_blank">
+
+                    <img *ngIf="uiElement.gallery" style="width: 100%; max-width: 600px;" src="{{rest.host()}}{{row?.url}}" />
+                    {{row?.filename}}
+
+                </a>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Size">
+            <mat-header-cell *matHeaderCellDef>Size</mat-header-cell>
+            <mat-cell *matCellDef="let row">{{ row?.size/1024/1024 | number:'.2' }} MB</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="Action">
+            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <button mat-icon-button (click)="delete(row)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['Name', 'Action']"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ['Name', 'Action'];"></mat-row>
+    </mat-table>
+
+
+    <!-- Upload Queue -->
+    <ng-container *ngIf="uploader?.queue?.length">
+        <p class="mt-24 p-12" style="background-color: aliceblue">Upload Queue</p>
+        <mat-table #tableUpload [dataSource]="uploader.queue" class="mb-12">
+
+            <ng-container matColumnDef="Name">
+                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row?.file?.name }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Size">
+                <mat-header-cell *matHeaderCellDef>Size</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row?.file?.size/1024/1024 | number:'.2' }} MB</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Progress">
+                <mat-header-cell *matHeaderCellDef>Progress</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{ row.progress }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Status">
+                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                <mat-cell *matCellDef="let item">
+                    <span *ngIf="item.isSuccess">OK</span>
+                    <span *ngIf="item.isCancel">X</span>
+                    <span *ngIf="item.isError">Error</span>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </ng-container>
+
+
+    <!-- Upload Button -->
+    <div class="mb-24">
+        <button mat-raised-button color="warn" (click)="imgFileInput.click()">
+            {{ uiElement.buttonLabel ? uiElement.buttonLabel : "Add Files" }}
+        </button>
+        <input hidden type="file" #imgFileInput ng2FileSelect [uploader]="uploader" (change)="change($event)" multiple />
+
+    </div>
+</ng-container>

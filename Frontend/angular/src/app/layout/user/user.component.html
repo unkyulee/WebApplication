@@ -1,0 +1,16 @@
+<div class="user-profile mat-elevation-z2">
+    <button mat-button [matMenuTriggerFor]="menu">
+        {{ user.name() }}
+    </button>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false">
+        <button mat-menu-item routerLink="/profile">Profile</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+
+
+        <mat-divider *ngIf="config.configuration.privacy"></mat-divider>
+        <button mat-menu-item (click)="open(config.configuration.privacy, '_blank');"  *ngIf="config.configuration.privacy">Privacy Policy</button>
+
+        <mat-divider *ngIf="isCordova"></mat-divider>
+        <button mat-menu-item (click)="exit()" *ngIf="isCordova">Exit</button>
+    </mat-menu>
+</div>

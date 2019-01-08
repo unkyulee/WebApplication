@@ -1,0 +1,25 @@
+.container {
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.item {
+    box-sizing: border-box;
+    padding: 12px;
+    flex: 1;
+}
+
+.mb-12 {
+    margin: 0 0 12px 0;
+}
+
+.m-8 {
+    margin: 8px;
+}
+
+.link {
+    text-decoration: underline;
+    color: #039BE5;
+    cursor: pointer;
+}

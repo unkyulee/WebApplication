@@ -1,0 +1,14 @@
+<mat-form-field [fxFlex]="uiElement.width ? uiElement.width : 100">
+    <mat-label>{{uiElement.label}}</mat-label>
+    <input matInput [evalValidate]="uiElement.errorCondition" [placeholder]="uiElement.label" [(ngModel)]="value"
+        [matAutocomplete]="auto">
+    <mat-hint *ngIf="uiElement.hint">{{uiElement.hint}}</mat-hint>
+    <mat-error>{{uiElement.errorMessage}}</mat-error>
+
+    <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of uiElement.options" [value]="option[uiElement.optionKey]">
+            {{ format(option) }}
+        </mat-option>
+    </mat-autocomplete>
+
+</mat-form-field>

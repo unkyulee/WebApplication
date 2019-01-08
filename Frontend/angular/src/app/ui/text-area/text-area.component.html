@@ -1,0 +1,10 @@
+<mat-form-field [fxFlex]="uiElement.width ? uiElement.width : 100">
+
+  <textarea matInput
+            [(ngModel)]="value"
+            [placeholder]="uiElement.label"
+            [readonly]="uiElement.readonly"
+            matTextareaAutosize
+            [matAutosizeMinRows]="uiElement.rows"></textarea>
+
+</mat-form-field>

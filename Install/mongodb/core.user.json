@@ -1,0 +1,9 @@
+{
+    "_id": ObjectId("000000000000000000000000"),
+    "navigation_id": "000000000000000000000020",
+    "navigation_name": "Admin",
+    "id": "admin",
+    "name": "Administrator",
+    "group_id": ["000000000000000000000000"],
+    "password": "772de5b0eebed6ac018238ca1084f721bd9bf1a9db7e47276424dc524378f8e2daff6793dada21f82789c85756de5bbea2d6024b13167e3e136251a020dee7c7"
+  }

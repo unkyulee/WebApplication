@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS angular_ui (
+    _id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    content LONGTEXT,
+    _created DATETIME default CURRENT_TIMESTAMP,
+    _updated DATETIME default CURRENT_TIMESTAMP
+);

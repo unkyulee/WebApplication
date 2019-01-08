@@ -1,0 +1,21 @@
+{
+  "comment": {
+    "tousesqlite": "",
+    "first": "npm install --global --production windows-build-tools --vs2015",
+    "second": "npm install --save better-sqlite3"
+  },
+  "pkg": {
+    "scripts": "build/**/*.js",
+    "assets": "views/**/*"
+  },
+  "dependencies": {
+    "autodetect-decoder-stream": "^1.0.0",
+    "csv-reader": "^1.0.3",
+    "jsonic": "^0.3.1",
+    "mongodb": "^3.1.10",
+    "mssql": "^4.3.0",
+    "multi-progress": "^2.0.0",
+    "sqlstring": "^2.3.1",
+    "sync-request": "^6.0.0"
+  }
+}

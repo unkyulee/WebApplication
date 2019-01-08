@@ -1,0 +1,12 @@
+<ng-container *ngFor="let button of uiElement.buttons">
+
+    <button mat-raised-button
+            *ngIf="condition(button)"
+            class="mb-24 no-print"
+            [disabled]="button.disabled == true"
+            (click)="click(button)"
+            [color]="button.color">
+        {{button.label}}
+    </button>
+
+</ng-container>

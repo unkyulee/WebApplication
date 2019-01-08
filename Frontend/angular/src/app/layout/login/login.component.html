@@ -1,0 +1,29 @@
+<splash></splash>
+
+<div id="login" fxLayout="column">
+    <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+        <div id="login-form">
+
+            <div class="title">{{ title }}</div>
+            <mat-error *ngIf="error">{{error}}</mat-error>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="id" type="email" placeholder="Login ID">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [(ngModel)]="password" type="password" placeholder="Password" (keyup.enter)="login()">
+            </mat-form-field>
+
+            <button mat-raised-button color="accent" class="submit-button" aria-label="LOG IN"
+                (click)="login()">
+                LOGIN
+            </button>
+
+            <div class="register" fxLayout="column" fxLayoutAlign="center center" *ngIf="config.configuration.privacy">
+                <a href="{{config.configuration.privacy}}" target="_blank">Privacy Policy</a>
+            </div>
+
+        </div>
+    </div>
+</div>

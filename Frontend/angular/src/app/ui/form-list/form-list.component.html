@@ -1,0 +1,24 @@
+<div fxLayout="row wrap" fxLayoutAlign="start" class="mb-24">
+    <div fxFlex="100">
+        <button mat-icon-button color="warn" (click)="addForm()">
+            <mat-icon>add_circle</mat-icon>
+        </button>
+    </div>
+    <div *ngFor="let form of forms" fxFlex color="primary" class="mat-elevation-z2 formbox" [style.background]="uiElement.background">
+
+        <div>
+            <div fxFlex></div>
+            <button mat-icon-button (click)="delForm(form)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+
+        <ng-container *ngFor="let field of uiElement.template">
+
+            <text *ngIf="! field.type || field.type == 'text'" [uiElement]="field" [data]="form"></text>
+            <selection *ngIf="field.type == 'selection'" [uiElement]="field" [data]="form"></selection>
+
+        </ng-container>
+
+    </div>
+</div>

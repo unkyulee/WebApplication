@@ -1,0 +1,112 @@
+{
+    "_id": ObjectId("000000000000000000000120"),
+    "type": "data-table",
+    "name": "Scheduled Task",
+    "src": "/adminapi/core.scheduled_task",
+    "list": {
+        "src": "/adminapi/core.scheduled_task",
+        "method": "get",
+        "transform": "response.data",
+        "table": {
+            "columns": [
+                {
+                    "key": "name",
+                    "label": "Task name",
+                    "link": "`detail/${row._id}`"
+                },
+                {
+                    "key": "last_run_result",
+                    "label": "Last Status",
+                    "canAutoResize": false
+                },
+                {
+                    "key": "next_run_date",
+                    "label": "Next Run",
+                    "type": "date",
+                    "lang": "it",
+                    "format": "L LT",
+                    "canAutoResize": false
+                }
+            ]
+        }
+    },
+    "detail": {
+        "src": "`/adminapi/core.scheduled_task?_id=${this.id}`",
+        "method": "get",
+        "transform": "response.data[0]",
+        "screen": [
+            {
+                "name": "Dettaglio Task",
+                "width": 35,
+                "screen": [
+                    {
+                        "key": "name",
+                        "label": "Task name"
+                    },
+                    {
+                        "key": "schedule",
+                        "label": "Schedule Rule"
+                    },
+                    {
+                        "key": "next_run_date",
+                        "label": "Next Run",
+                        "transform": "this.data.next_run_date ? moment(this.data.next_run_date).format('L LT') : ''"
+                    },
+                    {
+                        "key": "last_run_result",
+                        "label": "Last Run Result",
+                        "readonly": true
+                    },
+                    {
+                        "type" : "script-button",
+                        "buttons" : [
+                            {
+                                "label" : "Run Script",
+                                "color" : "warn",
+                                "script" : "this.data.last_run_result = 'In Queue'; this.data.logs = []; this.data.next_run_date = new Date(); this.event.send({ 'name': 'save' }); setTimeout(() => this.event.send({ 'name': 'refresh' }), 5000);"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Log",
+                "width": 65,
+                "screen": [
+                    {
+                        "key": "logs",
+                        "type" : "simple-table",
+                        "columns" : [
+                            {
+                                "key" : "msg",
+                                "label" : "msg"
+                            },
+                            {
+                                "key" : "_created",
+                                "label" : "created",
+                                "type" : "date",
+                                "format" : "L LTS",
+                                "lang" : "it",
+                                "canAutoResize" : false
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "Script",
+                "width": 100,
+                "screen": [
+                    {
+                        "key": "script",
+                        "label": "Script",
+                        "type": "text-area",
+                        "rows": 10
+                    }
+                ]
+            }
+        ]
+    },
+    "_created": ISODate("2018-05-16T16:58:50.083+0000"),
+    "_updated": ISODate("2018-05-16T16:58:50.083+0000")
+}

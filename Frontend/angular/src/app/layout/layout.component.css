@@ -1,0 +1,12 @@
+.sidenav-container {
+    height: 100%;
+}
+
+.mat-sidenav {
+    width: 256px;
+}
+
+.hidden {
+    position: absolute;
+    top: -1000000px;
+}

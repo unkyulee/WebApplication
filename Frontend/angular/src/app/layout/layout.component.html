@@ -1,0 +1,24 @@
+<div class="hidden">
+    <ui-composer-print></ui-composer-print>
+</div>
+
+<ng-container *ngIf="!isAuthenticated">
+    <login></login>
+</ng-container>
+
+<ng-container *ngIf="isAuthenticated">
+    <mat-sidenav-container fullscreen>
+        <mat-sidenav #drawer fixedInViewport="true" class="mat-elevation-z2 no-print" [style.background]="navBackground"
+            [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+            [opened]="!(isHandset$ | async)">
+            <nav-vertical></nav-vertical>
+        </mat-sidenav>
+
+        <mat-sidenav-content id="layout_main_content">
+            <toolbar></toolbar>
+            <ui-composer></ui-composer>
+        </mat-sidenav-content>
+
+    </mat-sidenav-container>
+    <workflow></workflow>
+</ng-container>

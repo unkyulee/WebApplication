@@ -1,0 +1,64 @@
+<div fxFlex fxLayout="row wrap" fxLayoutAlign="start">
+    <div fxFlex=100>
+        <button mat-raised-button (click)="print()" style="margin-bottom: 8px;" color="warn">
+            Print
+        </button>
+    </div>
+
+    <div id="print_preview">
+        <h1>{{config.configuration.name}}</h1>
+        <h2>{{name}}</h2>
+
+        <ng-container *ngFor='let screen of screenConfigs'>
+            <ng-container *ngIf="screen.print != false">
+                <div class="alert alert-primary" role="alert">
+                    {{screen.name}}
+                </div>
+
+                <ng-container *ngFor='let ui of screen.screen'>
+
+                    <table class="table" *ngIf="!ui.type || ui.type == 'text' || ui.type == 'text-area' || ui.type == 'autocomplete'">
+                        <tr>
+                            <td width="25%"><strong>{{ui.label}}</strong></td>
+                            <td>{{formatValue(ui, data)}}</td>
+                        </tr>
+                    </table>
+
+                    <table class="table" *ngIf="ui.type == 'selection'">
+                        <tr>
+                            <td width="25%"><strong>{{ui.label}}</strong></td>
+                            <td>{{formatValue(ui, data)}}</td>
+                        </tr>
+                    </table>
+
+                    <table class="table" *ngIf="ui.type == 'simple-table'">
+                        <thead>
+                            <tr>
+                                <ng-container *ngFor="let column of ui.columns">
+                                    <th *ngIf="column.print != false">{{column.label}}</th>
+                                </ng-container>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of data[ui.key]">
+                                <ng-container *ngFor="let column of ui.columns">
+                                    <td *ngIf="column.print != false">{{ formatValue(column, row, 'simple-table')}}</td>
+                                </ng-container>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table" *ngIf="ui.type == 'img-upload'" style="display: block; page-break-inside: avoid;">
+                        <tr *ngFor="let img of data[ui.key]">
+                            <td>
+                                <img [src]="formatValue({type: 'img-upload'}, img)" />
+                            </td>
+                        </tr>
+                    </table>
+
+                </ng-container>
+
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

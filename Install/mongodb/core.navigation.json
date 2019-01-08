@@ -1,0 +1,26 @@
+{
+    "_id": ObjectId("000000000000000000000010"),
+    "name": "Default Site",
+    "description": "Default Site",
+    "url": "/",
+    "priority": 1,
+    "module": "cms"
+}
+
+{
+    "_id": ObjectId("000000000000000000000020"),
+    "name": "Admin",
+    "description": "Provide site administration",
+    "url": "/admin",
+    "priority": 2,
+    "module": "angular"
+}
+
+{
+    "_id": ObjectId("000000000000000000000021"),
+    "name": "Admin Web Services",
+    "description": "Provide site administration web services",
+    "url": "/adminapi",
+    "priority": 3,
+    "module": "websvc"
+}

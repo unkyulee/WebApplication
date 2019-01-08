@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Cordova</title>
+  <base href="./">
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script> var __CONFIG__ = {} </script>
+  <script src="index.js"></script>
+</head>
+
+<body onload="onLoad()">
+  <app-root></app-root>
+  <script src="cordova.js"></script>
+  <script>
+    // Wait for device API libraries to load
+    //
+    function onLoad() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+        document.addEventListener("resume", onResume);
+    }
+
+    // device APIs are available
+    //
+    function onDeviceReady() {
+    }
+
+    // device resumed
+    //
+    function onResume() {
+      
+    }
+
+
+  </script>
+</body>
+
+</html>

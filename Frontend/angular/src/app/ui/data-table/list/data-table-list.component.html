@@ -1,0 +1,43 @@
+<ng-container *ngIf="!isReady">
+    <mat-spinner class="loading"></mat-spinner>
+</ng-container>
+<ng-container *ngIf="isReady">
+    <filter-group *ngIf="uiElement.list.filters" [uiElement]="uiElement.list"></filter-group>
+
+    <ngx-datatable class="material" [rows]="data" [externalSorting]="true" (sort)="onSort($event)" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [reorderable]="true"
+        [selectionType]="disableCheckbox != true ? 'checkbox' : ''" [externalPaging]="true" [groupRowsBy]="groupBy"
+        [groupExpansionDefault]="groupBy ? true : false" [count]="total" [offset]="page-1" [limit]="size" (page)="requestDownload($event)">
+
+        <!-- Group Header Template -->
+        <ngx-datatable-group-header *ngIf="groupBy" [rowHeight]="50">
+            <ng-template let-group="group" ngx-datatable-group-header-template>
+                <div style="padding-left:5px;">
+
+                    <b>{{group.key ? group.key : '...'}}</b>
+
+                </div>
+            </ng-template>
+        </ngx-datatable-group-header>
+
+        <ngx-datatable-column *ngFor="let column of columns" [name]="column.label" [prop]="column.key" [flexGrow]="column.flexGrow"
+            [canAutoResize]="column.canAutoResize">
+
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+
+                <ng-container *ngIf="column?.link != null">
+                    <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
+                        {{value ? format(column, value) : "......"}}
+                    </a>
+                </ng-container>
+
+                <ng-container *ngIf="column?.link == null">
+                    {{format(column, value)}}
+                </ng-container>
+
+            </ng-template>
+
+        </ngx-datatable-column>
+
+    </ngx-datatable>
+</ng-container>

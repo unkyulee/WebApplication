@@ -1,0 +1,34 @@
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+/* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; }
+
+/* scroll bar */
+*::-webkit-scrollbar {
+  width: 0.3em;
+}
+
+*::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+@media print
+{
+  .no-print, .no-print * {
+    display: none !important;
+  }
+}
+
+.full-width-dialog {
+  max-width: 95vw !important;
+}
+
+.s12 .btn .material-icons{
+  vertical-align: middle;
+}
