@@ -1,7 +1,7 @@
 <ng-container *ngIf="!isReady">
     <mat-spinner class="loading"></mat-spinner>
 </ng-container>
-<ng-container *ngIf="isReady">
+<ng-container *ngIf="isReady && !(isHandset$ | async)">
     <filter-group *ngIf="uiElement.list.filters" [uiElement]="uiElement.list"></filter-group>
 
     <ngx-datatable class="material" [rows]="data" [externalSorting]="true" (sort)="onSort($event)" [columnMode]="'force'"
@@ -40,4 +40,31 @@
         </ngx-datatable-column>
 
     </ngx-datatable>
+</ng-container>
+
+<ng-container *ngIf="isReady && (isHandset$ | async)">
+    <filter-group *ngIf="uiElement.list.filters" [uiElement]="uiElement.list"></filter-group>
+    <div class="container m-8">
+
+        <mat-card *ngFor="let row of data" class="m-4 item" [fxFlex]="uiElement.width ? uiElement.width : 100"
+            [style.background]="uiElement.background">
+
+            <mat-card-content>
+                <div *ngFor="let column of columns">
+                    <ng-container *ngIf="column?.link != null">
+                        <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
+                            <strong>{{row[column?.key] ? format(column, row[column?.key]) : "......"}}</strong>
+                        </a>
+                    </ng-container>
+
+                    <ng-container *ngIf="column?.link == null">
+                        {{format(column, row[column?.key])}}
+                    </ng-container>
+                </div>
+
+            </mat-card-content>
+
+        </mat-card>
+    </div>
+    <pagination [total]="total" [page]="page" [size]="size"></pagination>
 </ng-container>

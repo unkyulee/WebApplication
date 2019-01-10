@@ -11,7 +11,6 @@ import { ConfigService } from '../services/config.service';
 import { AuthService } from '../services/auth.service';
 import { UIService } from '../services/ui.service';
 import { UIComposerOverlayComponent } from './ui-composer-overlay/ui-composer-overlay.component';
-import { NavService } from '../services/nav.service';
 
 @Component({
     selector: 'layout',
@@ -24,10 +23,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
         , private dialog: MatDialog
         , private event: EventService
         , private config: ConfigService
-        , public auth: AuthService
+        , private auth: AuthService
         , private ui: UIService
         , private elementRef: ElementRef
-        , private nav: NavService
     ) {
     }
 

@@ -13,7 +13,7 @@ export class FilterGroupComponent {
 
     @Input() uiElement: any;
 
-    filterOpen: boolean = false
+    filterOpen: boolean = true
     ngOnInit() {
         let params = this.nav.getParams()
         for (let filter of this.uiElement.filters) {

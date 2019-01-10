@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import { Subscription } from 'rxjs'
+import { Subscription, Observable } from 'rxjs'
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ExportToCsv } from 'export-to-csv';
@@ -10,7 +10,8 @@ import { NavService } from '../../../services/nav.service';
 import { RestService } from '../../../services/rest.service';
 import { EventService } from '../../../services/event.service';
 import { UserService } from '../../../services/user.service';
-
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'data-table-list',
@@ -25,7 +26,20 @@ export class DataTableListComponent implements OnInit, OnDestroy {
         , private nav: NavService
         , private event: EventService
         , public user: UserService // used by user script
+        , private breakpointObserver: BreakpointObserver
     ) { }
+
+    // detect window size changes
+    isHandset: boolean
+    isHandset$: Observable<boolean> = this.breakpointObserver
+        .observe([Breakpoints.Handset])
+        .pipe(
+            map(result => {
+                console.log(result.matches)
+                this.isHandset = result.matches
+                return result.matches
+            })
+        );
 
     // configuration of the ui element
     @Input() uiElement: any;

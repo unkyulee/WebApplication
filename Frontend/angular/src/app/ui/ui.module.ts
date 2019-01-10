@@ -42,6 +42,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarColumnComponent } from './calendar/column/calendar-column.component';
 import { JsonEditorComponent } from './json-editor/json-editor.component';
 import { GanttComponent } from './gantt/gantt.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { GanttComponent } from './gantt/gantt.component';
     , CalendarColumnComponent
     , JsonEditorComponent
     , GanttComponent
+    , PaginationComponent
   ]
   , exports: [
     DataTableComponent
@@ -94,6 +96,7 @@ import { GanttComponent } from './gantt/gantt.component';
     , CalendarComponent
     , JsonEditorComponent
     , GanttComponent
+    , PaginationComponent
   ]
   , imports: [
     CommonModule
