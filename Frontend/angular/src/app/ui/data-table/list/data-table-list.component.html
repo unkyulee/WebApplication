@@ -58,6 +58,7 @@
                     </ng-container>
 
                     <ng-container *ngIf="column?.link == null">
+                        <span class="muted">{{column?.label}}</span>
                         {{format(column, row[column?.key])}}
                     </ng-container>
                 </div>

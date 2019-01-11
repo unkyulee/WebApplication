@@ -1,6 +1,9 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as moment from 'moment';
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 // user imports
 import { EventService } from "../../services/event.service";
@@ -25,8 +28,21 @@ export class SimpleTableComponent {
         , public user: UserService
         , public config: ConfigService
         , public nav: NavService
+        , private breakpointObserver: BreakpointObserver
     ) {
     }
+
+    // detect window size changes
+    isHandset: boolean
+    isHandset$: Observable<boolean> = this.breakpointObserver
+        .observe([Breakpoints.Handset])
+        .pipe(
+            map(result => {
+                console.log(result.matches)
+                this.isHandset = result.matches
+                return result.matches
+            })
+        );
 
     @Input() uiElement: any
 

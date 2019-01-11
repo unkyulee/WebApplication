@@ -23,4 +23,38 @@
     left: 0;
     bottom: 0;
     right: 0;
-  }
+}
+
+
+.container {
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.item {
+    box-sizing: border-box;
+    padding: 12px;
+}
+
+.m-12 {
+    margin: 12px;
+}
+
+.m-8 {
+    margin: 8px;
+}
+
+.m-4 {
+    margin: 4px;
+}
+
+.link {
+    text-decoration: underline;
+    color: #039BE5;
+    cursor: pointer;
+}
+
+.muted {
+    opacity: 0.5;
+}

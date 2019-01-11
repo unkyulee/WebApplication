@@ -1,55 +1,88 @@
 <ng-container *ngIf="!isReady">
     <mat-spinner class="loading"></mat-spinner>
 </ng-container>
-<ng-container *ngIf="isReady">
-        <mat-form-field *ngIf="isSearch">
-                <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
-            </mat-form-field>
+<ng-container *ngIf="isReady && !(isHandset$ | async)">
+    <mat-form-field *ngIf="isSearch">
+        <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
+    </mat-form-field>
 
-            <ngx-datatable class="material mb-24" [loadingIndicator]="loadingIndicator" [rows]="value" [groupRowsBy]="uiElement.groupBy"
-                [groupExpansionDefault]="uiElement.groupBy ? true : false" [columnMode]="'force'" [selectionType]="''"
-                [headerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true">
+    <ngx-datatable class="material mb-24" [loadingIndicator]="loadingIndicator" [rows]="value" [groupRowsBy]="uiElement.groupBy"
+        [groupExpansionDefault]="uiElement.groupBy ? true : false" [columnMode]="'force'" [selectionType]="''"
+        [headerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true">
 
-                <!-- Group Header Template -->
-                <ngx-datatable-group-header *ngIf="uiElement.groupBy" [rowHeight]="50">
-                    <ng-template let-group="group" ngx-datatable-group-header-template>
-                        <div style="padding-left:5px;">
+        <!-- Group Header Template -->
+        <ngx-datatable-group-header *ngIf="uiElement.groupBy" [rowHeight]="50">
+            <ng-template let-group="group" ngx-datatable-group-header-template>
+                <div style="padding-left:5px;">
 
-                            <b>{{group.key ? group.key : '...'}}</b>
+                    <b>{{group.key ? group.key : '...'}}</b>
 
-                        </div>
-                    </ng-template>
-                </ngx-datatable-group-header>
+                </div>
+            </ng-template>
+        </ngx-datatable-group-header>
 
-                <ngx-datatable-column *ngFor="let column of columns" [name]="column.label" [prop]="column.key" [flexGrow]="column.flexGrow"
-                    [canAutoResize]="column.canAutoResize">
+        <ngx-datatable-column *ngFor="let column of columns" [name]="column.label" [prop]="column.key" [flexGrow]="column.flexGrow"
+            [canAutoResize]="column.canAutoResize">
 
-                    <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+            <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
 
-                        <ng-container *ngIf="column.type == 'checkbox';else noCheckbox">
-                            <mat-checkbox [(ngModel)]="row[column.key]" [disabled]="column.disabled == true" (change)="checked($event, column, row)">
-                            </mat-checkbox>
-                        </ng-container>
+                <ng-container *ngIf="column.type == 'checkbox';else noCheckbox">
+                    <mat-checkbox [(ngModel)]="row[column.key]" [disabled]="column.disabled == true" (change)="checked($event, column, row)">
+                    </mat-checkbox>
+                </ng-container>
 
-                        <ng-template #noCheckbox>
+                <ng-template #noCheckbox>
 
-                            <ng-container *ngIf="column.link">
-                                <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
-                                    <ng-container *ngIf="column.icon">
-                                        <mat-icon>{{column.icon}}</mat-icon>
-                                    </ng-container>
-                                    {{ format(column, row[column.key]) }}
-                                </a>
+                    <ng-container *ngIf="column.link">
+                        <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
+                            <ng-container *ngIf="column.icon">
+                                <mat-icon>{{column.icon}}</mat-icon>
                             </ng-container>
-                            <ng-container *ngIf="!column.link">
-                                {{ format(column, row[column.key]) }}
+                            {{ format(column, row[column.key]) }}
+                        </a>
+                    </ng-container>
+                    <ng-container *ngIf="!column.link">
+                        {{ format(column, row[column.key]) }}
+                    </ng-container>
+
+                </ng-template>
+
+            </ng-template>
+
+        </ngx-datatable-column>
+
+    </ngx-datatable>
+</ng-container>
+
+
+<ng-container *ngIf="isReady && (isHandset$ | async)">
+    <mat-form-field *ngIf="isSearch">
+        <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
+    </mat-form-field>
+    <div class="container m-8">
+
+        <mat-card *ngFor="let row of value" class="m-4 item" [fxFlex]="uiElement.width ? uiElement.width : 100"
+            [style.background]="uiElement.background">
+
+            <mat-card-content>
+                <div *ngFor="let column of columns">
+                    <ng-container *ngIf="column?.link != null">
+                        <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
+                            <ng-container *ngIf="column.icon">
+                                <mat-icon>{{column.icon}}</mat-icon>
                             </ng-container>
+                            <strong>{{format(column, row[column?.key])}}</strong>
+                        </a>
+                    </ng-container>
 
-                        </ng-template>
+                    <ng-container *ngIf="column?.link == null">
+                        <span class="muted">{{column?.label}}</span>
+                        {{format(column, row[column?.key])}}
+                    </ng-container>
+                </div>
 
-                    </ng-template>
+            </mat-card-content>
 
-                </ngx-datatable-column>
-
-            </ngx-datatable>
+        </mat-card>
+    </div>
 </ng-container>

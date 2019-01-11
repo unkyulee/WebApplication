@@ -3,6 +3,8 @@ import { Subscription, Observable } from 'rxjs'
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ExportToCsv } from 'export-to-csv';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 
 // user imports
 import { UIService } from '../../../services/ui.service';
@@ -10,8 +12,7 @@ import { NavService } from '../../../services/nav.service';
 import { RestService } from '../../../services/rest.service';
 import { EventService } from '../../../services/event.service';
 import { UserService } from '../../../services/user.service';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+
 
 @Component({
     selector: 'data-table-list',
