@@ -38,7 +38,6 @@ export class SimpleTableComponent {
         .observe([Breakpoints.Handset])
         .pipe(
             map(result => {
-                console.log(result.matches)
                 this.isHandset = result.matches
                 return result.matches
             })
