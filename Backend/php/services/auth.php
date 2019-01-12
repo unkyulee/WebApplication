@@ -32,10 +32,15 @@ class auth {
             header("HTTP/1.1 401 Unauthorized");
             return false;
         }
-        else {
-            // authorized
-            return true;
+
+        // check if it is requesting for validate
+        if (array_key_exists('HTTP_VALIDATE', $_SERVER)) {
+            echo $context->module->Authenticated($context);
+            return false;
         }
+        
+        // authorized
+        return true;    
     }
 
     public static function IsAuthenticated($context) {
