@@ -23,6 +23,7 @@ import { UIModule } from './ui/ui.module';
 // app component
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
+import { CordovaService } from './services/cordova.service';
 
 // catch-all routes
 const appRoutes: Routes = [
@@ -39,25 +40,26 @@ const appRoutes: Routes = [
         , HttpClientModule
         , MaterialModule
         , RouterModule.forRoot(
-            appRoutes
+            appRoutes            
             //, {enableTracing: true}
         )
         , LayoutModule
         , UIModule
     ],
     providers: [
-      { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-      , AuthService
-      , EventService
-      , ConfigService
-      , UserService
-      , NavService
-      , UIService
-      , RestService
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+        , AuthService
+        , EventService
+        , ConfigService
+        , UserService
+        , NavService
+        , UIService
+        , RestService
+        , CordovaService
     ],
     bootstrap: [
         AppComponent
     ]
 })
 
-export class AppModule {}
+export class AppModule { }

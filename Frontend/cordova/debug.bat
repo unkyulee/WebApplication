@@ -1,9 +1,10 @@
 REM swap index.html with index.html.prod
-copy /y ..\angular\src\index.mobile.dev.html ..\angular\src\index.html
+copy /y ..\angular\src\index.mobile.html ..\angular\src\index.html
 
 REM build angular app
 pushd ..\angular
-call build.bat
+call ng build
+REM call build.bat
 popd
 
 REM copy angular

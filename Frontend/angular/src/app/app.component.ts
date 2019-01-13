@@ -12,9 +12,8 @@ export class AppComponent {
   constructor(
     public nav: NavService // init navservice here to make sure that the navigation events are captured as soon as possible
     , public event: EventService
-    , private rest: RestService
+    , private rest: RestService    
   ) {
-
   }
 
   // receive events

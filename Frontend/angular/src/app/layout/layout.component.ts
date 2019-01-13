@@ -12,6 +12,9 @@ import { AuthService } from '../services/auth.service';
 import { UIService } from '../services/ui.service';
 import { UIComposerOverlayComponent } from './ui-composer-overlay/ui-composer-overlay.component';
 
+// cordova
+declare var navigator: any
+
 @Component({
     selector: 'layout',
     templateUrl: './layout.component.html',
@@ -61,11 +64,16 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     onBackButton(e) {
         e.preventDefault();
+        if(confirm('Do you want to exit the app?'))
+            navigator.app.exitApp()
     }
 
     ngAfterViewInit() {
         // back button handler
-        this.elementRef.nativeElement.ownerDocument.addEventListener('backbutton', this.onBackButton.bind(this));
+        this.elementRef.nativeElement.ownerDocument.addEventListener(
+            'backbutton'
+            , this.onBackButton.bind(this)
+        );
 
         // event handler
         this.onEvent = this.event.onEvent.subscribe(

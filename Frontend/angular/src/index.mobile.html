@@ -11,32 +11,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script> var __CONFIG__ = {} </script>
   <script src="index.js"></script>
+  <style>
+    .mat-icon-button .mat-icon, .mat-icon-button i {
+        line-height: 18px !important; 
+    }
+
+    .material-icons {
+      font-size: 21px !important;
+    }
+  </style>
 </head>
 
 <body onload="onLoad()">
   <app-root></app-root>
   <script src="cordova.js"></script>
-  <script>
-    // Wait for device API libraries to load
-    //
-    function onLoad() {
-        document.addEventListener("deviceready", onDeviceReady, false);
-        document.addEventListener("resume", onResume);
-    }
-
-    // device APIs are available
-    //
-    function onDeviceReady() {
-    }
-
-    // device resumed
-    //
-    function onResume() {
-      
-    }
-
-
-  </script>
 </body>
 
 </html>
