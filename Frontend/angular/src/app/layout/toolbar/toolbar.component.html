@@ -6,7 +6,7 @@
             <mat-icon *ngIf="isTopNav">menu</mat-icon>
             <mat-icon *ngIf="!isTopNav">arrow_back</mat-icon>
         </button>
-        <span>{{title}}</span>
+        <span class="title" [matTooltip]="title">{{title}}</span>
         <div class="flex-spacer"></div>
 
         <button *ngIf="action" mat-icon-button [matTooltip]="action.name" (click)="action.action()">
