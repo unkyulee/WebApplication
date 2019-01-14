@@ -6,7 +6,7 @@
         <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
     </mat-form-field>
 
-    <ngx-datatable class="material mb-24" [loadingIndicator]="loadingIndicator" [rows]="value" [groupRowsBy]="uiElement.groupBy"
+    <ngx-datatable class="material mb-24" [rows]="value" [groupRowsBy]="uiElement.groupBy"
         [groupExpansionDefault]="uiElement.groupBy ? true : false" [columnMode]="'force'" [selectionType]="''"
         [headerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true">
 
@@ -14,9 +14,7 @@
         <ngx-datatable-group-header *ngIf="uiElement.groupBy" [rowHeight]="50">
             <ng-template let-group="group" ngx-datatable-group-header-template>
                 <div style="padding-left:5px;">
-
                     <b>{{group.key ? group.key : '...'}}</b>
-
                 </div>
             </ng-template>
         </ngx-datatable-group-header>
@@ -59,30 +57,27 @@
     <mat-form-field *ngIf="isSearch">
         <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
     </mat-form-field>
-    <div class="container m-8">
+    <div class="container">
 
-        <mat-card *ngFor="let row of value" class="m-4 item" [fxFlex]="uiElement.width ? uiElement.width : 100"
+        <div *ngFor="let row of value" class="item" [fxFlex]="uiElement.width ? uiElement.width : 100"
             [style.background]="uiElement.background">
+            <mat-divider style="margin-bottom: 8px"></mat-divider>
+            <div *ngFor="let column of columns">
+                <ng-container *ngIf="column?.link != null">
+                    <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
+                        <ng-container *ngIf="column.icon">
+                            <mat-icon>{{column.icon}}</mat-icon>
+                        </ng-container>
+                        <strong>{{format(column, row[column?.key])}}</strong>
+                    </a>
+                </ng-container>
 
-            <mat-card-content>
-                <div *ngFor="let column of columns">
-                    <ng-container *ngIf="column?.link != null">
-                        <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
-                            <ng-container *ngIf="column.icon">
-                                <mat-icon>{{column.icon}}</mat-icon>
-                            </ng-container>
-                            <strong>{{format(column, row[column?.key])}}</strong>
-                        </a>
-                    </ng-container>
+                <ng-container *ngIf="column?.link == null">
+                    <span class="muted">{{column?.label}}</span>
+                    {{format(column, row[column?.key])}}
+                </ng-container>
+            </div>            
 
-                    <ng-container *ngIf="column?.link == null">
-                        <span class="muted">{{column?.label}}</span>
-                        {{format(column, row[column?.key])}}
-                    </ng-container>
-                </div>
-
-            </mat-card-content>
-
-        </mat-card>
+        </div>
     </div>
 </ng-container>

@@ -109,12 +109,9 @@ export class SimpleTableComponent {
         this._searchTimeout = setTimeout(() => {
             this._searchTimeout = null
             this.requestDownload()
-        }, 1000)
+        }, 300)
 
     }
-
-    // loading
-    loadingIndicator: boolean = false
 
     async ngOnInit() {
 
@@ -149,9 +146,8 @@ export class SimpleTableComponent {
         let method = this.ui.find(["method"], this.uiElement)
         let data = this.ui.find(["data"], this.uiElement, {})
         try { data = eval(data) } catch (e) { }
-
-        //
-        this.loadingIndicator = true
+        
+        this.event.send("splash-show") // show splash
         this.rest.request(src, data, method)
             .subscribe(data => this.responseDownload(data))
     }
@@ -160,7 +156,7 @@ export class SimpleTableComponent {
         this.isReady = true
 
         //
-        this.loadingIndicator = false
+        this.event.send("splash-hide") // hide splash
 
         // map data from response
         let transform = this.ui.find(["transform"], this.uiElement, "response")
