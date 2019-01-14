@@ -12,19 +12,4 @@ export class FilterGroupComponent {
     ) { }
 
     @Input() uiElement: any;
-
-    filterOpen: boolean = true
-    ngOnInit() {
-        let params = this.nav.getParams()
-        for (let filter of this.uiElement.filters) {
-            if (params[filter.key] != null) {
-                this.filterOpen = true
-                break
-            }
-            //
-            if (Object.keys(params).find(x => x.startsWith(filter.key))) {
-                this.filterOpen = true
-            }
-        }
-    }
 }

@@ -19,7 +19,7 @@ export class AutoCompleteComponent implements OnInit {
     @Input() data: any
     @Output() change: EventEmitter<any> = new EventEmitter<any>();
 
-    ngOnInit() {
+    ngOnInit() {        
         // if optionSrc is specified then download the options
         this.loadOption()
     }
@@ -34,15 +34,6 @@ export class AutoCompleteComponent implements OnInit {
         this.change.emit(v)
 
         if (this.data) {
-
-            // refresh option
-            if (this.loadOptionTimer == null && this.data[this.uiElement.key] != v) {
-                this.loadOptionTimer = setTimeout(() => {
-                    this.loadOptionTimer = null
-                    this.loadOption()
-                }, 300)
-            }
-
             // set value to itself
             this.data[this.uiElement.key] = v
 
@@ -66,10 +57,8 @@ export class AutoCompleteComponent implements OnInit {
             }
         }
     }
-
-    loadOptionTimer: any = null
+    
     loadOption() {
-
         // if optionSrc is specified then request for option
         if (this.uiElement.optionSrc) {
 
@@ -82,15 +71,11 @@ export class AutoCompleteComponent implements OnInit {
 
             this.rest.request(src, data, method)
                 .subscribe(response => {
-
                     let transform = this.ui.find(["optionTransform"], this.uiElement, {})
                     this.uiElement.options = eval(transform)
-
                 })
         }
     }
-
-
 
     format(row) {
         let value = row[this.uiElement.optionLabel ? this.uiElement.optionLabel : this.uiElement.optionKey]
