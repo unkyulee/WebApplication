@@ -1,10 +1,9 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import { Subscription, Observable } from 'rxjs'
+import { Subscription } from 'rxjs'
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { ExportToCsv } from 'export-to-csv';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map } from 'rxjs/operators';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 // user imports
 import { UIService } from '../../../services/ui.service';
@@ -32,14 +31,7 @@ export class DataTableListComponent implements OnInit, OnDestroy {
 
     // detect window size changes
     isHandset: boolean
-    isHandset$: Observable<boolean> = this.breakpointObserver
-        .observe([Breakpoints.Handset])
-        .pipe(
-            map(result => {
-                this.isHandset = result.matches
-                return result.matches
-            })
-        );
+    isHandset$: Subscription
 
     // configuration of the ui element
     @Input() uiElement: any;
@@ -94,10 +86,22 @@ export class DataTableListComponent implements OnInit, OnDestroy {
             }
         )
 
+        // 
+        // observe size change
+        this.isHandset$ = this.breakpointObserver
+            .observe(['(min-width: 500px)'])
+            .subscribe(
+                (state: BreakpointState) => {
+                    console.log(state)
+                    this.isHandset = !state.matches                    
+                }
+            );
+
     }
 
     ngOnDestroy() {
         this.eventSubscription.unsubscribe()
+        this.isHandset$.unsubscribe()
     }
 
     // pagination information

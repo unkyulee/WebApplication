@@ -1,7 +1,7 @@
 <ng-container *ngIf="!isReady">
     <mat-spinner class="loading"></mat-spinner>
 </ng-container>
-<ng-container *ngIf="isReady && !(isHandset$ | async)">
+<ng-container *ngIf="isReady && !isHandset">
     <mat-form-field *ngIf="isSearch">
         <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
     </mat-form-field>
@@ -53,7 +53,7 @@
 </ng-container>
 
 
-<ng-container *ngIf="isReady && (isHandset$ | async)">
+<ng-container *ngIf="isReady && isHandset">
     <mat-form-field *ngIf="isSearch">
         <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
     </mat-form-field>

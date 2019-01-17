@@ -1,9 +1,8 @@
 import { Component, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import * as moment from 'moment';
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
+import { Subscription } from "rxjs";
 
 // user imports
 import { EventService } from "../../services/event.service";
@@ -34,14 +33,7 @@ export class SimpleTableComponent {
 
     // detect window size changes
     isHandset: boolean
-    isHandset$: Observable<boolean> = this.breakpointObserver
-        .observe([Breakpoints.Handset])
-        .pipe(
-            map(result => {
-                this.isHandset = result.matches
-                return result.matches
-            })
-        );
+    isHandset$: Subscription
 
     @Input() uiElement: any
 
@@ -130,10 +122,21 @@ export class SimpleTableComponent {
         //
         if (this.columns) this.rowHeaderDef = this.columns.map(item => item.key)
 
-
+        // observe size change
+        this.isHandset$ = this.breakpointObserver
+            .observe(['(min-width: 500px)'])
+            .subscribe(
+                (state: BreakpointState) => {
+                    if (state.matches)
+                        this.isHandset = false
+                    else
+                        this.isHandset = true
+                }
+            );
     }
 
     ngOnDestroy() {
+        this.isHandset$.unsubscribe()
     }
 
 
@@ -146,7 +149,7 @@ export class SimpleTableComponent {
         let method = this.ui.find(["method"], this.uiElement)
         let data = this.ui.find(["data"], this.uiElement, {})
         try { data = eval(data) } catch (e) { }
-        
+
         this.event.send("splash-show") // show splash
         this.rest.request(src, data, method)
             .subscribe(data => this.responseDownload(data))
