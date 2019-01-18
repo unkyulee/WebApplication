@@ -21,11 +21,11 @@
             <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
                 <ng-container *ngIf="column?.link != null">
                     <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
-                        {{value ? format(column, value) : "......"}}
+                        {{value ? format(column, value, row) : "......"}}
                     </a>
                 </ng-container>
                 <ng-container *ngIf="column?.link == null">
-                    {{format(column, value)}}
+                    {{format(column, value, row)}}
                 </ng-container>
             </ng-template>
         </ngx-datatable-column>
@@ -41,12 +41,12 @@
                 <div *ngFor="let column of columns">
                     <ng-container *ngIf="column?.link != null">
                         <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
-                            <strong>{{row[column?.key] ? format(column, row[column?.key]) : "......"}}</strong>
+                            <strong>{{row[column?.key] ? format(column, row[column?.key], row) : "......"}}</strong>
                         </a>
                     </ng-container>
                     <ng-container *ngIf="column?.link == null">
-                        <span class="muted">{{column?.label}}</span>
-                        {{format(column, row[column?.key])}}
+                        <span class="muted" *ngIf="column.cardLabelDisplay != false">{{column?.label}}</span>
+                        {{format(column, row[column?.key], row)}}
                     </ng-container>
                 </div>
             </mat-card-content>

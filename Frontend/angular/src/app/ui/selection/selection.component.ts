@@ -22,6 +22,7 @@ export class SelectionComponent implements OnInit {
 
     get value() {
         if (this.data) return this.data[this.uiElement.key]
+        if (this.uiElement.multiple) return []
         return ''
     }
 
