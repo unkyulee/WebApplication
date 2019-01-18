@@ -15,12 +15,12 @@ class websvc {
         $websvcName = str_replace('/', '', $relativePaths);
         
         if(IsNullOrEmpty($websvcName) == false) {
-            // load web services            
+            // load web services                        
             $sql = "SELECT * FROM core_websvc WHERE navigation_id=? AND api_url=?";            
             $result = $context->conn->query($sql, array($context->nav['_id'], $websvcName));
             if(count($result) == 0) {
-                header('HTTP/1.0 403 Forbidden');
-                return 'web service not found';
+                header('HTTP/1.0 403 Forbidden');                
+                return 'web service not found '.$context->nav['_id'].' '.$websvcName;
             }
                 
             if (count($result) > 0) {
