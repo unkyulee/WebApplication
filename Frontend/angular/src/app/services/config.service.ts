@@ -15,7 +15,7 @@ export class ConfigService {
     global = __CONFIG__
 
     // default configuration
-    configuration = {
+    configuration: any = {
         _id: null,
         name: null,
         layout: {

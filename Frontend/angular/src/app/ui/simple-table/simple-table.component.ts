@@ -82,7 +82,7 @@ export class SimpleTableComponent {
 
     // config
     columns: any[]
-    rowHeaderDef: any[]
+    rowHeaderDef: any[]    
 
     //
     isSearch: boolean
@@ -144,7 +144,7 @@ export class SimpleTableComponent {
 
         // download data through rest web services
         let src = this.ui.find(["src"], this.uiElement)
-        try { src = eval(src) } catch (e) { }
+        try { src = eval(src) } catch (e) { console.error(e) }
 
         let method = this.ui.find(["method"], this.uiElement)
         let data = this.ui.find(["data"], this.uiElement, {})

@@ -1,14 +1,14 @@
 <ng-container *ngIf="!isReady">
     <mat-spinner class="loading"></mat-spinner>
 </ng-container>
-<ng-container *ngIf="isReady && !isHandset">
+<ng-container *ngIf="isReady && (!isHandset || uiElement.noResize)">
     <mat-form-field *ngIf="isSearch">
         <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
     </mat-form-field>
 
-    <ngx-datatable class="material mb-24" [rows]="value" [groupRowsBy]="uiElement.groupBy"
-        [groupExpansionDefault]="uiElement.groupBy ? true : false" [columnMode]="'force'" [selectionType]="''"
-        [headerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true">
+    <ngx-datatable class="material striped mb-24" [rows]="value" [groupRowsBy]="uiElement.groupBy" 
+        [groupExpansionDefault]="uiElement.groupBy ? true : false" [selectionType]="''"
+        [headerHeight]="50" [rowHeight]="uiElement.rowHeight ? uiElement.rowHeight : 'auto'" [scrollbarH]="true">
 
         <!-- Group Header Template -->
         <ngx-datatable-group-header *ngIf="uiElement.groupBy" [rowHeight]="50">
@@ -19,8 +19,8 @@
             </ng-template>
         </ngx-datatable-group-header>
 
-        <ngx-datatable-column *ngFor="let column of columns" [name]="column.label" [prop]="column.key" [flexGrow]="column.flexGrow"
-            [canAutoResize]="column.canAutoResize">
+        <ngx-datatable-column *ngFor="let column of columns" [name]="column.label" [prop]="column.key" [flexGrow]="column.flexGrow" [frozenLeft]="column.frozenLeft"
+            [canAutoResize]="column.canAutoResize" [width]="column.width ? column.width : 150">
 
             <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
 
@@ -53,15 +53,14 @@
 </ng-container>
 
 
-<ng-container *ngIf="isReady && isHandset">
+<ng-container *ngIf="isReady && (!isHandset && !uiElement.noResize)">
     <mat-form-field *ngIf="isSearch">
         <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
     </mat-form-field>
-    <div class="container">
-
+    <div class="container">        
         <div *ngFor="let row of value" class="item" [fxFlex]="uiElement.width ? uiElement.width : 100"
-            [style.background]="uiElement.background">
-            <mat-divider style="margin-bottom: 8px"></mat-divider>
+            [style.background]="uiElement.background">            
+            
             <div *ngFor="let column of columns">
                 <ng-container *ngIf="column?.link != null">
                     <a (click)="clickLink(column?.link, row)" class="table-link" tabindex=1>
@@ -71,13 +70,13 @@
                         <strong>{{format(column, row[column?.key])}}</strong>
                     </a>
                 </ng-container>
-
                 <ng-container *ngIf="column?.link == null">
                     <span class="muted">{{column?.label}}</span>
                     {{format(column, row[column?.key])}}
                 </ng-container>
             </div>            
-
-        </div>
+            <mat-divider></mat-divider>
+        </div>       
+        
     </div>
 </ng-container>
