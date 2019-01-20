@@ -3,6 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 // user imports
 import { RestService } from "../../services/rest.service";
 import { UIService } from "../../services/ui.service";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
     selector: 'autocomplete'
@@ -13,6 +14,7 @@ export class AutoCompleteComponent implements OnInit {
     constructor(
         private rest: RestService
         , private ui: UIService
+        , public user: UserService
     ) { }
 
     @Input() uiElement: any
@@ -39,24 +41,27 @@ export class AutoCompleteComponent implements OnInit {
         if (this.data) {
             // set value to itself
             this.data[this.uiElement.key] = v
+            this.updateAlso(v)
+        }
+    }
 
-            // updateAlso
-            if (this.uiElement.updateAlso && this.uiElement.options) {
+    updateAlso(v) {
+        // updateAlso
+        if (this.uiElement.updateAlso && this.uiElement.options) {
 
-                // find selected option
-                let selected = this.uiElement.options.find(
-                    item => item[this.uiElement.optionKey] == v
-                )
+            // find selected option
+            let selected = this.uiElement.options.find(
+                item => item[this.uiElement.optionKey] == v
+            )
 
-                for (let update of this.uiElement.updateAlso) {
-                    let source
+            for (let update of this.uiElement.updateAlso) {
+                let source
 
-                    // update the target data
-                    if (selected)
-                        source = selected[update.sourceKey]
+                // update the target data
+                if (selected)
+                    source = selected[update.sourceKey]
 
-                    this.data[update.targetKey] = source
-                }
+                this.data[update.targetKey] = source
             }
         }
     }
@@ -64,7 +69,6 @@ export class AutoCompleteComponent implements OnInit {
     loadOption() {
         // if optionSrc is specified then request for option
         if (this.uiElement.optionSrc) {
-
             // download data through rest web services
             let src = this.ui.find(["optionSrc"], this.uiElement)
             try { src = eval(src) } catch(e) { }
@@ -76,7 +80,27 @@ export class AutoCompleteComponent implements OnInit {
                 .subscribe(response => {
                     let transform = this.ui.find(["optionTransform"], this.uiElement, {})
                     this.uiElement.options = eval(transform)
+
+                    // set default when options are loaded
+                    this.default()
                 })
+        } else {
+            // set default
+            this.default()
+        }
+    }
+
+    default() {
+        // when data is not set then apply default value
+        if (!this.data[this.uiElement.key] && this.uiElement.default) {
+            this.data[this.uiElement.key] = this.uiElement.default
+            try {
+                this.data[this.uiElement.key] = eval(this.uiElement.default)
+            } catch { }
+
+             // try to go through updateAlso options
+            this.updateAlso(this.data[this.uiElement.key]) 
+            return this.data[this.uiElement.key]
         }
     }
 
