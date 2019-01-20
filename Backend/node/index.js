@@ -71,8 +71,7 @@ const task = require('./src/services/task');
     await task.start(app, process.env.TASK || 5)
   } catch(err) {
     console.log(err)
-  }
-  console.log('task runner finished')
+  }  
 })();
 
 // Initiate the server

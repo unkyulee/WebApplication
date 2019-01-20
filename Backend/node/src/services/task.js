@@ -29,8 +29,7 @@ class Task {
     // interval in seconds
     async start(app, sleep) {
         console.log(`scheduler starting with ${sleep}s interval`)
-        while (true) {
-            await timeout(sleep * 1000)
+        setInterval(async () => {            
             try {
                 // try to connect to db
                 await app.locals.db.connect()
@@ -44,7 +43,7 @@ class Task {
             } catch(e) {
                 console.log(`scheduler crashed ${e.stack}`)
             }
-        }
+        }, sleep * 1000)        
     }
 
 
@@ -61,11 +60,13 @@ class Task {
                 let interval = cron.parseExpression(task.schedule)
                 task.next_run_date = new Date(interval.next().toString())
 
-                // log
-                await log(app, task, `Next Run - ${task.schedule} - ${task.next_run_date}`)
+                try {
+                    // log
+                    await log(app, task, `Next Run - ${task.schedule} - ${task.next_run_date}`)
 
-                // update the task
-                await app.locals.db.update('core.scheduled_task', {_id:task._id, next_run_date: task.next_run_date})
+                    // update the task
+                    await app.locals.db.update('core.scheduled_task', {_id:task._id, next_run_date: task.next_run_date})
+                } catch(e) {}                
             }
         }
     }
@@ -75,18 +76,26 @@ class Task {
         // get list of unscheduled tasks
         let tasks = await app.locals.db.find(
             'core.scheduled_task'
-            , { next_run_date: {$lte: new Date()} }
+            , { 
+                $or: [
+                    {next_run_date: {$lte: new Date()} }
+                    , {$and: [
+                        // is running for more than 1 hour than consider it as a dead task
+                        { _updated: {$lte: new Date(new Date().getTime() - 60 * 60 * 1000)} }
+                        , { last_run_result: "Running" }
+                    ]}
+                ]
+                
+            }
             , { next_run_date: 1 }
         )
 
         // pick first task and run it
         for(let task of tasks) {
-
-            // initiate the task
-            await app.locals.db.update('core.scheduled_task', {_id: task._id, last_run_result: "Running", logs: []})
-            await log(app, task, `started`)
-
             try {
+                // initiate the task
+                await app.locals.db.update('core.scheduled_task', {_id: task._id, last_run_result: "Running", _updated: new Date(), logs: []})
+                await log(app, task, `started`)
 
                 // run task
                 let result = await eval(task.script)
@@ -95,20 +104,17 @@ class Task {
                 // complete the task
                 await log(app, task, `completed`)
                 await app.locals.db.update('core.scheduled_task', {_id: task._id, last_run_result: `${result}`, next_run_date: null})
-
             } catch(e) {
+                try {
+                    await log(app, task, e.stack)
 
-                await log(app, task, e.stack)
-
-                // fail the task
-                await log(app, task, `failed`)
-                await app.locals.db.update('core.scheduled_task', {_id: task._id, last_run_result: 'failed', next_run_date: null})
+                    // fail the task
+                    await log(app, task, `failed`)
+                    await app.locals.db.update('core.scheduled_task', {_id: task._id, last_run_result: 'failed', next_run_date: null})
+                } catch(e) {}                
             }
-
         }
-
     }
-
 }
 
 module.exports = new Task()

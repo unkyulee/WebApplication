@@ -7,7 +7,7 @@
     </mat-form-field>
 
     <ngx-datatable class="material striped mb-24" [rows]="value" [groupRowsBy]="uiElement.groupBy" 
-        [groupExpansionDefault]="uiElement.groupBy ? true : false" [selectionType]="''"
+        [groupExpansionDefault]="uiElement.groupBy ? true : false" [selectionType]="''" [columnMode]="'force'"
         [headerHeight]="50" [rowHeight]="uiElement.rowHeight ? uiElement.rowHeight : 'auto'" [scrollbarH]="true">
 
         <!-- Group Header Template -->
@@ -53,7 +53,7 @@
 </ng-container>
 
 
-<ng-container *ngIf="isReady && (!isHandset && !uiElement.noResize)">
+<ng-container *ngIf="isReady && (isHandset && uiElement.noResize != true)">
     <mat-form-field *ngIf="isSearch">
         <input matInput [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="search" placeholder="Search ...">
     </mat-form-field>
