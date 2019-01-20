@@ -4,7 +4,6 @@ import * as obj from 'object-path'
 // user imports
 import { RestService } from "../../services/rest.service";
 import { MatSelect } from "@angular/material";
-import { UserService } from "src/app/services/user.service";
 
 @Component({
     selector: 'selection'
@@ -15,7 +14,6 @@ export class SelectionComponent implements OnInit {
     // Init
     constructor(
         private rest: RestService
-        , public user: UserService
     ) { }
 
     @Input() uiElement: any
@@ -23,21 +21,7 @@ export class SelectionComponent implements OnInit {
     @Output() change: EventEmitter<any> = new EventEmitter<any>();
 
     get value() {
-        if (this.data && this.data[this.uiElement.key])
-            return this.data[this.uiElement.key]
-
-        // when data is not set then apply default value
-        if (!this.data[this.uiElement.key] && this.uiElement.default) {
-            this.data[this.uiElement.key] = this.uiElement.default
-            try {
-                this.data[this.uiElement.key] = eval(this.uiElement.default)
-            } catch { }
-
-            // try to go through updateAlso options
-            this.updateAlso(this.data[this.uiElement.key])
-            return this.data[this.uiElement.key]
-        }
-
+        if (this.data) return this.data[this.uiElement.key]
         if (this.uiElement.multiple) return []
         return ''
     }
@@ -53,48 +37,48 @@ export class SelectionComponent implements OnInit {
         if (this.data) {
             // set value to itself
             this.data[this.uiElement.key] = v
-            this.updateAlso(v)
-        }
-    }
 
-    updateAlso(v) {
-        // updateAlso
-        if (this.uiElement.updateAlso) {
-            if (this.uiElement.multiple != true) {
-                // find selected option
-                let selected = this.uiElement.options.find(
-                    item => item[this.uiElement.optionKey] == v
-                )
+            // updateAlso
+            if (this.uiElement.updateAlso) {
 
-                for (let update of this.uiElement.updateAlso) {
-                    // update the target data
-                    this.data[update.targetKey] = selected[update.sourceKey]
-                }
 
-            }
-            else {
-
-                for (let value of v) {
+                if (this.uiElement.multiple != true) {
                     // find selected option
                     let selected = this.uiElement.options.find(
-                        item => item[this.uiElement.optionKey] == value
+                        item => item[this.uiElement.optionKey] == v
                     )
 
                     for (let update of this.uiElement.updateAlso) {
-
-                        // get source data
-                        let source = selected[update.sourceKey]
-
                         // update the target data
-                        obj.ensureExists(this.data, update.targetKey, [])
-                        let target = obj.get(this.data, update.targetKey)
-                        if (Array.isArray(target) && target.indexOf(source) < 0) target.push(source)
-
+                        this.data[update.targetKey] = selected[update.sourceKey]
                     }
+
+                }
+                else {
+
+                    for (let value of v) {
+                        // find selected option
+                        let selected = this.uiElement.options.find(
+                            item => item[this.uiElement.optionKey] == value
+                        )
+
+                        for (let update of this.uiElement.updateAlso) {
+
+                            // get source data
+                            let source = selected[update.sourceKey]
+
+                            // update the target data
+                            obj.ensureExists(this.data, update.targetKey, [])
+                            let target = obj.get(this.data, update.targetKey)
+                            if( Array.isArray(target) && target.indexOf(source) < 0 ) target.push(source)
+
+                        }
+                    }
+
                 }
 
-            }
 
+            }
 
         }
     }
