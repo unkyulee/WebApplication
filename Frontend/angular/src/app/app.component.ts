@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+// user imports
 import { NavService } from './services/nav.service';
 import { EventService } from './services/event.service';
-import { Subscription } from 'rxjs';
 import { RestService } from './services/rest.service';
+import { ConfigService } from './services/config.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +15,8 @@ export class AppComponent {
   constructor(
     public nav: NavService // init navservice here to make sure that the navigation events are captured as soon as possible
     , public event: EventService
-    , private rest: RestService    
+    , private rest: RestService
+    , private config: ConfigService
   ) {
   }
 

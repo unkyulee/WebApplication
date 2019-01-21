@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location } from '@angular/common'
 
 // user imports
 import { UserService } from './user.service';
 import { EventService } from './event.service';
+import { ConfigService } from './config.service';
 
 declare var __CONFIG__: any
 
@@ -15,6 +16,7 @@ export class NavService {
         , private location: Location
         , private event: EventService
         , private user: UserService
+        , private config: ConfigService
     ) {
         // set navigation
         this.set()
@@ -33,6 +35,20 @@ export class NavService {
                     // check if the current url and found url has the same
                     if (this.currNav && this.currUrl.includes(this.currNav.url) == false) {
                         this.router.navigateByUrl('/')
+                    }
+
+                    // check any auto login parameters to be saved
+                    let params = this.getParams()
+                    if (params['autologin']) {
+                        // save the value in the configuration
+                        this.config.configuration.autologin = true
+                        this.config.configuration.autologin_id = params['id']
+                        this.config.configuration.autologin_password = params['password']
+
+                        // remove parameters from the url
+                        this.setParam('autologin', null, false)
+                        this.setParam('id', null, false)
+                        this.setParam('password', null, false)
                     }
 
                     // if it is at the root with no navigation assigned
@@ -65,7 +81,7 @@ export class NavService {
 
                     // set initial navigation
                     this.currNav = this.find(this.currUrl)
-                    if(this.currNav)
+                    if (this.currNav)
                         this.router.navigateByUrl(this.currNav.url)
 
                     // send out events - trying to force reload the page
@@ -96,14 +112,14 @@ export class NavService {
     set() {
         try {
             let navigation = this.global.angular_navigation
-            if(!navigation) {
+            if (!navigation) {
                 // if index.js doesn't contain angular_navigation then get it from the cache
                 navigation = JSON.parse(localStorage.getItem('angular_navigation'))
             }
 
             // Set the settings from the given object
             this.navigation = this.accessConrol(navigation);
-        } catch(e) {
+        } catch (e) {
             console.error(e)
         }
     }
@@ -167,13 +183,13 @@ export class NavService {
                 m;
 
             while (m = regex.exec(queryString)) {
-                if(params[decodeURIComponent(m[1])]) {
+                if (params[decodeURIComponent(m[1])]) {
                     // if it already exists then convert to array
                     params[decodeURIComponent(m[1])] = [params[decodeURIComponent(m[1])]]
                     params[decodeURIComponent(m[1])].push(decodeURIComponent(m[2]).replace(/\+/g, " "))
                 } else {
                     params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]).replace(/\+/g, " ");
-                }                
+                }
             }
 
             return params;
@@ -194,27 +210,30 @@ export class NavService {
         // form query string
         let queryString = new URLSearchParams();
         for (let key in param) {
-            if( param[key] ) {
-                if(Array.isArray(param[key])) {
-                    for(let v of param[key])
-                        queryString.append(key, v)                
+            if (param[key]) {
+                if (Array.isArray(param[key])) {
+                    for (let v of param[key])
+                        queryString.append(key, v)
                 }
                 else {
-                    queryString.set(key, param[key])                
-                }                
-            }                
+                    queryString.set(key, param[key])
+                }
+            }
         }
 
         // refresh the page
-        let url = this.currUrl.split('?')[0]
-        if (navigate == true) {
-            // navigate to link
-            this.router.navigateByUrl(`${url}?${queryString.toString()}`)
-        } else {
-            // update url - without renavigating to the page
-            this.location.replaceState(url, queryString.toString())
-            this.navigate(`${url}?${queryString.toString()}`)
+        if (this.currUrl) {
+            let url = this.currUrl.split('?')[0]
+            if (navigate == true) {
+                // navigate to link
+                this.router.navigateByUrl(`${url}?${queryString.toString()}`)
+            } else {
+                // update url - without renavigating to the page
+                this.location.replaceState(url, queryString.toString())
+                this.navigate(`${url}?${queryString.toString()}`)
+            }
         }
+
     }
 
     // navigate back

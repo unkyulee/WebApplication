@@ -15,13 +15,13 @@ namespace Web.Application.Services
         {
             if (context.Request.Method == "OPTIONS")
                 return false;
-            
+
             // Authorization
             if (context.Request.Headers.ContainsKey("Authorization"))
             {
                 context.Response.Headers["Access-Control-Expose-Headers"] = "Authorization";
                 context.Response.Headers["Authorization"] = context.Request.Headers["Authorization"];
-                context.Response.Cookies.Append("Authorization", context.Request.Headers["Authorization"]);                
+                context.Response.Cookies.Append("Authorization", context.Request.Headers["Authorization"]);
             }
 
             // Authorization Cookie
@@ -29,22 +29,6 @@ namespace Web.Application.Services
             {
                 context.Response.Cookies.Append("X-App-Key", context.Request.Headers["X-App-Key"]);
                 context.Response.Headers["X-App-Key"] = context.Request.Headers["X-App-Key"];
-            }
-
-            // remove auto login if it's already authenticated
-            if (context.Request.Query.ContainsKey("autologin") &&
-                Auth.IsAuthenticated(context))
-            {
-                // remove autologin, id, password from the query string and redirect
-                var queryParams = new Dictionary<string, string>();
-                foreach(var query in context.Request.Query)                
-                    if(query.Key != "autologin" && query.Key != "id" && query.Key != "password")
-                        queryParams[query.Key] = query.Value;
-                
-                // redirect without autologin info
-                var url = QueryHelpers.AddQueryString($"{context.Request.PathBase}{context.Request.Path}", queryParams);
-                context.Response.Redirect(url);
-                return false;
             }
 
             return true;
@@ -58,10 +42,10 @@ namespace Web.Application.Services
             var db = (SQL)context.Items["db"];
             if( db != null)
             {
-                // get list of navigation                              
+                // get list of navigation
                 result = db.Query($@"
-                    SELECT * FROM core_navigation 
-                    WHERE '{context.Request.Path}' LIKE url+'%' 
+                    SELECT * FROM core_navigation
+                    WHERE '{context.Request.Path}' LIKE url+'%'
                     ORDER BY priority DESC").FirstOrDefault();
 
                 // also apply them if applicable
@@ -91,7 +75,7 @@ namespace Web.Application.Services
         {
             IModule result = null;
 
-            // load module information from db            
+            // load module information from db
             switch (filename)
             {
                 case "Module.SinglePage.dll":

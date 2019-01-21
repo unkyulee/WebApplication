@@ -29,19 +29,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.title = obj.get(this.config.configuration, 'name')
 
         // check auto login
-        let params = this.nav.getParams()
-        if(params['autologin']) {
-            this.nav.setParam('autologin', null, false)
-
-            this.id = params['id']
-            this.nav.setParam('id', null, false)
-
-            this.password = params['password']
-            this.nav.setParam('password', null, false)
-
+        if(this.config.configuration.autologin == true) {
+            this.id = this.config.configuration.autologin_id
+            this.password = this.config.configuration.autologin_password
             this.login()
         }
-
     }
 
     ngOnDestroy() {
