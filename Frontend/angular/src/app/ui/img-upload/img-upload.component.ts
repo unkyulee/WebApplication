@@ -270,13 +270,11 @@ export class ImageUploadComponent {
     extra(row, user, config, print?) {
         let param = ''
 
-        // if in mobile setup pass auth
-        if(location.protocol.startsWith('http') == false || print == true) {
-            if(row && row.url.indexOf('?') > 0) param = '&'
-            else param = '?'
-            param += `bearer=${user.token()}&navigation_id=${config.configuration._id}`
-        }
-
+        // if in mobile setup pass auth        
+        if(row && row.url.indexOf('?') > 0) param = '&'
+        else param = '?'
+        param += `bearer=${user.token()}&navigation_id=${config.configuration._id}`
+        
         return param
     }
 

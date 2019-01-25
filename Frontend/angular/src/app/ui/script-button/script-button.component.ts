@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material';
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user.service";
 import { RestService } from "../../services/rest.service";
+import { ConfigService } from "src/app/services/config.service";
 
 // cordova
 declare var cordova: any
@@ -22,6 +23,7 @@ export class ScriptButtonComponent {
         , public event: EventService // these are used by the user code
         , public user: UserService // these are used by the user code
         , public snackBar: MatSnackBar // userd in user code
+        , public config: ConfigService
     ) { }
 
     @Input() uiElement: any

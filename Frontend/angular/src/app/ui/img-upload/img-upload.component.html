@@ -11,7 +11,7 @@
     <mat-card *ngFor="let item of value" class="item" ngxDraggable [model]="item" [style.background]="uiElement.background">
         <mat-card-content>
             <a href="{{rest.host()}}{{item?.url}}{{extra(item, user, config)}}" target="_blank">
-                <img src="{{rest.host()}}{{item?.url}}" class="image" />
+                <img src="{{rest.host()}}{{item?.url}}{{extra(item, user, config)}}" class="image" id="{{item?.filename}}" />
             </a>
             <button *ngIf="uiElement.urlDelete" mat-icon-button (click)="delete(item)" class="overlay">
                 <mat-icon class="delete">delete</mat-icon>

@@ -231,7 +231,7 @@ export class DataTableListComponent implements OnInit, OnDestroy {
         }
 
         if (column.type == "date") {
-            value = moment(value).locale(column.lang).format(column.format)
+            try { value = moment(value).locale(column.lang).format(column.format) } catch(e) {console.error(e)}            
         }
         return value
     }
