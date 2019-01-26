@@ -1,4 +1,4 @@
-var request = require('sync-request');
+var rp = require('request-promise-native');
 var jsonic = require('jsonic')
 
 class REST_Action {
@@ -7,25 +7,20 @@ class REST_Action {
         this.property = property
     }
 
-    init() {
+    async init() {
     }
 
-    finish() {
+    async finish() {
     }
 
-    start() {
-        console.log(`REST_Action::start ${this.property.name}`)
-        console.log(`REST_Action::start ${this.property.url}`)
+    async start() {
+        console.log(`REST_Action::start ${this.property.name}`)        
+        
         // do something        
         let options = eval(this.property.options)        
-        let response = request(
-            this.property.method
-            , this.property.url
-            , options
-        )
-        // run transform
-        eval(this.property.transform)
-        console.log(`REST_Action::start status ${response.statusCode}`)
+        let response = await rp(options)
+        
+        console.log(response)
     }
 }
 

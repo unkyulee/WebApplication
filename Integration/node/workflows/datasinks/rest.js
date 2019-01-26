@@ -1,5 +1,5 @@
 var SqlString = require('sqlstring');
-var request = require('sync-request');
+var rp = require('request-promise-native');
 var jsonic = require('jsonic')
 
 class REST_DataSink {
@@ -8,7 +8,7 @@ class REST_DataSink {
     this.property = property
   }
 
-  init() {
+  async init() {
     //
     console.log(`REST_DataSink::init ${this.property.url}`)
 
@@ -20,70 +20,66 @@ class REST_DataSink {
     this.context.event.on(
       this.property.id
       , this.property.id
-      , async (data , count) => { await this.incoming(data, count); }
+      , async (data, count) => { await this.incoming(data, count); }
     );
   }
 
-  async incoming(count, data) {
+  async incoming(data, count) {    
 
     // produce the body content
-    let result = eval(this.property.transform)
+    if (this.property.transform)
+      eval(this.property.transform)
 
     // insert
     this.count += 1
-    this.buffer.push(result)
+    this.buffer.push(data)
 
     // insert when buffer reached its size
     if (!this.property.buffer) {
-      this.sendRequest()
+      await this.sendRequest()
       this.buffer = []
     }
 
     else if (this.buffer.length >= this.property.buffer) {
       try {
-        this.sendRequest()
-      } catch(e) {
+        await this.sendRequest()
+      } catch (e) {
         // timeout then try again
-        if(e.code == 'ETIMEDOUT')
-          this.sendRequest()
+        if (e.code == 'ETIMEDOUT')
+          await this.sendRequest()
       }
-
+      // clear buffer
       this.buffer = []
     }
 
   }
 
-  sendRequest(data) {
+  async sendRequest() {
 
     // send post request
     try {
       console.log(`REST_DataSink::sendRequest current count ${this.count}`)
-      let options = eval(this.property.options)
-
-      let response = request(
-        this.property.method
-        , this.property.url
-        , options
-      )
-      // run transform
-      eval(this.property.response)
-
-      if(response.statusCode != 200)
-        throw response;
+      
+      for(let data of this.buffer) {        
+        if(this.property.transform) 
+          eval(this.property.transform)        
+        
+        let response = await rp(this.property.options)
+        console.log(response)
+      }      
 
     } catch (e) {
       console.error(e)
-      throw e
+      process.exit(1)
     }
-
 
   }
 
-  start() {
+  async start() {
     // do nothing
   }
 
-  finish() {
+  async finish() {
 
     // flush the buffer if any exists
     if (this.buffer.length > 0) {

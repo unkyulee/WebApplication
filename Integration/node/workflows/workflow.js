@@ -93,6 +93,12 @@ class Workflow {
             case "MSSQL_DataSource":
                 itemType = require('./datasources/mssql')
                 break;
+            case "FILES_DataSource":
+                itemType = require('./datasources/files')
+                break;
+            case "SQLITE_DataSource":
+                itemType = require('./datasources/sqlite')
+                break;
             case "Channel_Transform":
                 itemType = require('./transforms/channel')
                 break;
@@ -103,7 +109,7 @@ class Workflow {
                 itemType = require('./datasinks/mongodb')
                 break
             case "SQLITE_DataSink":
-                itemType = null; // require('./datasinks/sqlite')
+                itemType = require('./datasinks/sqlite')
                 break;
             case "REST_Action":
                 itemType = require('./actions/rest')
@@ -111,7 +117,6 @@ class Workflow {
             case "MONGODB_Action":
                 itemType = require('./actions/mongodb')
                 break;
-
         }
 
         if (itemType)

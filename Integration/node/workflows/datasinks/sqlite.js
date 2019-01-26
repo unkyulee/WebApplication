@@ -1,5 +1,5 @@
-const Database = require('better-sqlite3')
-const strMatch = require('../../lib/strMatch')
+const sqlite = require('sqlite')
+var jsonic = require('jsonic')
 
 class SQLITE_DataSink {
     constructor(context, property) {
@@ -7,68 +7,64 @@ class SQLITE_DataSink {
         this.property = property
     }
 
-    init() {
+    async init() {
+        //
+        if (!this.property.connection) {
+            console.log('SQLITE_DataSink::init connection must be specified')
+            process.exit()
+        }
+
         // connect to the database        
-        this.db = new Database(this.property.connectionString);
+        this.db = await sqlite.open(this.property.connection, { Promise });
 
         this.count = 0
 
-        // run init script
-        for (let init of this.property.init) {
-            this.db.exec(init);
+        // run init script      
+        if (this.property.init) {
+            for (let init_script of this.property.init) {
+                await this.db.run(init_script);
+            }
         }
-
-        // prepare insert statement
-        let columns = this.property.mappings.map(x => x.target).join(', ')
-        let values = this.property.mappings.map(x => `@${x.target}`).join(', ')
-        this.insert = this.db.prepare(`INSERT INTO ${this.property.table} (${columns}) VALUES (${values})`);
-        this.insertMany = this.db.transaction((rows) => {
-            for (const row of rows) this.insert.run(row);
-        });
-
-        // create a buffer
-        this.buffer = []
 
         // listen to incoming events
-        this.handler = (count, data) => { this.incoming(count, data) }
         this.context.event.on(
             this.property.id
-            , this.handler
+            , this.property.id
+            , async (data, count) => { await this.incoming(data, count); }
         );
+
     }
 
-    incoming(count, data) {
+    async incoming(count, data) {
 
-        // mapping
-        let result = {}
-        for (let mapping of this.property.mappings) {
-            let source = mapping['source']
-            let target = mapping['target']
-
-            if (mapping['type'] == 'search') {
-                // find a key that matches
-                let key = Object.keys(data).find(x => strMatch(x, mapping['source']))
-                if (key) result[target] = data[key]
-            }
-            else {
-                result[target] = data[source]
-            }
+        // transform
+        if(this.property.transform) {            
+            eval(this.property.transform)
         }
 
-        // insert
-        this.count += 1
-        this.buffer.push(result)
+        // produce sql
+        if(!this.property.sql) {
+            console.log('SQLITE_DataSink::incoming sql must be specified')
+            process.exit()
+        }
+        let sql = eval(this.property.sql)
 
-        // insert when buffer reached its size
-        if( ! this.property.buffer ) {
-            this.insert(result)
-            this.buffer = []
+        if(!this.property.values) {
+            console.log('SQLITE_DataSink::incoming values must be specified')
+            process.exit()
+        }        
+        let values = eval(this.property.values)        
+
+        // run sql
+        try {
+            await this.db.run(sql, ...values);
+        } catch(e) {
+            console.log(sql)
+            console.log(e)
+            process.exit()
         }
-            
-        else if(this.buffer.length >= this.property.buffer) {
-            this.insertMany(this.buffer)
-            this.buffer = []
-        }
+        
+
     }
 
     start() {
@@ -77,14 +73,8 @@ class SQLITE_DataSink {
 
     finish() {
 
-        // flush the buffer if any exists
-        if(this.buffer.length > 0) {
-            this.insertMany(this.buffer)
-            this.buffer = []
-        }
-
         // stop listening
-        this.context.event.removeListener(this.property.id, this.handler)
+        this.context.event.remove(this.property.id)
 
         // close connection
         this.db.close()
