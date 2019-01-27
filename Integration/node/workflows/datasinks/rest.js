@@ -10,7 +10,7 @@ class REST_DataSink {
 
   async init() {
     //
-    console.log(`REST_DataSink::init ${this.property.url}`)
+    console.log(`REST_DataSink::init ${this.property.options.uri}`)
 
     // create a buffer
     this.buffer = []
@@ -60,15 +60,14 @@ class REST_DataSink {
     try {
       console.log(`REST_DataSink::sendRequest current count ${this.count}`)
 
-      for (let data of this.buffer) {
-        if (this.property.transform)
-          eval(this.property.transform)
+      //
+      if (this.property.beforeRequest) eval(this.property.beforeRequest)
 
+      for (let data of this.buffer) {
         let tryagain = false
         for(let i = 0; i < 3; i++) {          
           try {
-            let response = await rp(this.property.options)
-            console.log(response)
+            let response = await rp(this.property.options)            
             tryagain = false
           } catch(e) {
             console.log('trying again ...')
@@ -94,7 +93,7 @@ class REST_DataSink {
 
     // flush the buffer if any exists
     if (this.buffer.length > 0) {
-      this.sendRequest({ query: this.buffer.join(' ') })
+      await this.sendRequest()
       this.buffer = []
     }
 

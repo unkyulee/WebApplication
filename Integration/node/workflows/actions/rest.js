@@ -16,11 +16,16 @@ class REST_Action {
     async start() {
         console.log(`REST_Action::start ${this.property.name}`)        
         
-        // do something        
-        let options = eval(this.property.options)        
-        let response = await rp(options)
-        
-        console.log(response)
+        //         
+        if(this.property.beforeRequest)
+            eval(this.property.beforeRequest)
+
+        // do something                
+        let response = await rp(this.property.options)                
+
+        // 
+        if(this.property.afterResponse)
+            eval(this.property.afterResponse)
     }
 }
 
