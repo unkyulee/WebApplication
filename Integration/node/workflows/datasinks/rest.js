@@ -24,7 +24,7 @@ class REST_DataSink {
     );
   }
 
-  async incoming(data, count) {    
+  async incoming(data, count) {
 
     // produce the body content
     if (this.property.transform)
@@ -59,14 +59,25 @@ class REST_DataSink {
     // send post request
     try {
       console.log(`REST_DataSink::sendRequest current count ${this.count}`)
-      
-      for(let data of this.buffer) {        
-        if(this.property.transform) 
-          eval(this.property.transform)        
-        
-        let response = await rp(this.property.options)
-        console.log(response)
-      }      
+
+      for (let data of this.buffer) {
+        if (this.property.transform)
+          eval(this.property.transform)
+
+        let tryagain = false
+        for(let i = 0; i < 3; i++) {          
+          try {
+            let response = await rp(this.property.options)
+            console.log(response)
+            tryagain = false
+          } catch(e) {
+            console.log('trying again ...')
+            tryagain = true
+          }
+          // retry when timeout
+          if(tryagain == false) break;
+        }
+      }
 
     } catch (e) {
       console.error(e)
