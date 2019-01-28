@@ -183,12 +183,7 @@ export class DataTableDetailComponent implements OnInit, OnDestroy {
                     name: "Delete",
                     icon: "delete",
                     action: () => { this.delete() }
-                },
-                {
-                    name: "Print",
-                    icon: "print",
-                    action: () => { this.event.send({ name: 'print-dialog', data: this.data, screenConfigs: this.screenConfigs, display: this.nav.currNav.name }) }
-                },
+                }                
             ]
 
         }
