@@ -58,5 +58,11 @@
         "description" : "REST",
         "name" : "Call External REST",
         "script" : ""
+    },
+    {
+        "_id" : ObjectId("000000000000000000000200"),
+        "description" : "PDF",
+        "name" : "Render PDF",
+        "script" : ""
     }
 ]

@@ -11,6 +11,9 @@ import { ConfigService } from "src/app/services/config.service";
 // cordova
 declare var cordova: any
 
+// get config from index.html
+declare var __CONFIG__: any
+
 @Component({
     selector: 'script-button'
     , templateUrl: './script-button.component.html'
