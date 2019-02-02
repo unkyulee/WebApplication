@@ -65,14 +65,16 @@ app.all('*', async (req, res) => {
 });
 
 // Initiate the task scheduler
-const task = require('./src/services/task');
-(async () => {
-  try {
-    await task.start(app, process.env.TASK || 5)
-  } catch(err) {
-    console.log(err)
-  }  
-})();
+if(process.env.TASK) {
+  const task = require('./src/services/task');
+  (async () => {
+    try {
+      await task.start(app, process.env.TASK || 5)
+    } catch(err) {
+      console.log(err)
+    }  
+  })();
+}
 
 // Initiate the server
 app.listen(process.env.PORT, () => {
