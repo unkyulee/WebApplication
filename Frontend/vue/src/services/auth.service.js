@@ -16,12 +16,12 @@ export default {
     return isValidAuth;
   },
 
-  async authenticate(id, password) {
+  async authenticate(data) {
     let response = {}
     try {
       response = await RestService.request(
         window.__CONFIG__.auth
-        , {id: id, password: password}
+        , data
         , 'post'
       );
     } catch(e) {

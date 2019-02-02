@@ -14,6 +14,7 @@
 
 <script>
 export default {
+  inject: ["EventService"],
   props: ["ui", "data"],
   methods: {
     action: function(action) {

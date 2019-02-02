@@ -1,18 +1,9 @@
 <template>
-  <div :class="ui.class" :style="ui.style">{{value}}</div>
+  <div :class="ui.class" :style="ui.style">{{ui.text}}</div>
 </template>
 
 <script>
 export default {
-  props: ["ui", "data"],
-  computed: {
-    value: function() {
-      let v = null;
-      if (this.data && this.ui && this.ui.key && this.data[this.ui.key]) {
-        v = this.data[this.ui.key];
-      }
-      return v;
-    }
-  }
+  props: ["ui", "data"]
 };
 </script>
