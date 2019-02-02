@@ -9,7 +9,7 @@ export default {
     // convert url to full qualified name
     if (url.startsWith("http") == false) {
       if (url.startsWith("/") == false) url = `/${url}`;
-        url = `${ConfigService.get('rest').}${url}`;
+      url = `${ConfigService.get("rest")}${url}`;
     }
 
     ////////////////////////////////////

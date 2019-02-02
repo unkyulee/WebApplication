@@ -57,7 +57,7 @@ axios.interceptors.response.use(
   function(response) {
     // Do something with response data
     let afterResponse = ConfigService.get("afterResponse");
-    if (afterResponse) afterResponse(config);
+    if (afterResponse) afterResponse(response);
     return response;
   },
   function(error) {

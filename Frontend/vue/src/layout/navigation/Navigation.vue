@@ -11,8 +11,8 @@
       <router-link
         :to="nav.url"
         :key="i"
-        :class="{'nav-link': true}"
-        v-if="nav.type == 'item'"        
+        :class="{'nav-link': true, 'active': isPageMatch(nav.url)}"
+        v-if="nav.type == 'item'"
         v-ripple
       >{{nav.label}}</router-link>
 
@@ -21,13 +21,11 @@
         <v-expansion-panel-content>
           <div slot="header">{{nav.label}}</div>
           <router-link
-          v-for="(child,j) in nav.children"
-          :key="j"
+            v-for="(child,j) in nav.children"
+            :key="j"
             :to="child.url"
             v-ripple
-            
-            
-            :class="{'nav-link': true}"
+            :class="{'nav-link': true, 'active': isPageMatch(child.url)}"
           >{{child.label}}</router-link>
         </v-expansion-panel-content>
       </v-expansion-panel>
@@ -39,15 +37,13 @@
 import User from "../user/User.vue";
 
 export default {
-  inject: [
-    "EventService",
-    "ConfigService"
-    ],
+  inject: ["EventService", "ConfigService"],
   data: function() {
     return {
       drawer: false,
-      title: this.ConfigService.get('title'),
-      navigations: this.ConfigService.get('navigations')
+      title: this.ConfigService.get("title"),
+      navigations: this.ConfigService.get("navigations"),
+      currUrl: ''
     };
   },
   components: {
@@ -64,6 +60,18 @@ export default {
   methods: {
     drawerClickHandler: function() {
       this.drawer = !this.drawer;
+    },
+    isPageMatch: function(url) {
+      // see if the url matches
+      if(this.currUrl && this.currUrl.startsWith(url))
+        return true
+      return false
+    }
+  },
+  watch: {
+    '$route' (to) {
+     // save the current url
+      this.currUrl = to.path
     }
   }
 };

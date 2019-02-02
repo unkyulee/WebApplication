@@ -1,8 +1,9 @@
 <template>
   <login v-if="!authenticated"></login>
   <div v-else-if="authenticated">
-    <toolbar></toolbar>
-    <navigation></navigation>
+    <toolbar />
+    <navigation />
+    <composer />
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import Toolbar from "./toolbar/Toolbar.vue";
 import Navigation from "./navigation/Navigation.vue";
 import Login from "./login/Login.vue";
+import Composer from "./composer/Composer.vue";
 
 export default {
   inject: [
@@ -19,7 +21,8 @@ export default {
   components: {
     Toolbar,
     Navigation,
-    Login
+    Login,
+    Composer
   },
   mounted: function() {
     // listen to drawer-toggle event
