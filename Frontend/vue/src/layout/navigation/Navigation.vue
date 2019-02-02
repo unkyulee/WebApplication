@@ -1,17 +1,30 @@
 <template>
   <v-navigation-drawer v-model="drawer" absolute temporary app>
     <div class="header">
-      <h3>Bootstrap Sidebar</h3>
+      <h3>{{title}}</h3>
     </div>
+    <!-- user profile button -->
     <user></user>
-    <v-expansion-panel>
-      <v-expansion-panel-content v-for="(item,i) in 5" :key="i">
-        <div slot="header">Item</div>
-        <v-card>
-          <v-card-text>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-card-text>
-        </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+    <!-- navigations -->
+    <template v-for="(nav,i) in navigations">
+      <!-- single item -->
+      <div :key="i" v-if="nav.type == 'item'">
+        <a href="#" :class="{'nav-link': true}" v-ripple>{{nav.label}}</a>
+      </div>
+      <!-- collapse -->
+      <v-expansion-panel :key="i" v-if="nav.type == 'collapse'">
+        <v-expansion-panel-content>
+          <div slot="header">{{nav.label}}</div>
+          <a
+            href="#"
+            v-ripple
+            :key="j"
+            v-for="(child,j) in nav.children"
+            :class="{'nav-link': true}"
+          >{{child.label}}</a>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -22,7 +35,9 @@ export default {
   inject: ["EventService"],
   data: function() {
     return {
-      drawer: false
+      drawer: false,
+      title: window.__CONFIG__.title,
+      navigations: window.__CONFIG__.navigations
     };
   },
   components: {
@@ -54,5 +69,24 @@ export default {
 .header {
   padding: 20px;
   background: #6d7fcc;
+}
+
+.nav-link {
+  text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 24px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  color: black;
+  background: white;
+}
+
+.active {
+  color: white;
+  background-color: #039be5;
 }
 </style>

@@ -1,5 +1,6 @@
 window.__CONFIG__ = {
-    "rest": "" // host for rest url
+    "title": "Inspiration",
+    , "rest": "" // host for rest url
     , "auth": ""    
     , "beforeRequest": function(config) {
         config.headers = {
@@ -25,9 +26,9 @@ window.__CONFIG__ = {
         screens: [
             {
                 type: "text",                
-                text: "Welcome",
+                text: "Inspiration",
                 class: {
-                    "display-2": true
+                    "display-1": true
                 },
                 style: {
                     "text-align": "center",
@@ -57,9 +58,27 @@ window.__CONFIG__ = {
                         action: `this.EventService.$emit('login')`
                     }
                 ]
-            }
+            }                
         ]
     },
-    navgations: {
-    }
+    navigations: [
+        {
+            label: "Home",
+            type: "item"
+        },
+        {
+            label: "Sub Menu",
+            type: "collapse",
+            children: [
+                {
+                    label: "Status",
+                    type: "item"
+                },
+                {
+                    label: "Some list",
+                    type: "item"
+                }
+            ]
+        }
+    ]
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y class="pa-2">
+  <v-menu offset-y class="pa-2 menu">
     <div slot="activator">User name here</div>
     <v-list>
       <v-list-tile v-for="(item, index) in items" :key="index" @click.stop="logout">
@@ -20,10 +20,17 @@ export default {
     ]
   }),
   methods: {
-      logout: function() {
-          this.AuthService.logout();
-          this.EventService.$emit('logout')
-      }
+    logout: function() {
+      this.AuthService.logout();
+      this.EventService.$emit("logout");
+    }
   }
 };
 </script>
+
+<style scoped>
+.menu {
+  display: flex;
+  background: #1e1e24;
+}
+</style>
