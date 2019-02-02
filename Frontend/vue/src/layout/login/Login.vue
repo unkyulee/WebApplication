@@ -35,7 +35,11 @@ import InputComponent from "../../ui/input/InputComponent.vue";
 import ButtonComponent from "../../ui/button/ButtonComponent.vue";
 
 export default {
-  inject: ["AuthService", "EventService"],
+  inject: [
+    "AuthService",
+     "EventService",
+     "ConfigService"
+     ],
   components: {
     TextComponent,
     InputComponent,
@@ -43,7 +47,7 @@ export default {
   },
   data: function() {
     return {
-       ui: window.__CONFIG__.login,
+       ui: this.ConfigService.get('login'),
        data: {}
     };
   },

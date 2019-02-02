@@ -8,20 +8,27 @@
     <!-- navigations -->
     <template v-for="(nav,i) in navigations">
       <!-- single item -->
-      <div :key="i" v-if="nav.type == 'item'">
-        <a href="#" :class="{'nav-link': true}" v-ripple>{{nav.label}}</a>
-      </div>
+      <router-link
+        :to="nav.url"
+        :key="i"
+        :class="{'nav-link': true}"
+        v-if="nav.type == 'item'"        
+        v-ripple
+      >{{nav.label}}</router-link>
+
       <!-- collapse -->
       <v-expansion-panel :key="i" v-if="nav.type == 'collapse'">
         <v-expansion-panel-content>
           <div slot="header">{{nav.label}}</div>
-          <a
-            href="#"
+          <router-link
+          v-for="(child,j) in nav.children"
+          :key="j"
+            :to="child.url"
             v-ripple
-            :key="j"
-            v-for="(child,j) in nav.children"
+            
+            
             :class="{'nav-link': true}"
-          >{{child.label}}</a>
+          >{{child.label}}</router-link>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </template>
@@ -32,12 +39,15 @@
 import User from "../user/User.vue";
 
 export default {
-  inject: ["EventService"],
+  inject: [
+    "EventService",
+    "ConfigService"
+    ],
   data: function() {
     return {
       drawer: false,
-      title: window.__CONFIG__.title,
-      navigations: window.__CONFIG__.navigations
+      title: this.ConfigService.get('title'),
+      navigations: this.ConfigService.get('navigations')
     };
   },
   components: {

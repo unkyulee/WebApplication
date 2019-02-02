@@ -12,7 +12,10 @@ import Navigation from "./navigation/Navigation.vue";
 import Login from "./login/Login.vue";
 
 export default {
-  inject: ["AuthService", "EventService"],
+  inject: [
+    "AuthService",
+     "EventService"
+     ],
   components: {
     Toolbar,
     Navigation,

@@ -9,6 +9,7 @@ import Layout from './layout/Layout.vue'
 import { EventService } from './services/event.service.js';
 import AuthService from './services/auth.service.js'
 import RestService from './services/rest.service.js'
+import ConfigService from './services/config.service.js'
 
 export default {
   components: {
@@ -19,6 +20,7 @@ export default {
       EventService: EventService
       , AuthService: AuthService
       , RestService: RestService
+      , ConfigService: ConfigService
     }
   }
 };

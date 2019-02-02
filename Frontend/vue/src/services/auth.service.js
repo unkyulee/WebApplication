@@ -1,5 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 import RestService from "./rest.service.js";
+import ConfigService from "./config.service";
 
 export default {
   isAuthenticated() {
@@ -17,45 +18,50 @@ export default {
   },
 
   async authenticate(data) {
-    let response = {}
+    let response = {};
     try {
       response = await RestService.request(
-        window.__CONFIG__.auth
-        , data
-        , 'post'
+        ConfigService.get("auth"),
+        data,
+        "post"
       );
-    } catch(e) {
+    } catch (e) {
       return false;
-    }    
-    
+    }
+
     return response.status == 200;
   },
 
-  logout() {    
-    localStorage.clear()
+  logout() {
+    localStorage.clear();
   }
 };
-
 
 ///
 
 // Add a request interceptor
-axios.interceptors.request.use(function (config) {  
-  if(window.__CONFIG__ && window.__CONFIG__.beforeRequest)
-    window.__CONFIG__.beforeRequest(config)
-  return config;
-}, function (error) {
-  // Do something with request error
-  return Promise.reject(error);
-});
+axios.interceptors.request.use(
+  function(config) {
+    let beforeRequest = ConfigService.get("beforeRequest");
+    if (beforeRequest) beforeRequest(config);
+    return config;
+  },
+  function(error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
 
 // Add a response interceptor
-axios.interceptors.response.use(function (response) {
-  // Do something with response data
-  if(window.__CONFIG__ && window.__CONFIG__.afterResponse)
-    window.__CONFIG__.afterResponse(response)
-  return response;
-}, function (error) {
-  // Do something with response error
-  return Promise.reject(error);
-});
+axios.interceptors.response.use(
+  function(response) {
+    // Do something with response data
+    let afterResponse = ConfigService.get("afterResponse");
+    if (afterResponse) afterResponse(config);
+    return response;
+  },
+  function(error) {
+    // Do something with response error
+    return Promise.reject(error);
+  }
+);
