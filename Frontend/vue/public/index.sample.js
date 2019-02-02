@@ -65,7 +65,8 @@ window.__CONFIG__ = {
     {
       label: "Home",
       type: "item",
-      url: "/home"
+      url: "/home",
+      ui: ["home"]
     },
     {
       label: "Sub Menu",
@@ -83,5 +84,10 @@ window.__CONFIG__ = {
         }
       ]
     }
-  ]
+  ],
+  ui: {
+    "home": {
+      type: "data-table"
+    }
+  }
 };
