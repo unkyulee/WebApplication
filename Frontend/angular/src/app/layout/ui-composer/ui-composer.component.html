@@ -5,8 +5,7 @@
             <chart *ngIf="ui.type == 'chart'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></chart>
             <bigtext *ngIf="ui.type == 'bigtext'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></bigtext>
             <filter-group *ngIf="ui.type == 'filter-group'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></filter-group>
-            <calendar *ngIf="ui.type == 'calendar'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></calendar>
-            <gantt *ngIf="ui.type == 'gantt'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></gantt>
+            <calendar *ngIf="ui.type == 'calendar'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></calendar>            
         </ng-container>
     </div>
 </div>

@@ -41,7 +41,6 @@ import { BigTextComponent } from './bigtext/bigtext.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarColumnComponent } from './calendar/column/calendar-column.component';
 import { JsonEditorComponent } from './json-editor/json-editor.component';
-import { GanttComponent } from './gantt/gantt.component';
 import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
@@ -71,8 +70,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     , BigTextComponent
     , CalendarComponent
     , CalendarColumnComponent
-    , JsonEditorComponent
-    , GanttComponent
+    , JsonEditorComponent    
     , PaginationComponent
   ]
   , exports: [
@@ -94,8 +92,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     , ChartComponent
     , BigTextComponent
     , CalendarComponent
-    , JsonEditorComponent
-    , GanttComponent
+    , JsonEditorComponent    
     , PaginationComponent
   ]
   , imports: [
