@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         // try login
         this.event.send("splash-show") // show splash
-        this.auth.authenticate(this.id, this.password).subscribe(
+        this.auth.authenticate({id: this.id, password: this.password}).subscribe(
             result => {
                 this.event.send("splash-hide") // hide splash
 

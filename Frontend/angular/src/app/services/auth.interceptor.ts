@@ -26,10 +26,20 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         // do something before sending request
-        req = this.beforeRequest(req, next)
+        // see if there is a customer interceptor
+        if(this.global && this.global.authentication && this.global.authentication.beforeRequest) {
+            req = this.global.authentication.beforeRequest(req, next)
+        }
+        else {
+            req = this.beforeRequest(req, next)
+        }
 
         return next.handle(req).pipe(
-            map(response => this.processResponse(response))
+            map(response => {
+                if(this.global && this.global.authentication && this.global.authentication.processResponse)
+                    return this.global.authentication.processResponse(response)
+                return this.processResponse(response)
+            })
             , catchError(
                 (error, caught) => {
                     this.handleError(error, caught)

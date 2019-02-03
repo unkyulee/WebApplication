@@ -67,4 +67,19 @@ export class UserService {
         return []
     }
 
+    get(name) {
+        // default authentication mode is jwt
+        if (!this.global.auth_mode || this.global.auth_mode == 'jwt') {
+            let token = localStorage.getItem('token')
+            // do jwt decode
+            if (token) {
+                let base64Url = token.split('.')[1];
+                let base64 = base64Url.replace('-', '+').replace('_', '/');
+
+                let user = JSON.parse(window.atob(base64));
+                if (user) return user[name]
+            }
+        }
+    }
+
 }

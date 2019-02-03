@@ -39,27 +39,31 @@ export class AuthService {
     isAuthenticated() {
         let isValidAuth = false
 
-        // check if the token is valid
-        let token = localStorage.getItem('token')
-        if (token && this.validToken(token) == true) {
+        // see if there is a custom validToken function
+        if (this.global && this.global.authentication && this.global.authentication.isAuthenticated) {
+            isValidAuth = this.global.authentication.isAuthenticated()
+        } else {
+            // check if the token is valid
+            let token = localStorage.getItem('token')
+            if (token && this.validToken(token) == true) {
 
-            // check if the config navigation_id and the stored navigation_id matches
-            let angular_navigation = localStorage.getItem('angular_navigation')
-            if (angular_navigation) {
-                try {
-                    let nav = JSON.parse(angular_navigation)
-                    if (nav[0].navigation_id == this.config.configuration._id) {
-                        isValidAuth = true
-                        //
-                        this.validate()
-                    }
-                } catch (e) { }
+                // check if the config navigation_id and the stored navigation_id matches
+                let angular_navigation = localStorage.getItem('angular_navigation')
+                if (angular_navigation) {
+                    try {
+                        let nav = JSON.parse(angular_navigation)
+                        if (nav[0].navigation_id == this.config.configuration._id) {
+                            isValidAuth = true
+                            //
+                            this.validate()
+                        }
+                    } catch (e) { }
+                }
             }
         }
 
         // if not valid auth then clear localstorage
-        if (!isValidAuth)
-            localStorage.clear()
+        if (!isValidAuth) localStorage.clear()
 
         // return auth result
         return isValidAuth
@@ -85,47 +89,61 @@ export class AuthService {
     }
 
     // Process login request
-    authenticate(id: string, password: string) {
+    authenticate(data) {
         return Observable.create(observer => {
-            let auth = this.global.auth
-            this.rest.request(
-                auth
-                , { id: id, password: password }
-                , "post"
-            ).pipe(
-                catchError(
-                    // if authentication request fails
-                    (err: HttpErrorResponse) => {
-                        if (err.status == 403) {
-                            // forbidden - matching credential doesn't exists
-                            observer.next('login id/pw does not match')
-                        }
-                        else if (err.status == 401) {
-                            observer.next('access not permitted')
-                        }
-                        else {
-                            observer.next(err.message)
-                        }
 
+            // see if there is a custom validToken function
+            if (this.global && this.global.authentication && this.global.authentication.authenticate) {
+                let context = {
+                    catchError: catchError,
+                    rest: this.rest,
+                    data: data,
+                    observer: observer
+                }
+                this.global.authentication.authenticate(context)
+            }
+
+            else {
+                let auth = this.global.auth
+                this.rest.request(
+                    auth
+                    , data
+                    , "post"
+                ).pipe(
+                    catchError(
+                        // if authentication request fails
+                        (err: HttpErrorResponse) => {
+                            if (err.status == 403) {
+                                // forbidden - matching credential doesn't exists
+                                observer.next('login id/pw does not match')
+                            }
+                            else if (err.status == 401) {
+                                observer.next('access not permitted')
+                            }
+                            else {
+                                observer.next(err.message)
+                            }
+
+                            observer.complete()
+
+                            return EMPTY;
+                        }
+                    )
+                ).subscribe(
+                    response => {
+                        // set angular_navigation
+                        if (response.angular_navigation)
+                            localStorage.setItem('angular_navigation', JSON.stringify(response.angular_navigation))
+
+                        if (response.angular_ui)
+                            localStorage.setItem('angular_ui', JSON.stringify(response.angular_ui))
+
+                        // authentication successful
+                        observer.next(true)
                         observer.complete()
-
-                        return EMPTY;
                     }
                 )
-            ).subscribe(
-                response => {
-                    // set angular_navigation
-                    if (response.angular_navigation)
-                        localStorage.setItem('angular_navigation', JSON.stringify(response.angular_navigation))
-
-                    if (response.angular_ui)
-                        localStorage.setItem('angular_ui', JSON.stringify(response.angular_ui))
-
-                    // authentication successful
-                    observer.next(true)
-                    observer.complete()
-                }
-            )
+            }
 
         })
     }
@@ -142,12 +160,12 @@ export class AuthService {
             catchError(
                 // if authentication request fails
                 (err: HttpErrorResponse) => {
-                    localStorage.clear()                    
+                    localStorage.clear()
                     return EMPTY;
                 }
             )
         ).subscribe(
-            response => {                
+            response => {
                 // set angular_navigation
                 if (response.angular_navigation)
                     localStorage.setItem('angular_navigation', JSON.stringify(response.angular_navigation))
