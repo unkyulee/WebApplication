@@ -86,13 +86,13 @@ export class DataTableListComponent implements OnInit, OnDestroy {
             }
         )
 
-        // 
+        //
         // observe size change
         this.isHandset$ = this.breakpointObserver
             .observe(['(min-width: 500px)'])
             .subscribe(
-                (state: BreakpointState) => {                    
-                    this.isHandset = !state.matches                    
+                (state: BreakpointState) => {
+                    this.isHandset = !state.matches
                 }
             );
 
@@ -226,13 +226,14 @@ export class DataTableListComponent implements OnInit, OnDestroy {
     // format to date on the column
     format(column, value, row) {
         // transform
-        if (column.transform) { 
+        if (column.transform) {
             try { value = eval(column.transform) } catch (e) { console.error(e) }
         }
 
         if (column.type == "date") {
-            try { value = moment(value).locale(column.lang).format(column.format) } catch(e) {console.error(e)}            
+            try { value = moment(value).locale(column.lang).format(column.format) } catch(e) {console.error(e)}
         }
+
         return value
     }
 
