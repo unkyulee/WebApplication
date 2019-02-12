@@ -27,8 +27,15 @@ class REST_DataSink {
   async incoming(data, count) {
 
     // produce the body content
-    if (this.property.transform)
-      eval(this.property.transform)
+    if (this.property.transform) {
+      try {
+        eval(this.property.transform)
+      } catch(e) {
+        console.log(e)
+        process.exit(1)
+      }
+
+    }
 
     // insert
     this.count += 1
@@ -65,9 +72,9 @@ class REST_DataSink {
 
       for (let data of this.buffer) {
         let tryagain = false
-        for(let i = 0; i < 3; i++) {          
+        for(let i = 0; i < 3; i++) {
           try {
-            let response = await rp(this.property.options)            
+            let response = await rp(this.property.options)
             tryagain = false
           } catch(e) {
             console.log('trying again ...')
