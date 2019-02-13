@@ -1,20 +1,19 @@
 <ng-container *ngIf="condition() && uiElement.inputType != 'hidden'; else Hidden">
+  <mat-form-field [appearance]="uiElement.appearance" fxFlex [ngStyle]="uiElement.style">
+    <mat-label>{{uiElement.label}}</mat-label>
+    <input matInput [evalValidate]="uiElement.errorCondition"
+      [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="value" [readonly]="uiElement.readonly"
+      (keyup.enter)="eval(uiElement['keyup.enter'])">
 
-    <mat-form-field fxFlex>
-        <mat-label>{{uiElement.label}}</mat-label>
-        <input matInput [evalValidate]="uiElement.errorCondition" [type]="uiElement.inputType ? uiElement.inputType : 'text'"
-            [(ngModel)]="value" [readonly]="uiElement.readonly">
+    <button type="button" matSuffix mat-icon-button (click)="click()" *ngIf="uiElement.icon">
+      <mat-icon [style.color]="uiElement.iconColor || 'green'">{{uiElement.icon}}</mat-icon>
+    </button>
 
-        <button type="button" matSuffix mat-icon-button (click)="click()" *ngIf="uiElement.icon">
-            <mat-icon [style.color]="uiElement.iconColor || 'green'">{{uiElement.icon}}</mat-icon>
-        </button>
-
-        <mat-hint *ngIf="uiElement.hint">{{uiElement.hint}}</mat-hint>
-        <mat-error>{{uiElement.errorMessage}}</mat-error>
-    </mat-form-field>
-
+    <mat-hint *ngIf="uiElement.hint">{{uiElement.hint}}</mat-hint>
+    <mat-error>{{uiElement.errorMessage}}</mat-error>
+  </mat-form-field>
 </ng-container>
 
 <ng-template #Hidden>
-    <input type="hidden" [value]="value" />
+  <input type="hidden" [value]="value" />
 </ng-template>

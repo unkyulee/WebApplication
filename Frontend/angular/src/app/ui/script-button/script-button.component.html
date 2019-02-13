@@ -5,7 +5,8 @@
             class="mb-24 no-print"
             [disabled]="button.disabled == true"
             (click)="click(button)"
-            [color]="button.color">
+            [color]="button.color"
+            [ngStyle]="button.style">
         {{button.label}}
     </button>
 

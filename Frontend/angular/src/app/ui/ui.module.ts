@@ -42,10 +42,13 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarColumnComponent } from './calendar/column/calendar-column.component';
 import { JsonEditorComponent } from './json-editor/json-editor.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { UILayoutWrapperComponent } from './ui-layout-wrapper/ui-layout-wrapper.component';
+import { TypographyComponent } from './typography/typography.component';
 
 @NgModule({
   declarations: [
-    EvalValidator
+    UILayoutWrapperComponent
+    , EvalValidator
     , JsonValidator
     , DataTableComponent
     , DataTableListComponent
@@ -70,11 +73,13 @@ import { PaginationComponent } from './pagination/pagination.component';
     , BigTextComponent
     , CalendarComponent
     , CalendarColumnComponent
-    , JsonEditorComponent    
+    , JsonEditorComponent
     , PaginationComponent
+    , TypographyComponent
   ]
   , exports: [
-    DataTableComponent
+    UILayoutWrapperComponent
+    , DataTableComponent
     , FilterGroupComponent
     , TextComponent
     , SelectionComponent
@@ -92,8 +97,9 @@ import { PaginationComponent } from './pagination/pagination.component';
     , ChartComponent
     , BigTextComponent
     , CalendarComponent
-    , JsonEditorComponent    
+    , JsonEditorComponent
     , PaginationComponent
+    , TypographyComponent
   ]
   , imports: [
     CommonModule

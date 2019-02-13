@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class EventService {
 
     // event
-    onEvent: BehaviorSubject<any> = new BehaviorSubject({})
+    onEvent: Subject<any> = new Subject()
 
     send(event) {
         setTimeout(() => this.onEvent.next(event), 100)

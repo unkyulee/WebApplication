@@ -1,5 +1,6 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { UserService } from "../../services/user.service";
+import { EventService } from "../../services/event.service";
 
 @Component({
     selector: 'text'
@@ -8,6 +9,7 @@ import { UserService } from "../../services/user.service";
 export class TextComponent {
     constructor(
         public user: UserService
+        , public event: EventService
     ) { }
 
     @Input() uiElement: any
@@ -68,6 +70,10 @@ export class TextComponent {
             try { eval(this.uiElement.click) }
             catch(e) { console.error(e) }
         }
+    }
+
+    eval(script) {
+        eval(script)
     }
 
 }
