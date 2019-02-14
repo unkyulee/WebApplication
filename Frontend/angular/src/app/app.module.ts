@@ -7,14 +7,14 @@ import 'hammerjs'; // to support touch gestures
 import { MaterialModule } from './core/material.module';
 
 // services
-import { AuthInterceptor } from './services/auth.interceptor';
+import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { EventService } from './services/event.service';
 import { ConfigService } from './services/config.service';
 import { NavService } from './services/nav.service';
 import { UserService } from './services/user.service';
 import { UIService } from './services/ui.service';
 import { RestService } from './services/rest.service';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './services/auth/auth.service';
 
 // modules
 import { LayoutModule } from './layout/layout.module';

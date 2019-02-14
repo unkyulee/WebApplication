@@ -1,135 +1,124 @@
-import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MatSidenav, MatDialog } from '@angular/material';
-import * as obj from 'object-path'
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ElementRef
+} from "@angular/core";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { Observable, Subscription } from "rxjs";
+import { map } from "rxjs/operators";
+import { MatSidenav, MatDialog } from "@angular/material";
+import * as obj from "object-path";
 
 // user import
-import { EventService } from '../services/event.service';
-import { ConfigService } from '../services/config.service';
-import { AuthService } from '../services/auth.service';
-import { UIService } from '../services/ui.service';
-import { UIComposerOverlayComponent } from './ui-composer-overlay/ui-composer-overlay.component';
+import { EventService } from "../services/event.service";
+import { ConfigService } from "../services/config.service";
+import { AuthService } from "../services/auth/auth.service";
+import { UIService } from "../services/ui.service";
+import { UIComposerOverlayComponent } from "./ui-composer-overlay/ui-composer-overlay.component";
 
 // cordova
-declare var navigator: any
+declare var navigator: any;
 
 @Component({
-    selector: 'layout',
-    templateUrl: './layout.component.html',
-    styleUrls: ['./layout.component.css']
+  selector: "layout",
+  templateUrl: "./layout.component.html",
+  styleUrls: ["./layout.component.css"]
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-    constructor(
-        private breakpointObserver: BreakpointObserver
-        , private dialog: MatDialog
-        , private event: EventService
-        , private config: ConfigService
-        , private auth: AuthService
-        , private ui: UIService
-        , private elementRef: ElementRef
-    ) {
-    }
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private dialog: MatDialog,
+    private event: EventService,
+    private config: ConfigService,
+    private auth: AuthService,
+    private ui: UIService,
+    private elementRef: ElementRef
+  ) {}
 
-    // detect window size changes
-    isHandset: boolean
-    isHandset$: Observable<boolean> = this.breakpointObserver
-        .observe([Breakpoints.Handset, Breakpoints.Tablet])
-        .pipe(
-            map(result => {
-                this.isHandset = result.matches
-                return result.matches
-            })
-        );
+  // detect window size changes
+  isHandset: boolean;
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe([Breakpoints.Handset, Breakpoints.Tablet])
+    .pipe(
+      map(result => {
+        this.isHandset = result.matches;
+        return result.matches;
+      })
+    );
 
-    // receive events
-    onEvent: Subscription
+  // receive events
+  onEvent: Subscription;
 
-    // authenticated status
-    isAuthenticated: boolean
+  // authenticated status
+  isAuthenticated: boolean;
 
-    // drawer
-    @ViewChild('drawer') drawer: MatSidenav
+  // drawer
+  @ViewChild("drawer") drawer: MatSidenav;
 
-    ngOnInit() {
+  async ngOnInit() {
+    // apply configuration
+    this.applyConfiguration(this.config.configuration);
 
-        // apply configuration
-        this.applyConfiguration(this.config.configuration)
+    // check if authenticated
+    this.isAuthenticated = await this.auth.isAuthenticated();
+  }
 
-        // check if authenticated
-        this.isAuthenticated = this.auth.isAuthenticated()
+  onBackButton(e) {
+    e.preventDefault();
+    if (confirm("Do you want to exit the app?")) navigator.app.exitApp();
+  }
 
-    }
+  ngAfterViewInit() {
+    // back button handler
+    this.elementRef.nativeElement.ownerDocument.addEventListener(
+      "backbutton",
+      this.onBackButton.bind(this)
+    );
 
-    onBackButton(e) {
-        e.preventDefault();
-        if(confirm('Do you want to exit the app?'))
-            navigator.app.exitApp()
-    }
+    // event handler
+    this.onEvent = this.event.onEvent.subscribe(event => {
+      if (event == "drawer-toggle") {
+        this.drawer.toggle();
+      } else if (event.name == "open-dialog") {
+        setTimeout(() => this.openDialog(event), 0);
+      } else if (event.name == "navigation-changed") {
+        if (this.isHandset == true && this.drawer) this.drawer.close();
 
-    ngAfterViewInit() {
-        // back button handler
-        this.elementRef.nativeElement.ownerDocument.addEventListener(
-            'backbutton'
-            , this.onBackButton.bind(this)
-        );
+        // scroll back to top when page changes
+        try {
+          document.getElementById("layout_main_content").scrollTop = 0;
+        } catch {}
+      } else if (event == "logout") {
+        this.isAuthenticated = false;
+      } else if (event == "authenticated") {
+        this.isAuthenticated = true;
+      }
+    });
+  }
 
-        // event handler
-        this.onEvent = this.event.onEvent.subscribe(
-            event => {
-                if (event == 'drawer-toggle') {
-                    this.drawer.toggle()
-                }
+  ngOnDestroy() {
+    this.onEvent.unsubscribe();
+  }
 
-                else if (event.name == 'open-dialog') {
-                    setTimeout(() => this.openDialog(event), 0);
-                }
+  navBackground: string;
+  applyConfiguration(configuration) {
+    this.navBackground = obj.get(configuration, "colors.secondary");
+  }
 
-                else if (event.name == 'navigation-changed') {
-                    if (this.isHandset == true && this.drawer) this.drawer.close()
+  openDialog(event) {
+    // get ui elements
+    let uiElement = obj.get(this.ui.uiElements, event.uiElementId);
+    uiElement = JSON.parse(JSON.stringify(uiElement));
 
-                    // scroll back to top when page changes
-                    try {
-                        document.getElementById("layout_main_content").scrollTop = 0
-                    } catch { }
-
-                }
-
-                else if (event == 'logout') {
-                    this.isAuthenticated = false
-                }
-                else if (event == 'authenticated') {
-                    this.isAuthenticated = true
-                }
-            }
-        )
-    }
-
-    ngOnDestroy() {
-        this.onEvent.unsubscribe()
-    }
-
-    navBackground: string
-    applyConfiguration(configuration) {
-        this.navBackground = obj.get(configuration, 'colors.secondary')
-    }
-
-    openDialog(event) {
-
-        // get ui elements
-        let uiElement = obj.get(this.ui.uiElements, event.uiElementId)
-        uiElement = JSON.parse(JSON.stringify(uiElement))
-
-        // open dialog
-        let dlg = this.dialog.open(UIComposerOverlayComponent, {
-            height: event.height
-            , width: event.width
-            , panelClass: 'full-width-dialog'
-        })
-        dlg.componentInstance.data = event.data ? event.data : {}
-        dlg.componentInstance.uiElement = uiElement
-
-    }
-
+    // open dialog
+    let dlg = this.dialog.open(UIComposerOverlayComponent, {
+      height: event.height,
+      width: event.width,
+      panelClass: "full-width-dialog"
+    });
+    dlg.componentInstance.data = event.data ? event.data : {};
+    dlg.componentInstance.uiElement = uiElement;
+  }
 }
