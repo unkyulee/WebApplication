@@ -12,7 +12,7 @@ import { NavService } from '../../../services/nav.service';
 import { RestService } from '../../../services/rest.service';
 import { EventService } from '../../../services/event.service';
 import { ConfigService } from '../../../services/config.service';
-import { UserService } from '../../../services/user.service';
+import { UserService } from '../../../services/user/user.service';
 
 
 @Component({

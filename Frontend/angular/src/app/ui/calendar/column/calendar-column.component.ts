@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { UIService } from '../../../services/ui.service';
 import { EventService } from '../../../services/event.service';
 import { RestService } from '../../../services/rest.service';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
     selector: 'calendar-column',

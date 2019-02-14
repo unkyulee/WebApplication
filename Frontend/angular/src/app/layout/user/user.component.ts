@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 // user imports
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../services/user/user.service';
 import { EventService } from '../../services/event.service';
 import { ConfigService } from 'src/app/services/config.service';
 

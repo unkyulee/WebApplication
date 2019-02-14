@@ -4,7 +4,7 @@ import * as moment from 'moment';
 
 // user imports
 import { EventService } from "../../services/event.service";
-import { UserService } from "../../services/user.service";
+import { UserService } from "../../services/user/user.service";
 
 @Component({
     selector: 'signature'

@@ -3,7 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
 // user imports
 import { RestService } from "../../services/rest.service";
 import { UIService } from "../../services/ui.service";
-import { UserService } from "src/app/services/user.service";
+import { UserService } from "src/app/services/user/user.service";
 
 @Component({
     selector: 'autocomplete'

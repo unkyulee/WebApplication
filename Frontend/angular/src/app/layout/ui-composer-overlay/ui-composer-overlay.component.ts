@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 
 // user imports
 import { EventService } from '../../services/event.service';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
     selector: 'ui-composer-overlay',

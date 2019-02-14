@@ -4,7 +4,7 @@ import * as obj from 'object-path'
 
 // user imports
 import { RestService } from "../../services/rest.service";
-import { UserService } from "src/app/services/user.service";
+import { UserService } from "src/app/services/user/user.service";
 
 @Component({
     selector: 'selection'

@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material';
 
 // user imports
 import { EventService } from "../../services/event.service";
-import { UserService } from "../../services/user.service";
+import { UserService } from "../../services/user/user.service";
 import { RestService } from "../../services/rest.service";
 import { ConfigService } from "src/app/services/config.service";
 

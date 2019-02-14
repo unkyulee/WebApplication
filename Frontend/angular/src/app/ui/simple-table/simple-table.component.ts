@@ -6,7 +6,7 @@ import { Subscription } from "rxjs";
 
 // user imports
 import { EventService } from "../../services/event.service";
-import { UserService } from "../../services/user.service";
+import { UserService } from "../../services/user/user.service";
 import { RestService } from "../../services/rest.service";
 import { UIService } from "../../services/ui.service";
 import { ConfigService } from "../../services/config.service";

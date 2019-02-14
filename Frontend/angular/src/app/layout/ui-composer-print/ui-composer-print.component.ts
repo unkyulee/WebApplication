@@ -8,7 +8,7 @@ import { SelectionComponent } from 'src/app/ui/selection/selection.component';
 import { SimpleTableComponent } from 'src/app/ui/simple-table/simple-table.component';
 import { RestService } from 'src/app/services/rest.service';
 import { ImageUploadComponent } from 'src/app/ui/img-upload/img-upload.component';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
     selector: 'ui-composer-print',

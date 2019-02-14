@@ -12,7 +12,7 @@ import { NavService } from '../../../services/nav.service';
 import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from '../../../services/config.service';
 import { EventService } from '../../../services/event.service';
-import { UserService } from '../../../services/user.service';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
     selector: 'data-table-detail',

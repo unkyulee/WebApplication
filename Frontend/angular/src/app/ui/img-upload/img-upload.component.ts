@@ -11,7 +11,7 @@ import { ConfigService } from "../../services/config.service";
 import { EventService } from "../../services/event.service";
 import { Subscription } from "rxjs";
 import { RestService } from "../../services/rest.service";
-import { UserService } from "src/app/services/user.service";
+import { UserService } from "src/app/services/user/user.service";
 
 @Component({
     selector: 'img-upload'

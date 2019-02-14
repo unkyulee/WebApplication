@@ -3,7 +3,7 @@ import { Router, NavigationEnd, NavigationStart } from "@angular/router";
 import { Location } from "@angular/common";
 
 // user imports
-import { UserService } from "./user.service";
+import { UserService } from "./user/user.service";
 import { EventService } from "./event.service";
 import { ConfigService } from "./config.service";
 

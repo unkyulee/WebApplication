@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import { NavService } from '../../services/nav.service';
 import { UIService } from '../../services/ui.service';
 import { EventService } from '../../services/event.service';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
     selector: 'calendar',

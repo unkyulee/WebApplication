@@ -6,7 +6,7 @@ import * as obj from "object-path";
 import { NavService } from "../../../services/nav.service";
 import { ConfigService } from "../../../services/config.service";
 import { EventService } from "../../../services/event.service";
-import { UserService } from "../../../services/user.service";
+import { UserService } from "../../../services/user/user.service";
 
 @Component({
   selector: "nav-vertical",
