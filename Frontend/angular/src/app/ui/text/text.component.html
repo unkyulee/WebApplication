@@ -3,7 +3,7 @@
     <mat-label>{{uiElement.label}}</mat-label>
     <input matInput [evalValidate]="uiElement.errorCondition"
       [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="value" [readonly]="uiElement.readonly"
-      (keyup.enter)="eval(uiElement['keyup.enter'])">
+      (keyup.enter)="eval(uiElement['keyupEnter'])">
 
     <button type="button" matSuffix mat-icon-button (click)="click()" *ngIf="uiElement.icon">
       <mat-icon [style.color]="uiElement.iconColor || 'green'">{{uiElement.icon}}</mat-icon>

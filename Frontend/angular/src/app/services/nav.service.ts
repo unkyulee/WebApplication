@@ -39,16 +39,14 @@ export class NavService {
 
                     // check any auto login parameters to be saved
                     let params = this.getParams()
-                    if (params['autologin']) {
-                        // save the value in the configuration
-                        this.config.configuration.autologin = true
-                        this.config.configuration.autologin_id = params['id']
-                        this.config.configuration.autologin_password = params['password']
 
-                        // remove parameters from the url
-                        this.setParam('autologin', null, false)
-                        this.setParam('id', null, false)
-                        this.setParam('password', null, false)
+                    // see if there is a navigation filter
+                    if(this.config.configuration.navigation && this.config.configuration.navigation.filter) {
+                        try {
+                            eval(this.config.configuration.navigation.filter)
+                        } catch(e) {
+                            console.error(e)
+                        }
                     }
 
                     // if it is at the root with no navigation assigned
