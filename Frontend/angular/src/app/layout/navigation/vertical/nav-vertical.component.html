@@ -1,30 +1,46 @@
 <div class="header">
-  <h2 align=center class="vertical-align: middle">{{ title }}</h2>
+  <h2 align="center" class="vertical-align: middle">{{ title }}</h2>
 </div>
 
 <user></user>
 
-<ng-container *ngFor="let item of navigation">
-
-  <a *ngIf="item.type == 'item'" class="nav-link" [routerLink]="[item.url]" (click)="click()" routerLinkActive="active"
-    [routerLinkActiveOptions]="{exact: item.exactMatch || false}" matRipple>
-    {{item.name}}
+<ng-container *ngFor="let item of nav.navigation">
+  <a
+    *ngIf="item.type == 'item'"
+    class="nav-link"
+    [routerLink]="[item.url]"
+    (click)="click()"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: item.exactMatch || false }"
+    matRipple
+  >
+    {{ item.name }}
   </a>
 
-  <mat-expansion-panel *ngIf="item.type == 'collapse'" [expanded]="isUrlInChildren(item, currUrl)" class="navigation">
+  <mat-expansion-panel
+    *ngIf="item.type == 'collapse'"
+    [expanded]="isUrlInChildren(item, currUrl)"
+    class="navigation"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title>
-        {{item.name}}
+        {{ item.name }}
       </mat-panel-title>
     </mat-expansion-panel-header>
 
     <ng-container *ngFor="let child of item.children">
-      <a class="nav-link" style="padding: 0 48px" [routerLink]="[child.url]" (click)="click()" routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: child.exactMatch || false}" matRipple>{{child.name}}</a>
+      <a
+        class="nav-link"
+        style="padding: 0 48px"
+        [routerLink]="[child.url]"
+        (click)="click()"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: child.exactMatch || false }"
+        matRipple
+        >{{ child.name }}</a
+      >
     </ng-container>
-
   </mat-expansion-panel>
 </ng-container>
 
-<div class="nav-footer">
-  </div>
+<div class="nav-footer"></div>

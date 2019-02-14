@@ -7,42 +7,6 @@ import { UserService } from "./user.service";
 import { EventService } from "./event.service";
 import { ConfigService } from "./config.service";
 
-declare var __CONFIG__: any;
-/*
-
-
-  // validate
-  // send the request to refresh the navigation info
-  validate() {
-    this.rest
-      .request(this.global.auth, null, "post", {
-        headers: new HttpHeaders({ Validate: "please" })
-      })
-      .pipe(
-        catchError(
-          // if authentication request fails
-          (err: HttpErrorResponse) => {
-            localStorage.clear();
-            return EMPTY;
-          }
-        )
-      )
-      .subscribe(response => {
-        // set angular_navigation
-        if (response.angular_navigation)
-          localStorage.setItem(
-            "angular_navigation",
-            JSON.stringify(response.angular_navigation)
-          );
-
-        if (response.angular_ui)
-          localStorage.setItem(
-            "angular_ui",
-            JSON.stringify(response.angular_ui)
-          );
-      });
-  }
-  */
 @Injectable()
 export class NavService {
   constructor(
@@ -121,12 +85,13 @@ export class NavService {
             navigation: this.currNav
           }
         });
+      } else if (e.name == "navigation-updated") {
+        // when server has new navigation
+        this.config.configuration.angular_navigation = e.data;
+        this.set();
       }
     });
   }
-
-  // save global config
-  global = __CONFIG__;
 
   // current navigation settings
   currUrl: string;
@@ -137,7 +102,7 @@ export class NavService {
 
   set() {
     try {
-      let navigation = this.global.angular_navigation;
+      let navigation = this.config.configuration.angular_navigation;
       if (!navigation) {
         // if index.js doesn't contain angular_navigation then get it from the cache
         navigation = JSON.parse(localStorage.getItem("angular_navigation"));

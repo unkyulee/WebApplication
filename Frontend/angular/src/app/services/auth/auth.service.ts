@@ -18,7 +18,7 @@ export class AuthService {
     let strategy = obj.get(this.config.configuration, "auth.authStrategy");
     switch (strategy) {
       default:
-        this.authStrategy = new DefaultAuthStrategy(rest, config);
+        this.authStrategy = new DefaultAuthStrategy(rest, config, event);
     }
 
     // listen to events
