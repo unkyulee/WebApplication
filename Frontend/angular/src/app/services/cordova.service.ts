@@ -1,32 +1,31 @@
 import { Injectable, NgZone } from '@angular/core';
-import { BehaviorSubject, fromEvent } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 
 function _window(): any {
-    // return the global native browser window object
-    return window;
+  // return the global native browser window object
+  return window;
 }
 
 @Injectable()
 export class CordovaService {
 
-    resume: BehaviorSubject<boolean>;
-    constructor(private zone: NgZone) {
-        
-        this.resume = new BehaviorSubject<boolean>(null);
-        fromEvent(document, 'resume').subscribe(event => {            
-            this.zone.run(() => {
-                this.onResume();
-            });
-        });
-    }
+  resume: Subject<boolean>;
+  constructor(private zone: NgZone) {
+    this.resume = new Subject<boolean>();
+    fromEvent(document, 'resume').subscribe(event => {
+      this.zone.run(() => {
+        this.onResume();
+      });
+    });
+  }
 
-    get cordova(): any {
-        return _window().cordova;
-    }
-    get onCordova(): Boolean {
-        return !!_window().cordova;
-    }
-    public onResume(): void {
-        this.resume.next(true);
-    }
+  get cordova(): any {
+    return _window().cordova;
+  }
+  get onCordova(): Boolean {
+    return !!_window().cordova;
+  }
+  public onResume(): void {
+    this.resume.next(true);
+  }
 }

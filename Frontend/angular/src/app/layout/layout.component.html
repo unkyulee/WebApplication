@@ -8,7 +8,8 @@
 
 <ng-container *ngIf="isAuthenticated">
     <mat-sidenav-container fullscreen>
-        <mat-sidenav #drawer fixedInViewport="true" class="mat-elevation-z2 no-print" [style.background]="navBackground"
+        <mat-sidenav #drawer fixedInViewport="true" class="mat-elevation-z2 no-print"
+            [ngStyle]="config.configuration.navigation?.style"
             [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
             [opened]="!(isHandset$ | async)">
             <nav-vertical></nav-vertical>

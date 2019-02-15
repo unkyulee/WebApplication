@@ -17,7 +17,6 @@ import { WorkflowComponent } from './workflow/workflow.component';
 import { NavVerticalComponent } from './navigation/vertical/nav-vertical.component';
 import { SplashComponent } from './splash/splash.component';
 import { LoginComponent } from './login/login.component';
-import { UserComponent } from './user/user.component';
 import { UIComposerOverlayComponent } from './ui-composer-overlay/ui-composer-overlay.component';
 import { UIComposerPrintComponent } from './ui-composer-print/ui-composer-print.component';
 
@@ -30,7 +29,6 @@ import { UIComposerPrintComponent } from './ui-composer-print/ui-composer-print.
     , ToolbarComponent
     , WorkflowComponent
     , NavVerticalComponent
-    , UserComponent
     , SplashComponent
     , LoginComponent
   ]

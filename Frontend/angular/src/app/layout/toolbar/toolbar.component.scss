@@ -1,21 +1,9 @@
-.mat-toolbar.mat-primary {
-    z-index: 1000;
-    position: sticky;
+.loading-bar {
+    position: absolute;
     top: 0;
-    display: flex;    
-    align-items: center;
-
-    .loading-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-    }
-
-    /deep/ .mat-form-field-label {
-        opacity: 0.5;
-    }
+    left: 0;
+    right: 0;
+    width: 100%;
 }
 
 .flex-spacer {

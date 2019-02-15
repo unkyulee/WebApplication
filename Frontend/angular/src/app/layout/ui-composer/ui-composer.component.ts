@@ -13,8 +13,7 @@ import { NavService } from '../../services/nav.service';
 
 @Component({
     selector: 'ui-composer',
-    templateUrl: './ui-composer.component.html',
-    styleUrls: ['./ui-composer.component.css']
+    templateUrl: './ui-composer.component.html'
 })
 export class UIComposerComponent implements OnInit, OnDestroy {
     constructor(
@@ -43,7 +42,7 @@ export class UIComposerComponent implements OnInit, OnDestroy {
     onEvent: Subscription
 
     ngOnInit() {
-        // 
+        //
         this.isHandset$.subscribe(r => this.isHandset = r)
 
         // get background color

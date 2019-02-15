@@ -31,7 +31,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
     private event: EventService,
-    private config: ConfigService,
+    public config: ConfigService,
     private auth: AuthService,
     private ui: UIService,
     private elementRef: ElementRef
@@ -58,9 +58,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   @ViewChild("drawer") drawer: MatSidenav;
 
   async ngOnInit() {
-    // apply configuration
-    this.applyConfiguration(this.config.configuration);
-
     // check if authenticated
     this.isAuthenticated = await this.auth.isAuthenticated();
   }
@@ -100,11 +97,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.onEvent.unsubscribe();
-  }
-
-  navBackground: string;
-  applyConfiguration(configuration) {
-    this.navBackground = obj.get(configuration, "colors.secondary");
   }
 
   openDialog(event) {

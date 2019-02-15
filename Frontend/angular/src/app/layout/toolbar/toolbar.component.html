@@ -1,4 +1,5 @@
-<mat-toolbar *ngIf="toolbarLocation != 'none'" class="mat-elevation-z2 no-print" [style.background]="toolbarBackground" color="primary">
+<mat-toolbar *ngIf="toolbarLocation != 'none'" class="mat-elevation-z2 no-print"
+    [ngStyle]="config.configuration.toolbar?.style">
     <mat-progress-bar *ngIf="showLoadingBar" class="loading-bar" color="accent" mode="indeterminate"></mat-progress-bar>
 
     <ng-container *ngIf="!showSearch">
@@ -31,14 +32,12 @@
         </button>
 
         <mat-form-field fxFlex=100 floatLabel="never">
-            <input matInput autofocus (keyup)="search()" [(ngModel)]="keyword" placeholder="Search ..." >
+            <input matInput autofocus (keyup)="search()" [(ngModel)]="keyword" placeholder="Search ...">
         </mat-form-field>
 
         <button type="button" mat-icon-button (click)="showSearch = false; keyword = ''; search();">
             <mat-icon>close</mat-icon>
         </button>
     </div>
-
-
 
 </mat-toolbar>

@@ -21,13 +21,10 @@ export class NavVerticalComponent {
     public config: ConfigService
   ) {}
 
-  title: string;
+  data: any;
   currUrl: string;
   onEvent: Subscription;
   ngOnInit() {
-    // load title
-    this.title = obj.get(this.config.configuration, "name");
-
     // detect configuration changes
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event.name == "navigation-changed")

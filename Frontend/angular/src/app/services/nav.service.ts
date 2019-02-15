@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Router, NavigationEnd, NavigationStart } from "@angular/router";
+import { Router, NavigationEnd } from "@angular/router";
 import { Location } from "@angular/common";
 
 // user imports
