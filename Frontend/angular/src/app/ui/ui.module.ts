@@ -37,7 +37,6 @@ import { SignatureComponent } from './signature/signature.component';
 import { ImageUploadComponent } from './img-upload/img-upload.component';
 import { FormListComponent } from './form-list/form-list.component';
 import { ChartComponent } from './chart/chart.component';
-import { BigTextComponent } from './bigtext/bigtext.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { CalendarColumnComponent } from './calendar/column/calendar-column.component';
 import { JsonEditorComponent } from './json-editor/json-editor.component';
@@ -70,7 +69,6 @@ import { TypographyComponent } from './typography/typography.component';
     , ImageUploadComponent
     , FormListComponent
     , ChartComponent
-    , BigTextComponent
     , CalendarComponent
     , CalendarColumnComponent
     , JsonEditorComponent
@@ -95,7 +93,6 @@ import { TypographyComponent } from './typography/typography.component';
     , ImageUploadComponent
     , FormListComponent
     , ChartComponent
-    , BigTextComponent
     , CalendarComponent
     , JsonEditorComponent
     , PaginationComponent

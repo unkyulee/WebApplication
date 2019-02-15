@@ -18,13 +18,6 @@ body { margin: 0; font-family: 'Roboto', sans-serif; }
   outline: 1px solid slategrey;
 }
 
-@media print
-{
-  .no-print, .no-print * {
-    display: none !important;
-  }
-}
-
 .full-width-dialog {
   max-width: 95vw !important;
 }

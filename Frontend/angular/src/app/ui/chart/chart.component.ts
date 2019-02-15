@@ -28,9 +28,7 @@ export class ChartComponent implements OnInit, OnDestroy {
 
     // configuration of the ui element
     @Input() uiElement: any;
-
-    // data
-    data: any
+    @Input() data: any;
 
     // header color
     headerColor: string

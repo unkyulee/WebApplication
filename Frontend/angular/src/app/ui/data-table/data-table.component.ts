@@ -16,6 +16,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     // configuration of the ui element
     @Input() uiElement: any;
+    @Input() data: any;
 
     // find which module to load
     isSubNavigation = false;

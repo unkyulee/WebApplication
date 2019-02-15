@@ -1,14 +1,19 @@
-<!-- Filters -->
-<mat-expansion-panel *ngIf="uiElement.filters" class="filter-group" expanded="true">
-    <mat-expansion-panel-header>
-        Filter
-    </mat-expansion-panel-header>
+<div [ngStyle]="uiElement.style ? uiElement.style : config.configuration.filter?.style">
+  <button type="button" mat-icon-button (click)="uiElement.showFilter = !uiElement.showFilter"
+    [matTooltip]="uiElement.label">
+    <mat-icon>filter_list</mat-icon>
+  </button>
+  <ng-container *ngFor="let ui of uiElement.screen">
+    <ui-layout-wrapper [uiElement]="ui" [data]="data" [ngStyle]="ui.layoutStyle"></ui-layout-wrapper>
+  </ng-container>
+</div>
 
-    <div fxLayoutAlign="center center" fxLayout="column" fxLayout.gt-xs="row wrap" fxLayoutAlign.gt-xs="space-between center">
-        <ng-container *ngFor="let filter of uiElement.filters">
-            <filter [uiElement]="filter"></filter>
-        </ng-container>
-    </div>
-
-</mat-expansion-panel>
-<!-- / Filters -->
+<!-- filter lists -->
+<div [hidden]="!uiElement.showFilter" style="background: white; padding: 8px;" class="mat-elevation-z1">
+  <div fxLayoutAlign="center center" fxLayout="column" fxLayout.gt-xs="row wrap"
+    fxLayoutAlign.gt-xs="space-between center">
+    <ng-container *ngFor="let filter of uiElement.filters">
+      <filter [uiElement]="filter" [(data)]="data"></filter>
+    </ng-container>
+  </div>
+</div>

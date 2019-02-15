@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core'
 import { Router } from '@angular/router';
 import { Subscription, EMPTY, Observable } from 'rxjs';
-import * as obj from 'object-path'
 import { MatSnackBar } from '@angular/material';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import * as obj from 'object-path'
 
 // user imports
 import { UIService } from '../../../services/ui.service';
@@ -183,7 +183,7 @@ export class DataTableDetailComponent implements OnInit, OnDestroy {
                     name: "Delete",
                     icon: "delete",
                     action: () => { this.delete() }
-                }                
+                }
             ]
 
         }

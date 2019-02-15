@@ -26,6 +26,19 @@ export class TypographyComponent {
       v = this.uiElement.text
     }
 
+    // if null then assign default
+    if (!v) {
+      v = this.uiElement.default
+      try { v = eval(this.uiElement.default) }
+      catch (e) { console.error(e) }
+    }
+
+    // if format is specified
+    if(this.uiElement.format) {
+      try { v = eval(this.uiElement.format) }
+      catch (e) { console.error(e) }
+    }
+
     return v
   }
 }

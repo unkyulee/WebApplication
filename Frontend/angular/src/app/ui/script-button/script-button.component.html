@@ -1,13 +1,17 @@
-<ng-container *ngFor="let button of uiElement.buttons">
+<button *ngIf="condition(uiElement) && (!uiElement.buttonType || uiElement.buttonType == 'mat-raised-button')"
+  mat-raised-button [disabled]="uiElement.disabled == true" (click)="click()" [color]="uiElement.color"
+  [ngStyle]="uiElement.style">
+  <mat-icon *ngIf="uiElement.icon">{{uiElement.icon}}</mat-icon>
+  {{uiElement.label}}
+</button>
 
-    <button mat-raised-button
-            *ngIf="condition(button)"
-            class="mb-24 no-print"
-            [disabled]="button.disabled == true"
-            (click)="click(button)"
-            [color]="button.color"
-            [ngStyle]="button.style">
-        {{button.label}}
-    </button>
+<button *ngIf="condition(uiElement) && uiElement.buttonType == 'mat-button'" mat-button
+  [disabled]="uiElement.disabled == true" (click)="click()" [color]="uiElement.color" [ngStyle]="uiElement.style">
+  {{uiElement.label}}
+</button>
 
-</ng-container>
+<button *ngIf="condition(uiElement) && uiElement.buttonType == 'mat-icon-button'" mat-icon-button
+  [disabled]="uiElement.disabled == true" [matTooltip]="uiElement.label" (click)="click()" [color]="uiElement.color"
+  [ngStyle]="uiElement.style">
+  <mat-icon *ngIf="uiElement.icon">{{uiElement.icon}}</mat-icon>
+</button>

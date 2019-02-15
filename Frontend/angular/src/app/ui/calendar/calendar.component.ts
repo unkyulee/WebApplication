@@ -27,6 +27,7 @@ export class CalendarComponent {
 
     // configuration of the ui element
     @Input() uiElement: any;
+    @Input() data: any;
 
     // date
     lang: any
@@ -37,7 +38,6 @@ export class CalendarComponent {
     dateRange: any[] = []
 
     // download data
-    data: any
     length: any
 
     // event subscription

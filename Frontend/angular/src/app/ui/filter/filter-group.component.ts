@@ -1,15 +1,15 @@
 import { Component, Input } from '@angular/core'
-import { NavService } from '../../services/nav.service';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
     selector: 'filter-group',
-    templateUrl: './filter-group.component.html',
-    styleUrls: ['./filter-group.component.scss']
+    templateUrl: './filter-group.component.html'
 })
 export class FilterGroupComponent {
     constructor(
-        private nav: NavService
+        public config: ConfigService
     ) { }
 
     @Input() uiElement: any;
+    @Input() data: any;
 }

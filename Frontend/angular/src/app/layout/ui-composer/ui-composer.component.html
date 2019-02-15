@@ -1,11 +1,5 @@
-<div class="fullscreen" [ngStyle]="config.configuration.content?.style">
-    <div fxLayout="row wrap" fxLayoutAlign="center stretch">
-        <ng-container *ngFor="let ui of uiElements">
-            <data-table *ngIf="ui.type == 'data-table'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></data-table>
-            <chart *ngIf="ui.type == 'chart'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></chart>
-            <bigtext *ngIf="ui.type == 'bigtext'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></bigtext>
-            <filter-group *ngIf="ui.type == 'filter-group'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></filter-group>
-            <calendar *ngIf="ui.type == 'calendar'" [fxFlex]="isHandset ? 100 : ui.width ? ui.width : 100" [uiElement]="ui"></calendar>
-        </ng-container>
-    </div>
+<div [ngStyle]="config.configuration.content?.style">
+  <ng-container *ngFor="let ui of uiElements">
+    <ui-layout-wrapper [uiElement]="ui" [(data)]="data" [ngStyle]="ui.layoutStyle"></ui-layout-wrapper>
+  </ng-container>
 </div>

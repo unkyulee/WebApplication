@@ -30,7 +30,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/moment/min/moment.min.js"
+              "node_modules/moment/min/moment.min.js",
+              "node_modules/moment/locale/it.js"
             ]
           },
           "configurations": {

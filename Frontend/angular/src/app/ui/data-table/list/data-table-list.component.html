@@ -2,8 +2,6 @@
   <mat-spinner class="loading"></mat-spinner>
 </ng-container>
 <ng-container *ngIf="isReady && !isHandset">
-  <filter-group *ngIf="uiElement.list.filters" [uiElement]="uiElement.list"></filter-group>
-
   <ngx-datatable class="material" [rows]="data" [externalSorting]="true" (sort)="onSort($event)" [columnMode]="'force'"
     [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [reorderable]="true"
     [selectionType]="disableCheckbox != true ? 'checkbox' : ''" [externalPaging]="true" [groupRowsBy]="groupBy"
@@ -34,7 +32,6 @@
 </ng-container>
 
 <ng-container *ngIf="isReady && isHandset">
-  <filter-group *ngIf="uiElement.list.filters" [uiElement]="uiElement.list"></filter-group>
   <div class="container m-4">
     <mat-card *ngFor="let row of data" class="m-4 item" [fxFlex]="uiElement.width ? uiElement.width : 100"
       [style.background]="uiElement.background">
