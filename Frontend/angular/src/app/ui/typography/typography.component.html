@@ -1,2 +1,5 @@
-<div *ngIf="value" [ngStyle]="uiElement.style" [innerHtml]="value">
-</div>
+<div
+  *ngIf="value"
+  [ngStyle]="uiElement.style"
+  [innerHtml]="value | safe: 'html'"
+></div>

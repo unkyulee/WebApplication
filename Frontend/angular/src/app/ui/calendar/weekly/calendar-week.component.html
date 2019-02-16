@@ -1,0 +1,45 @@
+<mat-list>
+  <ng-container *ngFor="let date of dates">
+    <h3
+      mat-subheader
+      [ngStyle]="
+        uiElement.header?.style
+          ? uiElement.header?.style
+          : config.configuration.calendar?.week?.header?.style
+      "
+      [innerHTML]="
+        format(
+          uiElement.headerDate
+            ? uiElement.headerDate
+            : config.configuration.calendar?.week?.header?.date,
+          date
+        ) | safe: 'html'
+      "
+    ></h3>
+    <mat-divider></mat-divider>
+    <div fxLayout="">
+      <ng-container *ngFor="let item of itemsOfTheDay(date)">
+        <div
+          [ngClass]="
+            uiElement.item?.class
+              ? uiElement.item?.class
+              : config.configuration.calendar?.week?.item?.class
+          "
+          [ngStyle]="
+            uiElement.item?.style
+              ? uiElement.item?.style
+              : config.configuration.calendar?.week?.item?.style
+          "
+          (click)="click(item)"
+        >
+          <ng-container *ngFor="let screen of uiElement.weekly?.screen">
+            <ui-layout-wrapper
+              [uiElement]="screen"
+              [data]="item"
+            ></ui-layout-wrapper>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </ng-container>
+</mat-list>

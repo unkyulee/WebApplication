@@ -1,5 +1,8 @@
-<div class="container">
-    <calendar-column class="item" *ngFor="let day of dateRange" [uiElement]="uiElement"
-        [day]="day" [data]="data">
-    </calendar-column>
-</div>
+<calendar-week
+  *ngIf="
+    !this.uiElement.calendarType || this.uiElement.calendarType == 'weekly'
+  "
+  [uiElement]="uiElement"
+  [data]="data"
+>
+</calendar-week>
