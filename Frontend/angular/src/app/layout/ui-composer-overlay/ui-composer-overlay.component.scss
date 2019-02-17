@@ -1,4 +1,14 @@
+.mat-toolbar {
+  margin: -24px;
+  margin-bottom: 0;
+  width: auto;
+}
 
-.mat-white-bg {
-    background: white;
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  width: auto !important;
+}
+
+.spacer {
+  flex: 1 1 auto;
 }

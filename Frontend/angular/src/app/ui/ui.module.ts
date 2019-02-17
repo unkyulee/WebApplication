@@ -7,6 +7,7 @@ import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { SignaturePadModule } from "angular2-signaturepad";
 import { Ng2ImgMaxModule } from "ng2-img-max";
 import { FileUploadModule } from "ng2-file-upload";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -19,7 +20,6 @@ import { FilterComponent } from "./filter/filter.component";
 import { InputComponent } from "./input/input.component";
 import { SelectionComponent } from "./selection/selection.component";
 import { AutoCompleteComponent } from "./autocomplete/autocomplete.component";
-import { DateComponent } from "./date/date.component";
 import { FileUploadComponent } from "./file-upload/file-upload.component";
 import { ButtonComponent } from "./button/button.component";
 import { CardListComponent } from "./card-list/card-list.component";
@@ -46,7 +46,6 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
     InputComponent,
     SelectionComponent,
     AutoCompleteComponent,
-    DateComponent,
     FileUploadComponent,
     ButtonComponent,
     CardListComponent,
@@ -65,7 +64,6 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
     InputComponent,
     SelectionComponent,
     AutoCompleteComponent,
-    DateComponent,
     FileUploadComponent,
     ButtonComponent,
     CardListComponent,
@@ -83,7 +81,9 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
     NgxDatatableModule,
     SignaturePadModule,
     Ng2ImgMaxModule,
-    FileUploadModule
+    FileUploadModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ]
 })
 export class UIModule {}

@@ -1,5 +1,7 @@
 <mat-form-field
   *ngIf="condition()"
+  [ngStyle]="uiElement.style"
+  [ngClass]="uiElement.class"
   [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
 >
   <mat-label>{{ uiElement.label }}</mat-label>

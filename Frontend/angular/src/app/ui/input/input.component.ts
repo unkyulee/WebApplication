@@ -1,6 +1,9 @@
 import { Component, Input } from "@angular/core";
+import { DateTimeAdapter } from "ng-pick-datetime";
+
 import { UserService } from "../../services/user/user.service";
 import { EventService } from "../../services/event.service";
+import { ConfigService } from "src/app/services/config.service";
 
 @Component({
   selector: "input-component",
@@ -8,10 +11,23 @@ import { EventService } from "../../services/event.service";
   styleUrls: ["./input.component.scss"]
 })
 export class InputComponent {
-  constructor(public user: UserService, public event: EventService) {}
+  constructor(
+    public user: UserService,
+    public event: EventService,
+    private dateTimeAdapter: DateTimeAdapter<any>,
+    private config: ConfigService
+  ) {}
 
   @Input() uiElement: any;
   @Input() data: any;
+
+  ngOnInit() {
+    this.dateTimeAdapter.setLocale(
+      this.uiElement.locale
+        ? this.uiElement.locale
+        : this.config.configuration.locale_long
+    );
+  }
 
   get value() {
     let v = null;
@@ -79,5 +95,15 @@ export class InputComponent {
 
   eval(script) {
     eval(script);
+  }
+
+  changed(e) {
+    if (this.uiElement.changed) {
+      try {
+        eval(this.uiElement.changed);
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }
 }

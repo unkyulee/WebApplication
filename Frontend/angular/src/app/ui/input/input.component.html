@@ -1,7 +1,11 @@
 <ng-container *ngIf="condition()">
   <!-- material input -->
   <mat-form-field
-    *ngIf="!inputType || inputType == 'text'"
+    *ngIf="
+      !uiElement.inputType ||
+      uiElement.inputType == 'text' ||
+      uiElement.inputType == 'number'
+    "
     [appearance]="uiElement.appearance"
     [ngStyle]="uiElement.style"
     [ngClass]="uiElement.class"
@@ -13,6 +17,7 @@
       [evalValidate]="uiElement.errorCondition"
       [type]="uiElement.inputType ? uiElement.inputType : 'text'"
       [(ngModel)]="value"
+      [required]="uiElement.required"
       [readonly]="uiElement.readonly"
       (keyup.enter)="eval(uiElement['keyupEnter'])"
       (input)="eval(uiElement['input'])"
@@ -35,16 +40,58 @@
   </mat-form-field>
 
   <!-- hidden -->
-  <input *ngIf="inputType == 'hidden'" type="hidden" [value]="value" />
+  <input
+    *ngIf="uiElement.inputType == 'hidden'"
+    type="hidden"
+    [value]="value"
+  />
 
   <!-- textarea -->
-  <textarea
-    *ngIf="inputType == 'textarea'"
-    matInput
-    [(ngModel)]="value"
-    [placeholder]="uiElement.label"
-    [readonly]="uiElement.readonly"
-    matTextareaAutosize
-    [matAutosizeMinRows]="uiElement.rows"
-  ></textarea>
+  <mat-form-field
+    *ngIf="uiElement.inputType == 'textarea'"
+    [appearance]="uiElement.appearance"
+    [ngStyle]="uiElement.style"
+    [ngClass]="uiElement.class"
+    [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
+  >
+    <textarea
+      matInput
+      [(ngModel)]="value"
+      [placeholder]="uiElement.label"
+      [readonly]="uiElement.readonly"
+      matTextareaAutosize
+      [matAutosizeMinRows]="uiElement.rows"
+    ></textarea>
+  </mat-form-field>
+
+  <!-- datetime  -->
+  <mat-form-field
+    *ngIf="uiElement.inputType == 'date'"
+    [appearance]="uiElement.appearance"
+    [ngStyle]="uiElement.style"
+    [ngClass]="uiElement.class"
+    [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
+  >
+    <mat-label>{{ uiElement.label }}</mat-label>
+    <input
+      [owlDateTime]="dt1"
+      [owlDateTimeTrigger]="dt1"
+      placeholder="Date Time"
+      matInput
+      [evalValidate]="uiElement.errorCondition"
+      [(ngModel)]="value"
+      [placeholder]="uiElement.label"
+      (dateTimeChange)="changed($event)"
+      [selectMode]="uiElement.selectMode ? uiElement.selectMode : 'single'"
+      onfocus="blur()"
+    />
+    <owl-date-time
+      #dt1
+      [disabled]="uiElement.readonly == true ? true : false"
+      [pickerType]="uiElement.pickerType ? uiElement.pickerType : 'both'"
+      [pickerMode]="uiElement.pickerMode ? uiElement.pickerMode : 'dialog'"
+    ></owl-date-time>
+    <mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>
+    <mat-error>{{ uiElement.errorMessage }}</mat-error>
+  </mat-form-field>
 </ng-container>

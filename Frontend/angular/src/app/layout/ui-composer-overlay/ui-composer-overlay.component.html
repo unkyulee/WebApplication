@@ -1,12 +1,15 @@
-<h1 matDialogTitle>{{ uiElement.name }}</h1>
-<div mat-dialog-content style="max-height: 70vh !important;">
-  <form class="mat-white-bg" fxFlex>
-    <ng-container *ngFor="let ui of uiElements">
-      <ui-layout-wrapper
-        [uiElement]="ui"
-        [(data)]="data"
-        [ngStyle]="ui.layoutStyle"
-      ></ui-layout-wrapper>
-    </ng-container>
-  </form>
+<mat-toolbar [ngStyle]="config.configuration.toolbar?.style">
+  <button type="button" mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <span>{{ uiElement.name }}</span>
+</mat-toolbar>
+<div [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
+  <ng-container *ngFor="let ui of uiElement.screen">
+    <ui-layout-wrapper
+      [uiElement]="ui"
+      [(data)]="data"
+      [ngStyle]="ui.layoutStyle"
+    ></ui-layout-wrapper>
+  </ng-container>
 </div>

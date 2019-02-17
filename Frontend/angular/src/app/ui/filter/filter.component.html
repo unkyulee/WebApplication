@@ -1,4 +1,18 @@
-<autocomplete *ngIf="! uiElement.type || uiElement.type == 'autocomplete' " [uiElement]="uiElement" [(data)]="data"
-    (change)="change($event)"></autocomplete>
-<selection *ngIf="uiElement.type == 'selection' " [uiElement]="uiElement" [(data)]="data" (change)="change($event)"></selection>
-<date *ngIf="uiElement.type == 'date' " [uiElement]="uiElement" [(data)]="data" (change)="change($event)"></date>
+<autocomplete
+  *ngIf="!uiElement.type || uiElement.type == 'autocomplete'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+  (change)="change($event)"
+></autocomplete>
+<selection
+  *ngIf="uiElement.type == 'selection'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+  (change)="change($event)"
+></selection>
+<input-component
+  *ngIf="uiElement.type == 'date'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+  (change)="change($event)"
+></input-component>

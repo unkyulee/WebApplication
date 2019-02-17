@@ -77,7 +77,11 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.eventSubscription = this.event.onEvent.subscribe(event => {
       if (event && event.name == "refresh") {
         setTimeout(() => this.requestDownload(), 0);
-      } else if (event && event.name == "search") {
+      } else if (
+        event &&
+        event.name == "search" &&
+        event.key == this.uiElement.key
+      ) {
         setTimeout(() => {
           // set page to 1
           this.page = 1;
@@ -129,16 +133,20 @@ export class DataTableComponent implements OnInit, OnDestroy {
     // save the pagination passed by data-table
     this.setPage(pageInfo.offset + 1, this.size);
 
+    // parameters
+    let params = this.nav.getParams();
+    delete params["_id"];
+
     // download data through rest web services
-    let src = this.ui.find(["list", "src"], this.uiElement);
+    let src = this.ui.find(["src"], this.uiElement);
     try {
       src = eval(src);
     } catch (e) {}
-    let method = this.ui.find(["list", "method"], this.uiElement);
+    let method = this.ui.find(["method"], this.uiElement);
 
     // look at query params and pass it on to the request
-    let data = this.ui.find(["list", "data"], this.uiElement, {});
-    data = Object.assign({}, data, this.nav.getParams());
+    let data = this.ui.find(["data"], this.uiElement, {});
+    data = Object.assign({}, data, params);
 
     // sorting options
     if (this.sort) {
@@ -157,7 +165,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.event.send("splash-hide");
 
     // map data from response
-    let transform = this.uiElement.transform || "response";
+    let transform = this.uiElement.transform || "response.data";
     try {
       this.rows = eval(transform);
     } catch (e) {}
@@ -167,15 +175,15 @@ export class DataTableComponent implements OnInit, OnDestroy {
     try {
       this.total = parseInt(eval(transformTotal));
     } catch (e) {}
-    if (!this.total) this.total = this.rows.length;
+    if (this.total != 0 && !this.total) this.total = this.rows.length;
   }
 
   // -------------------------------------------------------
 
-  click(row, column) {
-    if (column.click) {
+  click(row, click) {
+    if (click) {
       try {
-        eval(column.click);
+        eval(click);
       } catch (e) {
         console.error(e);
       }

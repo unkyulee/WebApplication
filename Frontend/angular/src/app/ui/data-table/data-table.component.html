@@ -1,4 +1,5 @@
 <ngx-datatable
+  *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
   [ngClass]="
     uiElement.class ? uiElement.class : config.configuration.dataTable?.class
   "
@@ -63,8 +64,34 @@
       <div
         [ngStyle]="column?.style"
         [innerHTML]="format(value, column.transform, row) | safe: 'html'"
-        (click)="click(row, column)"
+        (click)="click(row, column.click)"
       ></div>
     </ng-template>
   </ngx-datatable-column>
 </ngx-datatable>
+
+<!-- Card List -->
+<ng-container *ngIf="uiElement.tableType == 'card'">
+  <mat-card
+    *ngFor="let row of rows"
+    [ngStyle]="uiElement.style"
+    [ngClass]="uiElement.class"
+    (click)="click(row, uiElement.click)"
+  >
+    <mat-card-content>
+      <div *ngFor="let column of uiElement.columns">
+        <ui-layout-wrapper
+          [uiElement]="column"
+          [data]="row"
+        ></ui-layout-wrapper>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <pagination
+    *ngIf="total >= size"
+    [total]="total"
+    [page]="page"
+    [size]="size"
+  ></pagination>
+</ng-container>

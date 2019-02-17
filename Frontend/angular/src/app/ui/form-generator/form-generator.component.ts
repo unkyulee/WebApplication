@@ -129,13 +129,13 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     this.event.send("splash-show");
 
     // retrieve REST information
-    let src = this.ui.find(["detail", "src"], this.uiElement);
+    let src = this.ui.find(["src"], this.uiElement);
     try {
       src = eval(src);
     } catch (e) {}
-    let method = this.ui.find(["detail", "method"], this.uiElement);
+    let method = this.ui.find(["method"], this.uiElement);
 
-    let data = this.ui.find(["detail", "data"], this.uiElement);
+    let data = this.ui.find(["data"], this.uiElement);
     try {
       data = eval(data);
     } catch (e) {}
@@ -148,10 +148,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
           // hide the splash
           this.event.send("splash-hide");
           //
-          let errorAction = this.ui.find(
-            ["detail", "errorAction"],
-            this.uiElement
-          );
+          let errorAction = this.ui.find(["errorAction"], this.uiElement);
           if (errorAction) {
             try {
               eval(errorAction);
@@ -171,7 +168,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     this.event.send("splash-hide");
 
     // go through data transformation
-    let transform = this.ui.find(["detail", "transform"], this.uiElement);
+    let transform = this.ui.find(["transform"], this.uiElement);
     if (transform) {
       try {
         this.data = eval(transform);
