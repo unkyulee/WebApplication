@@ -28,11 +28,11 @@
   [uiElement]="uiElement"
   [(data)]="data"
 ></img-upload>
-<script-button
+<button-component
   *ngIf="uiElement.type == 'button'"
   [uiElement]="uiElement"
   [(data)]="data"
-></script-button>
+></button-component>
 <card-list
   *ngIf="uiElement.type == 'card-list'"
   [uiElement]="uiElement"
@@ -53,6 +53,11 @@
   [uiElement]="uiElement"
   [(data)]="data"
 ></data-table>
+<form-generator
+  *ngIf="uiElement.type == 'form-generator'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></form-generator>
 <filter-group
   *ngIf="uiElement.type == 'filter-group'"
   [uiElement]="uiElement"

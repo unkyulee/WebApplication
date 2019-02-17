@@ -102,16 +102,11 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   // Get Pagination information
   getPage() {
-    // if pagination information is given from the URL then take it
-    let param = this.nav.getParams();
-
     // default page is 1
-    this.page = parseInt(param["page"]) || 1;
+    if (!this.page) this.page = 1;
 
     // if the page size is determined in the url then use that otherwise use the one from the uiElement
-    this.size =
-      parseInt(param["size"]) ||
-      this.ui.find(["list", "size"], this.uiElement, 10);
+    if (!this.size) this.size = this.ui.find(["size"], this.uiElement, 10);
   }
 
   // setting page will set the values to the URL
@@ -119,10 +114,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
     // save pagination
     this.page = page;
     this.size = size;
-
-    // set pagination information on url
-    this.nav.setParam("page", this.page);
-    this.nav.setParam("size", this.size);
   }
 
   requestDownload(pageInfo?) {

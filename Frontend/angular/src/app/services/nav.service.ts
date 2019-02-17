@@ -139,6 +139,14 @@ export class NavService {
   find(url: string) {
     if (!this.navigation) return null;
 
+    // split by ?
+    url = url.split("?")[0];
+    // remove trailing slash
+    if (url.substr(-1) === "/") {
+      url = url.substr(0, url.length - 1);
+    }
+
+    // find item
     let firstNavItem = null;
     for (const navItem of this.navigation) {
       // save first navigation item
@@ -152,12 +160,12 @@ export class NavService {
           if (firstNavItem == null && child.type == "item")
             firstNavItem = child;
 
-          if (child.url && url.startsWith(child.url)) return child;
+          if (child.url && url == child.url) return child;
         }
       }
 
       // return found item
-      if (url.startsWith(navItem.url)) return navItem;
+      if (url == navItem.url) return navItem;
     }
 
     return firstNavItem;

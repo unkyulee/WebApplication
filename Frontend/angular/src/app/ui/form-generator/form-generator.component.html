@@ -1,0 +1,23 @@
+<div
+  *ngFor="let ui of uiElement.screen"
+  [ngStyle]="
+    uiElement.style
+      ? uiElement.style
+      : config.configuration.formGenerator?.style
+  "
+>
+  <!-- Form Group Header -->
+  <div
+    [ngStyle]="
+      uiElement.header?.style
+        ? uiElement.header?.style
+        : config.configuration.formGenerator?.header?.style
+    "
+  >
+    <ng-container *ngFor="let header of ui?.header">
+      <ui-layout-wrapper [uiElement]="header" [data]="data"></ui-layout-wrapper>
+    </ng-container>
+  </div>
+
+  <!-- Form Items -->
+</div>

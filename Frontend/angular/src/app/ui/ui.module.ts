@@ -21,7 +21,7 @@ import { SelectionComponent } from "./selection/selection.component";
 import { AutoCompleteComponent } from "./autocomplete/autocomplete.component";
 import { DateComponent } from "./date/date.component";
 import { FileUploadComponent } from "./file-upload/file-upload.component";
-import { ScriptButtonComponent } from "./script-button/script-button.component";
+import { ButtonComponent } from "./button/button.component";
 import { CardListComponent } from "./card-list/card-list.component";
 import { SignatureComponent } from "./signature/signature.component";
 import { ImageUploadComponent } from "./img-upload/img-upload.component";
@@ -31,6 +31,7 @@ import { PaginationComponent } from "./pagination/pagination.component";
 import { UILayoutWrapperComponent } from "./ui-layout-wrapper/ui-layout-wrapper.component";
 import { TypographyComponent } from "./typography/typography.component";
 import { SafePipe } from "../core/safe.pipe";
+import { FormGeneratorComponent } from "./form-generator/form-generator.component";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { SafePipe } from "../core/safe.pipe";
     EvalValidator,
     JsonValidator,
     DataTableComponent,
+    FormGeneratorComponent,
     FilterGroupComponent,
     FilterComponent,
     InputComponent,
@@ -46,7 +48,7 @@ import { SafePipe } from "../core/safe.pipe";
     AutoCompleteComponent,
     DateComponent,
     FileUploadComponent,
-    ScriptButtonComponent,
+    ButtonComponent,
     CardListComponent,
     SignatureComponent,
     ImageUploadComponent,
@@ -58,13 +60,14 @@ import { SafePipe } from "../core/safe.pipe";
   exports: [
     UILayoutWrapperComponent,
     DataTableComponent,
+    FormGeneratorComponent,
     FilterGroupComponent,
     InputComponent,
     SelectionComponent,
     AutoCompleteComponent,
     DateComponent,
     FileUploadComponent,
-    ScriptButtonComponent,
+    ButtonComponent,
     CardListComponent,
     SignatureComponent,
     ImageUploadComponent,
