@@ -1,8 +1,10 @@
-<mat-form-field *ngIf="condition()">
+<mat-form-field
+  *ngIf="condition()"
+  [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
+>
   <mat-label>{{ uiElement.label }}</mat-label>
   <mat-select
     #select
-    [placeholder]="uiElement.label"
     [evalValidate]="uiElement.errorCondition"
     [multiple]="uiElement.multiple"
     [(ngModel)]="value"

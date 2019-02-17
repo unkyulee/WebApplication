@@ -1,19 +1,42 @@
-<div [ngStyle]="uiElement.style ? uiElement.style : config.configuration.filter?.style">
-  <button type="button" mat-icon-button (click)="uiElement.showFilter = !uiElement.showFilter"
-    [matTooltip]="uiElement.label">
+<div
+  [ngStyle]="
+    uiElement.style
+      ? uiElement.style
+      : config.configuration.filter?.header?.style
+  "
+>
+  <button
+    type="button"
+    mat-icon-button
+    (click)="uiElement.showFilter = !uiElement.showFilter"
+    [matTooltip]="uiElement.label"
+  >
     <mat-icon>filter_list</mat-icon>
   </button>
   <ng-container *ngFor="let ui of uiElement.screen">
-    <ui-layout-wrapper [uiElement]="ui" [data]="data" [ngStyle]="ui.layoutStyle"></ui-layout-wrapper>
+    <ui-layout-wrapper
+      [uiElement]="ui"
+      [data]="data"
+      [ngStyle]="ui.layoutStyle"
+    ></ui-layout-wrapper>
   </ng-container>
 </div>
 
 <!-- filter lists -->
-<div [hidden]="!uiElement.showFilter" style="background: white; padding: 8px;" class="mat-elevation-z1">
-  <div fxLayoutAlign="center center" fxLayout="column" fxLayout.gt-xs="row wrap"
-    fxLayoutAlign.gt-xs="space-between center">
-    <ng-container *ngFor="let filter of uiElement.filters">
-      <filter [uiElement]="filter" [(data)]="data"></filter>
-    </ng-container>
-  </div>
+<div
+  [style.display]="uiElement.showFilter ? 'flex' : 'none'"
+  [ngStyle]="
+    uiElement.style
+      ? uiElement.style
+      : config.configuration.filter?.container?.style
+  "
+  [ngClass]="
+    uiElement.class
+      ? uiElement.class
+      : config.configuration.filter?.container?.class
+  "
+>
+  <ng-container *ngFor="let filter of uiElement.filters">
+    <filter [uiElement]="filter" [(data)]="data"></filter>
+  </ng-container>
 </div>

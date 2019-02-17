@@ -1,43 +1,37 @@
-<mat-toolbar class="mat-elevation-z1 no-print"
-    [ngStyle]="config.configuration.toolbar?.style">
-    <mat-progress-bar *ngIf="showLoadingBar" class="loading-bar" color="accent" mode="indeterminate"></mat-progress-bar>
+<mat-toolbar
+  class="mat-elevation-z1 no-print"
+  [ngStyle]="config.configuration.toolbar?.style"
+>
+  <mat-progress-bar
+    *ngIf="showLoadingBar"
+    class="loading-bar"
+    color="accent"
+    mode="indeterminate"
+  ></mat-progress-bar>
 
-    <ng-container *ngIf="!showSearch">
-        <button type="button" mat-icon-button (click)="isTopNav ? drawerToggle() : back()">
-            <mat-icon *ngIf="isTopNav">menu</mat-icon>
-            <mat-icon *ngIf="!isTopNav">arrow_back</mat-icon>
-        </button>
-        <span class="title" [matTooltip]="title">{{title}}</span>
-        <div class="flex-spacer"></div>
+  <button
+    type="button"
+    mat-icon-button
+    (click)="isTopNav ? drawerToggle() : back()"
+  >
+    <mat-icon *ngIf="isTopNav">menu</mat-icon>
+    <mat-icon *ngIf="!isTopNav">arrow_back</mat-icon>
+  </button>
+  <span class="title" [matTooltip]="title">{{ title }}</span>
+  <div class="flex-spacer"></div>
 
-        <button *ngIf="action" mat-icon-button [matTooltip]="action.name" (click)="action.action()">
-            <mat-icon>{{action.icon}}</mat-icon>
-        </button>
+  <button
+    *ngIf="action"
+    mat-icon-button
+    [matTooltip]="action.name"
+    (click)="action.action()"
+  >
+    <mat-icon>{{ action.icon }}</mat-icon>
+  </button>
 
-        <div class="" fxLayout="row" fxLayoutAlign="start center">
-            <button mat-icon-button (click)="refresh()" matTooltip="Refresh">
-                <mat-icon class="icon">refresh</mat-icon>
-            </button>
-        </div>
-
-        <button type="button" mat-icon-button (click)="showSearch = true; keyword = ''; search();">
-            <mat-icon>search</mat-icon>
-        </button>
-
-    </ng-container>
-
-    <div *ngIf="showSearch" class="search" fxLayout="row" fxLayoutAlign="stretch center">
-        <button type="button" mat-icon-button>
-            <mat-icon>search</mat-icon>
-        </button>
-
-        <mat-form-field fxFlex=100 floatLabel="never">
-            <input matInput autofocus (keyup)="search()" [(ngModel)]="keyword" placeholder="Search ...">
-        </mat-form-field>
-
-        <button type="button" mat-icon-button (click)="showSearch = false; keyword = ''; search();">
-            <mat-icon>close</mat-icon>
-        </button>
-    </div>
-
+  <div class="" fxLayout="row" fxLayoutAlign="start center">
+    <button mat-icon-button (click)="refresh()" matTooltip="Refresh">
+      <mat-icon class="icon">refresh</mat-icon>
+    </button>
+  </div>
 </mat-toolbar>

@@ -1,8 +1,8 @@
-<text
-  *ngIf="!uiElement.type || uiElement.type == 'text'"
+<input-component
+  *ngIf="!uiElement.type || uiElement.type == 'input'"
   [uiElement]="uiElement"
   [(data)]="data"
-></text>
+></input-component>
 <selection
   *ngIf="uiElement.type == 'selection'"
   [uiElement]="uiElement"

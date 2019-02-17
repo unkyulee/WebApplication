@@ -16,7 +16,7 @@ import { JsonValidator } from "../core/json.validator";
 import { DataTableComponent } from "./data-table/data-table.component";
 import { FilterGroupComponent } from "./filter/filter-group.component";
 import { FilterComponent } from "./filter/filter.component";
-import { TextComponent } from "./text/text.component";
+import { InputComponent } from "./input/input.component";
 import { SelectionComponent } from "./selection/selection.component";
 import { AutoCompleteComponent } from "./autocomplete/autocomplete.component";
 import { DateComponent } from "./date/date.component";
@@ -25,7 +25,6 @@ import { ScriptButtonComponent } from "./script-button/script-button.component";
 import { CardListComponent } from "./card-list/card-list.component";
 import { SignatureComponent } from "./signature/signature.component";
 import { ImageUploadComponent } from "./img-upload/img-upload.component";
-import { FormListComponent } from "./form-list/form-list.component";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { CalendarColumnComponent } from "./calendar/weekly/calendar-week.component";
 import { PaginationComponent } from "./pagination/pagination.component";
@@ -42,7 +41,7 @@ import { SafePipe } from "../core/safe.pipe";
     DataTableComponent,
     FilterGroupComponent,
     FilterComponent,
-    TextComponent,
+    InputComponent,
     SelectionComponent,
     AutoCompleteComponent,
     DateComponent,
@@ -51,7 +50,6 @@ import { SafePipe } from "../core/safe.pipe";
     CardListComponent,
     SignatureComponent,
     ImageUploadComponent,
-    FormListComponent,
     CalendarComponent,
     CalendarColumnComponent,
     PaginationComponent,
@@ -61,7 +59,7 @@ import { SafePipe } from "../core/safe.pipe";
     UILayoutWrapperComponent,
     DataTableComponent,
     FilterGroupComponent,
-    TextComponent,
+    InputComponent,
     SelectionComponent,
     AutoCompleteComponent,
     DateComponent,
@@ -70,7 +68,6 @@ import { SafePipe } from "../core/safe.pipe";
     CardListComponent,
     SignatureComponent,
     ImageUploadComponent,
-    FormListComponent,
     CalendarComponent,
     PaginationComponent,
     TypographyComponent

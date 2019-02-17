@@ -1,9 +1,11 @@
-<mat-form-field>
+<mat-form-field
+  [ngStyle]="uiElement.style"
+  [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
+>
   <mat-label>{{ uiElement.label }}</mat-label>
   <input
     matInput
     [evalValidate]="uiElement.errorCondition"
-    [placeholder]="uiElement.label"
     [(ngModel)]="value"
     [matAutocomplete]="auto"
   />

@@ -1,19 +1,15 @@
 .loading-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
 }
 
 .flex-spacer {
-    flex-grow: 1;
-}
-
-.search {
-    width: 100%;
+  flex-grow: 1;
 }
 
 .title {
-    overflow: hidden;
+  overflow: hidden;
 }

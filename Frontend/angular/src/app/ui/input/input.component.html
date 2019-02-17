@@ -1,8 +1,11 @@
 <ng-container *ngIf="condition()">
+  <!-- material input -->
   <mat-form-field
     *ngIf="!inputType || inputType == 'text'"
     [appearance]="uiElement.appearance"
     [ngStyle]="uiElement.style"
+    [ngClass]="uiElement.class"
+    [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
   >
     <mat-label>{{ uiElement.label }}</mat-label>
     <input
@@ -12,6 +15,7 @@
       [(ngModel)]="value"
       [readonly]="uiElement.readonly"
       (keyup.enter)="eval(uiElement['keyupEnter'])"
+      (input)="eval(uiElement['input'])"
     />
 
     <button
@@ -30,8 +34,10 @@
     <mat-error>{{ uiElement.errorMessage }}</mat-error>
   </mat-form-field>
 
+  <!-- hidden -->
   <input *ngIf="inputType == 'hidden'" type="hidden" [value]="value" />
 
+  <!-- textarea -->
   <textarea
     *ngIf="inputType == 'textarea'"
     matInput
