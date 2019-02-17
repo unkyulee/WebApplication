@@ -1,52 +1,212 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
-import { NavService } from '../../services/nav.service';
-import { EventService } from '../../services/event.service';
+import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
+import * as moment from "moment";
+
+// user imports
+import { UIService } from "../../services/ui.service";
+import { NavService } from "../../services/nav.service";
+import { RestService } from "../../services/rest.service";
+import { EventService } from "../../services/event.service";
+import { UserService } from "../../services/user/user.service";
+import { ConfigService } from "src/app/services/config.service";
 
 @Component({
-    selector: 'data-table',
-    templateUrl: './data-table.component.html',
-    styleUrls: ['./data-table.component.scss']
+  selector: "data-table",
+  templateUrl: "./data-table.component.html",
+  styleUrls: ["./data-table.component.scss"]
 })
-
 export class DataTableComponent implements OnInit, OnDestroy {
-    constructor(
-        private nav: NavService
-        , private event: EventService
-    ) { }
+  constructor(
+    public config: ConfigService,
+    private rest: RestService,
+    public ui: UIService,
+    public router: Router,
+    private nav: NavService,
+    private event: EventService,
+    public user: UserService // used by user script
+  ) {}
 
-    // configuration of the ui element
-    @Input() uiElement: any;
-    @Input() data: any;
+  // configuration of the ui element
+  @Input() uiElement: any;
+  @Input() data: any;
 
-    // find which module to load
-    isSubNavigation = false;
-    action: string;
-    ngOnInit() {
-        this.isSubNavigation = false;
+  get rows() {
+    let v = null;
 
-        // depending on the path what is displayed will be decided
-        let url = this.nav.currUrl.replace(this.nav.currNav.url, '')
-        let paths = url.split("?")[0].split("/")
+    if (this.data && this.uiElement.key) {
+      // if null then assign default
+      if (!this.data[this.uiElement.key]) {
+        let def = this.uiElement.default;
+        try {
+          def = eval(this.uiElement.default);
+        } catch (e) {}
+        this.data[this.uiElement.key] = def;
+      }
 
-        if (url.split("?")[0] == '') // default action
-        {
-            if (this.uiElement.list) this.action = "list"
-            else this.action = "detail"
-        }
-
-        else if (paths.length > 1) {
-            this.action = paths[1]
-            this.isSubNavigation = true
-        }
+      // set value
+      v = this.data[this.uiElement.key];
     }
 
-    ngAfterViewInit() {
-        if(this.isSubNavigation)
-            // set as sub-navigation
-            this.event.send('sub-navigation')
+    return v;
+  }
+
+  set rows(v: any) {
+    if (this.data && this.uiElement.key) {
+      this.data[this.uiElement.key] = v;
+    }
+  }
+
+  // configuration values
+  columns: any[];
+  total: number = 0;
+  sort: any;
+  groupBy: string;
+
+  // event subscription
+  eventSubscription: Subscription;
+
+  ngOnInit() {
+    // check if there is any page configuration available
+    this.getPage();
+
+    // download data through rest web services
+    this.requestDownload();
+
+    // event handler
+    this.eventSubscription = this.event.onEvent.subscribe(event => {
+      if (event && event.name == "refresh") {
+        setTimeout(() => this.requestDownload(), 0);
+      } else if (event && event.name == "search") {
+        setTimeout(() => {
+          // set page to 1
+          this.page = 1;
+          this.nav.setParam("page", this.page);
+
+          // reload the page
+          this.nav.setParam("_search", event.data);
+
+          this.requestDownload();
+        }, 0);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.eventSubscription.unsubscribe();
+  }
+
+  // pagination information
+  page: number = 0;
+  size: number = 0;
+
+  // Get Pagination information
+  getPage() {
+    // if pagination information is given from the URL then take it
+    let param = this.nav.getParams();
+
+    // default page is 1
+    this.page = parseInt(param["page"]) || 1;
+
+    // if the page size is determined in the url then use that otherwise use the one from the uiElement
+    this.size =
+      parseInt(param["size"]) ||
+      this.ui.find(["list", "size"], this.uiElement, 10);
+  }
+
+  // setting page will set the values to the URL
+  setPage(page, size) {
+    // save pagination
+    this.page = page;
+    this.size = size;
+
+    // set pagination information on url
+    this.nav.setParam("page", this.page);
+    this.nav.setParam("size", this.size);
+  }
+
+  requestDownload(pageInfo?) {
+    // show splash
+    this.event.send("splash-show");
+
+    // get page
+    this.getPage();
+
+    // set pagination
+    if (!pageInfo) pageInfo = { offset: this.page - 1 };
+
+    // save the pagination passed by data-table
+    this.setPage(pageInfo.offset + 1, this.size);
+
+    // download data through rest web services
+    let src = this.ui.find(["list", "src"], this.uiElement);
+    try {
+      src = eval(src);
+    } catch (e) {}
+    let method = this.ui.find(["list", "method"], this.uiElement);
+
+    // look at query params and pass it on to the request
+    let data = this.ui.find(["list", "data"], this.uiElement, {});
+    data = Object.assign({}, data, this.nav.getParams());
+
+    // sorting options
+    if (this.sort) {
+      if (this.sort.dir == "asc") data["_sort"] = this.sort.prop;
+      else if (this.sort.dir == "desc") data["_sort_desc"] = this.sort.prop;
     }
 
-    ngOnDestroy() {
-    }
+    // send REST request
+    this.rest
+      .request(src, data, method)
+      .subscribe(response => this.responseDownload(response));
+  }
 
+  responseDownload(response) {
+    // hide splash
+    this.event.send("splash-hide");
+
+    // map data from response
+    let transform = this.uiElement.transform || "response";
+    try {
+      this.rows = eval(transform);
+    } catch (e) {}
+
+    // get total records
+    let transformTotal = this.uiElement.transformTotal || "response.total";
+    try {
+      this.total = parseInt(eval(transformTotal));
+    } catch (e) {}
+    if (!this.total) this.total = this.rows.length;
+  }
+
+  // -------------------------------------------------------
+
+  click(row, column) {
+    if (column.click) {
+      try {
+        eval(column.click);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
+  // format to date on the column
+  format(value, transform?, row?) {
+    // transform
+    if (transform) {
+      try {
+        value = eval(transform);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return value;
+  }
+
+  onSort(event: any) {
+    // event.sorts.dir / prop
+    this.sort = event.sorts[0];
+    if (this.sort) this.requestDownload();
+  }
 }

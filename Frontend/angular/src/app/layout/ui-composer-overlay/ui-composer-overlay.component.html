@@ -1,20 +1,12 @@
-<h1 matDialogTitle>{{uiElement.name}}</h1>
+<h1 matDialogTitle>{{ uiElement.name }}</h1>
 <div mat-dialog-content style="max-height: 70vh !important;">
-    <form class="mat-white-bg" fxFlex>
-        <ng-container *ngFor='let property of uiElement.screen'>
-            <text *ngIf="! property.type || property.type == 'text'" [uiElement]="property" [(data)]="data"></text>
-            <text-area *ngIf="property.type == 'text-area'" [uiElement]="property" [(data)]="data"></text-area>
-            <selection *ngIf="property.type == 'selection'" [uiElement]="property" [(data)]="data"></selection>
-            <autocomplete *ngIf="property.type == 'autocomplete'" [uiElement]="property" [(data)]="data"></autocomplete>
-            <date *ngIf="property.type == 'date'" [uiElement]="property" [(data)]="data"></date>
-            <simple-table *ngIf="property.type == 'simple-table'" [uiElement]="property" [(data)]="data"></simple-table>
-            <file-upload *ngIf="property.type == 'file-upload'" [uiElement]="property" [(data)]="data"></file-upload>
-            <img-upload *ngIf="property.type == 'img-upload'" [uiElement]="property" [(data)]="data"></img-upload>
-            <script-button *ngIf="property.type == 'script-button'" [uiElement]="property" [(data)]="data"></script-button>
-            <form-list *ngIf="property.type == 'form-list'" [uiElement]="property" [(data)]="data"></form-list>
-            <signature *ngIf="property.type == 'signature'" [uiElement]="property" [(data)]="data"></signature>
-        </ng-container>
-
-    </form>
-
+  <form class="mat-white-bg" fxFlex>
+    <ng-container *ngFor="let ui of uiElements">
+      <ui-layout-wrapper
+        [uiElement]="ui"
+        [(data)]="data"
+        [ngStyle]="ui.layoutStyle"
+      ></ui-layout-wrapper>
+    </ng-container>
+  </form>
 </div>

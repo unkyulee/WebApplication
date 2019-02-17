@@ -1,55 +1,80 @@
 <!-- Upload Button -->
 <div class="mb-24" *ngIf="condition()">
-    <button mat-raised-button color="warn" (click)="takePhoto(imgFileInput)">
-        {{ uiElement.buttonLabel ? uiElement.buttonLabel : "Take a photo" }}
-    </button>
-    <input hidden type="file" #imgFileInput (change)="change($event)" multiple capture="camera" accept="image/*" />
+  <button mat-raised-button color="warn" (click)="takePhoto(imgFileInput)">
+    {{ uiElement.buttonLabel ? uiElement.buttonLabel : "Take a photo" }}
+  </button>
+  <input
+    hidden
+    type="file"
+    #imgFileInput
+    (change)="change($event)"
+    multiple
+    capture="camera"
+    accept="image/*"
+  />
 </div>
 
 <!-- Saved Files -->
-<div class="container mb-24" ngxDroppable [model]="value">
-    <mat-card *ngFor="let item of value" class="item" ngxDraggable [model]="item" [style.background]="uiElement.background">
-        <mat-card-content>
-            <a href="{{rest.host()}}{{item?.url}}{{extra(item, user, config)}}" target="_blank">
-                <img src="{{rest.host()}}{{item?.url}}{{extra(item, user, config)}}" class="image" id="{{item?.filename}}" />
-            </a>
-            <button *ngIf="uiElement.urlDelete" mat-icon-button (click)="delete(item)" class="overlay">
-                <mat-icon class="delete">delete</mat-icon>
-            </button>
-        </mat-card-content>
-    </mat-card>
+<div class="container mb-24">
+  <mat-card
+    *ngFor="let item of value"
+    class="item"
+    [style.background]="uiElement.background"
+  >
+    <mat-card-content>
+      <a
+        href="{{ rest.host() }}{{ item?.url }}{{ extra(item, user, config) }}"
+        target="_blank"
+      >
+        <img
+          src="{{ rest.host() }}{{ item?.url }}{{ extra(item, user, config) }}"
+          class="image"
+          id="{{ item?.filename }}"
+        />
+      </a>
+      <button
+        *ngIf="uiElement.urlDelete"
+        mat-icon-button
+        (click)="delete(item)"
+        class="overlay"
+      >
+        <mat-icon class="delete">delete</mat-icon>
+      </button>
+    </mat-card-content>
+  </mat-card>
 </div>
 
 <!-- Upload Queue -->
 <ng-container *ngIf="uploader?.queue?.length">
-    <p class="mt-24 p-12" style="background-color: aliceblue">Upload Queue</p>
-    <mat-table #tableUpload [dataSource]="uploader.queue" class="mb-24">
+  <p class="mt-24 p-12" style="background-color: aliceblue">Upload Queue</p>
+  <mat-table #tableUpload [dataSource]="uploader.queue" class="mb-24">
+    <ng-container matColumnDef="Name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row?.file?.name }}</mat-cell>
+    </ng-container>
 
-        <ng-container matColumnDef="Name">
-            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ row?.file?.name }}</mat-cell>
-        </ng-container>
+    <ng-container matColumnDef="Size">
+      <mat-header-cell *matHeaderCellDef>Size</mat-header-cell>
+      <mat-cell *matCellDef="let row"
+        >{{ row?.file?.size / 1024 | number: ".2" }} KB</mat-cell
+      >
+    </ng-container>
 
-        <ng-container matColumnDef="Size">
-            <mat-header-cell *matHeaderCellDef>Size</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ row?.file?.size/1024 | number:'.2' }} KB</mat-cell>
-        </ng-container>
+    <ng-container matColumnDef="Progress">
+      <mat-header-cell *matHeaderCellDef>Progress</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.progress }}</mat-cell>
+    </ng-container>
 
-        <ng-container matColumnDef="Progress">
-            <mat-header-cell *matHeaderCellDef>Progress</mat-header-cell>
-            <mat-cell *matCellDef="let row">{{ row.progress }}</mat-cell>
-        </ng-container>
+    <ng-container matColumnDef="Status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let item">
+        <span *ngIf="item.isSuccess">OK</span>
+        <span *ngIf="item.isCancel">X</span>
+        <span *ngIf="item.isError">Error</span>
+      </mat-cell>
+    </ng-container>
 
-        <ng-container matColumnDef="Status">
-            <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-            <mat-cell *matCellDef="let item">
-                <span *ngIf="item.isSuccess">OK</span>
-                <span *ngIf="item.isCancel">X</span>
-                <span *ngIf="item.isError">Error</span>
-            </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
 </ng-container>

@@ -1,19 +1,66 @@
-<text *ngIf="! uiElement.type || uiElement.type == 'text'" [uiElement]="uiElement" [(data)]="data"></text>
-<text-area *ngIf="uiElement.type == 'text-area'" [uiElement]="uiElement" [(data)]="data"></text-area>
-<json-editor *ngIf="uiElement.type == 'json-editor'" [uiElement]="uiElement" [(data)]="data"></json-editor>
-<checkbox *ngIf="uiElement.type == 'checkbox'" [uiElement]="uiElement" [(data)]="data"></checkbox>
-<selection *ngIf="uiElement.type == 'selection'" [uiElement]="uiElement" [(data)]="data"></selection>
-<autocomplete *ngIf="uiElement.type == 'autocomplete'" [uiElement]="uiElement" [(data)]="data"></autocomplete>
-<date *ngIf="uiElement.type == 'date'" [uiElement]="uiElement" [(data)]="data"></date>
-<simple-table *ngIf="uiElement.type == 'simple-table'" [uiElement]="uiElement" [(data)]="data"></simple-table>
-<file-upload *ngIf="uiElement.type == 'file-upload'" [uiElement]="uiElement" [(data)]="data"></file-upload>
-<img-upload *ngIf="uiElement.type == 'img-upload'" [uiElement]="uiElement" [(data)]="data"></img-upload>
-<script-button *ngIf="uiElement.type == 'button'" [uiElement]="uiElement" [(data)]="data"></script-button>
-<card-list *ngIf="uiElement.type == 'card-list'" [uiElement]="uiElement" [(data)]="data"></card-list>
-<signature *ngIf="uiElement.type == 'signature'" [uiElement]="uiElement" [(data)]="data"></signature>
-<typography *ngIf="uiElement.type == 'typography'" [uiElement]="uiElement" [(data)]="data"></typography>
-<data-table *ngIf="uiElement.type == 'data-table'" [uiElement]="uiElement" [(data)]="data"></data-table>
-<chart *ngIf="uiElement.type == 'chart'" [uiElement]="uiElement" [(data)]="data"></chart>
-<filter-group *ngIf="uiElement.type == 'filter-group'" [uiElement]="uiElement" [(data)]="data"></filter-group>
-<calendar *ngIf="uiElement.type == 'calendar'" [uiElement]="uiElement" [(data)]="data"></calendar>
-<div *ngIf="uiElement.type == 'div'" [ngStyle]="uiElement.style" ></div>
+<text
+  *ngIf="!uiElement.type || uiElement.type == 'text'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></text>
+<selection
+  *ngIf="uiElement.type == 'selection'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></selection>
+<autocomplete
+  *ngIf="uiElement.type == 'autocomplete'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></autocomplete>
+<date
+  *ngIf="uiElement.type == 'date'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></date>
+<file-upload
+  *ngIf="uiElement.type == 'file-upload'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></file-upload>
+<img-upload
+  *ngIf="uiElement.type == 'img-upload'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></img-upload>
+<script-button
+  *ngIf="uiElement.type == 'button'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></script-button>
+<card-list
+  *ngIf="uiElement.type == 'card-list'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></card-list>
+<signature
+  *ngIf="uiElement.type == 'signature'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></signature>
+<typography
+  *ngIf="uiElement.type == 'typography'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></typography>
+<data-table
+  *ngIf="uiElement.type == 'data-table'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></data-table>
+<filter-group
+  *ngIf="uiElement.type == 'filter-group'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></filter-group>
+<calendar
+  *ngIf="uiElement.type == 'calendar'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></calendar>
+<div *ngIf="uiElement.type == 'div'" [ngStyle]="uiElement.style"></div>

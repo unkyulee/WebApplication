@@ -1,19 +1,44 @@
-<ng-container *ngIf="condition() && uiElement.inputType != 'hidden'; else Hidden">
-  <mat-form-field [appearance]="uiElement.appearance" fxFlex [ngStyle]="uiElement.style">
-    <mat-label>{{uiElement.label}}</mat-label>
-    <input matInput [evalValidate]="uiElement.errorCondition"
-      [type]="uiElement.inputType ? uiElement.inputType : 'text'" [(ngModel)]="value" [readonly]="uiElement.readonly"
-      (keyup.enter)="eval(uiElement['keyupEnter'])">
+<ng-container *ngIf="condition()">
+  <mat-form-field
+    *ngIf="!inputType || inputType == 'text'"
+    [appearance]="uiElement.appearance"
+    [ngStyle]="uiElement.style"
+  >
+    <mat-label>{{ uiElement.label }}</mat-label>
+    <input
+      matInput
+      [evalValidate]="uiElement.errorCondition"
+      [type]="uiElement.inputType ? uiElement.inputType : 'text'"
+      [(ngModel)]="value"
+      [readonly]="uiElement.readonly"
+      (keyup.enter)="eval(uiElement['keyupEnter'])"
+    />
 
-    <button type="button" matSuffix mat-icon-button (click)="click()" *ngIf="uiElement.icon">
-      <mat-icon [style.color]="uiElement.iconColor || 'green'">{{uiElement.icon}}</mat-icon>
+    <button
+      type="button"
+      matSuffix
+      mat-icon-button
+      (click)="click()"
+      *ngIf="uiElement.icon"
+    >
+      <mat-icon [style.color]="uiElement.iconColor || 'green'">{{
+        uiElement.icon
+      }}</mat-icon>
     </button>
 
-    <mat-hint *ngIf="uiElement.hint">{{uiElement.hint}}</mat-hint>
-    <mat-error>{{uiElement.errorMessage}}</mat-error>
+    <mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>
+    <mat-error>{{ uiElement.errorMessage }}</mat-error>
   </mat-form-field>
-</ng-container>
 
-<ng-template #Hidden>
-  <input type="hidden" [value]="value" />
-</ng-template>
+  <input *ngIf="inputType == 'hidden'" type="hidden" [value]="value" />
+
+  <textarea
+    *ngIf="inputType == 'textarea'"
+    matInput
+    [(ngModel)]="value"
+    [placeholder]="uiElement.label"
+    [readonly]="uiElement.readonly"
+    matTextareaAutosize
+    [matAutosizeMinRows]="uiElement.rows"
+  ></textarea>
+</ng-container>

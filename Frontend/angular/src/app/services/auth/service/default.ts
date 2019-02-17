@@ -126,9 +126,7 @@ export class DefaultAuthStrategy {
     if (response.angular_navigation) {
       // check if angular_navigation differs from cached
       let cached = localStorage.getItem("angular_navigation");
-      if (
-        JSON.stringify(response.angular_navigation) != JSON.stringify(cached)
-      ) {
+      if (JSON.stringify(response.angular_navigation) != cached) {
         // if the navigation is updated then send refresh signal to nav service
         this.event.send({
           name: "navigation-updated",
@@ -145,7 +143,7 @@ export class DefaultAuthStrategy {
     if (response.angular_ui) {
       // check if angular_ui differs from cached
       let cached = localStorage.getItem("angular_ui");
-      if (JSON.stringify(response.angular_ui) != JSON.stringify(cached)) {
+      if (JSON.stringify(response.angular_ui) != cached) {
         // if the navigation is updated then send refresh signal to nav service
         this.event.send({
           name: "ui-updated",
