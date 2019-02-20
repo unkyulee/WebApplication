@@ -8,7 +8,7 @@ import {
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
-import { MatSidenav, MatDialog } from "@angular/material";
+import { MatSidenav, MatDialog, MatBottomSheet } from "@angular/material";
 import * as obj from "object-path";
 
 // user import
@@ -17,6 +17,7 @@ import { ConfigService } from "../services/config.service";
 import { AuthService } from "../services/auth/auth.service";
 import { UIService } from "../services/ui.service";
 import { UIComposerOverlayComponent } from "./ui-composer-overlay/ui-composer-overlay.component";
+import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
 
 // cordova
 declare var navigator: any;
@@ -30,6 +31,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
+    private bottomSheet: MatBottomSheet,
     private event: EventService,
     public config: ConfigService,
     private auth: AuthService,
@@ -80,6 +82,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.drawer.toggle();
       } else if (event.name == "open-dialog") {
         setTimeout(() => this.openDialog(event), 0);
+      } else if (event.name == "open-sheet") {
+        setTimeout(() => this.openSheet(event), 0);
       } else if (event.name == "navigation-changed") {
         if (this.isHandset == true && this.drawer) this.drawer.close();
 
@@ -112,5 +116,15 @@ export class LayoutComponent implements OnInit, OnDestroy {
     });
     dlg.componentInstance.data = event.data ? event.data : {};
     dlg.componentInstance.uiElement = uiElement;
+  }
+
+  openSheet(event) {
+    // get ui elements
+    let uiElement = obj.get(this.ui.uiElements, event.uiElementId);
+    uiElement = JSON.parse(JSON.stringify(uiElement));
+
+    let sheet = this.bottomSheet.open(UIComposerActionsComponent, {
+      data: { data: event.data ? event.data : {}, uiElement: uiElement }
+    });
   }
 }

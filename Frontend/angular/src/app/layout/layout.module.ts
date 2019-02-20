@@ -15,12 +15,14 @@ import { NavVerticalComponent } from "./navigation/vertical/nav-vertical.compone
 import { SplashComponent } from "./splash/splash.component";
 import { LoginComponent } from "./login/login.component";
 import { UIComposerOverlayComponent } from "./ui-composer-overlay/ui-composer-overlay.component";
+import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
 
 @NgModule({
   declarations: [
     LayoutComponent,
     UIComposerComponent,
     UIComposerOverlayComponent,
+    UIComposerActionsComponent,
     ToolbarComponent,
     NavVerticalComponent,
     SplashComponent,
@@ -28,6 +30,6 @@ import { UIComposerOverlayComponent } from "./ui-composer-overlay/ui-composer-ov
   ],
   exports: [],
   imports: [CommonModule, RouterModule, FormsModule, MaterialModule, UIModule],
-  entryComponents: [UIComposerOverlayComponent]
+  entryComponents: [UIComposerOverlayComponent, UIComposerActionsComponent]
 })
 export class LayoutModule {}

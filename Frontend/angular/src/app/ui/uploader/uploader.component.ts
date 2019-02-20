@@ -1,3 +1,26 @@
+import { Component, Input } from "@angular/core";
+import { EventService } from "src/app/services/event.service";
+
+@Component({
+  selector: "uploader",
+  templateUrl: "./uploader.component.html"
+})
+export class UploaderComponent {
+  @Input() uiElement: any;
+  @Input() data: any;
+
+  constructor(private event: EventService) {}
+
+  open() {
+    this.event.send({
+      name: "open-sheet",
+      uiElementId: "b00001020000000000000010"
+    });
+  }
+}
+
+/*
+
 import { Component, Input, ViewChild } from "@angular/core";
 import { FileUploader } from 'ng2-file-upload';
 import { Ng2ImgMaxService } from 'ng2-img-max';
@@ -279,3 +302,5 @@ export class UploaderComponent {
     }
 
 }
+
+*/
