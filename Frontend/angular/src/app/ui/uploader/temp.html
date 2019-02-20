@@ -1,51 +1,35 @@
-<!-- Upload Button -->
-<div class="mb-24" *ngIf="condition()">
-  <button mat-raised-button color="warn" (click)="takePhoto(imgFileInput)">
-    {{ uiElement.buttonLabel ? uiElement.buttonLabel : "Take a photo" }}
-  </button>
-  <input
-    hidden
-    type="file"
-    #imgFileInput
-    (change)="change($event)"
-    multiple
-    capture="camera"
-    accept="image/*"
-  />
-</div>
 
 <!-- Saved Files -->
 <div class="container mb-24">
-  <mat-card
-    *ngFor="let item of value"
-    class="item"
-    [style.background]="uiElement.background"
-  >
-    <mat-card-content>
-      <a
-        href="{{ rest.host() }}{{ item?.url }}{{ extra(item, user, config) }}"
-        target="_blank"
-      >
-        <img
-          src="{{ rest.host() }}{{ item?.url }}{{ extra(item, user, config) }}"
-          class="image"
-          id="{{ item?.filename }}"
-        />
-      </a>
-      <button
-        *ngIf="uiElement.urlDelete"
-        mat-icon-button
-        (click)="delete(item)"
-        class="overlay"
-      >
-        <mat-icon class="delete">delete</mat-icon>
-      </button>
-    </mat-card-content>
-  </mat-card>
-</div>
+    <mat-card
+      *ngFor="let item of value"
+      class="item"
+      [style.background]="uiElement.background"
+    >
+      <mat-card-content>
+        <a
+          href="{{ rest.host() }}{{ item?.url }}{{ extra(item, user, config) }}"
+          target="_blank"
+        >
+          <img
+            src="{{ rest.host() }}{{ item?.url }}{{ extra(item, user, config) }}"
+            class="image"
+            id="{{ item?.filename }}"
+          />
+        </a>
+        <button
+          *ngIf="uiElement.urlDelete"
+          mat-icon-button
+          (click)="delete(item)"
+          class="overlay"
+        >
+          <mat-icon class="delete">delete</mat-icon>
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
-<!-- Upload Queue -->
-<ng-container *ngIf="uploader?.queue?.length">
+
   <p class="mt-24 p-12" style="background-color: aliceblue">Upload Queue</p>
   <mat-table #tableUpload [dataSource]="uploader.queue" class="mb-24">
     <ng-container matColumnDef="Name">
@@ -77,4 +61,3 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
   </mat-table>
-</ng-container>

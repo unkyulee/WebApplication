@@ -13,16 +13,11 @@
   [uiElement]="uiElement"
   [(data)]="data"
 ></autocomplete>
-<file-upload
-  *ngIf="uiElement.type == 'file-upload'"
+<uploader
+  *ngIf="uiElement.type == 'uploader'"
   [uiElement]="uiElement"
   [(data)]="data"
-></file-upload>
-<img-upload
-  *ngIf="uiElement.type == 'img-upload'"
-  [uiElement]="uiElement"
-  [(data)]="data"
-></img-upload>
+></uploader>
 <button-component
   *ngIf="uiElement.type == 'button'"
   [uiElement]="uiElement"

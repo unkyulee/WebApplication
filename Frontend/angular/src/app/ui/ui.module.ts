@@ -20,11 +20,10 @@ import { FilterComponent } from "./filter/filter.component";
 import { InputComponent } from "./input/input.component";
 import { SelectionComponent } from "./selection/selection.component";
 import { AutoCompleteComponent } from "./autocomplete/autocomplete.component";
-import { FileUploadComponent } from "./file-upload/file-upload.component";
 import { ButtonComponent } from "./button/button.component";
 import { CardListComponent } from "./card-list/card-list.component";
 import { SignatureComponent } from "./signature/signature.component";
-import { ImageUploadComponent } from "./img-upload/img-upload.component";
+import { UploaderComponent } from "./uploader/uploader.component";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { CalendarColumnComponent } from "./calendar/weekly/calendar-week.component";
 import { PaginationComponent } from "./pagination/pagination.component";
@@ -46,11 +45,10 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
     InputComponent,
     SelectionComponent,
     AutoCompleteComponent,
-    FileUploadComponent,
+    UploaderComponent,
     ButtonComponent,
     CardListComponent,
     SignatureComponent,
-    ImageUploadComponent,
     CalendarComponent,
     CalendarColumnComponent,
     PaginationComponent,
@@ -64,11 +62,10 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
     InputComponent,
     SelectionComponent,
     AutoCompleteComponent,
-    FileUploadComponent,
     ButtonComponent,
     CardListComponent,
     SignatureComponent,
-    ImageUploadComponent,
+    UploaderComponent,
     CalendarComponent,
     PaginationComponent,
     TypographyComponent

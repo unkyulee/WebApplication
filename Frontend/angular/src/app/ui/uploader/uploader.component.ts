@@ -14,11 +14,11 @@ import { RestService } from "../../services/rest.service";
 import { UserService } from "src/app/services/user/user.service";
 
 @Component({
-    selector: 'img-upload'
-    , templateUrl: './img-upload.component.html',
-    styleUrls: ['./img-upload.component.scss']
+    selector: 'uploader'
+    , templateUrl: './uploader.component.html',
+    styleUrls: ['./uploader.component.scss']
 })
-export class ImageUploadComponent {
+export class UploaderComponent {
     //
     constructor(
         private rest: RestService
@@ -270,11 +270,11 @@ export class ImageUploadComponent {
     extra(row, user, config, print?) {
         let param = ''
 
-        // if in mobile setup pass auth        
+        // if in mobile setup pass auth
         if(row && row.url.indexOf('?') > 0) param = '&'
         else param = '?'
         param += `bearer=${user.token()}&navigation_id=${config.configuration._id}`
-        
+
         return param
     }
 

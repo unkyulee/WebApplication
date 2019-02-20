@@ -108,6 +108,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    /*
     // remove null fields
     for (let key of Object.keys(this.prevData))
       if (this.prevData[key] == null || this.prevData[key] == "")
@@ -120,6 +121,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       let willSave = confirm("Do you want to save before leaving this page?");
       if (willSave) this.save();
     }
+    */
 
     this.onEvent.unsubscribe();
   }
