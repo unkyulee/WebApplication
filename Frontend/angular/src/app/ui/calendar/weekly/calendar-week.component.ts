@@ -9,48 +9,6 @@ import { RestService } from "src/app/services/rest.service";
 import { EventService } from "src/app/services/event.service";
 import { Subscription } from "rxjs";
 
-/*
-
-
-    
-   
-
-
-  set data(v) {
-    this._data = v;
-    if (this._data) {
-      // filter data matches this.day
-      this.items = this._data.filter(item => {
-        let start = new Date(item[this.uiElement.startDateField]);
-        let end = new Date(item[this.uiElement.endDateField]);
-        let day_end = moment(this.day)
-          .endOf("day")
-          .toDate();
-
-        if (day_end >= start && this.day <= end) return true;
-
-        return false;
-      });
-    }
-  }
-
-
-
-  // date format
-  today: Date;
-  lang: string;
-  items: any[] = [];
-
-//
-    this.today = new Date();
-
-    // load locale for date format
-    this.lang = this.ui.find(["lang"], this.uiElement);
-
-    // contents
-    this.contents = this.ui.find(["event", "contents"], this.uiElement);
-*/
-
 @Component({
   selector: "calendar-week",
   templateUrl: "./calendar-week.component.html"
@@ -93,7 +51,7 @@ export class CalendarColumnComponent {
     if (this.data.startDate != this._startDate || this._dates.length < 7) {
       // check startDate
       this.data.startDate = moment(this.data.startDate)
-        .startOf("isoWeek") // starts from monday
+        .startOf("day") // starts from monday
         .toISOString();
 
       this.data.endDate = moment(this.data.startDate)

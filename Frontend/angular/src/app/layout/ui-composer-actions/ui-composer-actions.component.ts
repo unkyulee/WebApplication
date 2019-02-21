@@ -18,7 +18,6 @@ export class UIComposerActionsComponent {
     private bottomSheetRef: MatBottomSheetRef<UIComposerActionsComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public e: any
   ) {
-    console.log(e);
     this.uiElement = e.uiElement;
     this.data = e.data;
   }

@@ -1,1 +1,19 @@
-<button mat-raised-button (click)="open()">Open file</button>
+<!-- File uploader -->
+<input
+  hidden
+  type="file"
+  #fileInput
+  ng2FileSelect
+  (change)="change($event)"
+  multiple
+  [accept]="uiElement.accept ? uiElement.accept : '*'"
+/>
+<input
+  hidden
+  type="file"
+  #cameraInput
+  (change)="change($event)"
+  multiple
+  capture="camera"
+  [accept]="uiElement.accept ? uiElement.accept : '*'"
+/>
