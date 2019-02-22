@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
-import * as moment from "moment";
 
 // user imports
 import { UIService } from "../../services/ui.service";
@@ -13,8 +12,7 @@ import { ConfigService } from "src/app/services/config.service";
 
 @Component({
   selector: "data-table",
-  templateUrl: "./data-table.component.html",
-  styleUrls: ["./data-table.component.scss"]
+  templateUrl: "./data-table.component.html"
 })
 export class DataTableComponent implements OnInit, OnDestroy {
   constructor(

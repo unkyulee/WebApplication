@@ -60,11 +60,11 @@ export class UploaderComponent {
     this.eventSubscription = this.event.onEvent.subscribe(event => {
       if (event && event.key == this.uiElement.key) {
         if (event.name == "upload-file") {
-          // initiate file selection
-          this.uploadFile();
+          // open file selection
+          this.fileInput.nativeElement.click();
         } else if (event.name == "upload-camera") {
-          // initiate file selection
-          this.uploadCamera();
+          // open camera if possible selection
+          this.cameraInput.nativeElement.click();
         }
       }
     });
@@ -74,30 +74,22 @@ export class UploaderComponent {
     this.eventSubscription.unsubscribe();
   }
 
-  uploadCamera() {
-    // setup uploader
-    this.setUploader();
-
-    // open camera if possible selection
-    this.cameraInput.nativeElement.click();
-  }
-
-  uploadFile() {
-    // setup uploader
-    this.setUploader();
-
-    // open file selection
-    this.fileInput.nativeElement.click();
-  }
-
   // refresh the table
   change(e) {
     this.event.send("splash-show"); // show splash
 
+    if (!this.uploader) {
+      // setup uploader
+      this.setUploader();
+    }
+
     // upload all
     for (let f of e.target.files) {
-      if (this.uiElement.image) this.processImage(f);
-      else this.processFile(f);
+      if (this.uiElement.image) {
+        this.processImage(f);
+      } else {
+        this.processFile(f);
+      }
     }
   }
 
@@ -106,11 +98,16 @@ export class UploaderComponent {
     this.uploader.uploadAll();
   }
 
-  processImage(image) {
-    if (this.uiElement.resizeMaxHeight || this.uiElement.resizeMaxWidth) {
+  // if it is an image then
+  processImage(file) {
+    if (
+      this.uiElement.image &&
+      this.uiElement.image.resizeMaxHeight &&
+      this.uiElement.image.resizeMaxWidth
+    ) {
       this.ng2ImgMax
         .resizeImage(
-          image,
+          file,
           this.uiElement.resizeMaxHeight,
           this.uiElement.resizeMaxWidth
         )
@@ -160,6 +157,7 @@ export class UploaderComponent {
       response = JSON.parse(response);
     } catch (e) {
       console.error(e);
+      return;
     }
 
     // try to get download path
@@ -185,8 +183,10 @@ export class UploaderComponent {
     // hide splash
     this.event.send("splash-hide");
 
-    // save
-    this.event.send({ name: "save" });
+    // save if there are no others in the queue
+    let index = this.uploader.queue.indexOf(item);
+    if (index == this.uploader.queue.length - 1)
+      this.event.send({ name: "save" });
   }
 
   condition() {

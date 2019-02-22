@@ -102,7 +102,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
           }
         }
       } else if (event && event.name == "save") {
-        this.save(event.showSplash);
+        this.save();
       }
     });
   }
@@ -183,11 +183,13 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     this.prevData = JSON.parse(JSON.stringify(this.data));
   }
 
-  save(showSplash?) {
-    /*
+  save() {
+    // hide the splash
+    this.event.send("splash-show");
+
     // check if there are not error
     let errorMessage = "";
-    for (let screen of this.screenConfigs) {
+    for (let screen of this.uiElement.screen) {
       for (let ui of screen.screen) {
         let value = this.data[ui.key]; // used by the evaluation script
         let error = eval(ui.errorCondition);
@@ -201,46 +203,12 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       return;
     }
 
-    // check if there are any changelogs to be made
-    let changelogKey = this.ui.find(["edit", "changelogKey"], this.uiElement);
-    if (changelogKey) {
-      let changelogs = this.ui.find(["edit", "changelogs"], this.uiElement);
-      if (changelogs) {
-        for (let changelog of changelogs) {
-          // run condition
-          let condition = false;
-          try {
-            condition = eval(changelog.condition);
-          } catch (e) {}
-          if (condition) {
-            // make a log
-            obj.ensureExists(this.data, changelogKey, []);
-            let logs = obj.get(this.data, changelogKey);
-
-            let message;
-            try {
-              message = eval(changelog.message);
-            } catch (e) {}
-            if (message) {
-              logs.unshift({
-                _created: new Date(),
-                _createdBy: this.user.id(),
-                _createdBy_name: this.user.name(),
-                message: message
-              });
-            }
-          }
-        }
-      }
-
-    }
-
     // retrieve REST information
-    let src = this.ui.find(["detail", "src"], this.uiElement);
+    let src = this.ui.find(["save", "src"], this.uiElement);
     try {
       src = eval(src);
     } catch (e) {}
-    let method = this.ui.find(["edit", "method"], this.uiElement, "post");
+    let method = this.ui.find(["save", "method"], this.uiElement, "post");
 
     // update data through rest web services
     this.rest
@@ -252,7 +220,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
 
           // save failed
           let errorAction = this.ui.find(
-            ["edit", "errorAction"],
+            ["errorAction"],
             this.uiElement
           );
           if (errorAction) {
@@ -270,15 +238,10 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         // hide the splash
         this.event.send("splash-hide");
 
-        // send notification
-        if (JSON.stringify(this.prevData) != JSON.stringify(this.data)) {
-          this.sendNotification();
-        }
-
         // reset dirty state
         this.prevData = Object.assign({}, this.data);
 
-        let saveAction = this.ui.find(["edit", "saveAction"], this.uiElement);
+        let saveAction = this.ui.find(["saveAction"], this.uiElement);
         if (saveAction)
           try {
             eval(saveAction);
@@ -294,6 +257,5 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
           }
         }
       });
-      */
   }
 }

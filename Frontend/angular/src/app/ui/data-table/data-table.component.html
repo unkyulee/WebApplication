@@ -72,21 +72,23 @@
 
 <!-- Card List -->
 <ng-container *ngIf="uiElement.tableType == 'card'">
-  <mat-card
-    *ngFor="let row of rows"
-    [ngStyle]="uiElement.style"
-    [ngClass]="uiElement.class"
-    (click)="click(row, uiElement.click)"
-  >
-    <mat-card-content>
-      <div *ngFor="let column of uiElement.columns">
-        <ui-layout-wrapper
-          [uiElement]="column"
-          [data]="row"
-        ></ui-layout-wrapper>
-      </div>
-    </mat-card-content>
-  </mat-card>
+  <div [ngStyle]="uiElement.layoutStyle">
+    <mat-card
+      *ngFor="let row of rows"
+      [ngStyle]="uiElement.style"
+      [ngClass]="uiElement.class"
+      (click)="click(row, uiElement.click)"
+    >
+      <mat-card-content>
+        <div *ngFor="let column of uiElement.columns">
+          <ui-layout-wrapper
+            [uiElement]="column"
+            [data]="row"
+          ></ui-layout-wrapper>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
   <pagination
     *ngIf="total >= size"

@@ -1,4 +1,6 @@
 import { Component, Input } from "@angular/core";
+import { ConfigService } from 'src/app/services/config.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'typography'
@@ -6,6 +8,8 @@ import { Component, Input } from "@angular/core";
 })
 export class TypographyComponent {
   constructor(
+    public config: ConfigService
+    , public user: UserService
   ) { }
 
   @Input() uiElement: any
