@@ -135,11 +135,12 @@ export class CalendarColumnComponent {
   }
 
   itemsOfTheDay(date) {
-    return this.data.items.filter(x => {
-      return (
-        moment(date).format("YYYYMMDD") ==
-        moment(x[this.uiElement.startDateField]).format("YYYYMMDD")
-      );
-    });
+    if (this.data.items)
+      return this.data.items.filter(x => {
+        return (
+          moment(date).format("YYYYMMDD") ==
+          moment(x[this.uiElement.startDateField]).format("YYYYMMDD")
+        );
+      });
   }
 }

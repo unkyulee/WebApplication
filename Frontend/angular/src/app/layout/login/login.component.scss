@@ -1,21 +1,14 @@
-:host {
+#login {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-size: cover;
+  background-color: #2d323e;
 
-    #login {
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-size: cover;
-        background-color: #2D323E;
-
-        #login-form-wrapper {
-            flex: 1 0 auto;
-
-            #login-form {
-                width: 300px;
-                min-width: 300px;
-                background: #FFFFFF;
-                text-align: center;
-            }
-        }
-    }
+  #login-form {
+    width: 300px;
+    min-width: 300px;
+    background: #ffffff;
+    text-align: center;
+  }
 }

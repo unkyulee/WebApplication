@@ -2,9 +2,12 @@
   <!-- material input -->
   <mat-form-field
     *ngIf="
+      !uiElement.type ||
       !uiElement.inputType ||
       uiElement.inputType == 'text' ||
-      uiElement.inputType == 'number'
+      uiElement.inputType == 'number' ||
+      uiElement.inputType == 'email' ||
+      uiElement.inputType == 'password'
     "
     [appearance]="uiElement.appearance"
     [ngStyle]="uiElement.style"

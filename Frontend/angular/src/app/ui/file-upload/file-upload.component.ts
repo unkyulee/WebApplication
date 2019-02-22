@@ -96,6 +96,8 @@ export class FileUploadComponent {
   }
 
   onSuccessUpload(item: any, response: any, status: any, headers: any): any {
+    this.event.send("splash-hide"); // hide splash
+
     // try to convert to object
     try {
       response = JSON.parse(response);

@@ -1,11 +1,9 @@
 <splash></splash>
 
-<div id="login" fxLayout="column">
-  <div id="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
-    <div id="login-form" class="mat-elevation-z16">
-      <ng-container *ngFor="let ui of screen">
-        <ui-layout-wrapper [uiElement]="ui" [data]="data"></ui-layout-wrapper>
-      </ng-container>
-    </div>
+<div [ngStyle]="login.layoutStyle">
+  <div [ngStyle]="login.style" [ngClass]="login.class">
+    <ng-container *ngFor="let ui of login.screen">
+      <ui-layout-wrapper [uiElement]="ui" [data]="data"></ui-layout-wrapper>
+    </ng-container>
   </div>
 </div>

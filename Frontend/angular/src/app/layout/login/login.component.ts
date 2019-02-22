@@ -9,8 +9,7 @@ import { Subscription } from "rxjs";
 
 @Component({
   selector: "login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+  templateUrl: "./login.component.html"
 })
 export class LoginComponent implements OnInit, OnDestroy {
   constructor(
@@ -20,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   // login screen
-  screen: any;
+  login: any;
 
   // data
   data: any = {};
@@ -28,12 +27,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   onEvent: Subscription;
   ngOnInit() {
     // load default login screen
-    this.screen = this.config.configuration.login.screen;
+    this.login = this.config.configuration.login;
 
     // handle events
     this.onEvent = this.event.onEvent.subscribe(async event => {
       if (event.name == "login") {
-        await this.login();
+        await this.authenticate();
       }
     });
   }
@@ -43,10 +42,10 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   // login
-  async login() {
+  async authenticate() {
     // validate input
     this.data.error = "";
-    for (let ui of this.screen) {
+    for (let ui of this.login.screen) {
       let value = this.data[ui.key]; // used by the evaluation script
       let error = eval(ui.errorCondition);
       if (error) {

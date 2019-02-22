@@ -94,13 +94,17 @@ export class UploaderComponent {
   change(e) {
     this.event.send("splash-show"); // show splash
 
+    // upload all
     for (let f of e.target.files) {
       if (this.uiElement.image) this.processImage(f);
       else this.processFile(f);
     }
   }
 
-  processFile(file) {}
+  processFile(file) {
+    this.uploader.addToQueue([file]);
+    this.uploader.uploadAll();
+  }
 
   processImage(image) {
     if (this.uiElement.resizeMaxHeight || this.uiElement.resizeMaxWidth) {
@@ -126,7 +130,6 @@ export class UploaderComponent {
 
   // run setUploader when data is ready
   setUploader() {
-    /*
     // set uploader for
     let url = this.uiElement.upload.url;
     try {
@@ -142,15 +145,6 @@ export class UploaderComponent {
       autoUpload: this.uiElement.autoUpload ? this.uiElement.autoUpload : true
     });
 
-    console.log({
-      url: url,
-      method: method,
-      authToken: eval(this.uiElement.upload.authToken),
-      authTokenHeader: eval(this.uiElement.upload.authTokenHeader),
-      headers: eval(this.uiElement.upload.headers),
-      autoUpload: this.uiElement.autoUpload ? this.uiElement.autoUpload : true
-    });
-
     // when upload is finished
     this.uploader.onSuccessItem = (
       item: any,
@@ -158,23 +152,25 @@ export class UploaderComponent {
       status: any,
       headers: any
     ) => this.onSuccessUpload(item, response, status, headers);
-    */
   }
 
   onSuccessUpload(item: any, response: any, status: any, headers: any): any {
     // try to convert to object
     try {
       response = JSON.parse(response);
-    } catch (e) {}
+    } catch (e) {
+      console.error(e);
+    }
 
     // try to get download path
     let downloadPath = response;
-    if (this.uiElement.downloadPathTransform)
-      downloadPath = eval(this.uiElement.downloadPathTransform);
+    if (this.uiElement.upload.downloadPathTransform)
+      downloadPath = eval(this.uiElement.upload.downloadPathTransform);
 
     // try to get id
     let id = response;
-    if (this.uiElement.idTransform) id = eval(this.uiElement.idTransform);
+    if (this.uiElement.upload.idTransform)
+      id = eval(this.uiElement.upload.idTransform);
 
     // save id of the file
     let currentValue = this.value;
@@ -192,134 +188,22 @@ export class UploaderComponent {
     // save
     this.event.send({ name: "save" });
   }
+
+  condition() {
+    let result = true;
+    if (this.uiElement.condition) {
+      try {
+        result = eval(this.uiElement.condition);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return result;
+  }
 }
 
 /*
 
-import { Component, Input, ViewChild } from "@angular/core";
-import { FileUploader } from 'ng2-file-upload';
-import { Ng2ImgMaxService } from 'ng2-img-max';
-import { MatSnackBar } from '@angular/material';
-
-// cordova
-declare var navigator: any
-
-// user imports
-import { ConfigService } from "../../services/config.service";
-import { EventService } from "../../services/event.service";
-import { Subscription } from "rxjs";
-import { RestService } from "../../services/rest.service";
-import { UserService } from "src/app/services/user/user.service";
-
-@Component({
-    selector: 'uploader'
-    , templateUrl: './uploader.component.html',
-    styleUrls: ['./uploader.component.scss']
-})
-export class UploaderComponent {
-    //
-    constructor(
-        private rest: RestService
-        , private config: ConfigService
-        , private event: EventService
-        , private ng2ImgMax: Ng2ImgMaxService
-        , public snackBar: MatSnackBar
-        , private user: UserService
-    ) { }
-
-    @Input() uiElement: any
-
-    _data: any
-    @Input()
-    get data(): any { return this._data; }
-    set data(v) {
-        this._data = v;
-        if (v) this.setUploader();
-    }
-
-    get value() {
-        if (this.data
-            && this.data[this.uiElement.key]
-            && this.data[this.uiElement.key].constructor === Array)
-            return this.data[this.uiElement.key]
-
-        else if (this.data && this.data[this.uiElement.key])
-            return [this.data[this.uiElement.key]]
-
-        return []
-    }
-
-    set value(v: any) {
-        if (this.data && this.uiElement.key) {
-            this.data[this.uiElement.key] = v
-        }
-    }
-
-    //
-    @ViewChild('tableUpload') tableUpload: any;
-
-    //
-    displayedColumns = ['Name', 'Size', 'Progress', 'Status']
-    public uploader: FileUploader
-
-
-
-    // run setUploader when data is ready
-    setUploader() {
-        let url = this.uiElement.url
-        try { url = eval(url) } catch (e) { }
-        if (url.startsWith("http") == false) {
-            if( url.startsWith('/') == false) url = `/${url}`
-            url = `${this.rest.host()}${url}`
-        }
-
-        let method = this.uiElement.method
-
-        this.uploader = new FileUploader({
-            url: url
-            , method: method
-            , authToken: `Bearer ${localStorage.getItem("token")}`
-            , authTokenHeader: "Authorization"
-            , headers: [{ name: 'X-App-Key', value: this.config.configuration['_id'] }]
-            , autoUpload: false
-        });
-
-        // when upload is finished
-        this.uploader.onSuccessItem =
-            (item: any, response: any, status: any, headers: any) =>
-                this.onSuccessUpload(item, response, status, headers)
-    }
-
-    onSuccessUpload(item: any, response: any, status: any, headers: any): any {
-        // try to convert to object
-        try { response = JSON.parse(response) } catch (e) { }
-
-        // try to get download path
-        let downloadPath = response
-        if (this.uiElement.downloadPathTransform) downloadPath = eval(this.uiElement.downloadPathTransform)
-
-        // try to get id
-        let id = response
-        if (this.uiElement.idTransform) id = eval(this.uiElement.idTransform)
-
-        // save id of the file
-        let currentValue = this.value
-        let newItem = {
-            "id": id,
-            "url": downloadPath,
-            "filename": item.file.name,
-            "size": item.file.size
-        }
-        currentValue.push(newItem)
-        this.value = currentValue
-
-        // save
-        this.event.send({ name: "insert-data", path: this.uiElement.key, data: newItem })
-        this.event.send({ name: "save" })
-
-        // hide splash
-        this.event.send("splash-hide")
-    }
 
 
     takePhoto(imgFileInput) {
@@ -388,41 +272,6 @@ export class UploaderComponent {
 
 
 
-    // delete attachment
-    delete(row) {
-
-        if( confirm('Are you sure to delete this item?') == true ) {
-            // delete from the row
-            let item = this.value.find(item => item.id == row.id)
-            if (item) {
-                let index = this.value.indexOf(item)
-                if (index > -1) this.value.splice(index, 1)
-            }
-            // save
-            this.event.send({ name: "save"} )
-        }
-
-    }
-
-    condition() {
-        let result = true
-        if(this.uiElement.condition) {
-            try { result = eval(this.uiElement.condition) }
-            catch(e) { console.error(e) }
-        }
-        return result
-    }
-
-    extra(row, user, config, print?) {
-        let param = ''
-
-        // if in mobile setup pass auth
-        if(row && row.url.indexOf('?') > 0) param = '&'
-        else param = '?'
-        param += `bearer=${user.token()}&navigation_id=${config.configuration._id}`
-
-        return param
-    }
 
 }
 
