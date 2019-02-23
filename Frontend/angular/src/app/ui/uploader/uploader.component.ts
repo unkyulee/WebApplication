@@ -65,6 +65,12 @@ export class UploaderComponent {
         } else if (event.name == "upload-camera") {
           // open camera if possible selection
           this.cameraInput.nativeElement.click();
+        } else if (event.name == "upload") {
+          if (!this.uploader) {
+            // setup uploader
+            this.setUploader();
+          }
+          this.processFile(event.file)
         }
       }
     });

@@ -21,7 +21,6 @@ import { InputComponent } from "./input/input.component";
 import { SelectionComponent } from "./selection/selection.component";
 import { AutoCompleteComponent } from "./autocomplete/autocomplete.component";
 import { ButtonComponent } from "./button/button.component";
-import { CardListComponent } from "./card-list/card-list.component";
 import { SignatureComponent } from "./signature/signature.component";
 import { UploaderComponent } from "./uploader/uploader.component";
 import { CalendarComponent } from "./calendar/calendar.component";
@@ -47,7 +46,6 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
     AutoCompleteComponent,
     UploaderComponent,
     ButtonComponent,
-    CardListComponent,
     SignatureComponent,
     CalendarComponent,
     CalendarColumnComponent,
@@ -63,7 +61,6 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
     SelectionComponent,
     AutoCompleteComponent,
     ButtonComponent,
-    CardListComponent,
     SignatureComponent,
     UploaderComponent,
     CalendarComponent,
