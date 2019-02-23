@@ -43,14 +43,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event.name == "navigation-changed") {
         //
-        if (this.nav.currNav) this.title = this.nav.currNav.name;
-        // reset to top navigation
-        this.isTopNav = true;
+        if (this.nav.currNav) {
+          this.title = this.nav.currNav.name;
+
+          // top or sub nav
+          this.nav.currNav.type == 'sub' ? this.isTopNav = false : this.isTopNav = true;
+        }
+
         //
         this.action = null;
-      } else if (event == "sub-navigation") {
-        //
-        this.isTopNav = false;
       } else if (event == "splash-show") {
         this.showLoadingBar = true;
       } else if (event == "splash-hide") {

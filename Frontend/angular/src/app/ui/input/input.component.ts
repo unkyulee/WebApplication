@@ -4,6 +4,7 @@ import { DateTimeAdapter } from "ng-pick-datetime";
 import { UserService } from "../../services/user/user.service";
 import { EventService } from "../../services/event.service";
 import { ConfigService } from "src/app/services/config.service";
+import { NavService } from 'src/app/services/nav.service';
 
 @Component({
   selector: "input-component",
@@ -15,7 +16,8 @@ export class InputComponent {
     public user: UserService,
     public event: EventService,
     private dateTimeAdapter: DateTimeAdapter<any>,
-    private config: ConfigService
+    private config: ConfigService,
+    public nav: NavService
   ) {}
 
   @Input() uiElement: any;

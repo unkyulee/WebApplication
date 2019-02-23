@@ -26,7 +26,7 @@
     </mat-expansion-panel-header>
 
     <ng-container *ngFor="let child of item.children">
-      <a class="nav-link" style="padding: 0 48px" [routerLink]="[child.url]" (click)="click()" routerLinkActive="active"
+      <a *ngIf="child.type != 'sub'" class="nav-link" style="padding: 0 48px" [routerLink]="[child.url]" (click)="click()" routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: child.exactMatch || false }" matRipple>{{ child.name }}</a>
     </ng-container>
   </mat-expansion-panel>
