@@ -114,8 +114,8 @@ export class UploaderComponent {
       this.ng2ImgMax
         .resizeImage(
           file,
-          this.uiElement.resizeMaxHeight,
-          this.uiElement.resizeMaxWidth
+          this.uiElement.image.resizeMaxHeight,
+          this.uiElement.image.resizeMaxWidth
         )
         .subscribe(
           result => {

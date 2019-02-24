@@ -12,6 +12,8 @@
   </ng-container>
 </div>
 
+<user></user>
+
 <ng-container *ngFor="let item of nav.navigation">
   <a *ngIf="item.type == 'item'" class="nav-link" [routerLink]="[item.url]" (click)="click()" routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: item.exactMatch || false }" matRipple>

@@ -20,7 +20,7 @@ import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
 export class ToolbarComponent implements OnInit, OnDestroy {
   constructor(
     private event: EventService,
-    private config: ConfigService,
+    public config: ConfigService,
     private nav: NavService
   ) {}
 

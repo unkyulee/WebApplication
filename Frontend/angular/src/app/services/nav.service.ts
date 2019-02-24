@@ -251,9 +251,7 @@ export class NavService {
   navPopStack(match?) {
     if (match && this.navgiationStack.length) {
       let url = this.navgiationStack[this.navgiationStack.length - 1];
-      console.log(url, match);
       if (url.startsWith(match)) {
-        console.log('pop')
         this.navgiationStack.pop();
       }
     } else {

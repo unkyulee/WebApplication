@@ -69,6 +69,8 @@ class Auth {
         }
 
         if (token) {
+            res.locals.bearer = token
+
             try {
                 // decoded token will be saved as token in the res.locals
                 res.locals.token = jwt.verify(token, req.app.locals.secret)

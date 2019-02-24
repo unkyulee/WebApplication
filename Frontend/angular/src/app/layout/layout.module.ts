@@ -16,6 +16,7 @@ import { SplashComponent } from "./splash/splash.component";
 import { LoginComponent } from "./login/login.component";
 import { UIComposerOverlayComponent } from "./ui-composer-overlay/ui-composer-overlay.component";
 import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-ac
     ToolbarComponent,
     NavVerticalComponent,
     SplashComponent,
-    LoginComponent
+    LoginComponent,
+    UserComponent
   ],
   exports: [],
   imports: [CommonModule, RouterModule, FormsModule, MaterialModule, UIModule],

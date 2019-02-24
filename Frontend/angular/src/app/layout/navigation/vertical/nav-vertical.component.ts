@@ -15,7 +15,7 @@ import { UserService } from "../../../services/user/user.service";
 })
 export class NavVerticalComponent {
   constructor(
-    private event: EventService,
+    public event: EventService,
     public nav: NavService,
     public user: UserService,
     public config: ConfigService

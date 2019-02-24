@@ -22,10 +22,8 @@
 <ng-container *ngIf="uploader?.queue?.length">
   <mat-card *ngFor="let item of uploader.queue" style="margin: 8px; background: aliceblue">
     <mat-card-content>
-      <div style="display:flex; justify-content: space-between">
-        <div><b>{{ item?.file?.name }}</b></div>
-        <div>{{ item?.file?.size / 1024 | number: ".2" }} kb</div>
-      </div>
+      <div><b>{{ item?.file?.name }}</b></div>
+      <div>{{ item?.file?.size / 1024 | number: ".2" }} kb</div>
       <mat-progress-bar mode="determinate" [value]="item.progress"></mat-progress-bar>
       <div>
         <span *ngIf="item.isSuccess">OK</span>

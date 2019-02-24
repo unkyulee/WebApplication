@@ -39,7 +39,9 @@ export class TypographyComponent {
 
     // if format is specified
     if(this.uiElement.format) {
-      try { v = eval(this.uiElement.format) }
+      try {
+        v = eval(this.uiElement.format)
+      }
       catch (e) { console.error(e) }
     }
 
