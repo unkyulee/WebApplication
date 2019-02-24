@@ -248,8 +248,17 @@ export class NavService {
     if (this.navgiationStack.length > 10) this.navgiationStack.shift();
   }
 
-  navPopStack() {
-    this.navgiationStack.pop();
+  navPopStack(match?) {
+    if (match && this.navgiationStack.length) {
+      let url = this.navgiationStack[this.navgiationStack.length - 1];
+      console.log(url, match);
+      if (url.startsWith(match)) {
+        console.log('pop')
+        this.navgiationStack.pop();
+      }
+    } else {
+      this.navgiationStack.pop();
+    }
   }
 
   back() {
@@ -261,9 +270,11 @@ export class NavService {
       this.router.navigateByUrl(
         this.navgiationStack[this.navgiationStack.length - 1]
       );
-    else
+    else {
       this.router.navigateByUrl(
         this.currNav.parent_url ? this.currNav.parent_url : this.currNav.url
       );
+    }
+
   }
 }

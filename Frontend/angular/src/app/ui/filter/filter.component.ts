@@ -60,7 +60,6 @@ export class FilterComponent {
 
     // when filter is set change page to 1
     let params = this.nav.getParams();
-    if (params["page"]) this.nav.setParam("page", "1");
     this.event.send({ name: "refresh" });
   }
 }

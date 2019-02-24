@@ -8,7 +8,9 @@ export class EventService {
     onEvent: Subject<any> = new Subject()
 
     send(event) {
-        setTimeout(() => this.onEvent.next(event), 100)
+        console.log(event)
+        console.trace()
+        setTimeout(() => this.onEvent.next(event), 0)
     }
 
 }

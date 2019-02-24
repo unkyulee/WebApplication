@@ -4,7 +4,7 @@
   </button>
   <span>{{ uiElement.name }}</span>
 </mat-toolbar>
-<div [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
+<div class="dialog-content" [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
   <ng-container *ngFor="let ui of uiElement.screen">
     <ui-layout-wrapper
       [uiElement]="ui"

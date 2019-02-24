@@ -3,17 +3,18 @@ import { Component, Input } from '@angular/core'
 // user imports
 import { NavService } from '../../services/nav.service';
 import { EventService } from 'src/app/services/event.service';
+import { ConfigService } from 'src/app/services/config.service';
 
 @Component({
     selector: 'pagination',
-    templateUrl: './pagination.component.html',
-    styleUrls: ['./pagination.component.scss']
+    templateUrl: './pagination.component.html'
 })
 export class PaginationComponent {
     // Init
     constructor(
         private nav: NavService
         , private event: EventService
+        , public config: ConfigService
     ) { }
 
     // pagination

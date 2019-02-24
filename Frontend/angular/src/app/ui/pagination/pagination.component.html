@@ -1,3 +1,11 @@
-<mat-paginator class="mat-elevation-z2" [length]="total" [pageSize]="size" [pageSizeOptions]="[5, 10, 25, 100]"
-    [pageIndex]="page-1" [showFirstLastButtons]="true" (page)="changePage($event)">
+<mat-paginator
+  [ngClass]="config.configuration.paginator.class"
+  [ngStyle]="config.configuration.paginator.style"
+  [length]="total"
+  [pageSize]="size"
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  [pageIndex]="page - 1"
+  [showFirstLastButtons]="true"
+  (page)="changePage($event)"
+>
 </mat-paginator>

@@ -73,23 +73,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     // event handler
     this.eventSubscription = this.event.onEvent.subscribe(event => {
-      if (event && event.name == "refresh") {
-        setTimeout(() => this.requestDownload(), 0);
-      } else if (
+      if (
         event &&
-        event.name == "search" &&
-        event.key == this.uiElement.key
+        event.name == "refresh" &&
+        (!event.key || event.key == this.uiElement.key)
       ) {
-        setTimeout(() => {
-          // set page to 1
-          this.page = 1;
-          this.nav.setParam("page", this.page);
-
-          // reload the page
-          this.nav.setParam("_search", event.data);
-
-          this.requestDownload();
-        }, 0);
+        this.page = 1; // reset to first page
+        setTimeout(() => this.requestDownload(), 0);
       }
     });
   }
@@ -119,9 +109,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   requestDownload(pageInfo?) {
-    // show splash
-    this.event.send("splash-show");
-
     // get page
     this.getPage();
 
@@ -140,22 +127,27 @@ export class DataTableComponent implements OnInit, OnDestroy {
     try {
       src = eval(src);
     } catch (e) {}
-    let method = this.ui.find(["method"], this.uiElement);
 
-    // look at query params and pass it on to the request
-    let data = this.ui.find(["data"], this.uiElement, {});
-    data = Object.assign({}, data, params);
+    if(src) {
+      let method = this.ui.find(["method"], this.uiElement);
 
-    // sorting options
-    if (this.sort) {
-      if (this.sort.dir == "asc") data["_sort"] = this.sort.prop;
-      else if (this.sort.dir == "desc") data["_sort_desc"] = this.sort.prop;
+      // look at query params and pass it on to the request
+      let data = this.ui.find(["data"], this.uiElement, {});
+      data = Object.assign({}, data, params);
+
+      // sorting options
+      if (this.sort) {
+        if (this.sort.dir == "asc") data["_sort"] = this.sort.prop;
+        else if (this.sort.dir == "desc") data["_sort_desc"] = this.sort.prop;
+      }
+
+      // send REST request
+      this.event.send("splash-show");     // show splash
+      this.rest
+        .request(src, data, method)
+        .subscribe(response => this.responseDownload(response));
     }
 
-    // send REST request
-    this.rest
-      .request(src, data, method)
-      .subscribe(response => this.responseDownload(response));
   }
 
   responseDownload(response) {
