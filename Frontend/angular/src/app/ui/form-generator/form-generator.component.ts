@@ -260,4 +260,16 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         }
       });
   }
+
+  condition(script) {
+    let result = true;
+    if (script) {
+      try {
+        result = eval(script);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return result;
+  }
 }

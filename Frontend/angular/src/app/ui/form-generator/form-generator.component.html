@@ -9,58 +9,60 @@
     </ng-container>
   </div>
   <div *ngFor="let ui of uiElement.screen" [ngStyle]="ui.style">
-    <!-- Form Group Header -->
-    <div
-      [ngStyle]="
-        uiElement.header?.style
-          ? uiElement.header?.style
-          : config.configuration.formGenerator?.header?.style
-      "
-      [ngClass]="
-        uiElement.header?.class
-          ? uiElement.header?.class
-          : config.configuration.formGenerator?.header?.class
-      "
-    >
-      <button
-        type="button"
-        mat-icon-button
-        (click)="ui.expanded = !ui.expanded"
+    <ng-container *ngIf="condition(ui.condition)">
+      <!-- Form Group Header -->
+      <div
+        [ngStyle]="
+          uiElement.header?.style
+            ? uiElement.header?.style
+            : config.configuration.formGenerator?.header?.style
+        "
+        [ngClass]="
+          uiElement.header?.class
+            ? uiElement.header?.class
+            : config.configuration.formGenerator?.header?.class
+        "
       >
-        <mat-icon>{{
-          ui.expanded == false ? "keyboard_arrow_up" : "keyboard_arrow_down"
-        }}</mat-icon>
-      </button>
-      <ng-container *ngFor="let header of ui?.header?.screen">
-        <ui-layout-wrapper
-          [uiElement]="header"
-          [data]="data"
-          [ngStyle]="header.layoutStyle"
-        ></ui-layout-wrapper>
-      </ng-container>
-    </div>
+        <button
+          type="button"
+          mat-icon-button
+          (click)="ui.expanded = !ui.expanded"
+        >
+          <mat-icon>{{
+            ui.expanded == false ? "keyboard_arrow_up" : "keyboard_arrow_down"
+          }}</mat-icon>
+        </button>
+        <ng-container *ngFor="let header of ui?.header?.screen">
+          <ui-layout-wrapper
+            [uiElement]="header"
+            [data]="data"
+            [ngStyle]="header.layoutStyle"
+          ></ui-layout-wrapper>
+        </ng-container>
+      </div>
 
-    <!-- Form Items -->
-    <div
-      [style.display]="ui?.expanded == false ? 'none' : 'flex'"
-      [ngStyle]="
-        uiElement.container?.style
-          ? uiElement.container?.style
-          : config.configuration.formGenerator?.container?.style
-      "
-      [ngClass]="
-        uiElement.container?.class
-          ? uiElement.container?.class
-          : config.configuration.formGenerator?.container?.class
-      "
-    >
-      <ng-container *ngFor="let screen of ui?.screen">
-        <ui-layout-wrapper
-          [uiElement]="screen"
-          [data]="data"
-          [ngStyle]="screen.layoutStyle"
-        ></ui-layout-wrapper>
-      </ng-container>
-    </div>
+      <!-- Form Items -->
+      <div
+        [style.display]="ui?.expanded == false ? 'none' : 'flex'"
+        [ngStyle]="
+          uiElement.container?.style
+            ? uiElement.container?.style
+            : config.configuration.formGenerator?.container?.style
+        "
+        [ngClass]="
+          uiElement.container?.class
+            ? uiElement.container?.class
+            : config.configuration.formGenerator?.container?.class
+        "
+      >
+        <ng-container *ngFor="let screen of ui?.screen">
+          <ui-layout-wrapper
+            [uiElement]="screen"
+            [data]="data"
+            [ngStyle]="screen.layoutStyle"
+          ></ui-layout-wrapper>
+        </ng-container>
+      </div>
+    </ng-container>
   </div>
 </div>
