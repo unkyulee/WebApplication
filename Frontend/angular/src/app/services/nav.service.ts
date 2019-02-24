@@ -255,11 +255,15 @@ export class NavService {
   back() {
     // pop stack
     this.navPopStack();
+
     // go to last element
     if (this.navgiationStack.length > 0)
       this.router.navigateByUrl(
         this.navgiationStack[this.navgiationStack.length - 1]
       );
-    else this.router.navigateByUrl(this.currNav.url);
+    else
+      this.router.navigateByUrl(
+        this.currNav.parent_url ? this.currNav.parent_url : this.currNav.url
+      );
   }
 }

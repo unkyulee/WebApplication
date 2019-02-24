@@ -127,42 +127,43 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   }
 
   requestDownload() {
-    // start the splash
-    this.event.send("splash-show");
-
     // retrieve REST information
     let src = this.ui.find(["src"], this.uiElement);
     try {
       src = eval(src);
     } catch (e) {}
-    let method = this.ui.find(["method"], this.uiElement);
 
-    let data = this.ui.find(["data"], this.uiElement);
-    try {
-      data = eval(data);
-    } catch (e) {}
+    if(src) {
+      let method = this.ui.find(["method"], this.uiElement);
+      let data = this.ui.find(["data"], this.uiElement);
+      try {
+        data = eval(data);
+      } catch (e) {}
 
-    // download data through rest web services
-    this.rest
-      .request(src, data, method)
-      .pipe(
-        catchError(err => {
-          // hide the splash
-          this.event.send("splash-hide");
-          //
-          let errorAction = this.ui.find(["errorAction"], this.uiElement);
-          if (errorAction) {
-            try {
-              eval(errorAction);
-            } catch (e) {
-              console.error(e);
-            }
-          } else alert(JSON.stringify(err));
+      // download data through rest web services
+      // start the splash
+      this.event.send("splash-show");
+      this.rest
+        .request(src, data, method)
+        .pipe(
+          catchError(err => {
+            // hide the splash
+            this.event.send("splash-hide");
+            //
+            let errorAction = this.ui.find(["errorAction"], this.uiElement);
+            if (errorAction) {
+              try {
+                eval(errorAction);
+              } catch (e) {
+                console.error(e);
+              }
+            } else alert(JSON.stringify(err));
 
-          return EMPTY;
-        })
-      )
-      .subscribe(response => this.responseDownload(response));
+            return EMPTY;
+          })
+        )
+        .subscribe(response => this.responseDownload(response));
+    }
   }
 
   responseDownload(response) {
@@ -211,6 +212,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     let method = this.ui.find(["save", "method"], this.uiElement, "post");
 
     // update data through rest web services
+    let that = this;
     this.rest
       .request(src, this.data, method)
       .pipe(
@@ -220,7 +222,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
 
           // save failed
           let errorAction = this.ui.find(
-            ["errorAction"],
+            ["save", "errorAction"],
             this.uiElement
           );
           if (errorAction) {
@@ -241,7 +243,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         // reset dirty state
         this.prevData = Object.assign({}, this.data);
 
-        let saveAction = this.ui.find(["saveAction"], this.uiElement);
+        let saveAction = this.ui.find(["save", "saveAction"], this.uiElement);
         if (saveAction)
           try {
             eval(saveAction);

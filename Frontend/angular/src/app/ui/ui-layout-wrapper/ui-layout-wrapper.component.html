@@ -53,4 +53,12 @@
   [uiElement]="uiElement"
   [(data)]="data"
 ></calendar>
-<div *ngIf="uiElement.type == 'div'" [ngStyle]="uiElement.style"></div>
+<div *ngIf="uiElement.type == 'layout'" [ngStyle]="uiElement.style">
+  <ui-layout-wrapper
+    *ngFor="let ui of uiElement.screen"
+    [ngStyle]="ui.layoutStyle"
+    [uiElement]="ui"
+    [(data)]="data"
+  ></ui-layout-wrapper>
+</div>
+<div *ngIf="uiElement.type == 'div'" [ngStyle]="uiElement.layoutStyle"></div>
