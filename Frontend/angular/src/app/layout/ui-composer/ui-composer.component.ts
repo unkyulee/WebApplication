@@ -45,6 +45,8 @@ export class UIComposerComponent implements OnInit, OnDestroy {
     // detect configuration changes
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event.name == "navigation-changed") {
+        // reset data
+        this.data = {}
         // load UI when navigation changes
         if (this.nav.currNav) this.loadUI(this.nav.currNav.uiElementIds);
       } else if (event.name == "ui-updated") {

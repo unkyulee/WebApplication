@@ -103,6 +103,8 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         }
       } else if (event && event.name == "save") {
         this.save();
+      } else if (event && event.name == "delete") {
+        this.delete();
       }
     });
   }
@@ -133,7 +135,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       src = eval(src);
     } catch (e) {}
 
-    if(src) {
+    if (src) {
       let method = this.ui.find(["method"], this.uiElement);
       let data = this.ui.find(["data"], this.uiElement);
       try {
@@ -259,6 +261,23 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
           }
         }
       });
+  }
+
+  delete() {
+    if (this.uiElement.delete) {
+      // service setup
+      let src = this.uiElement.delete.src;
+      try {
+        src = eval(src);
+      } catch (e) {}
+      let method = this.uiElement.delete.method;
+
+      // download data through rest web services
+      this.rest.request(src, null, method).subscribe(response => {
+        // back to list
+        this.nav.back();
+      });
+    }
   }
 
   condition(script) {

@@ -86,7 +86,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
         setTimeout(() => this.openSheet(event), 0);
       } else if (event.name == "navigation-changed") {
         if (this.isHandset == true && this.drawer) this.drawer.close();
-
         // scroll back to top when page changes
         try {
           document.getElementById("layout_main_content").scrollTop = 0;

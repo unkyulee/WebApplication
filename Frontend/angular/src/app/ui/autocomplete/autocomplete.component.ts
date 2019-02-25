@@ -127,4 +127,16 @@ export class AutoCompleteComponent implements OnInit {
       }
     }
   }
+
+  condition() {
+    let result = true;
+    if (this.uiElement.condition) {
+      try {
+        result = eval(this.uiElement.condition);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return result;
+  }
 }
