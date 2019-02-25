@@ -62,7 +62,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   groupBy: string;
 
   // event subscription
-  eventSubscription: Subscription;
+  onEvent: Subscription;
 
   ngOnInit() {
     // check if there is any page configuration available
@@ -72,7 +72,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.requestDownload();
 
     // event handler
-    this.eventSubscription = this.event.onEvent.subscribe(event => {
+    this.onEvent = this.event.onEvent.subscribe(event => {
       if (
         event &&
         event.name == "refresh" &&
@@ -85,7 +85,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.eventSubscription.unsubscribe();
+    this.onEvent.unsubscribe();
   }
 
   // pagination information

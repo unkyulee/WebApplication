@@ -138,7 +138,6 @@ export class UploaderComponent {
     }
   }
 
-
   // cordova specifics
   cordovaOpenCamera() {
     if (!this.uploader) {
