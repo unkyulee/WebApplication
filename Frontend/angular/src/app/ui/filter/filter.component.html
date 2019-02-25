@@ -11,7 +11,7 @@
   (change)="change($event)"
 ></selection>
 <input-component
-  *ngIf="uiElement.type == 'date'"
+  *ngIf="uiElement.inputType == 'date'"
   [uiElement]="uiElement"
   [(data)]="data"
   (change)="change($event)"
