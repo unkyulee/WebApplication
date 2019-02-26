@@ -43,4 +43,8 @@ export class AuthService {
   async isAuthenticated() {
     return this.authStrategy.isAuthenticated();
   }
+
+  async refreshAuthentication() {
+    return this.authStrategy.refreshAuthentication();
+  }
 }
