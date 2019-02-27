@@ -1,4 +1,5 @@
 <div
+  *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
   [ngStyle]="
     uiElement.layoutStyle
       ? uiElement.layoutStyle
@@ -6,7 +7,6 @@
   "
 >
   <ngx-datatable
-    *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
     [ngClass]="
       uiElement.class ? uiElement.class : config.configuration.dataTable?.class
     "
@@ -36,8 +36,10 @@
     [externalPaging]="
       uiElement.externalPaging ? uiElement.externalPaging : true
     "
-    [groupRowsBy]="uiElement.group?.groupRowsBy ? uiElement.groupRowsBy : ''"
-    [groupExpansionDefault]="uiElement.group?.groupRowsBy ? true : false"
+    [groupRowsBy]="uiElement.group?.groupRowsBy ? uiElement.group.groupRowsBy : ''"
+    [groupExpansionDefault]="
+      uiElement.group?.groupExpansionDefault ? true : false
+    "
     [count]="total"
     [offset]="page - 1"
     [limit]="size"
@@ -51,7 +53,7 @@
       <ng-template let-group="group" ngx-datatable-group-header-template>
         <div
           [ngStyle]="uiElement.group?.style"
-          [innerHTML]="format(group, uiElement.group?.transform) | safe: 'html'"
+          [innerHTML]="format(group, uiElement.group?.format) | safe: 'html'"
         ></div>
       </ng-template>
     </ngx-datatable-group-header>
@@ -72,7 +74,7 @@
       <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
         <div
           [ngStyle]="column?.style"
-          [innerHTML]="format(value, column.transform, row) | safe: 'html'"
+          [innerHTML]="format(value, column.format, row) | safe: 'html'"
           (click)="click(row, column.click)"
         ></div>
       </ng-template>

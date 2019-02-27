@@ -46,6 +46,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
       v = this.data[this.uiElement.key];
     }
 
+    if(v && this.uiElement.format) {
+      try {
+        v = eval(this.uiElement.format)
+      } catch(e) {
+        console.error(e)
+      }
+    }
+
+    // if the src is not there then recaluculate the total
+    if(v && !this.uiElement.src)
+      this.total = v.length
+
     return v;
   }
 
@@ -124,9 +136,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     // download data through rest web services
     let src = this.ui.find(["src"], this.uiElement);
-    try {
-      src = eval(src);
-    } catch (e) {}
+    try { src = eval(src); } catch (e) {}
 
     if(src) {
       let method = this.ui.find(["method"], this.uiElement);
@@ -146,6 +156,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
       this.rest
         .request(src, data, method)
         .subscribe(response => this.responseDownload(response));
+    } else {
+      this.total = this.rows?this.rows.length: 0;
     }
 
   }
