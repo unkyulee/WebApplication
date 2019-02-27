@@ -6,6 +6,7 @@ import { RestService } from "../rest.service";
 import { EventService } from "../event.service";
 import { ConfigService } from "../config.service";
 import { DefaultAuthStrategy } from "./service/default";
+import { NoAuthStrategy } from './service/noauth';
 
 @Injectable()
 export class AuthService {
@@ -15,8 +16,11 @@ export class AuthService {
     public config: ConfigService
   ) {
     // setup authentication strategy
-    let strategy = obj.get(this.config.configuration, "auth.authStrategy");
+    let strategy = obj.get(this.config.configuration, "authentication.authStrategy");
     switch (strategy) {
+      case "NoAuth":
+        this.authStrategy = new NoAuthStrategy();
+        break;
       default:
         this.authStrategy = new DefaultAuthStrategy(rest, config, event);
     }

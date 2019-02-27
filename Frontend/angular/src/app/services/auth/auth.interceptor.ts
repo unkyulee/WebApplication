@@ -12,6 +12,7 @@ import * as obj from "object-path";
 import { EventService } from "../event.service";
 import { ConfigService } from "../config.service";
 import { DefaultInterceptorStrategy } from "./interceptor/default";
+import { NoAuthInterceptorStrategy } from "./interceptor/noauth";
 
 // Intercept REST messages and handle auth tokens and navigation id in the header
 // Goal is to transparently inject and verify header information
@@ -21,9 +22,12 @@ export class AuthInterceptor implements HttpInterceptor {
     // setup authentication strategy
     let strategy = obj.get(
       this.config.configuration,
-      "auth.interceptorStrategy"
+      "authentication.interceptorStrategy"
     );
     switch (strategy) {
+      case "NoAuth":
+        this.interceptorStrategy = new NoAuthInterceptorStrategy();
+        break;
       default:
         this.interceptorStrategy = new DefaultInterceptorStrategy(
           event,
