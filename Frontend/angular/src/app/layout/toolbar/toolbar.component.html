@@ -20,18 +20,8 @@
   <span class="title" [matTooltip]="title">{{ title }}</span>
   <div class="flex-spacer"></div>
 
-  <button
-    *ngIf="action"
-    mat-icon-button
-    [matTooltip]="action.name"
-    (click)="action.action()"
-  >
-    <mat-icon>{{ action.icon }}</mat-icon>
-  </button>
+  <ng-container *ngFor="let action of actions">
+    <ui-layout-wrapper [uiElement]="action" [data]="data"></ui-layout-wrapper>
+  </ng-container>
 
-  <div class="" fxLayout="row" fxLayoutAlign="start center">
-    <button mat-icon-button (click)="refresh()" matTooltip="Refresh">
-      <mat-icon class="icon">refresh</mat-icon>
-    </button>
-  </div>
 </mat-toolbar>

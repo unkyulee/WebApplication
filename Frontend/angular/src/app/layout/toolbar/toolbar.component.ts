@@ -1,16 +1,14 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
-  ViewChild,
-  ElementRef
+  OnDestroy
 } from "@angular/core";
 import { EventService } from "../../services/event.service";
 import { Subscription, Subject } from "rxjs";
 import * as obj from "object-path";
 import { ConfigService } from "../../services/config.service";
 import { NavService } from "../../services/nav.service";
-import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
+
 
 @Component({
   selector: "toolbar",
@@ -34,11 +32,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   showLoadingBar: boolean = false;
 
   //
-  action: any;
+  actions: any[]
+  data: any
 
   //
   onEvent: Subscription;
   ngOnInit() {
+    // load global actions
+    this.actions = obj.get(this.config.configuration, "toolbar.actions")
+
     // handle events
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event.name == "navigation-changed") {
@@ -49,9 +51,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
           // top or sub nav
           this.nav.currNav.type == 'sub' ? this.isTopNav = false : this.isTopNav = true;
         }
-
-        //
-        this.action = null;
       } else if (event == "splash-show") {
         this.showLoadingBar = true;
       } else if (event == "splash-hide") {

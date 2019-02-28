@@ -48,21 +48,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event && event.name == "refresh") {
-        // remove null fields
-        for (let key of Object.keys(this.prevData))
-          if (this.prevData[key] == null || this.prevData[key] == "")
-            delete this.prevData[key];
-        for (let key of Object.keys(this.data))
-          if (this.data[key] == null || this.data[key] == "")
-            delete this.data[key];
-
-        // check if the data has not been changed
-        if (JSON.stringify(this.prevData) == JSON.stringify(this.data)) {
-          // refresh only if the record has not been changed
-          setTimeout(() => {
-            this.requestDownload();
-          }, 100);
-        }
+        this.requestDownload();
       } else if (event && event.name == "merge-data") {
         this.data = Object.assign(this.data, event.data);
       } else if (event && event.name == "insert-data") {
