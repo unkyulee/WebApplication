@@ -2,8 +2,6 @@ import {
   Component,
   Input,
   OnInit,
-  Output,
-  EventEmitter,
   ViewChild
 } from "@angular/core";
 import { MatSelect } from "@angular/material";
@@ -23,17 +21,33 @@ export class SelectionComponent implements OnInit {
 
   @Input() uiElement: any;
   @Input() data: any;
-  @Output() change: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild("select") select: MatSelect;
 
+  _value: any;
   get value() {
     let v = null;
 
     if (this.data && this.uiElement.key) {
+      // if null then assign default
+      if (!this.data[this.uiElement.key]) {
+        let def = this.uiElement.default;
+        try {
+          def = eval(this.uiElement.default);
+        } catch (e) {}
+        this.data[this.uiElement.key] = def;
+      }
+
       v = this.data[this.uiElement.key];
       if (v && this.uiElement.multiple && !Array.isArray(v)) {
         v = [v]
       }
+    }
+
+    // if the value is programmatically updated without set property called
+    // then set it explicitly
+    if(this._value != v) {
+      this._value = v
+      this.value = v
     }
 
     return v;
@@ -41,7 +55,7 @@ export class SelectionComponent implements OnInit {
 
 
   set value(v: any) {
-    this.change.emit(v);
+    this._value = v;
 
     // close the selection panel
     this.select.close();
