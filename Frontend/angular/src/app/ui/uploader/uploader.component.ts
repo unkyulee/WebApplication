@@ -50,9 +50,7 @@ export class UploaderComponent {
     private ng2ImgMax: Ng2ImgMaxService,
     public snackBar: MatSnackBar,
     public user: UserService,
-    private cordova: CordovaService,
-    private ref: ChangeDetectorRef,
-    private zone: NgZone
+    private cordova: CordovaService
   ) {}
 
   //
@@ -75,13 +73,11 @@ export class UploaderComponent {
         this.timer = setInterval(() => {
           // check changes until the queue is empty
           if(this.uploader && this.uploader.queue.length > 0) {
-            this.zone.run(() => {
-              this.ref.detectChanges()
-            });
+            this.event.send({name: 'changed'})
           } else if(this.uploader && this.uploader.queue.length  == 0) {
             clearInterval(this.timer)
           }
-        }, 1000)
+        }, 300)
       }
     )
 

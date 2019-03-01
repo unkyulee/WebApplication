@@ -1,9 +1,11 @@
-import { Component, Input, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
 // user imports
 import { RestService } from "../../services/rest.service";
 import { UIService } from "../../services/ui.service";
 import { UserService } from "src/app/services/user/user.service";
+import { CordovaService } from 'src/app/services/cordova.service';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: "autocomplete",
@@ -14,26 +16,38 @@ export class AutoCompleteComponent implements OnInit {
   constructor(
     private rest: RestService,
     private ui: UIService,
-    public user: UserService
+    public user: UserService,
+    public cordova: CordovaService,
+    public event: EventService
   ) {}
 
   @Input() uiElement: any;
   @Input() data: any;
-  @Output() change: EventEmitter<any> = new EventEmitter<any>();
 
   ngOnInit() {
     // if optionSrc is specified then download the options
     this.loadOption();
   }
 
+  _value: any
   get value() {
+    let v = null;
+
     if (this.data && this.data[this.uiElement.key])
-      return this.data[this.uiElement.key];
-    return "";
+      v = this.data[this.uiElement.key];
+
+    // if the value is programmatically updated without set property called
+    // then set it explicitly
+    if(this._value != v) {
+      this._value = v
+      this.value = v
+    }
+
+    return v;
   }
 
   set value(v: any) {
-    this.change.emit(v);
+    this._value = v
 
     // when value is set, reload the option
     this.loadOption();

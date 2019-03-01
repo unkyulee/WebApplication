@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subscription, EMPTY } from "rxjs";
 import { MatSnackBar } from "@angular/material";
@@ -12,6 +12,7 @@ import { NavService } from "../../services/nav.service";
 import { ConfigService } from "../../services/config.service";
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user/user.service";
+import { CordovaService } from 'src/app/services/cordova.service';
 
 @Component({
   selector: "form-generator",
@@ -26,7 +27,9 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     private event: EventService,
     public snackBar: MatSnackBar,
     public config: ConfigService,
-    public user: UserService
+    public user: UserService,
+    private cordova: CordovaService,
+    private ref: ChangeDetectorRef
   ) {}
 
   @Input() uiElement: any;
@@ -51,7 +54,11 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         this.requestDownload();
       } else if (event && event.name == "merge-data") {
         this.data = Object.assign(this.data, event.data);
-      } else if (event && event.name == "insert-data") {
+      } else if (event && event.name == "changed") {
+        setTimeout(() =>{
+          this.cordova.detectChanges(this.ref)
+        }, 100)
+      }else if (event && event.name == "insert-data") {
         obj.ensureExists(this.data, event.path, []);
         let data = obj.get(this.data, event.path);
         if (!data) data = [];

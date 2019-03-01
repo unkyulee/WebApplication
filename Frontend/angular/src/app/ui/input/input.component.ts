@@ -31,6 +31,7 @@ export class InputComponent {
     );
   }
 
+  _value: any
   get value() {
     let v = null;
 
@@ -61,10 +62,19 @@ export class InputComponent {
     // if number
     if (v && this.uiElement.inputType == "number") v = parseFloat(v);
 
+    // if the value is programmatically updated without set property called
+    // then set it explicitly
+    if(this._value != v) {
+      this._value = v
+      this.value = v
+    }
+
     return v;
   }
 
   set value(v: any) {
+    this._value = v;
+
     if (this.data && this.uiElement.key) {
       this.data[this.uiElement.key] = v;
       // if number

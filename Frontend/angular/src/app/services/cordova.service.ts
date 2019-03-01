@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, ChangeDetectorRef } from '@angular/core';
 import { fromEvent, Subject } from 'rxjs';
 
 function _window(): any {
@@ -27,5 +27,11 @@ export class CordovaService {
   }
   public onResume(): void {
     this.resume.next(true);
+  }
+
+  detectChanges(ref: ChangeDetectorRef) {
+    this.zone.run(() => {
+      ref.detectChanges();
+    });
   }
 }
