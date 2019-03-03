@@ -165,7 +165,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     } else {
       this.uiElement.externalPaging = false;
       this.total = this.rows ? this.rows.length : 0;
-      this.size = this.total
+      this.size = this.total;
     }
   }
 
