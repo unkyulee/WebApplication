@@ -46,17 +46,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
       v = this.data[this.uiElement.key];
     }
 
-    if(v && this.uiElement.format) {
+    if (v && this.uiElement.format) {
       try {
-        v = eval(this.uiElement.format)
-      } catch(e) {
-        console.error(e)
+        v = eval(this.uiElement.format);
+      } catch (e) {
+        console.error(e);
       }
     }
 
     // if the src is not there then recaluculate the total
-    if(v && !this.uiElement.src)
-      this.total = v.length
+    if (v && !this.uiElement.src) this.total = v.length;
 
     return v;
   }
@@ -85,13 +84,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     // event handler
     this.onEvent = this.event.onEvent.subscribe(event => {
-      if (
-        event &&
-        event.name == "refresh" &&
-        (!event.key || event.key == this.uiElement.key)
-      ) {
-        this.page = 1; // reset to first page
-        setTimeout(() => this.requestDownload(), 0);
+      if (event && (!event.key || event.key == this.uiElement.key)) {
+        if (event.name == "refresh") {
+          this.page = 1; // reset to first page
+          setTimeout(() => this.requestDownload(), 0);
+        } else if(event.name == "pagination") {
+          console.log(event)
+          this.page = event.page
+          this.size = event.size
+          setTimeout(() => this.requestDownload(), 0);
+        }
       }
     });
   }
@@ -133,12 +135,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
     // parameters
     let params = this.nav.getParams();
     delete params["_id"];
+    params['page'] = this.page;
+    params['size'] = this.size;
 
     // download data through rest web services
     let src = this.ui.find(["src"], this.uiElement);
-    try { src = eval(src); } catch (e) {}
+    try {
+      src = eval(src);
+    } catch (e) {}
 
-    if(src) {
+    if (src) {
       let method = this.ui.find(["method"], this.uiElement);
 
       // look at query params and pass it on to the request
@@ -152,14 +158,15 @@ export class DataTableComponent implements OnInit, OnDestroy {
       }
 
       // send REST request
-      this.event.send("splash-show");     // show splash
+      this.event.send("splash-show"); // show splash
       this.rest
         .request(src, data, method)
         .subscribe(response => this.responseDownload(response));
     } else {
-      this.total = this.rows?this.rows.length: 0;
+      this.uiElement.externalPaging = false;
+      this.total = this.rows ? this.rows.length : 0;
+      this.size = this.total
     }
-
   }
 
   responseDownload(response) {

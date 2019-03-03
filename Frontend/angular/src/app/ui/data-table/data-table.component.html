@@ -33,9 +33,6 @@
     [scrollbarH]="uiElement.scrollbarH ? uiElement.scrollbarH : true"
     [reorderable]="uiElement.reorderable ? uiElement.reorderable : true"
     [selectionType]="uiElement.selectionType ? uiElement.selectionType : ''"
-    [externalPaging]="
-      uiElement.externalPaging ? uiElement.externalPaging : true
-    "
     [groupRowsBy]="uiElement.group?.groupRowsBy ? uiElement.group.groupRowsBy : ''"
     [groupExpansionDefault]="
       uiElement.group?.groupExpansionDefault ? true : false
@@ -44,6 +41,9 @@
     [offset]="page - 1"
     [limit]="size"
     (page)="requestDownload($event)"
+    [externalPaging]="
+      uiElement.externalPaging ? uiElement.externalPaging : true
+    "
   >
     <!-- Group Header Template -->
     <ngx-datatable-group-header
@@ -110,6 +110,7 @@
 
   <pagination
     *ngIf="total >= size"
+    [key]="uiElement.key"
     [total]="total"
     [page]="page"
     [size]="size"
