@@ -72,6 +72,10 @@ export class DataTableComponent implements OnInit, OnDestroy {
   sort: any;
   groupBy: string;
 
+  // pagination information
+  page: number = 0;
+  size: number = 0;
+
   // event subscription
   onEvent: Subscription;
 
@@ -88,10 +92,10 @@ export class DataTableComponent implements OnInit, OnDestroy {
         if (event.name == "refresh") {
           this.page = 1; // reset to first page
           setTimeout(() => this.requestDownload(), 0);
-        } else if(event.name == "pagination") {
-          console.log(event)
-          this.page = event.page
-          this.size = event.size
+        } else if (event.name == "pagination") {
+          console.log(event);
+          this.page = event.page;
+          this.size = event.size;
           setTimeout(() => this.requestDownload(), 0);
         }
       }
@@ -101,10 +105,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.onEvent.unsubscribe();
   }
-
-  // pagination information
-  page: number = 0;
-  size: number = 0;
 
   // Get Pagination information
   getPage() {
@@ -135,8 +135,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
     // parameters
     let params = this.nav.getParams();
     delete params["_id"];
-    params['page'] = this.page;
-    params['size'] = this.size;
+    params["page"] = this.page;
+    params["size"] = this.size;
 
     // download data through rest web services
     let src = this.ui.find(["src"], this.uiElement);
