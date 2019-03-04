@@ -54,9 +54,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
       }
     }
 
-    // if the src is not there then recaluculate the total
-    if (v && !this.uiElement.src) this.total = v.length;
-
     return v;
   }
 
@@ -66,13 +63,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  // configuration values
-  columns: any[];
-  total: number = 0;
-  sort: any;
-  groupBy: string;
-
   // pagination information
+  total: number = 0;
   page: number = 0;
   size: number = 0;
 
@@ -93,7 +85,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
           this.page = 1; // reset to first page
           setTimeout(() => this.requestDownload(), 0);
         } else if (event.name == "pagination") {
-          console.log(event);
           this.page = event.page;
           this.size = event.size;
           setTimeout(() => this.requestDownload(), 0);
@@ -152,7 +143,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       data = Object.assign({}, data, params);
 
       // sorting options
-      if (this.sort) {
+      if (this.uiElement.sort) {
         if (this.sort.dir == "asc") data["_sort"] = this.sort.prop;
         else if (this.sort.dir == "desc") data["_sort_desc"] = this.sort.prop;
       }
@@ -212,6 +203,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     return value;
   }
 
+  sort: any
   onSort(event: any) {
     // event.sorts.dir / prop
     this.sort = event.sorts[0];
