@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  ChangeDetectorRef
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { Subscription, EMPTY } from "rxjs";
 import { MatSnackBar } from "@angular/material";
@@ -12,7 +18,7 @@ import { NavService } from "../../services/nav.service";
 import { ConfigService } from "../../services/config.service";
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user/user.service";
-import { CordovaService } from 'src/app/services/cordova.service';
+import { CordovaService } from "src/app/services/cordova.service";
 
 @Component({
   selector: "form-generator",
@@ -33,7 +39,34 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   ) {}
 
   @Input() uiElement: any;
-  @Input() data: any;
+
+  _data: any
+  get data() {
+    if (JSON.stringify(this._data) == '{}') {
+      this._data = this.uiElement.default;
+      try {
+        this._data = eval(this.uiElement.default);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // if format is specified
+    if (this._data && this.uiElement.format) {
+      try {
+        this._data = eval(this.uiElement.format);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    return this._data;
+  }
+
+  @Input('data')
+  set data(v) {
+    this._data = v;
+  }
 
   // data
   params: any;
@@ -55,10 +88,10 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       } else if (event && event.name == "merge-data") {
         this.data = Object.assign(this.data, event.data);
       } else if (event && event.name == "changed") {
-        setTimeout(() =>{
-          this.cordova.detectChanges(this.ref)
-        }, 100)
-      }else if (event && event.name == "insert-data") {
+        setTimeout(() => {
+          this.cordova.detectChanges(this.ref);
+        }, 100);
+      } else if (event && event.name == "insert-data") {
         obj.ensureExists(this.data, event.path, []);
         let data = obj.get(this.data, event.path);
         if (!data) data = [];
@@ -117,7 +150,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       if (willSave) this.save();
     }
     */
-
     this.onEvent.unsubscribe();
   }
 

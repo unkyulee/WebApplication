@@ -2,4 +2,5 @@
   *ngIf="condition() && value"
   [ngStyle]="uiElement.style"
   [innerHtml]="value | safe: 'html'"
+  (click)="click()"
 ></div>

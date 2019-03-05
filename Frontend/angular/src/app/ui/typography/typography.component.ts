@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user/user.service';
 import { Subscription } from 'rxjs';
 import { EventService } from 'src/app/services/event.service';
 import { RestService } from 'src/app/services/rest.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'typography'
@@ -23,6 +24,7 @@ export class TypographyComponent {
     , public user: UserService
     , public event: EventService
     , public rest: RestService
+    , public router: Router
   ) { }
 
   ngOnInit() {
@@ -127,6 +129,16 @@ export class TypographyComponent {
       }
     }
     return result;
+  }
+
+  click() {
+    if(this.uiElement.click) {
+      try {
+        eval(this.uiElement.click)
+      } catch(e) {
+        console.error(e)
+      }
+    }
   }
 
 }

@@ -88,6 +88,17 @@
       [selectMode]="uiElement.selectMode ? uiElement.selectMode : 'single'"
       onfocus="blur()"
     />
+    <button
+      type="button"
+      matSuffix
+      mat-icon-button
+      (click)="click()"
+      *ngIf="uiElement.icon"
+    >
+      <mat-icon [style.color]="uiElement.iconColor || 'green'">{{
+        uiElement.icon
+      }}</mat-icon>
+    </button>
     <owl-date-time
       #dt1
       [disabled]="uiElement.readonly == true ? true : false"
