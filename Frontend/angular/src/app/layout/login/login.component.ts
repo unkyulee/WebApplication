@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     // handle events
     this.onEvent = this.event.onEvent.subscribe(async event => {
       if (event.name == "login") {
+        if(event.data) this.data = Object.assign(this.data, event.data)
         await this.authenticate();
       }
     });

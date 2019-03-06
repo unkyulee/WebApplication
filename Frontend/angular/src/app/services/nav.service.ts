@@ -20,6 +20,7 @@ export class NavService {
     this.set();
 
     // monitor navigation changes
+    let that = this;
     router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         // add to navigation stack
