@@ -22,7 +22,9 @@ namespace Web.Application.Modules
 
             // get angular navigation
             var angular_navigation = new List<IDictionary<string, object>>();
-            var navigations = db.Query($@"SELECT * FROM angular_navigation WHERE navigation_id={navigation.Get("_id")}");
+            var param = new Dictionary<string, object>();
+            param["navigation_id"] = navigation.Get("_id");
+            var navigations = db.Query($@"SELECT * FROM angular_navigation WHERE navigation_id=@navigation_id", param);
             foreach (var nav in navigations)
             {
                 var content = JsonConvert.DeserializeObject<IDictionary<string, object>>($"{nav["content"]}");
@@ -88,14 +90,13 @@ namespace Web.Application.Modules
         private string IndexJS(HttpContext context)
         {
             var navigation = (IDictionary<string, object>)context.Items["navigation"];
-            var config = new
-            {
-                rest = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}",
-                auth = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}{navigation.Get("url")}",
-                angular_client = navigation
-            };
+            var config = JsonConvert.DeserializeObject<IDictionary<string, object>>($"{navigation["content"]}");
 
-            return $@"__CONFIG__ = Object.assign(__CONFIG__, {JsonConvert.SerializeObject(config)})";
+            // calculate basePath
+            config["rest"] = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}";
+            config["auth"] = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.PathBase}{navigation.Get("url")}";
+            
+            return $@"window.__CONFIG__ = {JsonConvert.SerializeObject(config)}";
         }
 
         private string IndexHtml(HttpContext context)
@@ -107,12 +108,17 @@ namespace Web.Application.Modules
             string filepath = Path.Combine(WebRootPath, "index.html");
             result = File.ReadAllText(filepath);
 
-            // run render with Razor Engine
+            // get navigation info
             var navigation = (IDictionary<string, object>)context.Items["navigation"];
+
+            // render html
+            var basePath = $"{context.Request.PathBase}{navigation.Get("url")}";
+            if (basePath == "/") basePath = "";
+            
             result = result
                 .Replace("@title", navigation.Get("name")?.ToString())
-                .Replace("@base_href", $@"<base href='{context.Request.PathBase}{navigation.Get("url")}'>")
-                .Replace("@path", $@"{context.Request.PathBase}{navigation.Get("url")}")
+                .Replace("@base_href", $@"<base href='{basePath}'>")
+                .Replace("@path", $@"{basePath}")
                 ;
             return result;
         }

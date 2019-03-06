@@ -7,16 +7,7 @@ BEGIN
         url NVARCHAR(255),
         priority int NOT NULL,
         module NVARCHAR(255),
-        color_primary NVARCHAR(50),
-        color_primaryLight NVARCHAR(50),
-        color_primaryDark NVARCHAR(50),
-        color_secondary NVARCHAR(50),
-        color_secondaryLight NVARCHAR(50),
-        color_secondaryDark NVARCHAR(50),
-        color_accent NVARCHAR(50),
-        color_accentLight NVARCHAR(50),
-        color_accentDark NVARCHAR(50),
-        color_background NVARCHAR(50),
+        content nvarchar(max),
         _created DATETIME default CURRENT_TIMESTAMP,
         _updated DATETIME default CURRENT_TIMESTAMP
     );

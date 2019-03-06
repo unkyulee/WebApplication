@@ -47,9 +47,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.data.error = "";
     for (let ui of this.login.screen) {
       let value = this.data[ui.key]; // used by the evaluation script
-      let error = eval(ui.errorCondition);
-      if (error) {
-        this.data.error += `${ui.errorMessage}\n`;
+      if(ui.errorCondition) {
+        let error = eval(ui.errorCondition);
+        if (error) this.data.error += `${ui.errorMessage}\n`;
       }
     }
 

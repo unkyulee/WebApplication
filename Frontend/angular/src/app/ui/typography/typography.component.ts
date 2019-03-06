@@ -63,10 +63,10 @@ export class TypographyComponent {
     }
 
     // if null then assign default
-    if (!v) {
+    if (!v && this.uiElement.default) {
       v = this.uiElement.default
       try { v = eval(this.uiElement.default) }
-      catch (e) { console.error(e) }
+      catch (e) {}
     }
 
     // if format is specified

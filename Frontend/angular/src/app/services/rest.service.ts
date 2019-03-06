@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, EMPTY } from "rxjs"
-
-// get config from index.html
-declare var __CONFIG__: any
+import { ConfigService } from './config.service';
 
 @Injectable()
 export class RestService {
   constructor(
     private http: HttpClient
+    , private config: ConfigService
   ) { }
 
-  // save global config
-  global = __CONFIG__
-
   host() {
-    return this.global.rest
+    return this.config.configuration.rest
   }
 
   // request REST service
@@ -27,7 +23,7 @@ export class RestService {
     // convert url to full qualified name
     if (url.startsWith("http") == false) {
       if (url.startsWith('/') == false) url = `/${url}`
-      url = `${this.global.rest}${url}`
+      url = `${this.config.configuration.rest}${url}`
     }
 
     if (method == 'post') {

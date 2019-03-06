@@ -97,45 +97,48 @@ namespace Service.Script.Scripts
 
                         } catch { }
 
-
-                        foreach (var item in source)
+                        if(source != null)
                         {
-                            // new record
-                            var record = new Dictionary<string, object>();
-
-                            // fill up the record with foreign key relationship
-                            if (relationships != null)
-                                foreach (var relationship in relationships)
-                                    record[$"{relationship["target"]}"] = $"{data[$"{relationship["source"]}"]}";
-
-                            // fill up the mapping value
-                            var type = $"{mapping["type"]}";
-                            if (type == "object")
+                            foreach (var item in source)
                             {
-                                var targets = (JArray)mapping["targets"];
-                                if (targets != null)
-                                    foreach (var target in targets)
-                                        record[$"{target["target"]}"] = $"{item[$"{target["source"]}"]}";
-                            }
+                                // new record
+                                var record = new Dictionary<string, object>();
 
-                            // navigation_id
-                            if (navigation_id != null)
-                                record["navigation_id"] = navigation_id;
+                                // fill up the record with foreign key relationship
+                                if (relationships != null)
+                                    foreach (var relationship in relationships)
+                                        record[$"{relationship["target"]}"] = $"{data[$"{relationship["source"]}"]}";
 
-                            // find the key                            
-                            if (sourceKey != null && item[sourceKey] != null)
-                            {
-                                // update 
-                                record[extIdField] = $"{item[sourceKey]}";
-                                SQL_Update.Update(db, extTable, record, extIdField);
-                            }
-                            else
-                            {
-                                // insert
-                                SQL_Insert.Insert(db, extTable, record, extIdField);
-                            }
+                                // fill up the mapping value
+                                var type = $"{mapping["type"]}";
+                                if (type == "object")
+                                {
+                                    var targets = (JArray)mapping["targets"];
+                                    if (targets != null)
+                                        foreach (var target in targets)
+                                            record[$"{target["target"]}"] = $"{item[$"{target["source"]}"]}";
+                                }
 
+                                // navigation_id
+                                if (navigation_id != null)
+                                    record["navigation_id"] = navigation_id;
+
+                                // find the key                            
+                                if (sourceKey != null && item[sourceKey] != null)
+                                {
+                                    // update 
+                                    record[extIdField] = $"{item[sourceKey]}";
+                                    SQL_Update.Update(db, extTable, record, extIdField);
+                                }
+                                else
+                                {
+                                    // insert
+                                    SQL_Insert.Insert(db, extTable, record, extIdField);
+                                }
+
+                            }
                         }
+                        
                     }
                 }
 

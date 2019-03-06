@@ -24,6 +24,7 @@ export class DefaultAuthStrategy {
           catchError(
             // when response is not 200
             (err: HttpErrorResponse) => {
+              console.error(err)
               reject(err.message);
               return EMPTY;
             }
