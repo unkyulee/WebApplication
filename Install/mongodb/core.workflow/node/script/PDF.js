@@ -1,6 +1,6 @@
 var Mustache = require("mustache");
 var pdf = require("html-pdf");
-var moment = require("moment");
+var moment = require("moment-timezone");
 
 (async function() {
   // form values
