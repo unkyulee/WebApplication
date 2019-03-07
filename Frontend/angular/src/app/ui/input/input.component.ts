@@ -4,7 +4,7 @@ import { DateTimeAdapter } from "ng-pick-datetime";
 import { UserService } from "../../services/user/user.service";
 import { EventService } from "../../services/event.service";
 import { ConfigService } from "src/app/services/config.service";
-import { NavService } from 'src/app/services/nav.service';
+import { NavService } from "src/app/services/nav.service";
 
 @Component({
   selector: "input-component",
@@ -31,7 +31,7 @@ export class InputComponent {
     );
   }
 
-  _value: any
+  _value: any;
   get value() {
     let v = null;
 
@@ -52,21 +52,21 @@ export class InputComponent {
       v = this.data[this.uiElement.key];
     }
 
-    // Transform
-    if (this.uiElement.transform) {
-      try {
-        v = eval(this.uiElement.transform);
-      } catch (e) {}
-    }
-
     // if number
     if (v && this.uiElement.inputType == "number") v = parseFloat(v);
 
     // if the value is programmatically updated without set property called
     // then set it explicitly
-    if(this._value != v) {
-      this._value = v
-      this.value = v
+    if (this._value != v) {
+      // Transform
+      if (this.uiElement.transform) {
+        try {
+          v = eval(this.uiElement.transform);
+        } catch (e) {}
+      }
+
+      this._value = v;
+      this.value = v;
     }
 
     return v;

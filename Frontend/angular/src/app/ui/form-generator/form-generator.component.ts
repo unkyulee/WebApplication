@@ -77,9 +77,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   // event subscription
   onEvent: Subscription;
   ngOnInit() {
-    // fetch params
-    this.params = this.nav.getParams();
-
     // download data
     this.requestDownload();
 
@@ -156,6 +153,9 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   }
 
   requestDownload() {
+    // fetch params
+    this.params = this.nav.getParams();
+
     // retrieve REST information
     let src = this.ui.find(["src"], this.uiElement);
     try {
