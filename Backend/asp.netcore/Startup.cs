@@ -96,7 +96,7 @@ namespace WebApplication
 
                 // Verify authentication                                        
                 if (Auth.CanModuleProcess(context) == true) {
-                    string result = module.Process(context);
+                    string result = await module.Process(context);
                     if (result != null) await context.Response.WriteAsync(result);
                     return;
                 }                

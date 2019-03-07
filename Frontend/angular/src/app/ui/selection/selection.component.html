@@ -11,6 +11,7 @@
     [evalValidate]="uiElement.errorCondition"
     [multiple]="uiElement.multiple"
     [(ngModel)]="value"
+    [required]="uiElement.required"
   >
     <mat-option
       *ngFor="let option of uiElement.options"

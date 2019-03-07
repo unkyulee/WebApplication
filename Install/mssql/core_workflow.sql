@@ -45,4 +45,7 @@ INSERT INTO core_workflow (_id, name) VALUES (160, 'File Upload');
 DELETE FROM core_workflow WHERE _id = 170
 INSERT INTO core_workflow (_id, name) VALUES (170, 'File Download');
 
+DELETE FROM core_workflow WHERE _id = 180
+INSERT INTO core_workflow (_id, name) VALUES (180, 'REST Request');
+
 SET IDENTITY_INSERT core_workflow OFF;

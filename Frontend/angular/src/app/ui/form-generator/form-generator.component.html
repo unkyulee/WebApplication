@@ -1,4 +1,10 @@
-<div [ngStyle]="config.configuration.formGenerator?.style">
+<div
+  [ngStyle]="
+    uiElement.style
+      ? uiElement.style
+      : config.configuration.formGenerator?.style
+  "
+>
   <div [ngStyle]="uiElement.headerStyle">
     <ng-container *ngFor="let ui of uiElement.header">
       <ui-layout-wrapper
@@ -24,10 +30,7 @@
         "
         (click)="ui.expanded = !ui.expanded"
       >
-        <button
-          type="button"
-          mat-icon-button
-        >
+        <button type="button" mat-icon-button>
           <mat-icon>{{
             ui.expanded == false ? "keyboard_arrow_down" : "keyboard_arrow_up"
           }}</mat-icon>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Web.Application.Interfaces;
 using Web.Application.Services.DB;
 using Web.Appliction.Ext;
@@ -62,8 +63,10 @@ namespace Web.Application.Modules
             });
         }
 
-        public string Process(HttpContext context)
+        public Task<string> Process(HttpContext context)
         {
+            string result = null;
+
             // parameters
             string WebRootPath = $"{context.Items["WebRootPath"]}";
             var navigation = (IDictionary<string, object>)context.Items["navigation"];
@@ -77,14 +80,17 @@ namespace Web.Application.Modules
             relativePath = relativePath.Replace('/', Path.DirectorySeparatorChar);
             string filepath = Path.Combine(WebRootPath, relativePath);
             if (File.Exists(filepath))
-                return File.ReadAllText(filepath);
+                result = File.ReadAllText(filepath);
             
             // check if it's index.js
-            if (context.Request.Path.Value.Split("/").Last() == "index.js")
-                return IndexJS(context);
-            
+            else if (context.Request.Path.Value.Split("/").Last() == "index.js")
+                result = IndexJS(context);
+             
             // otherwise return index.html
-            return IndexHtml(context);
+            else
+                result = IndexHtml(context);
+
+            return Task.FromResult(result);
         }
 
         private string IndexJS(HttpContext context)

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Web.Application.Interfaces;
 using Web.Application.Lib;
 using Web.Application.Services;
@@ -21,7 +22,7 @@ namespace Web.Application.Modules
             );
         }
 
-        public string Process(HttpContext context)
+        public async Task<string> Process(HttpContext context)
         {
             string result = null;
 
@@ -100,7 +101,7 @@ namespace Web.Application.Modules
                             }
 
                             // produce entire script                                                         
-                            object scriptResult = Script.Run(
+                            object scriptResult = await Script.Run(
                                 context
                                 , $"{workflow?.Get("_id")}"
                                 , $"{service.Get($"{method}_configuration")}"
@@ -128,7 +129,7 @@ namespace Web.Application.Modules
                             {
                                 // response with token
                                 byte[] byteResult = (byte[])scriptResult;
-                                context.Response.Body.WriteAsync(byteResult, 0, byteResult.Length);
+                                await context.Response.Body.WriteAsync(byteResult, 0, byteResult.Length);
                             }
 
                         }

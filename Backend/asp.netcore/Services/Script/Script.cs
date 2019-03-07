@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Service.Script.Scripts;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Web.Application.Services
 {
     public class Script 
     {
-        public static object Run(
+        public async static Task<object> Run(
             HttpContext context
             , string script_id
             , string configuration
@@ -57,6 +58,9 @@ namespace Web.Application.Services
 
                 case "170":
                     result = File_Download.Run(context, configuration, dataservices);
+                    break;
+                case "180":
+                    result = await REST_Request.Run(context, configuration, dataservices);
                     break;
             } 
 
