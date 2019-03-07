@@ -2,6 +2,7 @@
 using Service.Script.Scripts;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Web.Application.Lib;
 
 namespace Web.Application.Services
 {
@@ -14,6 +15,7 @@ namespace Web.Application.Services
             , IList<object> dataservices)
         {
             object result = null;
+            configuration = Tools.PreProcess(configuration);
 
             switch (script_id) {
                 case "40":

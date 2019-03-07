@@ -26,8 +26,7 @@ namespace Service.Script.Scripts
 
             // Get Configuration
             if (string.IsNullOrEmpty(configuration))
-                return new { error = "No configuration specified." };
-            configuration = Tools.PreProcess(configuration);
+                return new { error = "No configuration specified." };            
             JObject config = JsonConvert.DeserializeObject<JObject>(configuration);
 
             // check parameters
@@ -67,7 +66,7 @@ namespace Service.Script.Scripts
                 {
                     string value = $"{data[key]}";
                     // convert key -> value
-                    body.Replace($"@{key}", value);
+                    body = body.Replace($"@{key}@", value);
                 }
 
                 // Send the request
@@ -91,16 +90,7 @@ namespace Service.Script.Scripts
                     object request = null;
                     if($"{config["includeRequest"]}" == "True")
                     {
-                        if ($"{config["convert"]}" == "xml")
-                        {
-                            XmlDocument doc = new XmlDocument();
-                            doc.LoadXml(body);
-                            request = JsonConvert.DeserializeObject(JsonConvert.SerializeXmlNode(doc));
-                        }
-                        else
-                        {
-                            request = body;
-                        }                        
+                        request = body;
                     }
 
                     result = new
