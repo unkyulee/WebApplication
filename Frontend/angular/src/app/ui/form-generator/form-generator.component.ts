@@ -200,14 +200,19 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     this.event.send("splash-hide");
 
     // go through data transformation
+    let data = {};
     let transform = this.ui.find(["transform"], this.uiElement);
     if (transform) {
       try {
-        this.data = eval(transform);
+        // do not overwrite data
+        data = eval(transform);
       } catch (e) {
         console.error(e);
       }
-    } else this.data = response;
+    } else data = response;
+
+    // do not overwrite existing data
+    Object.assign(this.data, data)
 
     // save copy of unchanged data
     this.prevData = JSON.parse(JSON.stringify(this.data));
