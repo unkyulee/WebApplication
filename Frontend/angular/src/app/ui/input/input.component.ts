@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { DateTimeAdapter } from "ng-pick-datetime";
 
 import { UserService } from "../../services/user/user.service";
@@ -22,6 +22,7 @@ export class InputComponent {
 
   @Input() uiElement: any;
   @Input() data: any;
+  @Output() change: EventEmitter<any> = new EventEmitter<any>(); // used for filter
 
   ngOnInit() {
     this.dateTimeAdapter.setLocale(
@@ -74,6 +75,7 @@ export class InputComponent {
 
   set value(v: any) {
     this._value = v;
+    this.change.emit(v)
 
     if (this.data && this.uiElement.key) {
       this.data[this.uiElement.key] = v;

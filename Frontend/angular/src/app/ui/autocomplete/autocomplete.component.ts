@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, EventEmitter, Output } from "@angular/core";
 
 // user imports
 import { RestService } from "../../services/rest.service";
@@ -23,6 +23,7 @@ export class AutoCompleteComponent implements OnInit {
 
   @Input() uiElement: any;
   @Input() data: any;
+  @Output() change: EventEmitter<any> = new EventEmitter<any>(); // used for filter
 
   ngOnInit() {
     // if optionSrc is specified then download the options
@@ -48,6 +49,7 @@ export class AutoCompleteComponent implements OnInit {
 
   set value(v: any) {
     this._value = v
+    this.change.emit(v)
 
     // when value is set, reload the option
     this.loadOption();

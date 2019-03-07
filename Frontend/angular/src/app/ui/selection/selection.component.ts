@@ -2,7 +2,9 @@ import {
   Component,
   Input,
   OnInit,
-  ViewChild
+  ViewChild,
+  Output,
+  EventEmitter
 } from "@angular/core";
 import { MatSelect } from "@angular/material";
 import * as obj from "object-path";
@@ -21,6 +23,8 @@ export class SelectionComponent implements OnInit {
 
   @Input() uiElement: any;
   @Input() data: any;
+  @Output() change: EventEmitter<any> = new EventEmitter<any>(); // used for filter
+
   @ViewChild("select") select: MatSelect;
 
   _value: any;
@@ -56,6 +60,7 @@ export class SelectionComponent implements OnInit {
 
   set value(v: any) {
     this._value = v;
+    this.change.emit(v)
 
     // close the selection panel
     this.select.close();
