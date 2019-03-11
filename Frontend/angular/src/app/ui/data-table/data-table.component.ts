@@ -111,6 +111,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
     // save pagination
     this.page = page;
     this.size = size;
+
+    // parameters
+    if (this.uiElement.useNavParams != false) {
+      this.nav.setParam("page", this.page)
+      this.nav.setParam("size", this.size)
+    }
   }
 
   requestDownload(pageInfo?) {
@@ -123,12 +129,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
     // save the pagination passed by data-table
     this.setPage(pageInfo.offset + 1, this.size);
 
-    // parameters
-    let params = this.nav.getParams();
-    delete params["_id"];
-    params["page"] = this.page;
-    params["size"] = this.size;
-
     // download data through rest web services
     let src = this.ui.find(["src"], this.uiElement);
     try {
@@ -140,7 +140,17 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
       // look at query params and pass it on to the request
       let data = this.ui.find(["data"], this.uiElement, {});
-      data = Object.assign({}, data, params);
+      // apply nav parameters if necessary
+      if (this.uiElement.useNavParams != false) {
+        let params = this.nav.getParams();
+        delete params["_id"];
+        data = Object.assign({}, data, params);
+      }
+      // apply pagination
+      data = Object.assign(data, {
+        page: this.page,
+        size: this.size
+      })
 
       // sorting options
       if (this.uiElement.sort) {
@@ -203,7 +213,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     return value;
   }
 
-  sort: any
+  sort: any;
   onSort(event: any) {
     // event.sorts.dir / prop
     this.sort = event.sorts[0];

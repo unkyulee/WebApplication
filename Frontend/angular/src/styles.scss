@@ -25,3 +25,8 @@ body {
 .full-width-dialog {
   max-width: 90vw !important;
 }
+
+.mat-dialog-container {
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}

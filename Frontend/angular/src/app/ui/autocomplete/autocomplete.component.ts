@@ -98,6 +98,9 @@ export class AutoCompleteComponent implements OnInit {
 
         // set default when options are loaded
         this.default();
+
+        // update also
+        this.updateAlso(this.value);
       });
     } else {
       // set default
