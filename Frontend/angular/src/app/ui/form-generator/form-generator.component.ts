@@ -135,20 +135,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    /*
-    // remove null fields
-    for (let key of Object.keys(this.prevData))
-      if (this.prevData[key] == null || this.prevData[key] == "")
-        delete this.prevData[key];
-    for (let key of Object.keys(this.data))
-      if (this.data[key] == null || this.data[key] == "") delete this.data[key];
-
-    // check if the data has been changed
-    if (JSON.stringify(this.prevData) != JSON.stringify(this.data)) {
-      let willSave = confirm("Do you want to save before leaving this page?");
-      if (willSave) this.save();
-    }
-    */
     this.onEvent.unsubscribe();
   }
 

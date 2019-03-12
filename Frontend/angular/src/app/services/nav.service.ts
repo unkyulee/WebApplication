@@ -6,6 +6,7 @@ import { Location } from "@angular/common";
 import { UserService } from "./user/user.service";
 import { EventService } from "./event.service";
 import { ConfigService } from "./config.service";
+import { last } from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class NavService {
@@ -233,6 +234,11 @@ export class NavService {
       } else {
         // update url - without renavigating to the page
         this.location.replaceState(url, queryString.toString());
+        // leave only last stack of the navigation history of the same page
+        let lastNav = this.navgiationStack[this.navgiationStack.length-1];
+        if(lastNav && lastNav.startsWith(url))
+          this.navgiationStack.pop();
+        // update navigation statck
         this.navigate(`${url}?${queryString.toString()}`);
       }
     }
@@ -243,7 +249,10 @@ export class NavService {
 
   navigate(url) {
     // add to navigation stack
-    this.navgiationStack.push(url);
+    // if last entry is the same then don't add to the queu
+    if(this.navgiationStack[this.navgiationStack.length-1] != url) {
+      this.navgiationStack.push(url);
+    }
 
     // if navigation stack is bigger than 10 then pop oldest
     if (this.navgiationStack.length > 10) this.navgiationStack.shift();

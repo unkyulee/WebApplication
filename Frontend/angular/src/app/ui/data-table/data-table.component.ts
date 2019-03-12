@@ -113,7 +113,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.size = size;
 
     // parameters
-    if (this.uiElement.useNavParams != false) {
+    if (this.uiElement.externalPaging != false) {
       this.nav.setParam("page", this.page)
       this.nav.setParam("size", this.size)
     }
