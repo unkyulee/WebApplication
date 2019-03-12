@@ -3,12 +3,18 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ElementRef
+  ElementRef,
+  ChangeDetectorRef
 } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
-import { MatSidenav, MatDialog, MatBottomSheet } from "@angular/material";
+import {
+  MatSidenav,
+  MatDialog,
+  MatBottomSheet,
+  MatDialogRef
+} from "@angular/material";
 import * as obj from "object-path";
 
 // user import
@@ -18,6 +24,8 @@ import { AuthService } from "../services/auth/auth.service";
 import { UIService } from "../services/ui.service";
 import { UIComposerOverlayComponent } from "./ui-composer-overlay/ui-composer-overlay.component";
 import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
+import { NavService } from "../services/nav.service";
+import { CordovaService } from "../services/cordova.service";
 
 // cordova
 declare var navigator: any;
@@ -36,7 +44,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
     public config: ConfigService,
     private auth: AuthService,
     private ui: UIService,
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private nav: NavService,
+    private cordova: CordovaService,
+    private ref: ChangeDetectorRef
   ) {}
 
   // detect window size changes
@@ -66,7 +77,24 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   onBackButton(e) {
     e.preventDefault();
-    if (confirm("Do you want to exit the app?")) navigator.app.exitApp();
+    // close dialogs if any exists
+    if(this.currDialog && this.dialog.openDialogs.length > 0) {
+      this.currDialog.close()
+    }
+    // check if it is last nav stack
+    else if (this.nav.navigationStack.length == 2) {
+      // if the drawer is not open then open the drawer
+      if (this.drawer.opened == false) this.drawer.open();
+      else {
+        // if the drawer is still open then ask to close the app
+        if (confirm("Do you want to exit the app?")) {
+          navigator.app.exitApp();
+        }
+      }
+    } else {
+      this.nav.back();
+    }
+    this.event.send({ name: "changed" });
   }
 
   ngAfterViewInit() {
@@ -80,6 +108,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event == "drawer-toggle") {
         this.drawer.toggle();
+      } else if (event && event.name == "changed") {
+        setTimeout(() => {
+          this.cordova.detectChanges(this.ref);
+        }, 100);
       } else if (event.name == "open-dialog") {
         setTimeout(() => this.openDialog(event), 0);
       } else if (event.name == "open-sheet") {
@@ -102,19 +134,20 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.onEvent.unsubscribe();
   }
 
+  currDialog: MatDialogRef<UIComposerOverlayComponent>;
   openDialog(event) {
     // get ui elements
     let uiElement = obj.get(this.ui.uiElements, event.uiElementId);
     uiElement = JSON.parse(JSON.stringify(uiElement));
 
     // open dialog
-    let dlg = this.dialog.open(UIComposerOverlayComponent, {
+    this.currDialog = this.dialog.open(UIComposerOverlayComponent, {
       height: event.height,
       width: event.width,
       panelClass: "full-width-dialog"
     });
-    dlg.componentInstance.data = event.data ? event.data : {};
-    dlg.componentInstance.uiElement = uiElement;
+    this.currDialog.componentInstance.data = event.data ? event.data : {};
+    this.currDialog.componentInstance.uiElement = uiElement;
   }
 
   openSheet(event) {

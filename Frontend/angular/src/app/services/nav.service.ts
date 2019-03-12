@@ -235,9 +235,9 @@ export class NavService {
         // update url - without renavigating to the page
         this.location.replaceState(url, queryString.toString());
         // leave only last stack of the navigation history of the same page
-        let lastNav = this.navgiationStack[this.navgiationStack.length-1];
+        let lastNav = this.navigationStack[this.navigationStack.length-1];
         if(lastNav && lastNav.startsWith(url))
-          this.navgiationStack.pop();
+          this.navigationStack.pop();
         // update navigation statck
         this.navigate(`${url}?${queryString.toString()}`);
       }
@@ -245,27 +245,27 @@ export class NavService {
   }
 
   // navigate back
-  navgiationStack = [];
+  navigationStack = [];
 
   navigate(url) {
     // add to navigation stack
     // if last entry is the same then don't add to the queu
-    if(this.navgiationStack[this.navgiationStack.length-1] != url) {
-      this.navgiationStack.push(url);
+    if(this.navigationStack[this.navigationStack.length-1] != url) {
+      this.navigationStack.push(url);
     }
 
     // if navigation stack is bigger than 10 then pop oldest
-    if (this.navgiationStack.length > 10) this.navgiationStack.shift();
+    if (this.navigationStack.length > 10) this.navigationStack.shift();
   }
 
   navPopStack(match?) {
-    if (match && this.navgiationStack.length) {
-      let url = this.navgiationStack[this.navgiationStack.length - 1];
+    if (match && this.navigationStack.length) {
+      let url = this.navigationStack[this.navigationStack.length - 1];
       if (url.startsWith(match)) {
-        this.navgiationStack.pop();
+        this.navigationStack.pop();
       }
     } else {
-      this.navgiationStack.pop();
+      this.navigationStack.pop();
     }
   }
 
@@ -274,9 +274,9 @@ export class NavService {
     this.navPopStack();
 
     // go to last element
-    if (this.navgiationStack.length > 0)
+    if (this.navigationStack.length > 0)
       this.router.navigateByUrl(
-        this.navgiationStack[this.navgiationStack.length - 1]
+        this.navigationStack[this.navigationStack.length - 1]
       );
     else {
       this.router.navigateByUrl(

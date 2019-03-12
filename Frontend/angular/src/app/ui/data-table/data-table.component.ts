@@ -99,11 +99,25 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
   // Get Pagination information
   getPage() {
+    let params = this.nav.getParams();
+
     // default page is 1
-    if (!this.page) this.page = 1;
+    if (!this.page) {
+      this.page = 1;
+      // if nav param has page then use it
+      if (this.uiElement.externalPaging != false && params["page"]) {
+        this.page = params["page"];
+      }
+    }
 
     // if the page size is determined in the url then use that otherwise use the one from the uiElement
-    if (!this.size) this.size = this.ui.find(["size"], this.uiElement, 10);
+    if (!this.size) {
+      this.size = this.ui.find(["size"], this.uiElement, 10);
+      // if nav param has page then use it
+      if (this.uiElement.externalPaging != false && params["size"]) {
+        this.size = params["size"];
+      }
+    }
   }
 
   // setting page will set the values to the URL
@@ -114,8 +128,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     // parameters
     if (this.uiElement.externalPaging != false) {
-      this.nav.setParam("page", this.page)
-      this.nav.setParam("size", this.size)
+      this.nav.setParam("page", this.page);
+      this.nav.setParam("size", this.size);
     }
   }
 
@@ -150,7 +164,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       data = Object.assign(data, {
         page: this.page,
         size: this.size
-      })
+      });
 
       // sorting options
       if (this.uiElement.sort) {

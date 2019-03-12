@@ -18,6 +18,16 @@ import { CordovaService } from "src/app/services/cordova.service";
   templateUrl: "./uploader.component.html"
 })
 export class UploaderComponent {
+  constructor(
+    private event: EventService,
+    public rest: RestService,
+    public config: ConfigService,
+    private ng2ImgMax: Ng2ImgMaxService,
+    public snackBar: MatSnackBar,
+    public user: UserService,
+    private cordova: CordovaService
+  ) {}
+
   @Input() uiElement: any;
   @Input() data: any;
 
@@ -42,16 +52,6 @@ export class UploaderComponent {
       this.data[this.uiElement.key] = v;
     }
   }
-
-  constructor(
-    private event: EventService,
-    public rest: RestService,
-    public config: ConfigService,
-    private ng2ImgMax: Ng2ImgMaxService,
-    public snackBar: MatSnackBar,
-    public user: UserService,
-    private cordova: CordovaService
-  ) {}
 
   //
   public uploader: FileUploader;

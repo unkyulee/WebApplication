@@ -63,7 +63,7 @@ export class SelectionComponent implements OnInit {
     this.change.emit(v)
 
     // close the selection panel
-    this.select.close();
+    if(this.select) this.select.close();
 
     if (this.data) {
       // set value to itself
