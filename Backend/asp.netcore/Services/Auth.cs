@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using Web.Application.Interfaces;
 using Web.Application.Lib;
 using Web.Application.Services.DB;
@@ -148,6 +146,8 @@ namespace Web.Application.Services
                             );
                         }
 
+                        RefreshHeader(context, token);
+
                         // authenticated
                         authenticated = true;
                     }                   
@@ -250,8 +250,6 @@ namespace Web.Application.Services
             context.Response.Headers["Access-Control-Expose-Headers"] = "Authorization";
             context.Response.Cookies.Append("Authorization", $"Bearer {token}");
         }
-
-
 
         public static bool IsAuthorized(HttpContext context)
         {
