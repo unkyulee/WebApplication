@@ -1,12 +1,12 @@
 <?php
 if(!defined('prevent_direct_access')) { header('HTTP/1.0 403 Forbidden'); exit; }
 
-class auth { 
+class auth {
     public static function CanModuleProcess($context) {
         // check if the current module requires authentication
         if($context->module->RequiresAuthentication($context) == false)
             return true;
-        
+
         // check if the request is authenticated
         $isAuthenticated = auth::IsAuthenticated($context);
         if($isAuthenticated == false) {
@@ -16,14 +16,14 @@ class auth {
                 setcookie('X-App-Key', '');
                 setcookie('Authorization', '');
                 header('HTTP/1.0 403 Forbidden');
-                return false;  
+                return false;
             }
-            else {        
+            else {
                 // if authentication is successful then return the angular config
                 echo $context->module->Authenticated($context);
                 return false;
-            }                      
-        }         
+            }
+        }
 
         // check if the request is authorized
         $isAuthorized = auth::IsAuthorized($context);
@@ -38,9 +38,9 @@ class auth {
             echo $context->module->Authenticated($context);
             return false;
         }
-        
+
         // authorized
-        return true;    
+        return true;
     }
 
     public static function IsAuthenticated($context) {
@@ -68,17 +68,17 @@ class auth {
         }
 
         if ($token != null)
-        {            
+        {
             // decoded token will be saved as token in the res.locals
             if(verifyJWT($token, $context->secret)){
-                $context->token = payloadJWT($token);                
-            
+                $context->token = payloadJWT($token);
+
                 // if authentication is expiring soon then issue a new token
                 // if half of the time is passed then renew
-    
+
                 // authenticated
                 $authenticated = true;
-            }                
+            }
         }
 
         return $authenticated;
@@ -88,21 +88,22 @@ class auth {
         $authenticated = false;
 
         // get user id and password
-        $id = get('id');        
+        $id = get('id');
         $password = get('password');
         $navigation_id = getNavigationId();
+
         if (IsNullOrEmpty($id) == false && IsNullOrEmpty($navigation_id) == false)
         {
-            // find user with matching id and navigation_id            
-            $sql = "SELECT * FROM core_user WHERE id = ? AND navigation_id = ?";                        
+            // find user with matching id and navigation_id
+            $sql = "SELECT * FROM core_user WHERE id = ? AND navigation_id = ?";
             $result = $context->conn->query($sql, array($id, $navigation_id));
             if (count($result) > 0) {
                 $user = $result[0];
-                
+
                 $valid = false;
                 // if password is empty then pass
                 if( IsNullOrEmpty($user['password']) == true ) {
-                    $valid = true;                    
+                    $valid = true;
                 }
 
                 // verify the password
@@ -111,7 +112,7 @@ class auth {
                 }
 
                 if($valid) {
-                    // create a new token                       
+                    // create a new token
                     $token = auth::CreateToken(
                         $context
                         , $user['id']
@@ -123,7 +124,7 @@ class auth {
 
                     // update the header
                     auth::RefreshHeader($context, $token);
-                    
+
                     // is authenticated
                     $authenticated = true;
                 }
@@ -133,9 +134,9 @@ class auth {
         return $authenticated;
     }
 
-    public static function CreateToken($context, $id, $name, $roles) {        
+    public static function CreateToken($context, $id, $name, $roles) {
         $token = generateJWT([
-                'unique_name' => $id, 
+                'unique_name' => $id,
                 'nameid' => $name,
                 'roles' => $roles,
                 'exp' => time() + (60*60*24*30)
@@ -145,7 +146,7 @@ class auth {
         return $token;
     }
 
-    public static function RefreshHeader($context, $token) {                
+    public static function RefreshHeader($context, $token) {
         header('Authorization: Bearer '.$token);
         setcookie('Authorization', 'Bearer '.$token);
     }
@@ -153,19 +154,19 @@ class auth {
     public static function RolesOfUser($context, $id) {
         // find user with matching id and navigation_id
         $id = escape($id);
-        $sql = "SELECT DISTINCT G.* FROM core_group G 
+        $sql = "SELECT DISTINCT G.* FROM core_group G
             INNER JOIN core_group_user GU ON GU.group_id = G._id
-            WHERE GU.user_id = ?";           
+            WHERE GU.user_id = ?";
         $result = $context->conn->query($sql, array($id));
         $roleIds = array();
         if (count($result) > 0) {
             foreach($result as $group) {
                 $sql = "SELECT * FROM core_role_group WHERE group_id = ?";
                 $roles = $context->conn->query($sql, array($group['_id']));
-                foreach($roles as $role)                
-                    $roleIds[$role['_id']] = 1;                
+                foreach($roles as $role)
+                    $roleIds[$role['_id']] = 1;
             }
-        
+
         }
         return array_keys($roleIds);
     }
@@ -173,13 +174,13 @@ class auth {
     public static function IsAuthorized($context) {
         $authorized = false;
 
-        $payload = $context->token;        
+        $payload = $context->token;
         if(isset($payload)) {
-            if(is_array($payload['roles'])) 
-                $roleIds = $payload['roles'];            
-            else 
+            if(is_array($payload['roles']))
+                $roleIds = $payload['roles'];
+            else
                 $roleIds = array($payload['roles']);
-            
+
             $policy = auth::GetPolicy($context, $roleIds);
             $authorized = auth::IsAllowed($context, $policy);
         }
@@ -209,7 +210,7 @@ class auth {
 
         return array("allowed" => $allowed, "not_allowed" => $not_allowed);
     }
-        
+
     public static function IsAllowed($context, $policies)
     {
         $result = false;
@@ -217,12 +218,12 @@ class auth {
         // set default url if not specified
         $url = $_SERVER['REQUEST_URI'];
         $method = strtolower($_SERVER['REQUEST_METHOD']);
-        
+
         // is allowed?
         if (isset($policies['allowed']))
         {
             foreach ($policies['allowed'] as $policy)
-            {                
+            {
                 $permissionUrl = explode(":", $policy)[0];
                 $permissionMethod = explode(":", $policy)[1];
 
@@ -254,6 +255,6 @@ class auth {
 
         return $result;
     }
-  
-} 
+
+}
 ?>
