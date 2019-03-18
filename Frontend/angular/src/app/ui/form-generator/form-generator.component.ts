@@ -226,10 +226,19 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       method = eval(method)
     } catch {}
 
+    // see if any transform to be done
+    let data = this.data;
+    let transform = this.ui.find(["save", "transform"], this.uiElement);
+    if(transform) {
+      try {
+        eval(transform)
+      } catch {}
+    }
+
     // update data through rest web services
     let that = this;
     this.rest
-      .request(src, this.data, method)
+      .request(src, data, method)
       .pipe(
         catchError(err => {
           // hide the splash
