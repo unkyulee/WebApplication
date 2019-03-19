@@ -62,6 +62,7 @@
       [(ngModel)]="value"
       [placeholder]="uiElement.label"
       [readonly]="uiElement.readonly"
+      [required]="uiElement.required"
       matTextareaAutosize
       [matAutosizeMinRows]="uiElement.rows"
     ></textarea>
@@ -85,6 +86,7 @@
       [(ngModel)]="value"
       [placeholder]="uiElement.label"
       (dateTimeChange)="changed($event)"
+      [required]="uiElement.required"
       [selectMode]="uiElement.selectMode ? uiElement.selectMode : 'single'"
       onfocus="blur()"
     />
