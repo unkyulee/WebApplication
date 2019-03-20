@@ -53,7 +53,7 @@ class angular
     // get angular navigation
     $angular_navigation = array();
 
-    $sql = "SELECT * FROM angular_navigation WHERE navigation_id=?";
+    $sql = "SELECT * FROM angular_navigation WHERE navigation_id=? ORDER BY `order`";
     $result = $context->conn->query($sql, array($context->nav['_id']));
     if (count($result) > 0) {
       foreach ($result as $ang_nav) {
