@@ -48,16 +48,18 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   set value(v: any) {
-    this._value = v
-    this.change.emit(v)
+    if(v != this._value) {
+      this._value = v
+      this.change.emit(v)
 
-    // when value is set, reload the option
-    this.loadOption();
+      if (this.data) {
+        // set value to itself
+        this.data[this.uiElement.key] = v;
+        this.updateAlso(v);
+      }
 
-    if (this.data) {
-      // set value to itself
-      this.data[this.uiElement.key] = v;
-      this.updateAlso(v);
+      // when value is set, reload the option
+      this.loadOption();
     }
   }
 

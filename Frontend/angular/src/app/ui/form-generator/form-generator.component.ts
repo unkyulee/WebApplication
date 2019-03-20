@@ -232,7 +232,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     if(transform) {
       try {
         eval(transform)
-      } catch {}
+      } catch(e) { console.error(e) }
     }
 
     // update data through rest web services

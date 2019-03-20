@@ -33,7 +33,7 @@ export class SelectionComponent implements OnInit {
 
     if (this.data && this.uiElement.key) {
       // if null then assign default
-      if (!this.data[this.uiElement.key]) {
+      if (typeof this.data[this.uiElement.key] == 'undefined') {
         let def = this.uiElement.default;
         try {
           def = eval(this.uiElement.default);
@@ -42,7 +42,7 @@ export class SelectionComponent implements OnInit {
       }
 
       v = this.data[this.uiElement.key];
-      if (v && this.uiElement.multiple && !Array.isArray(v)) {
+      if (typeof v !== 'undefined' && this.uiElement.multiple && !Array.isArray(v)) {
         v = [v]
       }
     }

@@ -74,14 +74,16 @@ export class InputComponent {
   }
 
   set value(v: any) {
-    this._value = v;
-    this.change.emit(v)
+    if(this._value != v) {
+      this._value = v;
+      this.change.emit(v)
 
-    if (this.data && this.uiElement.key) {
-      this.data[this.uiElement.key] = v;
-      // if number
-      if (v && this.uiElement.inputType == "number")
-        this.data[this.uiElement.key] = parseFloat(v);
+      if (this.data && this.uiElement.key) {
+        this.data[this.uiElement.key] = v;
+        // if number
+        if (v && this.uiElement.inputType == "number")
+          this.data[this.uiElement.key] = parseFloat(v);
+      }
     }
   }
 

@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { Subscription, config } from "rxjs";
+import { Subscription } from "rxjs";
 import * as moment from "moment";
 
 // user imports

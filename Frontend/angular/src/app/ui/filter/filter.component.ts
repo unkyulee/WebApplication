@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import * as moment from "moment";
 
 // user imports
 import { UIService } from "../../services/ui.service";
@@ -25,7 +26,18 @@ export class FilterComponent {
   ngOnInit() {
     // read url and fetch the parameter
     let params = this.nav.getParams();
-    this.data[this.uiElement.key] = params[this.uiElement.key];
+    if (
+      this.uiElement.inputType == "date" &&
+      this.uiElement.selectMode == "range"
+    ) {
+      let lte = params[`${this.uiElement.key}_lte`];
+      let gte = params[`${this.uiElement.key}_gte`];
+      if (gte && lte) {
+        this.data[this.uiElement.key] = [moment(gte).toDate(), moment(lte).toDate()];
+      }
+    } else {
+      this.data[this.uiElement.key] = params[this.uiElement.key];
+    }
 
     // check if there is default value
     if (this.uiElement.default) {
@@ -46,9 +58,19 @@ export class FilterComponent {
     if (v && v.type) return; // autocomplete emits when empty
 
     //
-    if (this.uiElement.type == "date" && this.uiElement.selectMode == "range") {
-      this.nav.setParam(`${this.uiElement.key}_gte`, v[0]);
-      this.nav.setParam(`${this.uiElement.key}_lte`, v[1]);
+    if (
+      this.uiElement.inputType == "date" &&
+      this.uiElement.selectMode == "range"
+    ) {
+      console.log(v);
+      this.nav.setParam(
+        `${this.uiElement.key}_gte`,
+        moment(v[0]).format("YYYYMMDD")
+      );
+      this.nav.setParam(
+        `${this.uiElement.key}_lte`,
+        moment(v[1]).format("YYYYMMDD")
+      );
     }
 
     // apply to nav param
@@ -58,8 +80,6 @@ export class FilterComponent {
       this.nav.setParam(this.uiElement.key, v);
     }
 
-    // when filter is set change page to 1
-    let params = this.nav.getParams();
     this.event.send({ name: "refresh" });
   }
 }
