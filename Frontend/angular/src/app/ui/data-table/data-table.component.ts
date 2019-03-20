@@ -215,16 +215,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
   }
 
   // format to date on the column
-  format(value, transform?, row?) {
+  format(v, transform?, row?) {
     // transform
     if (transform) {
       try {
-        value = eval(transform);
+        v = eval(transform);
       } catch (e) {
         console.error(e);
       }
     }
-    return value;
+    return v;
   }
 
   sort: any;

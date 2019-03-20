@@ -16,7 +16,7 @@ export class EvalValidator implements Validator {
       let value = c.value // used by the evaluation script
       let error = false
       try { error = eval(this.script) }
-      catch(e) { console.error(e) }
+      catch {}
       if( error )
         return {error: true}
     }

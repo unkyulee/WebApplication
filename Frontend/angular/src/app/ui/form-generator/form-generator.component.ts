@@ -207,7 +207,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         let value = this.data[ui.key]; // used by the evaluation script
         let error = eval(ui.errorCondition);
         if (error) {
-          errorMessage += `${ui.label} - ${ui.errorMessage}\n`;
+          errorMessage += `${ui.errorMessage}\n`;
         }
       }
     }
