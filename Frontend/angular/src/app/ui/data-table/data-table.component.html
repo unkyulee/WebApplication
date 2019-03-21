@@ -33,7 +33,9 @@
     [scrollbarH]="uiElement.scrollbarH ? uiElement.scrollbarH : true"
     [reorderable]="uiElement.reorderable ? uiElement.reorderable : true"
     [selectionType]="uiElement.selectionType ? uiElement.selectionType : ''"
-    [groupRowsBy]="uiElement.group?.groupRowsBy ? uiElement.group.groupRowsBy : ''"
+    [groupRowsBy]="
+      uiElement.group?.groupRowsBy ? uiElement.group.groupRowsBy : ''
+    "
     [groupExpansionDefault]="
       uiElement.group?.groupExpansionDefault ? true : false
     "
@@ -98,7 +100,7 @@
       (click)="click(row, uiElement.click)"
     >
       <mat-card-content>
-        <div *ngFor="let column of uiElement.columns">
+        <div *ngFor="let column of uiElement.columns" [ngStyle]="column.layoutStyle">
           <ui-layout-wrapper
             [uiElement]="column"
             [data]="row"
