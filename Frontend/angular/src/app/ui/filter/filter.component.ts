@@ -62,7 +62,6 @@ export class FilterComponent {
       this.uiElement.inputType == "date" &&
       this.uiElement.selectMode == "range"
     ) {
-      console.log(v);
       this.nav.setParam(
         `${this.uiElement.key}_gte`,
         moment(v[0]).format("YYYYMMDD")

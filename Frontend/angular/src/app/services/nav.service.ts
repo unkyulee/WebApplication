@@ -211,12 +211,12 @@ export class NavService {
     param[name] = value;
 
     // remove param if empty
-    if (!value) delete param[name];
+    if (typeof value == 'undefined' || value == null) delete param[name];
 
     // form query string
     let queryString = new URLSearchParams();
     for (let key in param) {
-      if (param[key]) {
+      if (typeof param[key] !== 'undefined' && param[key] != null) {
         if (Array.isArray(param[key])) {
           for (let v of param[key]) queryString.append(key, v);
         } else {
