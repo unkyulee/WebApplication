@@ -3,7 +3,7 @@
 <div [ngStyle]="login.layoutStyle">
   <div [ngStyle]="login.style" [ngClass]="login.class">
     <ng-container *ngFor="let ui of login.screen">
-      <ui-layout-wrapper [uiElement]="ui" [data]="data"></ui-layout-wrapper>
+      <ui-layout-wrapper [uiElement]="ui" [data]="data" [ngStyle]="ui.layoutStyle"></ui-layout-wrapper>
     </ng-container>
   </div>
 </div>
