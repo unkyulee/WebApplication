@@ -4,8 +4,10 @@ import { Component, Input, OnInit, EventEmitter, Output } from "@angular/core";
 import { RestService } from "../../services/rest.service";
 import { UIService } from "../../services/ui.service";
 import { UserService } from "src/app/services/user/user.service";
-import { CordovaService } from 'src/app/services/cordova.service';
-import { EventService } from 'src/app/services/event.service';
+import { CordovaService } from "src/app/services/cordova.service";
+import { EventService } from "src/app/services/event.service";
+import { Subject } from "rxjs";
+import { debounceTime } from "rxjs/operators";
 
 @Component({
   selector: "autocomplete",
@@ -25,12 +27,22 @@ export class AutoCompleteComponent implements OnInit {
   @Input() data: any;
   @Output() change: EventEmitter<any> = new EventEmitter<any>(); // used for filter
 
+  private typeAheadEventEmitter = new Subject<string>();
   ngOnInit() {
+    // not all the input will be sent as an event / rest
+    // will be debounced every 700 ms
+    this.typeAheadEventEmitter
+    .pipe(debounceTime(700))
+    .subscribe(v => {
+      this.change.emit(v);
+      this.loadOption()
+    })
+
     // if optionSrc is specified then download the options
     this.loadOption();
   }
 
-  _value: any
+  _value: any;
   get value() {
     let v = null;
 
@@ -39,18 +51,17 @@ export class AutoCompleteComponent implements OnInit {
 
     // if the value is programmatically updated without set property called
     // then set it explicitly
-    if(this._value != v) {
-      this._value = v
-      this.value = v
+    if (this._value != v) {
+      this._value = v;
+      this.value = v;
     }
 
     return v;
   }
 
   set value(v: any) {
-    if(v != this._value) {
-      this._value = v
-      this.change.emit(v)
+    if (v != this._value) {
+      this._value = v;
 
       if (this.data) {
         // set value to itself
@@ -59,7 +70,7 @@ export class AutoCompleteComponent implements OnInit {
       }
 
       // when value is set, reload the option
-      this.loadOption();
+      this.typeAheadEventEmitter.next(v)
     }
   }
 
@@ -104,6 +115,7 @@ export class AutoCompleteComponent implements OnInit {
         // update also
         this.updateAlso(this.value);
       });
+
     } else {
       // set default
       this.default();

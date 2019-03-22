@@ -23,7 +23,7 @@
       [required]="uiElement.required"
       [readonly]="uiElement.readonly"
       (keyup.enter)="eval(uiElement['keyupEnter'])"
-      (input)="eval(uiElement['input'])"
+      (input)="typeAheadEventEmitter.next($event)"
     />
 
     <button

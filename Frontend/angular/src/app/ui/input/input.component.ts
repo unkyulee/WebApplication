@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { DateTimeAdapter } from "ng-pick-datetime";
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { UserService } from "../../services/user/user.service";
 import { EventService } from "../../services/event.service";
@@ -24,7 +26,29 @@ export class InputComponent {
   @Input() data: any;
   @Output() change: EventEmitter<any> = new EventEmitter<any>(); // used for filter
 
+  typeAheadEventEmitter = new Subject<string>();
   ngOnInit() {
+    // not all the input will be sent as an event / rest
+    // will be debounced every 700 ms
+    let that = this;
+    this.typeAheadEventEmitter
+      .pipe(
+        debounceTime(700)
+        , distinctUntilChanged()
+      )
+      .subscribe(v => {
+        // when changed
+        this.change.emit(v);
+        // see if there are any input change handlers
+        if (this.uiElement.changed) {
+          try {
+            eval(this.uiElement.changed);
+          } catch (ex) {
+            console.error(ex);
+          }
+        }
+      })
+
     this.dateTimeAdapter.setLocale(
       this.uiElement.locale
         ? this.uiElement.locale
@@ -70,13 +94,13 @@ export class InputComponent {
       this.value = v;
     }
 
+    this.typeAheadEventEmitter.next(v);
     return v;
   }
 
   set value(v: any) {
     if(this._value != v) {
       this._value = v;
-      this.change.emit(v)
 
       if (this.data && this.uiElement.key) {
         this.data[this.uiElement.key] = v;
@@ -109,16 +133,12 @@ export class InputComponent {
     }
   }
 
-  eval(script) {
-    eval(script);
-  }
-
   changed(e) {
     if (this.uiElement.changed) {
       try {
         eval(this.uiElement.changed);
-      } catch (e) {
-        console.error(e);
+      } catch (ex) {
+        console.error(ex);
       }
     }
   }
