@@ -100,7 +100,10 @@
       (click)="click(row, uiElement.click)"
     >
       <mat-card-content>
-        <div *ngFor="let column of uiElement.columns" [ngStyle]="column.layoutStyle">
+        <div
+          *ngFor="let column of uiElement.columns"
+          [ngStyle]="column.layoutStyle"
+        >
           <ui-layout-wrapper
             [uiElement]="column"
             [data]="row"
@@ -117,4 +120,32 @@
     [page]="page"
     [size]="size"
   ></pagination>
+</ng-container>
+
+<!-- Simple List -->
+<ng-container *ngIf="uiElement.tableType == 'list'">
+  <div
+    [ngStyle]="
+      uiElement.layoutStyle
+        ? uiElement.layoutStyle
+        : config.configuration.dataTable?.layoutStyle
+    "
+  >
+    <div
+      *ngFor="let row of rows"
+      [ngStyle]="uiElement.style"
+      [ngClass]="uiElement.class"
+      (click)="click(row, uiElement.click)"
+    >
+      <div
+        *ngFor="let column of uiElement.columns"
+        [ngStyle]="column.layoutStyle"
+      >
+        <ui-layout-wrapper
+          [uiElement]="column"
+          [data]="row"
+        ></ui-layout-wrapper>
+      </div>
+    </div>
+  </div>
 </ng-container>

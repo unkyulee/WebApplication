@@ -30,13 +30,20 @@ export class FilterComponent {
       this.uiElement.inputType == "date" &&
       this.uiElement.selectMode == "range"
     ) {
+      // if the date range params exists then set
       let lte = params[`${this.uiElement.key}_lte`];
       let gte = params[`${this.uiElement.key}_gte`];
       if (gte && lte) {
         this.data[this.uiElement.key] = [moment(gte).toDate(), moment(lte).toDate()];
+        // display filter
+        this.event.send({name:'show-filter'})
       }
     } else {
-      this.data[this.uiElement.key] = params[this.uiElement.key];
+      if(params[this.uiElement.key] != null && typeof params[this.uiElement.key] != 'undefined') {
+        // display filter
+        this.event.send({name:'show-filter'})
+        this.data[this.uiElement.key] = params[this.uiElement.key];
+      }
     }
 
     // check if there is default value
