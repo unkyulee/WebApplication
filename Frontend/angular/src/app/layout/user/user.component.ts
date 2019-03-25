@@ -4,39 +4,25 @@ import { Component } from '@angular/core';
 import { UserService } from '../../services/user/user.service';
 import { EventService } from '../../services/event.service';
 import { ConfigService } from 'src/app/services/config.service';
-
-// cordova
-declare var navigator: any
+import { CordovaService } from 'src/app/services/cordova.service';
 
 @Component({
     selector: 'user',
-    templateUrl: './user.component.html',
-    styleUrls: ['./user.component.css']
+    templateUrl: './user.component.html'
 })
 export class UserComponent {
     constructor(
         public user: UserService
-        , private event: EventService
+        , public event: EventService
         , public config: ConfigService
+        , public cordova: CordovaService
     ) {}
 
-    isCordova: any = navigator.app
+    data: any
 
     ngOnInit() {
     }
 
     ngOnDestroy() {
-    }
-
-    logout() {
-        this.event.send('logout')
-    }
-
-    open(url, target = null) {
-        window.open(url, target);
-    }
-
-    exit() {
-        navigator.app.exitApp()
     }
 }

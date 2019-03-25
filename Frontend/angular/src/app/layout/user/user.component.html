@@ -1,16 +1,23 @@
-<div class="user-profile mat-elevation-z2">
-    <button mat-button [matMenuTriggerFor]="menu">
-        {{ user.name() }}
-    </button>
-    <mat-menu #menu="matMenu" [overlapTrigger]="false">
-        <button mat-menu-item routerLink="/profile">Profile</button>
-        <button mat-menu-item (click)="logout()">Logout</button>
-
-
-        <mat-divider *ngIf="config.configuration.privacy"></mat-divider>
-        <button mat-menu-item (click)="open(config.configuration.privacy, '_blank');"  *ngIf="config.configuration.privacy">Privacy Policy</button>
-
-        <mat-divider *ngIf="isCordova"></mat-divider>
-        <button mat-menu-item (click)="exit()" *ngIf="isCordova">Exit</button>
-    </mat-menu>
+<div
+  [ngStyle]="config.configuration.user?.style"
+  [ngStyle]="config.configuration.user?.class"
+>
+  <button mat-button [matMenuTriggerFor]="menu">
+    <ng-container *ngFor="let ui of config.configuration.user?.header?.screen">
+      <ui-layout-wrapper
+        [uiElement]="ui"
+        [data]="data"
+        [ngStyle]="ui.layoutStyle"
+      ></ui-layout-wrapper>
+    </ng-container>
+  </button>
+  <mat-menu #menu="matMenu" [overlapTrigger]="false">
+    <ng-container *ngFor="let ui of config.configuration.user?.menu?.screen">
+      <ui-layout-wrapper
+        [uiElement]="ui"
+        [data]="data"
+        [ngStyle]="ui.layoutStyle"
+      ></ui-layout-wrapper>
+    </ng-container>
+  </mat-menu>
 </div>

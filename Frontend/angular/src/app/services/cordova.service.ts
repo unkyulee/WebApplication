@@ -6,6 +6,9 @@ function _window(): any {
   return window;
 }
 
+// cordova
+declare var navigator: any
+
 @Injectable()
 export class CordovaService {
 
@@ -17,6 +20,10 @@ export class CordovaService {
         this.onResume();
       });
     });
+  }
+
+  get navigator(): any  {
+    return navigator;
   }
 
   get cordova(): any {
