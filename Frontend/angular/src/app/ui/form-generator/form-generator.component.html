@@ -19,13 +19,13 @@
       <!-- Form Group Header -->
       <div
         [ngStyle]="
-          ui.headerStyle
-            ? ui.headerStyle
+          ui?.header?.style
+            ? ui?.header?.style
             : config.configuration.formGenerator?.header?.style
         "
         [ngClass]="
-          ui.headerClass
-            ? ui.headerClass
+          ui?.header?.class
+            ? ui?.header?.class
             : config.configuration.formGenerator?.header?.class
         "
         (click)="ui.expanded = !ui.expanded"

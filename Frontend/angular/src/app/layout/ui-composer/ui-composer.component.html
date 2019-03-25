@@ -1,9 +1,7 @@
-<div [ngStyle]="config.configuration.content?.style">
-  <ng-container *ngFor="let ui of uiElements">
-    <ui-layout-wrapper
-      [uiElement]="ui"
-      [(data)]="data"
-      [ngStyle]="ui.layoutStyle"
-    ></ui-layout-wrapper>
-  </ng-container>
-</div>
+<ng-container *ngFor="let ui of uiElements">
+  <ui-layout-wrapper
+    [uiElement]="ui"
+    [(data)]="data"
+    [ngStyle]="ui.layoutStyle"
+  ></ui-layout-wrapper>
+</ng-container>

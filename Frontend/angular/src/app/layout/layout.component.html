@@ -16,7 +16,7 @@
       <nav-vertical></nav-vertical>
     </mat-sidenav>
 
-    <mat-sidenav-content id="layout_main_content">
+    <mat-sidenav-content [ngStyle]="config.configuration.content?.style">
       <toolbar></toolbar>
       <ui-composer></ui-composer>
     </mat-sidenav-content>
