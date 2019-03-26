@@ -115,8 +115,9 @@ export class TypographyComponent {
     let transform = this.uiElement.transform || "response.data";
     try {
       this.value = eval(transform);
-      console.log(this.value, response, transform)
-    } catch (e) {}
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   condition() {

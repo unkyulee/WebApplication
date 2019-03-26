@@ -53,7 +53,7 @@
   [uiElement]="uiElement"
   [(data)]="data"
 ></calendar>
-<div *ngIf="uiElement.type == 'layout'" [ngStyle]="uiElement.style">
+<div *ngIf="uiElement.type == 'layout' && condition(uiElement)" [ngStyle]="uiElement.style">
   <ui-layout-wrapper
     *ngFor="let ui of uiElement.screen"
     [ngStyle]="ui.layoutStyle"
@@ -61,5 +61,5 @@
     [(data)]="data"
   ></ui-layout-wrapper>
 </div>
-<div *ngIf="uiElement.type == 'div'" [ngStyle]="uiElement.layoutStyle"></div>
-<mat-divider *ngIf="uiElement.type == 'divider'"></mat-divider>
+<div *ngIf="uiElement.type == 'div' && condition(uiElement)" [ngStyle]="uiElement.layoutStyle"></div>
+<mat-divider *ngIf="uiElement.type == 'divider' && condition(uiElement)"></mat-divider>

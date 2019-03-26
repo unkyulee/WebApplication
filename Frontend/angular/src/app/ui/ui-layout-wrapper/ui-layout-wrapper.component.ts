@@ -10,4 +10,16 @@ export class UILayoutWrapperComponent {
 
   @Input() uiElement: any
   @Input() data: any
+
+  condition(uiElement) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return result;
+  }
 }
