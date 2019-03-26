@@ -1,5 +1,5 @@
 <mat-toolbar
-  class="mat-elevation-z1 no-print"
+  [ngClass]="config.configuration.toolbar?.class"
   [ngStyle]="config.configuration.toolbar?.style"
 >
   <mat-progress-bar

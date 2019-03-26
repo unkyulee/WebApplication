@@ -35,3 +35,14 @@
 >
   <mat-icon *ngIf="uiElement.icon">{{ eval(uiElement.icon) }}</mat-icon>
 </button>
+
+<button
+  *ngIf="condition(uiElement) && uiElement.buttonType == 'mat-menu-item'"
+  mat-menu-item
+  [disabled]="uiElement.disabled == true"
+  [matTooltip]="uiElement.label"
+  (click)="click()"
+  [ngStyle]="uiElement.style"
+>
+  {{ uiElement.label }}
+</button>

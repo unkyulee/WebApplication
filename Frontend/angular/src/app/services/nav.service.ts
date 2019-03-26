@@ -258,6 +258,10 @@ export class NavService {
     if (this.navigationStack.length > 10) this.navigationStack.shift();
   }
 
+  navigateByUrl(url) {
+    this.router.navigateByUrl(url)
+  }
+
   navPopStack(match?) {
     if (match && this.navigationStack.length) {
       let url = this.navigationStack[this.navigationStack.length - 1];

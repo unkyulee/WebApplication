@@ -8,6 +8,7 @@ import { UserService } from "../../services/user/user.service";
 import { RestService } from "../../services/rest.service";
 import { ConfigService } from "src/app/services/config.service";
 import { NavService } from "src/app/services/nav.service";
+import { CordovaService } from 'src/app/services/cordova.service';
 
 @Component({
   selector: "button-component",
@@ -21,7 +22,8 @@ export class ButtonComponent {
     public user: UserService, // these are used by the user code
     public snackBar: MatSnackBar, // userd in user code
     public config: ConfigService,
-    public nav: NavService
+    public nav: NavService,
+    public cordova: CordovaService
   ) {}
 
   @Input() uiElement: any;
@@ -30,9 +32,9 @@ export class ButtonComponent {
   ngOnInit() {}
 
   click() {
-    if (this.uiElement.script) {
+    if (this.uiElement.click) {
       try {
-        eval(this.uiElement.script);
+        eval(this.uiElement.click);
       } catch (e) {
         console.error(e);
       }
