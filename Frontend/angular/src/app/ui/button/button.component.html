@@ -1,7 +1,7 @@
 <button
   *ngIf="
-    condition(uiElement) &&
     (!uiElement.buttonType || uiElement.buttonType == 'mat-raised-button')
+    && condition(uiElement)
   "
   mat-raised-button
   [disabled]="uiElement.disabled == true"
@@ -14,7 +14,7 @@
 </button>
 
 <button
-  *ngIf="condition(uiElement) && uiElement.buttonType == 'mat-button'"
+  *ngIf="uiElement.buttonType == 'mat-button' && condition(uiElement)"
   mat-button
   [disabled]="uiElement.disabled == true"
   (click)="click()"
@@ -25,7 +25,7 @@
 </button>
 
 <button
-  *ngIf="condition(uiElement) && uiElement.buttonType == 'mat-icon-button'"
+  *ngIf="uiElement.buttonType == 'mat-icon-button'  && condition(uiElement)"
   mat-icon-button
   [disabled]="uiElement.disabled == true"
   [matTooltip]="uiElement.label"
@@ -37,7 +37,7 @@
 </button>
 
 <button
-  *ngIf="condition(uiElement) && uiElement.buttonType == 'mat-menu-item'"
+  *ngIf="uiElement.buttonType == 'mat-menu-item' && condition(uiElement)"
   mat-menu-item
   [disabled]="uiElement.disabled == true"
   [matTooltip]="uiElement.label"

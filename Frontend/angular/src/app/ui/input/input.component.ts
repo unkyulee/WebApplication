@@ -142,4 +142,12 @@ export class InputComponent {
       }
     }
   }
+
+  eval(expression) {
+    let v = expression;
+    try {
+      v = eval(expression);
+    } catch (e) {}
+    return v;
+  }
 }
