@@ -7,7 +7,7 @@ import { UserService } from "src/app/services/user/user.service";
 import { CordovaService } from "src/app/services/cordova.service";
 import { EventService } from "src/app/services/event.service";
 import { Subject } from "rxjs";
-import { debounceTime } from "rxjs/operators";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 @Component({
   selector: "autocomplete",
@@ -32,14 +32,21 @@ export class AutoCompleteComponent implements OnInit {
     // not all the input will be sent as an event / rest
     // will be debounced every 700 ms
     this.typeAheadEventEmitter
-    .pipe(debounceTime(700))
-    .subscribe(v => {
-      this.change.emit(v);
-      this.loadOption()
-    })
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(300)
+      )
+      .subscribe(v => {
+        this.change.emit(v);
+        this.loadOption();
+      });
 
     // if optionSrc is specified then download the options
     this.loadOption();
+  }
+
+  ngOnDestroy() {
+    this.typeAheadEventEmitter.unsubscribe();
   }
 
   _value: any;
@@ -70,7 +77,7 @@ export class AutoCompleteComponent implements OnInit {
       }
 
       // when value is set, reload the option
-      this.typeAheadEventEmitter.next(v)
+      this.typeAheadEventEmitter.next(v);
     }
   }
 
@@ -115,7 +122,6 @@ export class AutoCompleteComponent implements OnInit {
         // update also
         this.updateAlso(this.value);
       });
-
     } else {
       // set default
       this.default();

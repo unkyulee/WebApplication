@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { DateTimeAdapter } from "ng-pick-datetime";
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 import { UserService } from "../../services/user/user.service";
 import { EventService } from "../../services/event.service";
@@ -33,8 +33,8 @@ export class InputComponent {
     let that = this;
     this.typeAheadEventEmitter
       .pipe(
-        debounceTime(700)
-        , distinctUntilChanged()
+        distinctUntilChanged(),
+        debounceTime(300)
       )
       .subscribe(v => {
         // when changed
@@ -47,13 +47,17 @@ export class InputComponent {
             console.error(ex);
           }
         }
-      })
+      });
 
     this.dateTimeAdapter.setLocale(
       this.uiElement.locale
         ? this.uiElement.locale
         : this.config.configuration.locale_long
     );
+  }
+
+  ngOnDestroy() {
+    this.typeAheadEventEmitter.unsubscribe();
   }
 
   _value: any;
@@ -99,7 +103,7 @@ export class InputComponent {
   }
 
   set value(v: any) {
-    if(this._value != v) {
+    if (this._value != v) {
       this._value = v;
 
       if (this.data && this.uiElement.key) {
