@@ -114,7 +114,7 @@ async function run() {
           or.$or.push(f);
         }
         filter.$and.push(or);
-      } else {
+      } else if(data[key]) {
         let f = {};
         f[key] = new RegExp(data[key], "ig");
         filter.$and.push(f);
