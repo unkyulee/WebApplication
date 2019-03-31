@@ -1,4 +1,6 @@
-﻿function removeSensitiveFields(rows, sensitive) {
+﻿var moment = require("moment-timezone");
+
+function removeSensitiveFields(rows, sensitive) {
   // remove sensitive fields
   for (let row of rows) {
     for (let fields of Object.keys(sensitive)) {
@@ -82,19 +84,19 @@ async function run() {
     // range
     else if (key.endsWith("_date_gte")) {
       let f = {};
-      f[key.replace("_gte", "")] = { $gte: new Date(data[key]) };
+      f[key.replace("_gte", "")] = { $gte: moment(data[key]).toDate() };
       filter.$and.push(f);
     } else if (key.endsWith("_date_gt")) {
       let f = {};
-      f[key.replace("_gt", "")] = { $gt: new Date(data[key]) };
+      f[key.replace("_gt", "")] = { $gt: moment(data[key]).toDate() };
       filter.$and.push(f);
     } else if (key.endsWith("_date_lte")) {
       let f = {};
-      f[key.replace("_lte", "")] = { $lte: new Date(data[key]) };
+      f[key.replace("_lte", "")] = { $lte: moment(data[key]).toDate() };
       filter.$and.push(f);
     } else if (key.endsWith("_date_lt")) {
       let f = {};
-      f[key.replace("_lt", "")] = { $lt: new Date(data[key]) };
+      f[key.replace("_lt", "")] = { $lt: moment(data[key]).toDate() };
       filter.$and.push(f);
     }
     // expression
@@ -114,7 +116,7 @@ async function run() {
           or.$or.push(f);
         }
         filter.$and.push(or);
-      } else if(data[key]) {
+      } else if (data[key]) {
         let f = {};
         f[key] = new RegExp(data[key], "ig");
         filter.$and.push(f);
