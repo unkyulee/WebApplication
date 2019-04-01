@@ -32,9 +32,9 @@ export class FilterComponent {
     ) {
       // if the date range params exists then set
       let lte = params[`${this.uiElement.key}_lte`];
-      let gte = params[`${this.uiElement.key}_gte`];
-      if (gte && lte) {
-        this.data[this.uiElement.key] = [moment(gte).toDate(), moment(lte).toDate()];
+      let gt = params[`${this.uiElement.key}_gt`];
+      if (gt && lte) {
+        this.data[this.uiElement.key] = [moment(gt).add(1, 'days').toDate(), moment(lte).toDate()];
         // display filter
         this.event.send({name:'show-filter'})
       }
@@ -70,8 +70,8 @@ export class FilterComponent {
       this.uiElement.selectMode == "range"
     ) {
       this.nav.setParam(
-        `${this.uiElement.key}_gte`,
-        moment(v[0]).format("YYYYMMDD")
+        `${this.uiElement.key}_gt`,
+        moment(v[0]).add(-1, 'days').format("YYYYMMDD")
       );
       this.nav.setParam(
         `${this.uiElement.key}_lte`,
