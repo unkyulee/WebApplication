@@ -83,6 +83,8 @@ export class TypographyComponent {
   set value(v) {
     if (this.data && this.uiElement.key) {
       this.data[this.uiElement.key] = v;
+    } else if(this.data) {
+      this.data = Object.assign(this.data, v)
     }
   }
 

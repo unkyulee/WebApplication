@@ -6,6 +6,7 @@
   "
 >
   <button
+    *ngIf="uiElement.filter"
     type="button"
     mat-icon-button
     (click)="uiElement.showFilter = !uiElement.showFilter"
