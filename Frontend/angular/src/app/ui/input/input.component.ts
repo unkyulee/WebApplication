@@ -37,14 +37,16 @@ export class InputComponent {
         debounceTime(300)
       )
       .subscribe(v => {
-        // when changed
-        this.change.emit(v);
-        // see if there are any input change handlers
-        if (this.uiElement.changed) {
-          try {
-            eval(this.uiElement.changed);
-          } catch (ex) {
-            console.error(ex);
+        if (typeof v !== "undefined") {
+          // when changed
+          this.change.emit(v);
+          // see if there are any input change handlers
+          if (this.uiElement.changed) {
+            try {
+              eval(this.uiElement.changed);
+            } catch (ex) {
+              console.error(ex);
+            }
           }
         }
       });
