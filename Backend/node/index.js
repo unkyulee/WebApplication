@@ -30,6 +30,12 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
+// default TZ setup
+if(process.env.TZ) {
+  var moment = require("moment-timezone");
+  moment.tz.setDefault(process.env.TZ);
+}
+
 // catch all
 const router = require('./src/services/router')
 const auth = require('./src/services/auth')
@@ -72,7 +78,7 @@ if(process.env.TASK) {
       await task.start(app, process.env.TASK || 5)
     } catch(err) {
       console.log(err)
-    }  
+    }
   })();
 }
 
