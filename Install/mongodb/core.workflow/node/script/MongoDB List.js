@@ -84,19 +84,19 @@ async function run() {
     // range
     else if (key.endsWith("_date_gte")) {
       let f = {};
-      f[key.replace("_gte", "")] = { $gte: moment(data[key]).toDate() };
+      f[key.replace("_gte", "")] = { $gte: moment.utc(data[key]).toDate() };
       filter.$and.push(f);
     } else if (key.endsWith("_date_gt")) {
       let f = {};
-      f[key.replace("_gt", "")] = { $gt: moment(data[key]).toDate() };
+      f[key.replace("_gt", "")] = { $gt: moment.utc(data[key]).toDate() };
       filter.$and.push(f);
     } else if (key.endsWith("_date_lte")) {
       let f = {};
-      f[key.replace("_lte", "")] = { $lte: moment(data[key]).toDate() };
+      f[key.replace("_lte", "")] = { $lte: moment.utc(data[key]).toDate() };
       filter.$and.push(f);
     } else if (key.endsWith("_date_lt")) {
       let f = {};
-      f[key.replace("_lt", "")] = { $lt: moment(data[key]).toDate() };
+      f[key.replace("_lt", "")] = { $lt: moment.utc(data[key]).toDate() };
       filter.$and.push(f);
     }
     // expression

@@ -31,17 +31,23 @@ export class FilterComponent {
       this.uiElement.selectMode == "range"
     ) {
       // if the date range params exists then set
-      let lte = params[`${this.uiElement.key}_lte`];
-      let gt = params[`${this.uiElement.key}_gt`];
-      if (gt && lte) {
-        this.data[this.uiElement.key] = [moment(gt).add(1, 'days').toDate(), moment(lte).toDate()];
+      let lt = params[`${this.uiElement.key}_lte`];
+      let gte = params[`${this.uiElement.key}_gte`];
+      if (gte && lt) {
+        this.data[this.uiElement.key] = [
+          moment.utc(gte).toDate(),
+          moment.utc(lt).toDate()
+        ];
         // display filter
-        this.event.send({name:'show-filter'})
+        this.event.send({ name: "show-filter" });
       }
     } else {
-      if(params[this.uiElement.key] != null && typeof params[this.uiElement.key] != 'undefined') {
+      if (
+        params[this.uiElement.key] != null &&
+        typeof params[this.uiElement.key] != "undefined"
+      ) {
         // display filter
-        this.event.send({name:'show-filter'})
+        this.event.send({ name: "show-filter" });
         this.data[this.uiElement.key] = params[this.uiElement.key];
       }
     }
@@ -70,12 +76,12 @@ export class FilterComponent {
       this.uiElement.selectMode == "range"
     ) {
       this.nav.setParam(
-        `${this.uiElement.key}_gt`,
-        moment(v[0]).add(-1, 'days').format("YYYYMMDD")
+        `${this.uiElement.key}_gte`,
+        moment(v[0]).format("YYYY-MM-DDTHH:mm:ss")
       );
       this.nav.setParam(
         `${this.uiElement.key}_lte`,
-        moment(v[1]).format("YYYYMMDD")
+        moment(v[1]).endOf('day').format("YYYY-MM-DDTHH:mm:ss")
       );
     }
 
