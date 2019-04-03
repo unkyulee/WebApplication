@@ -150,11 +150,7 @@ namespace Service.Script.Scripts
             foreach (KeyValuePair<string, object> entry in data)
                 if (entry.Key.EndsWith("_date"))
                     data[entry.Key] = DateTime.Parse($"{data[entry.Key]}");
-
-            // convert _created
-            data["_created"] = data.Get("_created") != null ? DateTime.Parse($"{data.Get("_created")}") : DateTime.Now;
-            data["_updated"] = DateTime.Now;
-
+                        
             // asign navigation_id
             if (navigation_id != null) data["navigation_id"] = navigation_id;
 
