@@ -5,10 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using System.Reflection;
-using Web.Application.Interfaces;
+using Web.Application.Modules;
 using Web.Application.Services;
 using Web.Application.Services.DB;
-using Web.Appliction.Ext;
+using Web.Appliction.Lib;
 
 namespace WebApplication
 {

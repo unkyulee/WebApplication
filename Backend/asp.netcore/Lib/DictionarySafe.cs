@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Web.Appliction.Ext
+namespace Web.Appliction.Lib
 {
     public static class DictionarySafe
     {

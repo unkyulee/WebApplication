@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-namespace Web.Application.Interfaces
+namespace Web.Application.Modules
 {
     public interface IModule
     {

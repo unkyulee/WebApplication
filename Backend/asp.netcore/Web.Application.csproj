@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="build.bat" />
     <None Remove="Properties\PublishProfiles\unkyulee - Web Deploy.pubxml" />
   </ItemGroup>
 

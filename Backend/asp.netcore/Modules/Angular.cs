@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Web.Application.Interfaces;
+using Web.Application.Lib;
 using Web.Application.Services.DB;
-using Web.Appliction.Ext;
+using Web.Appliction.Lib;
 
 namespace Web.Application.Modules
 {
@@ -53,8 +53,11 @@ namespace Web.Application.Modules
 
             var angular_uis = db.Query($@"SELECT * FROM angular_ui WHERE _id IN ({string.Join(",", ids.ToArray())})");
             foreach (var ui in angular_uis)
-                angular_ui[$"{ui["_id"]}"] = JsonConvert.DeserializeObject($"{ui["content"]}");
-            
+            {
+                string content = $"{ui["content"]}";
+                content = StringUtils.MultilineToSingle(content);
+                angular_ui[$"{ui["_id"]}"] = JsonConvert.DeserializeObject(content);
+            }
 
             return JsonConvert.SerializeObject(new
             {
