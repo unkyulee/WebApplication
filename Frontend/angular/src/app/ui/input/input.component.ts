@@ -7,6 +7,7 @@ import { UserService } from "../../services/user/user.service";
 import { EventService } from "../../services/event.service";
 import { ConfigService } from "src/app/services/config.service";
 import { NavService } from "src/app/services/nav.service";
+import { RestService } from 'src/app/services/rest.service';
 
 @Component({
   selector: "input-component",
@@ -19,7 +20,8 @@ export class InputComponent {
     public event: EventService,
     private dateTimeAdapter: DateTimeAdapter<any>,
     private config: ConfigService,
-    public nav: NavService
+    public nav: NavService,
+    public rest: RestService
   ) {}
 
   @Input() uiElement: any;
