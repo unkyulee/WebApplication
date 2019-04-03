@@ -37,16 +37,14 @@ export class InputComponent {
         debounceTime(300)
       )
       .subscribe(v => {
-        if (typeof v !== "undefined") {
-          // when changed
-          this.change.emit(v);
-          // see if there are any input change handlers
-          if (this.uiElement.changed) {
-            try {
-              eval(this.uiElement.changed);
-            } catch (ex) {
-              console.error(ex);
-            }
+        // when changed
+        this.change.emit(v);
+        // see if there are any input change handlers
+        if (this.uiElement.changed) {
+          try {
+            eval(this.uiElement.changed);
+          } catch (ex) {
+            console.error(ex);
           }
         }
       });
@@ -100,7 +98,6 @@ export class InputComponent {
       this.value = v;
     }
 
-    this.typeAheadEventEmitter.next(v);
     return v;
   }
 
@@ -115,6 +112,8 @@ export class InputComponent {
           this.data[this.uiElement.key] = parseFloat(v);
       }
     }
+
+    this.typeAheadEventEmitter.next(v);
   }
 
   condition() {
