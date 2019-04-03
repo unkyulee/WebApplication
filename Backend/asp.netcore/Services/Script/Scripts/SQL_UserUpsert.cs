@@ -75,7 +75,7 @@ namespace Service.Script.Scripts
                         foreach (var excludeField in excludeFields)
                             data.Remove(excludeField);
 
-                    var updatedData = SQL_Update.SetDefaults(data.ToObject<IDictionary<string, object>>(), navigation_id);
+                    var updatedData = SQL_Update.SetDefaults(context, config, data);
 
                     // update user
                     SQL_Update.Update(db, table, updatedData, idField);
@@ -102,7 +102,7 @@ namespace Service.Script.Scripts
 
                 // create new user
                 data["password"] = SecurePasswordHasher.Hash($"{data["password"]}");
-                var updatedData = SQL_Update.SetDefaults(data.ToObject<IDictionary<string, object>>(), navigation_id);
+                var updatedData = SQL_Update.SetDefaults(context, config, data);
                 
                 // Exclude data
                 var excludeFields = (config["excludeFields"] as JArray)?.ToObject<string[]>();

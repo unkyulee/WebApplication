@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Web.Application.Lib;
 using Web.Application.Services.DB;
-using Web.Appliction.Lib;
 
 namespace Service.Script.Scripts
 {
@@ -27,18 +26,7 @@ namespace Service.Script.Scripts
 
             string idField = config["id"]?.ToString();
             if (string.IsNullOrEmpty(idField)) return new { error = "No id field Specified." };
-
-            // Get Navigation ID
-            string navigation_id = context.Request.Headers["X-App-Key"];
-            if (string.IsNullOrEmpty(navigation_id)) return new { error = "No X-App-Key specified" };
-
-            // check if admin        
-            bool admin = false;
-            if (config["admin"] != null && config["admin"].ToObject<bool>() == true)
-                admin = true;
-
-            if (admin == true) navigation_id = null;
-
+                        
             // Retrieve DataService            
             if (dataservices == null || dataservices.Count == 0) return new { error = "Data Services not provided" };
             SQL db = (SQL)dataservices.FirstOrDefault();
@@ -104,11 +92,7 @@ namespace Service.Script.Scripts
                                     foreach(var target in targets)
                                         record[$"{target["target"]}"] = $"{item[$"{target["source"]}"]}";
                             }
-
-                            // navigation_id
-                            if (navigation_id != null)
-                                record["navigation_id"] = navigation_id;
-
+                            
                             // find the key                            
                             if (sourceKey != null && item[sourceKey] != null)
                             {
@@ -135,26 +119,55 @@ namespace Service.Script.Scripts
                     data.Remove(excludeField);
 
             // set default fields
-            var updatedData = SetDefaults(data.ToObject<IDictionary<string, object>>(), navigation_id);
+            var updatedData = SetDefaults(context, config, data);
 
             // Update
             var doc_id = Update(db, table, updatedData, idField);
 
             // Return Result
-            return new { _id = updatedData[idField] };
+            return new { _id = data[idField] };
         }
 
-        public static IDictionary<string, object> SetDefaults(IDictionary<string, object> data, string navigation_id)
+        public static IDictionary<string, object> SetDefaults(
+            HttpContext context
+            , JObject config
+            , JObject data            
+            )
         {
+            JArray defaults = (JArray)config["defaults"];
+            if (defaults != null)
+            {
+                foreach (var filter in defaults)
+                {
+                    string filterType = $"{filter["type"]}";
+                    switch (filterType)
+                    {
+                        case "headers":
+                            {
+                                string key = $"{filter["key"]}";
+                                string column = $"{filter["column"]}";
+
+                                if (context.Request.Headers.ContainsKey(key))
+                                    data[column] = $"{context.Request.Headers[key]}";
+                            }
+                            break;
+                        case "now":
+                            {
+                                string column = $"{filter["column"]}";
+                                data[column] = DateTime.Now;
+                            }
+                            break;
+                    }
+                }
+            }
+
             // convert to date field
-            foreach (KeyValuePair<string, object> entry in data)
+            var dataDict = data.ToObject<IDictionary<string, object>>();
+            foreach (var entry in dataDict)
                 if (entry.Key.EndsWith("_date"))
                     data[entry.Key] = DateTime.Parse($"{data[entry.Key]}");
                         
-            // asign navigation_id
-            if (navigation_id != null) data["navigation_id"] = navigation_id;
-
-            return data;
+            return dataDict;
         }
 
         // Upsert

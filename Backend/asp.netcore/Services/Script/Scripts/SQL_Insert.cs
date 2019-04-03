@@ -46,7 +46,7 @@ namespace Service.Script.Scripts
             var data = JsonConvert.DeserializeObject<JObject>(WebTools.GetBody(context));
             
             // set default fields
-            var updatedData = SQL_Update.SetDefaults(data.ToObject<IDictionary<string, object>>(), navigation_id);
+            var updatedData = SQL_Update.SetDefaults(context, config, data);
 
             // Exclude data
             var excludeFields = (config["excludeFields"] as JArray)?.ToObject<string[]>();
@@ -141,8 +141,6 @@ namespace Service.Script.Scripts
                         
                     }
                 }
-
-            
 
             // Return Result
             return new { _id = id };

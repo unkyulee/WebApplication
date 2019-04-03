@@ -49,7 +49,6 @@ namespace WebApplication
             services.AddSingleton<IConfiguration>(config);
         }
 
-
         public void Configure(
             IApplicationBuilder app
             , IConfiguration config

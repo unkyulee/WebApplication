@@ -15,7 +15,7 @@ namespace Web.Application.Services
             , IList<object> dataservices)
         {
             object result = null;
-            configuration = Tools.PreProcess(configuration);
+            configuration = StringUtils.MultilineToSingle(configuration);
 
             switch (script_id) {
                 case "40":

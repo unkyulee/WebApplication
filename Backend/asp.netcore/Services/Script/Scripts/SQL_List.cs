@@ -23,14 +23,6 @@ namespace Service.Script.Scripts
                 return new { error = "No configuration specified." };
             JObject config = JsonConvert.DeserializeObject<JObject>(configuration);
 
-            // check if admin 
-            bool admin = false;
-            if (config["admin"] != null) admin = true;
-
-            // Get Navigation ID
-            string navigation_id = context.Request.Headers["X-App-Key"];
-            if (string.IsNullOrEmpty(navigation_id)) return new { error = "No X-App-Key specified" };
-
             // Calculate Pagination
             string page = WebTools.Get(context, "page"); if (string.IsNullOrEmpty(page)) page = "1";
             string size = WebTools.Get(context, "size"); if (string.IsNullOrEmpty(size)) size = "10";
@@ -47,18 +39,17 @@ namespace Service.Script.Scripts
 
             // Query - Filters
             var where = new List<string>();
-
             var parameters = new Dictionary<string, object>();
 
             // get body
             var data = JsonConvert.DeserializeObject<JObject>(WebTools.GetBody(context));
             if (data == null) data = new JObject();
 
-            // get query
+            // append querystring to the data
             foreach(var key in context.Request.Query.Keys)
                 data[key] = new JArray(context.Request.Query[key].ToArray());
 
-            string[] searchFields = config["searchFields"].ToObject<string[]>();
+            string[] searchFields = config["searchFields"]?.ToObject<string[]>();
             if (data != null && data.Count > 0)
             {
                 foreach (var item in data)
@@ -79,7 +70,7 @@ namespace Service.Script.Scripts
                     else if (item.Key == "_sort_desc") continue;
 
                     // search keyword
-                    else if (item.Key == "_search")
+                    else if (item.Key == "_search" && searchFields != null)
                     {
                         if(string.IsNullOrEmpty($"{item.Value.FirstOrDefault()}") == false)
                         {
@@ -89,33 +80,55 @@ namespace Service.Script.Scripts
                             where.Add($"({string.Join(" OR ", search)})");
 
                             parameters[parameterName] = $"{item.Value.FirstOrDefault()}";
-                        }                       
-
+                        }
                         continue;
                     }   
                     
                     // range filter
-                    else if (item.Key.EndsWith("_date_gte"))                    
-                        where.Add($"{item.Key.Replace("_gte", "")} >= @{parameterName}");                        
+                    else if (item.Key.EndsWith("_date_gte"))
+                        where.Add($"{item.Key.Replace("_gte", "")} >= @{parameterName}");
                     
-                    else if (item.Key.EndsWith("_date_lte"))                    
-                        where.Add($"{item.Key.Replace("_lte", "")} <= @{parameterName}");                        
+                    else if (item.Key.EndsWith("_date_lte"))
+                        where.Add($"{item.Key.Replace("_lte", "")} <= @{parameterName}");
                     
-                    else if (item.Key.EndsWith("_date_gt"))                    
-                        where.Add($"{item.Key.Replace("_gt", "")} > @{parameterName}");                        
+                    else if (item.Key.EndsWith("_date_gt"))
+                        where.Add($"{item.Key.Replace("_gt", "")} > @{parameterName}");
                     
-                    else if (item.Key.EndsWith("_date_lt"))                    
-                        where.Add($"{item.Key.Replace("_lt", "")} < @{parameterName}");                                            
+                    else if (item.Key.EndsWith("_date_lt"))
+                        where.Add($"{item.Key.Replace("_lt", "")} < @{parameterName}");
 
                     // otherwise string filter
                     else 
-                        foreach (var str in item.Value)                                                                 
+                        foreach (var str in item.Value)
                             where.Add($"{item.Key} = @{parameterName}");
 
-                    // add to parameters                    
+                    // add to parameters
                     parameters[parameterName] = $"{item.Value.FirstOrDefault()}";
                 }
             }
+
+            // check if any filter options exists
+            JArray defaultFilters = (JArray)config["defaultFilters"];
+            if(defaultFilters != null)
+            {
+                foreach (var filter in defaultFilters)
+                {
+                    string filterType = $"{filter["type"]}";
+                    switch (filterType)
+                    {
+                        case "headers":
+                            string key = $"{filter["key"]}";
+                            string column = $"{filter["column"]}";
+
+                            if (context.Request.Headers.ContainsKey(key))
+                            {
+                                where.Add($"{column} = @{column}");
+                                parameters[column] = $"{context.Request.Headers[key]}";
+                            }
+                            break;
+                    }
+                }
+            }           
 
             // Retrieve DataService            
             if (dataservices == null || dataservices.Count == 0)
@@ -124,13 +137,6 @@ namespace Service.Script.Scripts
             if (db == null)
                 return new { error = "Data Service not provided" };
             
-            // Add navigation_id filter
-            if (admin == false)
-            {
-                where.Add("navigation_id = @navigation_id");
-                parameters["navigation_id"] = navigation_id;
-            }
-
             // get sql list parameters
             string sqlTemplate = $"{config["sql"]}";
             if (string.IsNullOrEmpty(sqlTemplate))
