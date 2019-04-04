@@ -33,7 +33,7 @@ export class SelectionComponent implements OnInit {
 
     if (this.data && this.uiElement.key) {
       // if null then assign default
-      if (typeof this.data[this.uiElement.key] == 'undefined') {
+      if (typeof this.data[this.uiElement.key] == "undefined") {
         let def = this.uiElement.default;
         try {
           def = eval(this.uiElement.default);
@@ -42,28 +42,42 @@ export class SelectionComponent implements OnInit {
       }
 
       v = this.data[this.uiElement.key];
-      if (typeof v !== 'undefined' && this.uiElement.multiple && !Array.isArray(v)) {
-        v = [v]
+      if (
+        typeof v !== "undefined" &&
+        this.uiElement.multiple &&
+        !Array.isArray(v)
+      ) {
+        v = [v];
       }
     }
 
     // if the value is programmatically updated without set property called
     // then set it explicitly
-    if(this._value != v) {
-      this._value = v
-      this.value = v
+    if (this._value != v) {
+      this._value = v;
+      this.value = v;
     }
 
     return v;
   }
 
-
   set value(v: any) {
-    this._value = v;
-    this.change.emit(v)
+    if (v != this._value) {
+      this._value = v;
+      this.change.emit(v);
+
+      if (this.uiElement.changed) {
+        try {
+          let that = this; // make it compatible with autocomplete
+          eval(this.uiElement.changed);
+        } catch (ex) {
+          console.error(ex);
+        }
+      }
+    }
 
     // close the selection panel
-    if(this.select) this.select.close();
+    if (this.select) this.select.close();
 
     if (this.data) {
       // set value to itself

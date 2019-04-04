@@ -24,7 +24,7 @@ export class DefaultAuthStrategy {
           catchError(
             // when response is not 200
             (err: HttpErrorResponse) => {
-              console.error(err)
+              console.error(err);
               reject(err.message);
               return EMPTY;
             }
@@ -51,6 +51,9 @@ export class DefaultAuthStrategy {
     // check if the token is valid
     let token = localStorage.getItem("token");
     if (token && this.isValidToken(token) == true) {
+      //
+      isValidAuth = true;
+
       // check if the config navigation_id and the stored navigation_id matches
       let angular_navigation = localStorage.getItem("angular_navigation");
       if (angular_navigation) {
@@ -58,12 +61,17 @@ export class DefaultAuthStrategy {
           let nav = JSON.parse(angular_navigation);
           if (nav[0].navigation_id == this.config.configuration._id) {
             isValidAuth = true;
-
             // when authentication is proven to be valid locally
             // verify with the server
             this.refreshAuthentication();
+          } else {
+            // if the app is not matching then it's not valid
+            isValidAuth = false;
           }
         } catch (e) {}
+      } else {
+        // navigation is not loaded - so load the navigation
+        this.refreshAuthentication()
       }
     }
 

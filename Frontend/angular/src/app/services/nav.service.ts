@@ -71,7 +71,11 @@ export class NavService {
 
     // event handler
     this.event.onEvent.subscribe(e => {
-      if (e == "authenticated") {
+      if (e == "authenticated" || e.name == "navigation-updated") {
+        if(e.name == "navigation-updated") {
+          // save when server has new navigation
+          this.config.configuration.angular_navigation = e.data;
+        }
         // set navigation
         this.set();
 
@@ -87,10 +91,6 @@ export class NavService {
             navigation: this.currNav
           }
         });
-      } else if (e.name == "navigation-updated") {
-        // when server has new navigation
-        this.config.configuration.angular_navigation = e.data;
-        this.set();
       }
     });
   }

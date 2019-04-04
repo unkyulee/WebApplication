@@ -39,6 +39,15 @@ export class AutoCompleteComponent implements OnInit {
       .subscribe(v => {
         this.change.emit(v);
         this.loadOption();
+
+        if (this.uiElement.changed) {
+          try {
+            let that = this; // make it compatible with autocomplete
+            eval(this.uiElement.changed);
+          } catch (ex) {
+            console.error(ex);
+          }
+        }
       });
 
     // if optionSrc is specified then download the options
