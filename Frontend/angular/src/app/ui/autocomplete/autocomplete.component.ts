@@ -152,7 +152,7 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   format(row) {
-    let value =
+    let v =
       row[
         this.uiElement.optionLabel
           ? this.uiElement.optionLabel
@@ -160,10 +160,10 @@ export class AutoCompleteComponent implements OnInit {
       ];
     if (this.uiElement.format) {
       try {
-        value = eval(this.uiElement.format);
+        v = eval(this.uiElement.format);
       } catch (e) {}
     }
-    return value;
+    return v;
   }
 
   click() {
