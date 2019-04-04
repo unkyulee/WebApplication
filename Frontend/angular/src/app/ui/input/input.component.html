@@ -94,7 +94,7 @@
       type="button"
       matSuffix
       mat-icon-button
-      (click)="click()"
+      [owlDateTimeTrigger]="dt1"
       *ngIf="uiElement.icon"
     >
       <mat-icon [style.color]="uiElement.iconColor || 'green'">{{
