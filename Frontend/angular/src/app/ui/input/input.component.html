@@ -65,6 +65,7 @@
       [required]="uiElement.required"
       matTextareaAutosize
       [matAutosizeMinRows]="uiElement.rows"
+      [maxlength]="uiElement.maxlength ? uiElement.maxlength : '-1'"
     ></textarea>
   </mat-form-field>
 
