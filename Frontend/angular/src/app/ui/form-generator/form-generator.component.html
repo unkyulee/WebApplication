@@ -4,27 +4,23 @@
       ? uiElement.style
       : config.configuration.formGenerator?.style
   "
+  [ngClass]="
+    uiElement.class
+      ? uiElement.class
+      : config.configuration.formGenerator?.class
+  "
 >
-  <div [ngStyle]="uiElement.headerStyle">
-    <ng-container *ngFor="let ui of uiElement.header">
-      <ui-layout-wrapper
-        [uiElement]="ui"
-        [data]="data"
-        [ngStyle]="ui.layoutStyle"
-      ></ui-layout-wrapper>
-    </ng-container>
-  </div>
   <div *ngFor="let ui of uiElement.screen" [ngStyle]="ui.style">
     <ng-container *ngIf="condition(ui.condition)">
       <!-- Form Group Header -->
       <div
         [ngStyle]="
-          ui?.header?.style
+          ui.header?.style
             ? ui?.header?.style
             : config.configuration.formGenerator?.header?.style
         "
         [ngClass]="
-          ui?.header?.class
+          ui.header?.class
             ? ui?.header?.class
             : config.configuration.formGenerator?.header?.class
         "
@@ -47,13 +43,13 @@
       <div
         [style.display]="ui?.expanded == false ? 'none' : 'flex'"
         [ngStyle]="
-          uiElement.containerStyle
-            ? uiElement.container?.style
+          ui.container?.style
+            ? ui.container?.style
             : config.configuration.formGenerator?.container?.style
         "
         [ngClass]="
-          uiElement.container?.class
-            ? uiElement.container?.class
+          ui.container?.class
+            ? ui.container?.class
             : config.configuration.formGenerator?.container?.class
         "
       >
