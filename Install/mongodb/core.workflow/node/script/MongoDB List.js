@@ -1,14 +1,5 @@
 ﻿var moment = require("moment-timezone");
 
-function removeSensitiveFields(rows, sensitive) {
-  // remove sensitive fields
-  for (let row of rows) {
-    for (let fields of Object.keys(sensitive)) {
-      if (row[fields]) delete row[fields];
-    }
-  }
-}
-
 async function run() {
   // read configuration
   let config = res.locals.configuration;
@@ -18,17 +9,6 @@ async function run() {
   let collection = config["collection"];
   if (!collection) return "No Collection Specified";
 
-  // check if it is admin mode
-  let adminMode = false;
-  if (config.admin == true) adminMode = true;
-
-  // check if it has sensitive fields
-  let sensitive;
-  if (config.sensitive) sensitive = config.sensitive;
-
-  let navigation_id = req.headers["x-app-key"];
-  if (!navigation_id) return "No X-App-Key specified";
-
   // form values
   let data = Object.assign({}, req.query, req.body);
 
@@ -37,9 +17,6 @@ async function run() {
   page = parseInt(page);
   let size = data.size || 10;
   size = parseInt(size);
-
-  // if export is specified then increase the size
-  if (data._export) size = "10000";
 
   // sort
   let sort = null;
@@ -53,12 +30,28 @@ async function run() {
   }
 
   // build filter
-  let filter = { $and: [{ navigation_id: navigation_id }] };
+  let filter = { $and: [] };
+
+  // check if the configuration has filterFields
+  if (config.filterFields) {
+    for (let field of config.filterFields) {
+      switch (field.type) {
+        case "header":
+          {
+            let value = req.headers[field.key];
+            if (!value) return { error: `No ${field.key} specified` };
+            let f = {};
+            f[field.column] = value;
+
+            // add filter
+            filter["$and"].push(f);
+          }
+          break;
+      }
+    }
+  }
+
   let options = {};
-
-  // do not filter by navigation_id if it is adminmode
-  if (adminMode == true) filter.$and = [{ _id: { $exists: true } }];
-
   for (let key of Object.keys(data)) {
     if (key === "page") continue;
     else if (key === "size") continue;
@@ -124,6 +117,9 @@ async function run() {
     }
   }
 
+  // if $and is empty then remove
+  if (filter.$and.length == 0) delete filter.$and;
+
   // retrieve data service
   let ds = res.locals.ds;
   if (!ds) return "No data service instantiated";
@@ -146,8 +142,14 @@ async function run() {
     );
   let total = await ds.count(collection, filter);
 
-  // remove sensitive fields
-  if (sensitive) removeSensitiveFields(result, sensitive);
+  // remove fields
+  if (config.excludeFields) {
+    for (let row of result) {
+      for (let fields of config.excludeFields) {
+        if (row[fields]) delete row[fields];
+      }
+    }
+  }
 
   // return result
   return {

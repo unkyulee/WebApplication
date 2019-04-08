@@ -230,7 +230,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     let data = JSON.parse(JSON.stringify(this.data));
     // remove _params_
     delete data._params_;
-    let transform = this.ui.find(["save", "transform"], this.uiElement);
+    let transform = this.uiElement.save.transform;
     if(transform) {
       try {
         eval(transform)

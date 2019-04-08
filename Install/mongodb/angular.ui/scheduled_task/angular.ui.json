@@ -1,112 +1,257 @@
-{
+[
+  {
+    "_id": ObjectId("000000000000000000000121"),
+    "name": "Appointment Filter",
+    "type": "filter-group",
+    "label": "Filters",
+    "screen": [
+      {
+        "type": "div",
+        "comment": "spacer",
+        "layoutStyle": {
+          "flex-grow": 1
+        },
+        "style": {
+          "width": "1px"
+        }
+      },
+      {
+        "type": "input",
+        "key": "search",
+        "label": "Search ...",
+        "floatLabel": "never",
+        "icon": "search",
+        "iconColor": "white",
+        "style": {
+          "margin-top": "-12px",
+          "margin-bottom": "-8px"
+        },
+        "class": {
+          "white": true
+        },
+        "changed": "that.event.send({ name: 'refresh', key: 'table' })"
+      },
+      {
+        "type": "button",
+        "buttonType": "mat-icon-button",
+        "icon": "note_add",
+        "click": "this.router.navigateByUrl(`/task/detail`)"
+      }
+    ]
+  },
+  {
     "_id": ObjectId("000000000000000000000120"),
     "type": "data-table",
+    "tableType": "table",
+    "key": "table",
     "name": "Scheduled Task",
     "src": "/adminapi/core.scheduled_task",
-    "list": {
-        "src": "/adminapi/core.scheduled_task",
-        "method": "get",
-        "transform": "response.data",
-        "table": {
-            "columns": [
-                {
-                    "key": "name",
-                    "label": "Task name",
-                    "link": "`detail/${row._id}`"
-                },
-                {
-                    "key": "last_run_result",
-                    "label": "Last Status",
-                    "canAutoResize": false
-                },
-                {
-                    "key": "next_run_date",
-                    "label": "Next Run",
-                    "type": "date",
-                    "lang": "it",
-                    "format": "L LT",
-                    "canAutoResize": false
-                }
-            ]
+    "method": "get",
+    "transform": "response.data",
+    "columns": [
+      {
+        "key": "name",
+        "label": "Task name",
+        "click": "this.router.navigateByUrl(`/task/detail?_id=${row._id}`)"
+      },
+      {
+        "key": "last_run_result",
+        "label": "Last Status",
+        "canAutoResize": false
+      },
+      {
+        "key": "next_run_date",
+        "label": "Next Run",
+        "format": "moment(v).format('L LT')",
+        "canAutoResize": false
+      }
+    ]
+  },
+  {
+    "_id": ObjectId("000000000000000000000123"),
+    "type": "layout",
+    "style": {
+      "background": "#F44336",
+      "width": "100%",
+      "display": "flex",
+      "flex-wrap": "wrap",
+      "color": "white"
+    },
+    "screen": [
+      {
+        "type": "div",
+        "comment": "spacer",
+        "layoutStyle": { "flex-grow": 1 },
+        "style": { "width": "1px" }
+      },
+      {
+        "type": "typography",
+        "condition": "!this.data._id",
+        "default": "this.data._params_._id?'Loading ...':'Must Save'",
+        "layoutStyle": {
+          "text-align": "center"
+        },
+        "style": {
+          "padding": "10px",
+          "text-transform": "uppercase",
+          "font-weight": "bold",
+          "color": "chartreuse"
         }
+      },
+      {
+        "type": "button",
+        "buttonType": "mat-icon-button",
+        "icon": "save",
+        "click": "this.event.send({ 'name': 'save' });"
+      }
+    ]
+  },
+  {
+    "_id": ObjectId("000000000000000000000122"),
+    "type": "form-generator",
+    "src": "this.data._params_._id?`/adminapi/core.scheduled_task?_id=${this.data._params_._id}`:''",
+    "method": "get",
+    "transform": "response.data[0]",
+    "save": {
+      "src": "`/adminapi/core.scheduled_task`",
+      "method": "post",
+      "saveAction": "that.data._params_._id ? that.snackBar.open('Salvato', null, {duration: 5000}) : that.nav.navPopStack('/task/detail'); that.router.navigateByUrl(`/task/detail?_id=${response._id}`)"
     },
-    "detail": {
-        "src": "`/adminapi/core.scheduled_task?_id=${this.id}`",
-        "method": "get",
-        "transform": "response.data[0]",
-        "screen": [
+    "screen": [
+      {
+        "expanded": true,
+        "style": {
+          "width": "100%"
+        },
+        "header": {
+          "screen": [
             {
-                "name": "Dettaglio Task",
-                "width": 35,
-                "screen": [
-                    {
-                        "key": "name",
-                        "label": "Task name"
-                    },
-                    {
-                        "key": "schedule",
-                        "label": "Schedule Rule"
-                    },
-                    {
-                        "key": "next_run_date",
-                        "label": "Next Run",
-                        "transform": "this.data.next_run_date ? moment(this.data.next_run_date).format('L LT') : ''"
-                    },
-                    {
-                        "key": "last_run_result",
-                        "label": "Last Run Result",
-                        "readonly": true
-                    },
-                    {
-                        "type" : "script-button",
-                        "buttons" : [
-                            {
-                                "label" : "Run Script",
-                                "color" : "warn",
-                                "script" : "this.data.last_run_result = 'In Queue'; this.data.logs = []; this.data.next_run_date = new Date(); this.event.send({ 'name': 'save' }); setTimeout(() => this.event.send({ 'name': 'refresh' }), 5000);"
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "Log",
-                "width": 65,
-                "screen": [
-                    {
-                        "key": "logs",
-                        "type" : "simple-table",
-                        "columns" : [
-                            {
-                                "key" : "msg",
-                                "label" : "msg"
-                            },
-                            {
-                                "key" : "_created",
-                                "label" : "created",
-                                "type" : "date",
-                                "format" : "L LTS",
-                                "lang" : "it",
-                                "canAutoResize" : false
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                "name": "Script",
-                "width": 100,
-                "screen": [
-                    {
-                        "key": "script",
-                        "label": "Script",
-                        "type": "text-area",
-                        "rows": 10
-                    }
-                ]
+              "type": "typography",
+              "text": "Task Detail"
             }
+          ]
+        },
+        "screen": [
+          {
+            "type": "input",
+            "key": "name",
+            "label": "Task name",
+            "layoutStyle": {
+              "width": "100%"
+            },
+            "style": {
+              "width": "100%"
+            }
+          },
+          {
+            "type": "input",
+            "key": "schedule",
+            "label": "Schedule Rule",
+            "layoutStyle": {
+              "width": "100%"
+            },
+            "style": {
+              "width": "100%"
+            }
+          },
+          {
+            "type": "input",
+            "key": "next_run_date_formatted",
+            "label": "Next Run",
+            "readonly": "true",
+            "format": "this.data.next_run_date ? moment(this.data.next_run_date).format('L LT') : ''",
+            "layoutStyle": {
+              "width": "100%"
+            },
+            "style": {
+              "width": "100%"
+            }
+          },
+          {
+            "type": "input",
+            "key": "last_run_result",
+            "label": "Last Run Result",
+            "readonly": true,
+            "layoutStyle": {
+              "width": "100%"
+            },
+            "style": {
+              "width": "100%"
+            }
+          },
+          {
+            "type": "button",
+            "label": "Run Script",
+            "color": "warn",
+            "click": "this.data.last_run_result = 'In Queue'; this.data.logs = []; this.data.next_run_date = new Date(); this.event.send({ 'name': 'save' }); setTimeout(() => this.event.send({ 'name': 'refresh' }), 5000);",
+            "layoutStyle": {
+              "width": "100%"
+            }
+          }
         ]
-    },
-    "_created": ISODate("2018-05-16T16:58:50.083+0000"),
-    "_updated": ISODate("2018-05-16T16:58:50.083+0000")
-}
+      },
+      {
+        "expanded": true,
+        "style": {
+          "width": "100%"
+        },
+        "header": {
+          "screen": [
+            {
+              "type": "typography",
+              "text": "Log"
+            }
+          ]
+        },
+        "screen": [
+          {
+            "type": "data-table",
+            "tableType": "card",
+            "key": "logs",
+            "columns": [
+              {
+                "type": "typography",
+                "key": "msg",
+                "label": "msg"
+              },
+              {
+                "type": "typography",
+                "key": "_created",
+                "format": "moment(v).format('L LTS')"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "expanded": false,
+        "style": {
+          "width": "100%"
+        },
+        "header": {
+          "screen": [
+            {
+              "type": "typography",
+              "text": "Script"
+            }
+          ]
+        },
+        "screen": [
+          {
+            "type": "input",
+            "inputType": "textarea",
+            "key": "script",
+            "label": "Script",
+            "rows": 30,
+            "layoutStyle": {
+              "width": "100%"
+            },
+            "style": {
+              "width": "100%"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

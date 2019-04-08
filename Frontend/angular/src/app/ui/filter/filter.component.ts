@@ -6,6 +6,7 @@ import { UIService } from "../../services/ui.service";
 import { NavService } from "../../services/nav.service";
 import { RestService } from "../../services/rest.service";
 import { EventService } from "../../services/event.service";
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: "filter",
@@ -17,7 +18,8 @@ export class FilterComponent {
     public rest: RestService,
     public ui: UIService,
     private nav: NavService,
-    private event: EventService
+    private event: EventService,
+    public user: UserService
   ) {}
 
   @Input() uiElement: any;
@@ -59,7 +61,7 @@ export class FilterComponent {
           let value = this.uiElement.default[key];
           try {
             value = eval(this.uiElement.default[key]);
-          } catch {}
+          } catch(e) { console.error(e) }
           this.nav.setParam(key, value);
         }
       }
