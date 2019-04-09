@@ -208,11 +208,19 @@ class Auth {
     let roleIds = {};
 
     // get groups
-    if(user.group_id) {
-      for (let group of user.group_id) {
+    if (user.group_id) {
+      if (Array.isArray(user.group_id)) {
+        for (let group of user.group_id) {
+          // get roles
+          let roles = await req.app.locals.db.find("core.role", {
+            groups: `${group}`
+          });
+          for (let role of roles) roleIds[`${role._id}`] = 1;
+        }
+      } else {
         // get roles
         let roles = await req.app.locals.db.find("core.role", {
-          groups: `${group}`
+          groups: `${user.group_id}`
         });
         for (let role of roles) roleIds[`${role._id}`] = 1;
       }
