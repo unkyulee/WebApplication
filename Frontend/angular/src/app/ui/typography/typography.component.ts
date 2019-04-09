@@ -1,33 +1,36 @@
 import { Component, Input } from "@angular/core";
 
 // user Imports
-import { ConfigService } from 'src/app/services/config.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { Subscription } from 'rxjs';
-import { EventService } from 'src/app/services/event.service';
-import { RestService } from 'src/app/services/rest.service';
-import { Router } from '@angular/router';
+import { ConfigService } from "src/app/services/config.service";
+import { UserService } from "src/app/services/user/user.service";
+import { Subscription } from "rxjs";
+import { EventService } from "src/app/services/event.service";
+import { RestService } from "src/app/services/rest.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'typography'
-  , templateUrl: './typography.component.html'
+  selector: "typography",
+  templateUrl: "./typography.component.html"
 })
 export class TypographyComponent {
-  @Input() uiElement: any
-  @Input() data: any
+  @Input() uiElement: any;
+  @Input() data: any;
 
   // event subscription
   onEvent: Subscription;
 
   constructor(
-    public config: ConfigService
-    , public user: UserService
-    , public event: EventService
-    , public rest: RestService
-    , public router: Router
-  ) { }
+    public config: ConfigService,
+    public user: UserService,
+    public event: EventService,
+    public rest: RestService,
+    public router: Router
+  ) {}
 
   ngOnInit() {
+    // init value
+    this.initValue();
+
     // download data through rest web services
     this.requestDownload();
 
@@ -47,50 +50,45 @@ export class TypographyComponent {
     this.onEvent.unsubscribe();
   }
 
+  _value;
   get value() {
-    let v = null;
+    return this._value;
+  }
 
-    // data driven
-    if (this.data && this.uiElement.key) {
+  initValue() {
+    // fixed text
+    if (this.uiElement.text) {
       // set value
-      v = this.data[this.uiElement.key]
+      this._value = this.uiElement.text;
     }
 
-    // fixed text
-    else if (this.uiElement.text) {
+    // key exists
+    else if (this.data && this.uiElement.key) {
       // set value
-      v = this.uiElement.text
+      this._value = this.data[this.uiElement.key];
     }
 
     // if null then assign default
-    if (!v && this.uiElement.default) {
-      v = this.uiElement.default
-      try { v = eval(this.uiElement.default) }
-      catch (e) {}
+    if ((typeof this._value == "undefined" || this._value == null) && this.uiElement.default) {
+      this._value = this.uiElement.default;
+      try {
+        this._value = eval(this.uiElement.default);
+      } catch (e) {}
     }
 
     // if format is specified
-    if(this.uiElement.format) {
+    if (this.uiElement.format) {
       try {
-        v = eval(this.uiElement.format)
+        this._value = eval(this.uiElement.format);
+      } catch (e) {
+        console.error(e);
       }
-      catch (e) { console.error(e) }
-    }
-
-    return v
-  }
-
-  set value(v) {
-    if (this.data && this.uiElement.key) {
-      this.data[this.uiElement.key] = v;
-    } else if(this.data) {
-      this.data = Object.assign(this.data, v)
     }
   }
 
   requestDownload() {
     // download data through rest web services
-    if(this.uiElement.src) {
+    if (this.uiElement.src) {
       let src = this.uiElement.src;
       try {
         src = eval(src);
@@ -99,8 +97,8 @@ export class TypographyComponent {
       // look at query params and pass it on to the request
       let data = this.uiElement.data;
       try {
-        data = eval(data)
-      } catch(e) {}
+        data = eval(data);
+      } catch (e) {}
 
       // send REST request
       this.event.send("splash-show"); // show splash
@@ -118,7 +116,7 @@ export class TypographyComponent {
     try {
       this.value = eval(transform);
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
   }
 
@@ -135,13 +133,12 @@ export class TypographyComponent {
   }
 
   click() {
-    if(this.uiElement.click) {
+    if (this.uiElement.click) {
       try {
-        eval(this.uiElement.click)
-      } catch(e) {
-        console.error(e)
+        eval(this.uiElement.click);
+      } catch (e) {
+        console.error(e);
       }
     }
   }
-
 }
