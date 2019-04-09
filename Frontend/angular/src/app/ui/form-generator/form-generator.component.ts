@@ -68,7 +68,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
 
   // data
   params: any;
-  prevData: any;
 
   // event subscription
   onEvent: Subscription;
@@ -190,10 +189,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     } else data = response;
 
     // do not overwrite existing data
-    Object.assign(this.data, data)
-
-    // save copy of unchanged data
-    this.prevData = JSON.parse(JSON.stringify(this.data));
+    this.data = JSON.parse(JSON.stringify(Object.assign(this.data, data)))
   }
 
   save() {
@@ -265,9 +261,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         // hide the splash
         this.event.send("splash-hide");
-
-        // reset dirty state
-        this.prevData = Object.assign({}, this.data);
 
         let saveAction = this.ui.find(["save", "saveAction"], this.uiElement);
         if (saveAction)

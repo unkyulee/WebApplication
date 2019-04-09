@@ -29,37 +29,42 @@ export class DataTableComponent implements OnInit, OnDestroy {
   @Input() uiElement: any;
   @Input() data: any;
 
+  ///
+  _rows
   get rows() {
-    let v = null;
-
+    // when key exists
     if (this.data && this.uiElement.key) {
-      // if null then assign default
-      if (!this.data[this.uiElement.key]) {
-        let def = this.uiElement.default;
-        try {
-          def = eval(this.uiElement.default);
-        } catch (e) {}
-        this.data[this.uiElement.key] = def;
+      if(this._rows != this.data[this.uiElement.key]) {
+        this._rows = this.data[this.uiElement.key]
+        // if the external paging is not used then recalculate the total, size variable
+        if( this.uiElement.externalPaging == false ) {
+          this.total = this._rows ? this._rows.length : 0;
+          this.size = this.total;
+        }
       }
-
-      // set value
-      v = this.data[this.uiElement.key];
+      return this.data[this.uiElement.key];
     }
-
-    if (v && this.uiElement.format) {
-      try {
-        v = eval(this.uiElement.format);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    return v;
   }
 
   set rows(v: any) {
     if (this.data && this.uiElement.key) {
       this.data[this.uiElement.key] = v;
+    }
+
+    // set default when value is empty
+    if (!v && this.uiElement.key && this.uiElement.default) {
+      this.data[this.uiElement.key] = this.uiElement.default;
+      try {
+        this.data[this.uiElement.key] = eval(this.uiElement.default);
+      } catch (e) {}
+    }
+
+    if (this.uiElement.format) {
+      try {
+        this.data[this.uiElement.key] = eval(this.uiElement.format);
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 
