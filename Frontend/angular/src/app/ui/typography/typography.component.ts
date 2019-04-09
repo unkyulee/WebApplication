@@ -79,9 +79,9 @@ export class TypographyComponent {
     // if format is specified
     if (this.uiElement.format) {
       try {
+        let v = this._value;
         this._value = eval(this.uiElement.format);
       } catch (e) {
-        console.error(e);
       }
     }
   }
@@ -114,7 +114,7 @@ export class TypographyComponent {
     // map data from response
     let transform = this.uiElement.transform || "response.data";
     try {
-      this.value = eval(transform);
+      this._value = eval(transform);
     } catch (e) {
       console.error(e);
     }
