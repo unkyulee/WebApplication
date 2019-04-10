@@ -16,6 +16,9 @@ export class ScriptBoxComponent {
   @Input() uiElement: any;
   @Input() data: any;
 
+  //
+  local: any = {}
+
   // event subscription
   onEvent: Subscription;
   constructor(
@@ -33,9 +36,9 @@ export class ScriptBoxComponent {
     );
 
     // run script
-    if (this.uiElement.ngOnInit) {
+    if (this.uiElement.init) {
       try {
-        eval(this.uiElement.ngOnInit);
+        eval(this.uiElement.init);
       } catch (e) {
         console.error(e);
       }
@@ -54,9 +57,9 @@ export class ScriptBoxComponent {
 
   ngOnDestroy() {
     // run destroy
-    if (this.uiElement.ngOnDestroy) {
+    if (this.uiElement.destroy) {
       try {
-        eval(this.uiElement.ngOnDestroy);
+        eval(this.uiElement.destroy);
       } catch (e) {
         console.error(e);
       }
