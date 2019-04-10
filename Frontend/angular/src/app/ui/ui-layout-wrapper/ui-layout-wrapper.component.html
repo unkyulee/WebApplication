@@ -73,3 +73,13 @@
 <mat-divider
   *ngIf="uiElement.type == 'divider' && condition(uiElement)"
 ></mat-divider>
+<progress-bar
+  *ngIf="uiElement.type == 'progress-bar'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></progress-bar>
+<script-box
+  *ngIf="uiElement.type == 'script-box'"
+  [uiElement]="uiElement"
+  [(data)]="data"
+></script-box>

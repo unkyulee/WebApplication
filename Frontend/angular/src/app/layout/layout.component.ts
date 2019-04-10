@@ -78,8 +78,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   onBackButton(e) {
     e.preventDefault();
     // close dialogs if any exists
-    if(this.currDialog && this.dialog.openDialogs.length > 0) {
-      this.currDialog.close()
+    if (this.currDialog && this.dialog.openDialogs.length > 0) {
+      this.currDialog.close();
     }
     // check if it is last nav stack
     else if (this.nav.navigationStack.length == 2) {
@@ -136,6 +136,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   currDialog: MatDialogRef<UIComposerOverlayComponent>;
   openDialog(event) {
+    // do not open another dialog when there is already opened dialog
+    if (this.currDialog && this.dialog.openDialogs.length != 0) return;
+
     // get ui elements
     let uiElement = obj.get(this.ui.uiElements, event.uiElementId);
     uiElement = JSON.parse(JSON.stringify(uiElement));

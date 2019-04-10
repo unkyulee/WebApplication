@@ -28,11 +28,20 @@ export class UIComposerOverlayComponent {
 
   ngOnInit() {
     // subscript to event
-    this.onEvent = this.event.onEvent.subscribe(event => {
-      if (event && event.name == "close-dialog") {
-        this.close();
+    this.onEvent = this.event.onEvent.subscribe(event =>
+      this.eventHandler(event)
+    );
+  }
+
+  eventHandler(event) {
+    if (event && event.name == "close-dialog") {
+      this.close();
+    } else if (event.name == "ui-updated") {
+      // load UI when navigation changes
+      if(this.uiElement) {
+        this.uiElement = event.data[this.uiElement._id]
       }
-    });
+    }
   }
 
   ngOnDestroy() {

@@ -30,6 +30,8 @@ import { UILayoutWrapperComponent } from "./ui-layout-wrapper/ui-layout-wrapper.
 import { TypographyComponent } from "./typography/typography.component";
 import { SafePipe } from "../core/safe.pipe";
 import { FormGeneratorComponent } from "./form-generator/form-generator.component";
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
+import { ScriptBoxComponent } from './script-box/script-box.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
     CalendarComponent,
     CalendarColumnComponent,
     PaginationComponent,
-    TypographyComponent
+    TypographyComponent,
+    ProgressBarComponent,
+    ScriptBoxComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -65,7 +69,9 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
     UploaderComponent,
     CalendarComponent,
     PaginationComponent,
-    TypographyComponent
+    TypographyComponent,
+    ProgressBarComponent,
+    ScriptBoxComponent
   ],
   imports: [
     CommonModule,
