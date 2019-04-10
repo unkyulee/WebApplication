@@ -142,16 +142,6 @@ export class UploaderComponent {
       // setup uploader
       this.setUploader();
     }
-    window.imagePicker.getPictures(
-      function(results) {
-        for (var i = 0; i < results.length; i++) {
-          console.log('Image URI: ' + results[i]);
-        }
-      }, function (error) {
-        console.log('Error: ' + error);
-      }
-    );
-    /*
     navigator.camera.getPicture(
       imageData => {
         let file: any = this.b64toBlob(imageData, "image/jpeg");
@@ -169,7 +159,6 @@ export class UploaderComponent {
         destinationType: navigator.camera.DestinationType.DATA_URL
       }
     );
-    */
   }
 
   cordovaOpenGallery() {
