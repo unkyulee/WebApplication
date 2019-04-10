@@ -26,6 +26,7 @@ call cordova plugin add cordova-plugin-device
 call cordova plugin add cordova-plugin-camera
 call cordova plugin add phonegap-plugin-barcodescanner
 call cordova plugin add cordova-plugin-file
+call cordova plugin add cordova-plugin-image-picker
 
 REM copy keys
 xcopy /s /y .\app\* .\platforms\android

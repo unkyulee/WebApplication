@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="unkyulee.comm.boldrini"
+        version="1.1.15"
+        android-versionCode="15"
+        xmlns="http://www.w3.org/ns/widgets"
+        xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Andrea Boldrini</name>
+    <description>
+        CRM for Andrea Boldrini
+    </description>
+    <author email="unkyulee@gmail.com" href="https://unkyulee.me">
+        Unkyu Lee
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <icon density="ldpi" src="app/icon.png" />
+        <icon density="mdpi" src="app/icon.png" />
+        <icon density="hdpi" src="app/icon.png" />
+        <icon density="xhdpi" src="app/icon.png" />
+        <preference name="CodePushDeploymentKey" value="o8w3OIZCZWfMOiJsNMd-fxvFHLSQe0f52e08-c045-47f1-8442-fe5a2aa37aac" />
+    </platform>
+</widget>
