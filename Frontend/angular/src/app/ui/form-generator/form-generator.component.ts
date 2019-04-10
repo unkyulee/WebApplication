@@ -234,7 +234,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     }
 
     // update data through rest web services
-    let that = this;
     this.rest
       .request(src, data, method)
       .pipe(
@@ -258,26 +257,28 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
           return EMPTY;
         })
       )
-      .subscribe(response => {
-        // hide the splash
-        this.event.send("splash-hide");
+      .subscribe(response => this.saveHandler(response));
+  }
 
-        let saveAction = this.ui.find(["save", "saveAction"], this.uiElement);
-        if (saveAction)
-          try {
-            eval(saveAction);
-          } catch (e) {
-            console.error(e);
-          }
-        else {
-          // check if the response has error
-          if (response && response.error) {
-            this.snackBar.open(response.error, null, { duration: 2000 });
-          } else {
-            this.snackBar.open("Saved", null, { duration: 2000 });
-          }
-        }
-      });
+  saveHandler(response) {
+    // hide the splash
+    this.event.send("splash-hide");
+
+    let saveAction = this.ui.find(["save", "saveAction"], this.uiElement);
+    if (saveAction)
+      try {
+        eval(saveAction);
+      } catch (e) {
+        console.error(e);
+      }
+    else {
+      // check if the response has error
+      if (response && response.error) {
+        this.snackBar.open(response.error, null, { duration: 2000 });
+      } else {
+        this.snackBar.open("Saved", null, { duration: 2000 });
+      }
+    }
   }
 
   delete() {

@@ -86,7 +86,7 @@
       [evalValidate]="uiElement.errorCondition"
       [(ngModel)]="value"
       [placeholder]="uiElement.label"
-      (dateTimeChange)="changed($event)"
+      (dateTimeChange)="inputChanged($event)"
       [required]="uiElement.required"
       [selectMode]="uiElement.selectMode ? uiElement.selectMode : 'single'"
       onfocus="blur()"

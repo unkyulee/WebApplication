@@ -43,21 +43,33 @@ export class UIComposerComponent implements OnInit, OnDestroy {
     this.isHandset$.subscribe(r => (this.isHandset = r));
 
     // detect configuration changes
-    this.onEvent = this.event.onEvent.subscribe(event => {
-      if (event.name == "navigation-changed") {
+    this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+  }
 
-        // reset data
-        this.data = {
-          _params_: this.nav.getParams()
+  eventHandler(event) {
+    if (event.name == "navigation-changed") {
+      // reset data
+      this.data = {
+        _params_: this.nav.getParams()
+      };
+
+      // load UI when navigation changes
+      if (this.nav.currNav) {
+        // check if there are any replication setup
+        if(this.nav.currNav.onLoad) {
+          try {
+            eval(this.nav.currNav.onLoad)
+          } catch(e) {
+            console.error(e)
+          }
         }
-
-        // load UI when navigation changes
-        if (this.nav.currNav) this.loadUI(this.nav.currNav.uiElementIds);
-      } else if (event.name == "ui-updated") {
-        // load UI when navigation changes
-        if (this.nav.currNav) this.loadUI(this.nav.currNav.uiElementIds);
+        this.loadUI(this.nav.currNav.uiElementIds);
       }
-    });
+
+    } else if (event.name == "ui-updated") {
+      // load UI when navigation changes
+      if (this.nav.currNav) this.loadUI(this.nav.currNav.uiElementIds);
+    }
   }
 
   ngOnDestroy() {

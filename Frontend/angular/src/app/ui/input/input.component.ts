@@ -38,18 +38,7 @@ export class InputComponent {
         distinctUntilChanged(),
         debounceTime(300)
       )
-      .subscribe(v => {
-        // when changed
-        this.change.emit(v);
-        // see if there are any input change handlers
-        if (this.uiElement.changed) {
-          try {
-            eval(this.uiElement.changed);
-          } catch (ex) {
-            console.error(ex);
-          }
-        }
-      });
+      .subscribe(v => this.inputChanged(v));
 
     this.dateTimeAdapter.setLocale(
       this.uiElement.locale
@@ -140,7 +129,10 @@ export class InputComponent {
     }
   }
 
-  changed(e) {
+  inputChanged(v) {
+    // when changed
+    this.change.emit(v);
+    // see if there are any input change handlers
     if (this.uiElement.changed) {
       try {
         eval(this.uiElement.changed);
