@@ -32,7 +32,6 @@ export class InputComponent {
   ngOnInit() {
     // not all the input will be sent as an event / rest
     // will be debounced every 700 ms
-    let that = this;
     this.typeAheadEventEmitter
       .pipe(
         distinctUntilChanged(),
@@ -45,6 +44,19 @@ export class InputComponent {
         ? this.uiElement.locale
         : this.config.configuration.locale_long
     );
+  }
+
+  inputChanged(v) {
+    // when changed
+    this.change.emit(v);
+    // see if there are any input change handlers
+    if (this.uiElement.changed) {
+      try {
+        eval(this.uiElement.changed);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -125,19 +137,6 @@ export class InputComponent {
         eval(this.uiElement.click);
       } catch (e) {
         console.error(e);
-      }
-    }
-  }
-
-  inputChanged(v) {
-    // when changed
-    this.change.emit(v);
-    // see if there are any input change handlers
-    if (this.uiElement.changed) {
-      try {
-        eval(this.uiElement.changed);
-      } catch (ex) {
-        console.error(ex);
       }
     }
   }

@@ -21,78 +21,81 @@ export class NavService {
     this.set();
 
     // monitor navigation changes
-    let that = this;
-    router.events.subscribe(e => {
-      if (e instanceof NavigationEnd) {
-        // add to navigation stack
-        this.navigate(e.url);
-
-        // save current url
-        this.currUrl = e.url;
-        this.currNav = this.find(e.url);
-
-        // check if the current url and found url has the same
-        if (this.currNav && this.currUrl.includes(this.currNav.url) == false) {
-          this.router.navigateByUrl("/");
-        }
-
-        // check any auto login parameters to be saved
-        let params = this.getParams();
-
-        // see if there is a navigation filter
-        if (
-          this.config.configuration.navigation &&
-          this.config.configuration.navigation.filter
-        ) {
-          try {
-            eval(this.config.configuration.navigation.filter);
-          } catch (e) {
-            console.error(e);
-          }
-        }
-
-        // if it is at the root with no navigation assigned
-        // then navigate to the first item
-        if (e.url == "/") {
-          let first = this.find(e.url);
-          if (first && first.url != e.url) this.router.navigateByUrl(first.url);
-        }
-
-        // send out events
-        this.event.send({
-          name: "navigation-changed",
-          data: {
-            router: e,
-            navigation: this.currNav
-          }
-        });
-      }
-    });
+    router.events.subscribe(e => this.routerEventHandler(e));
 
     // event handler
-    this.event.onEvent.subscribe(e => {
-      if (e == "authenticated" || e.name == "navigation-updated") {
-        if(e.name == "navigation-updated") {
-          // save when server has new navigation
-          this.config.configuration.angular_navigation = e.data;
-        }
-        // set navigation
-        this.set();
+    this.event.onEvent.subscribe(e => this.eventHandler(e));
+  }
 
-        // set initial navigation
-        this.currNav = this.find(this.currUrl);
-        if (this.currNav) this.router.navigateByUrl(this.currNav.url);
+  routerEventHandler(e) {
+    if (e instanceof NavigationEnd) {
+      // add to navigation stack
+      this.navigate(e.url);
 
-        // send out events - trying to force reload the page
-        this.event.send({
-          name: "navigation-changed",
-          data: {
-            router: null,
-            navigation: this.currNav
-          }
-        });
+      // save current url
+      this.currUrl = e.url;
+      this.currNav = this.find(e.url);
+
+      // check if the current url and found url has the same
+      if (this.currNav && this.currUrl.includes(this.currNav.url) == false) {
+        this.router.navigateByUrl("/");
       }
-    });
+
+      // check any auto login parameters to be saved
+      let params = this.getParams();
+
+      // see if there is a navigation filter
+      if (
+        this.config.configuration.navigation &&
+        this.config.configuration.navigation.filter
+      ) {
+        try {
+          eval(this.config.configuration.navigation.filter);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      // if it is at the root with no navigation assigned
+      // then navigate to the first item
+      if (e.url == "/") {
+        let first = this.find(e.url);
+        if (first && first.url != e.url) this.router.navigateByUrl(first.url);
+      }
+
+      // send out events
+      this.event.send({
+        name: "navigation-changed",
+        data: {
+          router: e,
+          navigation: this.currNav
+        }
+      });
+    }
+  }
+
+  eventHandler(e) {
+    if (e == "authenticated" || e.name == "navigation-updated") {
+      if(e.name == "navigation-updated") {
+        // save when server has new navigation
+        this.config.configuration.angular_navigation = e.data;
+      }
+      // set navigation
+      this.set();
+
+      // set initial navigation
+      this.currNav = this.find(this.currUrl);
+      if (this.currNav) this.router.navigateByUrl(this.currNav.url);
+
+      // send out events - trying to force reload the page
+      this.event.send({
+        name: "navigation-changed",
+        data: {
+          router: null,
+          navigation: this.currNav
+        }
+      });
+    }
   }
 
   // current navigation settings

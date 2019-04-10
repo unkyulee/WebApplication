@@ -36,22 +36,23 @@ export class AutoCompleteComponent implements OnInit {
         distinctUntilChanged(),
         debounceTime(300)
       )
-      .subscribe(v => {
-        this.change.emit(v);
-        this.loadOption();
-
-        if (this.uiElement.changed) {
-          try {
-            let that = this; // make it compatible with autocomplete
-            eval(this.uiElement.changed);
-          } catch (ex) {
-            console.error(ex);
-          }
-        }
-      });
+      .subscribe(v => this.typeAheadEventHandler(v));
 
     // if optionSrc is specified then download the options
     this.loadOption();
+  }
+
+  typeAheadEventHandler(v) {
+    this.change.emit(v);
+    this.loadOption();
+
+    if (this.uiElement.changed) {
+      try {
+        eval(this.uiElement.changed);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
   }
 
   ngOnDestroy() {
