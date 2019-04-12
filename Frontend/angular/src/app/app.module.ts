@@ -15,6 +15,8 @@ import { UserService } from "./services/user/user.service";
 import { UIService } from "./services/ui.service";
 import { RestService } from "./services/rest.service";
 import { AuthService } from "./services/auth/auth.service";
+import { CordovaService } from "./services/cordova.service";
+import { DBService } from './services/db/db.service';
 
 // modules
 import { LayoutModule } from "./layout/layout.module";
@@ -23,7 +25,6 @@ import { UIModule } from "./ui/ui.module";
 // app component
 import { AppComponent } from "./app.component";
 import { LayoutComponent } from "./layout/layout.component";
-import { CordovaService } from "./services/cordova.service";
 
 // catch-all routes
 const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
@@ -51,7 +52,8 @@ const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
     NavService,
     UIService,
     RestService,
-    CordovaService
+    CordovaService,
+    DBService
   ],
   bootstrap: [AppComponent]
 })

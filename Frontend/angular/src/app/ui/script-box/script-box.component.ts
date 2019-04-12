@@ -1,12 +1,13 @@
 import { Component, Input } from "@angular/core";
+import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
 
 // user Imports
 import { ConfigService } from "src/app/services/config.service";
 import { UserService } from "src/app/services/user/user.service";
-import { Subscription } from "rxjs";
 import { EventService } from "src/app/services/event.service";
 import { RestService } from "src/app/services/rest.service";
-import { Router } from "@angular/router";
+import { DBService } from 'src/app/services/db/db.service';
 
 @Component({
   selector: "script-box",
@@ -26,7 +27,8 @@ export class ScriptBoxComponent {
     public user: UserService,
     public event: EventService,
     public rest: RestService,
-    public router: Router
+    public router: Router,
+    public db: DBService
   ) {}
 
   ngOnInit() {
