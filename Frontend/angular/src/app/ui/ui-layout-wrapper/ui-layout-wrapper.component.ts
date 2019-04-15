@@ -17,7 +17,7 @@ export class UILayoutWrapperComponent {
       try {
         result = eval(uiElement.condition);
       } catch (e) {
-        console.error(e);
+        result = false;
       }
     }
     return result;

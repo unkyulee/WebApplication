@@ -28,9 +28,6 @@ export class TypographyComponent {
   ) {}
 
   ngOnInit() {
-    // init value
-    this.initValue();
-
     // download data through rest web services
     this.requestDownload();
 
@@ -52,10 +49,6 @@ export class TypographyComponent {
 
   _value;
   get value() {
-    return this._value;
-  }
-
-  initValue() {
     // fixed text
     if (this.uiElement.text) {
       // set value
@@ -84,6 +77,8 @@ export class TypographyComponent {
       } catch (e) {
       }
     }
+
+    return this._value;
   }
 
   requestDownload() {
@@ -126,7 +121,7 @@ export class TypographyComponent {
       try {
         result = eval(this.uiElement.condition);
       } catch (e) {
-        console.error(e);
+        result = false;
       }
     }
     return result;
