@@ -35,4 +35,8 @@ export class DBService {
   async list(table, where, sort, limit, skip) {
     return await this.dbStrategy.list(table, where, sort, limit, skip)
   }
+
+  async delete(table, where) {
+    return await this.dbStrategy.delete(table, where)
+  }
 }

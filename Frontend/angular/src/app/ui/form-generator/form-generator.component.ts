@@ -17,6 +17,7 @@ import { NavService } from "../../services/nav.service";
 import { ConfigService } from "../../services/config.service";
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user/user.service";
+import { DBService } from 'src/app/services/db/db.service';
 
 @Component({
   selector: "form-generator",
@@ -31,7 +32,8 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     private event: EventService,
     public snackBar: MatSnackBar,
     public config: ConfigService,
-    public user: UserService
+    public user: UserService,
+    public db: DBService
   ) {}
 
   @Input() uiElement: any;
@@ -72,57 +74,76 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   // event subscription
   onEvent: Subscription;
   ngOnInit() {
+    // run init script
+    if (this.uiElement.init) {
+      try {
+        eval(this.uiElement.init);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     // download data
     this.requestDownload();
 
     // subscript to event
-    this.onEvent = this.event.onEvent.subscribe(event => {
-      if (event && event.name == "refresh") {
-        this.requestDownload();
-      } else if (event && event.name == "merge-data") {
-        this.data = Object.assign(this.data, event.data);
-      } else if (event && event.name == "insert-data") {
-        obj.ensureExists(this.data, event.path, []);
-        let data = obj.get(this.data, event.path);
-        if (!data) data = [];
+    this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+  }
 
+  eventHandler(event) {
+    if (event && event.name == "refresh") {
+      // run refresh script
+      if (this.uiElement.refresh) {
+        try {
+          eval(this.uiElement.refresh);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      this.requestDownload();
+    } else if (event && event.name == "merge-data") {
+      this.data = Object.assign(this.data, event.data);
+    } else if (event && event.name == "insert-data") {
+      obj.ensureExists(this.data, event.path, []);
+      let data = obj.get(this.data, event.path);
+      if (!data) data = [];
+
+      if (data.indexOf(event.data) > -1) {
+        // if exists then do nothing - it's already there
+      } else if (
+        event.datakey &&
+        data.find(item => item[event.datakey] == event.data[event.datakey])
+      ) {
+        let found = data.find(
+          item => item[event.datakey] == event.data[event.datakey]
+        );
+        if (found) {
+          // item found - replace it
+          let index = data.indexOf(found);
+          data[index] = event.data;
+        }
+      } else {
+        // if not exists then add
+        obj.push(this.data, event.path, event.data);
+        obj.set(
+          this.data,
+          event.path,
+          JSON.parse(JSON.stringify(obj.get(this.data, event.path)))
+        );
+      }
+    } else if (event && event.name == "delete-data") {
+      if (obj.has(this.data, event.path)) {
+        let data = obj.get(this.data, event.path);
         if (data.indexOf(event.data) > -1) {
           // if exists then do nothing - it's already there
-        } else if (
-          event.datakey &&
-          data.find(item => item[event.datakey] == event.data[event.datakey])
-        ) {
-          let found = data.find(
-            item => item[event.datakey] == event.data[event.datakey]
-          );
-          if (found) {
-            // item found - replace it
-            let index = data.indexOf(found);
-            data[index] = event.data;
-          }
-        } else {
-          // if not exists then add
-          obj.push(this.data, event.path, event.data);
-          obj.set(
-            this.data,
-            event.path,
-            JSON.parse(JSON.stringify(obj.get(this.data, event.path)))
-          );
+          data.splice(data.indexOf(event.data), 1);
         }
-      } else if (event && event.name == "delete-data") {
-        if (obj.has(this.data, event.path)) {
-          let data = obj.get(this.data, event.path);
-          if (data.indexOf(event.data) > -1) {
-            // if exists then do nothing - it's already there
-            data.splice(data.indexOf(event.data), 1);
-          }
-        }
-      } else if (event && event.name == "save") {
-        this.save();
-      } else if (event && event.name == "delete") {
-        this.delete();
       }
-    });
+    } else if (event && event.name == "save") {
+      this.save();
+    } else if (event && event.name == "delete") {
+      this.delete();
+    }
   }
 
   ngOnDestroy() {

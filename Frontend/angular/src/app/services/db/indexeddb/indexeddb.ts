@@ -42,22 +42,15 @@ export class IndexedDBStrategy {
 
   async list(table, where, sort, limit, skip) {
     let whereClause = this.db[table];
-    if (where && where.key) {
-      whereClause = whereClause[where.key];
-      // analyze the where clause
-      for (let key of Object.keys(where)) {
-        if (key == "key") continue;
-
-        //
-        let filter = {};
-        filter[key] = where[key];
-        whereClause = whereClause.and(filter);
-      }
-    } else {
-      // if the key is not given then just return the list
-
+    if (where) {
+      console.log(where)
+      whereClause = whereClause.where(where);
     }
-
     return whereClause.toArray();
+  }
+
+  async delete(table, where) {
+    if(!where)
+      return await this.db[table].clear()
   }
 }

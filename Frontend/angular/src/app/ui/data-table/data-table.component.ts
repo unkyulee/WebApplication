@@ -9,6 +9,7 @@ import { RestService } from "../../services/rest.service";
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user/user.service";
 import { ConfigService } from "src/app/services/config.service";
+import { DBService } from "src/app/services/db/db.service";
 
 @Component({
   selector: "data-table",
@@ -22,7 +23,8 @@ export class DataTableComponent implements OnInit, OnDestroy {
     public router: Router,
     private nav: NavService,
     private event: EventService,
-    public user: UserService // used by user script
+    public user: UserService, // used by user script
+    public db: DBService
   ) {}
 
   // configuration of the ui element
@@ -30,14 +32,14 @@ export class DataTableComponent implements OnInit, OnDestroy {
   @Input() data: any;
 
   ///
-  _rows
+  _rows;
   get rows() {
     // when key exists
     if (this.data && this.uiElement.key) {
-      if(this._rows != this.data[this.uiElement.key]) {
-        this._rows = this.data[this.uiElement.key]
+      if (this._rows != this.data[this.uiElement.key]) {
+        this._rows = this.data[this.uiElement.key];
         // if the external paging is not used then recalculate the total, size variable
-        if( this.uiElement.externalPaging == false ) {
+        if (this.uiElement.externalPaging == false) {
           this.total = this._rows ? this._rows.length : 0;
           this.size = this.total;
         }
@@ -77,6 +79,15 @@ export class DataTableComponent implements OnInit, OnDestroy {
   onEvent: Subscription;
 
   ngOnInit() {
+    // run init script
+    if (this.uiElement.init) {
+      try {
+        eval(this.uiElement.init);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     // check if there is any page configuration available
     this.getPage();
 
@@ -84,18 +95,28 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.requestDownload();
 
     // event handler
-    this.onEvent = this.event.onEvent.subscribe(event => {
-      if (event && (!event.key || event.key == this.uiElement.key)) {
-        if (event.name == "refresh") {
-          this.page = 1; // reset to first page
-          setTimeout(() => this.requestDownload(), 0);
-        } else if (event.name == "pagination") {
-          this.page = event.page;
-          this.size = event.size;
-          setTimeout(() => this.requestDownload(), 0);
+    this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+  }
+
+  eventHandler(event) {
+    if (event && (!event.key || event.key == this.uiElement.key)) {
+      if (event.name == "refresh") {
+        this.page = 1; // reset to first page
+        // run refresh script
+        if (this.uiElement.refresh) {
+          try {
+            eval(this.uiElement.refresh);
+          } catch (e) {
+            console.error(e);
+          }
         }
+        setTimeout(() => this.requestDownload(), 0);
+      } else if (event.name == "pagination") {
+        this.page = event.page;
+        this.size = event.size;
+        setTimeout(() => this.requestDownload(), 0);
       }
-    });
+    }
   }
 
   ngOnDestroy() {
