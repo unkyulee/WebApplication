@@ -40,17 +40,56 @@ export class IndexedDBStrategy {
     }
   }
 
-  async list(table, where, sort, limit, skip) {
-    let whereClause = this.db[table];
-    if (where) {
-      console.log(where)
-      whereClause = whereClause.where(where);
+  async update(table, row) {
+    if (row != null) {
+      this.db
+        .transaction("rw", this.db[table], async () => {
+          await this.db[table].put(row);
+        })
+        .catch(e => {
+          console.error(e);
+        });
     }
-    return whereClause.toArray();
+  }
+
+  async list(table, where, sort, limit, offset) {
+    let Collection: any = []
+    let Table = this.db[table];
+
+    // see if there is a where condition
+    if (where) {
+      Collection = Table.where(where);
+    } else {
+      Collection = Table.toCollection();
+    }
+
+    // see if there is sort
+    if (sort) {
+      for (let key of Object.keys(sort)) {
+        if (sort[key] == false) {
+          Collection = Table.orderBy(key).reverse();
+        } else {
+          Collection = Table.orderBy(key)
+        }
+      }
+    }
+
+    // apply limit and offset
+    if(limit > 0) Collection = Collection.limit(limit)
+    if(offset >= 0) Collection = Collection.offset(offset)
+
+    return Collection.toArray();
   }
 
   async delete(table, where) {
-    if(!where)
-      return await this.db[table].clear()
+    let Table = this.db[table];
+
+    // see if there is a where condition
+    if (where) {
+      return Table.where(where).delete();
+    } else {
+      // delete all
+      return this.db[table].clear();
+    }
   }
 }

@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Input
-} from "@angular/core";
+import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subscription, EMPTY } from "rxjs";
 import { MatSnackBar } from "@angular/material";
@@ -17,7 +12,7 @@ import { NavService } from "../../services/nav.service";
 import { ConfigService } from "../../services/config.service";
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user/user.service";
-import { DBService } from 'src/app/services/db/db.service';
+import { DBService } from "src/app/services/db/db.service";
 
 @Component({
   selector: "form-generator",
@@ -38,10 +33,10 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
 
   @Input() uiElement: any;
 
-  _data: any = {}
+  _data: any = {};
   get data() {
-    if (JSON.stringify(this._data) == '{}') {
-      if(this.uiElement.default) {
+    if (JSON.stringify(this._data) == "{}") {
+      if (this.uiElement.default) {
         this._data = this.uiElement.default;
         try {
           this._data = eval(this.uiElement.default);
@@ -63,7 +58,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     return this._data;
   }
 
-  @Input('data')
+  @Input("data")
   set data(v) {
     this._data = v;
   }
@@ -87,7 +82,9 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     this.requestDownload();
 
     // subscript to event
-    this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+    this.onEvent = this.event.onEvent.subscribe(event =>
+      this.eventHandler(event)
+    );
   }
 
   eventHandler(event) {
@@ -210,10 +207,10 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     } else data = response;
 
     // do not overwrite existing data
-    this.data = JSON.parse(JSON.stringify(Object.assign(this.data, data)))
+    this.data = JSON.parse(JSON.stringify(Object.assign(this.data, data)));
 
     // send event that the data is refreshed
-    this.event.send({name: 'refreshed'})
+    this.event.send({ name: "refreshed" });
   }
 
   save() {
@@ -243,7 +240,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     } catch (e) {}
     let method = this.ui.find(["save", "method"], this.uiElement, "post");
     try {
-      method = eval(method)
+      method = eval(method);
     } catch {}
 
     // see if any transform to be done
@@ -251,37 +248,44 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     // remove _params_
     delete data._params_;
     let transform = this.uiElement.save.transform;
-    if(transform) {
+    if (transform) {
       try {
-        eval(transform)
-      } catch(e) { console.error(e) }
+        eval(transform);
+      } catch (e) {
+        console.error(e);
+      }
     }
 
     // update data through rest web services
-    this.rest
-      .request(src, data, method)
-      .pipe(
-        catchError(err => {
-          // hide the splash
-          this.event.send("splash-hide");
+    if (src) {
+      this.rest
+        .request(src, data, method)
+        .pipe(
+          catchError(err => {
+            // hide the splash
+            this.event.send("splash-hide");
 
-          // save failed
-          let errorAction = this.ui.find(
-            ["save", "errorAction"],
-            this.uiElement
-          );
-          if (errorAction) {
-            try {
-              eval(errorAction);
-            } catch (e) {
-              console.error(e);
-            }
-          } else alert(JSON.stringify(err));
+            // save failed
+            let errorAction = this.ui.find(
+              ["save", "errorAction"],
+              this.uiElement
+            );
+            if (errorAction) {
+              try {
+                eval(errorAction);
+              } catch (e) {
+                console.error(e);
+              }
+            } else alert(JSON.stringify(err));
 
-          return EMPTY;
-        })
-      )
-      .subscribe(response => this.saveHandler(response));
+            return EMPTY;
+          })
+        )
+        .subscribe(response => this.saveHandler(response));
+    } else {
+      // hide splash
+      this.event.send("splash-hide");
+    }
   }
 
   saveHandler(response) {

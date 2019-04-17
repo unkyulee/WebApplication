@@ -32,8 +32,12 @@ export class DBService {
     return await this.dbStrategy.insert(table, rows)
   }
 
-  async list(table, where, sort, limit, skip) {
-    return await this.dbStrategy.list(table, where, sort, limit, skip)
+  async update(table, row) {
+    return await this.dbStrategy.update(table, row)
+  }
+
+  async list(table, where, sort, limit, offset) {
+    return await this.dbStrategy.list(table, where, sort, limit, offset)
   }
 
   async delete(table, where) {

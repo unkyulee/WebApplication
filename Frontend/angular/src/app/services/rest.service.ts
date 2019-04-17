@@ -1,112 +1,109 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, EMPTY } from "rxjs"
-import { ConfigService } from './config.service';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Observable, EMPTY } from "rxjs";
+
+import { ConfigService } from "./config.service";
+import { ConnectionService } from "ng-connection-service";
 
 @Injectable()
 export class RestService {
   constructor(
-    private http: HttpClient
-    , private config: ConfigService
-  ) { }
+    private http: HttpClient,
+    private config: ConfigService,
+    private connection: ConnectionService
+  ) {
+    this.connection.monitor().subscribe(isConnected => {
+      this._isConnected = isConnected;
+    })
+  }
+
+  _isConnected = true;
+  isOnline() {
+    return this._isConnected;
+  }
 
   host() {
-    return this.config.configuration.rest
+    return this.config.configuration.rest;
   }
 
   // request REST service
   request(url: string, data?, method?, options?, cached?) {
+    // pass if not online
+    if(this.isOnline() == false) return EMPTY;
 
     // pass if url is not specified
-    if (!url) return EMPTY
+    if (!url) return EMPTY;
 
     // convert url to full qualified name
     if (url.startsWith("http") == false) {
-      if (url.startsWith('/') == false) url = `/${url}`
-      url = `${this.config.configuration.rest}${url}`
+      if (url.startsWith("/") == false) url = `/${url}`;
+      url = `${this.config.configuration.rest}${url}`;
     }
 
-    if (method == 'post') {
-      return this.http.post(url, data, options)
-    }
-
-    else if (method == 'put') {
-      return this.http.put(url, data, options)
-    }
-
-    else if (method == 'delete') {
-
+    if (method == "post") {
+      return this.http.post(url, data, options);
+    } else if (method == "put") {
+      return this.http.put(url, data, options);
+    } else if (method == "delete") {
       // if data is given when method is get then convert it to query string
-      const queryParams = new HttpParams({ fromObject: data })
+      const queryParams = new HttpParams({ fromObject: data });
 
-      let queryUrl: string = url
-      if (queryUrl.includes("?") == false)
-        queryUrl = `${url}?${queryParams}`
+      let queryUrl: string = url;
+      if (queryUrl.includes("?") == false) queryUrl = `${url}?${queryParams}`;
+      else queryUrl = `${url}&${queryParams}`;
 
-      else
-        queryUrl = `${url}&${queryParams}`
-
-      return this.http.delete(queryUrl, options)
-    }
-
-    else {
+      return this.http.delete(queryUrl, options);
+    } else {
       // if data is given when method is get then convert it to query string
-      const queryParams = new HttpParams({ fromObject: data })
+      const queryParams = new HttpParams({ fromObject: data });
       if (data) {
-        if (url.includes("?") == false)
-          url = `${url}?${queryParams}`
-
-        else
-          url = `${url}&${queryParams}`
+        if (url.includes("?") == false) url = `${url}?${queryParams}`;
+        else url = `${url}&${queryParams}`;
       }
 
       return Observable.create(observer => {
-        let response = {}
+        let response = {};
 
         // check if cache exists
         if (cached != false) {
-          let cachedResponse = localStorage.getItem(url)
+          let cachedResponse = localStorage.getItem(url);
           if (cachedResponse) {
             try {
               // return cached response
-              response = JSON.parse(cachedResponse)
-              observer.next(response)
+              response = JSON.parse(cachedResponse);
+              observer.next(response);
             } catch {
-              localStorage.removeItem(url)
+              localStorage.removeItem(url);
             }
           }
         }
 
         // Ask for online result
-        this.http.get(url, options).subscribe(
-          res => {
-            // save to cache
-            if (cached != false) {
-              localStorage.setItem(url, JSON.stringify(res))
+        this.http.get(url, options).subscribe(res => {
+          // save to cache
+          if (cached != false) {
+            localStorage.setItem(url, JSON.stringify(res));
 
-              // check if differs from cached
-              if (JSON.stringify(response) != JSON.stringify(res)) {
-                // cache miss
-                observer.next(res)
-              }
-            } else {
-              observer.next(res)
+            // check if differs from cached
+            if (JSON.stringify(response) != JSON.stringify(res)) {
+              // cache miss
+              observer.next(res);
             }
-            // complete the subscription
-            observer.complete();
+          } else {
+            observer.next(res);
           }
-        )
-      })
+          // complete the subscription
+          observer.complete();
+        });
+      });
     }
   }
 
   async requestAsync(url: string, data?, method?, options?, cached?) {
     return new Promise((resolve, reject) => {
-      this.request(url, data, method, options, cached)
-        .subscribe(response => {
-          resolve(response)
-        });
-    })
+      this.request(url, data, method, options, cached).subscribe(response => {
+        resolve(response);
+      });
+    });
   }
-
 }
