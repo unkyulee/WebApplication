@@ -85,7 +85,14 @@ export class NavService {
 
       // set initial navigation
       this.currNav = this.find(this.currUrl);
-      if (this.currNav) this.router.navigateByUrl(this.currNav.url);
+      if (this.currNav) {
+        // keep the current query string before changing the nav
+        let url = this.currNav.url
+        let queryStrings = this.location.path().split("?");
+        if(queryStrings.length > 1) url += `?${queryStrings[1]}`
+
+        this.router.navigateByUrl(url);
+      }
 
       // send out events - trying to force reload the page
       this.event.send({

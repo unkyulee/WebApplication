@@ -69,7 +69,6 @@ export class AutoCompleteComponent implements OnInit {
     // if the value is programmatically updated without set property called
     // then set it explicitly
     if (this._value != v) {
-      this._value = v;
       this.value = v;
     }
 
