@@ -38,6 +38,11 @@
   "
 >
   <ng-container *ngFor="let filter of uiElement.filters">
-    <filter [uiElement]="filter" [(data)]="data"></filter>
+    <filter
+      [uiElement]="filter"
+      [(data)]="data"
+      [ngStyle]="filter.layoutStyle"
+      [ngClass]="filter.layoutClass"
+    ></filter>
   </ng-container>
 </div>

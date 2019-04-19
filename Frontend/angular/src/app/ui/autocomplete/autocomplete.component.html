@@ -6,6 +6,7 @@
   <mat-label>{{ uiElement.label }}</mat-label>
   <input
     matInput
+    [placeholder]="uiElement.label"
     [evalValidate]="uiElement.errorCondition"
     [(ngModel)]="value"
     [matAutocomplete]="auto"

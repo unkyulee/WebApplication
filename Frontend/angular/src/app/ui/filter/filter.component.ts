@@ -71,9 +71,11 @@ export class FilterComponent {
   // when value is changed
   change(v) {
     if (v && v.type) return; // autocomplete emits when empty
+    if(v && v.source) return; // Date filter emits twice
 
     //
     if (
+      v &&
       this.uiElement.inputType == "date" &&
       this.uiElement.selectMode == "range"
     ) {

@@ -19,6 +19,7 @@
       matInput
       [evalValidate]="uiElement.errorCondition"
       [type]="uiElement.inputType ? uiElement.inputType : 'text'"
+      [placeholder]="uiElement.label"
       [(ngModel)]="value"
       [required]="uiElement.required"
       [readonly]="uiElement.readonly"
@@ -81,7 +82,6 @@
     <input
       [owlDateTime]="dt1"
       [owlDateTimeTrigger]="dt1"
-      placeholder="Date Time"
       matInput
       [evalValidate]="uiElement.errorCondition"
       [(ngModel)]="value"
@@ -95,8 +95,9 @@
       type="button"
       matSuffix
       mat-icon-button
-      [owlDateTimeTrigger]="dt1"
+      [owlDateTimeTrigger]="uiElement.click?false:dt1"
       *ngIf="uiElement.icon"
+      (click)="click()"
     >
       <mat-icon [style.color]="uiElement.iconColor || 'green'">{{
         uiElement.icon

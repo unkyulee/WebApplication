@@ -12,6 +12,7 @@
     [multiple]="uiElement.multiple"
     [(ngModel)]="value"
     [required]="uiElement.required"
+    [placeholder]="uiElement.label"
   >
     <mat-option
       *ngFor="let option of uiElement.options"
