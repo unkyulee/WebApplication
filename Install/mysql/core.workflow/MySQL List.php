@@ -206,7 +206,7 @@ if ($data != null && count($data) > 0) {
 
         //
         $parameterName = $key;
-        $parameterName = str_replace("__", "._", $parameterName);
+        $parameterName = str_replace("_", ".", $parameterName);
         $parameterName = str_replace("_lte", "", $parameterName);
         $parameterName = str_replace("_gte", "", $parameterName);
         $parameterName = str_replace("_lt", "", $parameterName);
@@ -230,15 +230,25 @@ if ($data != null && count($data) > 0) {
         else if ($key == "_search") {
             if (IsNullOrEmpty($value) == false) {
                 $search = array();
+
+                // search through searchFields
                 foreach ($config['searchFields'] as $searchKey) {
                     $search[] = "$searchKey LIKE CONCAT('%', ?, '%')";
                     $params[] = $value;
                 }
+
+                // if fulltext config exists then add the full text search as well
+                if(IsNullorEmpty($config["fulltext"]) == false) {
+                    // sql generation
+                    $search[] = 'MATCH'. $config['fulltext'] .' AGAINST (? IN NATURAL LANGUAGE MODE)';
+                    $params[] = $value;
+                }
+
+                // produce the search filter
                 $where[] = "(" . implode(" OR ", $search) . ")";
             }
             continue;
         }
-
         // range filter
         else if (endsWith($key, "_date_gte")) {
             $where[] = "$parameterName >= ?";
