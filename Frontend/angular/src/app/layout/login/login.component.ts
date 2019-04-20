@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   // login screen
-  login: any;
+  login: any = {};
 
   // data
   data: any = {};
@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   onEvent: Subscription;
   ngOnInit() {
     // load default login screen
-    this.login = this.config.configuration.login;
+    if(this.config.configuration.login)
+      this.login = this.config.configuration.login;
 
     // handle events
     this.onEvent = this.event.onEvent.subscribe(async event => {

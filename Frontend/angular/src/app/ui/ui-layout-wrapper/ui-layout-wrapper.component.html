@@ -72,6 +72,8 @@
 ></div>
 <mat-divider
   *ngIf="uiElement.type == 'divider' && condition(uiElement)"
+  [ngStyle]="uiElement.style"
+  [ngClass]="uiElement.class"
 ></mat-divider>
 <progress-bar
   *ngIf="uiElement.type == 'progress-bar'"

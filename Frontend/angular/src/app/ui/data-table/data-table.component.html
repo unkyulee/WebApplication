@@ -140,4 +140,12 @@
       </div>
     </div>
   </div>
+
+  <pagination
+    *ngIf="total > size"
+    [key]="uiElement.key"
+    [total]="total"
+    [page]="page"
+    [size]="size"
+  ></pagination>
 </ng-container>

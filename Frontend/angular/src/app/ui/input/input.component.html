@@ -1,4 +1,5 @@
 <ng-container *ngIf="condition()">
+
   <!-- material input -->
   <mat-form-field
     *ngIf="
@@ -60,12 +61,13 @@
   >
     <textarea
       matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      [cdkAutosizeMinRows]="uiElement.rows"
       [(ngModel)]="value"
       [placeholder]="uiElement.label"
       [readonly]="uiElement.readonly"
       [required]="uiElement.required"
-      matTextareaAutosize
-      [matAutosizeMinRows]="uiElement.rows"
       [maxlength]="uiElement.maxlength ? uiElement.maxlength : '-1'"
     ></textarea>
   </mat-form-field>
