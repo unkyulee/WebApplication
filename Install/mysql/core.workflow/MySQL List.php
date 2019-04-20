@@ -66,14 +66,14 @@ function getList(
     }
 
     // remove exclude fields
-    $excludeFields = @$options['excludeFields'];    
+    $excludeFields = @$options['excludeFields'];
     if($excludeFields != null) {
         foreach ($result as $row) {
             foreach($excludeFields as $excludeField) {
                 if(@$row[$excludeField] != null)
                     unset($row[$excludeField]);
             }
-        }        
+        }
     }
 
     // Convert to Json
@@ -113,8 +113,8 @@ function Fetch($mysql, $fetch, &$row)
                 }
                 $row[$field['target']] = $fetchResult;
             }
-        } 
-        
+        }
+
         else if ($type == 'object') {
             $key = $operation['key'];
             $fetchResult = array();
@@ -183,14 +183,6 @@ $config = $config_json;
 $admin = false;
 if (@$config["admin"] != null) {
     $admin = true;
-}
-
-// Get Navigation ID
-$navigation_id = getNavigationId();
-if (IsNullOrEmpty($navigation_id)) {
-    return json_encode(array(
-        "error" => "No X-App-Key specified"
-    ));
 }
 
 // pagination
@@ -270,12 +262,6 @@ if ($data != null && count($data) > 0) {
         // add to params
         $params[] = $value;
     }
-}
-
-// Add navigation_id filter
-if ($admin == false) {
-    $where[] = "navigation_id = ?";
-    $params[] = $navigation_id;
 }
 
 $result = getList($ds, $config['sql'], $config, $where, $params, $sort, $size, $page);

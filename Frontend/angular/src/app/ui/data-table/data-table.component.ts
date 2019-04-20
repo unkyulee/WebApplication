@@ -170,7 +170,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.setPage(pageInfo.offset + 1, this.size);
 
     // download data through rest web services
-    let src = this.ui.find(["src"], this.uiElement);
+    let src = this.uiElement.src;
     try {
       src = eval(src);
     } catch (e) {}
@@ -204,7 +204,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
         .request(src, data, method)
         .subscribe(response => this.responseDownload(response));
     } else {
-      this.uiElement.externalPaging = false;
       this.total = this.rows ? this.rows.length : 0;
       this.size = this.total;
     }
