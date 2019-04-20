@@ -179,12 +179,6 @@ if (IsNullOrEmpty($config_json)) {
 }
 $config = $config_json;
 
-// check if admin
-$admin = false;
-if (@$config["admin"] != null) {
-    $admin = true;
-}
-
 // pagination
 $page = get("page"); if(IsNullOrEmpty($page)) $page = "1";
 $size = get("size"); if(IsNullOrEmpty($size)) $size = "10";
@@ -208,6 +202,8 @@ $params = array();
 
 if ($data != null && count($data) > 0) {
     foreach ($data as $key => $value) {
+        if(IsNullOrEmpty($value)) continue;
+
         //
         $parameterName = $key;
         $parameterName = str_replace("__", "._", $parameterName);
