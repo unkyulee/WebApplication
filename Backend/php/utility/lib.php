@@ -110,4 +110,22 @@ function escape($value) {
     return $value;
 }
 
-?>
+function multiToSingle($content) {
+    $startPos = 0;
+    $endPos = 0;
+
+    while (true) {
+      $startPos = strpos($content, '"""');
+      if ($startPos == false) break;
+      $endPos = strpos($content, '"""', $startPos + 3);
+      if ($endPos == false) break;
+
+      $part = substr($content, $startPos, $endPos+3);
+      // convert multiline to single line
+      $replaced = str_replace('"""', '', $part);
+      $replaced = json_encode($replaced);
+      $content = str_replace($part, $replaced, $content);
+    }
+
+    return $content;
+  }

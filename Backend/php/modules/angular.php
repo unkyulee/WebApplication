@@ -24,7 +24,13 @@ class angular
 
   public function IndexJS($context)
   {
-    $core_navigation = json_decode($context->nav['content'], true);
+    // retrieve content
+    $content = $context->nav['content'];
+    // convert multiline -> singleline
+    $content = multiToSingle($content);
+
+    // convert json to php type
+    $core_navigation = json_decode($content, true);
 
     $core_navigation['rest'] = scheme() . "://" . $_SERVER['HTTP_HOST'];
     $core_navigation['auth'] = scheme() . "://" . $_SERVER['HTTP_HOST'] . $context->nav['url'];
