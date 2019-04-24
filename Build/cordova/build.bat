@@ -23,12 +23,13 @@ xcopy /s /y %AngularPath%\dist .\www
 call cordova platform remove android
 call cordova platform add android
 
-call cordova plugin add cordova-plugin-whitelist
-call cordova plugin add cordova-plugin-device
-call cordova plugin add cordova-plugin-camera
-call cordova plugin add phonegap-plugin-barcodescanner
-call cordova plugin add cordova-plugin-file
-call cordova plugin add cordova-plugin-image-picker
+call cordova plugin add cordova-plugin-whitelist@latest
+call cordova plugin add cordova-plugin-device@latest
+call cordova plugin add cordova-plugin-camera@latest
+call cordova plugin add phonegap-plugin-barcodescanner@latest
+call cordova plugin remove cordova-plugin-file
+call cordova plugin add cordova-plugin-code-push
+call cordova plugin add cordova-plugin-file@latest
 
 REM copy keys
 xcopy /s /y .\app\* .\platforms\android

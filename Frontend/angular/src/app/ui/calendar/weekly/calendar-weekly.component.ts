@@ -10,10 +10,10 @@ import { EventService } from "src/app/services/event.service";
 import { Subscription } from "rxjs";
 
 @Component({
-  selector: "calendar-week",
+  selector: "calendar-weekly",
   templateUrl: "./calendar-week.component.html"
 })
-export class CalendarColumnComponent {
+export class CalendarWeeklyComponent {
   constructor(
     public config: ConfigService,
     public router: Router,

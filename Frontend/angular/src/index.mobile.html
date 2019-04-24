@@ -1,29 +1,35 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <title>Cordova</title>
-  <base href="./">
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="index.js"></script>
-  <style>
-    .mat-icon-button .mat-icon, .mat-icon-button i {
+  <head>
+    <meta charset="utf-8" />
+    <title>Cordova</title>
+    <base href="./" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="index.js"></script>
+    <style>
+      .mat-icon-button .mat-icon,
+      .mat-icon-button i {
         line-height: 18px !important;
-    }
+      }
 
-    .material-icons {
-      font-size: 21px !important;
-    }
-  </style>
-</head>
+      .material-icons {
+        font-size: 21px !important;
+      }
+    </style>
+  </head>
 
-<body>
-  <app-root></app-root>
-  <script src="cordova.js"></script>
-</body>
-
+  <body>
+    <app-root></app-root>
+    <script src="cordova.js"></script>
+    <script>
+      document.addEventListener("deviceready", onDeviceReady, false);
+      function onDeviceReady() {
+        // Download the update silently, and install it immerdiately
+        codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
+      }
+    </script>
+  </body>
 </html>

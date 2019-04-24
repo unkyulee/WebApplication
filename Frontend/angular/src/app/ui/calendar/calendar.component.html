@@ -1,8 +1,17 @@
-<calendar-week
+<calendar-weekly
   *ngIf="
-    !this.uiElement.calendarType || this.uiElement.calendarType == 'weekly'
+    this.uiElement.calendarType == 'weekly'
   "
   [uiElement]="uiElement"
   [data]="data"
 >
-</calendar-week>
+</calendar-weekly>
+
+<calendar-daily
+  *ngIf="
+    this.uiElement.calendarType == 'daily'
+  "
+  [uiElement]="uiElement"
+  [data]="data"
+>
+</calendar-daily>

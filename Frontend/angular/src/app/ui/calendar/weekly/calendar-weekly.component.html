@@ -5,13 +5,13 @@
       [ngStyle]="
         uiElement.header?.style
           ? uiElement.header?.style
-          : config.configuration.calendar?.week?.header?.style
+          : config.configuration.calendar?.weekly?.header?.style
       "
       [innerHTML]="
         format(
           uiElement.headerDate
             ? uiElement.headerDate
-            : config.configuration.calendar?.week?.header?.date,
+            : config.configuration.calendar?.weekly?.header?.date,
           date
         ) | safe: 'html'
       "
@@ -23,12 +23,12 @@
           [ngClass]="
             uiElement.item?.class
               ? uiElement.item?.class
-              : config.configuration.calendar?.week?.item?.class
+              : config.configuration.calendar?.weekly?.item?.class
           "
           [ngStyle]="
             uiElement.item?.style
               ? uiElement.item?.style
-              : config.configuration.calendar?.week?.item?.style
+              : config.configuration.calendar?.weekly?.item?.style
           "
           (click)="click(item)"
         >

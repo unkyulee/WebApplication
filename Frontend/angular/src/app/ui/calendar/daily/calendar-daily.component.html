@@ -1,0 +1,41 @@
+<h3
+  mat-subheader
+  [ngStyle]="
+    uiElement.header?.style
+      ? uiElement.header?.style
+      : config.configuration.calendar?.daily?.header?.style
+  "
+  [innerHTML]="
+    format(
+      uiElement.headerDate
+        ? uiElement.headerDate
+        : config.configuration.calendar?.daily?.header?.date,
+      date
+    ) | safe: 'html'
+  "
+></h3>
+<mat-divider></mat-divider>
+<div>
+  <ng-container *ngFor="let item of data.items">
+    <div
+      [ngClass]="
+        uiElement.item?.class
+          ? uiElement.item?.class
+          : config.configuration.calendar?.daily?.item?.class
+      "
+      [ngStyle]="
+        uiElement.item?.style
+          ? uiElement.item?.style
+          : config.configuration.calendar?.daily?.item?.style
+      "
+      (click)="click(item)"
+    >
+      <ng-container *ngFor="let screen of uiElement.daily?.screen">
+        <ui-layout-wrapper
+          [uiElement]="screen"
+          [data]="item"
+        ></ui-layout-wrapper>
+      </ng-container>
+    </div>
+  </ng-container>
+</div>
