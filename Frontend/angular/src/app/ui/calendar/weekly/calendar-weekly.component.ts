@@ -11,7 +11,7 @@ import { Subscription } from "rxjs";
 
 @Component({
   selector: "calendar-weekly",
-  templateUrl: "./calendar-week.component.html"
+  templateUrl: "./calendar-weekly.component.html"
 })
 export class CalendarWeeklyComponent {
   constructor(

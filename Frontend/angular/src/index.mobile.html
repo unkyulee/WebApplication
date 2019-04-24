@@ -26,10 +26,19 @@
     <script src="cordova.js"></script>
     <script>
       document.addEventListener("deviceready", onDeviceReady, false);
+      document.addEventListener("resume", onResume, false);
+
       function onDeviceReady() {
         // Download the update silently, and install it immerdiately
         codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
       }
+
+      function onResume() {
+        console.log('on resume')
+        // Download the update silently, and install it immerdiately
+        codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
+      }
+
     </script>
   </body>
 </html>
