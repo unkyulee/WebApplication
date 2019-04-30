@@ -84,19 +84,19 @@ export class InputComponent {
       v = this.data[this.uiElement.key];
     }
 
+    // Transform
+    if (this.uiElement.transform) {
+      try {
+        v = eval(this.uiElement.transform);
+      } catch (e) {}
+    }
+
     // if number
     if (v && this.uiElement.inputType == "number") v = parseFloat(v);
 
     // if the value is programmatically updated without set property called
     // then set it explicitly
     if (this._value != v) {
-      // Transform
-      if (this.uiElement.transform) {
-        try {
-          v = eval(this.uiElement.transform);
-        } catch (e) {}
-      }
-
       this._value = v;
       this.value = v;
     }
