@@ -77,28 +77,34 @@ namespace Service.Script.Scripts
                         content.Headers.ContentType = new MediaTypeHeaderValue($"{config["contentType"]}");
                     var response = await client.PostAsync(url, content);
                     object responseContent = await response.Content.ReadAsStringAsync();
-
-                    // convert the response content
-                    if($"{config["convert"]}" == "xml")
+                    try
                     {
-                        XmlDocument doc = new XmlDocument();
-                        doc.LoadXml($"{responseContent}");
-                        responseContent =JsonConvert.DeserializeObject(JsonConvert.SerializeXmlNode(doc));
+                        // convert the response content
+                        if ($"{config["convert"]}" == "xml")
+                        {
+                            XmlDocument doc = new XmlDocument();
+                            doc.LoadXml($"{responseContent}");
+                            responseContent = JsonConvert.DeserializeObject(JsonConvert.SerializeXmlNode(doc));
+                        }
+
+                        // see if to include the request
+                        object request = null;
+                        if ($"{config["includeRequest"]}" == "True")
+                        {
+                            request = body;
+                        }
+
+                        result = new
+                        {
+                            Status = response.StatusCode,
+                            Response = responseContent,
+                            Request = request
+                        };
+                    } catch
+                    {
+                        throw new Exception($"{responseContent}");
                     }
-
-                    // see if to include the request
-                    object request = null;
-                    if($"{config["includeRequest"]}" == "True")
-                    {
-                        request = body;
-                    }
-
-                    result = new
-                    {
-                        Status = response.StatusCode,
-                        Response = responseContent,
-                        Request = request
-                    };
+                    
                 }
             }
 

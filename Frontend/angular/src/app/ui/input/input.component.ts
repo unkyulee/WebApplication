@@ -72,7 +72,7 @@ export class InputComponent {
 
     if (this.data && this.uiElement.key) {
       // if null then assign default
-      if (!this.data[this.uiElement.key]) {
+      if (typeof this.data[this.uiElement.key] == "undefined") {
         let def = this.uiElement.default;
         try {
           def = eval(this.uiElement.default);
