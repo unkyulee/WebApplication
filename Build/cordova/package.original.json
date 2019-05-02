@@ -1,0 +1,20 @@
+{
+    "name": "cordovabuild",
+    "displayName": "Cordova Build Platform",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Unkyu Lee",
+    "license": "MIT",
+    "dependencies": {
+    },
+    "cordova": {
+        "plugins": {
+        },
+        "platforms": [
+        ]
+    }
+}

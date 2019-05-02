@@ -29,16 +29,22 @@
       document.addEventListener("resume", onResume, false);
 
       function onDeviceReady() {
-        // Download the update silently, and install it immerdiately
-        codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
+        try {
+          // Download the update silently, and install it immerdiately
+          codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
+        } catch {}
+
+        if (window.onDeviceReadyExtra) {
+          window.onDeviceReadyExtra();
+        }
       }
 
       function onResume() {
-        console.log('on resume')
-        // Download the update silently, and install it immerdiately
-        codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
+        try {
+          // Download the update silently, and install it immerdiately
+          codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
+        } catch {}
       }
-
     </script>
   </body>
 </html>
