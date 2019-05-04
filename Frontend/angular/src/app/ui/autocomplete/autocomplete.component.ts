@@ -8,6 +8,7 @@ import { CordovaService } from "src/app/services/cordova.service";
 import { EventService } from "src/app/services/event.service";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { NavService } from 'src/app/services/nav.service';
 
 @Component({
   selector: "autocomplete",
@@ -18,6 +19,7 @@ export class AutoCompleteComponent implements OnInit {
   constructor(
     private rest: RestService,
     private ui: UIService,
+    public nav: NavService,
     public user: UserService,
     public cordova: CordovaService,
     public event: EventService

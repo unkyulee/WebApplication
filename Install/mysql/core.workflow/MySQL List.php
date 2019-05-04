@@ -206,7 +206,6 @@ if ($data != null && count($data) > 0) {
 
         //
         $parameterName = $key;
-        $parameterName = str_replace("_", ".", $parameterName);
         $parameterName = str_replace("_lte", "", $parameterName);
         $parameterName = str_replace("_gte", "", $parameterName);
         $parameterName = str_replace("_lt", "", $parameterName);
