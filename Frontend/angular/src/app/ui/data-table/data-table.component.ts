@@ -110,6 +110,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
             console.error(e);
           }
         }
+        this.data._params_ = this.nav.getParams();
         setTimeout(() => this.requestDownload(), 0);
       } else if (event.name == "pagination") {
         this.page = event.page;

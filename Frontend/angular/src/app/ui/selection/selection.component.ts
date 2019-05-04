@@ -12,10 +12,10 @@ import * as obj from "object-path";
 // user imports
 import { RestService } from "../../services/rest.service";
 import { UserService } from "src/app/services/user/user.service";
-import { UIService } from 'src/app/services/ui.service';
-import { CordovaService } from 'src/app/services/cordova.service';
-import { EventService } from 'src/app/services/event.service';
-import { NavService } from 'src/app/services/nav.service';
+import { UIService } from "src/app/services/ui.service";
+import { CordovaService } from "src/app/services/cordova.service";
+import { EventService } from "src/app/services/event.service";
+import { NavService } from "src/app/services/nav.service";
 
 @Component({
   selector: "selection",
@@ -41,7 +41,6 @@ export class SelectionComponent implements OnInit {
   _value: any;
   get value() {
     let v = null;
-
     if (this.data && this.uiElement.key) {
       // if null then assign default
       if (typeof this.data[this.uiElement.key] == "undefined") {

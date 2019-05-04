@@ -230,11 +230,17 @@ if ($data != null && count($data) > 0) {
             if (IsNullOrEmpty($value) == false) {
                 $search = array();
 
-                // if fulltext config exists then add the full text search as well
+                // if fulltext config exists
                 if(IsNullorEmpty($config["fulltext"]) == false) {
                     // sql generation
                     $search[] = 'MATCH'. $config['fulltext'] .' AGAINST (? IN BOOLEAN MODE)';
                     $params[] = $value.'*';
+                } else {
+                    // search through searchFields
+                    foreach ($config['searchFields'] as $searchKey) {
+                        $search[] = "$searchKey LIKE CONCAT('%', ?, '%')";
+                        $params[] = $value;
+                    }
                 }
 
                 // produce the search filter

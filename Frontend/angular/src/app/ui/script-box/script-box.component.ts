@@ -8,6 +8,7 @@ import { UserService } from "src/app/services/user/user.service";
 import { EventService } from "src/app/services/event.service";
 import { RestService } from "src/app/services/rest.service";
 import { DBService } from 'src/app/services/db/db.service';
+import { NavService } from 'src/app/services/nav.service';
 
 @Component({
   selector: "script-box",
@@ -28,7 +29,8 @@ export class ScriptBoxComponent {
     public event: EventService,
     public rest: RestService,
     public router: Router,
-    public db: DBService
+    public db: DBService,
+    public nav: NavService
   ) {}
 
   ngOnInit() {

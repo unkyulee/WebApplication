@@ -97,6 +97,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
           console.error(e);
         }
       }
+      this.data._params_ = this.nav.getParams();
       this.requestDownload();
     } else if (event && event.name == "merge-data") {
       this.data = Object.assign(this.data, event.data);
