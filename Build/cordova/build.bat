@@ -26,22 +26,20 @@ REM Reset angular platform
 call cordova platform remove android
 call cordova platform add android
 
-REM Prepare for the build
-xcopy /s /y .\app\* .\platforms\android
-copy /y .\app\google-services.json google-services.json
-
 REM common plugin
 call cordova plugin add cordova-plugin-whitelist@latest
 call cordova plugin add cordova-plugin-device@latest
 call cordova plugin add cordova-plugin-camera@latest
 call cordova plugin add phonegap-plugin-barcodescanner@latest
 
-REM push notification plugin
-call cordova plugin add phonegap-plugin-push --variable SENDER_ID=%1
-
 REM code push plugin
 call cordova plugin add cordova-plugin-code-push
 call cordova plugin add cordova-plugin-file@latest
+
+REM push notification plugin
+xcopy /s /y /i .\app\* .\platforms\android\
+copy /y .\app\google-services.json google-services.json
+call cordova plugin add phonegap-plugin-push --variable SENDER_ID=%1
 
 REM apply patch
 xcopy /s /y .\patch\* .\node_modules
