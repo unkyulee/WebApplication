@@ -88,6 +88,8 @@ async function run() {
         case "NowIfNew":
           if (!row || !row[def.column]) {
             data[def.column] = new Date();
+          } else if(data[def.column]) {
+            data[def.column] = new Date(data[def.column]);
           }
           break;
         case "Now":
