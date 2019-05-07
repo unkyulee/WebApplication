@@ -1,5 +1,9 @@
 ﻿var moment = require("moment-timezone");
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
 async function run() {
   // read configuration
   let config = res.locals.configuration;
@@ -111,7 +115,7 @@ async function run() {
         filter.$and.push(or);
       } else if (data[key]) {
         let f = {};
-        f[key] = new RegExp(data[key], "ig");
+        f[key] = new RegExp(escapeRegExp(data[key]), "ig");
         filter.$and.push(f);
       }
     }
