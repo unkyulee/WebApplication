@@ -15,9 +15,6 @@ export class DefaultAuthStrategy {
   ) {}
 
   async login(data) {
-    // clear localstorage
-    localStorage.clear();
-
     return new Promise((resolve, reject) => {
       // get auth url
       let authUrl = this.config.configuration.auth;
@@ -38,7 +35,8 @@ export class DefaultAuthStrategy {
         // when response is sucessful
         .subscribe(response => {
           // refresh navigation information
-          this.refreshNavigation(response);
+          this.refreshAuthentication();
+
           // authentication successful
           resolve();
         });
@@ -107,7 +105,6 @@ export class DefaultAuthStrategy {
   // called when isAuthenticated is called in order to verify token validity
   // and also refresh the navigation information
   async refreshAuthentication() {
-    console.log("refresh authentication");
     return new Promise((resolve, reject) => {
       // get auth url
       let authUrl = this.config.configuration.auth;
@@ -116,10 +113,9 @@ export class DefaultAuthStrategy {
         this.config.configuration,
         "authentication.customHeaders"
       );
-      console.log(customHeaders)
       if (customHeaders) {
         try {
-          headers = eval(customHeaders);
+          eval(customHeaders);
         } catch (e) {
           console.error(e);
         }
