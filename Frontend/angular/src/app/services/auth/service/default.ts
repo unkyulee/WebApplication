@@ -1,9 +1,11 @@
 import { catchError } from "rxjs/operators";
 import { HttpErrorResponse, HttpHeaders } from "@angular/common/http";
-import { RestService } from "src/app/services/rest.service";
 import { EMPTY } from "rxjs";
+import * as obj from "object-path";
+
+import { RestService } from "src/app/services/rest.service";
 import { ConfigService } from "src/app/services/config.service";
-import { EventService } from "../../event.service";
+import { EventService } from "src/app/services/event.service";
 
 export class DefaultAuthStrategy {
   constructor(
@@ -74,7 +76,7 @@ export class DefaultAuthStrategy {
         } catch (e) {}
       } else {
         // navigation is not loaded - so load the navigation
-        this.refreshAuthentication()
+        this.refreshAuthentication();
       }
     }
 
@@ -105,14 +107,28 @@ export class DefaultAuthStrategy {
   // called when isAuthenticated is called in order to verify token validity
   // and also refresh the navigation information
   async refreshAuthentication() {
+    console.log("refresh authentication");
     return new Promise((resolve, reject) => {
       // get auth url
       let authUrl = this.config.configuration.auth;
+      let headers = { Validate: "please" };
+      let customHeaders = obj.get(
+        this.config.configuration,
+        "authentication.customHeaders"
+      );
+      console.log(customHeaders)
+      if (customHeaders) {
+        try {
+          headers = eval(customHeaders);
+        } catch (e) {
+          console.error(e);
+        }
+      }
 
       // request through REST
       this.rest
         .request(authUrl, null, "post", {
-          headers: new HttpHeaders({ Validate: "please" })
+          headers: new HttpHeaders(headers)
         })
         .pipe(
           catchError(
