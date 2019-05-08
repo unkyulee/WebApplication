@@ -15,6 +15,9 @@ export class DefaultAuthStrategy {
   ) {}
 
   async login(data) {
+    // clear localstorage
+    localStorage.clear();
+
     return new Promise((resolve, reject) => {
       // get auth url
       let authUrl = this.config.configuration.auth;
