@@ -2,61 +2,72 @@
   *ngIf="!uiElement.type || uiElement.type == 'input'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></input-component>
 <selection
   *ngIf="uiElement.type == 'selection'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></selection>
 <autocomplete
   *ngIf="uiElement.type == 'autocomplete'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></autocomplete>
 <uploader
   *ngIf="uiElement.type == 'uploader'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></uploader>
 <button-component
   *ngIf="uiElement.type == 'button'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></button-component>
 <signature
   *ngIf="uiElement.type == 'signature'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></signature>
 <typography
   *ngIf="uiElement.type == 'typography'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></typography>
 <data-table
   *ngIf="uiElement.type == 'data-table'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></data-table>
 <form-generator
   *ngIf="uiElement.type == 'form-generator'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></form-generator>
 <filter-group
   *ngIf="uiElement.type == 'filter-group'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></filter-group>
 <calendar
   *ngIf="uiElement.type == 'calendar'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></calendar>
 <div
   *ngIf="uiElement.type == 'layout' && condition(uiElement)"
-  [ngStyle]="uiElement.style"
-  [ngClass]="uiElement.class"
+  [ngStyle]="uiElement.layoutStyle"
+  [ngStyle]="uiElement.layoutClass"
 >
   <ui-layout-wrapper
     *ngFor="let ui of uiElement.screen"
@@ -68,7 +79,7 @@
 <div
   *ngIf="uiElement.type == 'div' && condition(uiElement)"
   [ngStyle]="uiElement.layoutStyle"
-  [ngClass]="uiElement.class"
+  [ngClass]="uiElement.layoutClass"
 ></div>
 <mat-divider
   *ngIf="uiElement.type == 'divider' && condition(uiElement)"
@@ -79,6 +90,7 @@
   *ngIf="uiElement.type == 'progress-bar'"
   [uiElement]="uiElement"
   [(data)]="data"
+  [ngStyle]="uiElement.layoutStyle"
 ></progress-bar>
 <script-box
   *ngIf="uiElement.type == 'script-box'"

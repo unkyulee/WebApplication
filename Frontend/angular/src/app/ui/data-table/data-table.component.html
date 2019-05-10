@@ -1,93 +1,88 @@
-<div
+<ngx-datatable
   *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
-  [ngStyle]="
-    uiElement.layoutStyle
-      ? uiElement.layoutStyle
-      : config.configuration.dataTable?.layoutStyle
+  [ngClass]="
+    uiElement.class ? uiElement.class : config.configuration.dataTable?.class
   "
+  [ngStyle]="
+    uiElement.style ? uiElement.style : config.configuration.dataTable?.style
+  "
+  [rows]="rows"
+  [externalSorting]="
+    uiElement.externalSorting ? uiElement.externalSorting : false
+  "
+  (sort)="onSort($event)"
+  [columnMode]="uiElement.columnMode ? uiElement.columnMode : 'force'"
+  [headerHeight]="
+    uiElement.headerHeight
+      ? uiElement.headerHeight
+      : config.configuration.dataTable?.headerHeight
+  "
+  [footerHeight]="
+    uiElement.footerHeight
+      ? uiElement.footerHeight
+      : config.configuration.dataTable?.footerHeight
+  "
+  [rowHeight]="uiElement.rowHeight ? uiElement.rowHeight : 'auto'"
+  [scrollbarH]="uiElement.scrollbarH ? uiElement.scrollbarH : true"
+  [reorderable]="uiElement.reorderable ? uiElement.reorderable : true"
+  [selectionType]="uiElement.selectionType ? uiElement.selectionType : ''"
+  [groupRowsBy]="
+    uiElement.group?.groupRowsBy ? uiElement.group.groupRowsBy : ''
+  "
+  [groupExpansionDefault]="
+    uiElement.group?.groupExpansionDefault ? true : false
+  "
+  [count]="total"
+  [offset]="page - 1"
+  [limit]="size"
+  (page)="requestDownload($event)"
+  [externalPaging]="uiElement.externalPaging ? uiElement.externalPaging : true"
 >
-  <ngx-datatable
-    [ngClass]="
-      uiElement.class ? uiElement.class : config.configuration.dataTable?.class
-    "
-    [ngStyle]="
-      uiElement.style ? uiElement.style : config.configuration.dataTable?.style
-    "
-    [rows]="rows"
-    [externalSorting]="
-      uiElement.externalSorting ? uiElement.externalSorting : false
-    "
-    (sort)="onSort($event)"
-    [columnMode]="uiElement.columnMode ? uiElement.columnMode : 'force'"
-    [headerHeight]="
-      uiElement.headerHeight
-        ? uiElement.headerHeight
-        : config.configuration.dataTable?.headerHeight
-    "
-    [footerHeight]="
-      uiElement.footerHeight
-        ? uiElement.footerHeight
-        : config.configuration.dataTable?.footerHeight
-    "
-    [rowHeight]="uiElement.rowHeight ? uiElement.rowHeight : 'auto'"
-    [scrollbarH]="uiElement.scrollbarH ? uiElement.scrollbarH : true"
-    [reorderable]="uiElement.reorderable ? uiElement.reorderable : true"
-    [selectionType]="uiElement.selectionType ? uiElement.selectionType : ''"
-    [groupRowsBy]="
-      uiElement.group?.groupRowsBy ? uiElement.group.groupRowsBy : ''
-    "
-    [groupExpansionDefault]="
-      uiElement.group?.groupExpansionDefault ? true : false
-    "
-    [count]="total"
-    [offset]="page - 1"
-    [limit]="size"
-    (page)="requestDownload($event)"
-    [externalPaging]="
-      uiElement.externalPaging ? uiElement.externalPaging : true
+  <!-- Group Header Template -->
+  <ngx-datatable-group-header
+    *ngIf="uiElement.group?.groupRowsBy"
+    [rowHeight]="uiElement.group?.rowHeight"
+  >
+    <ng-template let-group="group" ngx-datatable-group-header-template>
+      <div
+        [ngStyle]="uiElement.group?.style"
+        [innerHTML]="format(group, uiElement.group?.format) | safe: 'html'"
+      ></div>
+    </ng-template>
+  </ngx-datatable-group-header>
+
+  <!-- Column Template -->
+  <ngx-datatable-column
+    *ngFor="let column of uiElement.columns"
+    [name]="column.label"
+    [prop]="column.key"
+    [flexGrow]="column.flexGrow"
+    [canAutoResize]="column.canAutoResize"
+    [width]="
+      column.width
+        ? column.width
+        : config.configuration.dataTable?.minColumnWidth
     "
   >
-    <!-- Group Header Template -->
-    <ngx-datatable-group-header
-      *ngIf="uiElement.group?.groupRowsBy"
-      [rowHeight]="uiElement.group?.rowHeight"
-    >
-      <ng-template let-group="group" ngx-datatable-group-header-template>
-        <div
-          [ngStyle]="uiElement.group?.style"
-          [innerHTML]="format(group, uiElement.group?.format) | safe: 'html'"
-        ></div>
-      </ng-template>
-    </ngx-datatable-group-header>
-
-    <!-- Column Template -->
-    <ngx-datatable-column
-      *ngFor="let column of uiElement.columns"
-      [name]="column.label"
-      [prop]="column.key"
-      [flexGrow]="column.flexGrow"
-      [canAutoResize]="column.canAutoResize"
-      [width]="
-        column.width
-          ? column.width
-          : config.configuration.dataTable?.minColumnWidth
-      "
-    >
-      <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-        <div
-          [ngStyle]="column?.style"
-          [innerHTML]="format(value, column.format, row) | safe: 'html'"
-          (click)="click(row, column.click)"
-        ></div>
-      </ng-template>
-    </ngx-datatable-column>
-  </ngx-datatable>
-</div>
+    <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
+      <div
+        [ngStyle]="column?.style"
+        [innerHTML]="format(value, column.format, row) | safe: 'html'"
+        (click)="click(row, column.click)"
+      ></div>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
 
 <!-- Card List -->
-<ng-container *ngIf="uiElement.tableType == 'card'">
+<cdk-virtual-scroll-viewport
+  *ngIf="uiElement.tableType == 'card'"
+  itemSize="20"
+  (scrolledIndexChange)="infiniteScroll(e)"
+  [ngStyle]="uiElement.layoutStyle"
+>
   <mat-card
-    *ngFor="let row of rows"
+    *cdkVirtualFor="let row of rows; templateCacheSize: 0"
     [ngStyle]="uiElement.style"
     [ngClass]="uiElement.class"
     (click)="click(row, uiElement.click)"
@@ -104,48 +99,26 @@
       </div>
     </mat-card-content>
   </mat-card>
-
-  <pagination
-    *ngIf="total > size"
-    [key]="uiElement.key"
-    [total]="total"
-    [page]="page"
-    [size]="size"
-  ></pagination>
-</ng-container>
+</cdk-virtual-scroll-viewport>
 
 <!-- Simple List -->
-<ng-container *ngIf="uiElement.tableType == 'list'">
+<cdk-virtual-scroll-viewport
+  *ngIf="uiElement.tableType == 'list'"
+  itemSize="20"
+  (scrolledIndexChange)="infiniteScroll(e)"
+  [ngStyle]="uiElement.layoutStyle"
+>
   <div
-    [ngStyle]="
-      uiElement.layoutStyle
-        ? uiElement.layoutStyle
-        : config.configuration.dataTable?.layoutStyle
-    "
+    *ngFor="let row of rows"
+    [ngStyle]="uiElement.style"
+    [ngClass]="uiElement.class"
+    (click)="click(row, uiElement.click)"
   >
     <div
-      *ngFor="let row of rows"
-      [ngStyle]="uiElement.style"
-      [ngClass]="uiElement.class"
-      (click)="click(row, uiElement.click)"
+      *ngFor="let column of uiElement.columns"
+      [ngStyle]="column.layoutStyle"
     >
-      <div
-        *ngFor="let column of uiElement.columns"
-        [ngStyle]="column.layoutStyle"
-      >
-        <ui-layout-wrapper
-          [uiElement]="column"
-          [data]="row"
-        ></ui-layout-wrapper>
-      </div>
+      <ui-layout-wrapper [uiElement]="column" [data]="row"></ui-layout-wrapper>
     </div>
   </div>
-
-  <pagination
-    *ngIf="total > size"
-    [key]="uiElement.key"
-    [total]="total"
-    [page]="page"
-    [size]="size"
-  ></pagination>
-</ng-container>
+</cdk-virtual-scroll-viewport>

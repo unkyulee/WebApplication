@@ -32,8 +32,7 @@ declare var navigator: any;
 
 @Component({
   selector: "layout",
-  templateUrl: "./layout.component.html",
-  styleUrls: ["./layout.component.css"]
+  templateUrl: "./layout.component.html"
 })
 export class LayoutComponent implements OnInit, OnDestroy {
   constructor(

@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, OnDestroy } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Component, Input, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { Subscription, Subject } from "rxjs";
 import { Router } from "@angular/router";
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 
 // user imports
 import { UIService } from "../../services/ui.service";
@@ -10,6 +11,7 @@ import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user/user.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DBService } from "src/app/services/db/db.service";
+import { debounceTime } from "rxjs/operators";
 
 @Component({
   selector: "data-table",
@@ -32,7 +34,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   @Input() data: any;
 
   ///
-  _rows;
+  _rows = [];
   get rows() {
     // when key exists
     if (this.data && this.uiElement.key) {
@@ -44,8 +46,11 @@ export class DataTableComponent implements OnInit, OnDestroy {
           this.size = this.total;
         }
       }
-      return this.data[this.uiElement.key];
+      this._rows = this.data[this.uiElement.key];
     }
+
+    if(!this._rows) this._rows = []
+    return this._rows;
   }
 
   set rows(v: any) {
@@ -78,7 +83,29 @@ export class DataTableComponent implements OnInit, OnDestroy {
   // event subscription
   onEvent: Subscription;
 
+  // Scrolling viewport
+  @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
+  requestThrottle = new Subject();
+  infiniteScroll(e) {
+    // when it reached the end
+    let bottom = this.viewport.getRenderedRange().end
+    let total = this.viewport.getDataLength()
+    if(total < this.total) {
+      if(bottom == total) {
+        this.requestThrottle.next()
+      }
+    }
+
+  }
+
   ngOnInit() {
+    this.requestThrottle
+      .pipe(debounceTime(300))
+      .subscribe(v => {
+        this.page += 1;
+        this.requestDownload();
+      });
+
     // run init script
     if (this.uiElement.init) {
       try {
@@ -95,13 +122,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.requestDownload();
 
     // event handler
-    this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+    this.onEvent = this.event.onEvent.subscribe(event =>
+      this.eventHandler(event)
+    );
   }
 
   eventHandler(event) {
     if (event && (!event.key || event.key == this.uiElement.key)) {
       if (event.name == "refresh") {
-        this.page = 1; // reset to first page
+        this.page = 0; // reset to first page
+        this.rows = [];
         // run refresh script
         if (this.uiElement.refresh) {
           try {
@@ -154,10 +184,17 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.size = size;
 
     // parameters
-    if (this.uiElement.externalPaging != false) {
-      this.nav.setParam("page", this.page);
-      this.nav.setParam("size", this.size);
+    // do not set pagination when card or list
+    if (
+      this.uiElement.tableType != "card" &&
+      this.uiElement.tableType != "list"
+    ) {
+      if (this.uiElement.externalPaging != false) {
+        this.nav.setParam("page", this.page);
+        this.nav.setParam("size", this.size);
+      }
     }
+
   }
 
   requestDownload(pageInfo?) {

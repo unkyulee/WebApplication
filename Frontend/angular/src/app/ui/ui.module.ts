@@ -8,6 +8,8 @@ import { SignaturePadModule } from "angular2-signaturepad";
 import { Ng2ImgMaxModule } from "ng2-img-max";
 import { FileUploadModule } from "ng2-file-upload";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -85,7 +87,9 @@ import { ScriptBoxComponent } from './script-box/script-box.component';
     Ng2ImgMaxModule,
     FileUploadModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    ScrollingModule,
+    ScrollDispatchModule
   ]
 })
 export class UIModule {}

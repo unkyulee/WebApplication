@@ -16,8 +16,8 @@
       <nav-vertical></nav-vertical>
     </mat-sidenav>
 
-    <mat-sidenav-content>
-      <toolbar></toolbar>
+    <mat-sidenav-content [ngStyle]="config.configuration.content?.layoutStyle">
+      <toolbar [ngStyle]="config.configuration.toolbar?.layoutStyle"></toolbar>
       <ui-composer [ngStyle]="config.configuration.content?.style"></ui-composer>
     </mat-sidenav-content>
   </mat-sidenav-container>
