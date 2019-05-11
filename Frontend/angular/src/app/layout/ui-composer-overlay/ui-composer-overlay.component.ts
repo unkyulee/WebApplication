@@ -6,6 +6,7 @@ import { Subscription } from "rxjs";
 import { EventService } from "../../services/event.service";
 import { UserService } from "src/app/services/user/user.service";
 import { ConfigService } from "src/app/services/config.service";
+import { UIService } from 'src/app/services/ui.service';
 
 @Component({
   selector: "ui-composer-overlay",
@@ -17,7 +18,8 @@ export class UIComposerOverlayComponent {
     public dialogRef: MatDialogRef<UIComposerOverlayComponent>,
     private event: EventService,
     public user: UserService,
-    public config: ConfigService
+    public config: ConfigService,
+    public uis: UIService
   ) {}
 
   @Input() uiElement: any;

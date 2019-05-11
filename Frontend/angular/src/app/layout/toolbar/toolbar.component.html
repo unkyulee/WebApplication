@@ -21,7 +21,12 @@
   <div class="flex-spacer"></div>
 
   <ng-container *ngFor="let action of actions">
-    <ui-layout-wrapper [uiElement]="action" [data]="data"></ui-layout-wrapper>
+    <ng-container
+    ui-layout-wrapper
+    *ngIf="condition(ui)"
+    [uiElement]="ui"
+    [data]="data"
+  ></ng-container>
   </ng-container>
 
 </mat-toolbar>

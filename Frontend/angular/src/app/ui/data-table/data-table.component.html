@@ -92,10 +92,12 @@
         *ngFor="let column of uiElement.columns"
         [ngStyle]="column.layoutStyle"
       >
-        <ui-layout-wrapper
+        <ng-container
+          ui-layout-wrapper
+          *ngIf="ui.condition(ui)"
           [uiElement]="column"
           [data]="row"
-        ></ui-layout-wrapper>
+        ></ng-container>
       </div>
     </mat-card-content>
   </mat-card>
@@ -118,7 +120,12 @@
       *ngFor="let column of uiElement.columns"
       [ngStyle]="column.layoutStyle"
     >
-      <ui-layout-wrapper [uiElement]="column" [data]="row"></ui-layout-wrapper>
+      <ng-container
+        ui-layout-wrapper
+        *ngIf="ui.condition(column)"
+        [uiElement]="column"
+        [data]="row"
+      ></ng-container>
     </div>
   </div>
 </cdk-virtual-scroll-viewport>

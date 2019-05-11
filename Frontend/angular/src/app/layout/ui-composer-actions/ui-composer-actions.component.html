@@ -1,5 +1,10 @@
 <mat-nav-list>
   <ng-container *ngFor="let ui of uiElement?.screen">
-    <ui-layout-wrapper [uiElement]="ui" [data]="data"></ui-layout-wrapper>
+    <ng-container
+      ui-layout-wrapper
+      *ngIf="uis.condition(ui)"
+      [uiElement]="ui"
+      [data]="data"
+    ></ng-container>
   </ng-container>
 </mat-nav-list>

@@ -6,6 +6,7 @@ import { ConfigService } from "../../services/config.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { EventService } from "../../services/event.service";
 import { Subscription } from "rxjs";
+import { UIService } from 'src/app/services/ui.service';
 
 @Component({
   selector: "login",
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     public config: ConfigService,
     private auth: AuthService,
-    private event: EventService
+    private event: EventService,
+    public uis: UIService
   ) {}
 
   // login screen
@@ -69,5 +71,18 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.data.error = e;
     }
     this.event.send("splash-hide"); // hide splash
+  }
+
+  condition(uiElement) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(uiElement.condition, e);
+        result = false;
+      }
+    }
+    return result;
   }
 }

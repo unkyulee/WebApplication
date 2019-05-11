@@ -19,7 +19,7 @@ export class UIComposerComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     public config: ConfigService,
     private event: EventService,
-    private ui: UIService,
+    private uis: UIService,
     private nav: NavService
   ) {}
 
@@ -81,9 +81,22 @@ export class UIComposerComponent implements OnInit, OnDestroy {
     // load ui
     let ui = [];
     for (let id of uiElements) {
-      let element = obj.get(this.ui.uiElements, id);
+      let element = obj.get(this.uis.uiElements, id);
       if (element) ui.push(element);
     }
     this.uiElements = JSON.parse(JSON.stringify(ui));
+  }
+
+  condition(uiElement) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(uiElement.condition, e);
+        result = false;
+      }
+    }
+    return result;
   }
 }

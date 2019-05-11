@@ -17,11 +17,12 @@
     [ngClass]="uiElement.class"
   >
     <ng-container *ngFor="let ui of uiElement.screen">
-      <ui-layout-wrapper
+      <ng-container
+        ui-layout-wrapper
+        *ngIf="uis.condition(ui)"
         [uiElement]="ui"
-        [(data)]="data"
-        [ngStyle]="ui.layoutStyle"
-      ></ui-layout-wrapper>
+        [data]="data"
+      ></ng-container>
     </ng-container>
   </div>
 </div>

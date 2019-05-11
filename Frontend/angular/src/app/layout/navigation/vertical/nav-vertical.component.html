@@ -1,26 +1,47 @@
 <!-- Close Button -->
 <button class="mat-icon-button back" (click)="event.send('drawer-toggle')">
   <span class="mat-button-wrapper">
-    <mat-icon class="secondary-text mat-icon material-icons" [ngStyle]="config.configuration.navigation?.close?.style">
-      close</mat-icon>
+    <mat-icon
+      class="secondary-text mat-icon material-icons"
+      [ngStyle]="config.configuration.navigation?.close?.style"
+    >
+      close</mat-icon
+    >
   </span>
 </button>
 
 <div [ngStyle]="config.configuration.navigation?.header?.style">
-  <ng-container *ngFor="let ui of config.configuration.navigation?.header?.screen">
-    <ui-layout-wrapper [uiElement]="ui" [data]="data"></ui-layout-wrapper>
+  <ng-container
+    *ngFor="let ui of config.configuration.navigation?.header?.screen"
+  >
+    <ng-container
+      ui-layout-wrapper
+      [uiElement]="ui"
+      [data]="data"
+    ></ng-container>
   </ng-container>
 </div>
 
 <user></user>
 
 <ng-container *ngFor="let item of nav.navigation">
-  <a *ngIf="item.type == 'item'" class="nav-link" [routerLink]="[item.url]" (click)="click()" routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: item.exactMatch || false }" matRipple>
+  <a
+    *ngIf="item.type == 'item'"
+    class="nav-link"
+    [routerLink]="[item.url]"
+    (click)="click()"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: item.exactMatch || false }"
+    matRipple
+  >
     {{ item.name }}
   </a>
 
-  <mat-expansion-panel *ngIf="item.type == 'collapse'" [expanded]="isUrlInChildren(item, currUrl)" class="navigation">
+  <mat-expansion-panel
+    *ngIf="item.type == 'collapse'"
+    [expanded]="isUrlInChildren(item, currUrl)"
+    class="navigation"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title>
         {{ item.name }}
@@ -28,8 +49,17 @@
     </mat-expansion-panel-header>
 
     <ng-container *ngFor="let child of item.children">
-      <a *ngIf="child.type != 'sub'" class="nav-link" style="padding: 0 48px" [routerLink]="[child.url]" (click)="click()" routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: child.exactMatch || false }" matRipple>{{ child.name }}</a>
+      <a
+        *ngIf="child.type != 'sub'"
+        class="nav-link"
+        style="padding: 0 48px"
+        [routerLink]="[child.url]"
+        (click)="click()"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: child.exactMatch || false }"
+        matRipple
+        >{{ child.name }}</a
+      >
     </ng-container>
   </mat-expansion-panel>
 </ng-container>

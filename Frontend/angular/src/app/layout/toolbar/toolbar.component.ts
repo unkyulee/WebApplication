@@ -8,6 +8,7 @@ import { Subscription, Subject } from "rxjs";
 import * as obj from "object-path";
 import { ConfigService } from "../../services/config.service";
 import { NavService } from "../../services/nav.service";
+import { UIService } from 'src/app/services/ui.service';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   constructor(
     private event: EventService,
     public config: ConfigService,
-    private nav: NavService
+    private nav: NavService,
+    public uis: UIService
   ) {}
 
   // toolbar title
@@ -74,5 +76,18 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.event.send({ name: "refresh" });
+  }
+
+  condition(uiElement) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(uiElement.condition, e);
+        result = false;
+      }
+    }
+    return result;
   }
 }

@@ -4,20 +4,22 @@
 >
   <button mat-button [matMenuTriggerFor]="menu">
     <ng-container *ngFor="let ui of config.configuration.user?.header?.screen">
-      <ui-layout-wrapper
+      <ng-container
+        ui-layout-wrapper
+        *ngIf="condition(ui)"
         [uiElement]="ui"
         [data]="data"
-        [ngStyle]="ui.layoutStyle"
-      ></ui-layout-wrapper>
+      ></ng-container>
     </ng-container>
   </button>
   <mat-menu #menu="matMenu" [overlapTrigger]="false">
     <ng-container *ngFor="let ui of config.configuration.user?.menu?.screen">
-      <ui-layout-wrapper
+      <ng-container
+        ui-layout-wrapper
+        *ngIf="condition(ui)"
         [uiElement]="ui"
         [data]="data"
-        [ngStyle]="ui.layoutStyle"
-      ></ui-layout-wrapper>
+      ></ng-container>
     </ng-container>
   </mat-menu>
 </div>

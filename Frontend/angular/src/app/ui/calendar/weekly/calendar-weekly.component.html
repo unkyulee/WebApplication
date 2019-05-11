@@ -32,11 +32,13 @@
           "
           (click)="click(item)"
         >
-          <ng-container *ngFor="let screen of uiElement.weekly?.screen">
-            <ui-layout-wrapper
-              [uiElement]="screen"
+          <ng-container *ngFor="let ui of uiElement.weekly?.screen">
+            <ng-container
+              ui-layout-wrapper
+              *ngIf="uis.condition(ui)"
+              [uiElement]="ui"
               [data]="item"
-            ></ui-layout-wrapper>
+            ></ng-container>
           </ng-container>
         </div>
       </ng-container>

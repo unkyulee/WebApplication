@@ -1,9 +1,10 @@
-import { Component, Input, Inject } from "@angular/core";
+import { Component, Inject } from "@angular/core";
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from "@angular/material";
 import { Subscription } from "rxjs";
 
 // user imports
 import { EventService } from "../../services/event.service";
+import { UIService } from 'src/app/services/ui.service';
 
 @Component({
   selector: "ui-composer-actions",
@@ -16,6 +17,7 @@ export class UIComposerActionsComponent {
   constructor(
     private event: EventService,
     private bottomSheetRef: MatBottomSheetRef<UIComposerActionsComponent>,
+    public uis: UIService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public e: any
   ) {
     this.uiElement = e.uiElement;
