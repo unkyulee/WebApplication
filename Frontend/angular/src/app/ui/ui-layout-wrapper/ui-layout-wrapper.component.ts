@@ -19,8 +19,8 @@ import { FilterGroupComponent } from "../filter/filter-group.component";
 import { CalendarComponent } from "../calendar/calendar.component";
 import { ProgressBarComponent } from "@swimlane/ngx-datatable";
 import { ScriptBoxComponent } from "../script-box/script-box.component";
-import { UILayoutComponent } from '../ui-layout/ui-layout.component';
-import { DividerComponent } from '../divider/divider.component';
+import { UILayoutComponent } from "../ui-layout/ui-layout.component";
+import { DividerComponent } from "../divider/divider.component";
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -32,31 +32,32 @@ export class UILayoutWrapperComponent {
     public viewContainerRef: ViewContainerRef,
     private cfr: ComponentFactoryResolver,
     private renderer: Renderer2
-  ) {
-  }
+  ) {}
 
   @Input() uiElement: any;
   @Input() data: any;
 
+  componentRef: any
   ngOnInit() {
     if (this.uiElement && this.condition(this.uiElement)) {
       // find the component
       let componentFactory = this.findComponentFactory(this.uiElement.type);
 
       // create the component
-      let componentRef: any = this.viewContainerRef.createComponent(
+      this.viewContainerRef.clear();
+      this.componentRef = this.viewContainerRef.createComponent(
         componentFactory
       );
 
       // configure the component
-      componentRef.instance.uiElement = this.uiElement;
-      componentRef.instance.data = this.data;
+      this.componentRef.instance.uiElement = this.uiElement;
+      this.componentRef.instance.data = this.data;
 
       // apply layout style
       if (this.uiElement.layoutStyle) {
         for (let key of Object.keys(this.uiElement.layoutStyle)) {
           this.renderer.setStyle(
-            componentRef.location.nativeElement,
+            this.componentRef.location.nativeElement,
             key,
             this.uiElement.layoutStyle[key]
           );
@@ -66,14 +67,14 @@ export class UILayoutWrapperComponent {
       // apply layout class
       if (this.uiElement.layoutClass) {
         for (let key of Object.keys(this.uiElement.layoutClass)) {
-          this.renderer.addClass(
-            componentRef.location.nativeElement,
-            key
-          );
+          this.renderer.addClass(this.componentRef.location.nativeElement, key);
         }
       }
-
     }
+  }
+
+  ngOnDestroy() {
+    this.componentRef.destroy();
   }
 
   findComponentFactory(type) {
