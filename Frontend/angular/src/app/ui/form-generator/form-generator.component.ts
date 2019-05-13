@@ -32,36 +32,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   ) {}
 
   @Input() uiElement: any;
-
-  _data: any = {};
-  get data() {
-    if (JSON.stringify(this._data) == "{}") {
-      if (this.uiElement.default) {
-        this._data = this.uiElement.default;
-        try {
-          this._data = eval(this.uiElement.default);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-    }
-
-    // if format is specified
-    if (this._data && this.uiElement.format) {
-      try {
-        this._data = eval(this.uiElement.format);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    return this._data;
-  }
-
-  @Input("data")
-  set data(v) {
-    this._data = v;
-  }
+  @Input() data: any;
 
   // data
   params: any;
@@ -256,6 +227,8 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         console.error(e);
       }
     }
+
+    console.log(data);
 
     // update data through rest web services
     if (src) {
