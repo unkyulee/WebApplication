@@ -20,6 +20,7 @@ import { CalendarComponent } from "../calendar/calendar.component";
 import { ProgressBarComponent } from "@swimlane/ngx-datatable";
 import { ScriptBoxComponent } from "../script-box/script-box.component";
 import { UILayoutComponent } from '../ui-layout/ui-layout.component';
+import { DividerComponent } from '../divider/divider.component';
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -82,7 +83,8 @@ export class UILayoutWrapperComponent {
       case "layout":
         componentFactory = this.cfr.resolveComponentFactory(UILayoutComponent);
         break;
-      case "div":
+      case "divider":
+        componentFactory = this.cfr.resolveComponentFactory(DividerComponent);
         break;
       case "script-box":
         componentFactory = this.cfr.resolveComponentFactory(ScriptBoxComponent);

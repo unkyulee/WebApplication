@@ -36,6 +36,7 @@ import { FormGeneratorComponent } from "./form-generator/form-generator.componen
 import { ProgressBarComponent } from "./progress-bar/progress-bar.component";
 import { ScriptBoxComponent } from "./script-box/script-box.component";
 import { UILayoutComponent } from "./ui-layout/ui-layout.component";
+import { DividerComponent } from './divider/divider.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { UILayoutComponent } from "./ui-layout/ui-layout.component";
     PaginationComponent,
     TypographyComponent,
     ProgressBarComponent,
-    ScriptBoxComponent
+    ScriptBoxComponent,
+    DividerComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -81,7 +83,8 @@ import { UILayoutComponent } from "./ui-layout/ui-layout.component";
     PaginationComponent,
     TypographyComponent,
     ProgressBarComponent,
-    ScriptBoxComponent
+    ScriptBoxComponent,
+    DividerComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -100,7 +103,8 @@ import { UILayoutComponent } from "./ui-layout/ui-layout.component";
     TypographyComponent,
     ProgressBarComponent,
     ScriptBoxComponent,
-    UILayoutComponent
+    UILayoutComponent,
+    DividerComponent
   ],
   imports: [
     CommonModule,
