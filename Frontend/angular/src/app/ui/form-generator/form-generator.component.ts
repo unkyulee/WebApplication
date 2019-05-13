@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input, ChangeDetectorRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subscription, EMPTY } from "rxjs";
 import { MatSnackBar } from "@angular/material";
@@ -28,7 +28,8 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     public snackBar: MatSnackBar,
     public config: ConfigService,
     public user: UserService,
-    public db: DBService
+    public db: DBService,
+    private ref: ChangeDetectorRef
   ) {}
 
   @Input() uiElement: any;
@@ -188,6 +189,9 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   save() {
     // hide the splash
     this.event.send("splash-show");
+
+    //
+    this.ref.detectChanges()
 
     // check if there are not error
     let errorMessage = "";
