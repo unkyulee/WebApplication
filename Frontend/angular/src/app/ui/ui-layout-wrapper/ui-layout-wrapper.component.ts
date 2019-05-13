@@ -37,19 +37,27 @@ export class UILayoutWrapperComponent {
   @Input() uiElement: any;
   @Input() data: any;
 
-  componentRef: any
-  ngOnInit() {
-    if (this.uiElement && this.condition(this.uiElement)) {
+  componentRef: any;
+
+  ngOnChanges() {
+
+    // create component
+    if (
+      !this.componentRef &&
+      this.uiElement &&
+      this.condition(this.uiElement)
+    ) {
       // find the component
       let componentFactory = this.findComponentFactory(this.uiElement.type);
 
       // create the component
-      this.viewContainerRef.clear();
       this.componentRef = this.viewContainerRef.createComponent(
         componentFactory
       );
+    }
 
-      // configure the component
+    // apply changes
+    if (this.componentRef) {
       this.componentRef.instance.uiElement = this.uiElement;
       this.componentRef.instance.data = this.data;
 
@@ -67,14 +75,20 @@ export class UILayoutWrapperComponent {
       // apply layout class
       if (this.uiElement.layoutClass) {
         for (let key of Object.keys(this.uiElement.layoutClass)) {
-          this.renderer.addClass(this.componentRef.location.nativeElement, key);
+          this.renderer.addClass(
+            this.componentRef.location.nativeElement,
+            key
+          );
         }
       }
     }
   }
 
+  ngOnInit() {
+  }
+
   ngOnDestroy() {
-    this.componentRef.destroy();
+    if (this.componentRef) this.componentRef.destroy();
   }
 
   findComponentFactory(type) {
