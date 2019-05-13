@@ -94,7 +94,7 @@
       >
         <ng-container
           ui-layout-wrapper
-          *ngIf="ui.condition(ui)"
+          *ngIf="condition(ui)"
           [uiElement]="column"
           [data]="row"
         ></ng-container>
@@ -122,7 +122,7 @@
     >
       <ng-container
         ui-layout-wrapper
-        *ngIf="ui.condition(column)"
+        *ngIf="condition(column)"
         [uiElement]="column"
         [data]="row"
       ></ng-container>

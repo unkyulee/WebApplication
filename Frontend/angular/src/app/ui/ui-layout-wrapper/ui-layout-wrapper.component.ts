@@ -38,7 +38,7 @@ export class UILayoutWrapperComponent {
   @Input() data: any;
 
   ngOnInit() {
-    if (this.uiElement) {
+    if (this.uiElement && this.condition(this.uiElement)) {
       // find the component
       let componentFactory = this.findComponentFactory(this.uiElement.type);
 
@@ -136,5 +136,18 @@ export class UILayoutWrapperComponent {
     }
 
     return componentFactory;
+  }
+
+  condition(uiElement) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(uiElement.condition, e);
+        result = false;
+      }
+    }
+    return result;
   }
 }

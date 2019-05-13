@@ -19,7 +19,7 @@
     <ng-container *ngFor="let ui of uiElement.screen">
       <ng-container
         ui-layout-wrapper
-        *ngIf="uis.condition(ui)"
+        *ngIf="condition(ui)"
         [uiElement]="ui"
         [data]="data"
       ></ng-container>

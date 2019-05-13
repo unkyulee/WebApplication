@@ -5,15 +5,16 @@ import { Subscription } from "rxjs";
 import { UIService } from "src/app/services/ui.service";
 
 @Component({
-  selector: 'ui-layout',
+  selector: "ui-layout",
   template: `
     <ng-container *ngFor="let ui of uiElement.screen">
-      <ng-container
-        ui-layout-wrapper
-        *ngIf="condition(ui)"
-        [uiElement]="ui"
-        [data]="data"
-      ></ng-container>
+      <ng-container *ngIf="condition(ui)">
+        <ng-container
+          ui-layout-wrapper
+          [uiElement]="ui"
+          [data]="data"
+        ></ng-container>
+      </ng-container>
     </ng-container>
   `
 })

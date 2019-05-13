@@ -296,4 +296,17 @@ export class DataTableComponent implements OnInit, OnDestroy {
     this.sort = event.sorts[0];
     if (this.sort) this.requestDownload();
   }
+
+  condition(uiElement) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(uiElement.condition, e);
+        result = false;
+      }
+    }
+    return result;
+  }
 }

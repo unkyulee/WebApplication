@@ -75,7 +75,7 @@ export class TypographyComponent {
         let v = this._value;
         this._value = eval(this.uiElement.format);
       } catch (e) {
-        console.error(e)
+        console.error(this.uiElement.format, e)
       }
     }
 
