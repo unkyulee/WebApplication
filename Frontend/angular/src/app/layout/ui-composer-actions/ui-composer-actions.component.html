@@ -1,8 +1,10 @@
-<ng-container *ngFor="let ui of uiElement?.screen">
-  <ng-container
-    ui-layout-wrapper
-    *ngIf="condition(ui)"
-    [uiElement]="ui"
-    [data]="data"
-  ></ng-container>
-</ng-container>
+<div [ngStyle]="uiElement.layoutStyle" [ngClass]="uiElement.layoutClass">
+  <ng-container *ngFor="let ui of uiElement?.screen">
+    <ng-container
+      ui-layout-wrapper
+      *ngIf="condition(ui)"
+      [uiElement]="ui"
+      [data]="data"
+    ></ng-container>
+  </ng-container>
+</div>
