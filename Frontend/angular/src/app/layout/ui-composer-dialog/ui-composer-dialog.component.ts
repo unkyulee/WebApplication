@@ -9,13 +9,13 @@ import { ConfigService } from "src/app/services/config.service";
 import { UIService } from 'src/app/services/ui.service';
 
 @Component({
-  selector: "ui-composer-overlay",
-  templateUrl: "./ui-composer-overlay.component.html",
-  styleUrls: ["./ui-composer-overlay.component.scss"]
+  selector: "ui-composer-dialog",
+  templateUrl: "./ui-composer-dialog.component.html",
+  styleUrls: ["./ui-composer-dialog.component.scss"]
 })
-export class UIComposerOverlayComponent {
+export class UIComposerDialogComponent {
   constructor(
-    public dialogRef: MatDialogRef<UIComposerOverlayComponent>,
+    public dialogRef: MatDialogRef<UIComposerDialogComponent>,
     private event: EventService,
     public user: UserService,
     public config: ConfigService,

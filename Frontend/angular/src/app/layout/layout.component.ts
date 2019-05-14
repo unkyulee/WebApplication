@@ -22,7 +22,7 @@ import { EventService } from "../services/event.service";
 import { ConfigService } from "../services/config.service";
 import { AuthService } from "../services/auth/auth.service";
 import { UIService } from "../services/ui.service";
-import { UIComposerOverlayComponent } from "./ui-composer-overlay/ui-composer-overlay.component";
+import { UIComposerDialogComponent } from "./ui-composer-dialog/ui-composer-dialog.component";
 import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
 import { NavService } from "../services/nav.service";
 import { CordovaService } from "../services/cordova.service";
@@ -133,7 +133,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.onEvent.unsubscribe();
   }
 
-  currDialog: MatDialogRef<UIComposerOverlayComponent>;
+  currDialog: MatDialogRef<UIComposerDialogComponent>;
   openDialog(event) {
     // do not open another dialog when there is already opened dialog
     if (this.currDialog && this.dialog.openDialogs.length != 0) return;
@@ -143,7 +143,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     uiElement = JSON.parse(JSON.stringify(uiElement));
 
     // open dialog
-    this.currDialog = this.dialog.open(UIComposerOverlayComponent, {
+    this.currDialog = this.dialog.open(UIComposerDialogComponent, {
       height: event.height,
       width: event.width,
       panelClass: "full-width-dialog"

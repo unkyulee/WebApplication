@@ -1,10 +1,8 @@
-<mat-nav-list>
-  <ng-container *ngFor="let ui of uiElement?.screen">
-    <ng-container
-      ui-layout-wrapper
-      *ngIf="condition(ui)"
-      [uiElement]="ui"
-      [data]="data"
-    ></ng-container>
-  </ng-container>
-</mat-nav-list>
+<ng-container *ngFor="let ui of uiElement?.screen">
+  <ng-container
+    ui-layout-wrapper
+    *ngIf="condition(ui)"
+    [uiElement]="ui"
+    [data]="data"
+  ></ng-container>
+</ng-container>

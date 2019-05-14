@@ -88,17 +88,14 @@
     (click)="click(row, uiElement.click)"
   >
     <mat-card-content>
-      <div
-        *ngFor="let column of uiElement.columns"
-        [ngStyle]="column.layoutStyle"
-      >
+      <ng-container *ngFor="let column of uiElement.columns">
         <ng-container
           ui-layout-wrapper
           *ngIf="condition(ui)"
           [uiElement]="column"
           [data]="row"
         ></ng-container>
-      </div>
+      </ng-container>
     </mat-card-content>
   </mat-card>
 </cdk-virtual-scroll-viewport>
