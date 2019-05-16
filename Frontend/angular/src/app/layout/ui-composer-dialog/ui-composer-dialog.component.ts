@@ -9,9 +9,15 @@ import { ConfigService } from "src/app/services/config.service";
 import { UIService } from 'src/app/services/ui.service';
 
 @Component({
-  selector: "ui-composer-dialog",
+  selector: "[ui-composer-dialog]",
   templateUrl: "./ui-composer-dialog.component.html",
-  styleUrls: ["./ui-composer-dialog.component.scss"]
+  styles: [`
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+  `]
 })
 export class UIComposerDialogComponent {
   constructor(

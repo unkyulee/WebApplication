@@ -21,6 +21,7 @@ import { ProgressBarComponent } from "@swimlane/ngx-datatable";
 import { ScriptBoxComponent } from "../script-box/script-box.component";
 import { UILayoutComponent } from "../ui-layout/ui-layout.component";
 import { DividerComponent } from "../divider/divider.component";
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -31,7 +32,8 @@ export class UILayoutWrapperComponent {
   constructor(
     public viewContainerRef: ViewContainerRef,
     private cfr: ComponentFactoryResolver,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    public user: UserService
   ) {}
 
   @Input() uiElement: any;

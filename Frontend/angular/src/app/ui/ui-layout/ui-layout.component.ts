@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 
 // user Imports
 import { UIService } from "src/app/services/ui.service";
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: "ui-layout",
@@ -24,7 +25,7 @@ export class UILayoutComponent {
 
   // event subscription
   onEvent: Subscription;
-  constructor(public uis: UIService) {}
+  constructor(public uis: UIService, public user: UserService) {}
 
   condition(uiElement) {
     let result = true;

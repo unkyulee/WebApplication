@@ -4,7 +4,8 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Renderer2
 } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Observable, Subscription } from "rxjs";
@@ -26,6 +27,7 @@ import { UIComposerDialogComponent } from "./ui-composer-dialog/ui-composer-dial
 import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
 import { NavService } from "../services/nav.service";
 import { CordovaService } from "../services/cordova.service";
+import { UserService } from '../services/user/user.service';
 
 // cordova
 declare var navigator: any;
@@ -46,7 +48,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private elementRef: ElementRef,
     private nav: NavService,
     private cordova: CordovaService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    public user: UserService,
+    private renderer: Renderer2
   ) {}
 
   // detect window size changes
@@ -150,6 +154,28 @@ export class LayoutComponent implements OnInit, OnDestroy {
     });
     this.currDialog.componentInstance.data = event.data ? event.data : {};
     this.currDialog.componentInstance.uiElement = uiElement;
+
+    // apply layout style
+    if (uiElement.layoutStyle) {
+      for (let key of Object.keys(uiElement.layoutStyle)) {
+        this.renderer.setStyle(
+          this.currDialog['_containerInstance']['_elementRef'].nativeElement,
+          key,
+          uiElement.layoutStyle[key]
+        );
+      }
+    }
+
+    // apply layout class
+    if (uiElement.layoutClass) {
+      for (let key of Object.keys(uiElement.layoutClass)) {
+        this.renderer.addClass(
+          this.currDialog['_containerInstance']['_elementRef'].nativeElement,
+          key
+        );
+      }
+    }
+
   }
 
   openSheet(event) {
@@ -160,5 +186,26 @@ export class LayoutComponent implements OnInit, OnDestroy {
     let sheet = this.bottomSheet.open(UIComposerActionsComponent, {
       data: { data: event.data ? event.data : {}, uiElement: uiElement }
     });
+
+    // apply layout style
+    if (uiElement.layoutStyle) {
+      for (let key of Object.keys(uiElement.layoutStyle)) {
+        this.renderer.setStyle(
+          sheet['_containerInstance']['_elementRef'].nativeElement,
+          key,
+          uiElement.layoutStyle[key]
+        );
+      }
+    }
+
+    // apply layout class
+    if (uiElement.layoutClass) {
+      for (let key of Object.keys(uiElement.layoutClass)) {
+        this.renderer.addClass(
+          sheet['_containerInstance']['_elementRef'].nativeElement,
+          key
+        );
+      }
+    }
   }
 }

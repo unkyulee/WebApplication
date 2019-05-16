@@ -1,28 +1,26 @@
-<div [ngStyle]="uiElement.layoutStyle" [ngClass]="uiElement.layoutClass">
-  <mat-toolbar
-    [ngStyle]="
-      uiElement.toolbar?.style
-        ? uiElement.toolbar?.style
-        : config.configuration.toolbar?.style
-    "
-  >
-    <button type="button" mat-icon-button (click)="close()">
-      <mat-icon>close</mat-icon>
-    </button>
-    <span>{{ uiElement.name }}</span>
-  </mat-toolbar>
-  <div
-    class="dialog-content"
-    [ngStyle]="uiElement.style"
-    [ngClass]="uiElement.class"
-  >
-    <ng-container *ngFor="let ui of uiElement.screen">
-      <ng-container
-        ui-layout-wrapper
-        *ngIf="condition(ui)"
-        [uiElement]="ui"
-        [data]="data"
-      ></ng-container>
-    </ng-container>
-  </div>
+<mat-toolbar
+  [ngStyle]="
+    uiElement.toolbar?.style
+      ? uiElement.toolbar?.style
+      : config.configuration.toolbar?.style
+  "
+>
+  <button type="button" mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <span>{{ uiElement.name }}</span>
+</mat-toolbar>
+<div
+  class="dialog-content"
+  [ngStyle]="uiElement.contentStyle"
+  [ngClass]="uiElement.contentClass"
+>
+  <ng-container *ngFor="let ui of uiElement.screen">
+    <ng-container
+      ui-layout-wrapper
+      *ngIf="condition(ui)"
+      [uiElement]="ui"
+      [data]="data"
+    ></ng-container>
+  </ng-container>
 </div>
