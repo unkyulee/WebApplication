@@ -115,7 +115,11 @@
 <!-- Simple List -->
 <div
   *ngIf="uiElement.tableType == 'list'"
-  [ngStyle]="uiElement.contentLayoutStyle"
+  [ngStyle]="
+    uiElement.contentLayoutStyle
+      ? uiElement.contentLayoutStyle
+      : config.configuration.dataTable?.contentLayoutStyle
+  "
 >
   <div
     *ngFor="let row of rows"
