@@ -17,7 +17,7 @@ import { DataTableComponent } from "../data-table/data-table.component";
 import { FormGeneratorComponent } from "../form-generator/form-generator.component";
 import { FilterGroupComponent } from "../filter/filter-group.component";
 import { CalendarComponent } from "../calendar/calendar.component";
-import { ProgressBarComponent } from "@swimlane/ngx-datatable";
+import { ProgressBarComponent } from "../progress-bar/progress-bar.component";
 import { ScriptBoxComponent } from "../script-box/script-box.component";
 import { UILayoutComponent } from "../ui-layout/ui-layout.component";
 import { DividerComponent } from "../divider/divider.component";

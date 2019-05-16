@@ -113,11 +113,9 @@
 </cdk-virtual-scroll-viewport>
 
 <!-- Simple List -->
-<cdk-virtual-scroll-viewport
+<div
   *ngIf="uiElement.tableType == 'list'"
-  itemSize="20"
-  (scrolledIndexChange)="infiniteScroll(e)"
-  [ngStyle]="uiElement.layoutStyle"
+  [ngStyle]="uiElement.contentLayoutStyle"
 >
   <div
     *ngFor="let row of rows"
@@ -137,4 +135,4 @@
       ></ng-container>
     </div>
   </div>
-</cdk-virtual-scroll-viewport>
+</div>

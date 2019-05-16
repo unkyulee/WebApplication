@@ -1,5 +1,4 @@
 <ng-container *ngIf="condition()">
-
   <!-- material input -->
   <mat-form-field
     *ngIf="
@@ -59,7 +58,7 @@
     [ngClass]="uiElement.class"
     [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
   >
-    <mat-label>{{uiElement.label}}</mat-label>
+    <mat-label>{{ uiElement.label }}</mat-label>
     <textarea
       matInput
       cdkTextareaAutosize
@@ -98,7 +97,7 @@
       type="button"
       matSuffix
       mat-icon-button
-      [owlDateTimeTrigger]="uiElement.click?false:dt1"
+      [owlDateTimeTrigger]="uiElement.click ? false : dt1"
       *ngIf="uiElement.icon"
       (click)="click()"
     >
@@ -115,4 +114,17 @@
     <mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>
     <mat-error>{{ uiElement.errorMessage }}</mat-error>
   </mat-form-field>
+
+  <!-- checkbox -->
+  <mat-checkbox
+    *ngIf="uiElement.inputType == 'checkbox'"
+    [ngStyle]="uiElement.style"
+    [ngClass]="uiElement.class"
+    [(ngModel)]="value"
+    [(indeterminate)]="uiElement.indeterminate"
+    [(labelPosition)]="uiElement.labelPosition"
+    [disabled]="uiElement.disabled"
+  >
+    <div [innerHtml]="uiElement.label | safe: 'html'"></div>
+  </mat-checkbox>
 </ng-container>
