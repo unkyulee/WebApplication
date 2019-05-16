@@ -2,6 +2,7 @@
   *ngIf="
     this.uiElement.calendarType == 'weekly'
   "
+  [ngStyle]="this.uiElement.itemBoxStyle"
   [uiElement]="uiElement"
   [data]="data"
 >
@@ -11,6 +12,7 @@
   *ngIf="
     this.uiElement.calendarType == 'daily'
   "
+  [ngStyle]="this.uiElement.itemBoxStyle"
   [uiElement]="uiElement"
   [data]="data"
 >

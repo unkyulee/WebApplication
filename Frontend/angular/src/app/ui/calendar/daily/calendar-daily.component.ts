@@ -109,4 +109,17 @@ export class CalendarDailyComponent {
     }
     return value;
   }
+
+  condition(uiElement) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(uiElement.condition, e);
+        result = false;
+      }
+    }
+    return result;
+  }
 }

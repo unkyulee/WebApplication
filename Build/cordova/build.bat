@@ -41,8 +41,10 @@ call cordova plugin add cordova-plugin-code-push
 call cordova plugin add cordova-plugin-file@latest
 
 REM push notification plugin
-copy /y .\app\google-services.json google-services.json
-call cordova plugin add phonegap-plugin-push --variable SENDER_ID=%1
+IF EXIST ".\app\google-services.json" (
+    copy /y .\app\google-services.json google-services.json
+    call cordova plugin add phonegap-plugin-push --variable SENDER_ID=%1
+)
 
 REM apply patch
 xcopy /s /y .\patch\* .\node_modules
