@@ -16,6 +16,7 @@ import { UIService } from 'src/app/services/ui.service';
       display: flex;
       flex-direction: column;
       flex-grow: 1;
+      height: 100%;
     }
   `]
 })
