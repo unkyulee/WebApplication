@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  Input
-} from "@angular/core";
+import { Component, OnInit, OnDestroy, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subscription, EMPTY } from "rxjs";
 import { MatSnackBar } from "@angular/material";
@@ -114,9 +109,17 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         }
       }
     } else if (event && event.name == "save") {
-      this.save();
+      if (event.key) {
+        if (event.key == this.uiElement.key) {
+          this.save();
+        }
+      } else this.save();
     } else if (event && event.name == "delete") {
-      this.delete();
+      if (event.key) {
+        if (event.key == this.uiElement.key) {
+          this.delete();
+        }
+      } else this.delete();
     }
   }
 
@@ -298,7 +301,13 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       // download data through rest web services
       this.rest.request(src, null, method).subscribe(response => {
         // back to list
-        this.nav.back();
+        if (this.uiElement.delete.deleteAction) {
+          try {
+            eval(this.uiElement.delete.deleteAction);
+          } catch {}
+        } else {
+          this.nav.back();
+        }
       });
     }
   }
