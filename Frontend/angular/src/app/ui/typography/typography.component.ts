@@ -28,23 +28,9 @@ export class TypographyComponent {
   ) {}
 
   ngOnInit() {
-    // download data through rest web services
-    this.requestDownload();
-
-    // event handler
-    this.onEvent = this.event.onEvent.subscribe(event => {
-      if (
-        event &&
-        event.name == "refresh" &&
-        (!event.key || event.key == this.uiElement.key)
-      ) {
-        setTimeout(() => this.requestDownload(), 0);
-      }
-    });
   }
 
   ngOnDestroy() {
-    this.onEvent.unsubscribe();
   }
 
   _value;
@@ -80,40 +66,6 @@ export class TypographyComponent {
     }
 
     return this._value;
-  }
-
-  requestDownload() {
-    // download data through rest web services
-    if (this.uiElement.src) {
-      let src = this.uiElement.src;
-      try {
-        src = eval(src);
-      } catch (e) {}
-      let method = this.uiElement.method;
-      // look at query params and pass it on to the request
-      let data = this.uiElement.data;
-      try {
-        data = eval(data);
-      } catch (e) {}
-
-      // send REST request
-      this.event.send("splash-show"); // show splash
-      this.rest
-        .request(src, data, method)
-        .subscribe(response => this.responseDownload(response));
-    }
-  }
-
-  responseDownload(response) {
-    this.event.send("splash-hide"); // hide splash
-
-    // map data from response
-    let transform = this.uiElement.transform || "response.data";
-    try {
-      this._value = eval(transform);
-    } catch (e) {
-      console.error(e);
-    }
   }
 
   condition() {

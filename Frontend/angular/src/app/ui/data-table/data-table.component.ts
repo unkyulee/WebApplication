@@ -239,7 +239,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       // send REST request
       this.event.send("splash-show"); // show splash
       this.rest
-        .request(src, data, method)
+        .request(src, data, method, {}, this.uiElement.tableType == 'card' ? false : true)
         .subscribe(response => this.responseDownload(response));
     } else {
       this.total = this.rows ? this.rows.length : 0;
