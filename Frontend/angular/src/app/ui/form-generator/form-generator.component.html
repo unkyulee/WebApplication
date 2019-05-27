@@ -11,7 +11,7 @@
   "
 >
   <div *ngFor="let ui of uiElement.screen" [ngStyle]="ui.style">
-    <ng-container *ngIf="condition(ui.condition)">
+    <ng-container *ngIf="condition(ui)">
       <!-- Form Group Header -->
       <div
         [ngStyle]="
