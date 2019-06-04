@@ -6,7 +6,7 @@ import { UIService } from "../../services/ui.service";
 import { NavService } from "../../services/nav.service";
 import { RestService } from "../../services/rest.service";
 import { EventService } from "../../services/event.service";
-import { UserService } from 'src/app/services/user/user.service';
+import { UserService } from "src/app/services/user/user.service";
 
 @Component({
   selector: "filter",
@@ -33,12 +33,12 @@ export class FilterComponent {
       this.uiElement.selectMode == "range"
     ) {
       // if the date range params exists then set
-      let lt = params[`${this.uiElement.key}_lte`];
+      let lte = params[`${this.uiElement.key}_lte`];
       let gte = params[`${this.uiElement.key}_gte`];
-      if (gte && lt) {
+      if (gte && lte) {
         this.data[this.uiElement.key] = [
-          moment.utc(gte).toDate(),
-          moment.utc(lt).toDate()
+          moment(gte).toDate(),
+          moment(lte).toDate()
         ];
         // display filter
         this.event.send({ name: "show-filter" });
@@ -61,7 +61,9 @@ export class FilterComponent {
           let value = this.uiElement.default[key];
           try {
             value = eval(this.uiElement.default[key]);
-          } catch(e) { console.error(e) }
+          } catch (e) {
+            console.error(e);
+          }
           this.nav.setParam(key, value);
         }
       }
@@ -71,7 +73,7 @@ export class FilterComponent {
   // when value is changed
   change(v) {
     if (v && v.type) return; // autocomplete emits when empty
-    if(v && v.source) return; // Date filter emits twice
+    if (v && v.source) return; // Date filter emits twice
 
     //
     if (
@@ -85,7 +87,9 @@ export class FilterComponent {
       );
       this.nav.setParam(
         `${this.uiElement.key}_lte`,
-        moment(v[1]).endOf('day').format("YYYY-MM-DDTHH:mm:ss")
+        moment(v[1])
+          .endOf("day")
+          .format("YYYY-MM-DDTHH:mm:ss")
       );
     }
 
