@@ -124,8 +124,16 @@
 >
   <div
     *ngFor="let row of rows"
-    [ngStyle]="uiElement.style"
-    [ngClass]="uiElement.class"
+    [ngStyle]="
+      uiElement.itemBoxStyle
+        ? uiElement.itemBoxStyle
+        : config.configuration.dataTable?.itemBoxStyle
+    "
+    [ngClass]="
+      uiElement.itemBoxClass
+        ? uiElement.itemBoxClass
+        : config.configuration.dataTable?.itemBoxClass
+    "
     (click)="click(row, uiElement.click)"
   >
     <div
