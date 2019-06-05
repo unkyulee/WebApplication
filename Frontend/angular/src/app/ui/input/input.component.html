@@ -116,15 +116,19 @@
   </mat-form-field>
 
   <!-- checkbox -->
-  <mat-checkbox
-    *ngIf="uiElement.inputType == 'checkbox'"
-    [ngStyle]="uiElement.style"
-    [ngClass]="uiElement.class"
-    [(ngModel)]="value"
-    [(indeterminate)]="uiElement.indeterminate"
-    [(labelPosition)]="uiElement.labelPosition"
-    [disabled]="uiElement.disabled"
-  >
-    <div [innerHtml]="uiElement.label | safe: 'html'"></div>
-  </mat-checkbox>
+  <ng-container *ngIf="uiElement.inputType == 'checkbox'">
+    <mat-checkbox
+      [ngStyle]="uiElement.checkboxStyle"
+      [(ngModel)]="value"
+      [(indeterminate)]="uiElement.indeterminate"
+      [(labelPosition)]="uiElement.labelPosition"
+      [disabled]="uiElement.disabled"
+    >
+    </mat-checkbox>
+    <div
+      [ngStyle]="uiElement.style"
+      [ngClass]="uiElement.class"
+      [innerHtml]="uiElement.label | safe: 'html'"
+    ></div>
+  </ng-container>
 </ng-container>
