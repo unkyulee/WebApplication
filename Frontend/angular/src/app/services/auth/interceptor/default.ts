@@ -56,7 +56,8 @@ export class DefaultInterceptorStrategy {
       this.event.send("logout");
     }
 
-    if(this.config.configuration.authentication.error) {
+    if(this.config.configuration.authentication &&
+      this.config.configuration.authentication.error) {
       try {
         eval(this.config.configuration.authentication.error)
       } catch(e) {
