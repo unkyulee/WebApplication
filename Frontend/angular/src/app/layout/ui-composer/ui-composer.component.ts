@@ -43,7 +43,9 @@ export class UIComposerComponent implements OnInit, OnDestroy {
     this.isHandset$.subscribe(r => (this.isHandset = r));
 
     // detect configuration changes
-    this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+    this.onEvent = this.event.onEvent.subscribe(event =>
+      this.eventHandler(event)
+    );
   }
 
   eventHandler(event) {
@@ -56,19 +58,20 @@ export class UIComposerComponent implements OnInit, OnDestroy {
       // load UI when navigation changes
       if (this.nav.currNav) {
         // check if there are any replication setup
-        if(this.nav.currNav.onLoad) {
+        if (this.nav.currNav.onLoad) {
           try {
-            eval(this.nav.currNav.onLoad)
-          } catch(e) {
-            console.error(e)
+            eval(this.nav.currNav.onLoad);
+          } catch (e) {
+            console.error(e);
           }
         }
         this.loadUI(this.nav.currNav.uiElementIds);
       }
-
     } else if (event.name == "ui-updated") {
       // load UI when navigation changes
       if (this.nav.currNav) this.loadUI(this.nav.currNav.uiElementIds);
+      // send refresh event after some time so that the screen gets cleared
+      setTimeout(() => {this.event.send({ name: "refresh" })}, 5000);
     }
   }
 
