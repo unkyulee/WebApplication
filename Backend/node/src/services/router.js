@@ -4,7 +4,7 @@ const cms = require('../modules/cms')
 
 class Router {
 
-    async preProcess(req, res) {
+    async preProcess(db, req, res) {
         res.header("Access-Control-Allow-Origin", process.env.CORS?process.env.CORS:"*")
         res.header("Access-Control-Allow-Credentials", "true")
         res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept, X-App-Key, Validate")
@@ -59,20 +59,20 @@ class Router {
         return true;
     }
 
-    async resolveNavigation(req, res) {
+    async resolveNavigation(db, req, res) {
 
         // first path is the navigation name
         let navName = req.url.split('/')[1]
 
         // find in the db - 'core.navigation'
-        let results = await req.app.locals.db.find(
+        let results = await db.find(
             'core.navigation'
             , { url: `/${navName}` }
         )
 
         if( results.length == 0 ){
             // if result is not found then load default navigation
-            results = await req.app.locals.db.find(
+            results = await db.find(
                 'core.navigation'
                 , { url: `/` }
             )
@@ -81,7 +81,7 @@ class Router {
         return results[0]
     }
 
-    async resolveModule(req, res) {
+    async resolveModule(db, req, res) {
         // angular module
         if (res.locals.nav.module == 'angular') return angular
         // websvc module

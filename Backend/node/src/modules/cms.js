@@ -6,7 +6,7 @@ module.exports.requiresAuthentication = async function requiresAuthentication(re
     return false;
 }
 
-module.exports.process = async function process(req, res) {
+module.exports.process = async function process(db, req, res) {
 
     // resolve path
     let paths = req.path.split('/')
@@ -27,7 +27,7 @@ module.exports.process = async function process(req, res) {
     let folder = `/${paths.slice(2, paths.length - 1).join('/')}`
 
     // search for contents in cms
-    let results = await req.app.locals.db.find(
+    let results = await db.find(
         'cms'
         , {
             navigation_id: `${res.locals.nav._id}`,

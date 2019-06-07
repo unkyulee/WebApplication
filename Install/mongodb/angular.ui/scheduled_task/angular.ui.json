@@ -8,12 +8,7 @@
       {
         "type": "div",
         "comment": "spacer",
-        "layoutStyle": {
-          "flex-grow": 1
-        },
-        "style": {
-          "width": "1px"
-        }
+        "layoutStyle": { "flex-grow": 1, "width": "1px" }
       },
       {
         "type": "input",
@@ -29,7 +24,7 @@
         "class": {
           "white": true
         },
-        "changed": "that.event.send({ name: 'refresh', key: 'table' })"
+        "changed": "this.event.send({ name: 'refresh', key: 'table' })"
       },
       {
         "type": "button",
@@ -48,11 +43,11 @@
     "src": "/adminapi/core.scheduled_task",
     "method": "get",
     "transform": "response.data",
+    "click": "this.router.navigateByUrl(`/task/detail?_id=${row._id}`)",
     "columns": [
       {
         "key": "name",
-        "label": "Task name",
-        "click": "this.router.navigateByUrl(`/task/detail?_id=${row._id}`)"
+        "label": "Task name"
       },
       {
         "key": "last_run_result",
@@ -70,7 +65,7 @@
   {
     "_id": ObjectId("000000000000000000000123"),
     "type": "layout",
-    "style": {
+    "layoutStyle": {
       "background": "#F44336",
       "width": "100%",
       "display": "flex",
@@ -81,8 +76,7 @@
       {
         "type": "div",
         "comment": "spacer",
-        "layoutStyle": { "flex-grow": 1 },
-        "style": { "width": "1px" }
+        "layoutStyle": { "flex-grow": 1, "width": "1px" }
       },
       {
         "type": "typography",
@@ -112,10 +106,17 @@
     "src": "this.data._params_._id?`/adminapi/core.scheduled_task?_id=${this.data._params_._id}`:''",
     "method": "get",
     "transform": "response.data[0]",
+    "layoutStyle": {
+      "flex-grow": 1,
+      "display": "flex",
+      "flex-direction": "column",
+      "height": "100%",
+      "overflow-y": "auto"
+    },
     "save": {
       "src": "`/adminapi/core.scheduled_task`",
       "method": "post",
-      "saveAction": "that.data._params_._id ? that.snackBar.open('Salvato', null, {duration: 5000}) : that.nav.navPopStack('/task/detail'); that.router.navigateByUrl(`/task/detail?_id=${response._id}`)"
+      "saveAction": "this.data._params_._id ? this.snackBar.open('Salvato', null, {duration: 5000}) : this.nav.navPopStack('/task/detail'); this.router.navigateByUrl(`/task/detail?_id=${response._id}`)"
     },
     "screen": [
       {
@@ -206,7 +207,7 @@
         "screen": [
           {
             "type": "data-table",
-            "tableType": "card",
+            "tableType": "list",
             "key": "logs",
             "columns": [
               {

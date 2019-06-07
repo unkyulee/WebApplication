@@ -5,6 +5,7 @@ class MongoDB {
   constructor(url, dbName) {
     this.url = url;
     this.dbName = dbName || "web";
+    this.client = null;
   }
 
   async connect() {
@@ -26,7 +27,10 @@ class MongoDB {
   }
 
   async close() {
-    this.client.close()
+    if(this.client) {
+      this.client.close()
+    }
+
   }
 
   async count(collection, query) {

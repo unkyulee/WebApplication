@@ -28,6 +28,7 @@
     "locale_long": "it-IT",
     "navigation": {
       "style": {
+        "width": "256px",
         "backgroundColor": "#2C313D"
       },
       "close": {
@@ -51,6 +52,9 @@
       }
     },
     "toolbar": {
+      "layoutStyle": {
+        "height": "56px"
+      },
       "style": {
         "backgroundColor": "#D32F2F",
         "color": "white",
@@ -59,6 +63,9 @@
         "zIndex": 1000,
         "minHeight": "56px",
         "height": "56px"
+      },
+      "class": {
+        "mat-elevation-z1": true
       },
 
       "actions": [
@@ -72,15 +79,21 @@
       ]
     },
     "content": {
+      "layoutStyle": {
+        "overflow": "hidden",
+        "display": "flex",
+        "flex-direction": "column",
+        "flex-grow": 1
+      },
       "style": {
         "width": "100%",
-        "height": "calc(100% - 56px)",
         "minWidth": "100%",
         "padding": "0",
         "background": "#f1f1f1",
         "display": "flex",
         "flexDirection": "column",
-        "overflow": "auto"
+        "flex-grow": 1,
+        "height": "100%"
       }
     },
     "filter": {
@@ -110,6 +123,12 @@
         "width": "100%",
         "display": "flex",
         "flex-direction": "column"
+      },
+      "contentLayoutStyle": {
+        "flex-grow": 1
+      },
+      "itemBoxStyle": {
+        "margin": "8px"
       },
       "class": "material",
       "headerHeight": 40,

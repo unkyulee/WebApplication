@@ -4,9 +4,10 @@ const ObjectID = require("mongodb").ObjectID;
 const strMatch = require("../lib/strMatch").strMatch;
 
 class Auth {
-  async canModuleProcess(req, res) {
+  async canModuleProcess(db, req, res) {
     // check if the current module requires authentication
     let requiresAuthentication = await res.locals.module.requiresAuthentication(
+      db,
       req,
       res
     );
@@ -16,10 +17,10 @@ class Auth {
     }
 
     // check if the request is authenticated
-    let isAuthenticated = await this.isAuthenticated(req, res);
+    let isAuthenticated = await this.isAuthenticated(db, req, res);
     if (isAuthenticated == false) {
       // if not authenticated then try to authenticate the request
-      isAuthenticated = await this.authenticate(req, res);
+      isAuthenticated = await this.authenticate(db, req, res);
       if (isAuthenticated == false) {
         // clear cookie
         res.clearCookie("x-app-key");
@@ -30,13 +31,13 @@ class Auth {
         return false;
       } else {
         // if authentication is successful then return the angular config
-        res.send(await res.locals.module.authenticated(req, res));
+        res.send(await res.locals.module.authenticated(db, req, res));
         return false;
       }
     }
 
     // check if the request is authorized
-    let isAuthorized = await this.isAuthorized(req, res);
+    let isAuthorized = await this.isAuthorized(db, req, res);
     if (isAuthorized == false) {
       // request is not authorized
       res.status(401);
@@ -45,7 +46,7 @@ class Auth {
 
     // check if it is requesting for validate
     if (req.headers["validate"]) {
-      res.send(await res.locals.module.authenticated(req, res));
+      res.send(await res.locals.module.authenticated(db, req, res));
       return false;
     }
 
@@ -53,7 +54,7 @@ class Auth {
     return true;
   }
 
-  async isAuthenticated(req, res) {
+  async isAuthenticated(db, req, res) {
     let authenticated = false;
 
     // do the JWT toekn thingy
@@ -99,7 +100,7 @@ class Auth {
     return authenticated;
   }
 
-  async isAuthorized(req, res) {
+  async isAuthorized(db, req, res) {
     // check decoded token
     let roleIds = res.locals.token.roles;
 
@@ -107,7 +108,7 @@ class Auth {
     let allowed = {};
     let not_allowed = {};
     for (let roleId of roleIds) {
-      let roles = await req.app.locals.db.find("core.role", {
+      let roles = await db.find("core.role", {
         _id: ObjectID(roleId)
       });
       if (roles.length > 0) {
@@ -150,13 +151,13 @@ class Auth {
     return authorized;
   }
 
-  async authenticate(req, res) {
+  async authenticate(db, req, res) {
     let authenticated = false;
 
     // get id, password, navigation_id
     if (req.body.id && req.headers["x-app-key"]) {
       // find in the db - 'core.user'
-      let results = await req.app.locals.db.find("core.user", {
+      let results = await db.find("core.user", {
         id: req.body.id,
         navigation_id: req.headers["x-app-key"]
       });
@@ -176,7 +177,7 @@ class Auth {
 
         if (authenticated) {
           // get roles
-          let roles = await this.getRoles(req, res, user);
+          let roles = await this.getRoles(db, req, res, user);
 
           // create token
           this.createToken(req, res, user.id, user.name, roles);
@@ -204,7 +205,7 @@ class Auth {
     res.set("Authorization", `Bearer ${token}`);
   }
 
-  async getRoles(req, res, user) {
+  async getRoles(db, eq, res, user) {
     let roleIds = {};
 
     // get groups
@@ -212,14 +213,14 @@ class Auth {
       if (Array.isArray(user.group_id)) {
         for (let group of user.group_id) {
           // get roles
-          let roles = await req.app.locals.db.find("core.role", {
+          let roles = await db.find("core.role", {
             groups: `${group}`
           });
           for (let role of roles) roleIds[`${role._id}`] = 1;
         }
       } else {
         // get roles
-        let roles = await req.app.locals.db.find("core.role", {
+        let roles = await db.find("core.role", {
           groups: `${user.group_id}`
         });
         for (let role of roles) roleIds[`${role._id}`] = 1;

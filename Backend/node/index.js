@@ -35,25 +35,27 @@ if (process.env.TZ) {
 // catch all
 const router = require("./src/services/router");
 const auth = require("./src/services/auth");
+const MongoDB = require("./src/db/mongodb");
+
 app.all("*", async (req, res) => {
+  let db = null;
   try {
     // connect to mongodb
-    const MongoDB = require("./src/db/mongodb");
-    app.locals.db = new MongoDB(process.env.DATABASE_URI, process.env.DB);
-    await app.locals.db.connect();
+    db = new MongoDB(process.env.DATABASE_URI, process.env.DB);
+    await db.connect();
 
     // check pre process
-    if ((await router.preProcess(req, res)) == false) return;
+    if ((await router.preProcess(db, req, res)) == false) return;
 
     // process routing and get navigation
-    res.locals.nav = await router.resolveNavigation(req, res);
+    res.locals.nav = await router.resolveNavigation(db, req, res);
     if (!res.locals.nav) {
       res.status(404);
       res.end();
       return;
     }
 
-    res.locals.module = await router.resolveModule(req, res);
+    res.locals.module = await router.resolveModule(db, req, res);
     if (!res.locals.module) {
       res.status(404);
       res.end();
@@ -61,16 +63,16 @@ app.all("*", async (req, res) => {
     }
 
     // authenticate
-    if (await auth.canModuleProcess(req, res))
+    if (await auth.canModuleProcess(db, req, res))
       // process the page
-      res.send(await res.locals.module.process(req, res));
+      res.send(await res.locals.module.process(db, req, res));
     else res.end();
-
-    // Close MongoDB
-    app.locals.db.close();
   } catch (e) {
     res.send(`${e.stack}`);
     res.status(500);
+  } finally {
+    // Close MongoDB
+    if(db) await db.close();
   }
 });
 
@@ -79,7 +81,7 @@ if (process.env.TASK) {
   const task = require("./src/services/task");
   (async () => {
     try {
-      await task.start(app, process.env.TASK || 5);
+      await task.start(process.env.TASK || 5);
     } catch (err) {
       console.log(err);
     }

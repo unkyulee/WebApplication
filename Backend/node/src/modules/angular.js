@@ -10,7 +10,7 @@ module.exports.requiresAuthentication = async function requiresAuthentication(
   return true;
 };
 
-module.exports.process = async function process(req, res) {
+module.exports.process = async function process(db, req, res) {
   // get the filename
   let paths = req.path.split("/");
   let filename = paths[paths.length - 1];
@@ -23,9 +23,9 @@ module.exports.process = async function process(req, res) {
   return IndexHtml(req, res);
 };
 
-module.exports.authenticated = async function authenticated(req, res) {
+module.exports.authenticated = async function authenticated(db, req, res) {
   // angular navigation
-  let angular_navigation = await req.app.locals.db.find(
+  let angular_navigation = await db.find(
     "angular.navigation",
     { navigation_id: `${res.locals.nav._id}` },
     { order: 1 },
@@ -56,7 +56,7 @@ module.exports.authenticated = async function authenticated(req, res) {
       elementIdFilter.$or.push({ _id: ObjectID(elementId) });
 
     // retrieve angular ui
-    let angular_ui_list = await req.app.locals.db.find(
+    let angular_ui_list = await db.find(
       "angular.ui",
       elementIdFilter,
       null,
