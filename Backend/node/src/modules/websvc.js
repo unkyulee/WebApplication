@@ -4,6 +4,7 @@ const jsonic = require("jsonic"); // used by user script
 const path = require("path"); // userd by user script
 
 module.exports.requiresAuthentication = async function requiresAuthentication(
+  db,
   req,
   res
 ) {

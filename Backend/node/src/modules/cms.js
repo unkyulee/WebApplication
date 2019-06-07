@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const ObjectID = require('mongodb').ObjectID
 
-module.exports.requiresAuthentication = async function requiresAuthentication(req, res) {
+module.exports.requiresAuthentication = async function requiresAuthentication(db, req, res) {
     return false;
 }
 
