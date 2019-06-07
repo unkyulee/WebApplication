@@ -46,6 +46,22 @@ class Auth {
 
     // check if it is requesting for validate
     if (req.headers["validate"]) {
+
+      // save push notification registration id
+      if(req.headers.registrationid && req.headers["x-app-key"]) {
+        let users = await db.find("core.user", {
+          id: res.locals.token.unique_name
+          , navigation_id: req.headers["x-app-key"]
+        });
+
+        if(users.length > 0) {
+          //
+          let user = users[0];
+          await db.update("core.user", {_id: user["_id"], registrationId: req.headers.registrationid})
+        }
+      }
+
+      //
       res.send(await res.locals.module.authenticated(db, req, res));
       return false;
     }

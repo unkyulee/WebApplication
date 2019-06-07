@@ -7,7 +7,7 @@ class Router {
     async preProcess(db, req, res) {
         res.header("Access-Control-Allow-Origin", process.env.CORS?process.env.CORS:"*")
         res.header("Access-Control-Allow-Credentials", "true")
-        res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept, X-App-Key, Validate")
+        res.header("Access-Control-Allow-Headers", "Authorization, Origin, X-Requested-With, Content-Type, Accept, X-App-Key, Validate, RegistrationId")
         res.header('Access-Control-Expose-Headers', 'Authorization')
 
         // copy back the authorization
