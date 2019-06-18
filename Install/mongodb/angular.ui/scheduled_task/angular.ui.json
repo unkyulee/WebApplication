@@ -47,17 +47,22 @@
     "columns": [
       {
         "key": "name",
-        "label": "Task name"
-      },
-      {
-        "key": "last_run_result",
-        "label": "Last Status",
-        "canAutoResize": false
+        "label": "Task name",
+        "style": {
+          "color": "blue",
+          "fontWeight": "bold",
+          "cursor": "pointer",
+          "textDecoration": "underline"
+        }
       },
       {
         "key": "next_run_date",
         "label": "Next Run",
-        "format": "moment(v).format('L LT')",
+        "format": "moment(v).format('L LT')"
+      },
+      {
+        "key": "last_run_result",
+        "label": "Last Status",
         "canAutoResize": false
       }
     ]
@@ -116,7 +121,7 @@
     "save": {
       "src": "`/adminapi/core.scheduled_task`",
       "method": "post",
-      "saveAction": "this.data._params_._id ? this.snackBar.open('Salvato', null, {duration: 5000}) : this.nav.navPopStack('/task/detail'); this.router.navigateByUrl(`/task/detail?_id=${response._id}`)"
+      "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
     },
     "screen": [
       {
@@ -184,8 +189,37 @@
             "type": "button",
             "label": "Run Script",
             "color": "warn",
-            "click": "this.data.last_run_result = 'In Queue'; this.data.logs = []; this.data.next_run_date = new Date(); this.event.send({ 'name': 'save' }); setTimeout(() => this.event.send({ 'name': 'refresh' }), 5000);",
+            "click": "this.data.last_run_result = 'In Queue'; this.data.logs = []; this.data.next_run_date = new Date(); this.event.send({ 'name': 'save' }); setTimeout(() => this.event.send({ 'name': 'refresh' }), 20000);",
             "layoutStyle": {
+              "width": "100%"
+            }
+          }
+        ]
+      },
+      {
+        "expanded": false,
+        "style": {
+          "width": "100%"
+        },
+        "header": {
+          "screen": [
+            {
+              "type": "typography",
+              "text": "Script"
+            }
+          ]
+        },
+        "screen": [
+          {
+            "type": "input",
+            "inputType": "textarea",
+            "key": "script",
+            "label": "Script",
+            "rows": 30,
+            "layoutStyle": {
+              "width": "100%"
+            },
+            "style": {
               "width": "100%"
             }
           }
@@ -221,35 +255,6 @@
                 "format": "moment(v).format('L LTS')"
               }
             ]
-          }
-        ]
-      },
-      {
-        "expanded": false,
-        "style": {
-          "width": "100%"
-        },
-        "header": {
-          "screen": [
-            {
-              "type": "typography",
-              "text": "Script"
-            }
-          ]
-        },
-        "screen": [
-          {
-            "type": "input",
-            "inputType": "textarea",
-            "key": "script",
-            "label": "Script",
-            "rows": 30,
-            "layoutStyle": {
-              "width": "100%"
-            },
-            "style": {
-              "width": "100%"
-            }
           }
         ]
       }
