@@ -110,6 +110,14 @@ export class SelectionComponent implements OnInit {
           this.data[update.targetKey] = selected[update.sourceKey];
         }
       } else {
+        // reset target values
+        for (let update of this.uiElement.updateAlso) {
+          obj.ensureExists(this.data, update.targetKey, []);
+          let target = obj.get(this.data, update.targetKey);
+          target.length = 0; // reset the array of the target
+        }
+
+        // for each value update the updateAlso values
         for (let value of v) {
           // find selected option
           let selected = this.uiElement.options.find(
@@ -121,7 +129,6 @@ export class SelectionComponent implements OnInit {
             let source = selected[update.sourceKey];
 
             // update the target data
-            obj.ensureExists(this.data, update.targetKey, []);
             let target = obj.get(this.data, update.targetKey);
             if (Array.isArray(target) && target.indexOf(source) < 0)
               target.push(source);
