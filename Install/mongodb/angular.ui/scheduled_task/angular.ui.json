@@ -121,6 +121,7 @@
     "save": {
       "src": "`/adminapi/core.scheduled_task`",
       "method": "post",
+      "transform": "data.logs = []",
       "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
     },
     "screen": [
