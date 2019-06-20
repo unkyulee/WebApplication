@@ -83,12 +83,12 @@ async function run() {
     for (let def of config.defaultFields) {
       switch (def.type) {
         case "Date":
-          if(data[def.column]) data[def.column] = new Date(data[def.column]);
+          if (data[def.column]) data[def.column] = new Date(data[def.column]);
           break;
         case "NowIfNew":
           if (!row || !row[def.column]) {
             data[def.column] = new Date();
-          } else if(data[def.column]) {
+          } else if (data[def.column]) {
             data[def.column] = new Date(data[def.column]);
           }
           break;
@@ -104,6 +104,28 @@ async function run() {
           break;
         case "hash":
           if (data[def.column]) data[def.column] = hash.hash(data[def.column]);
+          break;
+
+        case "Unique": {
+          // do not create duplicate of the value
+          if (data[def.column]) {
+            // initialize row
+            if( !row ) row = {}
+            if( !row[def.column] ) row[def.column] = []
+
+            // check if the value exists
+            for(let value of data[def.column]) {
+              let item = row[def.column].find(x => x[def.key] == value[def.key])
+              if(!item) {
+                row[def.column].push(value)
+              }
+            }
+
+            // convert to array
+            data[def.column] = row[def.column]
+          }
+        }
+
           break;
       }
     }
