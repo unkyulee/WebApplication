@@ -126,6 +126,7 @@
     >
     </mat-checkbox>
     <div
+      *ngIf="uiElement.label"
       [ngStyle]="uiElement.style"
       [ngClass]="uiElement.class"
       [innerHtml]="uiElement.label | safe: 'html'"
