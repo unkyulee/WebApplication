@@ -1,8 +1,18 @@
 // user imports
-import { UserService } from "./user/user.service";
-import { EventService } from "./event.service";
-import { ConfigService } from "./config.service";
+import ConfigService from "./config.service";
 
+class NavService {
+  constructor() {
+    // save as services
+    this.config = ConfigService;
 
-export default class NavService {
+    // get navigation configuration
+    /*
+    let navigation = this.config.get("navigation");
+    console.log(window.__CONFIG__);
+    */
+  }
 }
+
+// export an instance so that it stays singletone
+export default new NavService();

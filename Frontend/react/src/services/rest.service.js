@@ -1,14 +1,14 @@
 import axios from "axios";
 import ConfigService from "./config.service.js";
 
-export default {
+class RestService {
   async request(url, data, method, options) {
     // pass if url is not specified
     if (!url) return null;
 
     // convert url to full qualified name
-    if (url.startsWith("http") == false) {
-      if (url.startsWith("/") == false) url = `/${url}`;
+    if (url.startsWith("http") === false) {
+      if (url.startsWith("/") === false) url = `/${url}`;
       url = `${ConfigService.get("rest")}${url}`;
     }
 
@@ -28,3 +28,6 @@ export default {
     }
   }
 };
+
+// export an instance so that it stays singletone
+export default new RestService()

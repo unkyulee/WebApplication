@@ -2,11 +2,16 @@ import React from "react";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 
 import EventService from "../services/event.service";
+import NavService from "../services/nav.service";
 
 export default class NavigationDrawer extends React.Component {
   constructor() {
     super();
+
+    // save as services
     this.event = EventService;
+    this.nav = NavService;
+
     this.state = {
       open: false
     };

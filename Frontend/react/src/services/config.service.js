@@ -1,12 +1,19 @@
-class ConfigService {
-  // default configuration
-  configuration = {};
+import * as obj from "object-path";
 
-  constructor() {
-    // load from the config if defined
-    this.configuration = Object.assign(this.configuration, window.__CONFIG__);
-    console.log('hi')
+class ConfigService {
+  get(name) {
+    let v = null;
+    if (window.__CONFIG__ && window.__CONFIG__[name])
+      v = obj.get(window.__CONFIG__, name);
+      return v;
+  }
+
+  set(name, value) {
+    // set default if it doesn't exists
+    if (!window.__CONFIG__) window.__CONFIG__ = {};
+    obj.get(window.__CONFIG__, name, value);
   }
 }
 
+// export an instance so that it stays singletone
 export default new ConfigService()
