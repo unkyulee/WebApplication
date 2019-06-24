@@ -236,10 +236,18 @@ export class DataTableComponent implements OnInit, OnDestroy {
         else if (this.sort.dir == "desc") data["_sort_desc"] = this.sort.prop;
       }
 
+      let options = {};
+      if(this.uiElement.options) {
+        options = this.uiElement.options;
+        try {
+          options = eval(`${options}`);
+        } catch {}
+      }
+
       // send REST request
       this.event.send("splash-show"); // show splash
       this.rest
-        .request(src, data, method, {}, this.uiElement.tableType == 'card' ? false : true)
+        .request(src, data, method, options, this.uiElement.tableType == 'card' ? false : true)
         .subscribe(response => this.responseDownload(response));
     } else {
       this.total = this.rows ? this.rows.length : 0;

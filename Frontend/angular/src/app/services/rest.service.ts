@@ -40,7 +40,15 @@ export class RestService {
       url = `${this.config.configuration.rest}${url}`;
     }
 
-    if (method == "post") {
+    if(method == "jsonp") {
+      const queryParams = new HttpParams({ fromObject: data });
+      if (data) {
+        if (url.includes("?") == false) url = `${url}?${queryParams}`;
+        else url = `${url}&${queryParams}`;
+      }
+      return this.http.jsonp(url, options)
+    }
+    else if (method == "post") {
       return this.http.post(url, data, options);
     } else if (method == "put") {
       return this.http.put(url, data, options);
