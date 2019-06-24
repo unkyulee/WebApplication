@@ -31,7 +31,6 @@ class angular
 
     // convert json to php type
     $core_navigation = json_decode($content, true);
-
     $core_navigation['rest'] = scheme() . "://" . $_SERVER['HTTP_HOST'];
     $core_navigation['auth'] = scheme() . "://" . $_SERVER['HTTP_HOST'] . $context->nav['url'];
 
