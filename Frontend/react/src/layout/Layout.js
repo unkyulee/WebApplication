@@ -23,7 +23,6 @@ export default class Layout extends React.Component {
   componentDidMount() {
     // check for authentication status
     this.auth.isAuthenticated().then(r => {
-      console.log(r);
       this.setState({ isAuthenticated: r, isLoading: false });
     });
   }
