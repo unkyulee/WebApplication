@@ -7,12 +7,14 @@ import Login from "./Login";
 
 // user imports services
 import AuthService from "../services/auth/auth.service";
+import eventService from "../services/event.service";
 
 export default class Layout extends React.Component {
   constructor() {
     super();
     // save as a services
     this.auth = AuthService;
+    this.event = eventService;
 
     // state
     this.state = {
@@ -25,7 +27,21 @@ export default class Layout extends React.Component {
     this.auth.isAuthenticated().then(r => {
       this.setState({ isAuthenticated: r, isLoading: false });
     });
+    // event handler
+    this.onEvent = this.event.onEvent.subscribe(event =>
+      this.eventHandler(event)
+    );
   }
+  componentWillUnmount() {
+    this.onEvent.unsubscribe();
+  }
+
+  eventHandler = async event => {
+    if (event == "authenticated") {
+      this.setState({isAuthenticated: true});
+    }
+  }
+
   render() {
     let screen = <p>Loading ...</p>;
     if (!this.state.isLoading) {

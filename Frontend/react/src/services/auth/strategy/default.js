@@ -9,34 +9,21 @@ class DefaultAuthStrategy {
     // clear localstorage
     localStorage.clear();
 
-    return new Promise((resolve, reject) => {
-      // get auth url
-      //let authUrl = this.config.get("auth");
+    let response = {};
+    try {
+      response = await this.rest.request(
+        this.config.get("auth"),
+        data,
+        "post"
+      );
 
-      // request through REST
-      /*
-      this.rest
-        .request(authUrl, data, "post")
-        .pipe(
-          catchError(
-            // when response is not 200
-            (err: HttpErrorResponse) => {
-              console.error(err);
-              reject(err.message);
-              return EMPTY;
-            }
-          )
-        )
-        // when response is sucessful
-        .subscribe(response => {
-          // refresh navigation information
-          this.refreshAuthentication();
+      // refresh navigation information
+      this.refreshAuthentication();
+    } catch (e) {
+      return false;
+    }
 
-          // authentication successful
-          resolve();
-        });
-        */
-    });
+    return response.status == 200;
   }
 
   async logout() {
