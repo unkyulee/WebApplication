@@ -1,4 +1,5 @@
 import React from "react";
+import safeEval from "safe-eval";
 
 // interface
 import UILayoutWrapper from "../ui/UILayoutWrapper";
@@ -6,17 +7,22 @@ import UILayoutWrapper from "../ui/UILayoutWrapper";
 // user imports
 import EventService from "../services/event.service";
 import ConfigService from "../services/config.service";
+import AuthService from "../services/auth/auth.service";
 
 export default class Login extends React.Component {
   constructor() {
     super();
 
+    // save as services
+    this.auth = AuthService;
+    this.event = EventService;
+    this.config = ConfigService;
+
     // state
     this.state = {};
 
-    // save as services
-    this.event = EventService;
-    this.config = ConfigService;
+    // get login screen
+    this.uiElement = this.config.get("login");
   }
 
   componentDidMount() {
@@ -31,7 +37,7 @@ export default class Login extends React.Component {
   }
 
   eventHandler = async event => {
-    if (event.name == "login") {
+    if (event.name === "login") {
       if (event.data) this.data = Object.assign(this.data, event.data);
       await this.authenticate();
     }
@@ -39,24 +45,18 @@ export default class Login extends React.Component {
 
   // login
   async authenticate() {
-    // extract from props
-    const { uiElement } = this.props;
-    this.uiElement = uiElement;
-    this.data = this.state;
-
     // validate input
     this.data.error = "";
-    for (let ui of this.login.screen) {
-      let value = this.data[ui.key]; // used by the evaluation script
+    for (let ui of this.uiElement.screen) {
       if (ui.errorCondition) {
-        let error = eval(ui.errorCondition);
+        let error = safeEval(ui.errorCondition, {...this});
         if (error) this.data.error += `${ui.errorMessage}\n`;
       }
     }
 
     // if there are error don't continue
     if (this.data.error) {
-      this.setState(this.data)
+      this.setState(this.data);
       return;
     }
 
@@ -64,12 +64,12 @@ export default class Login extends React.Component {
     this.event.send("splash-show"); // show splash
     try {
       await this.auth.login(this.data);
-      console.log(this.data)
       // login success
       this.event.send("authenticated");
     } catch (e) {
       // login error
       this.data.error = e;
+      this.setState(this.data);
     }
     this.event.send("splash-hide"); // hide splash
   }
@@ -79,17 +79,19 @@ export default class Login extends React.Component {
   };
 
   render() {
-    this.login = this.config.get("login");
+    // retrieve data from props
+    this.data = this.props.data;
+
     let screen;
-    if (this.login && this.login.screen) {
-      screen = this.login.screen.map((x, i) => {
+    if (this.uiElement && this.uiElement.screen) {
+      screen = this.uiElement.screen.map((x, i) => {
         return <UILayoutWrapper key={i} uiElement={x} data={this.data} />;
       });
     }
 
     return (
-      <div style={this.login.layoutStyle}>
-        <div style={this.login.style} className={this.login.class}>
+      <div style={this.uiElement.layoutStyle}>
+        <div style={this.uiElement.style} className={this.uiElement.class}>
           {screen}
         </div>
       </div>

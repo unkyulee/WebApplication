@@ -19,7 +19,8 @@ export default class Layout extends React.Component {
     // state
     this.state = {
       isAuthenticated: false,
-      isLoading: true // while checking for authentication status
+      isLoading: true, // while checking for authentication status
+      data: {}
     };
   }
   componentDidMount() {
@@ -37,10 +38,12 @@ export default class Layout extends React.Component {
   }
 
   eventHandler = async event => {
-    if (event == "authenticated") {
-      this.setState({isAuthenticated: true});
+    if (event === "authenticated") {
+      this.setState({ isAuthenticated: true });
+    } else if (event && event.name === "data-update") {
+      this.setState({ data: {...this.state.data, ...event.data} });
     }
-  }
+  };
 
   render() {
     let screen = <p>Loading ...</p>;
@@ -53,7 +56,7 @@ export default class Layout extends React.Component {
           </div>
         );
       } else {
-        screen = <Login />;
+        screen = <Login data={this.state.data} />;
       }
     }
 

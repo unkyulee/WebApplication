@@ -1,39 +1,31 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { Subject } from "rxjs";
+import safeEval from "safe-eval";
 
 // user services
 import AuthService from "../services/auth/auth.service";
-
+import eventService from "../services/event.service";
 
 class Input extends React.Component {
   constructor() {
     super();
+
     // save as a services
     this.auth = AuthService;
-
-    // variables
-    this.typeAheadEventEmitter = new Subject();
+    this.event = eventService;
   }
 
   get value() {
-    // extract from props
-    const { uiElement, data } = this.props;
-    this.uiElement = uiElement;
-    this.data = data;
-
-    let v = '';
-
-    // do not set value if it is password
-    if (this.uiElement.inputType === "password")
-      return '';
+    // deafult input value can't be null
+    // must be an empty string
+    let v;
 
     if (this.data && this.uiElement.key) {
       // if null then assign default
       if (typeof this.data[this.uiElement.key] === "undefined") {
         let def = this.uiElement.default;
         try {
-          def = eval(this.uiElement.default);
+          def = safeEval(this.uiElement.default, { ...this });
         } catch (e) {}
         this.data[this.uiElement.key] = def;
       }
@@ -45,7 +37,7 @@ class Input extends React.Component {
     // Transform
     if (this.uiElement.transform) {
       try {
-        v = eval(this.uiElement.transform);
+        v = safeEval(this.uiElement.transform, { ...this });
       } catch (e) {}
     }
 
@@ -63,13 +55,14 @@ class Input extends React.Component {
   }
 
   set value(v) {
-    // extract from props
-    const { uiElement, data } = this.props;
-    this.uiElement = uiElement;
-    this.data = data;
-
     if (this._value !== v) {
       this._value = v;
+
+      // send data-update to the root element
+      this.event.send({
+        name: "data-update",
+        data: { [this.uiElement.key]: v }
+      });
 
       if (this.data && this.uiElement.key) {
         this.data[this.uiElement.key] = v;
@@ -78,19 +71,12 @@ class Input extends React.Component {
           this.data[this.uiElement.key] = parseFloat(v);
       }
     }
-
-    this.typeAheadEventEmitter.next(v);
   }
 
   onClick = () => {
-    // extract from props
-    const { uiElement, data } = this.props;
-    this.uiElement = uiElement;
-    this.data = data;
-
     if (this.uiElement.click) {
       try {
-        eval(this.uiElement.click);
+        safeEval(this.uiElement.click, { ...this });
       } catch (e) {
         console.error(e);
       }
@@ -98,15 +84,10 @@ class Input extends React.Component {
   };
 
   condition = () => {
-    // extract from props
-    const { uiElement, data } = this.props;
-    this.uiElement = uiElement;
-    this.data = data;
-
     let result = true;
     if (this.uiElement.condition) {
       try {
-        result = eval(this.uiElement.condition);
+        result = safeEval(this.uiElement.condition, { ...this });
       } catch (e) {
         result = false;
       }
@@ -114,23 +95,45 @@ class Input extends React.Component {
     return result;
   };
 
-  handleChange = v => {
-    console.log(v);
+  handleChange = name => event => {
+    // see if there are any input change handlers
+    if (this.uiElement.changed) {
+      try {
+        safeEval(this.uiElement.changed, { ...this });
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
+
+    // set value
+    this.value = event.target.value;
   };
 
   render() {
-    const { uiElement, data } = this.props;
+    this.uiElement = this.props.uiElement;
+    this.data = this.props.data;
 
     let screen = null;
-    switch (uiElement.inputType) {
-      default:
-        screen = (
-          <div style={uiElement.style} className={uiElement.class}>
-            <TextField label={uiElement.label} value={this.value} />
-          </div>
-        );
+    if (this.condition()) {
+      switch (this.uiElement.inputType) {
+
+        case "hidden":
+          screen = <input type="hidden" value={this.value || ""} />;
+        default:
+          screen = (
+            <div style={this.uiElement.style} className={this.uiElement.class}>
+              <TextField
+                type={this.uiElement.inputType}
+                label={this.uiElement.label}
+                onChange={this.handleChange(this.uiElement.key)}
+                value={this.value || ""}
+                InputLabelProps={this.uiElement.props}
+              />
+            </div>
+          );
+      }
+      return screen;
     }
-    return screen;
   }
 }
 

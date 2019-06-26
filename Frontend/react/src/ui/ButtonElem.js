@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
+import safeEval from "safe-eval";
 
 // user services
 import authService from "../services/auth/auth.service";
@@ -19,31 +20,11 @@ class ButtonElem extends React.Component {
     this.nav = navService;
   }
 
-  onClick = () => {
-    // extract from props
-    const { uiElement, data } = this.props;
-    this.uiElement = uiElement;
-    this.data = data;
-
-    if (this.uiElement.click) {
-      try {
-        eval(this.uiElement.click);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  };
-
   condition = () => {
-    // extract from props
-    const { uiElement, data } = this.props;
-    this.uiElement = uiElement;
-    this.data = data;
-
     let result = true;
     if (this.uiElement.condition) {
       try {
-        result = eval(this.uiElement.condition);
+        result = safeEval(this.uiElement.condition, { ...this });
       } catch (e) {
         result = false;
       }
@@ -51,20 +32,32 @@ class ButtonElem extends React.Component {
     return result;
   };
 
+  onClick = () => {
+    if (this.uiElement.click) {
+      try {
+        safeEval(this.uiElement.click, { ...this });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
   render() {
-    const { uiElement, data } = this.props;
+    // extract from props
+    this.uiElement = this.props.uiElement;
+    this.data = this.props.data;
 
     let screen = null;
-    switch (uiElement.inputType) {
+    switch (this.uiElement.inputType) {
       default:
         screen = (
           <Button
-            style={uiElement.style}
-            className={uiElement.class}
-            color={uiElement.color}
+            style={this.uiElement.style}
+            className={this.uiElement.class}
+            color={this.uiElement.color}
             onClick={this.onClick}
           >
-            {uiElement.label}
+            {this.uiElement.label}
           </Button>
         );
     }

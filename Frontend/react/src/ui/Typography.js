@@ -1,4 +1,5 @@
 import React from "react";
+import safeEval from "safe-eval";
 
 class Typography extends React.Component {
   get value() {
@@ -26,15 +27,14 @@ class Typography extends React.Component {
     ) {
       this._value = this.uiElement.default;
       try {
-        this._value = eval(this.uiElement.default);
+        this._value = safeEval(this.uiElement.default, {...this});
       } catch (e) {}
     }
 
     // if format is specified
     if (this.uiElement.format) {
       try {
-        let v = this._value;
-        this._value = eval(this.uiElement.format);
+        this._value = safeEval(this.uiElement.format, {...this});
       } catch (e) {
         console.error(this.uiElement.format, e);
       }
@@ -51,7 +51,7 @@ class Typography extends React.Component {
 
     if (this.uiElement.click) {
       try {
-        eval(this.uiElement.click);
+        safeEval(this.uiElement.click, {...this});
       } catch (e) {
         console.error(e);
       }
@@ -67,7 +67,7 @@ class Typography extends React.Component {
     let result = true;
     if (this.uiElement.condition) {
       try {
-        result = eval(this.uiElement.condition);
+        result = safeEval(this.uiElement.condition, {...this});
       } catch (e) {
         result = false;
       }
@@ -76,13 +76,14 @@ class Typography extends React.Component {
   }
 
   render() {
-    const { uiElement, data } = this.props;
+    this.uiElement = this.props.uiElement;
+    this.data = this.props.data
 
     let screen = null;
     screen = (
       <div
-        style={uiElement.style}
-        className={uiElement.class}
+        style={this.uiElement.style}
+        className={this.uiElement.class}
         dangerouslySetInnerHTML={{ __html: this.value }}
         onClick={this.onClick}
       />

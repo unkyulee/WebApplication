@@ -23,7 +23,7 @@ class DefaultAuthStrategy {
       return false;
     }
 
-    return response.status == 200;
+    return response.status === 200;
   }
 
   async logout() {
