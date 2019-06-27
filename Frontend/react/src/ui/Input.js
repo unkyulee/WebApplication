@@ -95,7 +95,7 @@ class Input extends React.Component {
     return result;
   };
 
-  handleChange = name => event => {
+  onChange = name => event => {
     // see if there are any input change handlers
     if (this.uiElement.changed) {
       try {
@@ -109,6 +109,14 @@ class Input extends React.Component {
     this.value = event.target.value;
   };
 
+  onKeyPress = event => {
+    if (event.key === "Enter") {
+      if (this.uiElement.keyupEnter) {
+        safeEval(this.uiElement.keyupEnter, { ...this });
+      }
+    }
+  };
+
   render() {
     this.uiElement = this.props.uiElement;
     this.data = this.props.data;
@@ -116,18 +124,19 @@ class Input extends React.Component {
     let screen = null;
     if (this.condition()) {
       switch (this.uiElement.inputType) {
-
         case "hidden":
           screen = <input type="hidden" value={this.value || ""} />;
+          break;
         default:
           screen = (
             <div style={this.uiElement.style} className={this.uiElement.class}>
               <TextField
                 type={this.uiElement.inputType}
                 label={this.uiElement.label}
-                onChange={this.handleChange(this.uiElement.key)}
                 value={this.value || ""}
                 InputLabelProps={this.uiElement.props}
+                onKeyPress={this.onKeyPress}
+                onChange={this.onChange(this.uiElement.key)}
               />
             </div>
           );

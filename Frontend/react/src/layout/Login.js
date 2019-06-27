@@ -63,9 +63,15 @@ export default class Login extends React.Component {
     // try login
     this.event.send("splash-show"); // show splash
     try {
-      await this.auth.login(this.data);
-      // login success
-      this.event.send("authenticated");
+      if(await this.auth.login(this.data)) {
+        // login success
+        this.event.send("authenticated");
+      } else {
+        // login error
+        this.data.error = 'login failed';
+        this.setState(this.data);
+      }
+
     } catch (e) {
       // login error
       this.data.error = e;

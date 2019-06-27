@@ -1,3 +1,5 @@
+import * as obj from "object-path";
+
 class DefaultAuthStrategy {
   constructor(rest, config, event) {
     this.rest = rest;
@@ -11,12 +13,7 @@ class DefaultAuthStrategy {
 
     let response = {};
     try {
-      response = await this.rest.request(
-        this.config.get("auth"),
-        data,
-        "post"
-      );
-
+      response = await this.rest.request(this.config.get("auth"), data, "post");
       // refresh navigation information
       this.refreshAuthentication();
     } catch (e) {
@@ -35,7 +32,6 @@ class DefaultAuthStrategy {
     let isValidAuth = false;
 
     // check if the token is valid
-    /*
     let token = localStorage.getItem("token");
     if (token && this.isValidToken(token) === true) {
       //
@@ -64,7 +60,6 @@ class DefaultAuthStrategy {
 
     // if not valid auth then clear localstorage
     if (!isValidAuth) localStorage.clear();
-    */
 
     // return auth result
     return isValidAuth;
@@ -90,46 +85,36 @@ class DefaultAuthStrategy {
   // called when isAuthenticated is called in order to verify token validity
   // and also refresh the navigation information
   async refreshAuthentication() {
-    return new Promise((resolve, reject) => {
-        /*
-      // get auth url
-      let authUrl = this.config.configuration.auth;
-      let headers = { Validate: "please" };
-      let customHeaders = obj.get(
-        this.config.configuration,
-        "authentication.customHeaders"
-      );
-      if (customHeaders) {
-        try {
-          eval(customHeaders);
-        } catch (e) {
-          console.error(e);
-        }
-      }
 
-      // request through REST
-      this.rest
-        .request(authUrl, null, "post", {
-          headers: new HttpHeaders(headers)
-        })
-        .pipe(
-          catchError(
-            // when response is not 200
-            (err: HttpErrorResponse) => {
-              reject(err.message);
-              return EMPTY;
-            }
-          )
-        )
-        // when response is sucessful
-        .subscribe(response => {
-          // refresh navigation information
-          this.refreshNavigation(response);
-          // authentication successful
-          resolve();
-        });
-        */
-    });
+    // get auth url
+    let headers = { Validate: "please" };
+
+    // see if there are any custom headers to use
+    let customHeaders = obj.get(
+      this.config.configuration,
+      "authentication.customHeaders"
+    );
+    if (customHeaders) {
+      try {
+        eval(customHeaders);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // request through REST
+    try {
+      let response = await this.rest.request(
+        this.config.get("auth"),
+        null,
+        "post",
+        { headers }
+      );
+      // refresh navigation information
+      if (response.status === 200) {
+        this.refreshNavigation(response.data);
+      }
+    } catch {}
   }
 
   // refresh navigation information
