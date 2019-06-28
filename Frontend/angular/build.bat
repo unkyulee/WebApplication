@@ -1,2 +1,3 @@
+call npm install
 copy /y .\src\index.prod.html .\src\index.html
-ng build --prod --aot --build-optimizer
+call ng build --prod --aot --build-optimizer
