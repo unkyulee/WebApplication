@@ -26,6 +26,7 @@ import { ButtonComponent } from "./button/button.component";
 import { SignatureComponent } from "./signature/signature.component";
 import { UploaderComponent } from "./uploader/uploader.component";
 import { CalendarComponent } from "./calendar/calendar.component";
+import { CalendarMonthlyComponent } from "./calendar/monthly/calendar-monthly.component"
 import { CalendarWeeklyComponent } from "./calendar/weekly/calendar-weekly.component";
 import { CalendarDailyComponent } from "./calendar/daily/calendar-daily.component";
 import { PaginationComponent } from "./pagination/pagination.component";
@@ -56,6 +57,7 @@ import { DividerComponent } from './divider/divider.component';
     ButtonComponent,
     SignatureComponent,
     CalendarComponent,
+    CalendarMonthlyComponent,
     CalendarWeeklyComponent,
     CalendarDailyComponent,
     PaginationComponent,
@@ -78,6 +80,7 @@ import { DividerComponent } from './divider/divider.component';
     ButtonComponent,
     SignatureComponent,
     CalendarComponent,
+    CalendarMonthlyComponent,
     CalendarWeeklyComponent,
     CalendarDailyComponent,
     PaginationComponent,
