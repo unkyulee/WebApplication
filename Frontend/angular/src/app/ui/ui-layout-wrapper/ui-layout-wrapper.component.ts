@@ -5,7 +5,9 @@ import {
   ComponentFactoryResolver,
   Renderer2
 } from "@angular/core";
+import { UserService } from "src/app/services/user/user.service";
 
+// UI components
 import { InputComponent } from "../input/input.component";
 import { SelectionComponent } from "../selection/selection.component";
 import { AutoCompleteComponent } from "../autocomplete/autocomplete.component";
@@ -21,7 +23,7 @@ import { ProgressBarComponent } from "../progress-bar/progress-bar.component";
 import { ScriptBoxComponent } from "../script-box/script-box.component";
 import { UILayoutComponent } from "../ui-layout/ui-layout.component";
 import { DividerComponent } from "../divider/divider.component";
-import { UserService } from 'src/app/services/user/user.service';
+import { SheetComponent } from "../sheet/sheet.component";
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -42,7 +44,6 @@ export class UILayoutWrapperComponent {
   componentRef: any;
 
   ngOnChanges() {
-
     // create component
     if (
       !this.componentRef &&
@@ -77,17 +78,13 @@ export class UILayoutWrapperComponent {
       // apply layout class
       if (this.uiElement.layoutClass) {
         for (let key of Object.keys(this.uiElement.layoutClass)) {
-          this.renderer.addClass(
-            this.componentRef.location.nativeElement,
-            key
-          );
+          this.renderer.addClass(this.componentRef.location.nativeElement, key);
         }
       }
     }
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     if (this.componentRef) this.componentRef.destroy();
@@ -96,6 +93,9 @@ export class UILayoutWrapperComponent {
   findComponentFactory(type) {
     let componentFactory = null;
     switch (type) {
+      case "sheet":
+        componentFactory = this.cfr.resolveComponentFactory(SheetComponent);
+        break;
       case "div":
       case "layout":
         componentFactory = this.cfr.resolveComponentFactory(UILayoutComponent);

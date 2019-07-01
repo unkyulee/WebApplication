@@ -36,7 +36,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
   ///
   _rows = [];
   get rows() {
-    // when key exists
+    // set default key
+    if (!this.uiElement.key) this.uiElement.key = "table";
+
     if (this.data && this.uiElement.key) {
       if (this._rows != this.data[this.uiElement.key]) {
         this._rows = this.data[this.uiElement.key];
@@ -49,7 +51,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       this._rows = this.data[this.uiElement.key];
     }
 
-    if(!this._rows) this._rows = []
+    if (!this._rows) this._rows = [];
     return this._rows;
   }
 
@@ -88,23 +90,20 @@ export class DataTableComponent implements OnInit, OnDestroy {
   requestThrottle = new Subject();
   infiniteScroll(e) {
     // when it reached the end
-    let bottom = this.viewport.getRenderedRange().end
-    let total = this.viewport.getDataLength()
-    if(total < this.total) {
-      if(bottom == total) {
-        this.requestThrottle.next()
+    let bottom = this.viewport.getRenderedRange().end;
+    let total = this.viewport.getDataLength();
+    if (total < this.total) {
+      if (bottom == total) {
+        this.requestThrottle.next();
       }
     }
-
   }
 
   ngOnInit() {
-    this.requestThrottle
-      .pipe(debounceTime(300))
-      .subscribe(v => {
-        this.page += 1;
-        this.requestDownload();
-      });
+    this.requestThrottle.pipe(debounceTime(300)).subscribe(v => {
+      this.page += 1;
+      this.requestDownload();
+    });
 
     // run init script
     if (this.uiElement.init) {
@@ -194,7 +193,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
         this.nav.setParam("size", this.size);
       }
     }
-
   }
 
   requestDownload(pageInfo?) {
@@ -237,7 +235,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       }
 
       let options = {};
-      if(this.uiElement.options) {
+      if (this.uiElement.options) {
         options = this.uiElement.options;
         try {
           options = eval(`${options}`);
@@ -247,7 +245,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
       // send REST request
       this.event.send("splash-show"); // show splash
       this.rest
-        .request(src, data, method, options, this.uiElement.tableType == 'card' ? false : true)
+        .request(
+          src,
+          data,
+          method,
+          options,
+          this.uiElement.tableType == "card" ? false : true
+        )
         .subscribe(response => this.responseDownload(response));
     } else {
       this.total = this.rows ? this.rows.length : 0;
