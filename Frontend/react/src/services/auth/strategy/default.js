@@ -1,4 +1,5 @@
 import * as obj from "object-path";
+import safeEval from "safe-eval";
 
 class DefaultAuthStrategy {
   constructor(rest, config, event) {
@@ -96,7 +97,7 @@ class DefaultAuthStrategy {
     );
     if (customHeaders) {
       try {
-        eval(customHeaders);
+        safeEval(customHeaders, {...this});
       } catch (e) {
         console.error(e);
       }

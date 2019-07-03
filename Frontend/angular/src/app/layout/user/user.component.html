@@ -1,6 +1,6 @@
 <div
   [ngStyle]="config.configuration.user?.style"
-  [ngStyle]="config.configuration.user?.class"
+  [ngClass]="config.configuration.user?.class"
 >
   <button mat-button [matMenuTriggerFor]="menu">
     <ng-container *ngFor="let ui of config.configuration.user?.header?.screen">

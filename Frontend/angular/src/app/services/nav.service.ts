@@ -114,14 +114,14 @@ export class NavService {
 
   set() {
     try {
-      let navigation = this.config.configuration.angular_navigation;
-      if (!navigation) {
+      this.navigation = this.config.configuration.angular_navigation;
+      if (!this.navigation) {
         // if index.js doesn't contain angular_navigation then get it from the cache
-        navigation = JSON.parse(localStorage.getItem("angular_navigation"));
+        this.navigation = JSON.parse(localStorage.getItem("angular_navigation"));
       }
 
       // Set the settings from the given object
-      this.navigation = this.accessConrol(navigation);
+      this.navigation = this.accessConrol(this.navigation);
     } catch (e) {
       console.error(e);
     }

@@ -3,9 +3,9 @@ import * as obj from "object-path";
 class ConfigService {
   get(name) {
     let v = null;
-    if (window.__CONFIG__ && window.__CONFIG__[name])
+    if (window.__CONFIG__)
       v = obj.get(window.__CONFIG__, name);
-      return v;
+    return v;
   }
 
   set(name, value) {
@@ -16,4 +16,4 @@ class ConfigService {
 }
 
 // export an instance so that it stays singletone
-export default new ConfigService()
+export default new ConfigService();

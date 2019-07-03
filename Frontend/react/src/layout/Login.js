@@ -1,5 +1,6 @@
 import React from "react";
 import safeEval from "safe-eval";
+import Base from "../ui/Base"
 
 // interface
 import UILayoutWrapper from "../ui/UILayoutWrapper";
@@ -9,7 +10,7 @@ import EventService from "../services/event.service";
 import ConfigService from "../services/config.service";
 import AuthService from "../services/auth/auth.service";
 
-export default class Login extends React.Component {
+export default class Login extends Base {
   constructor() {
     super();
 
@@ -20,9 +21,6 @@ export default class Login extends React.Component {
 
     // state
     this.state = {};
-
-    // get login screen
-    this.uiElement = this.config.get("login");
   }
 
   componentDidMount() {
@@ -85,7 +83,8 @@ export default class Login extends React.Component {
   };
 
   render() {
-    // retrieve data from props
+    // get login screen
+    this.uiElement = this.config.get("login");
     this.data = this.props.data;
 
     let screen;

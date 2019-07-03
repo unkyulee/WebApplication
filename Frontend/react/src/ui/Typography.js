@@ -1,13 +1,22 @@
 import React from "react";
+import Base from "./Base";
 import safeEval from "safe-eval";
 
-class Typography extends React.Component {
-  get value() {
-    // extract from props
-    const { uiElement, data } = this.props;
-    this.uiElement = uiElement;
-    this.data = data;
+// user services
+import AuthService from "../services/auth/auth.service";
+import eventService from "../services/event.service";
 
+
+class Typography extends Base {
+  constructor() {
+    super();
+
+    // save as a services
+    this.auth = AuthService;
+    this.event = eventService;
+  }
+
+  get value() {
     // fixed text
     if (this.uiElement.text) {
       // set value
@@ -77,7 +86,7 @@ class Typography extends React.Component {
 
   render() {
     this.uiElement = this.props.uiElement;
-    this.data = this.props.data
+    this.data = this.props.data;
 
     let screen = null;
     screen = (
