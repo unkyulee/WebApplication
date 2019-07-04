@@ -39,6 +39,7 @@ import { ScriptBoxComponent } from "./script-box/script-box.component";
 import { UILayoutComponent } from "./ui-layout/ui-layout.component";
 import { DividerComponent } from './divider/divider.component';
 import { SheetComponent } from './sheet/sheet.component';
+import { BaseComponent } from './base.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { SheetComponent } from './sheet/sheet.component';
     ProgressBarComponent,
     ScriptBoxComponent,
     DividerComponent,
-    SheetComponent
+    SheetComponent,
+    BaseComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -90,7 +92,8 @@ import { SheetComponent } from './sheet/sheet.component';
     ProgressBarComponent,
     ScriptBoxComponent,
     DividerComponent,
-    SheetComponent
+    SheetComponent,
+    BaseComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -111,7 +114,8 @@ import { SheetComponent } from './sheet/sheet.component';
     ScriptBoxComponent,
     UILayoutComponent,
     DividerComponent,
-    SheetComponent
+    SheetComponent,
+    BaseComponent
   ],
   imports: [
     CommonModule,
