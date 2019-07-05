@@ -2,6 +2,7 @@ REM Parameter
 SET AngularPath=..\..\Frontend\angular
 
 REM Swap index.html with index.html.prod
+del %AngularPath%\src\index.html
 copy /y %AngularPath%\src\index.mobile.html %AngularPath%\src\index.html
 
 REM Swap package.json with package.original.json
@@ -17,7 +18,7 @@ RD /Q /S .\platforms
 REM Build Angular
 ECHO build angular app
 pushd %AngularPath%
-call build.bat
+call ng build --prod --aot --build-optimizer
 popd
 MD .\www
 xcopy /s /y %AngularPath%\dist .\www
