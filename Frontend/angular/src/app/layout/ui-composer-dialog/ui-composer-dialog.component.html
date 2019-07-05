@@ -2,10 +2,10 @@
   [ngStyle]="
     uiElement.toolbar?.style
       ? uiElement.toolbar?.style
-      : config.configuration.toolbar?.style
+      : config.get('toolbar.style')
   "
 >
-  <button type="button" mat-icon-button (click)="close()">
+  <button type="button" mat-icon-button (click)="event.send({name: 'close-dialog'})">
     <mat-icon>close</mat-icon>
   </button>
   <span>{{ uiElement.name }}</span>

@@ -15,7 +15,7 @@ export class UIService {
         this.set();
       } else if (e.name == "ui-updated") {
         // when server has new navigation
-        this.config.configuration.angular_ui = e.data;
+        this.config.set("angular_ui", e.data);
         this.set();
       }
     });
@@ -26,7 +26,7 @@ export class UIService {
 
   set() {
     try {
-      this.uiElements = this.config.configuration.angular_ui;
+      this.uiElements = this.config.get("angular_ui");
       if (!this.uiElements) {
         // if index.js doesn't contain angular_navigation then get it from the cache
         // Set the settings from the given object

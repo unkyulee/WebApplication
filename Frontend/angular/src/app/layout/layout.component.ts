@@ -18,16 +18,19 @@ import {
 } from "@angular/material";
 import * as obj from "object-path";
 
+// user component
+import { BaseComponent } from "../ui/base.component";
+import { UIComposerDialogComponent } from "./ui-composer-dialog/ui-composer-dialog.component";
+import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
+
 // user import
 import { EventService } from "../services/event.service";
 import { ConfigService } from "../services/config.service";
 import { AuthService } from "../services/auth/auth.service";
 import { UIService } from "../services/ui.service";
-import { UIComposerDialogComponent } from "./ui-composer-dialog/ui-composer-dialog.component";
-import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
 import { NavService } from "../services/nav.service";
 import { CordovaService } from "../services/cordova.service";
-import { UserService } from '../services/user/user.service';
+import { UserService } from "../services/user/user.service";
 
 // cordova
 declare var navigator: any;
@@ -36,7 +39,8 @@ declare var navigator: any;
   selector: "layout",
   templateUrl: "./layout.component.html"
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent extends BaseComponent
+  implements OnInit, OnDestroy {
   constructor(
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
@@ -51,7 +55,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private ref: ChangeDetectorRef,
     public user: UserService,
     private renderer: Renderer2
-  ) {}
+  ) {
+    super();
+  }
 
   // detect window size changes
   isHandset: boolean;
@@ -159,7 +165,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     if (uiElement.layoutStyle) {
       for (let key of Object.keys(uiElement.layoutStyle)) {
         this.renderer.setStyle(
-          this.currDialog['_containerInstance']['_elementRef'].nativeElement,
+          this.currDialog["_containerInstance"]["_elementRef"].nativeElement,
           key,
           uiElement.layoutStyle[key]
         );
@@ -170,12 +176,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
     if (uiElement.layoutClass) {
       for (let key of Object.keys(uiElement.layoutClass)) {
         this.renderer.addClass(
-          this.currDialog['_containerInstance']['_elementRef'].nativeElement,
+          this.currDialog["_containerInstance"]["_elementRef"].nativeElement,
           key
         );
       }
     }
-
   }
 
   openSheet(event) {
@@ -191,7 +196,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     if (uiElement.layoutStyle) {
       for (let key of Object.keys(uiElement.layoutStyle)) {
         this.renderer.setStyle(
-          sheet['_containerInstance']['_elementRef'].nativeElement,
+          sheet["_containerInstance"]["_elementRef"].nativeElement,
           key,
           uiElement.layoutStyle[key]
         );
@@ -202,7 +207,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     if (uiElement.layoutClass) {
       for (let key of Object.keys(uiElement.layoutClass)) {
         this.renderer.addClass(
-          sheet['_containerInstance']['_elementRef'].nativeElement,
+          sheet["_containerInstance"]["_elementRef"].nativeElement,
           key
         );
       }

@@ -2,12 +2,12 @@
   [ngStyle]="
     uiElement.style
       ? uiElement.style
-      : config.configuration.formGenerator?.style
+      : config.get('formGenerator.style')
   "
   [ngClass]="
     uiElement.class
       ? uiElement.class
-      : config.configuration.formGenerator?.class
+      : config.get('formGenerator.ngClass')
   "
 >
   <div *ngFor="let ui of uiElement.screen" [ngStyle]="ui.style">
@@ -17,12 +17,12 @@
         [ngStyle]="
           ui.header?.style
             ? ui?.header?.style
-            : config.configuration.formGenerator?.header?.style
+            : config.get('formGenerator.header.style')
         "
         [ngClass]="
           ui.header?.class
             ? ui?.header?.class
-            : config.configuration.formGenerator?.header?.class
+            : config.get('formGenerator.header.class')
         "
         (click)="ui.expanded = !ui.expanded"
       >
@@ -46,12 +46,12 @@
         [ngStyle]="
           ui.container?.style
             ? ui.container?.style
-            : config.configuration.formGenerator?.container?.style
+            : config.get('formGenerator.container.style')
         "
         [ngClass]="
           ui.container?.class
             ? ui.container?.class
-            : config.configuration.formGenerator?.container?.class
+            : config.get('formGenerator.container.class')
         "
       >
         <ng-container *ngFor="let screen of ui?.screen">

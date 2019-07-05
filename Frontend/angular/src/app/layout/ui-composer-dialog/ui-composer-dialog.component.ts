@@ -6,28 +6,33 @@ import { Subscription } from "rxjs";
 import { EventService } from "../../services/event.service";
 import { UserService } from "src/app/services/user/user.service";
 import { ConfigService } from "src/app/services/config.service";
-import { UIService } from 'src/app/services/ui.service';
+import { UIService } from "src/app/services/ui.service";
+import { BaseComponent } from "src/app/ui/base.component";
 
 @Component({
   selector: "[ui-composer-dialog]",
   templateUrl: "./ui-composer-dialog.component.html",
-  styles: [`
-    :host {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-      height: 100%;
-    }
-  `]
+  styles: [
+    `
+      :host {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        height: 100%;
+      }
+    `
+  ]
 })
-export class UIComposerDialogComponent {
+export class UIComposerDialogComponent extends BaseComponent {
   constructor(
     public dialogRef: MatDialogRef<UIComposerDialogComponent>,
-    private event: EventService,
+    public event: EventService,
     public user: UserService,
     public config: ConfigService,
     public uis: UIService
-  ) {}
+  ) {
+    super();
+  }
 
   @Input() uiElement: any;
   @Input() data: any = {};
@@ -44,33 +49,16 @@ export class UIComposerDialogComponent {
 
   eventHandler(event) {
     if (event && event.name == "close-dialog") {
-      this.close();
+      setTimeout(() => this.dialogRef.close(true), 0);
     } else if (event.name == "ui-updated") {
       // load UI when navigation changes
-      if(this.uiElement) {
-        this.uiElement = event.data[this.uiElement._id]
+      if (this.uiElement) {
+        this.uiElement = event.data[this.uiElement._id];
       }
     }
   }
 
   ngOnDestroy() {
     this.onEvent.unsubscribe();
-  }
-
-  close() {
-    setTimeout(() => this.dialogRef.close(true), 0);
-  }
-
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
   }
 }

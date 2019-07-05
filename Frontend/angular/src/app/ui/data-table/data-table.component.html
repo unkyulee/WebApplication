@@ -1,10 +1,10 @@
 <ngx-datatable
   *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
   [ngClass]="
-    uiElement.class ? uiElement.class : config.configuration.dataTable?.class
+    uiElement.class ? uiElement.class : config.get('dataTable.class')
   "
   [ngStyle]="
-    uiElement.style ? uiElement.style : config.configuration.dataTable?.style
+    uiElement.style ? uiElement.style : config.get('dataTable.style')
   "
   [rows]="rows"
   [externalSorting]="
@@ -15,12 +15,12 @@
   [headerHeight]="
     uiElement.headerHeight
       ? uiElement.headerHeight
-      : config.configuration.dataTable?.headerHeight
+      : config.get('dataTable.headerHeight')
   "
   [footerHeight]="
     uiElement.footerHeight
       ? uiElement.footerHeight
-      : config.configuration.dataTable?.footerHeight
+      : config.get('dataTable.footerHeight')
   "
   [rowHeight]="uiElement.rowHeight ? uiElement.rowHeight : 'auto'"
   [scrollbarH]="uiElement.scrollbarH ? uiElement.scrollbarH : true"
@@ -62,7 +62,7 @@
     [width]="
       column.width
         ? column.width
-        : config.configuration.dataTable?.minColumnWidth
+        : config.get('dataTable.minColumnWidth')
     "
   >
     <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
@@ -83,7 +83,7 @@
   [ngStyle]="
     uiElement.contentLayoutStyle
       ? uiElement.contentLayoutStyle
-      : config.configuration.dataTable?.contentLayoutStyle
+      : config.get('dataTable.contentLayoutStyle')
   "
 >
   <mat-card
@@ -92,12 +92,12 @@
     [ngStyle]="
       uiElement.itemBoxStyle
         ? uiElement.itemBoxStyle
-        : config.configuration.dataTable?.itemBoxStyle
+        : config.get('dataTable.itemBoxStyle')
     "
     [ngClass]="
       uiElement.itemBoxClass
         ? uiElement.itemBoxClass
-        : config.configuration.dataTable?.itemBoxClass
+        : config.get('dataTable.itemBoxClass')
     "
   >
     <mat-card-content [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
@@ -119,7 +119,7 @@
   [ngStyle]="
     uiElement.contentLayoutStyle
       ? uiElement.contentLayoutStyle
-      : config.configuration.dataTable?.contentLayoutStyle
+      : config.get('dataTable.contentLayoutStyle')
   "
 >
   <div
@@ -127,12 +127,12 @@
     [ngStyle]="
       uiElement.itemBoxStyle
         ? uiElement.itemBoxStyle
-        : config.configuration.dataTable?.itemBoxStyle
+        : config.get('dataTable.itemBoxStyle')
     "
     [ngClass]="
       uiElement.itemBoxClass
         ? uiElement.itemBoxClass
-        : config.configuration.dataTable?.itemBoxClass
+        : config.get('dataTable.itemBoxClass')
     "
     (click)="click(row, uiElement.click)"
   >

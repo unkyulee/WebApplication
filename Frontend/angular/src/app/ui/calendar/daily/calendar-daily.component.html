@@ -3,14 +3,14 @@
   [ngStyle]="
     uiElement.header?.style
       ? uiElement.header?.style
-      : config.configuration.calendar?.daily?.header?.style
+      : config.get('calendar.daily.header.style')
   "
   [innerHTML]="
     format(
       uiElement.headerDate
         ? uiElement.headerDate
-        : config.configuration.calendar?.daily?.header?.date,
-      this.data.startDate
+        : config.get('calendar.daily.header.date')
+      , this.data.startDate
     ) | safe: 'html'
   "
 ></h3>
@@ -21,12 +21,12 @@
       [ngClass]="
         uiElement.item?.class
           ? uiElement.item?.class
-          : config.configuration.calendar?.daily?.item?.class
+          : config.get('calendar.daily.item.class')
       "
       [ngStyle]="
         uiElement.item?.style
           ? uiElement.item?.style
-          : config.configuration.calendar?.daily?.item?.style
+          : config.get('calendar.daily.item.style')
       "
       (click)="click(item)"
     >

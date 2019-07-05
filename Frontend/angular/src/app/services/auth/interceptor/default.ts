@@ -15,7 +15,7 @@ export class DefaultInterceptorStrategy {
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
       // add navigation_id to the request
-      headers["X-App-Key"] = this.config.configuration._id;
+      headers["X-App-Key"] = this.config.get("_id");
 
       // copy headers
       for (let header of req.headers.keys())
@@ -56,10 +56,10 @@ export class DefaultInterceptorStrategy {
       this.event.send("logout");
     }
 
-    if(this.config.configuration.authentication &&
-      this.config.configuration.authentication.error) {
+    if(this.config.get("authentication") &&
+      this.config.get("authentication.error")) {
       try {
-        eval(this.config.configuration.authentication.error)
+        eval(this.config.get("authentication.error"))
       } catch(e) {
         console.error(e)
       }

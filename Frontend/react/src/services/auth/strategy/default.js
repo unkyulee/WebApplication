@@ -43,7 +43,7 @@ class DefaultAuthStrategy {
       if (angular_navigation) {
         try {
           let nav = JSON.parse(angular_navigation);
-          if (nav[0].navigation_id === this.config.configuration._id) {
+          if (nav[0].navigation_id === this.config.get('_id')) {
             isValidAuth = true;
             // when authentication is proven to be valid locally
             // verify with the server
@@ -91,10 +91,7 @@ class DefaultAuthStrategy {
     let headers = { Validate: "please" };
 
     // see if there are any custom headers to use
-    let customHeaders = obj.get(
-      this.config.configuration,
-      "authentication.customHeaders"
-    );
+    let customHeaders = this.config("authentication.customHeaders");
     if (customHeaders) {
       try {
         safeEval(customHeaders, {...this});

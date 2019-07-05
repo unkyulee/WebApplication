@@ -1,6 +1,6 @@
 <mat-toolbar
-  [ngClass]="config.configuration.toolbar?.class"
-  [ngStyle]="config.configuration.toolbar?.style"
+  [ngClass]="config.get('toolbar.class')"
+  [ngStyle]="config.get('toolbar.style')"
 >
   <mat-progress-bar
     *ngIf="showLoadingBar"
@@ -12,7 +12,7 @@
   <button
     type="button"
     mat-icon-button
-    (click)="isTopNav ? drawerToggle() : back()"
+    (click)="isTopNav ? event.send('drawer-toggle') : nav.back()"
   >
     <mat-icon *ngIf="isTopNav">menu</mat-icon>
     <mat-icon *ngIf="!isTopNav">arrow_back</mat-icon>

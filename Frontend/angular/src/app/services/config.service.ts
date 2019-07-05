@@ -1,15 +1,21 @@
 import { Injectable } from "@angular/core";
+import * as obj from "object-path";
 
 // get config from index.html
-declare var __CONFIG__: any;
+declare var window: any;
 
 @Injectable()
 export class ConfigService {
-  constructor() {
-    // load from the config if defined
-    this.configuration = Object.assign(this.configuration, __CONFIG__);
+  get(name, def_value?) {
+    let v = null;
+    if (window.__CONFIG__)
+      v = obj.get(window.__CONFIG__, name, def_value);
+    return v;
   }
 
-  // default configuration
-  configuration: any = {};
+  set(name, value) {
+    // set default if it doesn't exists
+    if (!window.__CONFIG__) window.__CONFIG__ = {};
+    obj.get(window.__CONFIG__, name, value);
+  }
 }

@@ -20,7 +20,7 @@ export class DefaultAuthStrategy {
 
     return new Promise((resolve, reject) => {
       // get auth url
-      let authUrl = this.config.configuration.auth;
+      let authUrl = this.config.get("auth");
 
       // request through REST
       this.rest
@@ -65,7 +65,7 @@ export class DefaultAuthStrategy {
       if (angular_navigation) {
         try {
           let nav = JSON.parse(angular_navigation);
-          if (nav[0].navigation_id == this.config.configuration._id) {
+          if (nav[0].navigation_id == this.config.get("_id")) {
             isValidAuth = true;
             // when authentication is proven to be valid locally
             // verify with the server
@@ -110,12 +110,9 @@ export class DefaultAuthStrategy {
   async refreshAuthentication() {
     return new Promise((resolve, reject) => {
       // get auth url
-      let authUrl = this.config.configuration.auth;
+      let authUrl = this.config.get("auth");
       let headers = { Validate: "please" };
-      let customHeaders = obj.get(
-        this.config.configuration,
-        "authentication.customHeaders"
-      );
+      let customHeaders = this.config.get("authentication.customHeaders");
       if (customHeaders) {
         try {
           eval(customHeaders);

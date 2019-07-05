@@ -33,8 +33,8 @@ export class AppComponent {
 
   ngOnInit() {
     // init moment locale
-    if (this.config.configuration.locale)
-      moment.locale(this.config.configuration.locale);
+    if (this.config.get("locale"))
+      moment.locale(this.config.get("locale"));
 
     // onresume - fire validate every 6 hours
     this.onResume = this.cordova.resume.subscribe(

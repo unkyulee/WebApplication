@@ -15,7 +15,7 @@ export class DBService {
     public config: ConfigService
   ) {
     // setup authentication strategy
-    let dbConfig = obj.get(this.config.configuration, "db", {});
+    let dbConfig = this.config.get("db", {});
     switch (dbConfig.dbStrategy) {
       default:
         this.dbStrategy = new IndexedDBStrategy();

@@ -1,28 +1,28 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy
-} from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { EventService } from "../../services/event.service";
 import { Subscription, Subject } from "rxjs";
-import * as obj from "object-path";
+
+// user services
 import { ConfigService } from "../../services/config.service";
 import { NavService } from "../../services/nav.service";
-import { UIService } from 'src/app/services/ui.service';
-
+import { UIService } from "src/app/services/ui.service";
+import { BaseComponent } from "src/app/ui/base.component";
 
 @Component({
   selector: "toolbar",
   templateUrl: "./toolbar.component.html",
   styleUrls: ["./toolbar.component.scss"]
 })
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent extends BaseComponent
+  implements OnInit, OnDestroy {
   constructor(
-    private event: EventService,
+    public event: EventService,
     public config: ConfigService,
-    private nav: NavService,
+    public nav: NavService,
     public uis: UIService
-  ) {}
+  ) {
+    super()
+  }
 
   // toolbar title
   title: string;
@@ -34,14 +34,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   showLoadingBar: boolean = false;
 
   //
-  actions: any[]
-  data: any
+  actions: any[];
+  data: any;
 
   //
   onEvent: Subscription;
   ngOnInit() {
     // load global actions
-    this.actions = obj.get(this.config.configuration, "toolbar.actions")
+    this.actions = this.config.get("toolbar.actions");
 
     // handle events
     this.onEvent = this.event.onEvent.subscribe(event => {
@@ -51,7 +51,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
           this.title = this.nav.currNav.name;
 
           // top or sub nav
-          this.nav.currNav.type == 'sub' ? this.isTopNav = false : this.isTopNav = true;
+          this.nav.currNav.type == "sub"
+            ? (this.isTopNav = false)
+            : (this.isTopNav = true);
         }
       } else if (event == "splash-show") {
         this.showLoadingBar = true;
@@ -63,31 +65,5 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.onEvent.unsubscribe();
-  }
-
-  drawerToggle() {
-    this.event.send("drawer-toggle");
-  }
-
-  back() {
-    //
-    this.nav.back();
-  }
-
-  refresh() {
-    this.event.send({ name: "refresh" });
-  }
-
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
   }
 }

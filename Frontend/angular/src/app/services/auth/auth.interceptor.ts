@@ -20,10 +20,7 @@ import { NoAuthInterceptorStrategy } from "./interceptor/noauth";
 export class AuthInterceptor implements HttpInterceptor {
   constructor(public event: EventService, private config: ConfigService) {
     // setup authentication strategy
-    let strategy = obj.get(
-      this.config.configuration,
-      "authentication.interceptorStrategy"
-    );
+    let strategy = this.config.get("authentication.interceptorStrategy");
     switch (strategy) {
       case "NoAuth":
         this.interceptorStrategy = new NoAuthInterceptorStrategy();

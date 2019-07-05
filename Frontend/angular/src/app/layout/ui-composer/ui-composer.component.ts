@@ -9,19 +9,26 @@ import { ConfigService } from "../../services/config.service";
 import { EventService } from "../../services/event.service";
 import { UIService } from "../../services/ui.service";
 import { NavService } from "../../services/nav.service";
+import { BaseComponent } from "src/app/ui/base.component";
 
 @Component({
   selector: "ui-composer",
   templateUrl: "./ui-composer.component.html"
 })
-export class UIComposerComponent implements OnInit, OnDestroy {
+export class UIComposerComponent extends BaseComponent
+  implements OnInit, OnDestroy {
   constructor(
     private breakpointObserver: BreakpointObserver,
     public config: ConfigService,
     private event: EventService,
     private uis: UIService,
     private nav: NavService
-  ) {}
+  ) {
+    super();
+  }
+
+  // where source of truth for the screen
+  data: any = {};
 
   // detect window size changes
   isHandset: boolean;
@@ -33,9 +40,6 @@ export class UIComposerComponent implements OnInit, OnDestroy {
         return result.matches;
       })
     );
-
-  // where source of truth for the screen
-  data: any = {};
 
   onEvent: Subscription;
   ngOnInit() {
@@ -71,7 +75,9 @@ export class UIComposerComponent implements OnInit, OnDestroy {
       // load UI when navigation changes
       if (this.nav.currNav) this.loadUI(this.nav.currNav.uiElementIds);
       // send refresh event after some time so that the screen gets cleared
-      setTimeout(() => {this.event.send({ name: "refresh" })}, 5000);
+      setTimeout(() => {
+        this.event.send({ name: "refresh" });
+      }, 5000);
     }
   }
 
@@ -87,19 +93,6 @@ export class UIComposerComponent implements OnInit, OnDestroy {
       let element = obj.get(this.uis.uiElements, id);
       if (element) ui.push(element);
     }
-    this.uiElements = JSON.parse(JSON.stringify(ui));
-  }
-
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
+    this.uiElements = [...ui];
   }
 }

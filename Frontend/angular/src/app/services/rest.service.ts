@@ -23,7 +23,7 @@ export class RestService {
   }
 
   host() {
-    return this.config.configuration.rest;
+    return this.config.get("rest");
   }
 
   // request REST service
@@ -37,7 +37,7 @@ export class RestService {
     // convert url to full qualified name
     if (url.startsWith("http") == false) {
       if (url.startsWith("/") == false) url = `/${url}`;
-      url = `${this.config.configuration.rest}${url}`;
+      url = `${this.host()}${url}`;
     }
 
     if(method == "jsonp") {

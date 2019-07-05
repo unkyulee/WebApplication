@@ -42,7 +42,7 @@ export class InputComponent {
     this.dateTimeAdapter.setLocale(
       this.uiElement.locale
         ? this.uiElement.locale
-        : this.config.configuration.locale_long
+        : this.config.get("locale_long")
     );
   }
 

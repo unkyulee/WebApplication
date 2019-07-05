@@ -1,9 +1,9 @@
 <div
-  [ngStyle]="config.configuration.user?.style"
-  [ngClass]="config.configuration.user?.class"
+  [ngStyle]="config.get('user.style')"
+  [ngClass]="config.get('user.class')"
 >
   <button mat-button [matMenuTriggerFor]="menu">
-    <ng-container *ngFor="let ui of config.configuration.user?.header?.screen">
+    <ng-container *ngFor="let ui of config.get('user.header.screen')">
       <ng-container
         ui-layout-wrapper
         *ngIf="condition(ui)"
@@ -13,7 +13,7 @@
     </ng-container>
   </button>
   <mat-menu #menu="matMenu" [overlapTrigger]="false">
-    <ng-container *ngFor="let ui of config.configuration.user?.menu?.screen">
+    <ng-container *ngFor="let ui of config.get('user.menu.screen')">
       <ng-container
         ui-layout-wrapper
         *ngIf="condition(ui)"

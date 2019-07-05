@@ -8,7 +8,7 @@
       #drawer
       fixedInViewport="true"
       class="mat-elevation-z2 no-print"
-      [ngStyle]="config.configuration.navigation?.style"
+      [ngStyle]="config.get('navigation.style')"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="!(isHandset$ | async)"
@@ -16,9 +16,9 @@
       <nav-vertical></nav-vertical>
     </mat-sidenav>
 
-    <mat-sidenav-content [ngStyle]="config.configuration.content?.layoutStyle">
-      <toolbar [ngStyle]="config.configuration.toolbar?.layoutStyle"></toolbar>
-      <ui-composer [ngStyle]="config.configuration.content?.style"></ui-composer>
+    <mat-sidenav-content [ngStyle]="config.get('content.layoutStyle')">
+      <toolbar [ngStyle]="config.get('toolbar.layoutStyle')"></toolbar>
+      <ui-composer [ngStyle]="config.get('content.style')"></ui-composer>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </ng-container>

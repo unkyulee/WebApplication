@@ -3,16 +3,16 @@
   <span class="mat-button-wrapper">
     <mat-icon
       class="secondary-text mat-icon material-icons"
-      [ngStyle]="config.configuration.navigation?.close?.style"
+      [ngStyle]="config.get('navigation.close.style')"
     >
       close</mat-icon
     >
   </span>
 </button>
 
-<div [ngStyle]="config.configuration.navigation?.header?.style">
+<div [ngStyle]="config.get('navigation.header.style')">
   <ng-container
-    *ngFor="let ui of config.configuration.navigation?.header?.screen"
+    *ngFor="let ui of config.get('navigation.header.screen')"
   >
     <ng-container
       ui-layout-wrapper

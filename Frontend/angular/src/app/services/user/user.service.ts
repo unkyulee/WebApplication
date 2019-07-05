@@ -7,7 +7,7 @@ import { DefaultUserStrategy } from "./service/default";
 export class UserService {
   constructor(public config: ConfigService) {
     // setup strategy
-    let strategy = obj.get(this.config.configuration, "auth.userStrategy");
+    let strategy = this.config.get("auth.userStrategy");
     switch (strategy) {
       default:
         this.userStrategy = new DefaultUserStrategy();

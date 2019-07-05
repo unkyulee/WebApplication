@@ -29,8 +29,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   onEvent: Subscription;
   ngOnInit() {
     // load default login screen
-    if(this.config.configuration.login)
-      this.login = this.config.configuration.login;
+    if(this.config.get("login"))
+      this.login = this.config.get("login");
 
     // handle events
     this.onEvent = this.event.onEvent.subscribe(async event => {

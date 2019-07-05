@@ -5,12 +5,13 @@ import { Subscription } from "rxjs";
 // user imports
 import { EventService } from "../../services/event.service";
 import { UIService } from 'src/app/services/ui.service';
+import { BaseComponent } from 'src/app/ui/base.component';
 
 @Component({
   selector: "ui-composer-actions",
   templateUrl: "./ui-composer-actions.component.html"
 })
-export class UIComposerActionsComponent {
+export class UIComposerActionsComponent extends BaseComponent {
   uiElement: any;
   data: any;
 
@@ -20,6 +21,9 @@ export class UIComposerActionsComponent {
     public uis: UIService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public e: any
   ) {
+    super()
+
+    //
     this.uiElement = e.uiElement;
     this.data = e.data;
   }
@@ -42,18 +46,5 @@ export class UIComposerActionsComponent {
 
   close() {
     this.bottomSheetRef.dismiss();
-  }
-
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
   }
 }

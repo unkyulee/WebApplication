@@ -1,6 +1,6 @@
 <mat-paginator
-  [ngClass]="config.configuration.paginator.class"
-  [ngStyle]="config.configuration.paginator.style"
+  [ngClass]="config.get('paginator.class')"
+  [ngStyle]="config.get('paginator.style')"
   [length]="total"
   [pageSize]="size"
   [pageSizeOptions]="[5, 10, 25, 100]"

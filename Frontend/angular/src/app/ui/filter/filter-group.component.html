@@ -2,7 +2,7 @@
   [ngStyle]="
     uiElement.style
       ? uiElement.style
-      : config.configuration.filter?.header?.style
+      : config.get('filter.header.style')
   "
 >
   <button
@@ -30,12 +30,12 @@
   [ngStyle]="
     uiElement.style
       ? uiElement.style
-      : config.configuration.filter?.container?.style
+      : config.get('filter.container.style')
   "
   [ngClass]="
     uiElement.class
       ? uiElement.class
-      : config.configuration.filter?.container?.class
+      : config.get('filter.container.class')
   "
 >
   <ng-container *ngFor="let filter of uiElement.filters">

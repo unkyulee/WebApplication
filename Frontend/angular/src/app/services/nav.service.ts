@@ -45,12 +45,9 @@ export class NavService {
       let params = this.getParams();
 
       // see if there is a navigation filter
-      if (
-        this.config.configuration.navigation &&
-        this.config.configuration.navigation.filter
-      ) {
+      if ( this.config.get("navigation.filter") ) {
         try {
-          eval(this.config.configuration.navigation.filter);
+          eval(this.config.get("navigation.filter"));
         } catch (e) {
           console.error(e);
         }
@@ -78,7 +75,7 @@ export class NavService {
     if (e == "authenticated" || e.name == "navigation-updated") {
       if(e.name == "navigation-updated") {
         // save when server has new navigation
-        this.config.configuration.angular_navigation = e.data;
+        this.config.set("angular_navigation", e.data);
       }
       // set navigation
       this.set();
@@ -114,7 +111,7 @@ export class NavService {
 
   set() {
     try {
-      this.navigation = this.config.configuration.angular_navigation;
+      this.navigation = this.config.get("angular_navigation");
       if (!this.navigation) {
         // if index.js doesn't contain angular_navigation then get it from the cache
         this.navigation = JSON.parse(localStorage.getItem("angular_navigation"));
