@@ -10,10 +10,10 @@ import { UIService } from "src/app/services/ui.service";
 import { BaseComponent } from '../base.component';
 
 @Component({
-  selector: "sheet",
-  templateUrl: "./sheet.component.html"
+  selector: "data-sheet",
+  templateUrl: "./data-sheet.component.html"
 })
-export class SheetComponent extends BaseComponent {
+export class DataSheetComponent extends BaseComponent {
   constructor(
     public config: ConfigService,
     private nav: NavService,
@@ -24,7 +24,7 @@ export class SheetComponent extends BaseComponent {
     super()
   }
 
-  ///
+  /// rows
   _rows = [];
   get rows() {
     // set default key

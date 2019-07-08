@@ -1,0 +1,34 @@
+<table>
+  <thead>
+    <tr>
+      <!-- Row Labels Headers -->
+      <th
+        *ngFor="let rowLabel of uiElement.rowLabels"
+        [ngStyle]="rowLabel.style"
+      >
+        {{ rowLabel.label }}
+      </th>
+
+      <!-- Column Headers -->
+      <td *ngFor="let column of safeEval(uiElement.columns, {rows: rows})">
+        {{ safeEval(uiElement.columnLabel, {column: column}) }}
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of safeEval(uiElement.forRows)">
+      <!-- Row Labels -->
+      <td
+        *ngFor="let rowLabel of uiElement.rowLabels"
+        [ngStyle]="safeEval(rowLabel.valueStyle)"
+      >
+        {{ safeEval(rowLabel.script, { row: row }) }}
+      </td>
+
+      <!-- Column Values -->
+      <td *ngFor="let column of safeEval(uiElement.columns, {rows: rows})">
+        {{ safeEval(uiElement.columnValue, { row: row, column: column }) }}
+      </td>
+    </tr>
+  </tbody>
+</table>

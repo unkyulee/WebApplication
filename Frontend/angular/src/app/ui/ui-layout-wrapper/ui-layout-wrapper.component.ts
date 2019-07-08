@@ -23,7 +23,7 @@ import { ProgressBarComponent } from "../progress-bar/progress-bar.component";
 import { ScriptBoxComponent } from "../script-box/script-box.component";
 import { UILayoutComponent } from "../ui-layout/ui-layout.component";
 import { DividerComponent } from "../divider/divider.component";
-import { SheetComponent } from "../sheet/sheet.component";
+import { DataSheetComponent } from "../data-sheet/data-sheet.component";
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -93,8 +93,8 @@ export class UILayoutWrapperComponent {
   findComponentFactory(type) {
     let componentFactory = null;
     switch (type) {
-      case "sheet":
-        componentFactory = this.cfr.resolveComponentFactory(SheetComponent);
+      case "data-sheet":
+        componentFactory = this.cfr.resolveComponentFactory(DataSheetComponent);
         break;
       case "div":
       case "layout":
