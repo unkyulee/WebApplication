@@ -1,4 +1,6 @@
 import { Component, Input, OnInit, EventEmitter, Output } from "@angular/core";
+import { Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 // user imports
 import { RestService } from "../../services/rest.service";
@@ -6,15 +8,14 @@ import { UIService } from "../../services/ui.service";
 import { UserService } from "src/app/services/user/user.service";
 import { CordovaService } from "src/app/services/cordova.service";
 import { EventService } from "src/app/services/event.service";
-import { Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import { NavService } from 'src/app/services/nav.service';
+import { NavService } from "src/app/services/nav.service";
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "autocomplete",
   templateUrl: "./autocomplete.component.html"
 })
-export class AutoCompleteComponent implements OnInit {
+export class AutoCompleteComponent extends BaseComponent implements OnInit {
   // Init
   constructor(
     private rest: RestService,
@@ -23,7 +24,9 @@ export class AutoCompleteComponent implements OnInit {
     public user: UserService,
     public cordova: CordovaService,
     public event: EventService
-  ) {}
+  ) {
+    super();
+  }
 
   @Input() uiElement: any;
   @Input() data: any;
@@ -115,16 +118,16 @@ export class AutoCompleteComponent implements OnInit {
     // if optionSrc is specified then request for option
     if (this.uiElement.optionSrc) {
       // download data through rest web services
-      let src = this.ui.find(["optionSrc"], this.uiElement);
+      let src = this.ui.find(["src"], this.uiElement);
       try {
         src = eval(src);
       } catch (e) {}
 
-      let method = this.ui.find(["optionMethod"], this.uiElement);
-      let data = this.ui.find(["optionData"], this.uiElement, {});
+      let method = this.ui.find(["method"], this.uiElement);
+      let data = this.ui.find(["data"], this.uiElement, {});
 
       this.rest.request(src, data, method).subscribe(response => {
-        let transform = this.ui.find(["optionTransform"], this.uiElement, {});
+        let transform = this.ui.find(["transform"], this.uiElement, {});
         this.uiElement.options = eval(transform);
 
         // set default when options are loaded
@@ -153,40 +156,4 @@ export class AutoCompleteComponent implements OnInit {
     }
   }
 
-  format(row) {
-    let v =
-      row[
-        this.uiElement.optionLabel
-          ? this.uiElement.optionLabel
-          : this.uiElement.optionKey
-      ];
-    if (this.uiElement.format) {
-      try {
-        v = eval(this.uiElement.format);
-      } catch (e) {}
-    }
-    return v;
-  }
-
-  click() {
-    if (this.uiElement.click) {
-      try {
-        eval(this.uiElement.click);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
-
-  condition() {
-    let result = true;
-    if (this.uiElement.condition) {
-      try {
-        result = eval(this.uiElement.condition);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return result;
-  }
 }

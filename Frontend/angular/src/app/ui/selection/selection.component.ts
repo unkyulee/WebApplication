@@ -16,12 +16,13 @@ import { UIService } from "src/app/services/ui.service";
 import { CordovaService } from "src/app/services/cordova.service";
 import { EventService } from "src/app/services/event.service";
 import { NavService } from "src/app/services/nav.service";
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "selection",
   templateUrl: "./selection.component.html"
 })
-export class SelectionComponent implements OnInit {
+export class SelectionComponent extends BaseComponent implements OnInit {
   // Init
   constructor(
     private rest: RestService,
@@ -30,7 +31,9 @@ export class SelectionComponent implements OnInit {
     public user: UserService,
     public cordova: CordovaService,
     public event: EventService
-  ) {}
+  ) {
+    super();
+  }
 
   @Input() uiElement: any;
   @Input() data: any;
@@ -140,17 +143,17 @@ export class SelectionComponent implements OnInit {
 
   ngOnInit() {
     // if optionSrc is specified then download the options
-    if (this.uiElement.optionSrc) {
-      let src = this.uiElement.optionSrc;
+    if (this.uiElement.src) {
+      let src = this.uiElement.src;
       try {
         src = eval(src);
       } catch (e) {}
 
-      let data = this.uiElement.optionData;
-      let method = this.uiElement.optionMethod;
+      let data = this.uiElement.data;
+      let method = this.uiElement.method;
       this.rest.request(src, data, method).subscribe(response => {
-        if (this.uiElement.optionTransform)
-          this.uiElement.options = eval(this.uiElement.optionTransform);
+        if (this.uiElement.transform)
+          this.uiElement.options = eval(this.uiElement.transform);
         else this.uiElement.options = response;
 
         // when options are ready then run
@@ -175,31 +178,4 @@ export class SelectionComponent implements OnInit {
     }
   }
 
-  format(option, uiElement) {
-    let value =
-      option[
-        uiElement.optionLabel ? uiElement.optionLabel : uiElement.optionKey
-      ];
-
-    if (uiElement.optionLabelTransform) {
-      try {
-        value = eval(uiElement.optionLabelTransform);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return value;
-  }
-
-  condition() {
-    let result = true;
-    if (this.uiElement.condition) {
-      try {
-        result = eval(this.uiElement.condition);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return result;
-  }
 }
