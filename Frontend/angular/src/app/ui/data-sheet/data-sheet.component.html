@@ -1,5 +1,17 @@
 <table>
   <thead>
+    <!-- Column Groups Labels -->
+    <tr *ngFor="let columnGroup of uiElement.columnGroups">
+      <!-- Row Labels Headers Placeholder -->
+      <th *ngFor="let rowLabel of uiElement.rowLabels"></th>
+
+      <!-- Column Headers -->
+      <td *ngFor="let column of safeEval(columnGroup.columns, { rows: rows })" [colSpan]="column.colspan">
+        {{ safeEval(column.columnLabel, { column: column }) }}
+        {{ column | json }}
+      </td>
+    </tr>
+    <!-- Column Labels -->
     <tr>
       <!-- Row Labels Headers -->
       <th
@@ -10,8 +22,8 @@
       </th>
 
       <!-- Column Headers -->
-      <td *ngFor="let column of safeEval(uiElement.columns, {rows: rows})">
-        {{ safeEval(uiElement.columnLabel, {column: column}) }}
+      <td *ngFor="let column of safeEval(uiElement.columns, { rows: rows })">
+        {{ safeEval(uiElement.columnLabel, { column: column }) }}
       </td>
     </tr>
   </thead>
@@ -26,7 +38,7 @@
       </td>
 
       <!-- Column Values -->
-      <td *ngFor="let column of safeEval(uiElement.columns, {rows: rows})">
+      <td *ngFor="let column of safeEval(uiElement.columns, { rows: rows })">
         {{ safeEval(uiElement.columnValue, { row: row, column: column }) }}
       </td>
     </tr>

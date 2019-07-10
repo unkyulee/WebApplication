@@ -108,9 +108,11 @@ export class SelectionComponent extends BaseComponent implements OnInit {
         let selected = this.uiElement.options.find(
           item => item[this.uiElement.optionKey] == v
         );
-        for (let update of this.uiElement.updateAlso) {
-          // update the target data
-          this.data[update.targetKey] = selected[update.sourceKey];
+        if(selected) {
+          for (let update of this.uiElement.updateAlso) {
+            // update the target data
+            this.data[update.targetKey] = selected[update.sourceKey];
+          }
         }
       } else {
         // reset target values
@@ -156,6 +158,8 @@ export class SelectionComponent extends BaseComponent implements OnInit {
           this.uiElement.options = eval(this.uiElement.transform);
         else this.uiElement.options = response;
 
+        console.log(this.uiElement.options)
+
         // when options are ready then run
         this.default();
       });
@@ -176,6 +180,22 @@ export class SelectionComponent extends BaseComponent implements OnInit {
       if (this.data[this.uiElement.key])
         this.updateAlso(this.data[this.uiElement.key]);
     }
+  }
+
+  format(option, uiElement) {
+    let value =
+      option[
+        uiElement.optionLabel ? uiElement.optionLabel : uiElement.optionKey
+      ];
+
+     if (uiElement.optionLabelTransform) {
+      try {
+        value = eval(uiElement.optionLabelTransform);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return value;
   }
 
 }

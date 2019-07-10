@@ -43,7 +43,7 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
       )
       .subscribe(v => this.typeAheadEventHandler(v));
 
-    // if optionSrc is specified then download the options
+    // if src is specified then download the options
     this.loadOption();
   }
 
@@ -116,7 +116,7 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
 
   loadOption() {
     // if optionSrc is specified then request for option
-    if (this.uiElement.optionSrc) {
+    if (this.uiElement.src) {
       // download data through rest web services
       let src = this.ui.find(["src"], this.uiElement);
       try {
@@ -154,6 +154,22 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
       this.updateAlso(this.data[this.uiElement.key]);
       return this.data[this.uiElement.key];
     }
+  }
+
+  format(option, uiElement) {
+    let value =
+      option[
+        uiElement.optionLabel ? uiElement.optionLabel : uiElement.optionKey
+      ];
+
+     if (uiElement.optionLabelTransform) {
+      try {
+        value = eval(uiElement.optionLabelTransform);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return value;
   }
 
 }

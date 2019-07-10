@@ -1,5 +1,5 @@
 <mat-form-field
-  *ngIf="condition()"
+  *ngIf="condition(uiElement)"
   [ngStyle]="uiElement.style"
   [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
   [appearance]="uiElement.appearance"
@@ -32,7 +32,7 @@
       *ngFor="let option of uiElement.options"
       [value]="option[uiElement.optionKey]"
     >
-      {{ format(option) }}
+      {{ format(option, uiElement) }}
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
