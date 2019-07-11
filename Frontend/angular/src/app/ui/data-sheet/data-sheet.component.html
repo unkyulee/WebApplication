@@ -1,4 +1,4 @@
-<table>
+<table [ngStyle]="uiElement.tableStyle">
   <thead>
     <!-- Column Groups Labels -->
     <tr *ngFor="let columnGroup of uiElement.columnGroups">
@@ -6,13 +6,19 @@
       <th *ngFor="let rowLabel of uiElement.rowLabels"></th>
 
       <!-- Column Headers -->
-      <td *ngFor="let column of safeEval(columnGroup.columns, { rows: rows })" [colSpan]="column.colspan">
-        {{ safeEval(column.columnLabel, { column: column }) }}
-        {{ column | json }}
-      </td>
+      <th
+        *ngFor="
+          let column of safeEval(columnGroup.columns, { rows: rows });
+          let i = index
+        "
+        [colSpan]="columnGroup.colSpan"
+        [ngStyle]="columnGroup.style"
+      >
+        {{ safeEval(columnGroup.columnLabel, { i: i, column: column }) }}
+      </th>
     </tr>
     <!-- Column Labels -->
-    <tr>
+    <tr [ngStyle]="uiElement.theadStyle">
       <!-- Row Labels Headers -->
       <th
         *ngFor="let rowLabel of uiElement.rowLabels"
@@ -22,13 +28,20 @@
       </th>
 
       <!-- Column Headers -->
-      <td *ngFor="let column of safeEval(uiElement.columns, { rows: rows })">
+      <td
+        *ngFor="let column of safeEval(uiElement.columns, { rows: rows })"
+        [ngStyle]="uiElement.tdStyle"
+      >
         {{ safeEval(uiElement.columnLabel, { column: column }) }}
       </td>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let row of safeEval(uiElement.forRows)">
+    <tr
+      *ngFor="let row of safeEval(uiElement.forRows); let i = index"
+      [attr.data-index]="i"
+      [ngStyle]="safeEval(uiElement.trStyle, { i: i, row: row })"
+    >
       <!-- Row Labels -->
       <td
         *ngFor="let rowLabel of uiElement.rowLabels"
@@ -38,7 +51,10 @@
       </td>
 
       <!-- Column Values -->
-      <td *ngFor="let column of safeEval(uiElement.columns, { rows: rows })">
+      <td
+        *ngFor="let column of safeEval(uiElement.columns, { rows: rows })"
+        [ngStyle]="safeEval(uiElement.columnStyle, { row: row, column: column })"
+      >
         {{ safeEval(uiElement.columnValue, { row: row, column: column }) }}
       </td>
     </tr>
