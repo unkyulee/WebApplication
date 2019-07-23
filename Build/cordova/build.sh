@@ -40,10 +40,12 @@ cordova plugin add phonegap-plugin-barcodescanner
 cordova plugin add cordova-plugin-code-push
 cordova plugin add cordova-plugin-file
 cordova plugin add phonegap-plugin-push --variable SENDER_ID=%1
+cordova plugin rm cordova-plugin-splashscreen
 
 # pod install
 pushd ./platforms/ios
 pod install --verbose
+pod 'GoogleToolboxForMac', '~> 2.1'
 popd
 
 # build ios app

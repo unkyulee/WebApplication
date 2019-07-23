@@ -49,3 +49,5 @@ Thumbs.db
 config.xml
 package.json
 google-services.json
+GoogleService-Info.plist
+build.json
