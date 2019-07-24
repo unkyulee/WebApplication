@@ -158,8 +158,6 @@ export class SelectionComponent extends BaseComponent implements OnInit {
           this.uiElement.options = eval(this.uiElement.transform);
         else this.uiElement.options = response;
 
-        console.log(this.uiElement.options)
-
         // when options are ready then run
         this.default();
       });

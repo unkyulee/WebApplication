@@ -1,31 +1,34 @@
 import { Component, Input } from "@angular/core";
+import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
 
 // user Imports
+import { BaseComponent } from '../base.component';
 import { ConfigService } from "src/app/services/config.service";
 import { UserService } from "src/app/services/user/user.service";
-import { Subscription } from "rxjs";
 import { EventService } from "src/app/services/event.service";
 import { RestService } from "src/app/services/rest.service";
-import { Router } from "@angular/router";
 
 @Component({
   selector: "typography",
   templateUrl: "./typography.component.html"
 })
-export class TypographyComponent {
-  @Input() uiElement: any;
-  @Input() data: any;
-
-  // event subscription
-  onEvent: Subscription;
-
+export class TypographyComponent extends BaseComponent {
   constructor(
     public config: ConfigService,
     public user: UserService,
     public event: EventService,
     public rest: RestService,
     public router: Router
-  ) {}
+  ) {
+    super()
+  }
+
+  @Input() uiElement: any;
+  @Input() data: any;
+
+  // event subscription
+  onEvent: Subscription;
 
   ngOnInit() {
   }
@@ -58,7 +61,6 @@ export class TypographyComponent {
     // if format is specified
     if (this.uiElement.format) {
       try {
-        let v = this._value;
         this._value = eval(this.uiElement.format);
       } catch (e) {
         console.error(this.uiElement.format, e)
@@ -66,27 +68,5 @@ export class TypographyComponent {
     }
 
     return this._value;
-  }
-
-  condition() {
-    let result = true;
-    if (this.uiElement.condition) {
-      try {
-        result = eval(this.uiElement.condition);
-      } catch (e) {
-        result = false;
-      }
-    }
-    return result;
-  }
-
-  click() {
-    if (this.uiElement.click) {
-      try {
-        eval(this.uiElement.click);
-      } catch (e) {
-        console.error(e);
-      }
-    }
   }
 }
