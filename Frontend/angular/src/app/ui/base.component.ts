@@ -10,7 +10,7 @@ export class BaseComponent {
   @Input() uiElement: any;
   @Input() data: any;
 
-  click(item) {
+  click(item?) {
     if (this.uiElement.click) {
       try {
         eval(this.uiElement.click);

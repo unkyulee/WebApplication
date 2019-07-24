@@ -1,5 +1,5 @@
 <div
-  *ngIf="condition() && value"
+  *ngIf="condition(uiElement) && value"
   [ngStyle]="uiElement.style"
   [ngClass]="uiElement.class"
   [innerHtml]="value | safe: 'html'"
