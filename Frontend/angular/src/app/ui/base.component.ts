@@ -14,7 +14,9 @@ export class BaseComponent {
     if (this.uiElement.click) {
       try {
         eval(this.uiElement.click);
-      } catch (e) {}
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 

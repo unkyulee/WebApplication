@@ -119,7 +119,7 @@ export class SelectionComponent extends BaseComponent implements OnInit {
         for (let update of this.uiElement.updateAlso) {
           obj.ensureExists(this.data, update.targetKey, []);
           let target = obj.get(this.data, update.targetKey);
-          target.length = 0; // reset the array of the target
+          if(Array.isArray(target)) target.length = 0; // reset the array of the target
         }
 
         // for each value update the updateAlso values

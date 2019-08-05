@@ -1,4 +1,5 @@
-import { Component, Input } from "@angular/core";
+import { Router } from '@angular/router';
+import { Component } from "@angular/core";
 
 // user imports
 import { ConfigService } from "src/app/services/config.service";
@@ -8,6 +9,7 @@ import { EventService } from "src/app/services/event.service";
 import { Subscription } from "rxjs";
 import { UIService } from "src/app/services/ui.service";
 import { BaseComponent } from '../base.component';
+
 
 @Component({
   selector: "data-sheet",
@@ -19,7 +21,8 @@ export class DataSheetComponent extends BaseComponent {
     private nav: NavService,
     private rest: RestService,
     private event: EventService,
-    public uis: UIService
+    public uis: UIService,
+    public router: Router
   ) {
     super()
   }

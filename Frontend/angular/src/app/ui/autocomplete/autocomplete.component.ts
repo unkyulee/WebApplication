@@ -162,7 +162,7 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
         uiElement.optionLabel ? uiElement.optionLabel : uiElement.optionKey
       ];
 
-     if (uiElement.optionLabelTransform) {
+    if (uiElement.optionLabelTransform) {
       try {
         value = eval(uiElement.optionLabelTransform);
       } catch (e) {
@@ -172,4 +172,13 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
     return value;
   }
 
+  selected(value?) {
+    if(this.uiElement.selected) {
+      try {
+        eval(this.uiElement.selected)
+      } catch(e) {
+        console.error(e)
+      }
+    }
+  }
 }

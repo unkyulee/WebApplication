@@ -45,7 +45,7 @@
       <!-- Row Labels -->
       <td
         *ngFor="let rowLabel of uiElement.rowLabels"
-        [ngStyle]="safeEval(rowLabel.valueStyle)"
+        [ngStyle]="safeEval(rowLabel.style)"
       >
         {{ safeEval(rowLabel.script, { row: row }) }}
       </td>
@@ -53,7 +53,9 @@
       <!-- Column Values -->
       <td
         *ngFor="let column of safeEval(uiElement.columns, { rows: rows })"
+        [matTooltip]="safeEval(uiElement.columnTooltip, { row: row, column: column })"
         [ngStyle]="safeEval(uiElement.columnStyle, { row: row, column: column })"
+        (click)="click({ row: row, column: column })"
       >
         {{ safeEval(uiElement.columnValue, { row: row, column: column }) }}
       </td>
