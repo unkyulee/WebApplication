@@ -53,21 +53,6 @@ export class FilterComponent {
         this.data[this.uiElement.key] = params[this.uiElement.key];
       }
     }
-
-    // check if there is default value
-    if (this.uiElement.default) {
-      for (var key of Object.keys(this.uiElement.default)) {
-        if (!params[this.uiElement.key]) {
-          let value = this.uiElement.default[key];
-          try {
-            value = eval(this.uiElement.default[key]);
-          } catch (e) {
-            console.error(e);
-          }
-          this.nav.setParam(key, value);
-        }
-      }
-    }
   }
 
   // when value is changed

@@ -110,6 +110,7 @@
       [disabled]="uiElement.readonly == true ? true : false"
       [pickerType]="uiElement.pickerType ? uiElement.pickerType : 'both'"
       [pickerMode]="uiElement.pickerMode ? uiElement.pickerMode : 'dialog'"
+      [stepMinute]="uiElement.stepMinute ? uiElement.stepMinute : 1"
     ></owl-date-time>
     <mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>
     <mat-error>{{ uiElement.errorMessage }}</mat-error>
