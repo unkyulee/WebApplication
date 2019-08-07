@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import * as obj from "object-path";
 
 @Component({
   template: ""
@@ -99,5 +100,9 @@ export class BaseComponent {
     // using Array.from() with a mapping function.
     // Finally, return the new array.
     return Array.from(Array(length), (x, index) => start + index * step);
+  }
+
+  safeGet(data, path, def_value) {
+    return obj.get(data, path, def_value);
   }
 }

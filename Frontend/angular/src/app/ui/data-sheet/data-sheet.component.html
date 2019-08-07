@@ -1,64 +1,7 @@
-<table [ngStyle]="uiElement.tableStyle">
-  <thead>
-    <!-- Column Groups Labels -->
-    <tr *ngFor="let columnGroup of uiElement.columnGroups">
-      <!-- Row Labels Headers Placeholder -->
-      <th *ngFor="let rowLabel of uiElement.rowLabels"></th>
-
-      <!-- Column Headers -->
-      <th
-        *ngFor="
-          let column of safeEval(columnGroup.columns, { rows: rows });
-          let i = index
-        "
-        [colSpan]="columnGroup.colSpan"
-        [ngStyle]="columnGroup.style"
-      >
-        {{ safeEval(columnGroup.columnLabel, { i: i, column: column }) }}
-      </th>
-    </tr>
-    <!-- Column Labels -->
-    <tr [ngStyle]="uiElement.theadStyle">
-      <!-- Row Labels Headers -->
-      <th
-        *ngFor="let rowLabel of uiElement.rowLabels"
-        [ngStyle]="rowLabel.style"
-      >
-        {{ rowLabel.label }}
-      </th>
-
-      <!-- Column Headers -->
-      <td
-        *ngFor="let column of safeEval(uiElement.columns, { rows: rows })"
-        [ngStyle]="uiElement.tdStyle"
-      >
-        {{ safeEval(uiElement.columnLabel, { column: column }) }}
+<table [ngStyle]="uiElement.style">
+    <tr *ngFor="let row of this.data" [ngStyle]="row.style">
+      <td *ngFor="let column of row" [ngStyle]="column.style ? column.style : uiElement.tdStyle">
+        {{ column.value }}
       </td>
     </tr>
-  </thead>
-  <tbody>
-    <tr
-      *ngFor="let row of safeEval(uiElement.forRows); let i = index"
-      [attr.data-index]="i"
-      [ngStyle]="safeEval(uiElement.trStyle, { i: i, row: row })"
-    >
-      <!-- Row Labels -->
-      <td
-        *ngFor="let rowLabel of uiElement.rowLabels"
-        [ngStyle]="safeEval(rowLabel.style)"
-      >
-        {{ safeEval(rowLabel.script, { row: row }) }}
-      </td>
-
-      <!-- Column Values -->
-      <td
-        *ngFor="let column of safeEval(uiElement.columns, { rows: rows })"
-        [matTooltip]="safeEval(uiElement.columnTooltip, { row: row, column: column })"
-        [ngStyle]="safeEval(uiElement.columnStyle, { row: row, column: column })"
-        (click)="click({ row: row, column: column })"
-      >
-        {{ safeEval(uiElement.columnValue, { row: row, column: column }) }}
-      </td>
-    </tr>
-  </tbody>
 </table>

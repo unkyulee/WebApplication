@@ -82,8 +82,9 @@
   >
     <mat-label>{{ uiElement.label }}</mat-label>
     <input
-      [owlDateTime]="dt1"
-      [owlDateTimeTrigger]="dt1"
+      #datetimepicker_target
+      [owlDateTime]="datetimepicker"
+      [owlDateTimeTrigger]="datetimepicker"
       matInput
       [evalValidate]="uiElement.errorCondition"
       [(ngModel)]="value"
@@ -97,7 +98,7 @@
       type="button"
       matSuffix
       mat-icon-button
-      [owlDateTimeTrigger]="uiElement.click ? false : dt1"
+      [owlDateTimeTrigger]="uiElement.click ? false : datetimepicker"
       *ngIf="uiElement.icon"
       (click)="click()"
     >
@@ -106,10 +107,11 @@
       }}</mat-icon>
     </button>
     <owl-date-time
-      #dt1
+      #datetimepicker
       [disabled]="uiElement.readonly == true ? true : false"
       [pickerType]="uiElement.pickerType ? uiElement.pickerType : 'both'"
       [pickerMode]="uiElement.pickerMode ? uiElement.pickerMode : 'dialog'"
+      [startView]="uiElement.startView ? uiElement.startView : 'month'"
       [stepMinute]="uiElement.stepMinute ? uiElement.stepMinute : 1"
     ></owl-date-time>
     <mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>

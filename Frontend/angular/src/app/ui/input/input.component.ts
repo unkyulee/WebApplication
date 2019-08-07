@@ -1,13 +1,20 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef
+} from "@angular/core";
 import { DateTimeAdapter } from "ng-pick-datetime";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 import { UserService } from "../../services/user/user.service";
 import { EventService } from "../../services/event.service";
 import { ConfigService } from "src/app/services/config.service";
 import { NavService } from "src/app/services/nav.service";
-import { RestService } from 'src/app/services/rest.service';
+import { RestService } from "src/app/services/rest.service";
 
 @Component({
   selector: "input-component",
@@ -29,6 +36,10 @@ export class InputComponent {
   @Output() change: EventEmitter<any> = new EventEmitter<any>(); // used for filter
 
   typeAheadEventEmitter = new Subject<string>();
+
+  // event subscription
+  onEvent: Subscription;
+
   ngOnInit() {
     // not all the input will be sent as an event / rest
     // will be debounced every 700 ms
@@ -44,6 +55,23 @@ export class InputComponent {
         ? this.uiElement.locale
         : this.config.get("locale_long")
     );
+
+    // subscript to event
+    this.onEvent = this.event.onEvent.subscribe(event =>
+      this.eventHandler(event)
+    );
+  }
+
+  @ViewChild("datetimepicker_target") datetimepicker: ElementRef;
+  eventHandler(event) {
+    if (
+      event &&
+      event.name == "datepicker-trigger" &&
+      event.key == this.uiElement.key &&
+      this.datetimepicker
+      ) {
+        this.datetimepicker.nativeElement.click()
+    }
   }
 
   inputChanged(v) {
