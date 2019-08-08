@@ -43,7 +43,7 @@
         try {
           // Download the update silently, and install it immerdiately
           codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
-        } catch {}
+        } catch(e) {}
       }
     </script>
   </body>
