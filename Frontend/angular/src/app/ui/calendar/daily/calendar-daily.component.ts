@@ -47,11 +47,11 @@ export class CalendarDailyComponent {
 
   requestDownload() {
     // check startDate
-    this.data.startDate = moment(this.data.startDate)
+    this.data.startDate = moment(this.data.startDate?this.data.startDate:this.data._params_.startDate)
       .startOf("day") // starts from monday
       .toISOString();
 
-    this.data.endDate = moment(this.data.startDate)
+    this.data.endDate = moment(this.data.startDate?this.data.startDate:this.data._params_.startDate)
       .endOf("day")
       .toISOString();
 
