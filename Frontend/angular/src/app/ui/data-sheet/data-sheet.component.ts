@@ -105,14 +105,14 @@ export class DataSheetComponent extends BaseComponent {
     }
   }
 
-  responseDownload(response) {
+  async responseDownload(response) {
     // stop the loading indicator
     this.event.send("splash-hide");
 
     // map data from response
     if (this.uiElement.transform) {
       try {
-        this.data[this.uiElement.key ? this.uiElement.key : 'sheet'] = eval(this.uiElement.transform);
+        this.data[this.uiElement.key ? this.uiElement.key : 'sheet'] = await eval(this.uiElement.transform);
       } catch (e) {
         console.error(e);
       }
