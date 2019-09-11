@@ -92,9 +92,12 @@ export class DataSheetComponent extends BaseComponent {
       } catch (e) {
         console.error(e);
       }
-
-      // ignore startDate
       let data = this.nav.getParams();
+      try {
+        eval(this.uiElement.preProcess);
+      } catch (e) {
+        console.error(e);
+      }
 
       // show splash
       this.event.send("splash-show");
@@ -112,7 +115,7 @@ export class DataSheetComponent extends BaseComponent {
     // map data from response
     if (this.uiElement.transform) {
       try {
-        this.data[this.uiElement.key ? this.uiElement.key : 'sheet'] = await eval(this.uiElement.transform);
+        this.data[this.uiElement.key] = await eval(this.uiElement.transform);
       } catch (e) {
         console.error(e);
       }

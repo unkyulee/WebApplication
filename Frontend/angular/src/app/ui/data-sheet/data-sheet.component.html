@@ -1,15 +1,14 @@
 <table [ngStyle]="uiElement.style">
-  <tr
-    *ngFor="let row of this.data"
-    [ngStyle]="row.style"
-    [attr.rowspan]="row.rowspan"
-  >
-    <td
-      *ngFor="let column of row.columns"
-      [ngStyle]="column.style ? column.style : uiElement.tdStyle"
-      [attr.colspan]="column.colspan"
-    >
-      {{ column.value }}
+  <tr *ngFor="let row of rows" [ngStyle]="row.style" [attr.rowspan]="row.rowspan">
+    <td *ngFor="let column of row.columns" [ngStyle]="column.style ? column.style : uiElement.tdStyle"
+      [attr.colspan]="column.colspan">
+      <ng-container *ngIf="column.screen">
+        <ng-container *ngFor="let ui of column.screen">
+          <ng-container *ngIf="condition(ui)">
+            <ng-container ui-layout-wrapper [uiElement]="ui" [data]="column"></ng-container>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </td>
   </tr>
 </table>
