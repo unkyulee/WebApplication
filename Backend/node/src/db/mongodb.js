@@ -10,8 +10,8 @@ class MongoDB {
 
   async connect() {
     let that = this;
-    return new Promise(function(resolve, reject) {
-      MongoClient.connect(that.url, { useNewUrlParser: true }, function(
+    return new Promise(function (resolve, reject) {
+      MongoClient.connect(that.url, { useNewUrlParser: true, useUnifiedTopology: true }, function (
         err,
         client
       ) {
@@ -27,7 +27,7 @@ class MongoDB {
   }
 
   async close() {
-    if(this.client) {
+    if (this.client) {
       this.client.close()
     }
 
@@ -35,7 +35,7 @@ class MongoDB {
 
   async count(collection, query) {
     let that = this;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       if (!that.db) reject("db not initialized");
       that.db
         .collection(collection)
@@ -58,7 +58,7 @@ class MongoDB {
     let that = this;
     if (!sort) sort = { _created: -1 };
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       if (!that.db) reject("db not initialized");
       that.db
         .collection(collection)
@@ -67,7 +67,7 @@ class MongoDB {
         .sort(sort)
         .limit(limit)
         .skip(skip)
-        .toArray(function(err, results) {
+        .toArray(function (err, results) {
           if (err) reject(err);
           resolve(results);
         });
@@ -78,7 +78,7 @@ class MongoDB {
     let that = this;
     if (!sort) sort = { _created: -1 };
 
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       if (!that.db) reject("db not initialized");
       that.db
         .collection(collection)
@@ -92,7 +92,7 @@ class MongoDB {
 
   async update(collection, data) {
     let that = this;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       if (!that.db) reject("db not initialized");
 
       // check if it has _id - UPDATE
@@ -124,7 +124,7 @@ class MongoDB {
 
   async delete(collection, query) {
     let that = this;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       if (!that.db) reject("db not initialized");
       if (!query) reject("delete filter not specified");
       that.db.collection(collection).deleteMany(query, (err, obj) => {
