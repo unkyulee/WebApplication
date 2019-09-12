@@ -40,6 +40,7 @@ import { UILayoutComponent } from "./ui-layout/ui-layout.component";
 import { DividerComponent } from './divider/divider.component';
 import { DataSheetComponent } from './data-sheet/data-sheet.component';
 import { BaseComponent } from './base.component';
+import { PopupMenuComponent } from './popup-menu/popup-menu.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { BaseComponent } from './base.component';
     ScriptBoxComponent,
     DividerComponent,
     DataSheetComponent,
-    BaseComponent
+    BaseComponent,
+    PopupMenuComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -93,7 +95,8 @@ import { BaseComponent } from './base.component';
     ScriptBoxComponent,
     DividerComponent,
     DataSheetComponent,
-    BaseComponent
+    BaseComponent,
+    PopupMenuComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -115,7 +118,8 @@ import { BaseComponent } from './base.component';
     UILayoutComponent,
     DividerComponent,
     DataSheetComponent,
-    BaseComponent
+    BaseComponent,
+    PopupMenuComponent
   ],
   imports: [
     CommonModule,

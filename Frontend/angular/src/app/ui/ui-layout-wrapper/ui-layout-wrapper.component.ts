@@ -24,6 +24,7 @@ import { ScriptBoxComponent } from "../script-box/script-box.component";
 import { UILayoutComponent } from "../ui-layout/ui-layout.component";
 import { DividerComponent } from "../divider/divider.component";
 import { DataSheetComponent } from "../data-sheet/data-sheet.component";
+import { PopupMenuComponent } from '../popup-menu/popup-menu.component';
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -93,6 +94,9 @@ export class UILayoutWrapperComponent {
   findComponentFactory(type) {
     let componentFactory = null;
     switch (type) {
+      case "popup-menu":
+          componentFactory = this.cfr.resolveComponentFactory(PopupMenuComponent);
+        break;
       case "data-sheet":
         componentFactory = this.cfr.resolveComponentFactory(DataSheetComponent);
         break;
