@@ -48,9 +48,7 @@ export class UIComposerDialogComponent extends BaseComponent {
   }
 
   eventHandler(event) {
-    if (event && event.name == "close-dialog") {
-      setTimeout(() => this.dialogRef.close(true), 0);
-    } else if (event.name == "ui-updated") {
+    if (event.name == "ui-updated") {
       // load UI when navigation changes
       if (this.uiElement) {
         this.uiElement = event.data[this.uiElement._id];

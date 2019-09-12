@@ -87,8 +87,8 @@ export class LayoutComponent extends BaseComponent
   onBackButton(e) {
     e.preventDefault();
     // close dialogs if any exists
-    if (this.currDialog && this.dialog.openDialogs.length > 0) {
-      this.currDialog.close();
+    if (this.dialog.openDialogs.length > 0) {
+      this.dialog.openDialogs[this.dialog.openDialogs.length-1].close()
     }
     // check if it is last nav stack
     else if (this.nav.navigationStack.length == 2) {
@@ -123,6 +123,8 @@ export class LayoutComponent extends BaseComponent
         }, 100);
       } else if (event.name == "open-dialog") {
         setTimeout(() => this.openDialog(event), 0);
+      } else if (event && event.name == "close-dialog") {
+        setTimeout(() => this.dialog.openDialogs[this.dialog.openDialogs.length-1].close(), 0);
       } else if (event.name == "open-sheet") {
         setTimeout(() => this.openSheet(event), 0);
       } else if (event.name == "navigation-changed") {
@@ -145,9 +147,6 @@ export class LayoutComponent extends BaseComponent
 
   currDialog: MatDialogRef<UIComposerDialogComponent>;
   openDialog(event) {
-    // do not open another dialog when there is already opened dialog
-    if (this.currDialog && this.dialog.openDialogs.length != 0) return;
-
     // get ui elements
     let uiElement = obj.get(this.ui.uiElements, event.uiElementId);
     uiElement = JSON.parse(JSON.stringify(uiElement));
