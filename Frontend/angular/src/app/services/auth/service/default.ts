@@ -12,7 +12,7 @@ export class DefaultAuthStrategy {
     private rest: RestService,
     private config: ConfigService,
     private event: EventService
-  ) {}
+  ) { }
 
   async login(data) {
     // clear localstorage
@@ -74,7 +74,7 @@ export class DefaultAuthStrategy {
             // if the app is not matching then it's not valid
             isValidAuth = false;
           }
-        } catch (e) {}
+        } catch (e) { }
       } else {
         // navigation is not loaded - so load the navigation
         this.refreshAuthentication();
@@ -157,10 +157,13 @@ export class DefaultAuthStrategy {
           data: response.angular_navigation
         });
         // save angular_navigation
-        localStorage.setItem(
-          "angular_navigation",
-          JSON.stringify(response.angular_navigation)
-        );
+        try {
+          localStorage.setItem(
+            "angular_navigation",
+            JSON.stringify(response.angular_navigation)
+          );
+        } catch { }
+
       }
     }
 
@@ -174,7 +177,7 @@ export class DefaultAuthStrategy {
           data: response.angular_ui
         });
         // save angular_ui
-        localStorage.setItem("angular_ui", JSON.stringify(response.angular_ui));
+        try { localStorage.setItem("angular_ui", JSON.stringify(response.angular_ui)); } catch { }
       }
     }
   }

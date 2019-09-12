@@ -103,7 +103,7 @@ export class DataSheetComponent extends BaseComponent {
       this.event.send("splash-show");
 
       this.rest
-        .request(src, data, this.uiElement.method)
+        .request(src, data, this.uiElement.method, {}, typeof this.uiElement.cache === 'undefined'? true : this.uiElement.cache)
         .subscribe(response => this.responseDownload(response));
     }
   }

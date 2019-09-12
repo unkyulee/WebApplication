@@ -90,7 +90,9 @@ export class RestService {
         this.http.get(url, options).subscribe(res => {
           // save to cache
           if (cached != false) {
-            localStorage.setItem(url, JSON.stringify(res));
+            try {
+              localStorage.setItem(url, JSON.stringify(res));
+            } catch {}            
 
             // check if differs from cached
             if (JSON.stringify(response) != JSON.stringify(res)) {

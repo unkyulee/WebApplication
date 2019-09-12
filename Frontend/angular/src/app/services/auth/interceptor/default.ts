@@ -36,7 +36,9 @@ export class DefaultInterceptorStrategy {
         // if the authorization header has value
         if (authorization) {
           let token = authorization.split(" ")[1];
-          if (token) localStorage.setItem("token", token);
+          try {
+            if (token) localStorage.setItem("token", token);
+          } catch {}          
         } else {
           // if the token is not present then it means unauthenticated
           // make sure that the application has unauthenticated status

@@ -20,7 +20,7 @@ export class FilterComponent {
     private nav: NavService,
     private event: EventService,
     public user: UserService
-  ) {}
+  ) { }
 
   @Input() uiElement: any;
   @Input() data: any;
@@ -81,7 +81,8 @@ export class FilterComponent {
     // apply to nav param
     else if (this.uiElement.key) {
       // save the filter value to local storage
-      localStorage.setItem(this.uiElement.key, JSON.stringify(v));
+      try { localStorage.setItem(this.uiElement.key, JSON.stringify(v)); } catch { }
+
       this.nav.setParam(this.uiElement.key, v);
     }
 
