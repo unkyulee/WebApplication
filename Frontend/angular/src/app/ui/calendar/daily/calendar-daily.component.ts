@@ -93,7 +93,7 @@ export class CalendarDailyComponent {
     }
   }
 
-  click(item) {
+  click(row) {
     if (this.uiElement.click) {
       try {
         eval(this.uiElement.click);
