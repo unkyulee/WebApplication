@@ -1,151 +1,95 @@
-<ngx-datatable
-  *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
-  [ngClass]="
+<ngx-datatable *ngIf="!uiElement.tableType || uiElement.tableType == 'table'" [ngClass]="
     uiElement.class ? uiElement.class : config.get('dataTable.class')
-  "
-  [ngStyle]="
+  " [ngStyle]="
     uiElement.style ? uiElement.style : config.get('dataTable.style')
-  "
-  [rows]="rows"
-  [externalSorting]="
+  " [rows]="rows" [externalSorting]="
     uiElement.externalSorting ? uiElement.externalSorting : false
-  "
-  (sort)="onSort($event)"
-  [columnMode]="uiElement.columnMode ? uiElement.columnMode : 'force'"
-  [headerHeight]="
+  " (sort)="onSort($event)" [columnMode]="uiElement.columnMode ? uiElement.columnMode : 'force'" [headerHeight]="
     uiElement.headerHeight
       ? uiElement.headerHeight
       : config.get('dataTable.headerHeight')
-  "
-  [footerHeight]="
+  " [footerHeight]="
     uiElement.footerHeight
       ? uiElement.footerHeight
       : config.get('dataTable.footerHeight')
-  "
-  [rowHeight]="uiElement.rowHeight ? uiElement.rowHeight : 'auto'"
+  " [rowHeight]="uiElement.rowHeight ? uiElement.rowHeight : 'auto'"
   [scrollbarH]="uiElement.scrollbarH ? uiElement.scrollbarH : true"
   [reorderable]="uiElement.reorderable ? uiElement.reorderable : true"
-  [selectionType]="uiElement.selectionType ? uiElement.selectionType : ''"
-  [groupRowsBy]="
+  [selectionType]="uiElement.selectionType ? uiElement.selectionType : ''" [groupRowsBy]="
     uiElement.group?.groupRowsBy ? uiElement.group.groupRowsBy : ''
-  "
-  [groupExpansionDefault]="
+  " [groupExpansionDefault]="
     uiElement.group?.groupExpansionDefault ? true : false
-  "
-  [count]="total"
-  [offset]="page - 1"
-  [limit]="size"
-  (page)="requestDownload($event)"
+  " [count]="total" [offset]="page - 1" [limit]="size" (page)="requestDownload($event)"
   [externalPaging]="uiElement.externalPaging ? uiElement.externalPaging : true"
-  (activate)="$event.type == 'click' ? click($event.row, uiElement.click): ''"
->
+  (activate)="$event.type == 'click' ? click($event.row, uiElement.click): ''">
   <!-- Group Header Template -->
-  <ngx-datatable-group-header
-    *ngIf="uiElement.group?.groupRowsBy"
-    [rowHeight]="uiElement.group?.rowHeight"
-  >
+  <ngx-datatable-group-header *ngIf="uiElement.group?.groupRowsBy" [rowHeight]="uiElement.group?.rowHeight">
     <ng-template let-group="group" ngx-datatable-group-header-template>
-      <div
-        [ngStyle]="uiElement.group?.style"
-        [innerHTML]="format(group, uiElement.group?.format) | safe: 'html'"
-      ></div>
+      <div [ngStyle]="uiElement.group?.style" [innerHTML]="format(group, uiElement.group?.format) | safe: 'html'"></div>
     </ng-template>
   </ngx-datatable-group-header>
 
   <!-- Column Template -->
-  <ngx-datatable-column
-    *ngFor="let column of uiElement.columns"
-    [name]="column.label"
-    [prop]="column.key"
-    [flexGrow]="column.flexGrow"
-    [canAutoResize]="column.canAutoResize"
-    [width]="
+  <ngx-datatable-column *ngFor="let column of uiElement.columns" [name]="column.label" [prop]="column.key"
+    [flexGrow]="column.flexGrow" [canAutoResize]="column.canAutoResize" [width]="
       column.width
         ? column.width
         : config.get('dataTable.minColumnWidth')
-    "
-  >
+    ">
     <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-      <div
-        [ngStyle]="column?.style"
-        [innerHTML]="format(value, column.format, row) | safe: 'html'"
-        (click)="click(row, column.click)"
-      ></div>
+      <div [ngStyle]="column?.style" [innerHTML]="format(value, column.format, row) | safe: 'html'"
+        (click)="click(row, column.click)"></div>
     </ng-template>
   </ngx-datatable-column>
 </ngx-datatable>
 
 <!-- Card List -->
-<cdk-virtual-scroll-viewport
-  *ngIf="uiElement.tableType == 'card'"
-  itemSize="20"
-  (scrolledIndexChange)="infiniteScroll(e)"
-  [ngStyle]="
+<div *ngIf="uiElement.tableType == 'card'" [ngStyle]="
     uiElement.contentLayoutStyle
       ? uiElement.contentLayoutStyle
       : config.get('dataTable.contentLayoutStyle')
-  "
->
-  <mat-card
-    *cdkVirtualFor="let row of rows; templateCacheSize: 0"
-    (click)="click(row, uiElement.click)"
-    [ngStyle]="
+  ">
+  <mat-card *ngFor="let row of rows" (click)="click(row, uiElement.click)" [ngStyle]="
       uiElement.itemBoxStyle
         ? uiElement.itemBoxStyle
         : config.get('dataTable.itemBoxStyle')
-    "
-    [ngClass]="
+    " [ngClass]="
       uiElement.itemBoxClass
         ? uiElement.itemBoxClass
         : config.get('dataTable.itemBoxClass')
-    "
-  >
+    ">
     <mat-card-content [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
       <ng-container *ngFor="let column of uiElement.columns">
-        <ng-container
-          ui-layout-wrapper
-          *ngIf="condition(ui)"
-          [uiElement]="column"
-          [data]="row"
-        ></ng-container>
+        <ng-container ui-layout-wrapper *ngIf="condition(ui)" [uiElement]="column" [data]="row"></ng-container>
       </ng-container>
     </mat-card-content>
   </mat-card>
-</cdk-virtual-scroll-viewport>
+  <pagination	
+    *ngIf="total > size"	
+    [key]="uiElement.key"	
+    [total]="total"	
+    [page]="page"	
+    [size]="size"	
+  ></pagination>
+</div>
 
 <!-- Simple List -->
-<div
-  *ngIf="uiElement.tableType == 'list'"
-  [ngStyle]="
+<div *ngIf="uiElement.tableType == 'list'" [ngStyle]="
     uiElement.contentLayoutStyle
       ? uiElement.contentLayoutStyle
       : config.get('dataTable.contentLayoutStyle')
-  "
->
-  <div
-    *ngFor="let row of rows"
-    [ngStyle]="
+  ">
+  <div *ngFor="let row of rows" [ngStyle]="
       uiElement.itemBoxStyle
         ? uiElement.itemBoxStyle
         : config.get('dataTable.itemBoxStyle')
-    "
-    [ngClass]="
+    " [ngClass]="
       uiElement.itemBoxClass
         ? uiElement.itemBoxClass
         : config.get('dataTable.itemBoxClass')
-    "
-    (click)="click(row, uiElement.click)"
-  >
-    <div
-      *ngFor="let column of uiElement.columns"
-      [ngStyle]="column.layoutStyle"
-    >
-      <ng-container
-        ui-layout-wrapper
-        *ngIf="condition(column)"
-        [uiElement]="column"
-        [data]="row"
-      ></ng-container>
+    " (click)="click(row, uiElement.click)">
+    <div *ngFor="let column of uiElement.columns" [ngStyle]="column.layoutStyle">
+      <ng-container ui-layout-wrapper *ngIf="condition(column)" [uiElement]="column" [data]="row"></ng-container>
     </div>
   </div>
 </div>
