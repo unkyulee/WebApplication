@@ -261,14 +261,14 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
             return EMPTY;
           })
         )
-        .subscribe(response => this.saveHandler(response));
+        .subscribe(response => this.saveAction(response));
     } else {
       // hide splash
       this.event.send("splash-hide");
     }
   }
 
-  saveHandler(response) {
+  saveAction(response) {
     // hide the splash
     this.event.send("splash-hide");
 
@@ -298,17 +298,21 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       } catch (e) {}
       let method = this.uiElement.delete.method;
 
-      // download data through rest web services
-      this.rest.request(src, null, method).subscribe(response => {
-        // back to list
-        if (this.uiElement.delete.deleteAction) {
-          try {
-            eval(this.uiElement.delete.deleteAction);
-          } catch {}
-        } else {
-          this.nav.back();
-        }
-      });
+      // download data through rest web services      
+      this.rest.request(src, null, method).subscribe(response => this.deleteAction());
+    }
+  }
+
+  deleteAction() {
+    // back to list
+    if (this.uiElement.delete.deleteAction) {
+      try {
+        eval(this.uiElement.delete.deleteAction);
+      } catch(e) {
+        console.error(e)
+      }
+    } else {
+      this.nav.back();
     }
   }
 

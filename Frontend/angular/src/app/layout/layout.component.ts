@@ -88,7 +88,7 @@ export class LayoutComponent extends BaseComponent
     e.preventDefault();
     // close dialogs if any exists
     if (this.dialog.openDialogs.length > 0) {
-      this.dialog.openDialogs[this.dialog.openDialogs.length-1].close()
+      this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close()
     }
     // check if it is last nav stack
     else if (this.nav.navigationStack.length == 2) {
@@ -117,6 +117,10 @@ export class LayoutComponent extends BaseComponent
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event == "drawer-toggle") {
         this.drawer.toggle();
+      } else if (event == "drawer-close") {
+        this.drawer.close();
+      } else if (event == "drawer-open") {
+        this.drawer.open();
       } else if (event && event.name == "changed") {
         setTimeout(() => {
           this.cordova.detectChanges(this.ref);
@@ -124,7 +128,7 @@ export class LayoutComponent extends BaseComponent
       } else if (event.name == "open-dialog") {
         setTimeout(() => this.openDialog(event), 0);
       } else if (event && event.name == "close-dialog") {
-        setTimeout(() => this.dialog.openDialogs[this.dialog.openDialogs.length-1].close(), 0);
+        setTimeout(() => this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close(), 0);
       } else if (event.name == "open-sheet") {
         setTimeout(() => this.openSheet(event), 0);
       } else if (event.name == "navigation-changed") {
@@ -132,7 +136,7 @@ export class LayoutComponent extends BaseComponent
         // scroll back to top when page changes
         try {
           document.getElementById("layout_main_content").scrollTop = 0;
-        } catch {}
+        } catch { }
       } else if (event == "logout") {
         this.isAuthenticated = false;
       } else if (event == "authenticated") {

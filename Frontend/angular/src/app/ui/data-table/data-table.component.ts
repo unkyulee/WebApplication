@@ -211,6 +211,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       src = eval(src);
     } catch (e) {}
 
+
     if (src) {
       let method = this.ui.find(["method"], this.uiElement);
 
@@ -240,6 +241,12 @@ export class DataTableComponent implements OnInit, OnDestroy {
         try {
           options = eval(`${options}`);
         } catch {}
+      }
+
+      try {
+        eval(this.uiElement.preProcess);
+      } catch (e) {
+        console.error(e);
       }
 
       // send REST request
