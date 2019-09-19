@@ -28,7 +28,7 @@ export class ConfigService {
   loadUI() {
     let uiElements = this.get("uiElements");
     if (!uiElements) {
-      // if index.js doesn't contain angular_navigation then get it from the cache
+      // if index.js doesn't contain uiElements then get it from the cache
       // Set the settings from the given object
       uiElements = JSON.parse(localStorage.getItem("uiElements"));
     }
@@ -39,11 +39,11 @@ export class ConfigService {
 
   loadNavigation() {
     try {
-      let navigation = this.get("navigation");
+      let navigation = this.get("nav");
       if (!navigation) {
-        // if index.js doesn't contain angular_navigation then get it from the cache
-        navigation = JSON.parse(localStorage.getItem("navigation"));
-        this.set("navigation", navigation)
+        // if index.js doesn't contain nav then get it from the cache
+        navigation = JSON.parse(localStorage.getItem("nav"));
+        this.set("nav", navigation)
       }
     } catch (e) {
       console.error(e);

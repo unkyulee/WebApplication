@@ -70,7 +70,7 @@ export class NavService {
     if (e == "authenticated" || e.name == "navigation-updated") {
       if(e.name == "navigation-updated") {
         // save when server has new navigation
-        this.config.set("angular_navigation", e.data);
+        this.config.set("nav", e.data);
       }
 
       // set initial navigation
@@ -100,7 +100,8 @@ export class NavService {
   currNav: any;
 
   find(url: string) {
-    let navigation = this.config.get("navigation")
+    let navigation = this.config.get("nav")
+
     if (!navigation) return null;
 
     // split by ?

@@ -61,11 +61,11 @@ export class DefaultAuthStrategy {
       isValidAuth = true;
 
       // check if the config navigation_id and the stored navigation_id matches
-      let angular_navigation = localStorage.getItem("angular_navigation");
-      if (angular_navigation) {
+      let nav = localStorage.getItem("nav");
+      if (nav) {
         try {
-          let nav = JSON.parse(angular_navigation);
-          if (nav[0].navigation_id == this.config.get("_id")) {
+          let navigation = JSON.parse(nav);
+          if (navigation[0].navigation_id == this.config.get("_id")) {
             isValidAuth = true;
             // when authentication is proven to be valid locally
             // verify with the server
@@ -149,7 +149,7 @@ export class DefaultAuthStrategy {
   refreshNavigation(response) {
     if (response.angular_navigation) {
       // check if angular_navigation differs from cached
-      let cached = localStorage.getItem("angular_navigation");
+      let cached = localStorage.getItem("nav");
       if (JSON.stringify(response.angular_navigation) != cached) {
         // if the navigation is updated then send refresh signal to nav service
         this.event.send({
@@ -159,7 +159,7 @@ export class DefaultAuthStrategy {
         // save angular_navigation
         try {
           localStorage.setItem(
-            "angular_navigation",
+            "nav",
             JSON.stringify(response.angular_navigation)
           );
         } catch { }
