@@ -49,9 +49,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
         }
       }
       this._rows = this.data[this.uiElement.key];
-
-      // convert to array if the data type is not array
-      if(Array.isArray(this._rows) == false) this._rows = [this._rows]
     }
 
     if (!this._rows) this._rows = [];
