@@ -10,6 +10,7 @@ import { EventService } from "../../services/event.service";
 import { UIService } from "../../services/ui.service";
 import { NavService } from "../../services/nav.service";
 import { BaseComponent } from "src/app/ui/base.component";
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: "ui-composer",
@@ -22,7 +23,8 @@ export class UIComposerComponent extends BaseComponent
     public config: ConfigService,
     private event: EventService,
     private uis: UIService,
-    private nav: NavService
+    private nav: NavService,
+    public user: UserService
   ) {
     super();
   }
