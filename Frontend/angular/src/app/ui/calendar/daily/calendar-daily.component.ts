@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
 import * as moment from "moment";
 
 // user imports
@@ -7,26 +8,20 @@ import { ConfigService } from "src/app/services/config.service";
 import { NavService } from "src/app/services/nav.service";
 import { RestService } from "src/app/services/rest.service";
 import { EventService } from "src/app/services/event.service";
-import { Subscription } from "rxjs";
-import { UIService } from 'src/app/services/ui.service';
+import { BaseComponent } from '../../base.component';
 
 @Component({
   selector: "calendar-daily",
   templateUrl: "./calendar-daily.component.html"
 })
-export class CalendarDailyComponent {
+export class CalendarDailyComponent extends BaseComponent {
   constructor(
     public config: ConfigService,
     public router: Router,
     private nav: NavService,
     private rest: RestService,
-    private event: EventService,
-    public uis: UIService
-  ) {}
-
-  // configuration of the ui element
-  @Input() uiElement: any;
-  @Input() data: any;
+    private event: EventService
+  ) { super() }
 
   // event subscription
   onEvent: Subscription;
@@ -47,11 +42,11 @@ export class CalendarDailyComponent {
 
   requestDownload() {
     // check startDate
-    this.data.startDate = moment(this.data.startDate?this.data.startDate:this.data._params_.startDate)
+    this.data.startDate = moment(this.data.startDate ? this.data.startDate : this.data._params_.startDate)
       .startOf("day") // starts from monday
       .toISOString();
 
-    this.data.endDate = moment(this.data.startDate?this.data.startDate:this.data._params_.startDate)
+    this.data.endDate = moment(this.data.startDate ? this.data.startDate : this.data._params_.startDate)
       .endOf("day")
       .toISOString();
 
@@ -93,33 +88,4 @@ export class CalendarDailyComponent {
     }
   }
 
-  click(row) {
-    if (this.uiElement.click) {
-      try {
-        eval(this.uiElement.click);
-      } catch (e) {}
-    }
-  }
-
-  format(value, data) {
-    try {
-      value = eval(value);
-    } catch (e) {
-      console.error(e);
-    }
-    return value;
-  }
-
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
-  }
 }

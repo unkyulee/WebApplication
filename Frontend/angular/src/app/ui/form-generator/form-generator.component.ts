@@ -6,7 +6,6 @@ import { catchError } from "rxjs/operators";
 import * as obj from "object-path";
 
 // user imports
-import { UIService } from "../../services/ui.service";
 import { RestService } from "../../services/rest.service";
 import { NavService } from "../../services/nav.service";
 import { ConfigService } from "../../services/config.service";
@@ -22,14 +21,13 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     private nav: NavService,
-    private uis: UIService,
     private rest: RestService,
     private event: EventService,
     public snackBar: MatSnackBar,
     public config: ConfigService,
     public user: UserService,
     public db: DBService
-  ) {}
+  ) { }
 
   @Input() uiElement: any;
   @Input() data: any;
@@ -132,17 +130,17 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     this.params = this.nav.getParams();
 
     // retrieve REST information
-    let src = this.uis.find(["src"], this.uiElement);
+    let src = this.uiElement.src;
     try {
       src = eval(src);
-    } catch (e) {}
+    } catch (e) { }
 
     if (src) {
-      let method = this.uis.find(["method"], this.uiElement);
-      let data = this.uis.find(["data"], this.uiElement);
+      let method = this.uiElement.method;
+      let data = this.uiElement.data;
       try {
         data = eval(data);
-      } catch (e) {}
+      } catch (e) { }
 
       // download data through rest web services
       // start the splash
@@ -154,10 +152,9 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
             // hide the splash
             this.event.send("splash-hide");
             //
-            let errorAction = this.uis.find(["errorAction"], this.uiElement);
-            if (errorAction) {
+            if (this.uiElement.errorAction) {
               try {
-                eval(errorAction);
+                eval(this.uiElement.errorAction);
               } catch (e) {
                 console.error(e);
               }
@@ -176,11 +173,10 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
 
     // go through data transformation
     let data = {};
-    let transform = this.uis.find(["transform"], this.uiElement);
-    if (transform) {
+    if (this.uiElement.transform) {
       try {
         // do not overwrite data
-        data = eval(transform);
+        data = eval(this.uiElement.transform);
       } catch (e) {
         console.error(e);
       }
@@ -214,23 +210,22 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     }
 
     // retrieve REST information
-    let src = this.uis.find(["save", "src"], this.uiElement);
+    let src = obj.get(this.uiElement, "save.src");
     try {
       src = eval(src);
-    } catch (e) {}
-    let method = this.uis.find(["save", "method"], this.uiElement, "post");
+    } catch (e) { }
+    let method = obj.get(this.uiElement, "save.method", "post");
     try {
       method = eval(method);
-    } catch {}
+    } catch { }
 
     // see if any transform to be done
-    let data = JSON.parse(JSON.stringify(this.data));
+    let data = { ...this.data };
     // remove _params_
     delete data._params_;
-    let transform = this.uiElement.save.transform;
-    if (transform) {
+    if (this.uiElement.save.transform) {
       try {
-        eval(transform);
+        eval(this.uiElement.save.transform);
       } catch (e) {
         console.error(e);
       }
@@ -246,10 +241,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
             this.event.send("splash-hide");
 
             // save failed
-            let errorAction = this.uis.find(
-              ["save", "errorAction"],
-              this.uiElement
-            );
+            let errorAction = obj.get(this.uiElement, "save.errorAction");
             if (errorAction) {
               try {
                 eval(errorAction);
@@ -272,7 +264,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     // hide the splash
     this.event.send("splash-hide");
 
-    let saveAction = this.uis.find(["save", "saveAction"], this.uiElement);
+    let saveAction = obj.get(this.uiElement, "save.saveAction");
     if (saveAction)
       try {
         eval(saveAction);
@@ -295,7 +287,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       let src = this.uiElement.delete.src;
       try {
         src = eval(src);
-      } catch (e) {}
+      } catch (e) { }
       let method = this.uiElement.delete.method;
 
       // download data through rest web services      
@@ -308,7 +300,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     if (this.uiElement.delete.deleteAction) {
       try {
         eval(this.uiElement.delete.deleteAction);
-      } catch(e) {
+      } catch (e) {
         console.error(e)
       }
     } else {

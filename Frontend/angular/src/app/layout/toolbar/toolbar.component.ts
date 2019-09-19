@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { EventService } from "../../services/event.service";
-import { Subscription, Subject } from "rxjs";
+import { Subscription } from "rxjs";
 
 // user services
 import { ConfigService } from "../../services/config.service";
 import { NavService } from "../../services/nav.service";
-import { UIService } from "src/app/services/ui.service";
 import { BaseComponent } from "src/app/ui/base.component";
 
 @Component({
@@ -18,8 +17,7 @@ export class ToolbarComponent extends BaseComponent
   constructor(
     public event: EventService,
     public config: ConfigService,
-    public nav: NavService,
-    public uis: UIService
+    public nav: NavService
   ) {
     super()
   }

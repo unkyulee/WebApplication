@@ -2,7 +2,6 @@ import { Component, Input } from "@angular/core";
 import * as moment from "moment";
 
 // user imports
-import { UIService } from "../../services/ui.service";
 import { NavService } from "../../services/nav.service";
 import { RestService } from "../../services/rest.service";
 import { EventService } from "../../services/event.service";
@@ -16,7 +15,6 @@ export class FilterComponent {
   // Init
   constructor(
     public rest: RestService,
-    public ui: UIService,
     private nav: NavService,
     private event: EventService,
     public user: UserService

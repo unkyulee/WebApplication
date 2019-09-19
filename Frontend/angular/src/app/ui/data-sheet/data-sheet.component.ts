@@ -7,7 +7,6 @@ import { NavService } from "src/app/services/nav.service";
 import { RestService } from "src/app/services/rest.service";
 import { EventService } from "src/app/services/event.service";
 import { Subscription } from "rxjs";
-import { UIService } from "src/app/services/ui.service";
 import { BaseComponent } from '../base.component';
 
 
@@ -21,7 +20,6 @@ export class DataSheetComponent extends BaseComponent {
     private nav: NavService,
     private rest: RestService,
     private event: EventService,
-    public uis: UIService,
     public router: Router
   ) {
     super()

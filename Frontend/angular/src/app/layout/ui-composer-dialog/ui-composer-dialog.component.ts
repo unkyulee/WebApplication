@@ -6,7 +6,6 @@ import { Subscription } from "rxjs";
 import { EventService } from "../../services/event.service";
 import { UserService } from "src/app/services/user/user.service";
 import { ConfigService } from "src/app/services/config.service";
-import { UIService } from "src/app/services/ui.service";
 import { BaseComponent } from "src/app/ui/base.component";
 
 @Component({
@@ -28,8 +27,7 @@ export class UIComposerDialogComponent extends BaseComponent {
     public dialogRef: MatDialogRef<UIComposerDialogComponent>,
     public event: EventService,
     public user: UserService,
-    public config: ConfigService,
-    public uis: UIService
+    public config: ConfigService
   ) {
     super();
   }

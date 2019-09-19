@@ -7,7 +7,6 @@ import { map } from "rxjs/operators";
 // user imports
 import { ConfigService } from "../../services/config.service";
 import { EventService } from "../../services/event.service";
-import { UIService } from "../../services/ui.service";
 import { NavService } from "../../services/nav.service";
 import { BaseComponent } from "src/app/ui/base.component";
 import { UserService } from 'src/app/services/user/user.service';
@@ -22,7 +21,6 @@ export class UIComposerComponent extends BaseComponent
     private breakpointObserver: BreakpointObserver,
     public config: ConfigService,
     private event: EventService,
-    private uis: UIService,
     private nav: NavService,
     public user: UserService
   ) {
@@ -92,7 +90,7 @@ export class UIComposerComponent extends BaseComponent
     // load ui
     let ui = [];
     for (let id of uiElements) {
-      let element = obj.get(this.uis.uiElements, id);
+      let element = obj.get(this.config.get('uiElements'), id);
       if (element) ui.push(element);
     }
     this.uiElements = [...ui];

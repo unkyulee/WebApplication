@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
 import * as moment from "moment";
 
 // user imports
@@ -7,8 +8,7 @@ import { ConfigService } from "src/app/services/config.service";
 import { NavService } from "src/app/services/nav.service";
 import { RestService } from "src/app/services/rest.service";
 import { EventService } from "src/app/services/event.service";
-import { Subscription } from "rxjs";
-import { UIService } from "src/app/services/ui.service";
+
 
 @Component({
   selector: "calendar-monthly",
@@ -20,8 +20,7 @@ export class CalendarMonthlyComponent {
     public router: Router,
     private nav: NavService,
     private rest: RestService,
-    private event: EventService,
-    public uis: UIService
+    private event: EventService
   ) {}
 
   // configuration of the ui element

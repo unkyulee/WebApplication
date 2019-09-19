@@ -27,7 +27,6 @@ import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-ac
 import { EventService } from "../services/event.service";
 import { ConfigService } from "../services/config.service";
 import { AuthService } from "../services/auth/auth.service";
-import { UIService } from "../services/ui.service";
 import { NavService } from "../services/nav.service";
 import { CordovaService } from "../services/cordova.service";
 import { UserService } from "../services/user/user.service";
@@ -48,7 +47,6 @@ export class LayoutComponent extends BaseComponent
     private event: EventService,
     public config: ConfigService,
     private auth: AuthService,
-    private ui: UIService,
     private elementRef: ElementRef,
     private nav: NavService,
     private cordova: CordovaService,
@@ -152,8 +150,8 @@ export class LayoutComponent extends BaseComponent
   currDialog: MatDialogRef<UIComposerDialogComponent>;
   openDialog(event) {
     // get ui elements
-    let uiElement = obj.get(this.ui.uiElements, event.uiElementId);
-    uiElement = JSON.parse(JSON.stringify(uiElement));
+    let uiElement = obj.get(this.config.get('uiElements'), event.uiElementId);
+    uiElement = {...uiElement};
 
     // open dialog
     this.currDialog = this.dialog.open(UIComposerDialogComponent, {
@@ -188,7 +186,7 @@ export class LayoutComponent extends BaseComponent
 
   openSheet(event) {
     // get ui elements
-    let uiElement = obj.get(this.ui.uiElements, event.uiElementId);
+    let uiElement = obj.get(this.config.get('uiElements'), event.uiElementId);
     uiElement = JSON.parse(JSON.stringify(uiElement));
 
     let sheet = this.bottomSheet.open(UIComposerActionsComponent, {

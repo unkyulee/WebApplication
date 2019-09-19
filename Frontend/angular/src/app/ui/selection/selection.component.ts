@@ -12,7 +12,6 @@ import * as obj from "object-path";
 // user imports
 import { RestService } from "../../services/rest.service";
 import { UserService } from "src/app/services/user/user.service";
-import { UIService } from "src/app/services/ui.service";
 import { CordovaService } from "src/app/services/cordova.service";
 import { EventService } from "src/app/services/event.service";
 import { NavService } from "src/app/services/nav.service";
@@ -26,7 +25,6 @@ export class SelectionComponent extends BaseComponent implements OnInit {
   // Init
   constructor(
     private rest: RestService,
-    public ui: UIService,
     public nav: NavService,
     public user: UserService,
     public cordova: CordovaService,

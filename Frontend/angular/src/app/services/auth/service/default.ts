@@ -169,7 +169,7 @@ export class DefaultAuthStrategy {
 
     if (response.angular_ui) {
       // check if angular_ui differs from cached
-      let cached = localStorage.getItem("angular_ui");
+      let cached = localStorage.getItem("uiElements");
       if (JSON.stringify(response.angular_ui) != cached) {
         // if the navigation is updated then send refresh signal to nav service
         this.event.send({
@@ -177,7 +177,7 @@ export class DefaultAuthStrategy {
           data: response.angular_ui
         });
         // save angular_ui
-        try { localStorage.setItem("angular_ui", JSON.stringify(response.angular_ui)); } catch { }
+        try { localStorage.setItem("uiElements", JSON.stringify(response.angular_ui)); } catch { }
       }
     }
   }

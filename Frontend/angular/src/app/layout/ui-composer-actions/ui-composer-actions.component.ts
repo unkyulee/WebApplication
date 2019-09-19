@@ -4,7 +4,6 @@ import { Subscription } from "rxjs";
 
 // user imports
 import { EventService } from "../../services/event.service";
-import { UIService } from 'src/app/services/ui.service';
 import { BaseComponent } from 'src/app/ui/base.component';
 
 @Component({
@@ -18,7 +17,6 @@ export class UIComposerActionsComponent extends BaseComponent {
   constructor(
     private event: EventService,
     private bottomSheetRef: MatBottomSheetRef<UIComposerActionsComponent>,
-    public uis: UIService,
     @Inject(MAT_BOTTOM_SHEET_DATA) public e: any
   ) {
     super()

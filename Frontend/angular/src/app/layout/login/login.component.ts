@@ -1,12 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subscription } from "rxjs";
 import * as obj from "object-path";
 
 // user imports
 import { ConfigService } from "../../services/config.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { EventService } from "../../services/event.service";
-import { Subscription } from "rxjs";
-import { UIService } from 'src/app/services/ui.service';
 
 @Component({
   selector: "login",
@@ -16,8 +15,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     public config: ConfigService,
     private auth: AuthService,
-    private event: EventService,
-    public uis: UIService
+    private event: EventService
   ) {}
 
   // login screen

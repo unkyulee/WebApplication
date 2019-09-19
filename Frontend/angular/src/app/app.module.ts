@@ -12,7 +12,6 @@ import { EventService } from "./services/event.service";
 import { ConfigService } from "./services/config.service";
 import { NavService } from "./services/nav.service";
 import { UserService } from "./services/user/user.service";
-import { UIService } from "./services/ui.service";
 import { RestService } from "./services/rest.service";
 import { AuthService } from "./services/auth/auth.service";
 import { CordovaService } from "./services/cordova.service";
@@ -51,7 +50,6 @@ const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
     ConfigService,
     UserService,
     NavService,
-    UIService,
     RestService,
     CordovaService,
     DBService

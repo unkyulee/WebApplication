@@ -4,7 +4,6 @@ import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
 // user imports
 import { RestService } from "../../services/rest.service";
-import { UIService } from "../../services/ui.service";
 import { UserService } from "src/app/services/user/user.service";
 import { CordovaService } from "src/app/services/cordova.service";
 import { EventService } from "src/app/services/event.service";
@@ -19,7 +18,6 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
   // Init
   constructor(
     private rest: RestService,
-    private ui: UIService,
     public nav: NavService,
     public user: UserService,
     public cordova: CordovaService,
@@ -118,17 +116,20 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
     // if optionSrc is specified then request for option
     if (this.uiElement.src) {
       // download data through rest web services
-      let src = this.ui.find(["src"], this.uiElement);
+      let src = this.uiElement.src;
       try {
         src = eval(src);
-      } catch (e) {}
+      } catch (e) { }
 
-      let method = this.ui.find(["method"], this.uiElement);
-      let data = this.ui.find(["data"], this.uiElement, {});
+      let data = this.uiElement.data;
+      try {
+        data = eval(data);
+      } catch (e) { }
 
-      this.rest.request(src, data, method).subscribe(response => {
-        let transform = this.ui.find(["transform"], this.uiElement, {});
-        this.uiElement.options = eval(transform);
+      this.rest.request(src, data, this.uiElement.method).subscribe(response => {
+
+        if (this.uiElement.transform)
+          this.uiElement.options = eval(this.uiElement.transform);
 
         // set default when options are loaded
         this.default();
@@ -148,7 +149,7 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
       this.data[this.uiElement.key] = this.uiElement.default;
       try {
         this.data[this.uiElement.key] = eval(this.uiElement.default);
-      } catch {}
+      } catch { }
 
       // try to go through updateAlso options
       this.updateAlso(this.data[this.uiElement.key]);
@@ -159,7 +160,7 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
   format(option, uiElement) {
     let value =
       option[
-        uiElement.optionLabel ? uiElement.optionLabel : uiElement.optionKey
+      uiElement.optionLabel ? uiElement.optionLabel : uiElement.optionKey
       ];
 
     if (uiElement.optionLabelTransform) {
@@ -173,10 +174,10 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
   }
 
   selected(value?) {
-    if(this.uiElement.selected) {
+    if (this.uiElement.selected) {
       try {
         eval(this.uiElement.selected)
-      } catch(e) {
+      } catch (e) {
         console.error(e)
       }
     }

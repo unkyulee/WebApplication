@@ -8,7 +8,6 @@ import { NavService } from "src/app/services/nav.service";
 import { RestService } from "src/app/services/rest.service";
 import { EventService } from "src/app/services/event.service";
 import { Subscription } from "rxjs";
-import { UIService } from 'src/app/services/ui.service';
 
 @Component({
   selector: "calendar-weekly",
@@ -20,8 +19,7 @@ export class CalendarWeeklyComponent {
     public router: Router,
     private nav: NavService,
     private rest: RestService,
-    private event: EventService,
-    public uis: UIService
+    private event: EventService
   ) {}
 
   // configuration of the ui element

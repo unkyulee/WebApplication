@@ -1,8 +1,4 @@
 import { Component, Input } from "@angular/core";
-import { Subscription } from "rxjs";
-
-// user Imports
-import { UIService } from "src/app/services/ui.service";
 
 @Component({
   selector: "divider",

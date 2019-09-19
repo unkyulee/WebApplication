@@ -24,7 +24,7 @@
 
 <user></user>
 
-<ng-container *ngFor="let item of nav.navigation">
+<ng-container *ngFor="let item of config.get('navigation')">
   <a
     *ngIf="item.type == 'item' && condition(item)"
     class="nav-link"

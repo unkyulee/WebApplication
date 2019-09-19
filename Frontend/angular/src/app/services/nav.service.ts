@@ -3,10 +3,8 @@ import { Router, NavigationEnd } from "@angular/router";
 import { Location } from "@angular/common";
 
 // user imports
-import { UserService } from "./user/user.service";
 import { EventService } from "./event.service";
 import { ConfigService } from "./config.service";
-import { last } from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class NavService {
@@ -14,11 +12,8 @@ export class NavService {
     private router: Router,
     private location: Location,
     private event: EventService,
-    private user: UserService,
     private config: ConfigService
   ) {
-    // set navigation
-    this.set();
 
     // monitor navigation changes
     router.events.subscribe(e => this.routerEventHandler(e));
@@ -77,8 +72,6 @@ export class NavService {
         // save when server has new navigation
         this.config.set("angular_navigation", e.data);
       }
-      // set navigation
-      this.set();
 
       // set initial navigation
       this.currNav = this.find(this.currUrl);
@@ -106,47 +99,9 @@ export class NavService {
   currUrl: string;
   currNav: any;
 
-  // navigation model
-  navigation: any[] = [];
-
-  set() {
-    try {
-      this.navigation = this.config.get("angular_navigation");
-      if (!this.navigation) {
-        // if index.js doesn't contain angular_navigation then get it from the cache
-        this.navigation = JSON.parse(localStorage.getItem("angular_navigation"));
-      }
-
-      // Set the settings from the given object
-      this.navigation = this.accessConrol(this.navigation);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  accessConrol(navigation) {
-    let resultNav = [];
-
-    // get roles from user
-    let roleIds = this.user.roles();
-
-    // fitler navigations with ACL
-    if (navigation) {
-      for (let navItem of navigation) {
-        if (navItem.ACL) {
-          if (navItem.ACL.find(value => -1 !== roleIds.indexOf(value)))
-            resultNav.push(navItem);
-        } else {
-          resultNav.push(navItem);
-        }
-      }
-    }
-
-    return resultNav;
-  }
-
   find(url: string) {
-    if (!this.navigation) return null;
+    let navigation = this.config.get("navigation")
+    if (!navigation) return null;
 
     // split by ?
     url = url.split("?")[0];
@@ -157,7 +112,7 @@ export class NavService {
 
     // find item
     let firstNavItem = null;
-    for (const navItem of this.navigation) {
+    for (const navItem of navigation) {
       // save first navigation item
       if (firstNavItem == null && navItem.type == "item")
         firstNavItem = navItem;

@@ -4,7 +4,6 @@ import { Router } from "@angular/router";
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 
 // user imports
-import { UIService } from "../../services/ui.service";
 import { NavService } from "../../services/nav.service";
 import { RestService } from "../../services/rest.service";
 import { EventService } from "../../services/event.service";
@@ -21,7 +20,6 @@ export class DataTableComponent implements OnInit, OnDestroy {
   constructor(
     public config: ConfigService,
     private rest: RestService,
-    public ui: UIService,
     public router: Router,
     private nav: NavService,
     private event: EventService,
@@ -168,7 +166,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     // if the page size is determined in the url then use that otherwise use the one from the uiElement
     if (!this.size) {
-      this.size = this.ui.find(["size"], this.uiElement, 10);
+      this.size = this.uiElement.size ? this.uiElement.size : 10;
       // if nav param has page then use it
       if (this.uiElement.externalPaging != false && params["size"]) {
         this.size = params["size"];
@@ -213,10 +211,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
 
     if (src) {
-      let method = this.ui.find(["method"], this.uiElement);
 
       // look at query params and pass it on to the request
-      let data = this.ui.find(["data"], this.uiElement, {});
+      let data = this.uiElement.data;
       // apply nav parameters if necessary
       if (this.uiElement.useNavParams != false) {
         let params = this.nav.getParams();
@@ -255,7 +252,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
         .request(
           src,
           data,
-          method,
+          this.uiElement.method,
           options,
           this.uiElement.tableType == "card" ? false : true
         )
