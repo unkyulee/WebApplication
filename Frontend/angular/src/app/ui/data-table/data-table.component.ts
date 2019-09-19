@@ -25,7 +25,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     private event: EventService,
     public user: UserService, // used by user script
     public db: DBService
-  ) {}
+  ) { }
 
   // configuration of the ui element
   @Input() uiElement: any;
@@ -63,7 +63,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       this.data[this.uiElement.key] = this.uiElement.default;
       try {
         this.data[this.uiElement.key] = eval(this.uiElement.default);
-      } catch (e) {}
+      } catch (e) { }
     }
 
     if (this.uiElement.format) {
@@ -207,7 +207,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     let src = this.uiElement.src;
     try {
       src = eval(src);
-    } catch (e) {}
+    } catch (e) { }
 
 
     if (src) {
@@ -237,13 +237,15 @@ export class DataTableComponent implements OnInit, OnDestroy {
         options = this.uiElement.options;
         try {
           options = eval(`${options}`);
-        } catch {}
+        } catch { }
       }
 
-      try {
-        eval(this.uiElement.preProcess);
-      } catch (e) {
-        console.error(e);
+      if (this.uiElement.preProcess) {
+        try {
+          eval(this.uiElement.preProcess);
+        } catch (e) {
+          console.error(e);
+        }
       }
 
       // send REST request
@@ -271,13 +273,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
     let transform = this.uiElement.transform || "response.data";
     try {
       this.rows = eval(transform);
-    } catch (e) {}
+    } catch (e) { }
 
     // get total records
     let transformTotal = this.uiElement.transformTotal || "response.total";
     try {
       this.total = parseInt(eval(transformTotal));
-    } catch (e) {}
+    } catch (e) { }
     if (this.total != 0 && !this.total) this.total = this.rows.length;
   }
 
