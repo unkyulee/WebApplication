@@ -7,19 +7,20 @@ import { NavService } from "../../../services/nav.service";
 import { ConfigService } from "../../../services/config.service";
 import { EventService } from "../../../services/event.service";
 import { UserService } from "../../../services/user/user.service";
+import { BaseComponent } from 'src/app/ui/base.component';
 
 @Component({
   selector: "nav-vertical",
   templateUrl: "./nav-vertical.component.html",
   styleUrls: ["./nav-vertical.component.scss"]
 })
-export class NavVerticalComponent {
+export class NavVerticalComponent extends BaseComponent {
   constructor(
     public event: EventService,
     public nav: NavService,
     public user: UserService,
     public config: ConfigService
-  ) {}
+  ) { super() }
 
   data: any;
   currUrl: string;
