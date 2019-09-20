@@ -8,7 +8,10 @@
       {
         "type": "div",
         "comment": "spacer",
-        "layoutStyle": { "flex-grow": 1, "width": "1px" }
+        "layoutStyle": {
+          "flex-grow": 1,
+          "width": "1px"
+        }
       },
       {
         "type": "input",
@@ -37,15 +40,40 @@
   {
     "_id": ObjectId("000000000000000000000120"),
     "type": "data-table",
-    "tableType": "table",
+    "tableType": "card",
     "key": "table",
     "name": "Scheduled Task",
-    "src": "/adminapi/core.scheduled_task",
+    "src": "/adminapi/task",
     "method": "get",
     "transform": "response.data",
     "click": "this.router.navigateByUrl(`/task/detail?_id=${row._id}`)",
+    "layoutStyle": {
+      "padding": "8px"
+    },
+    "contentLayoutStyle": {
+      "display": "flex",
+      "flexWrap": "wrap",
+      "flexDirection": "row"
+    },
+    "itemBoxStyle": {
+      "max-width": "400px",
+      "margin": "4px"
+    },
     "columns": [
       {
+        "type": "typography",
+        "key": "status",        
+        "style": {
+          "fontWeight": "bold",
+          "background": "grey",
+          "padding": "4px",
+          "margin": "4px",
+          "color": "white",
+          "textAlign": "center"          
+        }
+      },
+      {
+        "type": "typography",
         "key": "name",
         "label": "Task name",
         "style": {
@@ -56,15 +84,12 @@
         }
       },
       {
+        "type": "typography",
+        "condition": "this.data.next_run_date",
         "key": "next_run_date",
         "label": "Next Run",
-        "format": "moment(v).format('L LT')"
-      },
-      {
-        "key": "last_run_result",
-        "label": "Last Status",
-        "canAutoResize": false
-      }
+        "format": "`next: ${moment(this._value).format('L LT')}`"
+      }      
     ]
   },
   {
@@ -81,7 +106,10 @@
       {
         "type": "div",
         "comment": "spacer",
-        "layoutStyle": { "flex-grow": 1, "width": "1px" }
+        "layoutStyle": {
+          "flex-grow": 1,
+          "width": "1px"
+        }
       },
       {
         "type": "typography",
@@ -108,7 +136,7 @@
   {
     "_id": ObjectId("000000000000000000000122"),
     "type": "form-generator",
-    "src": "this.data._params_._id?`/adminapi/core.scheduled_task?_id=${this.data._params_._id}`:''",
+    "src": "this.data._params_._id?`/adminapi/task?_id=${this.data._params_._id}`:''",
     "method": "get",
     "transform": "response.data[0]",
     "layoutStyle": {
@@ -119,7 +147,7 @@
       "overflow-y": "auto"
     },
     "save": {
-      "src": "`/adminapi/core.scheduled_task`",
+      "src": "`/adminapi/task`",
       "method": "post",
       "transform": "data.logs = []",
       "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
@@ -140,6 +168,19 @@
         },
         "screen": [
           {
+            "type": "typography",
+            "condition": "this.data.status",
+            "key": "status",        
+            "style": {
+              "fontWeight": "bold",
+              "background": "grey",
+              "padding": "4px",
+              "margin": "4px",
+              "color": "white",
+              "textAlign": "center"          
+            }
+          },
+          {
             "type": "input",
             "key": "name",
             "label": "Task name",
@@ -152,8 +193,8 @@
           },
           {
             "type": "input",
-            "key": "schedule",
-            "label": "Schedule Rule",
+            "key": "cron",
+            "label": "CRON",
             "layoutStyle": {
               "width": "100%"
             },
@@ -163,7 +204,8 @@
           },
           {
             "type": "input",
-            "key": "next_run_date_formatted",
+            "inputType": "date",
+            "key": "next_run_date",
             "label": "Next Run",
             "readonly": "true",
             "format": "this.data.next_run_date ? moment(this.data.next_run_date).format('L LT') : ''",
@@ -173,56 +215,12 @@
             "style": {
               "width": "100%"
             }
-          },
-          {
-            "type": "input",
-            "key": "last_run_result",
-            "label": "Last Run Result",
-            "readonly": true,
-            "layoutStyle": {
-              "width": "100%"
-            },
-            "style": {
-              "width": "100%"
-            }
-          },
+          },          
           {
             "type": "button",
-            "label": "Run Script",
+            "label": "Run",
             "color": "warn",
-            "click": "this.data.last_run_result = 'In Queue'; this.data.logs = []; this.data.next_run_date = new Date(); this.event.send({ 'name': 'save' }); setTimeout(() => this.event.send({ 'name': 'refresh' }), 20000);",
-            "layoutStyle": {
-              "width": "100%"
-            }
-          }
-        ]
-      },
-      {
-        "expanded": false,
-        "style": {
-          "width": "100%"
-        },
-        "header": {
-          "screen": [
-            {
-              "type": "typography",
-              "text": "Script"
-            }
-          ]
-        },
-        "screen": [
-          {
-            "type": "input",
-            "inputType": "textarea",
-            "key": "script",
-            "label": "Script",
-            "rows": 30,
-            "layoutStyle": {
-              "width": "100%"
-            },
-            "style": {
-              "width": "100%"
-            }
+            "click": ""
           }
         ]
       },
@@ -235,25 +233,96 @@
           "screen": [
             {
               "type": "typography",
-              "text": "Log"
+              "text": "Actions"
             }
           ]
         },
         "screen": [
           {
             "type": "data-table",
+            "condition": "this.data._id",
             "tableType": "list",
-            "key": "logs",
+            "key": "actions",
+            "src": "`/adminapi/taskaction?task_id=${this.data._id}&_sort=order`",
+            "method": "get",
+            "transform": "response.data",
+            "layoutStyle": {
+              "width": "100%"
+            },
+            "itemBoxStyle": {
+              "margin": "4px",
+              "background": "aliceblue",
+              "display": "flex",
+              "cursor": "pointer"
+            },
             "columns": [
               {
                 "type": "typography",
-                "key": "msg",
-                "label": "msg"
+                "key": "order",
+                "style": {
+                  "color": "grey",
+                  "padding": "4px"
+                }
               },
               {
                 "type": "typography",
-                "key": "_created",
-                "format": "moment(v).format('L LTS')"
+                "key": "name",
+                "style": {
+                  "fontWeight": "bold",
+                  "padding": "4px"
+                }
+              },
+              {
+                "type": "layout",
+                "layoutStyle": {
+                  "width": "1px",
+                  "flex-grow": 1
+                }
+              },
+              {
+                "type": "typography",
+                "condition": "this.data.enabled == false",
+                "text": "disabled",
+                "style": {
+                  "color": "crimson",
+                  "padding": "4px"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "expanded": true,
+        "style": {
+          "width": "100%"
+        },
+        "header": {
+          "screen": [
+            {
+              "type": "typography",
+              "text": "Task Execution History"
+            }
+          ]
+        },
+        "screen": [
+          {
+            "type": "data-table",
+            "tableType": "table",
+            "key": "instances",
+            "src": "`/adminapi/taskinstance?task_id=${this.data._id}&_sort_desc=started`",
+            "method": "get",
+            "transform": "response.data",
+            "columns": [
+              {                
+                "key": "started",
+                "label": "started",
+                "format": "moment(value).format('LTS')"
+              },
+              {                
+                "key": "ended",
+                "label": "ended",
+                "format": "moment(value).format('LTS')"
               }
             ]
           }

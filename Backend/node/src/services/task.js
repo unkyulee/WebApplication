@@ -3,59 +3,57 @@ const ObjectID = require("mongodb").ObjectID;
 const MongoDB = require("../db/mongodb");
 
 const timeout = ms => new Promise(res => setTimeout(res, ms));
-
-const log = (db, task, msg) => {
-  return new Promise(function(resolve, reject) {
-    let logMessage = {
-      msg: `${msg}`,
-      _created: new Date()
-    };
-    // remove the user from all the group
-    db.db.collection("core.scheduled_task").updateMany(
-      { _id: ObjectID(`${task._id}`) },
-      { $push: { logs: logMessage } },
-      (err, res) => {
-        if (err) {
-          resolve(false);
-          return;
-        }
-        resolve(true);
-      }
-    );
-  });
+const log = async (db, task, taskInstanceId, action, msg) => {
+  await db.update(
+    "task.log"
+    , {
+      _created: new Date(),
+      task_id: `${task._id}`,
+      task_instance_id: `${taskInstanceId}`,
+      action_id: `${action._id}`,
+      action: action.name,
+      msg: `${msg}`
+    }
+  );
 };
 
 class Task {
   // interval in seconds
-  async start(sleep) {
-    console.log(`scheduler starting with ${sleep}s interval`);
-    setInterval(async () => {
-      let db = null;
-      try {
-        // instantiate DB
-        db = new MongoDB(process.env.DATABASE_URI, process.env.DB);
+  async runOnce(DATABASE_URI, DB) {
+    console.log("started")
 
-        // try to connect to db
-        await db.connect();
+    let db = null;
 
-        // get unscheduled tasks and schedule them
-        await this.schedule(db);
+    try {
+      // instantiate DB
+      db = new MongoDB(DATABASE_URI, DB);
 
-        // get scheduled task and run them
-        await this.execute(db);
+      // try to connect to db
+      await db.connect();
 
-      } catch (e) {
-        console.log(`scheduler crashed ${e}`);
-      } finally {
-        // close connection
-        if(db) await db.close();
+      // reset dead tasks
+      await this.resetDeadTasks(db)
+
+      // get unscheduled tasks and schedule them
+      await this.schedule(db);
+
+      // get scheduled task and run them
+      await this.execute(db);
+    } catch (e) {
+      console.log(e)
+    } finally {
+      // close connection
+      if (db) {
+        console.log("closing db connection")
+        await db.close();
       }
-    }, sleep * 1000);
+    }
+    console.log("completed")
   }
 
-  async schedule(db) {
+  async resetDeadTasks(db) {
     // if the task was running for more than 1 hour then reset
-    let deadTasks = await db.find("core.scheduled_task", {
+    let deadTasks = await db.find("task", {
       $and: [
         // is running for more than 1 hour than consider it as a dead task
         {
@@ -63,44 +61,42 @@ class Task {
             $lte: new Date(new Date().getTime() - 60 * 60 * 1000)
           }
         },
-        { last_run_result: "Running" }
+        { status: "Running" }
       ]
     });
     for (let task of deadTasks) {
-      await db.update("core.scheduled_task", {
+      await db.update("task", {
         _id: task._id,
         next_run_date: null,
-        last_run_result: null,
+        status: null,
         _updated: new Date()
       });
-      console.log(`reset dead task: ${task._id}`);
+      console.log(`reset dead task: ${task.name}`);
     }
+  }
 
+  async schedule(db) {
     // get list of unscheduled tasks
-    let tasks = await db.find("core.scheduled_task", {
+    let tasks = await db.find("task", {
       next_run_date: null
     });
 
     for (let task of tasks) {
-      if (task.schedule) {
-        // find next run date
-        let interval = cron.parseExpression(task.schedule);
+      if (task.cron) {
+        // find next run         
+        let interval = cron.parseExpression(task.cron);
         task.next_run_date = new Date(interval.next().toString());
 
         try {
-          // log
-          await log(
-            db,
-            task,
-            `Next Run - ${task.schedule} - ${task.next_run_date}`
-          );
-
           // update the task
-          await db.update("core.scheduled_task", {
+          await db.update("task", {
             _id: task._id,
-            next_run_date: task.next_run_date
+            next_run_date: task.next_run_date,
+            status: "Scheduled",
+            _updated: new Date()
           });
-        } catch (e) {}
+          console.log(`scheduled task: ${task.name} - ${task.next_run_date}`);
+        } catch (e) { }
       }
     }
   }
@@ -108,11 +104,11 @@ class Task {
   async execute(db) {
     // get list of unscheduled tasks
     let tasks = await db.find(
-      "core.scheduled_task",
+      "task",
       {
         $and: [
           { next_run_date: { $lte: new Date() } },
-          { last_run_result: { $ne: "Running" } }
+          { status: { $ne: "Running" } }
         ]
       },
       { next_run_date: 1 }
@@ -120,39 +116,80 @@ class Task {
 
     // pick first task and run it
     for (let task of tasks) {
+      console.log(`Running Task: ${task.name}`)
+      let taskInstanceId = null;
       try {
         // initiate the task
-        await db.update("core.scheduled_task", {
+        await db.update("task", {
           _id: task._id,
-          last_run_result: "Running",
-          _updated: new Date(),
-          logs: []
+          status: "Running",
+          _updated: new Date()
         });
-        await log(db, task, `started`);
+
+        // create a task instance
+        taskInstanceId = await db.update(
+          "task.instance"
+          , { task_id: `${task._id}`, started: new Date() }
+        )
 
         // run task
-        let result = await eval(task.script);
-        if (result == null) result = "Success";
+        await this.executeActions(db, task, taskInstanceId);
 
-        // complete the task
-        await log(db, task, `completed`);
-        await db.update("core.scheduled_task", {
-          _id: task._id,
-          last_run_result: `${result}`,
-          next_run_date: null
-        });
+        // finish a task instance
+        await db.update(
+          "task.instance"
+          , { _id: taskInstanceId, ended: new Date(), status: "Success" }
+        )
+
+        // complete the task        
+        await db.update(
+          "task"
+          , { _id: task._id, status: "Success", _updated: new Date() }
+        );
       } catch (e) {
+        console.log(e)
         try {
-          await log(db, task, e.stack);
+          // fail the task  
+          if (taskInstanceId) {
+            await db.update(
+              "task.instance"
+              , { _id: taskInstanceId, ended: new Date(), status: "Failed" }
+            )
+          }
+        } catch { }
+        try {
+          await db.update(
+            "task"
+            , { _id: task._id, status: "Failed", _updated: new Date() }
+          );
+        } catch { }
+      }
+    }
+  }
 
-          // fail the task
-          await log(db, task, `failed`);
-          await db.update("core.scheduled_task", {
-            _id: task._id,
-            last_run_result: "failed",
-            next_run_date: null
-          });
-        } catch (e) {}
+
+  async executeActions(db, task, taskInstanceId) {
+    // get list of actions
+    let actions = await db.find(
+      "task.action",
+      { task_id: `${task._id}` },
+      { order: 1 }
+    );
+
+    // go through each action
+    for (let action of actions) {
+      if (action.enabled != false) {
+        log(db, task, taskInstanceId, action, `started`)
+
+        try {
+          // perform the task
+          await eval(task.script);
+
+          // success log
+          log(db, task, taskInstanceId, action, `completed`)
+        } catch(e) {
+          log(db, task, taskInstanceId, action, `${e}`)
+        }
       }
     }
   }

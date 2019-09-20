@@ -76,18 +76,6 @@ app.all("*", async (req, res) => {
   }
 });
 
-// Initiate the task scheduler
-if (process.env.TASK) {
-  const task = require("./src/services/task");
-  (async () => {
-    try {
-      await task.start(process.env.TASK || 5);
-    } catch (err) {
-      console.log(err);
-    }
-  })();
-}
-
 // Initiate the server
 app.listen(process.env.PORT, () => {
   console.log(`PORT: ${process.env.PORT}, IP: ${process.env.BIND_IP}`);
