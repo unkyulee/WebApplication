@@ -6,6 +6,7 @@
 /out-tsc
 package-lock.json
 /wwwroot/*
+task.bat
 
 # dependencies
 /node_modules

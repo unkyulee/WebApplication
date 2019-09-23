@@ -124,6 +124,17 @@ export class DataTableComponent implements OnInit, OnDestroy {
     );
   }
 
+  ngAfterViewInit() {
+    // run init script
+    if (this.uiElement.afterViewInit) {
+      try {
+        eval(this.uiElement.afterViewInit);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
   eventHandler(event) {
     if (event && (!event.key || event.key == this.uiElement.key)) {
       if (event.name == "refresh") {

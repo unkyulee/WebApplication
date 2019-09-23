@@ -172,13 +172,15 @@ class Task {
     let actions = await db.find(
       "task.action",
       { task_id: `${task._id}` },
-      { order: 1 }
+      { order: 1 },
+      1000
     );
 
     // go through each action
     let context = {}
     for (let action of actions) {
-      if (action.enabled != false) {       
+      if (action.enabled != false) {   
+        console.log(action.name)   
         try {
           // perform the task
           await eval(action.script);      
@@ -187,7 +189,8 @@ class Task {
             break;
           }    
         } catch(e) {
-          log(db, task, taskInstanceId, action, `${e}`)
+          log(db, task, taskInstanceId, action, `${e.stack}`)
+          throw e;
         }
       }
     }
