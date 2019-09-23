@@ -331,7 +331,6 @@
           ]
         },
         "screen": [
-          
           {
             "type": "data-table",
             "tableType": "table",
@@ -339,16 +338,34 @@
             "src": "`/adminapi/taskinstance?task_id=${this.data._id}&_sort_desc=started`",
             "method": "get",
             "transform": "response.data",
+            "click": "this.event.send({name:'open-dialog', width: '80vw', height: '80vh', uiElementId: '000000000000000000000125', data: {_id: row._id} });",
+            "style": {
+              "box-shadow": "0 0 0 0",
+              "width": "100%"
+            },
             "columns": [
+              {
+                "key": "status",
+                "label": "status",
+                "style": {
+                  "cursor": "pointer"
+                }
+              },
               {
                 "key": "started",
                 "label": "started",
-                "format": "moment(this._value).format('LTS')"
+                "format": "moment(v).format('L LTS')",
+                "style": {
+                  "cursor": "pointer"
+                }
               },
               {
                 "key": "ended",
                 "label": "ended",
-                "format": "moment(this._value).format('LTS')"
+                "format": "moment(v).format('L LTS')",
+                "style": {
+                  "cursor": "pointer"
+                }
               }
             ]
           }
@@ -394,8 +411,14 @@
             "label": "Enabled",
             "key": "enabled",
             "options": [
-              {"name": "Enabled", "value": true},
-              {"name": "Disabled", "value": false}
+              {
+                "name": "Enabled",
+                "value": true
+              },
+              {
+                "name": "Disabled",
+                "value": false
+              }
             ],
             "optionKey": "value",
             "optionLabel": "value",
@@ -420,7 +443,6 @@
           }
         ]
       },
-     
       {
         "type": "code-editor",
         "label": "Code",
@@ -462,6 +484,49 @@
             "color": "warn",
             "click": "this.rest.request(`/adminapi/taskaction`, this.data, `post`).subscribe(r => { this.event.send({name: `refresh`}); this.event.send({name: 'close-dialog'}); this.snackBar.open('Salvato', null, { duration: 2000 }); }); ",
             "comment": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": ObjectId("000000000000000000000125"),
+    "name": "Task Log",
+    "layoutStyle": {
+      "display": "flex",
+      "flex-direction": "column",
+      "flex-grow": 1
+    },
+    "contentStyle": {
+      "display": "flex",
+      "flex-direction": "column",
+      "flex-grow": 1,
+      "padding": "8px"
+    },
+    "screen": [
+      {
+        "type": "data-table",
+        "tableType": "table",
+        "key": "log",
+        "src": "`/adminapi/tasklog?task_instance_id=${this.data._id}`",
+        "method": "get",
+        "transform": "response.data",
+        "afterViewInit": "setTimeout(() => {window.dispatchEvent(new Event('resize'))}, 1000)",
+        "style": {
+          "box-shadow": "0 0 0 0"
+        },
+        "columns": [
+          {
+            "key": "msg",
+            "label": "Log Message"
+          },
+          {
+            "key": "action",
+            "label": "Action"
+          },
+          {
+            "key": "_created",
+            "label": "Created"
           }
         ]
       }
