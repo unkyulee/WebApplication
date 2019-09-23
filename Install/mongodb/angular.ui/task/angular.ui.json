@@ -62,14 +62,14 @@
     "columns": [
       {
         "type": "typography",
-        "key": "status",        
+        "key": "status",
         "style": {
           "fontWeight": "bold",
           "background": "grey",
           "padding": "4px",
           "margin": "4px",
           "color": "white",
-          "textAlign": "center"          
+          "textAlign": "center"
         }
       },
       {
@@ -89,7 +89,7 @@
         "key": "next_run_date",
         "label": "Next Run",
         "format": "`next: ${moment(this._value).format('L LT')}`"
-      }      
+      }
     ]
   },
   {
@@ -170,14 +170,14 @@
           {
             "type": "typography",
             "condition": "this.data.status",
-            "key": "status",        
+            "key": "status",
             "style": {
               "fontWeight": "bold",
               "background": "grey",
               "padding": "4px",
               "margin": "4px",
               "color": "white",
-              "textAlign": "center"          
+              "textAlign": "center"
             }
           },
           {
@@ -215,7 +215,7 @@
             "style": {
               "width": "100%"
             }
-          },          
+          },
           {
             "type": "button",
             "label": "Run",
@@ -239,11 +239,34 @@
         },
         "screen": [
           {
+            "type": "layout",
+            "layoutStyle": {
+              "display": "flex",
+              "width": "100%",
+              "padding": "4px"
+            },
+            "screen": [
+              {
+                "type": "layout",
+                "layoutStyle": {
+                  "flex-grow": 1,
+                  "width": "1px"
+                }
+              },
+              {
+                "type": "button",
+                "label": "New Action",
+                "color": "warn",
+                "click": "this.event.send({name:'open-dialog', width: '80vw', height: '80vh', uiElementId: '000000000000000000000124', data: {task_id: this.data._id} });"
+              }
+            ]
+          },
+          {
             "type": "data-table",
             "condition": "this.data._id",
             "tableType": "list",
             "key": "actions",
-            "src": "`/adminapi/taskaction?task_id=${this.data._id}&_sort=order`",
+            "src": "`/adminapi/taskaction?task_id=${this.data._id}&_sort=order&size=1000`",
             "method": "get",
             "transform": "response.data",
             "layoutStyle": {
@@ -255,7 +278,18 @@
               "display": "flex",
               "cursor": "pointer"
             },
+            "click": "this.event.send({name:'open-dialog', width: '80vw', height: '80vh', uiElementId: '000000000000000000000124', data: row});",
             "columns": [
+              {
+                "type": "typography",
+                "condition": "this.data.enabled == false",
+                "text": "disabled",
+                "style": {
+                  "color": "crimson",
+                  "padding": "4px",
+                  "fontWeight": "bold"
+                }
+              },
               {
                 "type": "typography",
                 "key": "order",
@@ -278,15 +312,6 @@
                   "width": "1px",
                   "flex-grow": 1
                 }
-              },
-              {
-                "type": "typography",
-                "condition": "this.data.enabled == false",
-                "text": "disabled",
-                "style": {
-                  "color": "crimson",
-                  "padding": "4px"
-                }
               }
             ]
           }
@@ -306,6 +331,7 @@
           ]
         },
         "screen": [
+          
           {
             "type": "data-table",
             "tableType": "table",
@@ -314,17 +340,128 @@
             "method": "get",
             "transform": "response.data",
             "columns": [
-              {                
+              {
                 "key": "started",
                 "label": "started",
-                "format": "moment(value).format('LTS')"
+                "format": "moment(this._value).format('LTS')"
               },
-              {                
+              {
                 "key": "ended",
                 "label": "ended",
-                "format": "moment(value).format('LTS')"
+                "format": "moment(this._value).format('LTS')"
               }
             ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "_id": ObjectId("000000000000000000000124"),
+    "name": "Action Detail",
+    "layoutStyle": {
+      "display": "flex",
+      "flex-direction": "column",
+      "flex-grow": 1
+    },
+    "contentStyle": {
+      "display": "flex",
+      "flex-direction": "column",
+      "flex-grow": 1,
+      "padding": "8px"
+    },
+    "screen": [
+      {
+        "type": "input",
+        "label": "name",
+        "key": "name",
+        "layoutStyle": {
+          "width": "100%"
+        },
+        "style": {
+          "width": "100%"
+        }
+      },
+      {
+        "type": "layout",
+        "layoutStyle": {
+          "display": "flex",
+          "flex-direction": "row"
+        },
+        "screen": [
+          {
+            "type": "selection",
+            "label": "Enabled",
+            "key": "enabled",
+            "options": [
+              {"name": "Enabled", "value": true},
+              {"name": "Disabled", "value": false}
+            ],
+            "optionKey": "value",
+            "optionLabel": "value",
+            "layoutStyle": {
+              "width": "20%"
+            },
+            "style": {
+              "width": "100%"
+            }
+          },
+          {
+            "type": "input",
+            "inputType": "number",
+            "key": "order",
+            "label": "Order",
+            "layoutStyle": {
+              "width": "20%"
+            },
+            "style": {
+              "width": "100%"
+            }
+          }
+        ]
+      },
+     
+      {
+        "type": "code-editor",
+        "label": "Code",
+        "key": "script",
+        "editorOptions": {
+          "theme": "vs-dark",
+          "language": "javascript",
+          "automaticLayout": true
+        },
+        "layoutStyle": {
+          "width": "100%",
+          "height": "100%"
+        },
+        "style": {
+          "width": "100%",
+          "height": "100%"
+        }
+      },
+      {
+        "type": "layout",
+        "layoutStyle": {
+          "display": "flex"
+        },
+        "screen": [
+          {
+            "type": "button",
+            "label": "delete"
+          },
+          {
+            "type": "layout",
+            "layoutStyle": {
+              "flex-grow": 1,
+              "width": "1px"
+            }
+          },
+          {
+            "type": "button",
+            "label": "save",
+            "color": "warn",
+            "click": "this.rest.request(`/adminapi/taskaction`, this.data, `post`).subscribe(r => { this.event.send({name: `refresh`}); this.event.send({name: 'close-dialog'}); this.snackBar.open('Salvato', null, { duration: 2000 }); }); ",
+            "comment": ""
           }
         ]
       }

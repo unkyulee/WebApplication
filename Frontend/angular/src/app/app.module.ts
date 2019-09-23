@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule, HttpClientJsonpModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { RouterModule, Routes } from "@angular/router";
 import { MaterialModule } from "./core/material.module";
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 // services
 import { AuthInterceptor } from "./services/auth/auth.interceptor";
@@ -36,6 +37,7 @@ const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
     HttpClientModule,
     HttpClientJsonpModule,
     MaterialModule,
+    MonacoEditorModule.forRoot(),
     RouterModule.forRoot(
       appRoutes
       //, {enableTracing: true}

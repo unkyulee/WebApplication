@@ -10,18 +10,16 @@ import { EventService } from "src/app/services/event.service";
 import { RestService } from "src/app/services/rest.service";
 
 @Component({
-  selector: "typography",
+  selector: "code-editor",
   template: `
-    <div
-      *ngIf="condition(uiElement) && value"
+    <ngx-monaco-editor 
       [ngStyle]="uiElement.style"
-      [ngClass]="uiElement.class"
-      [innerHtml]="value | safe: 'html'"
-      (click)="click()"
-    ></div>
+      [options]="uiElement.editorOptions" 
+      [(ngModel)]="value">
+    </ngx-monaco-editor>
   `
 })
-export class TypographyComponent extends BaseComponent {
+export class CodeEditorComponent extends BaseComponent {
   constructor(
     public config: ConfigService,
     public user: UserService,
@@ -34,9 +32,6 @@ export class TypographyComponent extends BaseComponent {
 
   @Input() uiElement: any;
   @Input() data: any;
-
-  // event subscription
-  onEvent: Subscription;
 
   ngOnInit() {
   }
@@ -76,5 +71,15 @@ export class TypographyComponent extends BaseComponent {
     }
 
     return this._value;
+  }
+
+  set value(v: any) {
+    if (this._value != v) {
+      this._value = v;
+
+      if (this.data && this.uiElement.key) {
+        this.data[this.uiElement.key] = v;
+      }
+    }
   }
 }

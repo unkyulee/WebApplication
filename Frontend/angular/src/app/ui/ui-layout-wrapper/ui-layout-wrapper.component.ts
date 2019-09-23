@@ -25,6 +25,7 @@ import { UILayoutComponent } from "../ui-layout/ui-layout.component";
 import { DividerComponent } from "../divider/divider.component";
 import { DataSheetComponent } from "../data-sheet/data-sheet.component";
 import { PopupMenuComponent } from '../popup-menu/popup-menu.component';
+import { CodeEditorComponent } from '../code-editor/code-editor.component';
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -37,7 +38,7 @@ export class UILayoutWrapperComponent {
     private cfr: ComponentFactoryResolver,
     private renderer: Renderer2,
     public user: UserService
-  ) {}
+  ) { }
 
   @Input() uiElement: any;
   @Input() data: any;
@@ -85,7 +86,7 @@ export class UILayoutWrapperComponent {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnDestroy() {
     if (this.componentRef) this.componentRef.destroy();
@@ -94,8 +95,11 @@ export class UILayoutWrapperComponent {
   findComponentFactory(type) {
     let componentFactory = null;
     switch (type) {
+      case "code-editor":
+        componentFactory = this.cfr.resolveComponentFactory(CodeEditorComponent);
+        break;
       case "popup-menu":
-          componentFactory = this.cfr.resolveComponentFactory(PopupMenuComponent);
+        componentFactory = this.cfr.resolveComponentFactory(PopupMenuComponent);
         break;
       case "data-sheet":
         componentFactory = this.cfr.resolveComponentFactory(DataSheetComponent);

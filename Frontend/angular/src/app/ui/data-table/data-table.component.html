@@ -89,7 +89,7 @@
         : config.get('dataTable.itemBoxClass')
     " (click)="click(row, uiElement.click)">
     <div *ngFor="let column of uiElement.columns" [ngStyle]="column.layoutStyle">
-      <ng-container ui-layout-wrapper *ngIf="condition(column)" [uiElement]="column" [data]="row"></ng-container>
+      <ng-container ui-layout-wrapper [uiElement]="column" [data]="row"></ng-container>
     </div>
   </div>
 </div>

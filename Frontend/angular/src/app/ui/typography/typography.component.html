@@ -1,7 +1,0 @@
-<div
-  *ngIf="condition(uiElement) && value"
-  [ngStyle]="uiElement.style"
-  [ngClass]="uiElement.class"
-  [innerHtml]="value | safe: 'html'"
-  (click)="click()"
-></div>

@@ -167,7 +167,6 @@ class Task {
     }
   }
 
-
   async executeActions(db, task, taskInstanceId) {
     // get list of actions
     let actions = await db.find(
@@ -177,16 +176,16 @@ class Task {
     );
 
     // go through each action
+    let context = {}
     for (let action of actions) {
-      if (action.enabled != false) {
-        log(db, task, taskInstanceId, action, `started`)
-
+      if (action.enabled != false) {       
         try {
           // perform the task
-          await eval(task.script);
-
-          // success log
-          log(db, task, taskInstanceId, action, `completed`)
+          await eval(action.script);      
+          if(context.stop == true) {
+            log(db, task, taskInstanceId, action, `== Stop Processing ==`)
+            break;
+          }    
         } catch(e) {
           log(db, task, taskInstanceId, action, `${e}`)
         }

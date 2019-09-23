@@ -41,6 +41,8 @@ import { DividerComponent } from './divider/divider.component';
 import { DataSheetComponent } from './data-sheet/data-sheet.component';
 import { BaseComponent } from './base.component';
 import { PopupMenuComponent } from './popup-menu/popup-menu.component';
+import { CodeEditorComponent } from './code-editor/code-editor.component';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [
@@ -70,7 +72,8 @@ import { PopupMenuComponent } from './popup-menu/popup-menu.component';
     DividerComponent,
     DataSheetComponent,
     BaseComponent,
-    PopupMenuComponent
+    PopupMenuComponent,
+    CodeEditorComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -96,7 +99,8 @@ import { PopupMenuComponent } from './popup-menu/popup-menu.component';
     DividerComponent,
     DataSheetComponent,
     BaseComponent,
-    PopupMenuComponent
+    PopupMenuComponent,
+    CodeEditorComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -119,7 +123,8 @@ import { PopupMenuComponent } from './popup-menu/popup-menu.component';
     DividerComponent,
     DataSheetComponent,
     BaseComponent,
-    PopupMenuComponent
+    PopupMenuComponent,
+    CodeEditorComponent
   ],
   imports: [
     CommonModule,
@@ -133,7 +138,8 @@ import { PopupMenuComponent } from './popup-menu/popup-menu.component';
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     ScrollingModule,
-    ScrollDispatchModule
+    ScrollDispatchModule,
+    MonacoEditorModule
   ]
 })
 export class UIModule {}
