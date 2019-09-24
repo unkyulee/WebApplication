@@ -149,7 +149,7 @@
     "save": {
       "src": "`/adminapi/task`",
       "method": "post",
-      "transform": "data.logs = []",
+      "transform": "delete data.instances; delete data.actions;",
       "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
     },
     "screen": [
@@ -174,7 +174,7 @@
             "style": {
               "fontWeight": "bold",
               "background": "grey",
-              "padding": "4px",
+              "padding": "8px",
               "margin": "4px",
               "color": "white",
               "textAlign": "center"
@@ -220,7 +220,7 @@
             "type": "button",
             "label": "Run",
             "color": "warn",
-            "click": ""
+            "click": "this.data.status = ''; this.data.next_run_date = new Date(); this.event.send({name: 'save'});"
           }
         ]
       },

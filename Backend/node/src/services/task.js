@@ -108,11 +108,19 @@ class Task {
       {
         $and: [
           { next_run_date: { $lte: new Date() } },
-          { status: { $ne: "Running" } }
+          { $or: [{ status: { $ne: "Running" } }, { status: { $ne: "Waiting" } }] }
         ]
       },
       { next_run_date: 1 }
     );
+
+    // set task to as Waiting
+    for (let task of tasks) {
+      // initiate the task
+      await db.update("task", {
+        _id: task._id, status: "Waiting", _updated: new Date()
+      });
+    }
 
     // pick first task and run it
     for (let task of tasks) {
@@ -121,9 +129,7 @@ class Task {
       try {
         // initiate the task
         await db.update("task", {
-          _id: task._id,
-          status: "Running",
-          _updated: new Date()
+          _id: task._id, status: "Running", _updated: new Date()
         });
 
         // create a task instance
@@ -144,7 +150,7 @@ class Task {
         // complete the task        
         await db.update(
           "task"
-          , { _id: task._id, status: "Success", _updated: new Date() }
+          , { _id: task._id, status: "Success", _updated: new Date(), next_run_date: null }
         );
       } catch (e) {
         console.log(e)
@@ -160,7 +166,7 @@ class Task {
         try {
           await db.update(
             "task"
-            , { _id: task._id, status: "Failed", _updated: new Date() }
+            , { _id: task._id, status: "Failed", _updated: new Date(), next_run_date: null }
           );
         } catch { }
       }
@@ -179,16 +185,16 @@ class Task {
     // go through each action
     let context = {}
     for (let action of actions) {
-      if (action.enabled != false) {   
-        console.log(action.name)   
+      if (action.enabled != false) {
+        console.log(action.name)
         try {
           // perform the task
-          await eval(action.script);      
-          if(context.stop == true) {
+          await eval(action.script);
+          if (context.stop == true) {
             log(db, task, taskInstanceId, action, `== Stop Processing ==`)
             break;
-          }    
-        } catch(e) {
+          }
+        } catch (e) {
           log(db, task, taskInstanceId, action, `${e.stack}`)
           throw e;
         }
