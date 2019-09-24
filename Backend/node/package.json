@@ -26,9 +26,11 @@
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.23",
     "mongodb": "^3.1.10",
-    "mustache": "^3.0.1",
+    "mssql": "^5.1.0",
+    "mustache": "^3.1.0",
     "nodemailer": "^4.6.8",
     "request": "^2.88.0",
-    "request-promise-native": "^1.0.5"
+    "request-promise-native": "^1.0.5",
+    "sqlite": "^3.0.3"
   }
 }
