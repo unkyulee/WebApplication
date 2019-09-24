@@ -257,7 +257,7 @@
                 "type": "button",
                 "label": "New Action",
                 "color": "warn",
-                "click": "this.event.send({name:'open-dialog', width: '80vw', height: '80vh', uiElementId: '000000000000000000000124', data: {task_id: this.data._id} });"
+                "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000124', data: {task_id: this.data._id} });"
               }
             ]
           },
@@ -278,7 +278,7 @@
               "display": "flex",
               "cursor": "pointer"
             },
-            "click": "this.event.send({name:'open-dialog', width: '80vw', height: '80vh', uiElementId: '000000000000000000000124', data: row});",
+            "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000124', data: row});",
             "columns": [
               {
                 "type": "typography",
@@ -387,18 +387,7 @@
       "flex-grow": 1,
       "padding": "8px"
     },
-    "screen": [
-      {
-        "type": "input",
-        "label": "name",
-        "key": "name",
-        "layoutStyle": {
-          "width": "100%"
-        },
-        "style": {
-          "width": "100%"
-        }
-      },
+    "screen": [      
       {
         "type": "layout",
         "layoutStyle": {
@@ -406,6 +395,17 @@
           "flex-direction": "row"
         },
         "screen": [
+          {
+            "type": "input",
+            "label": "name",
+            "key": "name",
+            "layoutStyle": {
+              "width": "40%"
+            },
+            "style": {
+              "width": "100%"
+            }
+          },
           {
             "type": "selection",
             "label": "Enabled",
