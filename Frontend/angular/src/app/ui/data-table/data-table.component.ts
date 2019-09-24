@@ -39,12 +39,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     if (this.data && this.uiElement.key) {
       if (this._rows != this.data[this.uiElement.key]) {
-        this._rows = this.data[this.uiElement.key];
-        // if the external paging is not used then recalculate the total, size variable
-        if (this.uiElement.externalPaging == false) {
-          this.total = this._rows ? this._rows.length : 0;
-          this.size = this.total;
-        }
+        this._rows = this.data[this.uiElement.key];                
       }
       this._rows = this.data[this.uiElement.key];
     }
@@ -197,7 +192,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       this.uiElement.tableType != "card" &&
       this.uiElement.tableType != "list"
     ) {
-      if (this.uiElement.externalPaging != false) {
+      if (this.uiElement._id) {
         this.nav.setParam("page", this.page);
         this.nav.setParam("size", this.size);
       }
