@@ -1,47 +1,159 @@
-{
-  "_id": ObjectId("000000000000000000000016"),
-  "type": "data-table",
-  "name": "Angular UI Elements Data Table",
-  "src": "/adminapi/angular.ui",
-  "list": {
-      "src": "/adminapi/angular.ui",
-      "size": 1000,
-      "method": "get",
-      "transform": "response.data",
-      "table": {
-          "columns": [
-              {
-                  "key": "name",
-                  "label": "name",
-                  "link": "`detail/${row._id}`"
-              },
-              {
-                  "key": "type",
-                  "label": "type",
-                  "canAutoResize": false
-              },
-              {
-                  "key": "_id",
-                  "label": "_id"
-              }
-          ]
+[
+  {
+    "_id": ObjectId("000000000000000000000015"),
+    "name": "UI Element Toolbar",
+    "type": "filter-group",
+    "label": "Filters",
+    "screen": [
+      {
+        "type": "div",
+        "comment": "spacer",
+        "layoutStyle": {
+          "flex-grow": 1,
+          "width": "1px"
+        }
+      },
+      {
+        "type": "input",
+        "key": "search",
+        "label": "Search ...",
+        "floatLabel": "never",
+        "icon": "search",
+        "iconColor": "white",
+        "style": {
+          "margin-top": "-12px",
+          "margin-bottom": "-8px"
+        },
+        "class": {
+          "white": true
+        },
+        "changed": "this.event.send({ name: 'refresh', key: 'table' })"
+      },
+      {
+        "type": "button",
+        "buttonType": "mat-icon-button",
+        "icon": "note_add",
+        "click": "this.router.navigateByUrl(`/angular.ui/detail`)"
       }
+    ]
   },
-  "detail": {
-      "src": "`/adminapi/angular.ui?_id=${this.id}`",
-      "method": "get",
-      "transform": "response.data[0]",
-      "screen": [
+  {
+    "_id": ObjectId("000000000000000000000016"),
+    "type": "data-table",
+    "name": "UI Elements Data Table",
+    "src": "/adminapi/angular.ui",
+    "method": "get",
+    "transform": "response.data",
+    "click": "this.router.navigateByUrl(`/angular.ui/detail?_id=${row._id}`)",
+    "columns": [
+      {
+        "key": "_id",
+        "label": "_id",
+        "cursor": "pointer"
+      },
+      {
+        "key": "name",
+        "label": "name"
+      },
+      {
+        "key": "type",
+        "label": "type"
+      }
+    ]
+  },
+  {
+    "_id": ObjectId("000000000000000000001016"),
+    "name": "UI Element Detail Toolbar",
+    "type": "layout",
+    "layoutStyle": {
+      "background": "#3B4251",
+      "width": "100%",
+      "display": "flex",
+      "flex-wrap": "wrap",
+      "color": "white"
+    },
+    "screen": [
+      {
+        "type": "div",
+        "comment": "spacer",
+        "layoutStyle": {
+          "flex-grow": 1,
+          "width": "1px"
+        }
+      },
+      {
+        "type": "typography",
+        "condition": "!this.data._id",
+        "default": "this.data._params_._id?'Loading ...':'Must Save'",
+        "layoutStyle": {
+          "text-align": "center"
+        },
+        "style": {
+          "padding": "10px",
+          "text-transform": "uppercase",
+          "font-weight": "bold",
+          "color": "chartreuse"
+        }
+      },
+      {
+        "type": "button",
+        "buttonType": "mat-icon-button",
+        "icon": "save",
+        "click": "this.event.send({ 'name': 'save' });"
+      }
+    ]
+  },
+  {
+    "_id": ObjectId("000000000000000000001017"),
+    "type": "form-generator",
+    "src": "this.data._params_._id ? `/adminapi/angular.ui?_id=${this.data._params_._id}` : ''",
+    "method": "get",
+    "transform": "response.data[0]",
+    "layoutStyle": {
+      "flex-grow": 1,
+      "display": "flex",
+      "flex-direction": "column",
+      "height": "100%",
+      "overflow-y": "auto"
+    },
+    "save": {
+      "src": "`/adminapi/angular.ui`",
+      "method": "post",
+      "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
+    },
+    "screen": [
+      {
+        "style": {
+          "width": "100%"
+        },
+        "header": {
+          "screen": [
+            {
+              "type": "typography",
+              "text": "Angular UI Element Specification"
+            }
+          ]
+        },
+        "screen": [
           {
-              "name": "Angular UI Element Specification",
-              "screen": [
-                  {
-                      "path": ".",
-                      "label": "UI Element",
-                      "type": "json-editor"
-                  }
-              ]
+            "type": "code-editor",
+            "editorType": "json",
+            "path": ".",
+            "label": "UI Element",
+            "editorOptions": {
+              "theme": "vs-dark",
+              "automaticLayout": true
+            },
+            "layoutStyle": {
+              "width": "100%"
+            },
+            "style": {
+              "width": "100%",
+              "height": "600px"
+            }
           }
-      ]
+        ]
+      }
+    ]
   }
-}
+]

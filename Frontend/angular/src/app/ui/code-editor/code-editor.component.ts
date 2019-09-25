@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
-import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
+import * as obj from "object-path";
 
 // user Imports
 import { BaseComponent } from '../base.component';
@@ -11,13 +11,7 @@ import { RestService } from "src/app/services/rest.service";
 
 @Component({
   selector: "code-editor",
-  template: `
-    <ngx-monaco-editor 
-      [ngStyle]="uiElement.style"
-      [options]="uiElement.editorOptions" 
-      [(ngModel)]="value">
-    </ngx-monaco-editor>
-  `
+  templateUrl: "code-editor.component.html"
 })
 export class CodeEditorComponent extends BaseComponent {
   constructor(
@@ -32,6 +26,9 @@ export class CodeEditorComponent extends BaseComponent {
 
   @Input() uiElement: any;
   @Input() data: any;
+
+  path: string = '';
+  error: string = '';
 
   ngOnInit() {
   }
@@ -51,6 +48,20 @@ export class CodeEditorComponent extends BaseComponent {
     else if (this.data && this.uiElement.key) {
       // set value
       this._value = this.data[this.uiElement.key];
+    }
+
+    // if editor type is json then get value based on the path
+    else if (this.uiElement.editorType == "json") {
+      this.error = '';
+      if (!this.path) {
+        this._value = JSON.stringify(this.data, null, 2)
+      }
+      else if (this.path && obj.has(this.data, this.path)) {
+        this._value = JSON.stringify(obj.get(this.data, this.path), null, 2)
+      } else {
+        // property doesn't exist
+        this.error = 'JSON property does not exist.'
+      }
     }
 
     // if null then assign default
@@ -79,6 +90,25 @@ export class CodeEditorComponent extends BaseComponent {
 
       if (this.data && this.uiElement.key) {
         this.data[this.uiElement.key] = v;
+      } else if (this.uiElement.editorType == "json") {
+        this.error = '';
+        if (!this.path) {
+          try {
+            this.data = JSON.parse(this._value)
+          } catch(e) {
+            this.error = `${e.stack}`
+          }          
+        }
+        else if (this.path && obj.has(this.data, this.path)) {
+          try {
+            obj.set(this.data, this.path, JSON.parse(this._value) )
+          } catch(e) {
+            this.error = `${e.stack}`
+          }          
+        } else {
+          // property doesn't exist
+          this.error = 'JSON property does not exist.'
+        }
       }
     }
   }

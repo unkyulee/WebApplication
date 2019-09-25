@@ -157,7 +157,7 @@
           "textTransform": "uppercase",
           "display": "flex",
           "align-items": "center"
-        },
+        }, 
         "class": {
           "mat-elevation-z4": true
         }

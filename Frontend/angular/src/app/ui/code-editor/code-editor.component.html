@@ -1,0 +1,9 @@
+<!-- material input -->
+<mat-form-field *ngIf="uiElement.editorType=='json'" style="width: 100%">
+    <mat-label>JSON Path</mat-label>
+    <input matInput type="text" [(ngModel)]="path" />
+    <mat-hint style="color: crimson; font-weight: bold">{{ error }}</mat-hint>
+</mat-form-field>
+
+<ngx-monaco-editor [ngStyle]="uiElement.style" [options]="uiElement.editorOptions" [(ngModel)]="value">
+</ngx-monaco-editor>

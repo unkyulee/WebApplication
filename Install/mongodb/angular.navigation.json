@@ -68,11 +68,22 @@
         ]
       },
       {
-        "name": "Angular UI",
+        "name": "UI Element",
         "type": "item",
         "url": "/angular.ui",
         "uiElementIds": [
+          "000000000000000000000015",
           "000000000000000000000016"
+        ]
+      },
+      {
+        "name": "UI Element",
+        "type": "sub",
+        "url": "/angular.ui/detail",
+        "parent_url": "/angular.ui",
+        "uiElementIds": [
+          "000000000000000000001016",
+          "000000000000000000001017"
         ]
       }
     ]
