@@ -10,6 +10,7 @@ import { EventService } from "../../services/event.service";
 import { NavService } from "../../services/nav.service";
 import { BaseComponent } from "src/app/ui/base.component";
 import { UserService } from 'src/app/services/user/user.service';
+import { CordovaService } from 'src/app/services/cordova.service';
 
 @Component({
   selector: "ui-composer",
@@ -22,7 +23,8 @@ export class UIComposerComponent extends BaseComponent
     public config: ConfigService,
     private event: EventService,
     private nav: NavService,
-    public user: UserService
+    public user: UserService,
+    public cordova: CordovaService
   ) {
     super();
   }
