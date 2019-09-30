@@ -448,8 +448,7 @@
         "label": "Code",
         "key": "script",
         "editorOptions": {
-          "theme": "vs-dark",
-          "language": "javascript",
+          "theme": "vs-dark",          
           "automaticLayout": true
         },
         "layoutStyle": {
