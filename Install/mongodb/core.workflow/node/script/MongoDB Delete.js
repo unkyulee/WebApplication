@@ -25,10 +25,8 @@
     await ds.connect()
 
     // send delete query
-    let filter = { $and: [ { navigation_id: navigation_id }, { _id: ObjectID(`${data._id}`) } ] }
-    // do not filter by navigation_id if it is adminmode
-    if( adminMode == true ) filter.$and = [ { _id: ObjectID(`${data._id}`) } ]
-
+    let filter = { $and: [ { _id: ObjectID(`${data._id}`) } ] }
+    
     return await ds.delete(collection, filter)
 }
 

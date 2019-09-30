@@ -18,8 +18,8 @@
     <input
       matInput
       [evalValidate]="uiElement.errorCondition"
-      [type]="uiElement.inputType ? uiElement.inputType : 'text'"
-      [placeholder]="uiElement.label"
+      [type]="uiElement.inputType ? uiElement.inputType : 'text'"      
+      [placeholder]="uiElement.placeholder"
       [(ngModel)]="value"
       [required]="uiElement.required"
       [readonly]="uiElement.readonly"
@@ -65,7 +65,7 @@
       #autosize="cdkTextareaAutosize"
       [cdkAutosizeMinRows]="uiElement.rows"
       [(ngModel)]="value"
-      [placeholder]="uiElement.label"
+      [placeholder]="uiElement.placeholder"
       [readonly]="uiElement.readonly"
       [required]="uiElement.required"
       [maxlength]="uiElement.maxlength ? uiElement.maxlength : '-1'"
@@ -88,7 +88,7 @@
       matInput
       [evalValidate]="uiElement.errorCondition"
       [(ngModel)]="value"
-      [placeholder]="uiElement.label"
+      [placeholder]="uiElement.placeholder"
       (dateTimeChange)="inputChanged($event)"
       [required]="uiElement.required"
       [selectMode]="uiElement.selectMode ? uiElement.selectMode : 'single'"
