@@ -111,7 +111,8 @@ class Task {
           { $or: [{ status: { $ne: "Running" } }, { status: { $ne: "Waiting" } }] }
         ]
       },
-      { next_run_date: 1 }
+      { next_run_date: 1 },
+      1000
     );
 
     // set task to as Waiting
