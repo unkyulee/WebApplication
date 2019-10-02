@@ -43,6 +43,7 @@ import { BaseComponent } from './base.component';
 import { PopupMenuComponent } from './popup-menu/popup-menu.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { TreeComponent } from './tree/tree.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     DataSheetComponent,
     BaseComponent,
     PopupMenuComponent,
-    CodeEditorComponent
+    CodeEditorComponent,
+    TreeComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -100,7 +102,8 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     DataSheetComponent,
     BaseComponent,
     PopupMenuComponent,
-    CodeEditorComponent
+    CodeEditorComponent,
+    TreeComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -124,7 +127,8 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     DataSheetComponent,
     BaseComponent,
     PopupMenuComponent,
-    CodeEditorComponent
+    CodeEditorComponent,
+    TreeComponent
   ],
   imports: [
     CommonModule,

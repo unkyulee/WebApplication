@@ -22,7 +22,7 @@
         " (click)="ui.expanded = !ui.expanded">
         <button type="button" mat-icon-button>
           <mat-icon>{{
-            ui.expanded == false ? "keyboard_arrow_down" : "keyboard_arrow_up"
+            ui.expanded == false ? "chevron_right" : "expand_more"
           }}</mat-icon>
         </button>
         <ng-container *ngFor="let header of ui?.header?.screen">

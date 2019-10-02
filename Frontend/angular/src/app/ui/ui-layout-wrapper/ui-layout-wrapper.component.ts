@@ -26,6 +26,7 @@ import { DividerComponent } from "../divider/divider.component";
 import { DataSheetComponent } from "../data-sheet/data-sheet.component";
 import { PopupMenuComponent } from '../popup-menu/popup-menu.component';
 import { CodeEditorComponent } from '../code-editor/code-editor.component';
+import { TreeComponent } from '../tree/tree.component';
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -95,6 +96,9 @@ export class UILayoutWrapperComponent {
   findComponentFactory(type) {
     let componentFactory = null;
     switch (type) {
+      case "tree":
+        componentFactory = this.cfr.resolveComponentFactory(TreeComponent);
+        break;
       case "code-editor":
         componentFactory = this.cfr.resolveComponentFactory(CodeEditorComponent);
         break;
