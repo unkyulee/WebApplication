@@ -2,6 +2,7 @@ import { Component, Input } from "@angular/core";
 import { ConfigService } from "src/app/services/config.service";
 import { EventService } from "src/app/services/event.service";
 import { Subscription } from "rxjs";
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: "filter-group",
@@ -10,7 +11,8 @@ import { Subscription } from "rxjs";
 export class FilterGroupComponent {
   constructor(
     public config: ConfigService,
-    public event: EventService
+    public event: EventService,
+    public user: UserService
   ) {}
 
   @Input() uiElement: any;
