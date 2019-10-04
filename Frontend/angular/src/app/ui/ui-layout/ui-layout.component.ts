@@ -3,6 +3,7 @@ import { Subscription } from "rxjs";
 
 // user Imports
 import { UserService } from 'src/app/services/user/user.service';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "ui-layout",
@@ -18,24 +19,9 @@ import { UserService } from 'src/app/services/user/user.service';
     </ng-container>
   `
 })
-export class UILayoutComponent {
-  @Input() uiElement: any;
-  @Input() data: any;
+export class UILayoutComponent extends BaseComponent { 
 
-  // event subscription
-  onEvent: Subscription;
-  constructor(public user: UserService) {}
+  // event subscription  
+  constructor(public user: UserService) { super() }
 
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
-  }
 }

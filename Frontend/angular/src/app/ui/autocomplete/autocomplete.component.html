@@ -19,6 +19,7 @@
     mat-icon-button
     (click)="click()"
     *ngIf="uiElement.icon"
+    [ngStyle]="uiElement.iconStyle"
   >
     <mat-icon [style.color]="uiElement.iconColor || 'green'">{{
       uiElement.icon
