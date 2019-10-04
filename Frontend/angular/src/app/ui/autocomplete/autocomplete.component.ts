@@ -95,7 +95,7 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
 
   updateAlso(v) {
     // updateAlso
-    if (this.uiElement.updateAlso && this.uiElement.options) {
+    if (this.uiElement.updateAlso && this.uiElement.options && v) {
       // find selected option
       let selected = this.uiElement.options.find(
         item => item[this.uiElement.optionKey] == v
