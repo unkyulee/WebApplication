@@ -67,7 +67,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
         }
       }
       this.data._params_ = this.nav.getParams();
-      this.requestDownload();
+      this.requestDownload(false);
     } else if (event && event.name == "merge-data") {
       this.data = Object.assign(this.data, event.data);
     } else if (event && event.name == "insert-data") {
@@ -125,7 +125,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     this.onEvent.unsubscribe();
   }
 
-  requestDownload() {
+  requestDownload(cached?) {
     // fetch params
     this.params = this.nav.getParams();
 
@@ -146,7 +146,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       // start the splash
       this.event.send("splash-show");
       this.rest
-        .request(src, data, method)
+        .request(src, data, method, {}, cached)
         .pipe(
           catchError(err => {
             // hide the splash

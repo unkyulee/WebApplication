@@ -25,7 +25,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     private event: EventService,
     public user: UserService, // used by user script
     public db: DBService
-  ) { }
+  ) {}
 
   // configuration of the ui element
   @Input() uiElement: any;
@@ -39,17 +39,16 @@ export class DataTableComponent implements OnInit, OnDestroy {
 
     if (this.data && this.uiElement.key) {
       if (this._rows != this.data[this.uiElement.key]) {
-        this._rows = this.data[this.uiElement.key];                
+        this._rows = this.data[this.uiElement.key];
       }
       this._rows = this.data[this.uiElement.key];
     }
 
-    if (!this._rows) this._rows = [];
     return this._rows;
   }
 
   set rows(v: any) {
-    if (this.data && this.uiElement.key) {
+    if (this.data && this.uiElement.key) {      
       this.data[this.uiElement.key] = v;
     }
 
@@ -58,7 +57,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       this.data[this.uiElement.key] = this.uiElement.default;
       try {
         this.data[this.uiElement.key] = eval(this.uiElement.default);
-      } catch (e) { }
+      } catch (e) {}
     }
 
     if (this.uiElement.format) {
@@ -134,7 +133,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     if (event && (!event.key || event.key == this.uiElement.key)) {
       if (event.name == "refresh") {
         this.page = 0; // reset to first page
-        this.rows = [];
+        
         // run refresh script
         if (this.uiElement.refresh) {
           try {
@@ -199,7 +198,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     }
   }
 
-  requestDownload(pageInfo?) {
+  requestDownload(pageInfo?, cached?) {
     // get page
     this.getPage();
 
@@ -213,11 +212,9 @@ export class DataTableComponent implements OnInit, OnDestroy {
     let src = this.uiElement.src;
     try {
       src = eval(src);
-    } catch (e) { }
-
+    } catch (e) {}
 
     if (src) {
-
       // look at query params and pass it on to the request
       let data = this.uiElement.data;
       // apply nav parameters if necessary
@@ -243,7 +240,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
         options = this.uiElement.options;
         try {
           options = eval(`${options}`);
-        } catch { }
+        } catch {}
       }
 
       if (this.uiElement.preProcess) {
@@ -257,13 +254,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
       // send REST request
       this.event.send("splash-show"); // show splash
       this.rest
-        .request(
-          src,
-          data,
-          this.uiElement.method,
-          options,
-          this.uiElement.tableType == "card" ? false : true
-        )
+        .request(src, data, this.uiElement.method, options, cached)
         .subscribe(response => this.responseDownload(response));
     } else {
       this.total = this.rows ? this.rows.length : 0;
@@ -279,13 +270,13 @@ export class DataTableComponent implements OnInit, OnDestroy {
     let transform = this.uiElement.transform || "response.data";
     try {
       this.rows = eval(transform);
-    } catch (e) { }
+    } catch (e) {}
 
     // get total records
     let transformTotal = this.uiElement.transformTotal || "response.total";
     try {
       this.total = parseInt(eval(transformTotal));
-    } catch (e) { }
+    } catch (e) {}
     if (this.total != 0 && !this.total) this.total = this.rows.length;
   }
 
