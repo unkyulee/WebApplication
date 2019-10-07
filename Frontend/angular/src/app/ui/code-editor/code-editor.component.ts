@@ -57,7 +57,9 @@ export class CodeEditorComponent extends BaseComponent {
         this._value = JSON.stringify(this.data, null, 2)
       }
       else if (this.path && obj.has(this.data, this.path)) {
-        this._value = JSON.stringify(obj.get(this.data, this.path), null, 2)
+        this._value = obj.get(this.data, this.path)
+        if(typeof this._value != "string")
+          this._value = JSON.stringify(this._value, null, 2)
       } else {
         // property doesn't exist
         this.error = 'JSON property does not exist.'
@@ -101,7 +103,11 @@ export class CodeEditorComponent extends BaseComponent {
         }
         else if (this.path && obj.has(this.data, this.path)) {
           try {
-            obj.set(this.data, this.path, JSON.parse(this._value) )
+            if(typeof v == "string") {
+              obj.set(this.data, this.path, this._value )
+            } else {
+              obj.set(this.data, this.path, JSON.parse(this._value) )
+            }
           } catch(e) {
             this.error = `${e.stack}`
           }          
