@@ -6,6 +6,7 @@ import {
   Renderer2
 } from "@angular/core";
 import { UserService } from "src/app/services/user/user.service";
+import * as obj from "object-path";
 
 // UI components
 import { InputComponent } from "../input/input.component";
@@ -24,9 +25,10 @@ import { ScriptBoxComponent } from "../script-box/script-box.component";
 import { UILayoutComponent } from "../ui-layout/ui-layout.component";
 import { DividerComponent } from "../divider/divider.component";
 import { DataSheetComponent } from "../data-sheet/data-sheet.component";
-import { PopupMenuComponent } from '../popup-menu/popup-menu.component';
-import { CodeEditorComponent } from '../code-editor/code-editor.component';
-import { TreeComponent } from '../tree/tree.component';
+import { PopupMenuComponent } from "../popup-menu/popup-menu.component";
+import { CodeEditorComponent } from "../code-editor/code-editor.component";
+import { TreeComponent } from "../tree/tree.component";
+import { ConfigService } from "src/app/services/config.service";
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -38,8 +40,9 @@ export class UILayoutWrapperComponent {
     public viewContainerRef: ViewContainerRef,
     private cfr: ComponentFactoryResolver,
     private renderer: Renderer2,
-    public user: UserService
-  ) { }
+    public user: UserService,
+    private config: ConfigService
+  ) {}
 
   @Input() uiElement: any;
   @Input() data: any;
@@ -53,6 +56,25 @@ export class UILayoutWrapperComponent {
       this.uiElement &&
       this.condition(this.uiElement)
     ) {
+      // if type is ui-element-id then load from the uiElement first
+      if (this.uiElement.type == "ui-element-id") {
+        let element = obj.get(
+          this.config.get("uiElements"),
+          this.uiElement.uiElementId
+        );
+        element = JSON.parse(JSON.stringify(element))
+        this.uiElement = Object.assign({}, this.uiElement, element);
+        
+        // run init script
+        if (this.uiElement.init) {
+          try {
+            eval(this.uiElement.init);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+
       // find the component
       let componentFactory = this.findComponentFactory(this.uiElement.type);
 
@@ -87,7 +109,7 @@ export class UILayoutWrapperComponent {
     }
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngOnDestroy() {
     if (this.componentRef) this.componentRef.destroy();
@@ -100,7 +122,9 @@ export class UILayoutWrapperComponent {
         componentFactory = this.cfr.resolveComponentFactory(TreeComponent);
         break;
       case "code-editor":
-        componentFactory = this.cfr.resolveComponentFactory(CodeEditorComponent);
+        componentFactory = this.cfr.resolveComponentFactory(
+          CodeEditorComponent
+        );
         break;
       case "popup-menu":
         componentFactory = this.cfr.resolveComponentFactory(PopupMenuComponent);

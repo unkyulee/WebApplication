@@ -119,24 +119,25 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
       let src = this.uiElement.src;
       try {
         src = eval(src);
-      } catch (e) { }
+      } catch (e) {}
 
       let data = this.uiElement.data;
       try {
         data = eval(data);
-      } catch (e) { }
+      } catch (e) {}
 
-      this.rest.request(src, data, this.uiElement.method).subscribe(response => {
+      this.rest
+        .request(src, data, this.uiElement.method)
+        .subscribe(response => {
+          if (this.uiElement.transform)
+            this.uiElement.options = eval(this.uiElement.transform);
 
-        if (this.uiElement.transform)
-          this.uiElement.options = eval(this.uiElement.transform);
+          // set default when options are loaded
+          this.default();
 
-        // set default when options are loaded
-        this.default();
-
-        // update also
-        this.updateAlso(this.value);
-      });
+          // update also
+          this.updateAlso(this.value);
+        });
     } else {
       // set default
       this.default();
@@ -148,8 +149,10 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
     if (!this.data[this.uiElement.key] && this.uiElement.default) {
       this.data[this.uiElement.key] = this.uiElement.default;
       try {
-        this.data[this.uiElement.key] = eval(this.uiElement.default);
-      } catch { }
+        this.data[this.uiElement.key] = eval(this.uiElement.default);        
+      } catch (e) {
+        console.error(e);
+      }
 
       // try to go through updateAlso options
       this.updateAlso(this.data[this.uiElement.key]);
@@ -160,7 +163,7 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
   format(option, uiElement) {
     let value =
       option[
-      uiElement.optionLabel ? uiElement.optionLabel : uiElement.optionKey
+        uiElement.optionLabel ? uiElement.optionLabel : uiElement.optionKey
       ];
 
     if (uiElement.optionLabelTransform) {
@@ -176,9 +179,9 @@ export class AutoCompleteComponent extends BaseComponent implements OnInit {
   selected(value?) {
     if (this.uiElement.selected) {
       try {
-        eval(this.uiElement.selected)
+        eval(this.uiElement.selected);
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
     }
   }
