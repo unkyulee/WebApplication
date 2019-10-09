@@ -11,12 +11,13 @@ import { UserService } from "../../services/user/user.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DBService } from "src/app/services/db/db.service";
 import { debounceTime } from "rxjs/operators";
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "data-table",
   templateUrl: "./data-table.component.html"
 })
-export class DataTableComponent implements OnInit, OnDestroy {
+export class DataTableComponent extends BaseComponent implements OnInit, OnDestroy {
   constructor(
     public config: ConfigService,
     private rest: RestService,
@@ -25,11 +26,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
     private event: EventService,
     public user: UserService, // used by user script
     public db: DBService
-  ) {}
-
-  // configuration of the ui element
-  @Input() uiElement: any;
-  @Input() data: any;
+  ) { super() }
 
   ///
   _rows = [];
@@ -74,29 +71,7 @@ export class DataTableComponent implements OnInit, OnDestroy {
   page: number = 0;
   size: number = 0;
 
-  // event subscription
-  onEvent: Subscription;
-
-  // Scrolling viewport
-  @ViewChild(CdkVirtualScrollViewport) viewport: CdkVirtualScrollViewport;
-  requestThrottle = new Subject();
-  infiniteScroll(e) {
-    // when it reached the end
-    let bottom = this.viewport.getRenderedRange().end;
-    let total = this.viewport.getDataLength();
-    if (total < this.total) {
-      if (bottom == total) {
-        this.requestThrottle.next();
-      }
-    }
-  }
-
   ngOnInit() {
-    this.requestThrottle.pipe(debounceTime(300)).subscribe(v => {
-      this.page += 1;
-      this.requestDownload();
-    });
-
     // run init script
     if (this.uiElement.init) {
       try {
@@ -280,48 +255,10 @@ export class DataTableComponent implements OnInit, OnDestroy {
     if (this.total != 0 && !this.total) this.total = this.rows.length;
   }
 
-  // -------------------------------------------------------
-
-  click(row, click) {
-    if (click) {
-      try {
-        eval(click);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
-
-  // format to date on the column
-  format(v, transform?, row?) {
-    // transform
-    if (transform) {
-      try {
-        v = eval(transform);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return v;
-  }
-
   sort: any;
   onSort(event: any) {
     // event.sorts.dir / prop
     this.sort = event.sorts[0];
     if (this.sort) this.requestDownload();
-  }
-
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
   }
 }

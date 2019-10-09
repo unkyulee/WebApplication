@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import * as obj from "object-path";
+import { Subscription } from 'rxjs';
 
 @Component({
   template: ""
@@ -11,12 +12,16 @@ export class BaseComponent {
   @Input() uiElement: any;
   @Input() data: any;
 
-  click(item?) {
-    if (this.uiElement.click) {
+  // event subscription
+  onEvent: Subscription;
+
+  click(item?, script?) {
+    let clickScript = script?script:this.uiElement.click;
+    if (clickScript) {
       try {
-        eval(this.uiElement.click);
+        eval(clickScript);
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
     }
   }

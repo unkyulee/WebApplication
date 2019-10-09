@@ -33,7 +33,7 @@
   [limit]="size"
   (page)="requestDownload($event)"
   [externalPaging]="uiElement.externalPaging ? uiElement.externalPaging : true"
-  (activate)="$event.type == 'click' ? click($event.row, uiElement.click) : ''"
+  (activate)="$event.type == 'click' ? click($event.row) : ''"
 >
   <!-- Group Header Template -->
   <ngx-datatable-group-header
