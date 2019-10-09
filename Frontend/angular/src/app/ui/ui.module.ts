@@ -17,8 +17,6 @@ import { JsonValidator } from "../core/json.validator";
 
 // user component
 import { DataTableComponent } from "./data-table/data-table.component";
-import { FilterGroupComponent } from "./filter/filter-group.component";
-import { FilterComponent } from "./filter/filter.component";
 import { InputComponent } from "./input/input.component";
 import { SelectionComponent } from "./selection/selection.component";
 import { AutoCompleteComponent } from "./autocomplete/autocomplete.component";
@@ -54,8 +52,6 @@ import { TreeComponent } from './tree/tree.component';
     JsonValidator,
     DataTableComponent,
     FormGeneratorComponent,
-    FilterGroupComponent,
-    FilterComponent,
     InputComponent,
     SelectionComponent,
     AutoCompleteComponent,
@@ -82,8 +78,6 @@ import { TreeComponent } from './tree/tree.component';
     UILayoutComponent,
     DataTableComponent,
     FormGeneratorComponent,
-    FilterGroupComponent,
-    FilterComponent,
     InputComponent,
     SelectionComponent,
     AutoCompleteComponent,
@@ -110,7 +104,6 @@ import { TreeComponent } from './tree/tree.component';
     UILayoutComponent,
     DataTableComponent,
     FormGeneratorComponent,
-    FilterGroupComponent,
     InputComponent,
     SelectionComponent,
     AutoCompleteComponent,

@@ -18,7 +18,6 @@ import { SignatureComponent } from "../signature/signature.component";
 import { TypographyComponent } from "../typography/typography.component";
 import { DataTableComponent } from "../data-table/data-table.component";
 import { FormGeneratorComponent } from "../form-generator/form-generator.component";
-import { FilterGroupComponent } from "../filter/filter-group.component";
 import { CalendarComponent } from "../calendar/calendar.component";
 import { ProgressBarComponent } from "../progress-bar/progress-bar.component";
 import { ScriptBoxComponent } from "../script-box/script-box.component";
@@ -149,11 +148,6 @@ export class UILayoutWrapperComponent {
         break;
       case "calendar":
         componentFactory = this.cfr.resolveComponentFactory(CalendarComponent);
-        break;
-      case "filter-group":
-        componentFactory = this.cfr.resolveComponentFactory(
-          FilterGroupComponent
-        );
         break;
       case "form-generator":
         componentFactory = this.cfr.resolveComponentFactory(
