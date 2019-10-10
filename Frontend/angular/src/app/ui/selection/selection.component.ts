@@ -31,6 +31,11 @@ export class SelectionComponent extends BaseComponent implements OnInit {
   @ViewChild("select") select: MatSelect;
 
   ngOnInit() {
+    // load options
+    if(!this.uiElement.minimumLength) {
+      this.loadOption()
+    }
+
     // not all the input will be sent as an event / rest
     // will be debounced every 700 ms
     this.typeAheadEventEmitter
@@ -52,7 +57,7 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     // if the key is specify fied then find it from this.data
     if (this.data && this.uiElement.key) {
       // if null then assign default
-      if (typeof this.data[this.uiElement.key] == "undefined") {
+      if (typeof obj.get(this.data, this.uiElement.key) == "undefined") {
         let defaultValue = this.uiElement.default;
         try {
           defaultValue = eval(this.uiElement.default);
@@ -140,7 +145,7 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     this.changed();    
   }
 
-  changed() {    
+  changed() {
     if (this.uiElement.changed) {
       try {
         eval(this.uiElement.changed);
@@ -150,7 +155,7 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     }
   }
 
-  selected() {	
+  selected(option) {
     if (this.uiElement.selected) {	
       try {	
         eval(this.uiElement.selected);	
@@ -161,11 +166,9 @@ export class SelectionComponent extends BaseComponent implements OnInit {
   }
 
   format(option) {
-    let value = option;
-    if (this.uiElement.optionKey && option && option[this.uiElement.optionKey])
-      value = option[this.uiElement.optionKey];
+    let value = option;   
 
-    if (this.uiElement.optionLabelTransform) {
+    if (value && this.uiElement.optionLabelTransform) {
       try {
         value = eval(this.uiElement.optionLabelTransform);
       } catch (e) {

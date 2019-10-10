@@ -61,8 +61,8 @@ export class UILayoutWrapperComponent {
           this.uiElement.uiElementId
         );
         element = JSON.parse(JSON.stringify(element))
-        this.uiElement = Object.assign({}, this.uiElement, element);
-        
+        this.uiElement = Object.assign({}, this.uiElement, element);        
+
         // run init script
         if (this.uiElement.init) {
           try {

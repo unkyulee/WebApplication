@@ -15,7 +15,7 @@
       [(ngModel)]="value"
       [required]="uiElement.required"
       [placeholder]="uiElement.placeholder"
-      (selectionChange)="selected()"
+      (selectionChange)="selected($event.value)"
       (openedChange)="openChanged($event)"
     >
       <mat-option disabled *ngIf="!uiElement.options">
