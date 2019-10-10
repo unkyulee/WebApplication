@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material";
+import 'file-saver';
 
 // user imports
 import { EventService } from "../../services/event.service";
@@ -31,7 +32,7 @@ export class ButtonComponent {
 
   ngOnInit() {}
 
-  click() {
+  click() {    
     if (this.uiElement.click) {
       try {
         eval(this.uiElement.click);

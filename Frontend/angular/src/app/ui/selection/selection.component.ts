@@ -79,10 +79,7 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     }
 
     // because autocomplete assumes that the value displayed is string
-    // whereas option can be an object, it requires formatting
-    if (this.uiElement.selectionType == "autocomplete")
-      return this.format(this._value);
-
+    // whereas option can be an object, it requires formatting    
     return this._value;
   }
 
@@ -91,7 +88,7 @@ export class SelectionComponent extends BaseComponent implements OnInit {
 
     // if the key is specify fied then save it to this.data
     if (this.data && this.uiElement.key) {
-      obj.set(this.data, this.uiElement.key, v);      
+      obj.set(this.data, this.uiElement.key, this._value);
     }
 
     // check if the minimumLength is specified
