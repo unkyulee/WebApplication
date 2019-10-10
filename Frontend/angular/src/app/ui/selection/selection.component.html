@@ -15,7 +15,7 @@
       [(ngModel)]="value"
       [required]="uiElement.required"
       [placeholder]="uiElement.placeholder"
-      (selectionChange)="changed()"
+      (selectionChange)="selected()"
       (openedChange)="openChanged($event)"
     >
       <mat-option disabled *ngIf="!uiElement.options">
@@ -70,7 +70,8 @@
     <mat-error>{{ uiElement.errorMessage }}</mat-error>
 
     <mat-autocomplete
-      #auto="matAutocomplete"      
+      #auto="matAutocomplete"    
+      (optionSelected)="selected($event.option.value)"  
     >
       <mat-option
         *ngFor="let option of uiElement.options"

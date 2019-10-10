@@ -150,6 +150,16 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     }
   }
 
+  selected() {	
+    if (this.uiElement.selected) {	
+      try {	
+        eval(this.uiElement.selected);	
+      } catch (e) {	
+        console.error(e);	
+      }	
+    }	
+  }
+
   format(option) {
     let value = option;
     if (this.uiElement.optionKey && option && option[this.uiElement.optionKey])
