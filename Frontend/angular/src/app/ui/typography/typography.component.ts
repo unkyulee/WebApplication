@@ -1,6 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { Subscription } from "rxjs";
 import { Router } from "@angular/router";
+import * as obj from "object-path";
 
 // user Imports
 import { BaseComponent } from '../base.component';
@@ -32,12 +33,6 @@ export class TypographyComponent extends BaseComponent {
     super()
   }
 
-  @Input() uiElement: any;
-  @Input() data: any;
-
-  // event subscription
-  onEvent: Subscription;
-
   ngOnInit() {
   }
 
@@ -55,7 +50,7 @@ export class TypographyComponent extends BaseComponent {
     // key exists
     else if (this.data && this.uiElement.key) {
       // set value
-      this._value = this.data[this.uiElement.key];
+      this._value = obj.get(this.data, this.uiElement.key);      
     }
 
     // if null then assign default
