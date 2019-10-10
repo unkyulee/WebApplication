@@ -11,7 +11,6 @@ import * as obj from "object-path";
 // UI components
 import { InputComponent } from "../input/input.component";
 import { SelectionComponent } from "../selection/selection.component";
-import { AutoCompleteComponent } from "../autocomplete/autocomplete.component";
 import { UploaderComponent } from "../uploader/uploader.component";
 import { ButtonComponent } from "../button/button.component";
 import { SignatureComponent } from "../signature/signature.component";
@@ -170,12 +169,7 @@ export class UILayoutWrapperComponent {
         break;
       case "uploader":
         componentFactory = this.cfr.resolveComponentFactory(UploaderComponent);
-        break;
-      case "autocomplete":
-        componentFactory = this.cfr.resolveComponentFactory(
-          AutoCompleteComponent
-        );
-        break;
+        break;      
       case "selection":
         componentFactory = this.cfr.resolveComponentFactory(SelectionComponent);
         break;

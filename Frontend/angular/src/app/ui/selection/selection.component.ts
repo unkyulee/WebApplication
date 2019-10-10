@@ -1,12 +1,7 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ViewChild,
-  Output,
-  EventEmitter
-} from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatSelect } from "@angular/material";
+import { Subject } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import * as obj from "object-path";
 
 // user imports
@@ -33,160 +28,136 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     super();
   }
 
-  @Input() uiElement: any;
-  @Input() data: any;
-  @Output() change: EventEmitter<any> = new EventEmitter<any>(); // used for filter
-
   @ViewChild("select") select: MatSelect;
+
+  ngOnInit() {
+    // not all the input will be sent as an event / rest
+    // will be debounced every 700 ms
+    this.typeAheadEventEmitter
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(300)
+      )
+      .subscribe(v => {        
+        this.typeAheadEventHandler(v);
+      });
+  }
+
+  ngOnDestroy() {
+    this.typeAheadEventEmitter.unsubscribe();
+  }
 
   _value: any;
   get value() {
-    let v = null;
+    // if the key is specify fied then find it from this.data
     if (this.data && this.uiElement.key) {
       // if null then assign default
       if (typeof this.data[this.uiElement.key] == "undefined") {
-        let def = this.uiElement.default;
+        let defaultValue = this.uiElement.default;
         try {
-          def = eval(this.uiElement.default);
+          defaultValue = eval(this.uiElement.default);
         } catch (e) {}
-        this.data[this.uiElement.key] = def;
+        obj.set(this.data, this.uiElement.key, defaultValue);
       }
 
-      v = this.data[this.uiElement.key];
-      if (
-        typeof v !== "undefined" &&
-        this.uiElement.multiple &&
-        !Array.isArray(v)
-      ) {
-        v = [v];
-      }
+      //
+      this._value = obj.get(this.data, this.uiElement.key);      
     }
 
-    // if the value is programmatically updated without set property called
-    // then set it explicitly
-    if (this._value != v) {
-      this._value = v;
-      this.value = v;
+    // selection multiple mode must be array
+    if (
+      typeof this._value !== "undefined" &&
+      this.uiElement.multiple &&
+      !Array.isArray(this._value)
+    ) {
+      this._value = [this._value];      
     }
 
-    return v;
+    // because autocomplete assumes that the value displayed is string
+    // whereas option can be an object, it requires formatting
+    if (this.uiElement.selectionType == "autocomplete")
+      return this.format(this._value);
+
+    return this._value;
   }
 
   set value(v: any) {
-    if (v != this._value) {
-      this._value = v;
-      this.change.emit(v);
+    this._value = v;
 
-      if (this.uiElement.changed) {
-        try {
-          eval(this.uiElement.changed);
-        } catch (ex) {
-          console.error(ex);
-        }
-      }
+    // if the key is specify fied then save it to this.data
+    if (this.data && this.uiElement.key) {
+      obj.set(this.data, this.uiElement.key, v);      
+    }
+
+    // check if the minimumLength is specified
+    if (
+      this.uiElement.minimumLength > 0 &&
+      this.uiElement.minimumLength > this._value
+        ? this._value.length
+        : 0
+    ) {
+      // search value has not reached the minimum length
+      return;
+    } else if (this.uiElement.selectionType == "autocomplete") {
+      // proceed with deferred type
+      this.typeAheadEventEmitter.next(v);
     }
 
     // close the selection panel
-    if (this.select) this.select.close();
-
-    if (this.data) {
-      // set value to itself
-      this.data[this.uiElement.key] = v;
-
-      // updateAlso
-      this.updateAlso(v);
-    }
+    if (this.select && this.uiElement.keepOpen != true) this.select.close();
   }
 
-  updateAlso(v) {
-    // updateAlso
-    if (this.uiElement.updateAlso && this.uiElement.options) {
-      if (this.uiElement.multiple != true) {
-        // find selected option
-        let selected = this.uiElement.options.find(
-          item => item[this.uiElement.optionKey] == v
-        );
-        if(selected) {
-          for (let update of this.uiElement.updateAlso) {
-            // update the target data
-            this.data[update.targetKey] = selected[update.sourceKey];
-          }
-        }
-      } else {
-        // reset target values
-        for (let update of this.uiElement.updateAlso) {
-          obj.ensureExists(this.data, update.targetKey, []);
-          let target = obj.get(this.data, update.targetKey);
-          if(Array.isArray(target)) target.length = 0; // reset the array of the target
-        }
-
-        // for each value update the updateAlso values
-        for (let value of v) {
-          // find selected option
-          let selected = this.uiElement.options.find(
-            item => item[this.uiElement.optionKey] == value
-          );
-
-          for (let update of this.uiElement.updateAlso) {
-            // get source data
-            let source = selected[update.sourceKey];
-
-            // update the target data
-            let target = obj.get(this.data, update.targetKey);
-            if (Array.isArray(target) && target.indexOf(source) < 0)
-              target.push(source);
-          }
-        }
-      }
-    }
-  }
-
-  ngOnInit() {
-    // if optionSrc is specified then download the options
+  loadOption() {
     if (this.uiElement.src) {
+      // download data through rest web services
       let src = this.uiElement.src;
       try {
         src = eval(src);
       } catch (e) {}
 
       let data = this.uiElement.data;
-      let method = this.uiElement.method;
-      this.rest.request(src, data, method).subscribe(response => {
-        if (this.uiElement.transform)
-          this.uiElement.options = eval(this.uiElement.transform);
-        else this.uiElement.options = response;
+      try {
+        data = eval(data);
+      } catch (e) {}
 
-        // when options are ready then run
-        this.default();
-      });
+      this.rest
+        .request(src, data, this.uiElement.method)
+        .subscribe(response => {
+          this.isLoading = false;
+
+          if (this.uiElement.transform)
+            this.uiElement.options = eval(this.uiElement.transform);
+        });
     } else {
-      this.default();
+      this.isLoading = false;
     }
   }
 
-  default() {
-    // when data is not set then apply default value
-    if (!this.data[this.uiElement.key] && this.uiElement.default) {
-      this.data[this.uiElement.key] = this.uiElement.default;
-      try {
-        this.data[this.uiElement.key] = eval(this.uiElement.default);
-      } catch {}
+  // delayed typing -> send rest request
+  private typeAheadEventEmitter = new Subject<string>();
+  typeAheadEventHandler(v) {
+    this.loadOption();
+    this.changed();    
+  }
 
-      // try to go through updateAlso options
-      if (this.data[this.uiElement.key])
-        this.updateAlso(this.data[this.uiElement.key]);
+  changed() {    
+    if (this.uiElement.changed) {
+      try {
+        eval(this.uiElement.changed);
+      } catch (e) {
+        console.error(e);
+      }
     }
   }
 
-  format(option, uiElement) {
-    let value =
-      option[
-        uiElement.optionLabel ? uiElement.optionLabel : uiElement.optionKey
-      ];
+  format(option) {
+    let value = option;
+    if (this.uiElement.optionKey && option && option[this.uiElement.optionKey])
+      value = option[this.uiElement.optionKey];
 
-     if (uiElement.optionLabelTransform) {
+    if (this.uiElement.optionLabelTransform) {
       try {
-        value = eval(uiElement.optionLabelTransform);
+        value = eval(this.uiElement.optionLabelTransform);
       } catch (e) {
         console.error(e);
       }
@@ -194,4 +165,11 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     return value;
   }
 
+  isLoading = false;
+  isOpen = false;
+  openChanged(event) {
+    this.isOpen = event;
+    this.isLoading = event;
+    this.loadOption();
+  }
 }

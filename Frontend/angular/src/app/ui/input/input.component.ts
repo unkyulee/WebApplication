@@ -15,13 +15,14 @@ import { EventService } from "../../services/event.service";
 import { ConfigService } from "src/app/services/config.service";
 import { NavService } from "src/app/services/nav.service";
 import { RestService } from "src/app/services/rest.service";
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "input-component",
   templateUrl: "./input.component.html",
   styleUrls: ["./input.component.scss"]
 })
-export class InputComponent {
+export class InputComponent extends BaseComponent {
   constructor(
     public user: UserService,
     public event: EventService,
@@ -29,16 +30,9 @@ export class InputComponent {
     private config: ConfigService,
     public nav: NavService,
     public rest: RestService
-  ) {}
-
-  @Input() uiElement: any;
-  @Input() data: any;
-  @Output() change: EventEmitter<any> = new EventEmitter<any>(); // used for filter
-
+  ) { super() }
+  
   typeAheadEventEmitter = new Subject<string>();
-
-  // event subscription
-  onEvent: Subscription;
 
   ngOnInit() {
     // not all the input will be sent as an event / rest
@@ -74,9 +68,7 @@ export class InputComponent {
     }
   }
 
-  inputChanged(v) {
-    // when changed
-    this.change.emit(v);
+  inputChanged(v) {    
     // see if there are any input change handlers
     if (this.uiElement.changed) {
       try {

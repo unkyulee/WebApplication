@@ -19,7 +19,6 @@ import { JsonValidator } from "../core/json.validator";
 import { DataTableComponent } from "./data-table/data-table.component";
 import { InputComponent } from "./input/input.component";
 import { SelectionComponent } from "./selection/selection.component";
-import { AutoCompleteComponent } from "./autocomplete/autocomplete.component";
 import { ButtonComponent } from "./button/button.component";
 import { SignatureComponent } from "./signature/signature.component";
 import { UploaderComponent } from "./uploader/uploader.component";
@@ -53,8 +52,7 @@ import { TreeComponent } from './tree/tree.component';
     DataTableComponent,
     FormGeneratorComponent,
     InputComponent,
-    SelectionComponent,
-    AutoCompleteComponent,
+    SelectionComponent,    
     UploaderComponent,
     ButtonComponent,
     SignatureComponent,
@@ -79,8 +77,7 @@ import { TreeComponent } from './tree/tree.component';
     DataTableComponent,
     FormGeneratorComponent,
     InputComponent,
-    SelectionComponent,
-    AutoCompleteComponent,
+    SelectionComponent,    
     UploaderComponent,
     ButtonComponent,
     SignatureComponent,
@@ -105,8 +102,7 @@ import { TreeComponent } from './tree/tree.component';
     DataTableComponent,
     FormGeneratorComponent,
     InputComponent,
-    SelectionComponent,
-    AutoCompleteComponent,
+    SelectionComponent,    
     ButtonComponent,
     SignatureComponent,
     UploaderComponent,
