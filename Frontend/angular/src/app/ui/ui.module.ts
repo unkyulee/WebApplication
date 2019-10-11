@@ -14,6 +14,7 @@ import { ScrollDispatchModule } from "@angular/cdk/scrolling";
 // validators
 import { EvalValidator } from "../core/eval.validator";
 import { JsonValidator } from "../core/json.validator";
+import { AutofocusDirective } from '../core/autofocus';
 
 // user component
 import { DataTableComponent } from "./data-table/data-table.component";
@@ -49,6 +50,7 @@ import { TreeComponent } from './tree/tree.component';
     UILayoutComponent,
     EvalValidator,
     JsonValidator,
+    AutofocusDirective,
     DataTableComponent,
     FormGeneratorComponent,
     InputComponent,

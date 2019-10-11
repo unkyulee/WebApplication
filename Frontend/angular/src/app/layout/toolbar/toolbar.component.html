@@ -12,7 +12,8 @@
   <button
     type="button"
     mat-icon-button
-    (click)="isTopNav ? event.send('drawer-toggle') : nav.back()"
+    (click)="isTopNav ? event.send('drawer-toggle') : nav.back()"    
+    tabIndex="-1"      
   >
     <mat-icon *ngIf="isTopNav">menu</mat-icon>
     <mat-icon *ngIf="!isTopNav">arrow_back</mat-icon>

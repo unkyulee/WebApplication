@@ -5,7 +5,12 @@
       : config.get('toolbar.style')
   "
 >
-  <button type="button" mat-icon-button (click)="event.send({name: 'close-dialog'})">
+  <button
+    type="button"
+    mat-icon-button
+    (click)="event.send({ name: 'close-dialog' })"
+    tabIndex="-1"
+  >
     <mat-icon>close</mat-icon>
   </button>
   <span>{{ uiElement.name }}</span>

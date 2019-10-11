@@ -53,6 +53,7 @@
       [(ngModel)]="value"
       [matAutocomplete]="auto"
       [required]="uiElement.required"
+      [autofocus]="uiElement.autofocus?uiElement.autofocus:false"
     />
     <button
       type="button"
