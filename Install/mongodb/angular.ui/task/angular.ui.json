@@ -1,18 +1,15 @@
 [
   {
     "_id": ObjectId("000000000000000000000121"),
-    "name": "Appointment Filter",
-    "type": "filter-group",
-    "label": "Filters",
+    "name": "Task Toolbar",
+    "type": "layout",    
+    "layoutStyle": {
+      "background": "#2C313D",
+      "color": "white",
+      "display": "flex",
+      "flex-flow": "row wrap"
+    },
     "screen": [
-      {
-        "type": "div",
-        "comment": "spacer",
-        "layoutStyle": {
-          "flex-grow": 1,
-          "width": "1px"
-        }
-      },
       {
         "type": "input",
         "key": "search",
@@ -21,8 +18,7 @@
         "icon": "search",
         "iconColor": "white",
         "style": {
-          "margin-top": "-12px",
-          "margin-bottom": "-8px"
+          "margin": "-12px 0 -12px 8px"          
         },
         "class": {
           "white": true
@@ -30,9 +26,13 @@
         "changed": "this.event.send({ name: 'refresh', key: 'table' })"
       },
       {
+        "type": "div",        
+        "layoutStyle": { "flex-grow": 1, "width": "1px" }
+      },
+      {
         "type": "button",
         "buttonType": "mat-icon-button",
-        "icon": "note_add",
+        "icon": "add_circle",
         "click": "this.router.navigateByUrl(`/task/detail`)"
       }
     ]
@@ -46,7 +46,7 @@
     "src": "/adminapi/task",
     "method": "get",
     "transform": "response.data",
-    "click": "this.router.navigateByUrl(`/task/detail?_id=${row._id}`)",
+    "click": "this.router.navigateByUrl(`/task/detail?_id=${item._id}`)",
     "layoutStyle": {
       "padding": "8px"
     },
@@ -278,7 +278,7 @@
               "display": "flex",
               "cursor": "pointer"
             },
-            "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000124', data: row});",
+            "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000124', data: item});",
             "columns": [
               {
                 "type": "typography",
@@ -338,7 +338,7 @@
             "src": "`/adminapi/taskinstance?task_id=${this.data._id}&_sort_desc=started`",
             "method": "get",
             "transform": "response.data",
-            "click": "this.event.send({name:'open-dialog', width: '80vw', height: '80vh', uiElementId: '000000000000000000000125', data: {_id: row._id} });",
+            "click": "this.event.send({name:'open-dialog', width: '80vw', height: '80vh', uiElementId: '000000000000000000000125', data: {_id: item._id} });",
             "style": {
               "box-shadow": "0 0 0 0",
               "width": "100%"
@@ -421,7 +421,7 @@
               }
             ],
             "optionKey": "value",
-            "optionLabel": "value",
+            "optionLabelTransform": "`${option.name}`",
             "layoutStyle": {
               "width": "20%"
             },
