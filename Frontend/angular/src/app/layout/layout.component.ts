@@ -158,6 +158,7 @@ export class LayoutComponent extends BaseComponent
     // get ui elements
     let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
     uiElement = { ...uiElement };
+    if(event.uiElement) uiElement = Object.assign(uiElement, event.uiElement)
 
     // open dialog
     this.currDialog = this.dialog.open(UIComposerDialogComponent, {
