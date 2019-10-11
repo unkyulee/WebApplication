@@ -190,8 +190,7 @@
           "background": "white",
           "color": "rgba(0,0,0,.87)",
           "flex-direction": "row",
-          "flex-wrap": "wrap",
-          "max-width": "800px",
+          "flex-wrap": "wrap",          
           "width": "100%"
         },
         "class": {

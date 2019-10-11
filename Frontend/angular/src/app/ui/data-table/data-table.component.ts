@@ -1,7 +1,6 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { Subscription, Subject } from "rxjs";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
-import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+import * as obj from "object-path";
 
 // user imports
 import { NavService } from "../../services/nav.service";
@@ -10,14 +9,14 @@ import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user/user.service";
 import { ConfigService } from "src/app/services/config.service";
 import { DBService } from "src/app/services/db/db.service";
-import { debounceTime } from "rxjs/operators";
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "data-table",
   templateUrl: "./data-table.component.html"
 })
-export class DataTableComponent extends BaseComponent implements OnInit, OnDestroy {
+export class DataTableComponent extends BaseComponent
+  implements OnInit, OnDestroy {
   constructor(
     public config: ConfigService,
     private rest: RestService,
@@ -26,40 +25,39 @@ export class DataTableComponent extends BaseComponent implements OnInit, OnDestr
     private event: EventService,
     public user: UserService, // used by user script
     public db: DBService
-  ) { super() }
+  ) {
+    super();
+  }
 
   ///
   _rows = [];
   get rows() {
-    // set default key
-    if (!this.uiElement.key) this.uiElement.key = "table";
-
     if (this.data && this.uiElement.key) {
-      if (this._rows != this.data[this.uiElement.key]) {
-        this._rows = this.data[this.uiElement.key];
-      }
-      this._rows = this.data[this.uiElement.key];
+      this._rows = obj.get(this.data, this.uiElement.key);
     }
 
     return this._rows;
   }
 
   set rows(v: any) {
-    if (this.data && this.uiElement.key) {      
-      this.data[this.uiElement.key] = v;
+    if (this.data && this.uiElement.key) {
+      obj.set(this.data, this.uiElement.key, v);
     }
 
     // set default when value is empty
     if (!v && this.uiElement.key && this.uiElement.default) {
-      this.data[this.uiElement.key] = this.uiElement.default;
+      let defaultValue = this.uiElement.default;
       try {
-        this.data[this.uiElement.key] = eval(this.uiElement.default);
-      } catch (e) {}
+        defaultValue = eval(this.uiElement.default);
+      } catch (e) {
+        console.error(e);
+      }
+      obj.set(this.data, this.uiElement.key, defaultValue);
     }
 
     if (this.uiElement.format) {
       try {
-        this.data[this.uiElement.key] = eval(this.uiElement.format);
+        this._rows = eval(this.uiElement.format);
       } catch (e) {
         console.error(e);
       }
@@ -108,7 +106,7 @@ export class DataTableComponent extends BaseComponent implements OnInit, OnDestr
     if (event && (!event.key || event.key == this.uiElement.key)) {
       if (event.name == "refresh") {
         this.page = 0; // reset to first page
-        
+
         // run refresh script
         if (this.uiElement.refresh) {
           try {
