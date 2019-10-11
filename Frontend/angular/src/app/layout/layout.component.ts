@@ -86,7 +86,7 @@ export class LayoutComponent extends BaseComponent
     e.preventDefault();
     // close dialogs if any exists
     if (this.dialog.openDialogs.length > 0) {
-      this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close()
+      this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
     }
     // check if it is last nav stack
     else if (this.nav.navigationStack.length == 2) {
@@ -126,7 +126,13 @@ export class LayoutComponent extends BaseComponent
       } else if (event.name == "open-dialog") {
         setTimeout(() => this.openDialog(event), 0);
       } else if (event && event.name == "close-dialog") {
-        setTimeout(() => this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close(), 0);
+        if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
+          this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
+      } else if (event && event.name == "close-all-dialog") {
+        if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
+          for (let dialog of this.dialog.openDialogs) {
+            dialog.close();
+          }
       } else if (event.name == "open-sheet") {
         setTimeout(() => this.openSheet(event), 0);
       } else if (event.name == "navigation-changed") {
@@ -134,7 +140,7 @@ export class LayoutComponent extends BaseComponent
         // scroll back to top when page changes
         try {
           document.getElementById("layout_main_content").scrollTop = 0;
-        } catch { }
+        } catch {}
       } else if (event == "logout") {
         this.isAuthenticated = false;
       } else if (event == "authenticated") {
@@ -150,8 +156,8 @@ export class LayoutComponent extends BaseComponent
   currDialog: MatDialogRef<UIComposerDialogComponent>;
   openDialog(event) {
     // get ui elements
-    let uiElement = obj.get(this.config.get('uiElements'), event.uiElementId);
-    uiElement = {...uiElement};
+    let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
+    uiElement = { ...uiElement };
 
     // open dialog
     this.currDialog = this.dialog.open(UIComposerDialogComponent, {
@@ -186,7 +192,7 @@ export class LayoutComponent extends BaseComponent
 
   openSheet(event) {
     // get ui elements
-    let uiElement = obj.get(this.config.get('uiElements'), event.uiElementId);
+    let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
     uiElement = JSON.parse(JSON.stringify(uiElement));
 
     let sheet = this.bottomSheet.open(UIComposerActionsComponent, {

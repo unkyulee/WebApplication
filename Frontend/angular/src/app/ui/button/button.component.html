@@ -1,7 +1,7 @@
 <button
   *ngIf="
-    (!uiElement.buttonType || uiElement.buttonType == 'mat-raised-button')
-    && condition(uiElement)
+    (!uiElement.buttonType || uiElement.buttonType == 'mat-raised-button') &&
+    condition(uiElement)
   "
   mat-raised-button
   [disabled]="uiElement.disabled == true"
@@ -9,7 +9,7 @@
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
 >
-  <mat-icon *ngIf="uiElement.icon">{{ uiElement.icon }}</mat-icon>
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{ uiElement.icon }}</mat-icon>
   {{ uiElement.label }}
 </button>
 
@@ -21,11 +21,12 @@
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
 >
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{ uiElement.icon }}</mat-icon>
   {{ uiElement.label }}
 </button>
 
 <button
-  *ngIf="uiElement.buttonType == 'mat-icon-button'  && condition(uiElement)"
+  *ngIf="uiElement.buttonType == 'mat-icon-button' && condition(uiElement)"
   mat-icon-button
   [disabled]="uiElement.disabled == true"
   [matTooltip]="uiElement.label"
@@ -33,7 +34,7 @@
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
 >
-  <mat-icon *ngIf="uiElement.icon">{{ eval(uiElement.icon) }}</mat-icon>
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{ eval(uiElement.icon) }}</mat-icon>
 </button>
 
 <button

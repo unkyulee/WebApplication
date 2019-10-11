@@ -2,17 +2,14 @@
   {
     "_id": ObjectId("000000000000000000000015"),
     "name": "UI Element Toolbar",
-    "type": "filter-group",
-    "label": "Filters",
-    "screen": [
-      {
-        "type": "div",
-        "comment": "spacer",
-        "layoutStyle": {
-          "flex-grow": 1,
-          "width": "1px"
-        }
-      },
+    "type": "layout",
+    "layoutStyle": {
+      "background": "#2C313D",
+      "color": "white",
+      "display": "flex",
+      "flex-flow": "row wrap"
+    },
+    "screen": [      
       {
         "type": "input",
         "key": "search",
@@ -21,8 +18,7 @@
         "icon": "search",
         "iconColor": "white",
         "style": {
-          "margin-top": "-12px",
-          "margin-bottom": "-8px"
+          "margin": "-12px 0 -12px 8px"          
         },
         "class": {
           "white": true
@@ -30,9 +26,13 @@
         "changed": "this.event.send({ name: 'refresh', key: 'table' })"
       },
       {
+        "type": "div",        
+        "layoutStyle": { "flex-grow": 1, "width": "1px" }
+      },
+      {
         "type": "button",
         "buttonType": "mat-icon-button",
-        "icon": "note_add",
+        "icon": "add_circle",
         "click": "this.router.navigateByUrl(`/angular.ui/detail`)"
       }
     ]
@@ -40,25 +40,36 @@
   {
     "_id": ObjectId("000000000000000000000016"),
     "type": "data-table",
+    "tableType": "card",
+    "key": "table",
     "name": "UI Elements Data Table",
-    "src": "/adminapi/angular.ui",
+    "src": "`/adminapi/angular.ui?_search=${this.data.search?this.data.search:''}`",
     "method": "get",
-    "transform": "response.data",
-    "click": "this.router.navigateByUrl(`/angular.ui/detail?_id=${row._id}`)",
+    "transform": "response.data",    
+    "layoutStyle": {
+      "flex-grow": 1,
+      "display": "flex",
+      "flex-direction": "column",
+      "height": "100%",
+      "overflow-y": "auto"
+    },    
+    "click": "this.router.navigateByUrl(`/angular.ui/detail?_id=${item._id}`)",
     "columns": [
       {
-        "key": "_id",
-        "label": "_id",
-        "cursor": "pointer"
-      },
-      {
+        "type": "typography",
         "key": "name",
         "label": "name"
       },
       {
+        "type": "typography",
         "key": "type",
         "label": "type"
-      }
+      },
+      {
+        "type": "typography",
+        "key": "_id",
+        "label": "_id"
+      }      
     ]
   },
   {
@@ -122,17 +133,9 @@
       "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
     },
     "screen": [
-      {
-        "style": {
-          "width": "100%"
-        },
+      {        
         "header": {
-          "screen": [
-            {
-              "type": "typography",
-              "text": "Angular UI Element Specification"
-            }
-          ]
+          "display": false
         },
         "screen": [
           {
