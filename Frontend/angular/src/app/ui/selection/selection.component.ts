@@ -80,6 +80,14 @@ export class SelectionComponent extends BaseComponent implements OnInit {
 
     // because autocomplete assumes that the value displayed is string
     // whereas option can be an object, it requires formatting    
+    if(this.uiElement.inputValueTransform) {
+      try {
+        this._value = eval(this.uiElement.inputValueTransform)
+      } catch(e) {
+        console.error(e)
+      }
+    }
+
     return this._value;
   }
 
@@ -152,7 +160,7 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     }
   }
 
-  selected(option) {
+  selected(option?) {    
     if (this.uiElement.selected) {	
       try {	
         eval(this.uiElement.selected);	

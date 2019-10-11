@@ -73,6 +73,7 @@
     <mat-autocomplete
       #auto="matAutocomplete"    
       (optionSelected)="selected($event.option.value)"  
+      [panelWidth]="uiElement.width"
     >
       <mat-option
         *ngFor="let option of uiElement.options"
