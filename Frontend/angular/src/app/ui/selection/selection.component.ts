@@ -32,8 +32,8 @@ export class SelectionComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     // load options
-    if(!this.uiElement.minimumLength) {
-      this.loadOption()
+    if (!this.uiElement.minimumLength) {
+      this.loadOption();
     }
 
     // not all the input will be sent as an event / rest
@@ -43,9 +43,15 @@ export class SelectionComponent extends BaseComponent implements OnInit {
         distinctUntilChanged(),
         debounceTime(300)
       )
-      .subscribe(v => {        
+      .subscribe(v => {
         this.typeAheadEventHandler(v);
       });
+  }
+
+  ngAfterViewInit() {
+    // bind compare function for mat-select
+    if (this.select)
+      this.select.compareWith = (o1, o2) => this.compareWith(o1, o2);
   }
 
   ngOnDestroy() {
@@ -66,7 +72,7 @@ export class SelectionComponent extends BaseComponent implements OnInit {
       }
 
       //
-      this._value = obj.get(this.data, this.uiElement.key);      
+      this._value = obj.get(this.data, this.uiElement.key);
     }
 
     // selection multiple mode must be array
@@ -75,16 +81,16 @@ export class SelectionComponent extends BaseComponent implements OnInit {
       this.uiElement.multiple &&
       !Array.isArray(this._value)
     ) {
-      this._value = [this._value];      
+      this._value = [this._value];
     }
 
     // because autocomplete assumes that the value displayed is string
-    // whereas option can be an object, it requires formatting    
-    if(this.uiElement.inputValueTransform) {
+    // whereas option can be an object, it requires formatting
+    if (this.uiElement.inputValueTransform) {
       try {
-        this._value = eval(this.uiElement.inputValueTransform)
-      } catch(e) {
-        console.error(e)
+        this._value = eval(this.uiElement.inputValueTransform);
+      } catch (e) {
+        console.error(e);
       }
     }
 
@@ -147,7 +153,7 @@ export class SelectionComponent extends BaseComponent implements OnInit {
   private typeAheadEventEmitter = new Subject<string>();
   typeAheadEventHandler(v) {
     this.loadOption();
-    this.changed();    
+    this.changed();
   }
 
   changed() {
@@ -160,18 +166,18 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     }
   }
 
-  selected(option?) {    
-    if (this.uiElement.selected) {	
-      try {	
-        eval(this.uiElement.selected);	
-      } catch (e) {	
-        console.error(e);	
-      }	
-    }	
+  selected(option?) {
+    if (this.uiElement.selected) {
+      try {
+        eval(this.uiElement.selected);
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }
 
   format(option) {
-    let value = option;   
+    let value = option;
 
     if (value && this.uiElement.optionLabelTransform) {
       try {
@@ -189,5 +195,14 @@ export class SelectionComponent extends BaseComponent implements OnInit {
     this.isOpen = event;
     this.isLoading = event;
     this.loadOption();
+  }
+
+  compareWith(o1: any, o2: any): boolean {    
+    if (this.uiElement.compare) {
+      try {
+        return eval(this.uiElement.compare) == true;
+      } catch {}
+    }
+    return JSON.stringify(o1) == JSON.stringify(o2);
   }
 }
