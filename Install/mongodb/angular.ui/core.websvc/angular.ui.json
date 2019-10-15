@@ -39,7 +39,7 @@
             "class": {
               "white": true
             },
-            "changed": "this.data._params_._search=this._value?this._value:''; this.event.send({name:'refresh', key:'websvc'});"
+            "changed": "this.event.send({name:'refresh'});"
           },
           {
             "type": "div",
@@ -49,20 +49,18 @@
           {
             "type": "button",
             "buttonType": "mat-icon-button",
-            "icon": "note_add",
-            "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000111'});"
+            "icon": "add_circle",
+            "click": "this.router.navigateByUrl(`/core.websvc/detail`)"
           }
         ]
       },
       {
         "type": "data-table",
         "tableType": "card",
-        "name": "Appuntamento",
-        "key": "appointment",
-        "src": "/adminapi/core.websvc",
+        "key": "table",
+        "src": "`/adminapi/core.websvc?_search=${this.data.search?this.data.search:''}`",
         "method": "get",
         "transform": "response.data",
-        "preProcess": "data = {...data, ...this.data._params_}",
         "layoutStyle": {
           "flex-grow": 1,
           "display": "flex",
@@ -77,7 +75,7 @@
           "margin": "8px",
           "padding": "8px"
         },
-        "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000111', data: item});",
+        "click": "this.router.navigateByUrl(`/core.websvc/detail?_id=${item._id}`)",
         "columns": [
           {
             "type": "typography",
@@ -117,7 +115,10 @@
     },
     "screen": [
       {
-        "type": "form-generator",        
+        "type": "form-generator",
+        "src": "this.data._params_._id ? `/adminapi/core.websvc?_id=${this.data._params_._id}` : ''",
+        "method": "get",
+        "transform": "response.data[0]",
         "layoutStyle": {
           "flex-grow": 1,
           "display": "flex",
@@ -161,6 +162,6 @@
           }
         ]
       }
-    ]    
+    ]
   }
 ]
