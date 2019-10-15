@@ -105,7 +105,9 @@ async function run() {
         case "hash":
           if (data[def.column]) data[def.column] = hash.hash(data[def.column]);
           break;
-
+        case "tokenIfNew":
+          if(res.locals.token[def.key] && row && !row[def.column]) data[def.column] = res.locals.token[def.key]
+          break;        
         case "Unique": {
           // do not create duplicate of the value
           if (data[def.column]) {

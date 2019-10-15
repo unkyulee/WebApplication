@@ -32,9 +32,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   @Input() uiElement: any;
   @Input() data: any;
 
-  // data
-  params: any;
-
   // event subscription
   onEvent: Subscription;
   ngOnInit() {
@@ -126,9 +123,6 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   }
 
   requestDownload(cached?) {
-    // fetch params
-    this.params = this.nav.getParams();
-
     // retrieve REST information
     let src = this.uiElement.src;
     try {
@@ -183,7 +177,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     } else data = response;
 
     // do not overwrite existing data
-    this.data = JSON.parse(JSON.stringify(Object.assign(this.data, data)));
+    this.data = Object.assign({}, this.data, data);
 
     // send event that the data is refreshed
     this.event.send({ name: "refreshed" });

@@ -92,15 +92,13 @@
         : config.get('dataTable.itemBoxClass')
     "
   >
-    <mat-card-content [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
-      <ng-container *ngFor="let column of uiElement.columns">
-        <ng-container
-          ui-layout-wrapper
-          [uiElement]="column"
-          [data]="row"
-        ></ng-container>
-      </ng-container>
-    </mat-card-content>
+    <ng-container *ngFor="let column of uiElement.columns">
+      <ng-container
+        ui-layout-wrapper
+        [uiElement]="column"
+        [data]="row"
+      ></ng-container>
+    </ng-container>
   </mat-card>
   <pagination
     *ngIf="total > size"
@@ -134,9 +132,7 @@
     "
     (click)="click(row, uiElement.click)"
   >
-    <ng-container
-      *ngFor="let column of uiElement.columns"      
-    >
+    <ng-container *ngFor="let column of uiElement.columns">
       <ng-container
         ui-layout-wrapper
         [uiElement]="column"

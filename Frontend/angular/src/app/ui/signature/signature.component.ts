@@ -72,12 +72,6 @@ export class SignatureComponent {
   }
 
   save() {
-    // save signature
-    if (this._data && this.uiElement.key) {
-      this._data[this.uiElement.key] = this.signaturePad.toDataURL();
-      this.event.send({ name: "save" });
-    }
-
     //
     if (this.uiElement.save) {
       try {
@@ -86,6 +80,12 @@ export class SignatureComponent {
         console.error(e)
       }
     }
+    // save signature
+    else if (this._data && this.uiElement.key) {
+      this._data[this.uiElement.key] = this.signaturePad.toDataURL();
+      this.event.send({ name: "save" });
+    }
+    
   }
 
   toFile(filename) {
