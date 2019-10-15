@@ -3,7 +3,7 @@ import { Router } from "@angular/router";
 import * as obj from "object-path";
 
 // user Imports
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
 import { ConfigService } from "src/app/services/config.service";
 import { UserService } from "src/app/services/user/user.service";
 import { EventService } from "src/app/services/event.service";
@@ -11,7 +11,8 @@ import { RestService } from "src/app/services/rest.service";
 
 @Component({
   selector: "code-editor",
-  templateUrl: "code-editor.component.html"
+  templateUrl: "code-editor.component.html",
+  styleUrls: ["code-editor.component.css"]
 })
 export class CodeEditorComponent extends BaseComponent {
   constructor(
@@ -21,19 +22,33 @@ export class CodeEditorComponent extends BaseComponent {
     public rest: RestService,
     public router: Router
   ) {
-    super()
+    super();
   }
 
   @Input() uiElement: any;
   @Input() data: any;
 
-  path: string = '';
-  error: string = '';
+  path: string;
+  error: string;
+  compileError: string;
+  type: string;
 
-  ngOnInit() {
+  ngOnInit() {}
+  ngOnDestroy() {}
+
+  _language;
+  get language() {
+    return this._language;
   }
+  set language(v) {
+    this._language = v;
 
-  ngOnDestroy() {
+    // set language option for the editor
+    if (!this.uiElement.editorOptions) this.uiElement.editorOptions = {};
+    this.uiElement.editorOptions = {
+      ...this.uiElement.editorOptions,
+      language: v
+    };
   }
 
   _value;
@@ -52,26 +67,35 @@ export class CodeEditorComponent extends BaseComponent {
 
     // if editor type is json then get value based on the path
     else if (this.uiElement.editorType == "json") {
-      this.error = '';
-      if (!this.path) {
-        this._value = JSON.stringify(this.data, null, 2)
-      }
-      else if (this.path && obj.has(this.data, this.path)) {
-        this._value = obj.get(this.data, this.path)
-        if(typeof this._value != "string")
-          this._value = JSON.stringify(this._value, null, 2)
-      } else {
+      this.error = "";
+      this.type = "";
+
+      // remove _params_
+      delete this.data._params_;
+
+      // when path is not specified then display the entire this.data
+      let data = obj.get(this.data, this.path);
+      if (!data) {
         // property doesn't exist
-        this.error = 'JSON property does not exist.'
+        this.error = "JSON property does not exist.";
+      } else if (data.constructor != "".constructor) {
+        this.type = "object";
+        this._value = JSON.stringify(data, null, 2);
+      } else {
+        this.type = "string";
+        this._value = data;
       }
     }
 
     // if null then assign default
-    if ((typeof this._value == "undefined" || this._value == null) && this.uiElement.default) {
+    if (
+      (typeof this._value == "undefined" || this._value == null) &&
+      this.uiElement.default
+    ) {
       this._value = this.uiElement.default;
       try {
         this._value = eval(this.uiElement.default);
-      } catch (e) { }
+      } catch (e) {}
     }
 
     // if format is specified
@@ -79,7 +103,7 @@ export class CodeEditorComponent extends BaseComponent {
       try {
         this._value = eval(this.uiElement.format);
       } catch (e) {
-        console.error(this.uiElement.format, e)
+        console.error(this.uiElement.format, e);
       }
     }
 
@@ -87,34 +111,25 @@ export class CodeEditorComponent extends BaseComponent {
   }
 
   set value(v: any) {
+    this.compileError = "";
+
     if (this._value != v) {
       this._value = v;
 
       if (this.data && this.uiElement.key) {
         this.data[this.uiElement.key] = v;
       } else if (this.uiElement.editorType == "json") {
-        this.error = '';
-        if (!this.path) {
+        let data = this._value;
+        if (this.type == "object") {
+          // if the type is object then convert string -> object
           try {
-            this.data = JSON.parse(this._value)
-          } catch(e) {
-            this.error = `${e.stack}`
+            data = JSON.parse(data);
+          } catch(e) {            
+            this.compileError = `${e.stack}`;
+            throw e
           }          
         }
-        else if (this.path && obj.has(this.data, this.path)) {
-          try {
-            if(typeof v == "string") {
-              obj.set(this.data, this.path, this._value )
-            } else {
-              obj.set(this.data, this.path, JSON.parse(this._value) )
-            }
-          } catch(e) {
-            this.error = `${e.stack}`
-          }          
-        } else {
-          // property doesn't exist
-          this.error = 'JSON property does not exist.'
-        }
+        obj.set(this.data, this.path, data)        
       }
     }
   }

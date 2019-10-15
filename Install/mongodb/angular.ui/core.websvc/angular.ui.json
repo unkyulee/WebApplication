@@ -1,254 +1,166 @@
-{
-  "_id": ObjectId("000000000000000000000110"),
-  "navigation_id": "000000000000000000000020",
-  "navigation_name": "Site Administration Application",
-  "type": "data-table",
-  "name": "Web Services Data Table",
-  "src": "/adminapi/core.websvc",
-  "list": {
-    "src": "/adminapi/core.websvc",
-    "size": 1000,
-    "method": "get",
-    "transform": "response.data",
-    "filters": [
-      {
-        "key": "navigation_name",
-        "label": "Navigation",
-        "optionSrc": "`/adminapi/core.navigation?_sort=title&module=000000000000000000000010&_search=${this.value}`",
-        "optionTransform": "response.data",
-        "optionLabel": "name"
-      }
-    ],
-    "table": {
-      "groupBy": "navigation_name",
-      "columns": [
-        {
-          "key": "navigation_url",
-          "label": "navigation_url",
-          "canAutoResize": false
-        },
-        {
-          "key": "api_url",
-          "label": "api_url",
-          "link": "`detail/${row._id}`"
-        },
-        {
-          "key": "description",
-          "label": "description"
-        },
-        {
-          "key": "enabled",
-          "label": "enabled"
-        }
-      ]
-    }
-  },
-  "detail": {
-    "src": "`/adminapi/core.websvc?_id=${this.id}`",
-    "method": "get",
-    "transform": "response.data[0]",
+[
+  {
+    "_id": ObjectId("000000000000000000000110"),
+    "name": "WebSVC List",
+    "type": "layout",
+    "contentStyle": {
+      "display": "flex",
+      "flexDirection": "column",
+      "height": "100%"
+    },
+    "layoutStyle": {
+      "width": "100%",
+      "display": "flex",
+      "flex-direction": "column",
+      "color": "white",
+      "height": "100%"
+    },
     "screen": [
       {
-        "name": "Navigation",
-        "description": "Define URL of the web services",
-        "width": 50,
+        "name": "Filter",
+        "type": "layout",
+        "layoutStyle": {
+          "background": "#2C313D",
+          "color": "white",
+          "display": "flex",
+          "flex-flow": "row wrap"
+        },
         "screen": [
           {
-            "key": "navigation_id",
-            "label": "Select base url",
-            "type": "selection",
-            "optionSrc": "`/adminapi/core.navigation?_sort=title&module=websvc`",
-            "optionLabel": "name",
-            "optionKey": "_id",
-            "optionTransform": "response.data",
-            "updateAlso": [
-              {
-                "sourceKey": "name",
-                "targetKey": "navigation_name"
-              },
-              {
-                "sourceKey": "url",
-                "targetKey": "navigation_url"
-              }
-            ]
+            "type": "input",
+            "key": "search",
+            "label": "Search ...",
+            "floatLabel": "never",
+            "icon": "search",
+            "iconColor": "white",
+            "style": {
+              "margin": "-12px 0 -12px 8px"
+            },
+            "class": {
+              "white": true
+            },
+            "changed": "this.data._params_._search=this._value?this._value:''; this.event.send({name:'refresh', key:'websvc'});"
           },
           {
+            "type": "div",
+            "comment": "spacer",
+            "layoutStyle": { "flex-grow": 1, "width": "1px" }
+          },
+          {
+            "type": "button",
+            "buttonType": "mat-icon-button",
+            "icon": "note_add",
+            "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000111'});"
+          }
+        ]
+      },
+      {
+        "type": "data-table",
+        "tableType": "card",
+        "name": "Appuntamento",
+        "key": "appointment",
+        "src": "/adminapi/core.websvc",
+        "method": "get",
+        "transform": "response.data",
+        "preProcess": "data = {...data, ...this.data._params_}",
+        "layoutStyle": {
+          "flex-grow": 1,
+          "display": "flex",
+          "flex-direction": "column",
+          "height": "100%",
+          "overflow-y": "auto"
+        },
+        "style": {
+          "cursor": "pointer"
+        },
+        "itemBoxStyle": {
+          "margin": "8px",
+          "padding": "8px"
+        },
+        "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000111', data: item});",
+        "columns": [
+          {
+            "type": "typography",
             "key": "navigation_url",
             "label": "navigation_url"
           },
+          { "type": "typography", "key": "api_url", "label": "api_url" },
           {
-            "key": "api_url",
-            "label": "api_url"
-          }
-        ]
-      },
-      {
-        "name": "General",
-        "description": "Specify general inforamtion of the web service",
-        "width": 50,
-        "screen": [
-          {
-            "key": "_id",
-            "label": "_id",
-            "readonly": true
-          },
-          {
+            "type": "typography",
             "key": "description",
-            "label": "description",
-            "type": "text-area"
+            "label": "description"
           },
           {
-            "key": "_created",
-            "label": "Created At",
-            "readonly": true
-          },
-          {
-            "key": "_updated",
-            "label": "Updated At",
-            "readonly": true
-          }
-        ]
-      },
-      {
-        "name": "Workflow: GET",
-        "description": "Define how webservices will react to the request",
-        "width": 25,
-        "screen": [
-          {
-            "key": "get_description",
-            "label": "Description",
-            "type": "text"
-          },
-          {
-            "key": "get_datasource",
-            "label": "Data Source",
-            "type": "selection",
-            "optionSrc": "/adminapi/core.dataservice?size=1000",
-            "optionKey": "_id",
-            "optionLabel": "name",
-            "optionTransform": "response.data"
-          },
-          {
-            "key": "get_workflow",
-            "label": "Workflow",
-            "type": "selection",
-            "optionSrc": "/adminapi/core.workflow?size=1000",
-            "optionKey": "_id",
-            "optionLabel": "name",
-            "optionTransform": "response.data"
-          },
-          {
-            "key": "get_configuration",
-            "label": "Configuration",
-            "type": "text-area"
-          }
-        ]
-      },
-      {
-        "name": "Workflow: POST",
-        "description": "Define how webservices will react to the request",
-        "width": 25,
-        "screen": [
-          {
-            "key": "post_description",
-            "label": "Description",
-            "type": "text"
-          },
-          {
-            "key": "post_datasource",
-            "label": "Data Source",
-            "type": "selection",
-            "optionSrc": "/adminapi/core.dataservice?size=1000",
-            "optionKey": "_id",
-            "optionLabel": "name",
-            "optionTransform": "response.data"
-          },
-          {
-            "key": "post_workflow",
-            "label": "Workflow",
-            "type": "selection",
-            "optionSrc": "/adminapi/core.workflow?size=1000",
-            "optionKey": "_id",
-            "optionLabel": "name",
-            "optionTransform": "response.data"
-          },
-          {
-            "key": "post_configuration",
-            "label": "Configuration",
-            "type": "text-area"
-          }
-        ]
-      },
-      {
-        "name": "Workflow: PUT",
-        "description": "Define how webservices will react to the request",
-        "width": 25,
-        "screen": [
-          {
-            "key": "put_description",
-            "label": "Description",
-            "type": "text"
-          },
-          {
-            "key": "put_datasource",
-            "label": "Data Source",
-            "type": "selection",
-            "optionSrc": "/adminapi/core.dataservice?size=1000",
-            "optionKey": "_id",
-            "optionLabel": "name",
-            "optionTransform": "response.data"
-          },
-          {
-            "key": "put_workflow",
-            "label": "Workflow",
-            "type": "selection",
-            "optionSrc": "/adminapi/core.workflow?size=1000",
-            "optionKey": "_id",
-            "optionLabel": "name",
-            "optionTransform": "response.data"
-          },
-          {
-            "key": "put_configuration",
-            "label": "Configuration",
-            "type": "text-area"
-          }
-        ]
-      },
-      {
-        "name": "Workflow: DELETE",
-        "description": "Define how webservices will react to the request",
-        "width": 25,
-        "screen": [
-          {
-            "key": "delete_description",
-            "label": "Description",
-            "type": "text"
-          },
-          {
-            "key": "delete_datasource",
-            "label": "Data Source",
-            "type": "selection",
-            "optionSrc": "/adminapi/core.dataservice?size=1000",
-            "optionKey": "_id",
-            "optionLabel": "name",
-            "optionTransform": "response.data"
-          },
-          {
-            "key": "delete_workflow",
-            "label": "Workflow",
-            "type": "selection",
-            "optionSrc": "/adminapi/core.workflow?size=1000",
-            "optionKey": "_id",
-            "optionLabel": "name",
-            "optionTransform": "response.data"
-          },
-          {
-            "key": "delete_configuration",
-            "label": "Configuration",
-            "type": "text-area"
+            "type": "typography",
+            "key": "enabled",
+            "label": "enabled"
           }
         ]
       }
     ]
+  },
+  {
+    "_id": ObjectId("000000000000000000000111"),
+    "type": "layout",
+    "name": "Web Service Detail",
+    "contentStyle": {
+      "display": "flex",
+      "flexDirection": "column",
+      "height": "100%",
+      "width": "100vw"
+    },
+    "layoutStyle": {
+      "width": "100%",
+      "display": "flex",
+      "flex-wrap": "wrap",
+      "color": "white"
+    },
+    "screen": [
+      {
+        "type": "form-generator",        
+        "layoutStyle": {
+          "flex-grow": 1,
+          "display": "flex",
+          "flex-direction": "column",
+          "height": "100%",
+          "overflow-y": "auto"
+        },
+        "save": {
+          "src": "/adminapi/core.websvc",
+          "method": "post",
+          "saveAction": "if(!this.data._id) { this.data._id = response._id; } this.snackBar.open('Saved', null, { duration: 2000 });"
+        },
+        "delete": {
+          "src": "`/adminapi/core.websvc?_id=${this.data._id}`",
+          "method": "delete",
+          "deleteAction": "this.event.send({name: 'close-dialog'}); this.event.send({name: 'refresh'});"
+        },
+        "screen": [
+          {
+            "header": {
+              "display": false
+            },
+            "screen": [
+              {
+                "type": "code-editor",
+                "editorType": "json",
+                "path": ".",
+                "editorOptions": {
+                  "theme": "vs-dark",
+                  "automaticLayout": true
+                },
+                "layoutStyle": {
+                  "width": "100%"
+                },
+                "style": {
+                  "width": "100%",
+                  "height": "600px"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]    
   }
-}
+]

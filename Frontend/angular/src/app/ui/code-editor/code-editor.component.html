@@ -1,9 +1,24 @@
 <!-- material input -->
-<mat-form-field *ngIf="uiElement.editorType=='json'" style="width: 100%">
+<div class="toolbar" *ngIf="uiElement.editorType == 'json'">
+  <mat-form-field style="width: 60%">
     <mat-label>JSON Path</mat-label>
     <input matInput type="text" [(ngModel)]="path" />
     <mat-hint style="color: crimson; font-weight: bold">{{ error }}</mat-hint>
-</mat-form-field>
-
-<ngx-monaco-editor [ngStyle]="uiElement.style" [options]="uiElement.editorOptions" [(ngModel)]="value">
+  </mat-form-field>
+  <mat-form-field style="width: 20%">
+    <mat-label>Type</mat-label>
+    <input matInput type="text" [(ngModel)]="type" />    
+  </mat-form-field>
+  <mat-form-field style="width: 20%">
+    <mat-label>Language</mat-label>
+    <input matInput type="text" [(ngModel)]="language" />
+    <mat-hint>javascript, html, c#, ...</mat-hint>
+  </mat-form-field>
+  {{ compileError }}
+</div>
+<ngx-monaco-editor
+  [ngStyle]="uiElement.style"
+  [options]="uiElement.editorOptions"
+  [(ngModel)]="value"
+>
 </ngx-monaco-editor>
