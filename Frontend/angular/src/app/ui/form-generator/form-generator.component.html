@@ -42,8 +42,8 @@
         </ng-container>
       </div>
       <!-- Form Items -->
-      <div
-        [style.display]="ui?.expanded == false ? 'none' : 'flex'"
+      <div        
+        *ngIf="ui?.expanded != false"
         [ngStyle]="
           ui.container?.style
             ? ui.container?.style
