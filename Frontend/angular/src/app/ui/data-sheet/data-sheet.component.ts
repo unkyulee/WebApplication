@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { Component } from "@angular/core";
+import * as obj from "object-path";
 
 // user imports
 import { ConfigService } from "src/app/services/config.service";
@@ -32,10 +33,10 @@ export class DataSheetComponent extends BaseComponent {
     if (!this.uiElement.key) this.uiElement.key = "sheet";
 
     if (this.data && this.uiElement.key) {
-      if (this._rows != this.data[this.uiElement.key]) {
-        this._rows = this.data[this.uiElement.key];
+      if (this._rows != obj.get(this.data, this.uiElement.key)) {
+        this._rows = obj.get(this.data, this.uiElement.key);
       }
-      this._rows = this.data[this.uiElement.key];
+      this._rows = obj.get(this.data, this.uiElement.key);
     }
 
     if (!this._rows) this._rows = [];
@@ -44,20 +45,20 @@ export class DataSheetComponent extends BaseComponent {
 
   set rows(v: any) {
     if (this.data && this.uiElement.key) {
-      this.data[this.uiElement.key] = v;
+      obj.set(this.data, this.uiElement.key, v);
     }
 
     // set default when value is empty
     if (!v && this.uiElement.key && this.uiElement.default) {
-      this.data[this.uiElement.key] = this.uiElement.default;
+      obj.set(this.data, this.uiElement.key, this.uiElement.default);
       try {
-        this.data[this.uiElement.key] = eval(this.uiElement.default);
+        obj.set(this.data, this.uiElement.key, eval(this.uiElement.default));
       } catch (e) {}
     }
 
     if (this.uiElement.format) {
       try {
-        this.data[this.uiElement.key] = eval(this.uiElement.format);
+        obj.set(this.data, this.uiElement.key, eval(this.uiElement.format));
       } catch (e) {
         console.error(e);
       }

@@ -139,33 +139,16 @@ export class InputComponent extends BaseComponent {
     this.typeAheadEventEmitter.next(v);
   }
 
-  condition() {
-    let result = true;
-    if (this.uiElement.condition) {
-      try {
-        result = eval(this.uiElement.condition);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return result;
-  }
-
-  click() {
-    if (this.uiElement.click) {
-      try {
-        eval(this.uiElement.click);
-      } catch (e) {
-        console.error(e);
-      }
+  yearSelected(date, trigger) {
+    if(this.uiElement.yearSelected) {
+      eval(this.uiElement.yearSelected)
     }
   }
 
-  eval(expression) {
-    let v = expression;
-    try {
-      v = eval(expression);
-    } catch (e) {}
-    return v;
+  monthSelected(date, trigger) {
+    if(this.uiElement.monthSelected) {
+      eval(this.uiElement.monthSelected)
+    }
   }
+
 }

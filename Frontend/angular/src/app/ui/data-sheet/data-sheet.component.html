@@ -1,11 +1,23 @@
 <table [ngStyle]="uiElement.style">
-  <tr *ngFor="let row of rows" [ngStyle]="row.style" [attr.rowspan]="row.rowspan">
-    <td *ngFor="let column of row.columns" [ngStyle]="column.style ? column.style : uiElement.tdStyle"
-      [attr.colspan]="column.colspan" [title]="column.title?column.title:''">
+  <tr
+    *ngFor="let row of rows"
+    [ngStyle]="row.style"    
+  >
+    <td
+      *ngFor="let column of row.columns"
+      [ngStyle]="column.style ? column.style : uiElement.tdStyle"
+      [attr.colspan]="column.colspan"
+      [attr.rowspan]="column.rowspan"
+      [title]="column.title ? column.title : ''"
+    >
       <ng-container *ngIf="column.screen">
         <ng-container *ngFor="let ui of column.screen">
           <ng-container *ngIf="condition(ui)">
-            <ng-container ui-layout-wrapper [uiElement]="ui" [data]="column"></ng-container>
+            <ng-container
+              ui-layout-wrapper
+              [uiElement]="ui"
+              [data]="column"
+            ></ng-container>
           </ng-container>
         </ng-container>
       </ng-container>

@@ -17,6 +17,7 @@ import { RestService } from "./services/rest.service";
 import { AuthService } from "./services/auth/auth.service";
 import { CordovaService } from "./services/cordova.service";
 import { DBService } from './services/db/db.service';
+import { ExportService } from './services/export.service';
 
 // modules
 import { LayoutModule } from "./layout/layout.module";
@@ -54,7 +55,8 @@ const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
     NavService,
     RestService,
     CordovaService,
-    DBService
+    DBService,
+    ExportService
   ],
   bootstrap: [AppComponent]
 })

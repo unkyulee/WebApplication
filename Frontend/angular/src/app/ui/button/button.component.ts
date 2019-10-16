@@ -10,12 +10,14 @@ import { RestService } from "../../services/rest.service";
 import { ConfigService } from "src/app/services/config.service";
 import { NavService } from "src/app/services/nav.service";
 import { CordovaService } from 'src/app/services/cordova.service';
+import { ExportService } from 'src/app/services/export.service';
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "button-component",
   templateUrl: "./button.component.html"
 })
-export class ButtonComponent {
+export class ButtonComponent extends BaseComponent {
   constructor(
     public router: Router,
     public rest: RestService,
@@ -24,34 +26,10 @@ export class ButtonComponent {
     public snackBar: MatSnackBar, // userd in user code
     public config: ConfigService,
     public nav: NavService,
-    public cordova: CordovaService
-  ) {}
-
-  @Input() uiElement: any;
-  @Input() data: any;
-
-  ngOnInit() {}
-
-  click() {    
-    if (this.uiElement.click) {
-      try {
-        eval(this.uiElement.click);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
-
-  condition(uiElement) {
-    let result = true;
-    if (uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return result;
+    public cordova: CordovaService,
+    public exp: ExportService
+  ) {
+    super()
   }
 
   eval(expression) {
