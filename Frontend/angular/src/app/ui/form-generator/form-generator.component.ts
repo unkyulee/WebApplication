@@ -30,7 +30,16 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
   ) { }
 
   @Input() uiElement: any;
-  @Input() data: any;
+  
+  _data: any;
+  @Input() 
+  get data() {
+    return this._data
+  } 
+  set data(v: any) {   
+    this._data = v;
+    if(v) obj.set(this._data, "_params_.data", {...v})
+  }
 
   // event subscription
   onEvent: Subscription;
