@@ -1,22 +1,122 @@
 import { Component, Input } from "@angular/core";
 import * as obj from "object-path";
-import { Subscription } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
+import { Observable, Subscription } from "rxjs";
+import { map } from "rxjs/operators";
+import { AppInjector } from "../app.component";
+import { EventService } from '../services/event.service';
+import { RestService } from '../services/rest.service';
+import { NavService } from '../services/nav.service';
+import { ConfigService } from '../services/config.service';
+import { UserService } from '../services/user/user.service';
+import { DBService } from '../services/db/db.service';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
+import { CordovaService } from '../services/cordova.service';
+import { ExportService } from '../services/export.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   template: ""
 })
 export class BaseComponent {
-  constructor() {}
+  constructor() {
+    // dependency injection
+    this.event = AppInjector.get(EventService)
+    this.rest = AppInjector.get(RestService);
+    this.nav = AppInjector.get(NavService);
+    this.config = AppInjector.get(ConfigService);
+    this.user = AppInjector.get(UserService);
+    this.db = AppInjector.get(DBService);
+    this.router = AppInjector.get(Router);
+    this.snackBar = AppInjector.get(MatSnackBar);
+    this.cordova = AppInjector.get(CordovaService);
+    this.exp = AppInjector.get(ExportService);
+    this.auth = AppInjector.get(AuthService);
+
+    // observe screen size changes
+    let breakpointObserver = AppInjector.get(BreakpointObserver);
+    this.isHandset$ = breakpointObserver
+      .observe([Breakpoints.Handset, Breakpoints.Tablet])
+      .pipe(map(result => {
+        this.isHandset = result.matches;
+        return result.matches
+      }));
+  }
 
   // configuration of the ui element
   @Input() uiElement: any;
   @Input() data: any;
 
+  // detect window size changes
+  public isHandset: boolean;
+  public isHandset$: Observable<boolean>;
+
+  // global services
+  public event: EventService;
+  public rest: RestService;
+  public nav: NavService;
+  public config: ConfigService;
+  public user: UserService;
+  public db: DBService;  
+  public router: Router;
+  public snackBar: MatSnackBar;
+  public cordova: CordovaService;
+  public exp: ExportService;
+  public auth: AuthService;
+
   // event subscription
   onEvent: Subscription;
+  onCustomEvent: Subscription;
+
+  ngOnInit() {
+    obj.ensureExists(this, "uiElement", {}); 
+    obj.ensureExists(this, "data", {}); 
+
+    if(this.uiElement.type == 'script-box')
+    {
+      console.log(this.uiElement)
+    }    
+    if(this.uiElement.init) {
+      console.log(this.uiElement.init)
+      try {
+        eval(this.uiElement.init)
+      } catch(e) {
+        console.error(e)
+      }
+    }
+
+    // event handler
+    this.onCustomEvent = this.event.onEvent.subscribe(event =>
+      this.customEventHandler(event)
+    );
+  }
+
+  ngOnDestroy() {
+    if(this.onCustomEvent)
+      this.onCustomEvent.unsubscribe();
+
+    if(this.uiElement && this.uiElement.destroy) {
+      try {
+        eval(this.uiElement.destroy)
+      } catch(e) {
+        console.error(e)
+      }
+    }   
+  }
+
+  customEventHandler(event) {
+    if (this.uiElement.eventHandler) {
+      try {
+        eval(this.uiElement.eventHandler);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
 
   click(item?, script?) {
-    let clickScript = script?script:this.uiElement.click;
+    let clickScript = script ? script : this.uiElement.click;
     if (clickScript) {
       try {
         eval(clickScript);

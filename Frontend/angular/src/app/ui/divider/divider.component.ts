@@ -1,4 +1,5 @@
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "divider",
@@ -10,22 +11,5 @@ import { Component, Input } from "@angular/core";
     ></mat-divider>
   `
 })
-export class DividerComponent {
-  @Input() uiElement: any;
-  @Input() data: any;
-
-  constructor() {}
-
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
-  }
+export class DividerComponent extends BaseComponent {  
 }

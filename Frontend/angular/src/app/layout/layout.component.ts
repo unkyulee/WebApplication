@@ -7,9 +7,7 @@ import {
   ChangeDetectorRef,
   Renderer2
 } from "@angular/core";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { Observable, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
+
 import {
   MatSidenav,
   MatDialog,
@@ -40,36 +38,15 @@ declare var navigator: any;
 })
 export class LayoutComponent extends BaseComponent
   implements OnInit, OnDestroy {
-  constructor(
-    private breakpointObserver: BreakpointObserver,
+  constructor(    
     private dialog: MatDialog,
-    private bottomSheet: MatBottomSheet,
-    private event: EventService,
-    public config: ConfigService,
-    private auth: AuthService,
-    private elementRef: ElementRef,
-    private nav: NavService,
-    private cordova: CordovaService,
-    private ref: ChangeDetectorRef,
-    public user: UserService,
+    private bottomSheet: MatBottomSheet,    
+    private elementRef: ElementRef,    
+    private ref: ChangeDetectorRef,    
     private renderer: Renderer2
   ) {
     super();
   }
-
-  // detect window size changes
-  isHandset: boolean;
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe([Breakpoints.Handset, Breakpoints.Tablet])
-    .pipe(
-      map(result => {
-        this.isHandset = result.matches;
-        return result.matches;
-      })
-    );
-
-  // receive events
-  onEvent: Subscription;
 
   // authenticated status
   isAuthenticated: boolean;

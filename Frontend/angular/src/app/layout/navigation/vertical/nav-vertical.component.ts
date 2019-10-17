@@ -1,12 +1,4 @@
 import { Component } from "@angular/core";
-import { Subscription } from "rxjs";
-import * as obj from "object-path";
-
-// user imports
-import { NavService } from "../../../services/nav.service";
-import { ConfigService } from "../../../services/config.service";
-import { EventService } from "../../../services/event.service";
-import { UserService } from "../../../services/user/user.service";
 import { BaseComponent } from 'src/app/ui/base.component';
 
 @Component({
@@ -15,16 +7,7 @@ import { BaseComponent } from 'src/app/ui/base.component';
   styleUrls: ["./nav-vertical.component.scss"]
 })
 export class NavVerticalComponent extends BaseComponent {
-  constructor(
-    public event: EventService,
-    public nav: NavService,
-    public user: UserService,
-    public config: ConfigService
-  ) { super() }
-
-  data: any;
   currUrl: string;
-  onEvent: Subscription;
   ngOnInit() {
     // detect configuration changes
     this.onEvent = this.event.onEvent.subscribe(event => {
@@ -63,6 +46,4 @@ export class NavVerticalComponent extends BaseComponent {
 
     return false;
   }
-
-  click() {}
 }

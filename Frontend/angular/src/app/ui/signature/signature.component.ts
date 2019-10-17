@@ -4,16 +4,14 @@ import { SignaturePad } from "angular2-signaturepad/signature-pad";
 // user imports
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user/user.service";
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "signature",
   templateUrl: "./signature.component.html"
 })
-export class SignatureComponent {
-  constructor(private event: EventService, private user: UserService) {}
-
-  @Input() uiElement: any;
-
+export class SignatureComponent extends BaseComponent {
+  
   _data;
   @Input() get data() {
     return this._data;

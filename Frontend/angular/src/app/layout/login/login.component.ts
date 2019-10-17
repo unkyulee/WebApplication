@@ -6,25 +6,16 @@ import * as obj from "object-path";
 import { ConfigService } from "../../services/config.service";
 import { AuthService } from "../../services/auth/auth.service";
 import { EventService } from "../../services/event.service";
+import { BaseComponent } from 'src/app/ui/base.component';
 
 @Component({
   selector: "login",
   templateUrl: "./login.component.html"
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  constructor(
-    public config: ConfigService,
-    private auth: AuthService,
-    private event: EventService
-  ) {}
-
+export class LoginComponent extends BaseComponent {
   // login screen
   login: any = {};
-
-  // data
-  data: any = {};
-
-  onEvent: Subscription;
+    
   ngOnInit() {
     // load default login screen
     if(this.config.get("login"))

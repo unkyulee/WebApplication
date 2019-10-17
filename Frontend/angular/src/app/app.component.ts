@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Injector } from "@angular/core";
 import { Subscription } from "rxjs";
 import * as moment from "moment";
 
@@ -9,6 +9,9 @@ import { RestService } from "./services/rest.service";
 import { ConfigService } from "./services/config.service";
 import { CordovaService } from './services/cordova.service';
 import { AuthService } from './services/auth/auth.service';
+
+// Global Injector 
+export let AppInjector: Injector;
 
 @Component({
   selector: "app-root",
@@ -21,8 +24,11 @@ export class AppComponent {
     private rest: RestService,
     private config: ConfigService,
     private cordova: CordovaService,
-    private auth: AuthService
-  ) {}
+    private auth: AuthService,
+    private injector: Injector
+  ) {
+    AppInjector = this.injector;
+  }
 
   // receive events
   onEvent: Subscription;

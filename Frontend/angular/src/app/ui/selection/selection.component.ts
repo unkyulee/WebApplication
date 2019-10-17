@@ -1,32 +1,17 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { MatSelect } from "@angular/material";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import * as obj from "object-path";
 
 // user imports
-import { RestService } from "../../services/rest.service";
-import { UserService } from "src/app/services/user/user.service";
-import { CordovaService } from "src/app/services/cordova.service";
-import { EventService } from "src/app/services/event.service";
-import { NavService } from "src/app/services/nav.service";
 import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "selection",
   templateUrl: "./selection.component.html"
 })
-export class SelectionComponent extends BaseComponent implements OnInit {
-  // Init
-  constructor(
-    private rest: RestService,
-    public nav: NavService,
-    public user: UserService,
-    public cordova: CordovaService,
-    public event: EventService
-  ) {
-    super();
-  }
+export class SelectionComponent extends BaseComponent {
 
   @ViewChild("select") select: MatSelect;
 

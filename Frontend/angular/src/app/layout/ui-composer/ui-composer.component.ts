@@ -16,34 +16,11 @@ import { CordovaService } from 'src/app/services/cordova.service';
   selector: "ui-composer",
   templateUrl: "./ui-composer.component.html"
 })
-export class UIComposerComponent extends BaseComponent
-  implements OnInit, OnDestroy {
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    public config: ConfigService,
-    private event: EventService,
-    private nav: NavService,
-    public user: UserService,
-    public cordova: CordovaService
-  ) {
-    super();
-  }
+export class UIComposerComponent extends BaseComponent {  
 
   // where source of truth for the screen
   data: any = {};
 
-  // detect window size changes
-  isHandset: boolean;
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
-    .pipe(
-      map(result => {
-        this.isHandset = result.matches;
-        return result.matches;
-      })
-    );
-
-  onEvent: Subscription;
   ngOnInit() {
     //
     this.isHandset$.subscribe(r => (this.isHandset = r));

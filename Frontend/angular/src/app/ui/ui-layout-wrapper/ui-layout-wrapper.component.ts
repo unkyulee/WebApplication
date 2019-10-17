@@ -1,11 +1,4 @@
-import {
-  Component,
-  Input,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  Renderer2
-} from "@angular/core";
-import { UserService } from "src/app/services/user/user.service";
+import { Component, ComponentFactoryResolver, ViewContainerRef, Renderer2 } from "@angular/core";
 import * as obj from "object-path";
 
 // UI components
@@ -19,32 +12,27 @@ import { DataTableComponent } from "../data-table/data-table.component";
 import { FormGeneratorComponent } from "../form-generator/form-generator.component";
 import { CalendarComponent } from "../calendar/calendar.component";
 import { ProgressBarComponent } from "../progress-bar/progress-bar.component";
-import { ScriptBoxComponent } from "../script-box/script-box.component";
 import { UILayoutComponent } from "../ui-layout/ui-layout.component";
 import { DividerComponent } from "../divider/divider.component";
 import { DataSheetComponent } from "../data-sheet/data-sheet.component";
 import { PopupMenuComponent } from "../popup-menu/popup-menu.component";
 import { CodeEditorComponent } from "../code-editor/code-editor.component";
 import { TreeComponent } from "../tree/tree.component";
-import { ConfigService } from "src/app/services/config.service";
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "[ui-layout-wrapper]",
   template: ``
   //, styles: [`:host { display: contents; }`]
 })
-export class UILayoutWrapperComponent {
+export class UILayoutWrapperComponent extends BaseComponent {
   constructor(
-    public viewContainerRef: ViewContainerRef,
     private cfr: ComponentFactoryResolver,
-    private renderer: Renderer2,
-    public user: UserService,
-    private config: ConfigService
-  ) {}
-
-  @Input() uiElement: any;
-  @Input() data: any;
-
+    public viewContainerRef: ViewContainerRef,
+    private renderer: Renderer2
+  ) {
+    super();
+  }
   componentRef: any;
 
   ngOnChanges() {
@@ -60,13 +48,12 @@ export class UILayoutWrapperComponent {
           this.config.get("uiElements"),
           this.uiElement.uiElementId
         );
-        element = JSON.parse(JSON.stringify(element))
-        this.uiElement = Object.assign({}, this.uiElement, element);        
-
+        element = JSON.parse(JSON.stringify(element));
+        this.uiElement = Object.assign({}, this.uiElement, element);
         // run init script
-        if (this.uiElement.init) {
+        if (this.uiElement.uiElementInit) {
           try {
-            eval(this.uiElement.init);
+            eval(this.uiElement.uiElementInit);
           } catch (e) {
             console.error(e);
           }
@@ -135,10 +122,7 @@ export class UILayoutWrapperComponent {
         componentFactory = this.cfr.resolveComponentFactory(UILayoutComponent);
         break;
       case "divider":
-        componentFactory = this.cfr.resolveComponentFactory(DividerComponent);
-        break;
-      case "script-box":
-        componentFactory = this.cfr.resolveComponentFactory(ScriptBoxComponent);
+        componentFactory = this.cfr.resolveComponentFactory(DividerComponent);              
         break;
       case "progress-bar":
         componentFactory = this.cfr.resolveComponentFactory(
@@ -169,7 +153,7 @@ export class UILayoutWrapperComponent {
         break;
       case "uploader":
         componentFactory = this.cfr.resolveComponentFactory(UploaderComponent);
-        break;      
+        break;
       case "selection":
         componentFactory = this.cfr.resolveComponentFactory(SelectionComponent);
         break;

@@ -1,20 +1,13 @@
 import { Component, Input } from "@angular/core";
 
 // user imports
-import { NavService } from "../../services/nav.service";
-import { EventService } from "src/app/services/event.service";
-import { ConfigService } from "src/app/services/config.service";
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "pagination",
   templateUrl: "./pagination.component.html"
 })
-export class PaginationComponent {
-  // Init
-  constructor(
-    private event: EventService,
-    public config: ConfigService
-  ) {}
+export class PaginationComponent extends BaseComponent {  
 
   // pagination
   @Input() key: any;

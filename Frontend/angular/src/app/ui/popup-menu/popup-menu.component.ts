@@ -15,21 +15,7 @@ import { RestService } from "src/app/services/rest.service";
   templateUrl: "./popup-menu.component.html"
 })
 export class PopupMenuComponent extends BaseComponent {
-  @Input() uiElement: any;
-  @Input() data: any;
-
-  // event subscription
-  onEvent: Subscription;
-
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
-
-  constructor(
-    public config: ConfigService,
-    public user: UserService,
-    public event: EventService,
-    public rest: RestService,
-    public router: Router
-  ) { super(); }
 
   ngOnInit() {
     // event handler

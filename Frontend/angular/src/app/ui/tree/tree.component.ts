@@ -19,29 +19,11 @@ import { BaseComponent } from "../base.component";
   templateUrl: "tree.component.html"
 })
 export class TreeComponent extends BaseComponent {
-  constructor(
-    public config: ConfigService,
-    public user: UserService,
-    public event: EventService,
-    public rest: RestService,
-    public router: Router,
-    public db: DBService,
-    public nav: NavService
-  ) {
-    super();
-  }
-
-  @Input() uiElement: any;
-  @Input() data: any;
-
   treeControl = new NestedTreeControl<any>(node => node.children);
   hasChild = (_: number, node: any) =>
     !!node.children && node.children.length > 0;
   ///
   tree;
-
-  // event subscription
-  onEvent: Subscription;
 
   ngOnInit() {
     // initialize the data
@@ -72,15 +54,6 @@ export class TreeComponent extends BaseComponent {
     this.onEvent = this.event.onEvent.subscribe(event =>
       this.eventHandler(event)
     );
-
-    // run script
-    if (this.uiElement.init) {
-      try {
-        eval(this.uiElement.init);
-      } catch (e) {
-        console.error(e);
-      }
-    }
   }
 
   eventHandler(event) {
@@ -94,15 +67,6 @@ export class TreeComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
-    // run destroy
-    if (this.uiElement.destroy) {
-      try {
-        eval(this.uiElement.destroy);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
     this.onEvent.unsubscribe();
   }
 }

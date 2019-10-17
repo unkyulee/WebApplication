@@ -15,20 +15,7 @@ import { BaseComponent } from "../base.component";
   selector: "data-table",
   templateUrl: "./data-table.component.html"
 })
-export class DataTableComponent extends BaseComponent
-  implements OnInit, OnDestroy {
-  constructor(
-    public config: ConfigService,
-    private rest: RestService,
-    public router: Router,
-    private nav: NavService,
-    private event: EventService,
-    public user: UserService, // used by user script
-    public db: DBService
-  ) {
-    super();
-  }
-
+export class DataTableComponent extends BaseComponent {
   ///
   _rows = [];
   get rows() {
@@ -70,15 +57,6 @@ export class DataTableComponent extends BaseComponent
   size: number = 0;
 
   ngOnInit() {
-    // run init script
-    if (this.uiElement.init) {
-      try {
-        eval(this.uiElement.init);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
     // check if there is any page configuration available
     this.getPage();
 

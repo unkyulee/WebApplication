@@ -23,22 +23,6 @@ import { RestService } from "src/app/services/rest.service";
   `
 })
 export class TypographyComponent extends BaseComponent {
-  constructor(
-    public config: ConfigService,
-    public user: UserService,
-    public event: EventService,
-    public rest: RestService,
-    public router: Router
-  ) {
-    super()
-  }
-
-  ngOnInit() {
-  }
-
-  ngOnDestroy() {
-  }
-
   _value;
   get value() {
     // fixed text

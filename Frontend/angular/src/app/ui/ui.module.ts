@@ -33,7 +33,6 @@ import { TypographyComponent } from "./typography/typography.component";
 import { SafePipe } from "../core/safe.pipe";
 import { FormGeneratorComponent } from "./form-generator/form-generator.component";
 import { ProgressBarComponent } from "./progress-bar/progress-bar.component";
-import { ScriptBoxComponent } from "./script-box/script-box.component";
 import { UILayoutComponent } from "./ui-layout/ui-layout.component";
 import { DividerComponent } from './divider/divider.component';
 import { DataSheetComponent } from './data-sheet/data-sheet.component';
@@ -64,8 +63,7 @@ import { TreeComponent } from './tree/tree.component';
     CalendarDailyComponent,
     PaginationComponent,
     TypographyComponent,
-    ProgressBarComponent,
-    ScriptBoxComponent,
+    ProgressBarComponent,    
     DividerComponent,
     DataSheetComponent,
     BaseComponent,
@@ -89,8 +87,7 @@ import { TreeComponent } from './tree/tree.component';
     CalendarDailyComponent,
     PaginationComponent,
     TypographyComponent,
-    ProgressBarComponent,
-    ScriptBoxComponent,
+    ProgressBarComponent,    
     DividerComponent,
     DataSheetComponent,
     BaseComponent,
@@ -111,8 +108,7 @@ import { TreeComponent } from './tree/tree.component';
     CalendarComponent,
     PaginationComponent,
     TypographyComponent,
-    ProgressBarComponent,
-    ScriptBoxComponent,
+    ProgressBarComponent,    
     UILayoutComponent,
     DividerComponent,
     DataSheetComponent,

@@ -12,16 +12,8 @@ import { BaseComponent } from "src/app/ui/base.component";
   templateUrl: "./toolbar.component.html",
   styleUrls: ["./toolbar.component.scss"]
 })
-export class ToolbarComponent extends BaseComponent
-  implements OnInit, OnDestroy {
-  constructor(
-    public event: EventService,
-    public config: ConfigService,
-    public nav: NavService
-  ) {
-    super()
-  }
-
+export class ToolbarComponent extends BaseComponent {
+  
   // toolbar title
   title: string;
 
@@ -35,8 +27,6 @@ export class ToolbarComponent extends BaseComponent
   actions: any[];
   data: any;
 
-  //
-  onEvent: Subscription;
   ngOnInit() {
     // load global actions
     this.actions = this.config.get("toolbar.actions");

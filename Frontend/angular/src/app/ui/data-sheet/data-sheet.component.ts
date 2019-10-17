@@ -16,15 +16,6 @@ import { BaseComponent } from '../base.component';
   templateUrl: "./data-sheet.component.html"
 })
 export class DataSheetComponent extends BaseComponent {
-  constructor(
-    public config: ConfigService,
-    private nav: NavService,
-    private rest: RestService,
-    private event: EventService,
-    public router: Router
-  ) {
-    super()
-  }
 
   /// rows
   _rows = [];
@@ -65,8 +56,6 @@ export class DataSheetComponent extends BaseComponent {
     }
   }
 
-  // event subscription
-  onEvent: Subscription;
   ngOnInit() {
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event => {

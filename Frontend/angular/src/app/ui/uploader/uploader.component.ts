@@ -1,37 +1,19 @@
 import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from "@angular/core";
 import { Subscription } from "rxjs";
 import { FileUploader } from "ng2-file-upload";
-
-declare var navigator: any;
-// cordova
-declare var window: any
+import { Ng2ImgMaxService } from 'ng2-img-max';
 
 // user imports
-import { EventService } from "src/app/services/event.service";
-import { RestService } from "src/app/services/rest.service";
-import { ConfigService } from "src/app/services/config.service";
-import { Ng2ImgMaxService } from "ng2-img-max";
-import { MatSnackBar } from "@angular/material";
-import { UserService } from "src/app/services/user/user.service";
-import { CordovaService } from "src/app/services/cordova.service";
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "uploader",
   templateUrl: "./uploader.component.html"
 })
-export class UploaderComponent {
-  constructor(
-    private event: EventService,
-    public rest: RestService,
-    public config: ConfigService,
-    private ng2ImgMax: Ng2ImgMaxService,
-    public snackBar: MatSnackBar,
-    public user: UserService,
-    private cordova: CordovaService
-  ) {}
-
-  @Input() uiElement: any;
-  @Input() data: any;
+export class UploaderComponent extends BaseComponent {
+  constructor(private ng2ImgMax: Ng2ImgMaxService) {
+    super();
+  }
 
   @ViewChild("fileInput") fileInput: ElementRef;
   @ViewChild("cameraInput") cameraInput: ElementRef;
@@ -58,8 +40,7 @@ export class UploaderComponent {
   //
   public uploader: FileUploader;
 
-  // event subscription
-  onEvent: Subscription;
+  // event subscription  
   onResume: Subscription;
 
   //
@@ -87,14 +68,14 @@ export class UploaderComponent {
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event && event.key == this.uiElement.key) {
         if (event.name == "upload-file") {
-          if (navigator.camera) {
+          if (this.cordova.navigator.camera) {
             this.cordovaOpenGallery();
           } else {
             // open file selection
             this.fileInput.nativeElement.click();
           }
         } else if (event.name == "upload-camera") {
-          if (navigator.camera) {
+          if (this.cordova.navigator.camera) {
             this.cordovaOpenCamera();
           } else {
             // open camera if possible selection
@@ -142,7 +123,7 @@ export class UploaderComponent {
       // setup uploader
       this.setUploader();
     }
-    navigator.camera.getPicture(
+    this.cordova.navigator.camera.getPicture(
       imageData => {
         let file: any = this.b64toBlob(imageData, "image/jpeg");
         file.name = new Date().getTime().toString() + ".jpg";
@@ -156,7 +137,7 @@ export class UploaderComponent {
         quality: 50,
         correctOrientation: true,
         allowEdit: true,
-        destinationType: navigator.camera.DestinationType.DATA_URL
+        destinationType: this.cordova.navigator.camera.DestinationType.DATA_URL
       }
     );
   }
@@ -166,7 +147,7 @@ export class UploaderComponent {
       // setup uploader
       this.setUploader();
     }
-    navigator.camera.getPicture(
+    this.cordova.navigator.camera.getPicture(
       imageData => {
         let file: any = this.b64toBlob(imageData, "image/jpeg");
         file.name = new Date().getTime().toString() + ".jpg";
@@ -179,8 +160,8 @@ export class UploaderComponent {
       {
         quality: 50,
         correctOrientation: true,
-        destinationType: navigator.camera.DestinationType.DATA_URL,
-        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
+        destinationType: this.cordova.navigator.camera.DestinationType.DATA_URL,
+        sourceType: this.cordova.navigator.camera.PictureSourceType.PHOTOLIBRARY
       }
     );
   }
@@ -207,7 +188,7 @@ export class UploaderComponent {
         .subscribe(
           result => {
             this.event.send("splash-hide"); // hide splash
-            if (navigator.camera) {
+            if (this.cordova.navigator.camera) {
               this.uploader.addToQueue([result]);
               this.uploader.uploadAll();
             } else {

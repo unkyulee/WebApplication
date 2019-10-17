@@ -1,30 +1,14 @@
-import { Component, Input } from "@angular/core";
-import { Router } from "@angular/router";
-import { Subscription } from "rxjs";
+import { Component } from "@angular/core";
 import * as moment from "moment";
 
 // user imports
-import { ConfigService } from "src/app/services/config.service";
-import { NavService } from "src/app/services/nav.service";
-import { RestService } from "src/app/services/rest.service";
-import { EventService } from "src/app/services/event.service";
 import { BaseComponent } from '../../base.component';
 
 @Component({
   selector: "calendar-daily",
   templateUrl: "./calendar-daily.component.html"
 })
-export class CalendarDailyComponent extends BaseComponent {
-  constructor(
-    public config: ConfigService,
-    public router: Router,
-    private nav: NavService,
-    private rest: RestService,
-    private event: EventService
-  ) { super() }
-
-  // event subscription
-  onEvent: Subscription;
+export class CalendarDailyComponent extends BaseComponent {  
   ngOnInit() {
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event => {

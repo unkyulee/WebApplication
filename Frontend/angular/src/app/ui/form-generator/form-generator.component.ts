@@ -12,47 +12,26 @@ import { ConfigService } from "../../services/config.service";
 import { EventService } from "../../services/event.service";
 import { UserService } from "../../services/user/user.service";
 import { DBService } from "src/app/services/db/db.service";
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "form-generator",
   templateUrl: "./form-generator.component.html"
 })
-export class FormGeneratorComponent implements OnInit, OnDestroy {
-  constructor(
-    public router: Router,
-    private nav: NavService,
-    private rest: RestService,
-    private event: EventService,
-    public snackBar: MatSnackBar,
-    public config: ConfigService,
-    public user: UserService,
-    public db: DBService
-  ) { }
-
-  @Input() uiElement: any;
-  
+export class FormGeneratorComponent extends BaseComponent {
   _data: any;
-  @Input() 
+  @Input()
   get data() {
-    return this._data
-  } 
-  set data(v: any) {   
+    return this._data;
+  }
+  set data(v: any) {
     this._data = v;
-    if(v) obj.set(this._data, "_params_.data", {...v})
+    if (v) obj.set(this._data, "_params_.data", { ...v });
   }
 
   // event subscription
   onEvent: Subscription;
   ngOnInit() {
-    // run init script
-    if (this.uiElement.init) {
-      try {
-        eval(this.uiElement.init);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
     // download data
     this.requestDownload();
 
@@ -136,14 +115,14 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     let src = this.uiElement.src;
     try {
       src = eval(src);
-    } catch (e) { }
+    } catch (e) {}
 
     if (src) {
       let method = this.uiElement.method;
       let data = this.uiElement.data;
       try {
         data = eval(data);
-      } catch (e) { }
+      } catch (e) {}
 
       // download data through rest web services
       // start the splash
@@ -216,11 +195,11 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
     let src = obj.get(this.uiElement, "save.src");
     try {
       src = eval(src);
-    } catch (e) { }
+    } catch (e) {}
     let method = obj.get(this.uiElement, "save.method", "post");
     try {
       method = eval(method);
-    } catch { }
+    } catch {}
 
     // see if any transform to be done
     let data = { ...this.data };
@@ -290,11 +269,13 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       let src = this.uiElement.delete.src;
       try {
         src = eval(src);
-      } catch (e) { }
+      } catch (e) {}
       let method = this.uiElement.delete.method;
 
-      // download data through rest web services      
-      this.rest.request(src, null, method).subscribe(response => this.deleteAction());
+      // download data through rest web services
+      this.rest
+        .request(src, null, method)
+        .subscribe(response => this.deleteAction());
     }
   }
 
@@ -304,7 +285,7 @@ export class FormGeneratorComponent implements OnInit, OnDestroy {
       try {
         eval(this.uiElement.delete.deleteAction);
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
     } else {
       this.nav.back();

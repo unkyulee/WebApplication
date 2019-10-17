@@ -1,21 +1,9 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ElementRef
-} from "@angular/core";
+import { Component, ViewChild, ElementRef } from "@angular/core";
 import { DateTimeAdapter } from "ng-pick-datetime";
-import { Subject, Subscription } from "rxjs";
+import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 
-import { UserService } from "../../services/user/user.service";
-import { EventService } from "../../services/event.service";
-import { ConfigService } from "src/app/services/config.service";
-import { NavService } from "src/app/services/nav.service";
-import { RestService } from "src/app/services/rest.service";
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "input-component",
@@ -23,15 +11,10 @@ import { BaseComponent } from '../base.component';
   styleUrls: ["./input.component.scss"]
 })
 export class InputComponent extends BaseComponent {
-  constructor(
-    public user: UserService,
-    public event: EventService,
-    private dateTimeAdapter: DateTimeAdapter<any>,
-    private config: ConfigService,
-    public nav: NavService,
-    public rest: RestService
-  ) { super() }
-  
+  constructor(private dateTimeAdapter: DateTimeAdapter<any>) {
+    super();
+  }
+
   typeAheadEventEmitter = new Subject<string>();
 
   ngOnInit() {
@@ -63,12 +46,12 @@ export class InputComponent extends BaseComponent {
       event.name == "datepicker-trigger" &&
       event.key == this.uiElement.key &&
       this.datetimepicker
-      ) {
-        this.datetimepicker.nativeElement.click()
+    ) {
+      this.datetimepicker.nativeElement.click();
     }
   }
 
-  inputChanged(v) {    
+  inputChanged(v) {
     // see if there are any input change handlers
     if (this.uiElement.changed) {
       try {
@@ -140,15 +123,14 @@ export class InputComponent extends BaseComponent {
   }
 
   yearSelected(date, trigger) {
-    if(this.uiElement.yearSelected) {
-      eval(this.uiElement.yearSelected)
+    if (this.uiElement.yearSelected) {
+      eval(this.uiElement.yearSelected);
     }
   }
 
   monthSelected(date, trigger) {
-    if(this.uiElement.monthSelected) {
-      eval(this.uiElement.monthSelected)
+    if (this.uiElement.monthSelected) {
+      eval(this.uiElement.monthSelected);
     }
   }
-
 }

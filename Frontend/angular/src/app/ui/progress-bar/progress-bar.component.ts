@@ -7,29 +7,16 @@ import { Subscription } from "rxjs";
 import { EventService } from "src/app/services/event.service";
 import { RestService } from "src/app/services/rest.service";
 import { Router } from "@angular/router";
+import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "progress-bar",
   templateUrl: "./progress-bar.component.html"
 })
-export class ProgressBarComponent {
-  @Input() uiElement: any;
-  @Input() data: any;
-
-  // event subscription
-  onEvent: Subscription;
-
+export class ProgressBarComponent extends BaseComponent {  
   // value
   value = 0
   bufferValue = 0
-
-  constructor(
-    public config: ConfigService,
-    public user: UserService,
-    public event: EventService,
-    public rest: RestService,
-    public router: Router
-  ) {}
 
   ngOnInit() {
     // event handler
@@ -51,17 +38,4 @@ export class ProgressBarComponent {
   ngOnDestroy() {
     this.onEvent.unsubscribe();
   }
-
-  condition() {
-    let result = true;
-    if (this.uiElement.condition) {
-      try {
-        result = eval(this.uiElement.condition);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return result;
-  }
-
 }

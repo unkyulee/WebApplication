@@ -14,27 +14,11 @@ import { RestService } from "src/app/services/rest.service";
   templateUrl: "code-editor.component.html",
   styleUrls: ["code-editor.component.css"]
 })
-export class CodeEditorComponent extends BaseComponent {
-  constructor(
-    public config: ConfigService,
-    public user: UserService,
-    public event: EventService,
-    public rest: RestService,
-    public router: Router
-  ) {
-    super();
-  }
-
-  @Input() uiElement: any;
-  @Input() data: any;
-
+export class CodeEditorComponent extends BaseComponent {  
   path: string;
   error: string;
   compileError: string;
   type: string;
-
-  ngOnInit() {}
-  ngOnDestroy() {}
 
   _language;
   get language() {

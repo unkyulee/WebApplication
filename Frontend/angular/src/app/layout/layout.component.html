@@ -10,8 +10,7 @@
       class="mat-elevation-z2 no-print"
       [ngStyle]="config.get('navigation.style')"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="!(isHandset$ | async)"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"      
     >
       <nav-vertical></nav-vertical>
     </mat-sidenav>

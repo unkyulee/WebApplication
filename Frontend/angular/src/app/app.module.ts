@@ -32,9 +32,7 @@ const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
+  imports: [    
     HttpClientModule,
     HttpClientJsonpModule,
     MaterialModule,

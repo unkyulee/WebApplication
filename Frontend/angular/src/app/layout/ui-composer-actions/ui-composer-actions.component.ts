@@ -3,19 +3,14 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from "@angular/material";
 import { Subscription } from "rxjs";
 
 // user imports
-import { EventService } from "../../services/event.service";
 import { BaseComponent } from 'src/app/ui/base.component';
 
 @Component({
   selector: "ui-composer-actions",
   templateUrl: "./ui-composer-actions.component.html"
 })
-export class UIComposerActionsComponent extends BaseComponent {
-  uiElement: any;
-  data: any;
-
-  constructor(
-    private event: EventService,
+export class UIComposerActionsComponent extends BaseComponent {  
+  constructor(    
     private bottomSheetRef: MatBottomSheetRef<UIComposerActionsComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public e: any
   ) {
@@ -25,10 +20,7 @@ export class UIComposerActionsComponent extends BaseComponent {
     this.uiElement = e.uiElement;
     this.data = e.data;
   }
-
-  // event subscription
-  onEvent: Subscription;
-
+  
   ngOnInit() {
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event => {
@@ -43,6 +35,14 @@ export class UIComposerActionsComponent extends BaseComponent {
   }
 
   close() {
-    this.bottomSheetRef.dismiss();
+    if(this.uiElement.close) {
+      try {
+        eval(this.uiElement.close)
+      } catch(e) {
+        console.error(e)
+      }
+    } else {
+      this.bottomSheetRef.dismiss();
+    }    
   }
 }

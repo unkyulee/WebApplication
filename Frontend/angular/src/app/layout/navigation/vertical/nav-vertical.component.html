@@ -28,8 +28,7 @@
   <a
     *ngIf="item.type == 'item' && condition(item)"
     class="nav-link"
-    [routerLink]="[item.url]"
-    (click)="click()"
+    [routerLink]="[item.url]"    
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: item.exactMatch || false }"
     matRipple
@@ -53,8 +52,7 @@
         *ngIf="child.type != 'sub' && condition(item)"
         class="nav-link"
         style="padding: 0 48px"
-        [routerLink]="[child.url]"
-        (click)="click()"
+        [routerLink]="[child.url]"        
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: child.exactMatch || false }"
         matRipple

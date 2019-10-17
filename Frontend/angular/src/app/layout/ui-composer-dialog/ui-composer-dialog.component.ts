@@ -1,11 +1,7 @@
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
 import { MatDialogRef } from "@angular/material";
-import { Subscription } from "rxjs";
 
 // user imports
-import { EventService } from "../../services/event.service";
-import { UserService } from "src/app/services/user/user.service";
-import { ConfigService } from "src/app/services/config.service";
 import { BaseComponent } from "src/app/ui/base.component";
 
 @Component({
@@ -24,19 +20,10 @@ import { BaseComponent } from "src/app/ui/base.component";
 })
 export class UIComposerDialogComponent extends BaseComponent {
   constructor(
-    public dialogRef: MatDialogRef<UIComposerDialogComponent>,
-    public event: EventService,
-    public user: UserService,
-    public config: ConfigService
+    public dialogRef: MatDialogRef<UIComposerDialogComponent>    
   ) {
     super();
   }
-
-  @Input() uiElement: any;
-  @Input() data: any = {};
-
-  // event subscription
-  onEvent: Subscription;
 
   ngOnInit() {
     // subscript to event
