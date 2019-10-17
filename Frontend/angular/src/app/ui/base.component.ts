@@ -72,13 +72,8 @@ export class BaseComponent {
   ngOnInit() {
     obj.ensureExists(this, "uiElement", {}); 
     obj.ensureExists(this, "data", {}); 
-
-    if(this.uiElement.type == 'script-box')
-    {
-      console.log(this.uiElement)
-    }    
-    if(this.uiElement.init) {
-      console.log(this.uiElement.init)
+    
+    if(this.uiElement.init) {      
       try {
         eval(this.uiElement.init)
       } catch(e) {
