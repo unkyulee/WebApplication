@@ -5,7 +5,6 @@ import * as moment from "moment";
 // user imports
 import { NavService } from "./services/nav.service";
 import { EventService } from "./services/event.service";
-import { RestService } from "./services/rest.service";
 import { ConfigService } from "./services/config.service";
 import { CordovaService } from './services/cordova.service';
 import { AuthService } from './services/auth/auth.service';
@@ -20,8 +19,7 @@ export let AppInjector: Injector;
 export class AppComponent {
   constructor(
     public nav: NavService, // init navservice here to make sure that the navigation events are captured as soon as possible
-    public event: EventService,
-    private rest: RestService,
+    public event: EventService,    
     private config: ConfigService,
     private cordova: CordovaService,
     private auth: AuthService,
@@ -56,19 +54,6 @@ export class AppComponent {
         }
       }
     )
-
-    // event handler
-    this.onEvent = this.event.onEvent.subscribe(event => {
-      if (event.name == "email") {
-        // send notification email
-        let src = event.src;
-        try {
-          src = eval(src);
-        } catch (e) {}
-        let method = event.method ? event.method : "post";
-        this.rest.request(src, event.data, method).subscribe(response => {});
-      }
-    });
   }
 
   ngOnDestroy() {

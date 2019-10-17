@@ -69,7 +69,7 @@ export class UILayoutWrapperComponent extends BaseComponent {
     }
 
     // apply changes
-    if (this.componentRef) {
+    if (this.componentRef) {      
       this.componentRef.instance.uiElement = this.uiElement;
       this.componentRef.instance.data = this.data;
 
@@ -133,7 +133,7 @@ export class UILayoutWrapperComponent extends BaseComponent {
           FormGeneratorComponent
         );
         break;
-      case "data-table":
+      case "data-table":        
         componentFactory = this.cfr.resolveComponentFactory(DataTableComponent);
         break;
       case "typography":
@@ -161,16 +161,4 @@ export class UILayoutWrapperComponent extends BaseComponent {
     return componentFactory;
   }
 
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
-  }
 }

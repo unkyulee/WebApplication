@@ -4,25 +4,25 @@ import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Observable, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { AppInjector } from "../app.component";
-import { EventService } from '../services/event.service';
-import { RestService } from '../services/rest.service';
-import { NavService } from '../services/nav.service';
-import { ConfigService } from '../services/config.service';
-import { UserService } from '../services/user/user.service';
-import { DBService } from '../services/db/db.service';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { CordovaService } from '../services/cordova.service';
-import { ExportService } from '../services/export.service';
-import { AuthService } from '../services/auth/auth.service';
+import { EventService } from "../services/event.service";
+import { RestService } from "../services/rest.service";
+import { NavService } from "../services/nav.service";
+import { ConfigService } from "../services/config.service";
+import { UserService } from "../services/user/user.service";
+import { DBService } from "../services/db/db.service";
+import { Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material";
+import { CordovaService } from "../services/cordova.service";
+import { ExportService } from "../services/export.service";
+import { AuthService } from "../services/auth/auth.service";
 
 @Component({
   template: ""
 })
 export class BaseComponent {
-  constructor() {
+  constructor() {    
     // dependency injection
-    this.event = AppInjector.get(EventService)
+    this.event = AppInjector.get(EventService);
     this.rest = AppInjector.get(RestService);
     this.nav = AppInjector.get(NavService);
     this.config = AppInjector.get(ConfigService);
@@ -38,14 +38,16 @@ export class BaseComponent {
     let breakpointObserver = AppInjector.get(BreakpointObserver);
     this.isHandset$ = breakpointObserver
       .observe([Breakpoints.Handset, Breakpoints.Tablet])
-      .pipe(map(result => {
-        this.isHandset = result.matches;
-        return result.matches
-      }));
+      .pipe(
+        map(result => {
+          this.isHandset = result.matches;
+          return result.matches;
+        })
+      );
   }
 
-  // configuration of the ui element
-  @Input() uiElement: any;
+  // configuration of the ui element  
+  @Input() uiElement: any;    
   @Input() data: any;
 
   // detect window size changes
@@ -58,7 +60,7 @@ export class BaseComponent {
   public nav: NavService;
   public config: ConfigService;
   public user: UserService;
-  public db: DBService;  
+  public db: DBService;
   public router: Router;
   public snackBar: MatSnackBar;
   public cordova: CordovaService;
@@ -69,39 +71,40 @@ export class BaseComponent {
   onEvent: Subscription;
   onCustomEvent: Subscription;
 
-  ngOnInit() {
-    obj.ensureExists(this, "uiElement", {}); 
-    obj.ensureExists(this, "data", {}); 
-    
-    if(this.uiElement.init) {      
+  ngAfterViewInit() {
+    obj.ensureExists(this, "uiElement", {});
+    obj.ensureExists(this, "data", {});
+
+    if (this.uiElement.init) {
       try {
-        eval(this.uiElement.init)
-      } catch(e) {
-        console.error(e)
+        eval(this.uiElement.init);
+      } catch (e) {
+        console.error(e);
       }
     }
 
-    // event handler
-    this.onCustomEvent = this.event.onEvent.subscribe(event =>
-      this.customEventHandler(event)
-    );
+    // event handler    
+    if (this.uiElement.eventHandler) {      
+      this.onCustomEvent = this.event.onEvent.subscribe(event =>
+        this.customEventHandler(event)
+      );
+    }
   }
 
   ngOnDestroy() {
-    if(this.onCustomEvent)
-      this.onCustomEvent.unsubscribe();
+    if (this.onCustomEvent) this.onCustomEvent.unsubscribe();
 
-    if(this.uiElement && this.uiElement.destroy) {
+    if (this.uiElement && this.uiElement.destroy) {
       try {
-        eval(this.uiElement.destroy)
-      } catch(e) {
-        console.error(e)
+        eval(this.uiElement.destroy);
+      } catch (e) {
+        console.error(e);
       }
-    }   
+    }
   }
 
   customEventHandler(event) {
-    if (this.uiElement.eventHandler) {
+    if (this.uiElement.eventHandler) {      
       try {
         eval(this.uiElement.eventHandler);
       } catch (e) {

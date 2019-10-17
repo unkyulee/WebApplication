@@ -59,7 +59,7 @@ export class CodeEditorComponent extends BaseComponent {
 
       // when path is not specified then display the entire this.data
       let data = obj.get(this.data, this.path);
-      if (!data) {
+      if (typeof data == "undefined") {
         // property doesn't exist
         this.error = "JSON property does not exist.";
       } else if (data.constructor != "".constructor) {
