@@ -1,14 +1,7 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component } from "@angular/core";
 import * as obj from "object-path";
 
 // user imports
-import { NavService } from "../../services/nav.service";
-import { RestService } from "../../services/rest.service";
-import { EventService } from "../../services/event.service";
-import { UserService } from "../../services/user/user.service";
-import { ConfigService } from "src/app/services/config.service";
-import { DBService } from "src/app/services/db/db.service";
 import { BaseComponent } from "../base.component";
 
 @Component({
@@ -163,7 +156,9 @@ export class DataTableComponent extends BaseComponent {
     let src = this.uiElement.src;
     try {
       src = eval(src);
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
 
     if (src) {
       // look at query params and pass it on to the request

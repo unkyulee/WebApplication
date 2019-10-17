@@ -1,17 +1,9 @@
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, Input } from "@angular/core";
 import { Subscription, EMPTY } from "rxjs";
-import { MatSnackBar } from "@angular/material";
 import { catchError } from "rxjs/operators";
 import * as obj from "object-path";
 
 // user imports
-import { RestService } from "../../services/rest.service";
-import { NavService } from "../../services/nav.service";
-import { ConfigService } from "../../services/config.service";
-import { EventService } from "../../services/event.service";
-import { UserService } from "../../services/user/user.service";
-import { DBService } from "src/app/services/db/db.service";
 import { BaseComponent } from "../base.component";
 
 @Component({

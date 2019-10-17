@@ -10,7 +10,6 @@ import { SignatureComponent } from "../signature/signature.component";
 import { TypographyComponent } from "../typography/typography.component";
 import { DataTableComponent } from "../data-table/data-table.component";
 import { FormGeneratorComponent } from "../form-generator/form-generator.component";
-import { CalendarComponent } from "../calendar/calendar.component";
 import { ProgressBarComponent } from "../progress-bar/progress-bar.component";
 import { UILayoutComponent } from "../ui-layout/ui-layout.component";
 import { DividerComponent } from "../divider/divider.component";
@@ -128,10 +127,7 @@ export class UILayoutWrapperComponent extends BaseComponent {
         componentFactory = this.cfr.resolveComponentFactory(
           ProgressBarComponent
         );
-        break;
-      case "calendar":
-        componentFactory = this.cfr.resolveComponentFactory(CalendarComponent);
-        break;
+        break;      
       case "form-generator":
         componentFactory = this.cfr.resolveComponentFactory(
           FormGeneratorComponent

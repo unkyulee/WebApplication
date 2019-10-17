@@ -1,6 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import { Router } from '@angular/router';
-import { Subscription } from "rxjs";
+import * as obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";
@@ -21,7 +20,7 @@ import { BaseComponent } from "../base.component";
 })
 export class UILayoutComponent extends BaseComponent {
   @HostListener("click") onClick() {
-    if (this.uiElement.click) {
+    if (obj.has(this.uiElement, "click")) {
       this.click(this.data, this.uiElement.click);
     }
   }

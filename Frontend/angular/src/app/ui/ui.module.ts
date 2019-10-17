@@ -23,10 +23,6 @@ import { SelectionComponent } from "./selection/selection.component";
 import { ButtonComponent } from "./button/button.component";
 import { SignatureComponent } from "./signature/signature.component";
 import { UploaderComponent } from "./uploader/uploader.component";
-import { CalendarComponent } from "./calendar/calendar.component";
-import { CalendarMonthlyComponent } from "./calendar/monthly/calendar-monthly.component"
-import { CalendarWeeklyComponent } from "./calendar/weekly/calendar-weekly.component";
-import { CalendarDailyComponent } from "./calendar/daily/calendar-daily.component";
 import { PaginationComponent } from "./pagination/pagination.component";
 import { UILayoutWrapperComponent } from "./ui-layout-wrapper/ui-layout-wrapper.component";
 import { TypographyComponent } from "./typography/typography.component";
@@ -56,11 +52,7 @@ import { TreeComponent } from './tree/tree.component';
     SelectionComponent,    
     UploaderComponent,
     ButtonComponent,
-    SignatureComponent,
-    CalendarComponent,
-    CalendarMonthlyComponent,
-    CalendarWeeklyComponent,
-    CalendarDailyComponent,
+    SignatureComponent,    
     PaginationComponent,
     TypographyComponent,
     ProgressBarComponent,    
@@ -80,11 +72,7 @@ import { TreeComponent } from './tree/tree.component';
     SelectionComponent,    
     UploaderComponent,
     ButtonComponent,
-    SignatureComponent,
-    CalendarComponent,
-    CalendarMonthlyComponent,
-    CalendarWeeklyComponent,
-    CalendarDailyComponent,
+    SignatureComponent,    
     PaginationComponent,
     TypographyComponent,
     ProgressBarComponent,    
@@ -104,8 +92,7 @@ import { TreeComponent } from './tree/tree.component';
     SelectionComponent,    
     ButtonComponent,
     SignatureComponent,
-    UploaderComponent,
-    CalendarComponent,
+    UploaderComponent,    
     PaginationComponent,
     TypographyComponent,
     ProgressBarComponent,    
