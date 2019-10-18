@@ -70,36 +70,38 @@
 </ngx-datatable>
 
 <!-- Card List -->
-<div
-  *ngIf="uiElement.tableType == 'card'"
-  [ngStyle]="
-    uiElement.contentLayoutStyle
-      ? uiElement.contentLayoutStyle
-      : config.get('dataTable.contentLayoutStyle')
-  "
->
-  <mat-card
-    *ngFor="let row of rows"
-    (click)="click(row, uiElement.click)"
+<ng-container *ngIf="uiElement.tableType == 'card'">
+  <cdk-virtual-scroll-viewport
     [ngStyle]="
-      uiElement.itemBoxStyle
-        ? uiElement.itemBoxStyle
-        : config.get('dataTable.itemBoxStyle')
+      uiElement.contentLayoutStyle
+        ? uiElement.contentLayoutStyle
+        : config.get('dataTable.contentLayoutStyle')
     "
-    [ngClass]="
-      uiElement.itemBoxClass
-        ? uiElement.itemBoxClass
-        : config.get('dataTable.itemBoxClass')
-    "
+    [itemSize]="size"
   >
-    <ng-container *ngFor="let column of uiElement.columns">
-      <ng-container
-        ui-layout-wrapper
-        [uiElement]="column"
-        [data]="row"
-      ></ng-container>
-    </ng-container>
-  </mat-card>
+    <mat-card
+      *cdkVirtualFor="let row of rows"
+      (click)="click(row, uiElement.click)"
+      [ngStyle]="
+        uiElement.itemBoxStyle
+          ? uiElement.itemBoxStyle
+          : config.get('dataTable.itemBoxStyle')
+      "
+      [ngClass]="
+        uiElement.itemBoxClass
+          ? uiElement.itemBoxClass
+          : config.get('dataTable.itemBoxClass')
+      "
+    >
+      <ng-container *ngFor="let column of uiElement.columns">
+        <ng-container
+          ui-layout-wrapper
+          [uiElement]="column"
+          [data]="row"
+        ></ng-container>
+      </ng-container>
+    </mat-card>
+  </cdk-virtual-scroll-viewport>
   <pagination
     *ngIf="total > size"
     [key]="uiElement.key"
@@ -107,7 +109,7 @@
     [page]="page"
     [size]="size"
   ></pagination>
-</div>
+</ng-container>
 
 <!-- Simple List -->
 <div
