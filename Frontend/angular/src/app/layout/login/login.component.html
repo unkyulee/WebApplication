@@ -1,8 +1,8 @@
 <splash></splash>
 
-<div [ngStyle]="login.layoutStyle">
-  <div [ngStyle]="login.style" [ngClass]="login.class">
-    <ng-container *ngFor="let ui of login.screen">
+<div [ngStyle]="uiElement.layoutStyle">
+  <div [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
+    <ng-container *ngFor="let ui of uiElement.screen">
       <ng-container
         ui-layout-wrapper
         *ngIf="condition(ui)"
