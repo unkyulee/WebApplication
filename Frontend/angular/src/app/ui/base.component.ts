@@ -72,10 +72,7 @@ export class BaseComponent {
   onCustomEvent: Subscription;
 
   ngAfterViewInit() {
-    obj.ensureExists(this, "uiElement", {});
-    obj.ensureExists(this, "data", {});
-
-    if (this.uiElement.init) {
+    if (obj.has(this, "uiElement.init")) {
       try {
         eval(this.uiElement.init);
       } catch (e) {
@@ -84,7 +81,7 @@ export class BaseComponent {
     }
 
     // event handler    
-    if (this.uiElement.eventHandler) {      
+    if (obj.has(this, "uiElement.eventHandler")) {      
       this.onCustomEvent = this.event.onEvent.subscribe(event =>
         this.customEventHandler(event)
       );

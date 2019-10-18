@@ -133,4 +133,14 @@ export class InputComponent extends BaseComponent {
       eval(this.uiElement.monthSelected);
     }
   }
+
+  keyupEnter() {
+    if(this.uiElement.keyupEnter) {
+      try {
+        eval(this.uiElement.keyupEnter)      
+      } catch(e) {
+        console.error(e)
+      }
+    }
+  }
 }

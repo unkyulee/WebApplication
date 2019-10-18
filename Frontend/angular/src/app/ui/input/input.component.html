@@ -23,7 +23,7 @@
       [(ngModel)]="value"
       [required]="uiElement.required"
       [readonly]="uiElement.readonly"
-      (keyup.enter)="eval(uiElement['keyupEnter'])"
+      (keyup.enter)="keyupEnter()"
       (input)="typeAheadEventEmitter.next($event)"
     />
 
