@@ -16,7 +16,7 @@ export class AuthService {
     public config: ConfigService
   ) {
     // setup authentication strategy
-    let strategy = obj.get(this.config, "authentication.authStrategy");
+    let strategy = this.config.get("authentication.authStrategy");
     switch (strategy) {
       case "NoAuth":
         this.authStrategy = new NoAuthStrategy();

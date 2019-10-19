@@ -15,7 +15,7 @@ export class LoginComponent extends BaseComponent {
     obj.ensureExists(this, "uiElement", {})
 
     // load default login screen
-    this.uiElement = this.config.get("login");
+    this.uiElement = this.config.get("login", {});
 
     // handle events
     this.onEvent = this.event.onEvent.subscribe(async event => {

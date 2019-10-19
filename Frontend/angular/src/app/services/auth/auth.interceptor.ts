@@ -7,7 +7,6 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
-import * as obj from "object-path";
 
 import { EventService } from "../event.service";
 import { ConfigService } from "../config.service";

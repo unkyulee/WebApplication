@@ -21,14 +21,6 @@ import { BaseComponent } from "../ui/base.component";
 import { UIComposerDialogComponent } from "./ui-composer-dialog/ui-composer-dialog.component";
 import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
 
-// user import
-import { EventService } from "../services/event.service";
-import { ConfigService } from "../services/config.service";
-import { AuthService } from "../services/auth/auth.service";
-import { NavService } from "../services/nav.service";
-import { CordovaService } from "../services/cordova.service";
-import { UserService } from "../services/user/user.service";
-
 // cordova
 declare var navigator: any;
 

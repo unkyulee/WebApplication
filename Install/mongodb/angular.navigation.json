@@ -52,12 +52,17 @@
     "order": 10,
     "children": [
       {
-        "name": "URL Assignment",
+        "name": "App Config",
         "type": "item",
         "url": "/core.navigation",
         "uiElementIds": [
           "000000000000000000000010"
-        ]
+        ],
+        "hidden": {
+          "uiElementIds": [
+            "000000000000000000100110"
+          ]
+        }
       },
       {
         "name": "Angular Navigation",
