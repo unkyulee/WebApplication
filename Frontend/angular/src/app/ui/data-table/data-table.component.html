@@ -77,7 +77,7 @@
         ? uiElement.contentLayoutStyle
         : config.get('dataTable.contentLayoutStyle')
     "
-    [itemSize]="size"
+    [itemSize]="total < size ? total : size"
   >
     <mat-card
       *cdkVirtualFor="let row of rows"
