@@ -12,7 +12,6 @@ import { BaseComponent } from "../base.component";
   templateUrl: "./selection.component.html"
 })
 export class SelectionComponent extends BaseComponent {
-
   @ViewChild("select") select: MatSelect;
 
   ngOnInit() {
@@ -92,15 +91,14 @@ export class SelectionComponent extends BaseComponent {
 
     // check if the minimumLength is specified
     if (
+      typeof v != "undefined" &&
       this.uiElement.minimumLength > 0 &&
-      this.uiElement.minimumLength > this._value
-        ? this._value.length
-        : 0
+      this.uiElement.minimumLength > v.length
     ) {
-      // search value has not reached the minimum length
+      // search value has not reached the minimum length            
       return;
     } else if (this.uiElement.selectionType == "autocomplete") {
-      // proceed with deferred type
+      // proceed with deferred type      
       this.typeAheadEventEmitter.next(v);
     }
 
@@ -108,7 +106,7 @@ export class SelectionComponent extends BaseComponent {
     if (this.select && this.uiElement.keepOpen != true) this.select.close();
   }
 
-  loadOption() {
+  loadOption() {        
     if (this.uiElement.src) {
       // download data through rest web services
       let src = this.uiElement.src;
@@ -122,16 +120,18 @@ export class SelectionComponent extends BaseComponent {
       } catch (e) {}
 
       this.rest
-        .request(src, data, this.uiElement.method)
-        .subscribe(response => {
-          this.isLoading = false;
-
-          if (this.uiElement.transform)
-            this.uiElement.options = eval(this.uiElement.transform);
-        });
+        .request(src, data, this.uiElement.method, {}, this.uiElement.cached)
+        .subscribe(response => this.loadOptionHandler(response));
     } else {
       this.isLoading = false;
     }
+  }
+
+  loadOptionHandler(response) {
+    this.isLoading = false;
+
+    if (this.uiElement.transform)
+      this.uiElement.options = eval(this.uiElement.transform);
   }
 
   // delayed typing -> send rest request
@@ -178,11 +178,10 @@ export class SelectionComponent extends BaseComponent {
   isOpen = false;
   openChanged(event) {
     this.isOpen = event;
-    this.isLoading = event;
-    this.loadOption();
+    this.isLoading = event;    
   }
 
-  compareWith(o1: any, o2: any): boolean {    
+  compareWith(o1: any, o2: any): boolean {
     if (this.uiElement.compare) {
       try {
         return eval(this.uiElement.compare) == true;
