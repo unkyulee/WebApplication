@@ -121,6 +121,27 @@ export class BaseComponent {
     }
   }
 
+  
+  keyupEnter() {
+    if(this.uiElement.keyupEnter) {
+      try {
+        eval(this.uiElement.keyupEnter)      
+      } catch(e) {
+        console.error(e)
+      }
+    }
+  }
+
+  focus($event) {    
+    if(this.uiElement.focus) {
+      try {
+        eval(this.uiElement.focus)      
+      } catch(e) {
+        console.error(e)
+      }
+    }
+  }
+
   format(value, data) {
     try {
       value = eval(value);

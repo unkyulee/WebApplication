@@ -25,6 +25,8 @@
       [readonly]="uiElement.readonly"
       (keyup.enter)="keyupEnter()"
       (input)="typeAheadEventEmitter.next($event)"
+      (click)="click($event)"
+      (focus)="focus($event)"
     />
 
     <button
@@ -70,6 +72,8 @@
       [readonly]="uiElement.readonly"
       [required]="uiElement.required"
       [maxlength]="uiElement.maxlength ? uiElement.maxlength : '-1'"
+      (click)="click($event)"
+      (focus)="focus($event)"
     ></textarea>
   </mat-form-field>
 
@@ -94,6 +98,8 @@
       [required]="uiElement.required"
       [selectMode]="uiElement.selectMode ? uiElement.selectMode : 'single'"
       onfocus="blur()"
+      (click)="click($event)"
+      (focus)="focus($event)"
     />
     <button
       type="button"
@@ -101,7 +107,7 @@
       mat-icon-button
       [owlDateTimeTrigger]="uiElement.click ? false : datetimepicker"
       *ngIf="uiElement.icon"
-      (click)="click()"
+      (click)="click($event)"
     >
       <mat-icon [style.color]="uiElement.iconColor || 'green'">{{
         uiElement.icon
