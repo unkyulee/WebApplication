@@ -25,11 +25,19 @@ export class UIComposerDialogComponent extends BaseComponent {
     super();
   }
 
+  // showLoadingBar
+  showLoadingBar: boolean = false;
+
   ngOnInit() {
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event =>
       this.eventHandler(event)
     );
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {this.event.send({name: 'changed'})}, 1000)
+    
   }
 
   eventHandler(event) {
@@ -38,6 +46,10 @@ export class UIComposerDialogComponent extends BaseComponent {
       if (this.uiElement) {
         this.uiElement = event.data[this.uiElement._id];
       }
+    } else if (event == "splash-show") {
+      this.showLoadingBar = true;
+    } else if (event == "splash-hide") {
+      this.showLoadingBar = false;
     }
   }
 

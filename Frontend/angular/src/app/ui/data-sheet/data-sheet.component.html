@@ -1,7 +1,8 @@
 <table [ngStyle]="uiElement.style">
   <tr
     *ngFor="let row of rows"
-    [ngStyle]="row.style"    
+    [ngStyle]="row.style"
+    (click)="click($event, row, row.click?row.click:uiElement.trClick, $event)"
   >
     <td
       *ngFor="let column of row.columns"
@@ -9,6 +10,7 @@
       [attr.colspan]="column.colspan"
       [attr.rowspan]="column.rowspan"
       [title]="column.title ? column.title : ''"
+      (click)="click($event, column, column.click?column.click:uiElement.tdClick)"
     >
       <ng-container *ngIf="column.screen">
         <ng-container *ngFor="let ui of column.screen">

@@ -1,8 +1,8 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, OnDestroy } from "@angular/core";
 import * as obj from "object-path";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { Observable, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
+import { Observable, Subscription, ReplaySubject } from "rxjs";
+import { map, takeUntil } from "rxjs/operators";
 import { AppInjector } from "../app.component";
 import { EventService } from "../services/event.service";
 import { RestService } from "../services/rest.service";
@@ -20,7 +20,7 @@ import { AuthService } from "../services/auth/auth.service";
   template: ""
 })
 export class BaseComponent {
-  constructor() {    
+  constructor() {
     // dependency injection
     this.event = AppInjector.get(EventService);
     this.rest = AppInjector.get(RestService);
@@ -46,8 +46,8 @@ export class BaseComponent {
       );
   }
 
-  // configuration of the ui element  
-  @Input() uiElement: any;    
+  // configuration of the ui element
+  @Input() uiElement: any;
   @Input() data: any;
 
   // detect window size changes
@@ -69,7 +69,7 @@ export class BaseComponent {
 
   // event subscription
   onEvent: Subscription;
-  onCustomEvent: Subscription;
+  onCustomEvent: Subscription;  
 
   ngAfterViewInit() {
     if (obj.has(this, "uiElement.init")) {
@@ -80,17 +80,15 @@ export class BaseComponent {
       }
     }
 
-    // event handler    
-    if (obj.has(this, "uiElement.eventHandler")) {      
-      this.onCustomEvent = this.event.onEvent.subscribe(event =>
-        this.customEventHandler(event)
-      );
+    // event handler
+    if (obj.has(this, "uiElement.eventHandler")) {
+      this.onCustomEvent = this.event.onEvent
+        .pipe(takeUntil(componentDestroyed(this)))
+        .subscribe(event => this.customEventHandler(event));
     }
   }
 
-  ngOnDestroy() {
-    if (this.onCustomEvent) this.onCustomEvent.unsubscribe();
-
+  ngOnDestroy() {    
     if (this.uiElement && this.uiElement.destroy) {
       try {
         eval(this.uiElement.destroy);
@@ -101,7 +99,7 @@ export class BaseComponent {
   }
 
   customEventHandler(event) {
-    if (this.uiElement.eventHandler) {      
+    if (this.uiElement.eventHandler) {
       try {
         eval(this.uiElement.eventHandler);
       } catch (e) {
@@ -110,7 +108,7 @@ export class BaseComponent {
     }
   }
 
-  click(item?, script?) {
+  click(event, item?, script?) {
     let clickScript = script ? script : this.uiElement.click;
     if (clickScript) {
       try {
@@ -121,23 +119,22 @@ export class BaseComponent {
     }
   }
 
-  
   keyupEnter() {
-    if(this.uiElement.keyupEnter) {
+    if (this.uiElement.keyupEnter) {
       try {
-        eval(this.uiElement.keyupEnter)      
-      } catch(e) {
-        console.error(e)
+        eval(this.uiElement.keyupEnter);
+      } catch (e) {
+        console.error(e);
       }
     }
   }
 
-  focus($event) {    
-    if(this.uiElement.focus) {
+  focus($event) {
+    if (this.uiElement.focus) {
       try {
-        eval(this.uiElement.focus)      
-      } catch(e) {
-        console.error(e)
+        eval(this.uiElement.focus);
+      } catch (e) {
+        console.error(e);
       }
     }
   }
@@ -226,4 +223,15 @@ export class BaseComponent {
   safeGet(data, path, def_value) {
     return obj.get(data, path, def_value);
   }
+}
+
+function componentDestroyed(component: OnDestroy) {
+  const oldNgOnDestroy = component.ngOnDestroy;
+  const destroyed$ = new ReplaySubject<void>(1);
+  component.ngOnDestroy = () => {
+    oldNgOnDestroy.apply(component);
+    destroyed$.next(undefined);
+    destroyed$.complete();
+  };
+  return destroyed$;
 }

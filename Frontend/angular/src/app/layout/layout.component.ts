@@ -30,11 +30,11 @@ declare var navigator: any;
 })
 export class LayoutComponent extends BaseComponent
   implements OnInit, OnDestroy {
-  constructor(    
+  constructor(
     private dialog: MatDialog,
-    private bottomSheet: MatBottomSheet,    
-    private elementRef: ElementRef,    
-    private ref: ChangeDetectorRef,    
+    private bottomSheet: MatBottomSheet,
+    private elementRef: ElementRef,
+    private ref: ChangeDetectorRef,
     private renderer: Renderer2
   ) {
     super();
@@ -97,11 +97,17 @@ export class LayoutComponent extends BaseComponent
       } else if (event && event.name == "close-dialog") {
         if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
           this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
+        setTimeout(() => {
+          this.cordova.detectChanges(this.ref);
+        }, 100);
       } else if (event && event.name == "close-all-dialog") {
         if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
           for (let dialog of this.dialog.openDialogs) {
             dialog.close();
           }
+        setTimeout(() => {
+          this.cordova.detectChanges(this.ref);
+        }, 100);
       } else if (event.name == "open-sheet") {
         setTimeout(() => this.openSheet(event), 0);
       } else if (event.name == "navigation-changed") {
@@ -127,7 +133,14 @@ export class LayoutComponent extends BaseComponent
     // get ui elements
     let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
     uiElement = { ...uiElement };
-    if(event.uiElement) uiElement = Object.assign(uiElement, event.uiElement)
+    if (event.uiElement) uiElement = Object.assign(uiElement, event.uiElement);
+    if(event.uiElementInit) {
+      try{
+        eval(event.uiElementInit)
+      } catch(e) {
+        console.error(e)
+      }
+    }
 
     // open dialog
     this.currDialog = this.dialog.open(UIComposerDialogComponent, {

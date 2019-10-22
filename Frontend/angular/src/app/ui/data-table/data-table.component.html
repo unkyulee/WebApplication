@@ -63,7 +63,7 @@
       <div
         [ngStyle]="column?.style"
         [innerHTML]="format(value, column.format, row) | safe: 'html'"
-        (click)="click(row, column.click)"
+        (click)="click($event, row, column.click)"
       ></div>
     </ng-template>
   </ngx-datatable-column>
@@ -81,7 +81,7 @@
   >
     <mat-card
       *cdkVirtualFor="let row of rows"
-      (click)="click(row, uiElement.click)"
+      (click)="click($event, row, uiElement.click)"
       [ngStyle]="
         uiElement.itemBoxStyle
           ? uiElement.itemBoxStyle
@@ -132,7 +132,7 @@
         ? uiElement.itemBoxClass
         : config.get('dataTable.itemBoxClass')
     "
-    (click)="click(row, uiElement.click)"
+    (click)="click($event, row, uiElement.click)"
   >
     <ng-container *ngFor="let column of uiElement.columns">
       <ng-container

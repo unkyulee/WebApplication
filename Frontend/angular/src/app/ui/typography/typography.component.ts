@@ -18,7 +18,7 @@ import { RestService } from "src/app/services/rest.service";
       [ngStyle]="uiElement.style"
       [ngClass]="uiElement.class"
       [innerHtml]="value | safe: 'html'"
-      (click)="click()"
+      (click)="click($event)"
     ></div>
   `
 })

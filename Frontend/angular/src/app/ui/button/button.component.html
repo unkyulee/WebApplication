@@ -5,7 +5,7 @@
   "
   mat-raised-button
   [disabled]="uiElement.disabled == true"
-  (click)="click()"
+  (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
 >
@@ -17,7 +17,7 @@
   *ngIf="uiElement.buttonType == 'mat-button' && condition(uiElement)"
   mat-button
   [disabled]="uiElement.disabled == true"
-  (click)="click()"
+  (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
 >
@@ -30,7 +30,7 @@
   mat-icon-button
   [disabled]="uiElement.disabled == true"
   [matTooltip]="uiElement.label"
-  (click)="click()"
+  (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
 >
@@ -42,7 +42,7 @@
   mat-menu-item
   [disabled]="uiElement.disabled == true"
   [matTooltip]="uiElement.label"
-  (click)="click()"
+  (click)="click($event)"
   [ngStyle]="uiElement.style"
 >
   {{ uiElement.label }}

@@ -15,6 +15,12 @@
   </button>
   <span>{{ uiElement.name }}</span>
 </mat-toolbar>
+<mat-progress-bar
+  *ngIf="showLoadingBar"
+  class="loading-bar"
+  color="accent"
+  mode="indeterminate"
+></mat-progress-bar>
 <div
   class="dialog-content"
   [ngStyle]="uiElement.contentStyle"
