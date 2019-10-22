@@ -2,9 +2,10 @@ const hash = require("../lib/hash");
 const jwt = require("jsonwebtoken");
 const ObjectID = require("mongodb").ObjectID;
 const strMatch = require("../lib/strMatch").strMatch;
+const obj = require("object-path");
 
 class Auth {
-  async canModuleProcess(db, req, res) {
+  async canModuleProcess(db, req, res) {    
     // check if the current module requires authentication
     let requiresAuthentication = await res.locals.module.requiresAuthentication(
       db,
@@ -17,10 +18,10 @@ class Auth {
     }
 
     // check if the request is authenticated
-    let isAuthenticated = await this.isAuthenticated(db, req, res);
+    let isAuthenticated = await this.isAuthenticated(db, req, res);    
     if (isAuthenticated == false) {
       // if not authenticated then try to authenticate the request
-      isAuthenticated = await this.authenticate(db, req, res);
+      isAuthenticated = await this.authenticate(db, req, res);      
       if (isAuthenticated == false) {
         // clear cookie
         res.clearCookie("x-app-key");
@@ -46,18 +47,20 @@ class Auth {
 
     // check if it is requesting for validate
     if (req.headers["validate"]) {
-
       // save push notification registration id
-      if(req.headers.registrationid && req.headers["x-app-key"]) {
+      if (req.headers.registrationid && req.headers["x-app-key"]) {
         let users = await db.find("core.user", {
-          id: res.locals.token.unique_name
-          , navigation_id: req.headers["x-app-key"]
+          id: res.locals.token.unique_name,
+          navigation_id: req.headers["x-app-key"]
         });
 
-        if(users.length > 0) {
+        if (users.length > 0) {
           //
           let user = users[0];
-          await db.update("core.user", {_id: user["_id"], registrationId: req.headers.registrationid})
+          await db.update("core.user", {
+            _id: user["_id"],
+            registrationId: req.headers.registrationid
+          });
         }
       }
 
@@ -225,19 +228,12 @@ class Auth {
     let roleIds = {};
 
     // get groups
-    if (user.group_id) {
-      if (Array.isArray(user.group_id)) {
-        for (let group of user.group_id) {
-          // get roles
-          let roles = await db.find("core.role", {
-            groups: `${group}`
-          });
-          for (let role of roles) roleIds[`${role._id}`] = 1;
-        }
-      } else {
+    let groups = obj.get(user, "groups");        
+    if (groups) {
+      for (let group of groups) {
         // get roles
         let roles = await db.find("core.role", {
-          groups: `${user.group_id}`
+          groups: `${group._id}`
         });
         for (let role of roles) roleIds[`${role._id}`] = 1;
       }
