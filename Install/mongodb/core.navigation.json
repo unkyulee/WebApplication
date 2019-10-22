@@ -119,13 +119,14 @@
       }
     },
     "dataTable": {
-      "layoutStyle": {
+      "style": {
         "width": "100%",
         "display": "flex",
         "flex-direction": "column"
       },
       "contentLayoutStyle": {
-        "flex-grow": 1
+        "flex-grow": 1,
+        "height": "100%"
       },
       "itemBoxStyle": {
         "margin": "8px",

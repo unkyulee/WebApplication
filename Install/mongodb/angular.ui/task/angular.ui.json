@@ -48,12 +48,8 @@
     "transform": "response.data",
     "click": "this.router.navigateByUrl(`/task/detail?_id=${item._id}`)",
     "layoutStyle": {
-      "padding": "8px"
-    },
-    "contentLayoutStyle": {
-      "display": "flex",
-      "flexWrap": "wrap",
-      "flexDirection": "row"
+      "padding": "8px",
+      "height": "100%"
     },
     "itemBoxStyle": {
       "max-width": "400px",
@@ -111,20 +107,7 @@
           "width": "1px"
         }
       },
-      {
-        "type": "typography",
-        "condition": "!this.data._id",
-        "default": "this.data._params_._id?'Loading ...':'Must Save'",
-        "layoutStyle": {
-          "text-align": "center"
-        },
-        "style": {
-          "padding": "10px",
-          "text-transform": "uppercase",
-          "font-weight": "bold",
-          "color": "chartreuse"
-        }
-      },
+      
       {
         "type": "button",
         "buttonType": "mat-icon-button",
