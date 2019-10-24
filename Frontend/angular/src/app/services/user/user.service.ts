@@ -35,4 +35,21 @@ export class UserService {
   get(name) {
     return this.userStrategy.get(name);
   }
+
+  // check access control on roles
+  acl(roles: any[]) {
+    let result = false;
+    for(let role of roles) {
+      let userRoles = this.userStrategy.roles();
+      if(userRoles == role) {
+        result = true;
+        break;
+      }
+      if(Array.isArray(userRoles) && userRoles.includes(role)) {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }
 }

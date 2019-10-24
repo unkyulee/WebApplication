@@ -3,7 +3,7 @@
   hidden
   type="file"
   #fileInput
-  (change)="change($event)"
+  (change)="fileSelected($event)"
   multiple
   [accept]="uiElement.accept ? uiElement.accept : '*'"
 />
@@ -11,19 +11,37 @@
   hidden
   type="file"
   #cameraInput
-  (change)="change($event)"
+  (change)="fileSelected($event)"
   multiple
   capture="camera"
   [accept]="uiElement.accept ? uiElement.accept : '*'"
 />
 
+<!-- processing image -->
+<ng-container *ngIf="image_progress">
+  <mat-card style="margin: 8px; background: aliceblue">
+    <div>
+      <b>Image Processing ...</b>
+    </div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card>
+</ng-container>
+
 <!-- uploading progress -->
 <ng-container *ngIf="uploader?.queue?.length">
-  <mat-card *ngFor="let item of uploader.queue" style="margin: 8px; background: aliceblue">
+  <mat-card
+    *ngFor="let item of uploader.queue"
+    style="margin: 8px; background: aliceblue"
+  >
     <mat-card-content>
-      <div><b>{{ item?.file?.name }}</b></div>
+      <div>
+        <b>{{ item?.file?.name }}</b>
+      </div>
       <div>{{ item?.file?.size / 1024 | number: ".2" }} kb</div>
-      <mat-progress-bar mode="determinate" [value]="item.progress"></mat-progress-bar>
+      <mat-progress-bar
+        mode="determinate"
+        [value]="item.progress"
+      ></mat-progress-bar>
       <div>
         <span *ngIf="item.isSuccess">OK</span>
         <span *ngIf="item.isCancel">X</span>

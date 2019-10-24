@@ -1,7 +1,7 @@
 ﻿var moment = require("moment-timezone");
 
 function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
 }
 
 async function run() {
@@ -55,7 +55,28 @@ async function run() {
     }
   }
 
-  let options = {};
+  // process the projection
+  let projection = {};
+  // include columns
+  if (data._projection) {
+    try {
+      let columns = data._projection.split(",");
+      for (let column of columns) {
+        column = column.trim();
+        projection[column] = 1;
+      }
+    } catch {}
+  }
+  if (data._projection_ne) {
+    try {
+      let columns = data._projection_ne.split(",");
+      for (let column of columns) {
+        column = column.trim();
+        projection[column] = 0;
+      }
+    } catch {}
+  }
+
   for (let key of Object.keys(data)) {
     if (key === "page") continue;
     else if (key === "size") continue;
@@ -63,6 +84,7 @@ async function run() {
     else if (key === "_aggregation") continue;
     else if (key === "_sort") continue;
     else if (key === "_sort_desc") continue;
+    else if (key === "_projection") continue;
     // _id gets ObjectId wrapper
     else if (key === "_id") filter.$and.push({ _id: ObjectID(data[key]) });
     // search
@@ -73,7 +95,7 @@ async function run() {
             $search: data[key]
           }
         });
-        options = { score: { $meta: "textScore" } };
+        projection = { ...projection, score: { $meta: "textScore" } };
         sort = { score: { $meta: "textScore" } };
       }
     }
@@ -142,7 +164,7 @@ async function run() {
       sort,
       size,
       (page - 1) * size,
-      options
+      projection
     );
   let total = await ds.count(collection, filter);
 
@@ -162,6 +184,8 @@ async function run() {
     total: total,
     filter: filter,
     sort: sort,
+    projection: projection,
+    params: data,
     websvc: res.locals.websvcurl,
     data: result
   };

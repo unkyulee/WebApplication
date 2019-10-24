@@ -1,5 +1,6 @@
 import { Injectable, NgZone, ChangeDetectorRef } from '@angular/core';
 import { fromEvent, Subject } from 'rxjs';
+import { b64toBlob } from '../core/b64toBlob';
 
 function _window(): any {
   // return the global native browser window object
@@ -41,4 +42,54 @@ export class CordovaService {
       ref.detectChanges();
     });
   }
+
+
+  // cordova specifics
+  async openCamera(option = {}) {
+    return new Promise(resolve => {
+      this.cordova.navigator.camera.getPicture(
+        imageData => {
+          let file: any = b64toBlob(imageData, "image/jpeg");
+          file.name = new Date().getTime().toString() + ".jpg";
+          file.lastModified = Date.now();
+          resolve(file);
+        },
+        errorMessage => {
+          alert(errorMessage);
+        },
+        {
+          quality: 50,
+          correctOrientation: true,
+          destinationType: this.cordova.navigator.camera.DestinationType.DATA_URL,
+          ...option
+        }
+      );
+    })
+
+  }
+
+
+  async openGallery(option = {}) {
+    return new Promise(resolve => {
+      this.cordova.navigator.camera.getPicture(
+        imageData => {
+          let file: any = b64toBlob(imageData, "image/jpeg");
+          file.name = new Date().getTime().toString() + ".jpg";
+          file.lastModified = Date.now();
+          resolve(file);
+        },
+        errorMessage => {
+          alert(errorMessage);
+        },
+        {
+          quality: 50,
+          correctOrientation: true,
+          destinationType: this.cordova.navigator.camera.DestinationType.DATA_URL,
+          sourceType: this.cordova.navigator.camera.PictureSourceType.PHOTOLIBRARY,
+          ...option
+        }
+      );
+    })
+  }
+
 }

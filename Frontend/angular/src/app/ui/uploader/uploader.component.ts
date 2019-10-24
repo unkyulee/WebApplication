@@ -1,10 +1,11 @@
-import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from "@angular/core";
+import { Component, ViewChild, ElementRef } from "@angular/core";
 import { Subscription } from "rxjs";
 import { FileUploader } from "ng2-file-upload";
-import { Ng2ImgMaxService } from 'ng2-img-max';
+import { Ng2ImgMaxService } from "ng2-img-max";
+import * as obj from "object-path";
 
 // user imports
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "uploader",
@@ -40,53 +41,55 @@ export class UploaderComponent extends BaseComponent {
   //
   public uploader: FileUploader;
 
-  // event subscription  
+  // event subscription
   onResume: Subscription;
 
   //
-  timer: any
+  timer: any;
   ngOnInit() {
+    // set uploader
+    this.setUploader();
+
     // onresume - cordova requires constant montoring on the change detection
     // otherwise it doesn't update its screen .. this happens when coming from camera
-    this.onResume = this.cordova.resume.subscribe(
-      event => {
-        if(this.timer)
-          clearInterval(this.timer)
+    this.onResume = this.cordova.resume.subscribe(event => {
+      if (this.timer) clearInterval(this.timer);
 
-        this.timer = setInterval(() => {
-          // check changes until the queue is empty
-          if(this.uploader && this.uploader.queue.length > 0) {
-            this.event.send({name: 'changed'})
-          } else if(this.uploader && this.uploader.queue.length  == 0) {
-            clearInterval(this.timer)
-          }
-        }, 300)
-      }
-    )
+      this.timer = setInterval(() => {
+        // check changes until the queue is empty
+        if (this.uploader && this.uploader.queue.length > 0) {
+          this.event.send({ name: "changed" });
+        } else if (this.uploader && this.uploader.queue.length == 0) {
+          clearInterval(this.timer);
+        }
+      }, 300);
+    });
 
     // subscript to event
-    this.onEvent = this.event.onEvent.subscribe(event => {
+    this.onEvent = this.event.onEvent.subscribe(async event => {
       if (event && event.key == this.uiElement.key) {
         if (event.name == "upload-file") {
+          // in case of uploading files open file selection dialog
+          // in android open gallery
           if (this.cordova.navigator.camera) {
-            this.cordovaOpenGallery();
+            let file = await this.cordova.openGallery();
+            this.uploadFile(file);
           } else {
-            // open file selection
+            // desktop: initiate file select dialog
             this.fileInput.nativeElement.click();
           }
         } else if (event.name == "upload-camera") {
+          // in case of uploading pictures then try to open camera
           if (this.cordova.navigator.camera) {
-            this.cordovaOpenCamera();
+            let file = await this.cordova.openCamera();
+            this.uploadFile(file);
           } else {
-            // open camera if possible selection
+            // desktop: initiate image select dialog
             this.cameraInput.nativeElement.click();
           }
         } else if (event.name == "upload") {
-          if (!this.uploader) {
-            // setup uploader
-            this.setUploader();
-          }
-          this.processFile(event.file);
+          // upload the file sent through the event
+          await this.uploadFile(event.file);
         }
       }
     });
@@ -95,113 +98,61 @@ export class UploaderComponent extends BaseComponent {
   ngOnDestroy() {
     this.onEvent.unsubscribe();
     this.onResume.unsubscribe();
-    clearInterval(this.timer)
+    clearInterval(this.timer);
   }
 
   // refresh the table
-  change(e) {
-    this.event.send("splash-show"); // show splash
-
-    if (!this.uploader) {
-      // setup uploader
-      this.setUploader();
-    }
-
-    // upload all
+  async fileSelected(e) {
+    // for each selected file perform upload
     for (let f of e.target.files) {
-      if (this.uiElement.image) {
-        this.processImage(f);
-      } else {
-        this.processFile(f);
-      }
+      await this.uploadFile(f);
     }
   }
 
-  // cordova specifics
-  cordovaOpenCamera() {
-    if (!this.uploader) {
-      // setup uploader
-      this.setUploader();
+  async uploadFile(file) {
+    if (this.uiElement.image) {
+      // process the image if image options exists
+      file = await this.processImage(file);
     }
-    this.cordova.navigator.camera.getPicture(
-      imageData => {
-        let file: any = this.b64toBlob(imageData, "image/jpeg");
-        file.name = new Date().getTime().toString() + ".jpg";
-        file.lastModified = Date.now();
-        this.processImage(file);
-      },
-      errorMessage => {
-        alert(errorMessage);
-      },
-      {
-        quality: 50,
-        correctOrientation: true,
-        allowEdit: true,
-        destinationType: this.cordova.navigator.camera.DestinationType.DATA_URL
-      }
-    );
-  }
 
-  cordovaOpenGallery() {
-    if (!this.uploader) {
-      // setup uploader
-      this.setUploader();
+    // upload the file
+    if (file) {
+      this.uploader.addToQueue([file]);
+      this.uploader.uploadAll();
     }
-    this.cordova.navigator.camera.getPicture(
-      imageData => {
-        let file: any = this.b64toBlob(imageData, "image/jpeg");
-        file.name = new Date().getTime().toString() + ".jpg";
-        file.lastModified = Date.now();
-        this.processImage(file);
-      },
-      errorMessage => {
-        alert(errorMessage);
-      },
-      {
-        quality: 50,
-        correctOrientation: true,
-        destinationType: this.cordova.navigator.camera.DestinationType.DATA_URL,
-        sourceType: this.cordova.navigator.camera.PictureSourceType.PHOTOLIBRARY
-      }
-    );
-  }
-
-  processFile(file) {
-    this.uploader.addToQueue([file]);
-    this.uploader.uploadAll();
   }
 
   // if it is an image then
-  processImage(file) {
+  image_progress = false;
+  async processImage(file) {
     if (
-      this.uiElement.image &&
-      this.uiElement.image.resizeMaxHeight &&
-      this.uiElement.image.resizeMaxWidth
+      obj.has(this.uiElement, "image.resizeMaxHeight") &&
+      obj.has(this.uiElement, "image.resizeMaxWidth")
     ) {
-      this.event.send("splash-show"); // show splash
-      this.ng2ImgMax
-        .resizeImage(
-          file,
-          this.uiElement.image.resizeMaxHeight,
-          this.uiElement.image.resizeMaxWidth
-        )
-        .subscribe(
-          result => {
-            this.event.send("splash-hide"); // hide splash
-            if (this.cordova.navigator.camera) {
-              this.uploader.addToQueue([result]);
-              this.uploader.uploadAll();
-            } else {
-              const newImage = new File([result], result.name);
-              this.uploader.addToQueue([newImage]);
-              this.uploader.uploadAll();
-            }
-          },
-          error => {
-            this.event.send("splash-hide"); // hide splash
-            this.snackBar.open(error.reason, null, { duration: 2000 });
-          }
-        );
+      this.image_progress = true; // show splash
+      return new Promise(async resolve => {
+        try {
+          this.ng2ImgMax
+            .resizeImage(
+              file,
+              this.uiElement.image.resizeMaxHeight,
+              this.uiElement.image.resizeMaxWidth
+            )
+            .subscribe(result => {
+              let image: any = [result];
+              // if it is not mobile then convert to a file object
+              if (!this.cordova.navigator.camera)
+                image = new File(image, result.name);
+              resolve(image);
+            });
+        } catch (e) {
+          console.error(e);
+          this.snackBar.open(e.reason, null, { duration: 2000 });
+          resolve(null); // image processing failed
+        } finally {
+          this.image_progress = false; // hide splash
+        }
+      });
     }
   }
 
@@ -269,42 +220,6 @@ export class UploaderComponent extends BaseComponent {
       this.event.send({ name: "save" });
 
     // remove from the queue
-    item.remove()
-  }
-
-  condition() {
-    let result = true;
-    if (this.uiElement.condition) {
-      try {
-        result = eval(this.uiElement.condition);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return result;
-  }
-
-  b64toBlob(b64Data, contentType?, sliceSize?) {
-    contentType = contentType || "";
-    sliceSize = sliceSize || 512;
-
-    var byteCharacters = atob(b64Data);
-    var byteArrays = [];
-
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      var byteNumbers = new Array(slice.length);
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      var byteArray = new Uint8Array(byteNumbers);
-
-      byteArrays.push(byteArray);
-    }
-
-    var blob = new Blob(byteArrays, { type: contentType });
-    return blob;
+    item.remove();
   }
 }
