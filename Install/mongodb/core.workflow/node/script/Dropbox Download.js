@@ -24,7 +24,7 @@
     let file = await download(dropbox_api_key, data.filepath)
 
     // respond with file
-    res.setHeader('Content-disposition', `inline; filename=${file.name}`);
+    res.setHeader('Content-disposition', `inline; filename=${encodeURIComponent(file.name)}`);
     res.end(file.fileBinary, 'binary')
 
     return

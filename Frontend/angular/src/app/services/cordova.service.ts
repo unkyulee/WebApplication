@@ -47,20 +47,21 @@ export class CordovaService {
   // cordova specifics
   async openCamera(option = {}) {
     return new Promise(resolve => {
-      this.cordova.navigator.camera.getPicture(
+      this.navigator.camera.getPicture(
         imageData => {
           let file: any = b64toBlob(imageData, "image/jpeg");
           file.name = new Date().getTime().toString() + ".jpg";
           file.lastModified = Date.now();
-          resolve(file);
+          resolve(file)
         },
         errorMessage => {
           alert(errorMessage);
+          resolve();
         },
         {
           quality: 50,
           correctOrientation: true,
-          destinationType: this.cordova.navigator.camera.DestinationType.DATA_URL,
+          destinationType: this.navigator.camera.DestinationType.DATA_URL,
           ...option
         }
       );
@@ -71,7 +72,7 @@ export class CordovaService {
 
   async openGallery(option = {}) {
     return new Promise(resolve => {
-      this.cordova.navigator.camera.getPicture(
+      this.navigator.camera.getPicture(
         imageData => {
           let file: any = b64toBlob(imageData, "image/jpeg");
           file.name = new Date().getTime().toString() + ".jpg";
@@ -84,8 +85,8 @@ export class CordovaService {
         {
           quality: 50,
           correctOrientation: true,
-          destinationType: this.cordova.navigator.camera.DestinationType.DATA_URL,
-          sourceType: this.cordova.navigator.camera.PictureSourceType.PHOTOLIBRARY,
+          destinationType: this.navigator.camera.DestinationType.DATA_URL,
+          sourceType: this.navigator.camera.PictureSourceType.PHOTOLIBRARY,
           ...option
         }
       );

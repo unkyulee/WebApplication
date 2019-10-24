@@ -139,11 +139,11 @@ export class UploaderComponent extends BaseComponent {
               this.uiElement.image.resizeMaxWidth
             )
             .subscribe(result => {
-              let image: any = [result];
               // if it is not mobile then convert to a file object
-              if (!this.cordova.navigator.camera)
-                image = new File(image, result.name);
-              resolve(image);
+              if (this.cordova.navigator.camera)
+                resolve(result);
+              else
+                resolve(new File([result], result.name));
             });
         } catch (e) {
           console.error(e);
@@ -207,7 +207,9 @@ export class UploaderComponent extends BaseComponent {
       id: id,
       url: downloadPath,
       filename: item.file.name,
-      size: item.file.size
+      size: item.file.size,
+      _created: new Date(),
+      _createdBy: this.user.id()
     });
     this.value = currentValue;
 
