@@ -5,6 +5,7 @@
   "
   mat-raised-button
   [disabled]="uiElement.disabled == true"
+  [matTooltip]="uiElement.tooltip"
   (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
@@ -17,6 +18,7 @@
   *ngIf="uiElement.buttonType == 'mat-button' && condition(uiElement)"
   mat-button
   [disabled]="uiElement.disabled == true"
+  [matTooltip]="uiElement.tooltip"
   (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
@@ -29,7 +31,7 @@
   *ngIf="uiElement.buttonType == 'mat-icon-button' && condition(uiElement)"
   mat-icon-button
   [disabled]="uiElement.disabled == true"
-  [matTooltip]="uiElement.label"
+  [matTooltip]="uiElement.tooltip"
   (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
@@ -37,11 +39,25 @@
   <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{ eval(uiElement.icon) }}</mat-icon>
 </button>
 
+
+<button
+  *ngIf="uiElement.buttonType == 'mat-fab' && condition(uiElement)"
+  mat-fab
+  [disabled]="uiElement.disabled == true"
+  [matTooltip]="uiElement.tooltip"
+  (click)="click($event)"
+  [color]="uiElement.color"
+  [ngStyle]="uiElement.style"
+>
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{ eval(uiElement.icon) }}</mat-icon>
+  {{ uiElement.label }}
+</button>
+
 <button
   *ngIf="uiElement.buttonType == 'mat-menu-item' && condition(uiElement)"
   mat-menu-item
   [disabled]="uiElement.disabled == true"
-  [matTooltip]="uiElement.label"
+  [matTooltip]="uiElement.tooltip"
   (click)="click($event)"
   [ngStyle]="uiElement.style"
 >

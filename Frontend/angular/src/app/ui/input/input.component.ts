@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from "@angular/core";
 import { DateTimeAdapter } from "ng-pick-datetime";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import * as obj from "object-path";
 
 import { BaseComponent } from "../base.component";
 
@@ -68,55 +69,45 @@ export class InputComponent extends BaseComponent {
 
   _value: any;
   get value() {
-    let v = null;
-
     // do not set value if it is password
     if (this.uiElement.inputType == "password") return;
 
     if (this.data && this.uiElement.key) {
       // if null then assign default
-      if (typeof this.data[this.uiElement.key] == "undefined") {
+      if (typeof obj.get(this.data, this.uiElement.key) == "undefined") {
         let def = this.uiElement.default;
         try {
           def = eval(this.uiElement.default);
         } catch (e) {}
-        this.data[this.uiElement.key] = def;
+        this._value = def;
       }
 
       // set value
-      v = this.data[this.uiElement.key];
+      this._value = obj.get(this.data, this.uiElement.key);
     }
 
     // Transform
     if (this.uiElement.transform) {
       try {
-        v = eval(this.uiElement.transform);
+        this._value = eval(this.uiElement.transform);
       } catch (e) {}
     }
 
     // if number
-    if (v && this.uiElement.inputType == "number") v = parseFloat(v);
+    if (this._value && this.uiElement.inputType == "number")
+      this._value = parseFloat(this._value);
 
-    // if the value is programmatically updated without set property called
-    // then set it explicitly
-    if (this._value != v) {
-      this._value = v;
-      this.value = v;
-    }
-
-    return v;
+    return this._value;
   }
 
   set value(v: any) {
-    if (this._value != v) {
-      this._value = v;
+    this._value = v;
 
-      if (this.data && this.uiElement.key) {
-        this.data[this.uiElement.key] = v;
-        // if number
-        if (v && this.uiElement.inputType == "number")
-          this.data[this.uiElement.key] = parseFloat(v);
-      }
+    if (this.data && this.uiElement.key) {
+      obj.set(this.data, this.uiElement.key, v);
+      // if number
+      if (v && this.uiElement.inputType == "number")
+        obj.set(this.data, this.uiElement.key, parseFloat(v));
     }
 
     this.typeAheadEventEmitter.next(v);

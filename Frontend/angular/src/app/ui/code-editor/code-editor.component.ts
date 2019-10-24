@@ -14,7 +14,7 @@ import { RestService } from "src/app/services/rest.service";
   templateUrl: "code-editor.component.html",
   styleUrls: ["code-editor.component.css"]
 })
-export class CodeEditorComponent extends BaseComponent {  
+export class CodeEditorComponent extends BaseComponent {
   path: string;
   error: string;
   compileError: string;
@@ -55,10 +55,11 @@ export class CodeEditorComponent extends BaseComponent {
       this.type = "";
 
       // remove _params_
-      delete this.data._params_;
+      let data = {...this.data};
+      delete data._params_;
 
       // when path is not specified then display the entire this.data
-      let data = obj.get(this.data, this.path);
+      data = obj.get(data, this.path);
       if (typeof data == "undefined") {
         // property doesn't exist
         this.error = "JSON property does not exist.";
@@ -108,12 +109,12 @@ export class CodeEditorComponent extends BaseComponent {
           // if the type is object then convert string -> object
           try {
             data = JSON.parse(data);
-          } catch(e) {            
+          } catch(e) {
             this.compileError = `${e.stack}`;
             throw e
-          }          
+          }
         }
-        obj.set(this.data, this.path, data)        
+        obj.set(this.data, this.path, data)
       }
     }
   }

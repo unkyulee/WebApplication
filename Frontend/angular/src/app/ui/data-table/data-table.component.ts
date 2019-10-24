@@ -75,7 +75,10 @@ export class DataTableComponent extends BaseComponent {
 
   eventHandler(event) {
     if (event && (!event.key || event.key == this.uiElement.key)) {
-      if (event.name == "refresh") {
+      if (
+        event.name == "refresh" &&
+        (!event.key || event.key == this.uiElement.key)
+      ) {
         this.page = 0; // reset to first page
 
         // run refresh script
@@ -86,7 +89,6 @@ export class DataTableComponent extends BaseComponent {
             console.error(e);
           }
         }
-        this.data._params_ = this.nav.getParams();
         setTimeout(() => this.requestDownload(), 0);
       } else if (event.name == "pagination") {
         this.page = event.page;
@@ -157,7 +159,7 @@ export class DataTableComponent extends BaseComponent {
     try {
       src = eval(src);
     } catch (e) {
-      console.log(e)
+      console.error(e);
     }
 
     if (src) {

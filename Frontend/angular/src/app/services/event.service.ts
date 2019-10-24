@@ -11,4 +11,8 @@ export class EventService {
         this.onEvent.next(event)
     }
 
+    sendAsync(event) {
+        setTimeout(() => this.onEvent.next(event))
+    }
+
 }

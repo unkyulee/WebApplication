@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import { Component } from "@angular/core";
 import * as obj from "object-path";
 
@@ -8,15 +8,13 @@ import { NavService } from "src/app/services/nav.service";
 import { RestService } from "src/app/services/rest.service";
 import { EventService } from "src/app/services/event.service";
 import { Subscription } from "rxjs";
-import { BaseComponent } from '../base.component';
-
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "data-sheet",
   templateUrl: "./data-sheet.component.html"
 })
 export class DataSheetComponent extends BaseComponent {
-
   /// rows
   _rows = [];
   get rows() {
@@ -59,7 +57,11 @@ export class DataSheetComponent extends BaseComponent {
   ngOnInit() {
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event => {
-      if (event && event.name == "refresh") {
+      if (
+        event &&
+        event.name == "refresh" &&
+        (!event.key || event.key == this.uiElement.key)
+      ) {
         setTimeout(() => this.requestDownload(), 0);
       }
     });
@@ -91,7 +93,15 @@ export class DataSheetComponent extends BaseComponent {
       this.event.send("splash-show");
 
       this.rest
-        .request(src, data, this.uiElement.method, {}, typeof this.uiElement.cache === 'undefined'? true : this.uiElement.cache)
+        .request(
+          src,
+          data,
+          this.uiElement.method,
+          {},
+          typeof this.uiElement.cache === "undefined"
+            ? true
+            : this.uiElement.cache
+        )
         .subscribe(response => this.responseDownload(response));
     }
   }
@@ -109,5 +119,4 @@ export class DataSheetComponent extends BaseComponent {
       }
     }
   }
-
 }

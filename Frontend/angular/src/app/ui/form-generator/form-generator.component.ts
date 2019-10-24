@@ -34,7 +34,11 @@ export class FormGeneratorComponent extends BaseComponent {
   }
 
   eventHandler(event) {
-    if (event && event.name == "refresh") {
+    if (
+      event &&
+      event.name == "refresh" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
       // run refresh script
       if (this.uiElement.refresh) {
         try {
@@ -43,7 +47,6 @@ export class FormGeneratorComponent extends BaseComponent {
           console.error(e);
         }
       }
-      this.data._params_ = this.nav.getParams();
       this.requestDownload(false);
     } else if (event && event.name == "merge-data") {
       this.data = Object.assign(this.data, event.data);
