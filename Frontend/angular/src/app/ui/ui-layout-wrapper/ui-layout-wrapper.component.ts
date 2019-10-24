@@ -1,4 +1,9 @@
-import { Component, ComponentFactoryResolver, ViewContainerRef, Renderer2 } from "@angular/core";
+import {
+  Component,
+  ComponentFactoryResolver,
+  ViewContainerRef,
+  Renderer2
+} from "@angular/core";
 import * as obj from "object-path";
 
 // UI components
@@ -18,6 +23,7 @@ import { PopupMenuComponent } from "../popup-menu/popup-menu.component";
 import { CodeEditorComponent } from "../code-editor/code-editor.component";
 import { TreeComponent } from "../tree/tree.component";
 import { BaseComponent } from "../base.component";
+import { CalendarComponent } from "../calendar/calendar.component";
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -69,7 +75,7 @@ export class UILayoutWrapperComponent extends BaseComponent {
     }
 
     // apply changes
-    if (this.componentRef) {      
+    if (this.componentRef) {
       this.componentRef.instance.uiElement = this.uiElement;
       this.componentRef.instance.data = this.data;
 
@@ -102,6 +108,9 @@ export class UILayoutWrapperComponent extends BaseComponent {
   findComponentFactory(type) {
     let componentFactory = null;
     switch (type) {
+      case "calendar":
+        componentFactory = this.cfr.resolveComponentFactory(CalendarComponent);
+        break;
       case "tree":
         componentFactory = this.cfr.resolveComponentFactory(TreeComponent);
         break;
@@ -121,19 +130,19 @@ export class UILayoutWrapperComponent extends BaseComponent {
         componentFactory = this.cfr.resolveComponentFactory(UILayoutComponent);
         break;
       case "divider":
-        componentFactory = this.cfr.resolveComponentFactory(DividerComponent);              
+        componentFactory = this.cfr.resolveComponentFactory(DividerComponent);
         break;
       case "progress-bar":
         componentFactory = this.cfr.resolveComponentFactory(
           ProgressBarComponent
         );
-        break;      
+        break;
       case "form-generator":
         componentFactory = this.cfr.resolveComponentFactory(
           FormGeneratorComponent
         );
         break;
-      case "data-table":        
+      case "data-table":
         componentFactory = this.cfr.resolveComponentFactory(DataTableComponent);
         break;
       case "typography":
@@ -160,5 +169,4 @@ export class UILayoutWrapperComponent extends BaseComponent {
 
     return componentFactory;
   }
-
 }

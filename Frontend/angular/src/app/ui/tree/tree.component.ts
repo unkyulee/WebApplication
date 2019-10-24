@@ -1,17 +1,9 @@
 import { Component, Input } from "@angular/core";
-import { Router } from "@angular/router";
-import { Subscription } from "rxjs";
 
 import { NestedTreeControl } from "@angular/cdk/tree";
 import { MatTreeNestedDataSource } from "@angular/material/tree";
 
 // user Imports
-import { ConfigService } from "src/app/services/config.service";
-import { UserService } from "src/app/services/user/user.service";
-import { EventService } from "src/app/services/event.service";
-import { RestService } from "src/app/services/rest.service";
-import { DBService } from "src/app/services/db/db.service";
-import { NavService } from "src/app/services/nav.service";
 import { BaseComponent } from "../base.component";
 
 @Component({
@@ -49,24 +41,8 @@ export class TreeComponent extends BaseComponent {
 
       this.data[this.uiElement.key] = this.tree.data
     }
-
-    // event handler
-    this.onEvent = this.event.onEvent.subscribe(event =>
-      this.eventHandler(event)
-    );
-  }
-
-  eventHandler(event) {
-    if (this.uiElement.eventHandler) {
-      try {
-        eval(this.uiElement.eventHandler);
-      } catch (e) {
-        console.error(e);
-      }
-    }
   }
 
   ngOnDestroy() {
-    this.onEvent.unsubscribe();
   }
 }

@@ -37,6 +37,11 @@ import { PopupMenuComponent } from './popup-menu/popup-menu.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { TreeComponent } from './tree/tree.component';
+import { CalendarComponent } from './calendar/calendar.component';
+// calendar modules
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
 
 @NgModule({
   declarations: [
@@ -49,19 +54,20 @@ import { TreeComponent } from './tree/tree.component';
     DataTableComponent,
     FormGeneratorComponent,
     InputComponent,
-    SelectionComponent,    
+    SelectionComponent,
     UploaderComponent,
     ButtonComponent,
-    SignatureComponent,    
+    SignatureComponent,
     PaginationComponent,
     TypographyComponent,
-    ProgressBarComponent,    
+    ProgressBarComponent,
     DividerComponent,
     DataSheetComponent,
     BaseComponent,
     PopupMenuComponent,
     CodeEditorComponent,
-    TreeComponent
+    TreeComponent,
+    CalendarComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -69,19 +75,20 @@ import { TreeComponent } from './tree/tree.component';
     DataTableComponent,
     FormGeneratorComponent,
     InputComponent,
-    SelectionComponent,    
+    SelectionComponent,
     UploaderComponent,
     ButtonComponent,
-    SignatureComponent,    
+    SignatureComponent,
     PaginationComponent,
     TypographyComponent,
-    ProgressBarComponent,    
+    ProgressBarComponent,
     DividerComponent,
     DataSheetComponent,
     BaseComponent,
     PopupMenuComponent,
     CodeEditorComponent,
-    TreeComponent
+    TreeComponent,
+    CalendarComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -89,20 +96,21 @@ import { TreeComponent } from './tree/tree.component';
     DataTableComponent,
     FormGeneratorComponent,
     InputComponent,
-    SelectionComponent,    
+    SelectionComponent,
     ButtonComponent,
     SignatureComponent,
-    UploaderComponent,    
+    UploaderComponent,
     PaginationComponent,
     TypographyComponent,
-    ProgressBarComponent,    
+    ProgressBarComponent,
     UILayoutComponent,
     DividerComponent,
     DataSheetComponent,
     BaseComponent,
     PopupMenuComponent,
     CodeEditorComponent,
-    TreeComponent
+    TreeComponent,
+    CalendarComponent
   ],
   imports: [
     CommonModule,
@@ -117,7 +125,11 @@ import { TreeComponent } from './tree/tree.component';
     OwlNativeDateTimeModule,
     ScrollingModule,
     ScrollDispatchModule,
-    MonacoEditorModule
+    MonacoEditorModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ]
 })
 export class UIModule {}

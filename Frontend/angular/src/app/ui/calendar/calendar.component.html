@@ -1,0 +1,32 @@
+<mwl-calendar-month-view
+    *ngIf="!uiElement.calendarType || uiElement.calendarType == 'monthly'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [activeDayIsOpen]="uiElement.activeDayIsOpen ? uiElement.activeDayIsOpen : true"
+    (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="eventClicked($event.event)"
+    (dayClicked)="dayClicked($event.day.date)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view
+    *ngIf="uiElement.calendarType == 'weekly'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="eventClicked($event.event)"
+    (hourSegmentClicked)="hourSegmentClicked($event.date)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-week-view>
+  <mwl-calendar-day-view
+    *ngIf="uiElement.calendarType == 'daily'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="eventClicked($event.event)"
+    (hourSegmentClicked)="hourSegmentClicked($event.date)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-day-view>
