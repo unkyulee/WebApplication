@@ -79,7 +79,7 @@ export class InputComponent extends BaseComponent {
         try {
           def = eval(this.uiElement.default);
         } catch (e) {}
-        this._value = def;
+        obj.set(this.data, this.uiElement.key, def);
       }
 
       // set value
