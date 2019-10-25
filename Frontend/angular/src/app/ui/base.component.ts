@@ -1,9 +1,9 @@
 import { Component, Input, OnDestroy } from "@angular/core";
-import * as obj from "object-path";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
-import { Observable, Subscription, ReplaySubject } from "rxjs";
-import { map, takeUntil } from "rxjs/operators";
+import { Subscription, ReplaySubject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 import { AppInjector } from "../app.component";
+import * as obj from "object-path";
+
 import { EventService } from "../services/event.service";
 import { RestService } from "../services/rest.service";
 import { NavService } from "../services/nav.service";
@@ -15,6 +15,7 @@ import { MatSnackBar } from "@angular/material";
 import { CordovaService } from "../services/cordova.service";
 import { ExportService } from "../services/export.service";
 import { AuthService } from "../services/auth/auth.service";
+
 
 @Component({
   template: ""
@@ -33,29 +34,13 @@ export class BaseComponent {
     this.cordova = AppInjector.get(CordovaService);
     this.exp = AppInjector.get(ExportService);
     this.auth = AppInjector.get(AuthService);
-    this.breakpointObserver = AppInjector.get(BreakpointObserver);
-
-    //
-    // observe screen size changes
-    this.isHandset$ = this.breakpointObserver
-      .observe([Breakpoints.Handset])
-      .pipe(
-        takeUntil(componentDestroyed(this)),
-        map(result => {
-          this.isHandset = result.matches;
-          return result.matches;
-        })
-      );
-    this.isHandset$.subscribe();
   }
 
   // configuration of the ui element
   @Input() uiElement: any;
   @Input() data: any;
 
-  // detect window size changes
-  public isHandset: boolean;
-  public isHandset$: Observable<boolean>;
+
 
   // global services
   public event: EventService;
@@ -69,7 +54,6 @@ export class BaseComponent {
   public cordova: CordovaService;
   public exp: ExportService;
   public auth: AuthService;
-  public breakpointObserver: BreakpointObserver;
 
   // event subscription
   onEvent: Subscription;

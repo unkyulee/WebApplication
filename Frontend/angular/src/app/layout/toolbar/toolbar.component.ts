@@ -13,7 +13,7 @@ import { BaseComponent } from "src/app/ui/base.component";
   styleUrls: ["./toolbar.component.scss"]
 })
 export class ToolbarComponent extends BaseComponent {
-  
+
   // toolbar title
   title: string;
 
@@ -25,7 +25,6 @@ export class ToolbarComponent extends BaseComponent {
 
   //
   actions: any[];
-  data: any;
 
   ngOnInit() {
     // load global actions
@@ -33,7 +32,7 @@ export class ToolbarComponent extends BaseComponent {
 
     // handle events
     this.onEvent = this.event.onEvent.subscribe(event => {
-      if (event.name == "navigation-changed") {        
+      if (event.name == "navigation-changed") {
         this.handleNavigationChanged()
       } else if (event == "splash-show") {
         this.showLoadingBar = true;

@@ -1,10 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { Location } from "@angular/common";
+import { Observable } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 // user imports
 import { EventService } from "./event.service";
 import { ConfigService } from "./config.service";
+import { map } from 'rxjs/operators';
+
 
 @Injectable()
 export class NavService {
@@ -12,15 +16,30 @@ export class NavService {
     private router: Router,
     private location: Location,
     private event: EventService,
-    private config: ConfigService
+    private config: ConfigService,
+    private breakpointObserver: BreakpointObserver
   ) {
-
     // monitor navigation changes
     router.events.subscribe(e => this.routerEventHandler(e));
 
     // event handler
     this.event.onEvent.subscribe(e => this.eventHandler(e));
+
+    // observe screen size changes
+    this.isHandset$ = this.breakpointObserver
+      .observe([Breakpoints.Handset])
+      .pipe(
+        map(result => {
+          this.isHandset = result.matches;
+          return result.matches;
+        })
+      );
+    this.isHandset$.subscribe();
   }
+
+  // detect window size changes
+  public isHandset: boolean;
+  public isHandset$: Observable<boolean>;
 
   routerEventHandler(e) {
     if (e instanceof NavigationEnd) {
@@ -60,7 +79,8 @@ export class NavService {
         name: "navigation-changed",
         data: {
           router: e,
-          navigation: this.currNav
+          navigation: this.currNav,
+          isHandset: this.isHandset
         }
       });
     }

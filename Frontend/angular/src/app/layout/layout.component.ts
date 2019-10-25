@@ -111,7 +111,7 @@ export class LayoutComponent extends BaseComponent
       } else if (event.name == "open-sheet") {
         setTimeout(() => this.openSheet(event), 0);
       } else if (event.name == "navigation-changed") {
-        if (this.isHandset == true && this.drawer) this.drawer.close();
+        if (this.drawer) this.drawer.close();
         // scroll back to top when page changes
         try {
           document.getElementById("layout_main_content").scrollTop = 0;

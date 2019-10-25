@@ -20,7 +20,7 @@ import { BaseComponent } from "src/app/ui/base.component";
 })
 export class UIComposerDialogComponent extends BaseComponent {
   constructor(
-    public dialogRef: MatDialogRef<UIComposerDialogComponent>    
+    public dialogRef: MatDialogRef<UIComposerDialogComponent>
   ) {
     super();
   }
@@ -28,7 +28,13 @@ export class UIComposerDialogComponent extends BaseComponent {
   // showLoadingBar
   showLoadingBar: boolean = false;
 
+  // toolbar actions
+  actions: any[];
+
   ngOnInit() {
+    // load global actions
+    this.actions = this.config.get("toolbar.actions");
+
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event =>
       this.eventHandler(event)
@@ -37,7 +43,7 @@ export class UIComposerDialogComponent extends BaseComponent {
 
   ngAfterViewInit() {
     setTimeout(() => {this.event.send({name: 'changed'})}, 1000)
-    
+
   }
 
   eventHandler(event) {

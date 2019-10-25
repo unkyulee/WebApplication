@@ -14,6 +14,16 @@
     <mat-icon>close</mat-icon>
   </button>
   <span>{{ uiElement.name }}</span>
+  <div style="width: 1px; flex-grow: 1;"></div>
+  <ng-container *ngFor="let action of actions">
+    <ng-container *ngIf="condition(ui)">
+      <ng-container
+        ui-layout-wrapper
+        [uiElement]="action"
+        [data]="data"
+      ></ng-container>
+    </ng-container>
+  </ng-container>
 </mat-toolbar>
 <mat-progress-bar
   *ngIf="showLoadingBar"

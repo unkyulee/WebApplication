@@ -9,10 +9,6 @@ import { BaseComponent } from "src/app/ui/base.component";
   templateUrl: "./ui-composer.component.html"
 })
 export class UIComposerComponent extends BaseComponent {
-
-  // where source of truth for the screen
-  data: any = {};
-
   ngOnInit() {
     // detect configuration changes
     this.onEvent = this.event.onEvent.subscribe(event =>
@@ -24,7 +20,10 @@ export class UIComposerComponent extends BaseComponent {
     if (event.name == "navigation-changed") {
       // reset data
       this.data = {
-        _params_: this.nav.getParams()
+        _params_: {
+          ...this.nav.getParams(),
+          ...event.data
+        }
       };
 
       // load UI when navigation changes
@@ -58,7 +57,7 @@ export class UIComposerComponent extends BaseComponent {
     // load ui
     let ui = [];
     for (let id of uiElements) {
-      let element = obj.get(this.config.get('uiElements'), id);
+      let element = obj.get(this.config.get("uiElements"), id);
       if (element) ui.push(element);
     }
     this.uiElements = [...ui];
