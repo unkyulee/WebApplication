@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from "@angular/core";
+import { Component, Input, OnDestroy, NgZone } from "@angular/core";
 import { Subscription, ReplaySubject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { AppInjector } from "../app.component";
@@ -33,6 +33,7 @@ export class BaseComponent {
     this.cordova = AppInjector.get(CordovaService);
     this.exp = AppInjector.get(ExportService);
     this.auth = AppInjector.get(AuthService);
+    this.zone = AppInjector.get(NgZone);
   }
 
   // configuration of the ui element
@@ -51,13 +52,13 @@ export class BaseComponent {
   public cordova: CordovaService;
   public exp: ExportService;
   public auth: AuthService;
+  public zone: NgZone;
 
   // event subscription
   onEvent: Subscription;
   onCustomEvent: Subscription;
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     if (obj.has(this, "uiElement.init")) {
@@ -70,7 +71,6 @@ export class BaseComponent {
 
     // event handler
     if (obj.has(this, "uiElement.eventHandler")) {
-      console.log(this.uiElement)
       this.onCustomEvent = this.event.onEvent
         .pipe(takeUntil(componentDestroyed(this)))
         .subscribe(event => this.customEventHandler(event));
