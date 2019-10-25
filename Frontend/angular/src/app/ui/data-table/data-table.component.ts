@@ -62,16 +62,6 @@ export class DataTableComponent extends BaseComponent {
     );
   }
 
-  ngAfterViewInit() {
-    // run init script
-    if (this.uiElement.afterViewInit) {
-      try {
-        eval(this.uiElement.afterViewInit);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
 
   eventHandler(event) {
     if (event && (!event.key || event.key == this.uiElement.key)) {

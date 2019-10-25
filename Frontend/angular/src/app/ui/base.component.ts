@@ -16,7 +16,6 @@ import { CordovaService } from "../services/cordova.service";
 import { ExportService } from "../services/export.service";
 import { AuthService } from "../services/auth/auth.service";
 
-
 @Component({
   template: ""
 })
@@ -40,8 +39,6 @@ export class BaseComponent {
   @Input() uiElement: any;
   @Input() data: any;
 
-
-
   // global services
   public event: EventService;
   public rest: RestService;
@@ -59,7 +56,8 @@ export class BaseComponent {
   onEvent: Subscription;
   onCustomEvent: Subscription;
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   ngAfterViewInit() {
     if (obj.has(this, "uiElement.init")) {
@@ -72,6 +70,7 @@ export class BaseComponent {
 
     // event handler
     if (obj.has(this, "uiElement.eventHandler")) {
+      console.log(this.uiElement)
       this.onCustomEvent = this.event.onEvent
         .pipe(takeUntil(componentDestroyed(this)))
         .subscribe(event => this.customEventHandler(event));

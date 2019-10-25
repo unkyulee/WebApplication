@@ -2,7 +2,8 @@ import {
   Component,
   ComponentFactoryResolver,
   ViewContainerRef,
-  Renderer2
+  Renderer2,
+  Input
 } from "@angular/core";
 import * as obj from "object-path";
 
@@ -22,23 +23,64 @@ import { DataSheetComponent } from "../data-sheet/data-sheet.component";
 import { PopupMenuComponent } from "../popup-menu/popup-menu.component";
 import { CodeEditorComponent } from "../code-editor/code-editor.component";
 import { TreeComponent } from "../tree/tree.component";
-import { BaseComponent } from "../base.component";
 import { CalendarComponent } from "../calendar/calendar.component";
+import { AppInjector } from 'src/app/app.component';
+import { EventService } from 'src/app/services/event.service';
+import { RestService } from 'src/app/services/rest.service';
+import { NavService } from 'src/app/services/nav.service';
+import { ConfigService } from 'src/app/services/config.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { DBService } from 'src/app/services/db/db.service';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
+import { CordovaService } from 'src/app/services/cordova.service';
+import { ExportService } from 'src/app/services/export.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: "[ui-layout-wrapper]",
   template: ``
   //, styles: [`:host { display: contents; }`]
 })
-export class UILayoutWrapperComponent extends BaseComponent {
+export class UILayoutWrapperComponent {
   constructor(
     private cfr: ComponentFactoryResolver,
     public viewContainerRef: ViewContainerRef,
     private renderer: Renderer2
   ) {
-    super();
+    // dependency injection
+    this.event = AppInjector.get(EventService);
+    this.rest = AppInjector.get(RestService);
+    this.nav = AppInjector.get(NavService);
+    this.config = AppInjector.get(ConfigService);
+    this.user = AppInjector.get(UserService);
+    this.db = AppInjector.get(DBService);
+    this.router = AppInjector.get(Router);
+    this.snackBar = AppInjector.get(MatSnackBar);
+    this.cordova = AppInjector.get(CordovaService);
+    this.exp = AppInjector.get(ExportService);
+    this.auth = AppInjector.get(AuthService);
   }
+
+  // global services
+  public event: EventService;
+  public rest: RestService;
+  public nav: NavService;
+  public config: ConfigService;
+  public user: UserService;
+  public db: DBService;
+  public router: Router;
+  public snackBar: MatSnackBar;
+  public cordova: CordovaService;
+  public exp: ExportService;
+  public auth: AuthService;
+
+
   componentRef: any;
+
+  // configuration of the ui element
+  @Input() uiElement: any;
+  @Input() data: any;
 
   ngOnChanges() {
     // create component
@@ -168,5 +210,19 @@ export class UILayoutWrapperComponent extends BaseComponent {
     }
 
     return componentFactory;
+  }
+
+
+  condition(uiElement) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(uiElement.condition, e);
+        result = false;
+      }
+    }
+    return result;
   }
 }
