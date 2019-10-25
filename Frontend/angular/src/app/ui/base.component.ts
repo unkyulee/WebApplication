@@ -98,11 +98,11 @@ export class BaseComponent {
     }
   }
 
-  click(event, item?, script?) {
+  async click(event, item?, script?) {
     let clickScript = script ? script : this.uiElement.click;
     if (clickScript) {
       try {
-        eval(clickScript);
+        await eval(clickScript);
       } catch (e) {
         console.error(e);
       }
