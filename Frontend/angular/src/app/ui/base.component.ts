@@ -33,17 +33,20 @@ export class BaseComponent {
     this.cordova = AppInjector.get(CordovaService);
     this.exp = AppInjector.get(ExportService);
     this.auth = AppInjector.get(AuthService);
+    this.breakpointObserver = AppInjector.get(BreakpointObserver);
 
+    //
     // observe screen size changes
-    let breakpointObserver = AppInjector.get(BreakpointObserver);
-    this.isHandset$ = breakpointObserver
-      .observe([Breakpoints.Handset, Breakpoints.Tablet])
+    this.isHandset$ = this.breakpointObserver
+      .observe([Breakpoints.Handset])
       .pipe(
+        takeUntil(componentDestroyed(this)),
         map(result => {
           this.isHandset = result.matches;
           return result.matches;
         })
       );
+    this.isHandset$.subscribe();
   }
 
   // configuration of the ui element
@@ -66,10 +69,13 @@ export class BaseComponent {
   public cordova: CordovaService;
   public exp: ExportService;
   public auth: AuthService;
+  public breakpointObserver: BreakpointObserver;
 
   // event subscription
   onEvent: Subscription;
-  onCustomEvent: Subscription;  
+  onCustomEvent: Subscription;
+
+  ngOnInit() {}
 
   ngAfterViewInit() {
     if (obj.has(this, "uiElement.init")) {
@@ -88,7 +94,7 @@ export class BaseComponent {
     }
   }
 
-  ngOnDestroy() {    
+  ngOnDestroy() {
     if (this.uiElement && this.uiElement.destroy) {
       try {
         eval(this.uiElement.destroy);

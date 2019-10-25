@@ -15,9 +15,12 @@
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
+    [locale]="locale"
     (eventClicked)="eventClicked($event.event)"
     (hourSegmentClicked)="hourSegmentClicked($event.date)"
     (eventTimesChanged)="eventTimesChanged($event)"
+    [dayStartHour]="uiElement.dayStartHour?uiElement.dayStartHour:0"
+    [dayEndHour]="uiElement.dayEndHour?uiElement.dayEndHour:24"
   >
   </mwl-calendar-week-view>
   <mwl-calendar-day-view

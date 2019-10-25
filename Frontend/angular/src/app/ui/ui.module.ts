@@ -14,7 +14,7 @@ import { ScrollDispatchModule } from "@angular/cdk/scrolling";
 // validators
 import { EvalValidator } from "../core/eval.validator";
 import { JsonValidator } from "../core/json.validator";
-import { AutofocusDirective } from '../core/autofocus';
+import { AutofocusDirective } from "../core/autofocus";
 
 // user component
 import { DataTableComponent } from "./data-table/data-table.component";
@@ -30,18 +30,21 @@ import { SafePipe } from "../core/safe.pipe";
 import { FormGeneratorComponent } from "./form-generator/form-generator.component";
 import { ProgressBarComponent } from "./progress-bar/progress-bar.component";
 import { UILayoutComponent } from "./ui-layout/ui-layout.component";
-import { DividerComponent } from './divider/divider.component';
-import { DataSheetComponent } from './data-sheet/data-sheet.component';
-import { BaseComponent } from './base.component';
-import { PopupMenuComponent } from './popup-menu/popup-menu.component';
-import { CodeEditorComponent } from './code-editor/code-editor.component';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
-import { TreeComponent } from './tree/tree.component';
-import { CalendarComponent } from './calendar/calendar.component';
+import { DividerComponent } from "./divider/divider.component";
+import { DataSheetComponent } from "./data-sheet/data-sheet.component";
+import { BaseComponent } from "./base.component";
+import { PopupMenuComponent } from "./popup-menu/popup-menu.component";
+import { CodeEditorComponent } from "./code-editor/code-editor.component";
+import { MonacoEditorModule } from "ngx-monaco-editor";
+import { TreeComponent } from "./tree/tree.component";
+import { CalendarComponent } from "./calendar/calendar.component";
 // calendar modules
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-
+import * as moment from "moment";
+import { CalendarModule, DateAdapter, CalendarDateFormatter, CalendarMomentDateFormatter, MOMENT } from "angular-calendar";
+import { adapterFactory } from "angular-calendar/date-adapters/moment";
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+}
 
 @NgModule({
   declarations: [
@@ -126,10 +129,24 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     ScrollingModule,
     ScrollDispatchModule,
     MonacoEditorModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory
-    })
+    CalendarModule.forRoot(
+      {
+        provide: DateAdapter,
+        useFactory: momentAdapterFactory
+      },
+      {
+        dateFormatter: {
+          provide: CalendarDateFormatter,
+          useClass: CalendarMomentDateFormatter
+        }
+      }
+    )
+  ],
+  providers: [
+    {
+      provide: MOMENT,
+      useValue: moment
+    }
   ]
 })
 export class UIModule {}

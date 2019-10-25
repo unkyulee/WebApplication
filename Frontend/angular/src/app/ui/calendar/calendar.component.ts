@@ -1,38 +1,37 @@
 import { Component } from "@angular/core";
 import {
   CalendarEvent,
-  CalendarEventAction,
   CalendarEventTimesChangedEvent
 } from "angular-calendar";
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours
-} from "date-fns";
 import * as moment from "moment";
-
-const colors: any = {
-  red: {
-    primary: "#ad2121",
-    secondary: "#FAE3E3"
-  },
-  blue: {
-    primary: "#1e90ff",
-    secondary: "#D1E8FF"
-  },
-  yellow: {
-    primary: "#e3bc08",
-    secondary: "#FDF1BA"
-  }
-};
 
 // user Imports
 import { BaseComponent } from "../base.component";
+
+/*
+const colors: any = {
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3'
+  },
+  blue: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF'
+  },
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA'
+  },
+  green: {
+    primary: '#008000',
+    secondary: '#90EE90'
+  },
+  gray: {
+    primary: '#808080',
+    secondary: '#D3D3D3'
+  }
+};
+*/
 
 @Component({
   selector: "calendar",
@@ -41,8 +40,10 @@ import { BaseComponent } from "../base.component";
 export class CalendarComponent extends BaseComponent {
   viewDate: Date = new Date();
   activeDayIsOpen: boolean = true;
+  locale: string;
 
   events: CalendarEvent[] = [];
+
   /*
     start: subDays(startOfDay(new Date()), 1),
     end: addDays(new Date(), 1),
@@ -76,6 +77,8 @@ export class CalendarComponent extends BaseComponent {
   */
 
   ngOnInit() {
+    this.locale = this.config.get("locale")
+
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (
@@ -192,8 +195,5 @@ export class CalendarComponent extends BaseComponent {
     });
   }
 
-  handleEventTimesChanged(iEvent) {
-
-  }
-
+  handleEventTimesChanged(iEvent) {}
 }
