@@ -21,20 +21,19 @@ export class UploaderComponent extends BaseComponent {
 
   get value() {
     if (
-      this.data &&
-      this.data[this.uiElement.key] &&
-      this.data[this.uiElement.key].constructor === Array
+      obj.has(this.data, this.uiElement.key) &&
+      obj.get(this.data, this.uiElement.key).constructor === Array
     )
-      return this.data[this.uiElement.key];
-    else if (this.data && this.data[this.uiElement.key])
-      return [this.data[this.uiElement.key]];
+      return obj.get(this.data, this.uiElement.key);
+    else if (this.data && obj.get(this.data, this.uiElement.key))
+      return [obj.get(this.data, this.uiElement.key)];
 
     return [];
   }
 
   set value(v: any) {
     if (this.data && this.uiElement.key) {
-      this.data[this.uiElement.key] = v;
+      obj.set(this.data, this.uiElement.key, v)
     }
   }
 
