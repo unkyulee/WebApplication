@@ -218,8 +218,18 @@ export class UploaderComponent extends BaseComponent {
 
     // save if there are no others in the queue
     let index = this.uploader.queue.indexOf(item);
-    if (index == this.uploader.queue.length - 1)
-      this.event.send({ name: "save" });
+    if (index == this.uploader.queue.length - 1) {
+      if(this.uiElement.saveAction) {
+        try {
+          eval(this.uiElement.saveAction)
+        } catch(e) {
+          console.error(e)
+        }
+      } else {
+        this.event.send({ name: "save" });
+      }
+    }
+
 
     // remove from the queue
     item.remove();

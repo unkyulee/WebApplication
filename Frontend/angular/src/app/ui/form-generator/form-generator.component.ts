@@ -98,6 +98,12 @@ export class FormGeneratorComponent extends BaseComponent {
           this.delete();
         }
       } else this.delete();
+    } else if(event && event.name == "open-section") {
+      let section = this.uiElement.screen.find(x => x.key == event.key)
+      if(section) section.expanded = true;
+    } else if(event && event.name == "close-section") {
+      let section = this.uiElement.screen.find(x => x.key == event.key)
+      if(section) section.expanded = false;
     }
   }
 

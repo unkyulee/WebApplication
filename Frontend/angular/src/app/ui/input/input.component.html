@@ -18,14 +18,13 @@
     <input
       matInput
       [evalValidate]="uiElement.errorCondition"
-      [type]="uiElement.inputType ? uiElement.inputType : 'text'"      
+      [type]="uiElement.inputType ? uiElement.inputType : 'text'"
       [placeholder]="uiElement.placeholder"
       [(ngModel)]="value"
       [required]="uiElement.required"
       [readonly]="uiElement.readonly"
       (keyup.enter)="keyupEnter()"
       (input)="typeAheadEventEmitter.next($event)"
-      (click)="click($event)"
       (focus)="focus($event)"
     />
 
