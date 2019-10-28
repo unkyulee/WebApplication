@@ -10,6 +10,7 @@ import { FileUploadModule } from "ng2-file-upload";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { ScrollDispatchModule } from "@angular/cdk/scrolling";
+import { TagInputModule } from 'ngx-chips';
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -140,7 +141,8 @@ export function momentAdapterFactory() {
           useClass: CalendarMomentDateFormatter
         }
       }
-    )
+    ),
+    TagInputModule
   ],
   providers: [
     {

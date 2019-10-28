@@ -1,14 +1,8 @@
 import { Component, Input, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
 import { MatMenuTrigger } from '@angular/material';
-import { Subscription } from 'rxjs';
 
 // user Imports
 import { BaseComponent } from '../base.component';
-import { ConfigService } from "src/app/services/config.service";
-import { UserService } from "src/app/services/user/user.service";
-import { EventService } from "src/app/services/event.service";
-import { RestService } from "src/app/services/rest.service";
 
 @Component({
   selector: "popup-menu",
@@ -26,7 +20,7 @@ export class PopupMenuComponent extends BaseComponent {
     this.onEvent.unsubscribe();
   }
 
-  eventHandler(event) {    
+  eventHandler(event) {
     if (
       event &&
       event.name == "popup-trigger" &&

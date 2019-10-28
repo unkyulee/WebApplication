@@ -1,13 +1,7 @@
-import { Router } from "@angular/router";
 import { Component } from "@angular/core";
 import * as obj from "object-path";
 
 // user imports
-import { ConfigService } from "src/app/services/config.service";
-import { NavService } from "src/app/services/nav.service";
-import { RestService } from "src/app/services/rest.service";
-import { EventService } from "src/app/services/event.service";
-import { Subscription } from "rxjs";
 import { BaseComponent } from "../base.component";
 
 @Component({

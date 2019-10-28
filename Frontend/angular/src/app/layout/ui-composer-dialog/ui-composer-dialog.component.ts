@@ -14,6 +14,9 @@ import { BaseComponent } from "src/app/ui/base.component";
         flex-direction: column;
         flex-grow: 1;
         height: 100%;
+        max-height: 100vh;
+        max-width: 100vw;
+        overflow: hidden;
       }
     `
   ]

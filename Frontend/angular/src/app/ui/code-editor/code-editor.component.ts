@@ -1,13 +1,8 @@
 import { Component, Input } from "@angular/core";
-import { Router } from "@angular/router";
 import * as obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";
-import { ConfigService } from "src/app/services/config.service";
-import { UserService } from "src/app/services/user/user.service";
-import { EventService } from "src/app/services/event.service";
-import { RestService } from "src/app/services/rest.service";
 
 @Component({
   selector: "code-editor",

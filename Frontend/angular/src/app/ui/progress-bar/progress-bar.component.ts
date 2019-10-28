@@ -1,19 +1,13 @@
-import { Component, Input } from "@angular/core";
+import { Component } from "@angular/core";
 
 // user Imports
-import { ConfigService } from "src/app/services/config.service";
-import { UserService } from "src/app/services/user/user.service";
-import { Subscription } from "rxjs";
-import { EventService } from "src/app/services/event.service";
-import { RestService } from "src/app/services/rest.service";
-import { Router } from "@angular/router";
 import { BaseComponent } from '../base.component';
 
 @Component({
   selector: "progress-bar",
   templateUrl: "./progress-bar.component.html"
 })
-export class ProgressBarComponent extends BaseComponent {  
+export class ProgressBarComponent extends BaseComponent {
   // value
   value = 0
   bufferValue = 0

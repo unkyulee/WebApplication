@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import * as obj from "object-path";
 
 // user imports
@@ -223,5 +224,9 @@ export class DataTableComponent extends BaseComponent {
     // event.sorts.dir / prop
     this.sort = event.sorts[0];
     if (this.sort) this.requestDownload();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
   }
 }

@@ -2,8 +2,6 @@ import { Component, Input, ViewChild, ElementRef } from "@angular/core";
 import { SignaturePad } from "angular2-signaturepad/signature-pad";
 
 // user imports
-import { EventService } from "../../services/event.service";
-import { UserService } from "../../services/user/user.service";
 import { BaseComponent } from '../base.component';
 
 @Component({
@@ -11,7 +9,7 @@ import { BaseComponent } from '../base.component';
   templateUrl: "./signature.component.html"
 })
 export class SignatureComponent extends BaseComponent {
-  
+
   _data;
   @Input() get data() {
     return this._data;
@@ -83,7 +81,7 @@ export class SignatureComponent extends BaseComponent {
       this._data[this.uiElement.key] = this.signaturePad.toDataURL();
       this.event.send({ name: "save" });
     }
-    
+
   }
 
   toFile(filename) {

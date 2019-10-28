@@ -95,10 +95,10 @@ export class SelectionComponent extends BaseComponent {
       this.uiElement.minimumLength > 0 &&
       this.uiElement.minimumLength > v.length
     ) {
-      // search value has not reached the minimum length            
+      // search value has not reached the minimum length
       return;
     } else if (this.uiElement.selectionType == "autocomplete") {
-      // proceed with deferred type      
+      // proceed with deferred type
       this.typeAheadEventEmitter.next(v);
     }
 
@@ -106,7 +106,7 @@ export class SelectionComponent extends BaseComponent {
     if (this.select && this.uiElement.keepOpen != true) this.select.close();
   }
 
-  loadOption() {        
+  loadOption() {
     if (this.uiElement.src) {
       // download data through rest web services
       let src = this.uiElement.src;
@@ -178,7 +178,7 @@ export class SelectionComponent extends BaseComponent {
   isOpen = false;
   openChanged(event) {
     this.isOpen = event;
-    this.isLoading = event;    
+    this.isLoading = event;
   }
 
   compareWith(o1: any, o2: any): boolean {
