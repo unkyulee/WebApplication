@@ -121,8 +121,6 @@
   "
 >
   <div
-    cdkDropList
-    (cdkDropListDropped)="drop($event)"
     *ngFor="let row of rows"
     [ngStyle]="
       uiElement.itemBoxStyle
@@ -136,7 +134,7 @@
     "
     (click)="click($event, row, uiElement.click)"
   >
-    <ng-container *ngFor="let column of uiElement.columns" cdkDrag>
+    <ng-container *ngFor="let column of uiElement.columns">
       <ng-container
         ui-layout-wrapper
         [uiElement]="column"
