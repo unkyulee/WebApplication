@@ -75,6 +75,9 @@ export class BaseComponent {
         .pipe(takeUntil(componentDestroyed(this)))
         .subscribe(event => this.customEventHandler(event));
     }
+
+    // default
+    this.default();
   }
 
   ngOnDestroy() {
@@ -83,6 +86,23 @@ export class BaseComponent {
         eval(this.uiElement.destroy);
       } catch (e) {
         console.error(e);
+      }
+    }
+  }
+
+  default() {
+    if(obj.has(this.data) && obj.has(this.uiElement)) {
+      if (typeof obj.get(this.data, this.uiElement.key) == "undefined") {
+        // set default
+        if(this.uiElement.default) {
+          let defaultValue = this.uiElement.default;
+          try {
+            defaultValue = eval(this.uiElement.default);
+          } catch (e) {
+            console.error(e)
+          }
+          obj.set(this.data, this.uiElement.key, defaultValue);
+        }
       }
     }
   }

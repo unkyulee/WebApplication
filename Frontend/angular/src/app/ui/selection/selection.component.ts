@@ -46,15 +46,6 @@ export class SelectionComponent extends BaseComponent {
   get value() {
     // if the key is specify fied then find it from this.data
     if (this.data && this.uiElement.key) {
-      // if null then assign default
-      if (typeof obj.get(this.data, this.uiElement.key) == "undefined") {
-        let defaultValue = this.uiElement.default;
-        try {
-          defaultValue = eval(this.uiElement.default);
-        } catch (e) {}
-        obj.set(this.data, this.uiElement.key, defaultValue);
-      }
-
       //
       this._value = obj.get(this.data, this.uiElement.key);
     }
@@ -86,6 +77,7 @@ export class SelectionComponent extends BaseComponent {
 
     // if the key is specify fied then save it to this.data
     if (this.data && this.uiElement.key) {
+      // if null then assign default
       obj.set(this.data, this.uiElement.key, this._value);
     }
 
