@@ -29,6 +29,8 @@ export class SignatureComponent extends BaseComponent {
 
   // this.signaturePad is now available
   ngAfterViewInit() {
+    super.ngAfterViewInit();
+
     this.signaturePad.set(
       "canvasWidth",
       this.container.nativeElement.clientWidth

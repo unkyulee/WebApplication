@@ -33,6 +33,7 @@ export class SelectionComponent extends BaseComponent {
   }
 
   ngAfterViewInit() {
+    super.ngAfterViewInit();
     // bind compare function for mat-select
     if (this.select)
       this.select.compareWith = (o1, o2) => this.compareWith(o1, o2);

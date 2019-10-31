@@ -74,6 +74,8 @@ export class LayoutComponent extends BaseComponent
   }
 
   ngAfterViewInit() {
+    super.ngAfterViewInit();
+
     // back button handler
     this.elementRef.nativeElement.ownerDocument.addEventListener(
       "backbutton",

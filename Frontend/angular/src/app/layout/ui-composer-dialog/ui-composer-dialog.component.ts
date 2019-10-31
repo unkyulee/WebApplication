@@ -45,8 +45,8 @@ export class UIComposerDialogComponent extends BaseComponent {
   }
 
   ngAfterViewInit() {
+    super.ngAfterViewInit();
     setTimeout(() => {this.event.send({name: 'changed'})}, 1000)
-
   }
 
   eventHandler(event) {
