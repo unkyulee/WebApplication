@@ -16,7 +16,7 @@ var moment = require("moment-timezone");
   data = data[0]
 
   // transform
-  eval(res.locals.configuration.transform)
+  await eval(res.locals.configuration.transform)
 
   // prepare html
   var html = Mustache.render(res.locals.configuration.template, data);
