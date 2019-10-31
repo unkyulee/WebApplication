@@ -8,10 +8,10 @@ const log = async (db, task, taskInstanceId, action, msg) => {
     "task.log"
     , {
       _created: new Date(),
-      task_id: `${task._id}`,
+      task_id: `${task?task._id:''}`,
       task_instance_id: `${taskInstanceId}`,
-      action_id: `${action._id}`,
-      action: action.name,
+      action_id: `${action?action._id:''}`,
+      action: action?action.name:'',
       msg: `${msg}`
     }
   );
@@ -83,7 +83,7 @@ class Task {
 
     for (let task of tasks) {
       if (task.cron) {
-        // find next run         
+        // find next run
         let interval = cron.parseExpression(task.cron);
         task.next_run_date = new Date(interval.next().toString());
 
@@ -148,7 +148,7 @@ class Task {
           , { _id: taskInstanceId, ended: new Date(), status: "Success" }
         )
 
-        // complete the task        
+        // complete the task
         await db.update(
           "task"
           , { _id: task._id, status: "Success", _updated: new Date(), next_run_date: null }
@@ -156,7 +156,7 @@ class Task {
       } catch (e) {
         console.log(e)
         try {
-          // fail the task  
+          // fail the task
           if (taskInstanceId) {
             await db.update(
               "task.instance"
