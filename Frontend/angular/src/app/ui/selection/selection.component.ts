@@ -53,15 +53,6 @@ export class SelectionComponent extends BaseComponent {
       this._value = obj.get(this.data, this.uiElement.key);
     }
 
-    // selection multiple mode must be array
-    if (
-      typeof this._value !== "undefined" &&
-      this.uiElement.multiple &&
-      !Array.isArray(this._value)
-    ) {
-      this._value = [this._value];
-    }
-
     // because autocomplete assumes that the value displayed is string
     // whereas option can be an object, it requires formatting
     if (this.uiElement.inputValueTransform) {
@@ -70,6 +61,15 @@ export class SelectionComponent extends BaseComponent {
       } catch (e) {
         console.error(e);
       }
+    }
+
+    // selection multiple mode must be array
+    if (
+      typeof this._value !== "undefined" &&
+      this.uiElement.multiple &&
+      !Array.isArray(this._value)
+    ) {
+      this._value = [this._value];
     }
 
     return this._value;

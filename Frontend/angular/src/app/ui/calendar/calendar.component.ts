@@ -79,7 +79,7 @@ export class CalendarComponent extends BaseComponent {
   ngOnInit() {
     super.ngOnInit();
 
-    this.locale = this.config.get("locale")
+    this.locale = this.config.get("locale");
 
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event => {
@@ -178,11 +178,13 @@ export class CalendarComponent extends BaseComponent {
     newStart,
     newEnd
   }: CalendarEventTimesChangedEvent): void {
-    // update event
-    try {
-      eval(this.uiElement.eventTimesChanged);
-    } catch (e) {
-      console.error(e);
+    if (`${event.start}` != `${newStart}` || `${event.end}` != `${newEnd}`) {
+      // update event
+      try {
+        eval(this.uiElement.eventTimesChanged);
+      } catch (e) {
+        console.error(e);
+      }
     }
 
     // move the item

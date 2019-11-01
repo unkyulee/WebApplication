@@ -1,9 +1,12 @@
-<mwl-calendar-month-view
+<div [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
+  <mwl-calendar-month-view
     *ngIf="!uiElement.calendarType || uiElement.calendarType == 'monthly'"
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
-    [activeDayIsOpen]="uiElement.activeDayIsOpen ? uiElement.activeDayIsOpen : true"
+    [activeDayIsOpen]="
+      uiElement.activeDayIsOpen ? uiElement.activeDayIsOpen : true
+    "
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="eventClicked($event.event)"
     (dayClicked)="dayClicked($event.day.date)"
@@ -19,8 +22,8 @@
     (eventClicked)="eventClicked($event.event)"
     (hourSegmentClicked)="hourSegmentClicked($event.date)"
     (eventTimesChanged)="eventTimesChanged($event)"
-    [dayStartHour]="uiElement.dayStartHour?uiElement.dayStartHour:0"
-    [dayEndHour]="uiElement.dayEndHour?uiElement.dayEndHour:24"
+    [dayStartHour]="uiElement.dayStartHour ? uiElement.dayStartHour : 0"
+    [dayEndHour]="uiElement.dayEndHour ? uiElement.dayEndHour : 24"
   >
   </mwl-calendar-week-view>
   <mwl-calendar-day-view
@@ -33,3 +36,4 @@
     (eventTimesChanged)="eventTimesChanged($event)"
   >
   </mwl-calendar-day-view>
+</div>

@@ -119,8 +119,8 @@
       [pickerMode]="uiElement.pickerMode ? uiElement.pickerMode : 'dialog'"
       [startView]="uiElement.startView ? uiElement.startView : 'month'"
       [stepMinute]="uiElement.stepMinute ? uiElement.stepMinute : 1"
-      (yearSelected)="yearSelected($event, datetimepicker);"
-      (monthSelected)="monthSelected($event, datetimepicker);"
+      (yearSelected)="yearSelected($event, datetimepicker)"
+      (monthSelected)="monthSelected($event, datetimepicker)"
     ></owl-date-time>
     <mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>
     <mat-error>{{ uiElement.errorMessage }}</mat-error>
@@ -135,12 +135,12 @@
       [(labelPosition)]="uiElement.labelPosition"
       [disabled]="uiElement.disabled"
     >
+      <div
+        *ngIf="uiElement.label"
+        [ngStyle]="uiElement.style"
+        [ngClass]="uiElement.class"
+        [innerHtml]="uiElement.label | safe: 'html'"
+      ></div>
     </mat-checkbox>
-    <div
-      *ngIf="uiElement.label"
-      [ngStyle]="uiElement.style"
-      [ngClass]="uiElement.class"
-      [innerHtml]="uiElement.label | safe: 'html'"
-    ></div>
   </ng-container>
 </ng-container>
