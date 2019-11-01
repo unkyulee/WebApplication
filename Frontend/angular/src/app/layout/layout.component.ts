@@ -188,7 +188,7 @@ export class LayoutComponent extends BaseComponent
     if (uiElement.layoutStyle) {
       for (let key of Object.keys(uiElement.layoutStyle)) {
         this.renderer.setStyle(
-          sheet["_containerInstance"]["_elementRef"].nativeElement,
+          sheet["containerInstance"]["_elementRef"].nativeElement,
           key,
           uiElement.layoutStyle[key]
         );
@@ -199,7 +199,7 @@ export class LayoutComponent extends BaseComponent
     if (uiElement.layoutClass) {
       for (let key of Object.keys(uiElement.layoutClass)) {
         this.renderer.addClass(
-          sheet["_containerInstance"]["_elementRef"].nativeElement,
+          sheet["containerInstance"]["_elementRef"].nativeElement,
           key
         );
       }
