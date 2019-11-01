@@ -18,6 +18,7 @@ export class TreeComponent extends BaseComponent {
   tree;
 
   ngOnInit() {
+    super.ngOnInit();
     // initialize the data
     this.tree = new MatTreeNestedDataSource<any>();
     if (!this.uiElement.key) this.uiElement.key = "tree";
@@ -44,5 +45,6 @@ export class TreeComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
   }
 }

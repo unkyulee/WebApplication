@@ -19,6 +19,7 @@ export class InputComponent extends BaseComponent {
   typeAheadEventEmitter = new Subject<string>();
 
   ngOnInit() {
+    super.ngOnInit();
     // not all the input will be sent as an event / rest
     // will be debounced every 700 ms
     this.typeAheadEventEmitter
@@ -64,6 +65,7 @@ export class InputComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.typeAheadEventEmitter.unsubscribe();
   }
 

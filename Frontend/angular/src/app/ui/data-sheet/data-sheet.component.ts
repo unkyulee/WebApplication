@@ -49,6 +49,8 @@ export class DataSheetComponent extends BaseComponent {
   }
 
   ngOnInit() {
+    super.ngOnInit();
+
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (
@@ -64,6 +66,7 @@ export class DataSheetComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 

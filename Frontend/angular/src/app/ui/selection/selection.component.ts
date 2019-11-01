@@ -15,6 +15,7 @@ export class SelectionComponent extends BaseComponent {
   @ViewChild("select") select: MatSelect;
 
   ngOnInit() {
+    super.ngOnInit();
     // load options
     if (!this.uiElement.minimumLength) {
       this.loadOption();
@@ -40,6 +41,7 @@ export class SelectionComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.typeAheadEventEmitter.unsubscribe();
   }
 

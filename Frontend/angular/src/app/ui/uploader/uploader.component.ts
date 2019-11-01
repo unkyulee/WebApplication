@@ -46,6 +46,8 @@ export class UploaderComponent extends BaseComponent {
   //
   timer: any;
   ngOnInit() {
+    super.ngOnInit();
+
     // set uploader
     this.setUploader();
 
@@ -95,6 +97,8 @@ export class UploaderComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
+
     this.onEvent.unsubscribe();
     this.onResume.unsubscribe();
     clearInterval(this.timer);

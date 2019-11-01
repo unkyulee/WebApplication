@@ -24,18 +24,19 @@ import { PopupMenuComponent } from "../popup-menu/popup-menu.component";
 import { CodeEditorComponent } from "../code-editor/code-editor.component";
 import { TreeComponent } from "../tree/tree.component";
 import { CalendarComponent } from "../calendar/calendar.component";
-import { AppInjector } from 'src/app/app.component';
-import { EventService } from 'src/app/services/event.service';
-import { RestService } from 'src/app/services/rest.service';
-import { NavService } from 'src/app/services/nav.service';
-import { ConfigService } from 'src/app/services/config.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { DBService } from 'src/app/services/db/db.service';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
-import { CordovaService } from 'src/app/services/cordova.service';
-import { ExportService } from 'src/app/services/export.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { AppInjector } from "src/app/app.component";
+import { EventService } from "src/app/services/event.service";
+import { RestService } from "src/app/services/rest.service";
+import { NavService } from "src/app/services/nav.service";
+import { ConfigService } from "src/app/services/config.service";
+import { UserService } from "src/app/services/user/user.service";
+import { DBService } from "src/app/services/db/db.service";
+import { Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material";
+import { CordovaService } from "src/app/services/cordova.service";
+import { ExportService } from "src/app/services/export.service";
+import { AuthService } from "src/app/services/auth/auth.service";
+import { SideNavComponent } from '../side-nav/side-nav.component';
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -74,7 +75,6 @@ export class UILayoutWrapperComponent {
   public cordova: CordovaService;
   public exp: ExportService;
   public auth: AuthService;
-
 
   componentRef: any;
 
@@ -150,6 +150,9 @@ export class UILayoutWrapperComponent {
   findComponentFactory(type) {
     let componentFactory = null;
     switch (type) {
+      case "side-nav":
+        componentFactory = this.cfr.resolveComponentFactory(SideNavComponent);
+        break;
       case "calendar":
         componentFactory = this.cfr.resolveComponentFactory(CalendarComponent);
         break;
@@ -211,7 +214,6 @@ export class UILayoutWrapperComponent {
 
     return componentFactory;
   }
-
 
   condition(uiElement) {
     let result = true;

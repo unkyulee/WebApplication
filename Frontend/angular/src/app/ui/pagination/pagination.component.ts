@@ -7,7 +7,7 @@ import { BaseComponent } from '../base.component';
   selector: "pagination",
   templateUrl: "./pagination.component.html"
 })
-export class PaginationComponent extends BaseComponent {  
+export class PaginationComponent extends BaseComponent {
 
   // pagination
   @Input() key: any;
@@ -16,6 +16,7 @@ export class PaginationComponent extends BaseComponent {
   @Input() page: any;
 
   ngOnInit() {
+    super.ngOnInit();
     // default page is 1
     this.page = this.page || 1;
 

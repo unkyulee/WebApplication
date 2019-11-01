@@ -12,11 +12,13 @@ export class PopupMenuComponent extends BaseComponent {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
   ngOnInit() {
+    super.ngOnInit();
     // event handler
     this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 

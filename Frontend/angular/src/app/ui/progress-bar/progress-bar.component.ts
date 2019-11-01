@@ -13,6 +13,7 @@ export class ProgressBarComponent extends BaseComponent {
   bufferValue = 0
 
   ngOnInit() {
+    super.ngOnInit();
     // event handler
     this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
   }
@@ -30,6 +31,7 @@ export class ProgressBarComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 }

@@ -58,9 +58,7 @@ export class BaseComponent {
   onEvent: Subscription;
   onCustomEvent: Subscription;
 
-  ngOnInit() {}
-
-  ngAfterViewInit() {
+  ngOnInit() {
     if (obj.has(this, "uiElement.init")) {
       try {
         eval(this.uiElement.init);
@@ -78,6 +76,9 @@ export class BaseComponent {
 
     // default
     this.default();
+  }
+
+  ngAfterViewInit() {
   }
 
   ngOnDestroy() {

@@ -50,6 +50,7 @@ export class DataTableComponent extends BaseComponent {
   size: number = 0;
 
   ngOnInit() {
+    super.ngOnInit();
     // check if there is any page configuration available
     this.getPage();
 
@@ -89,6 +90,7 @@ export class DataTableComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 

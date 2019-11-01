@@ -77,6 +77,8 @@ export class CalendarComponent extends BaseComponent {
   */
 
   ngOnInit() {
+    super.ngOnInit();
+
     this.locale = this.config.get("locale")
 
     // subscript to event
@@ -96,6 +98,7 @@ export class CalendarComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 

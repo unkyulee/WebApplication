@@ -1,0 +1,36 @@
+<mat-sidenav-container
+  [ngStyle]="uiElement.containerStyle"
+  [ngClass]="uiElement.containerClass"
+>
+  <mat-sidenav-content
+    [ngStyle]="uiElement.contentStyle"
+    [ngClass]="uiElement.contentClass"
+  >
+    <ng-container *ngFor="let ui of uiElement.screen">
+      <ng-container *ngIf="condition(ui)">
+        <ng-container
+          ui-layout-wrapper
+          [uiElement]="ui"
+          [data]="data"
+        ></ng-container>
+      </ng-container>
+    </ng-container>
+  </mat-sidenav-content>
+  <mat-sidenav
+    #sidenav
+    [opened]="uiElement.opened ? safeEval(uiElement.opened) : false"
+    [mode]="uiElement.mode ? safeEval(uiElement.mode) : 'over'"
+    [ngStyle]="uiElement.sideStyle"
+    [ngClass]="uiElement.sideClass"
+  >
+    <ng-container *ngFor="let ui of uiElement.sideScreen">
+      <ng-container *ngIf="condition(ui)">
+        <ng-container
+          ui-layout-wrapper
+          [uiElement]="ui"
+          [data]="data"
+        ></ng-container>
+      </ng-container>
+    </ng-container>
+  </mat-sidenav>
+</mat-sidenav-container>

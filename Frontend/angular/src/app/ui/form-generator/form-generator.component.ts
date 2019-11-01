@@ -24,6 +24,7 @@ export class FormGeneratorComponent extends BaseComponent {
   // event subscription
   onEvent: Subscription;
   ngOnInit() {
+    super.ngOnInit();
     // download data
     this.requestDownload();
 
@@ -108,6 +109,7 @@ export class FormGeneratorComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 
