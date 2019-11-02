@@ -33,7 +33,6 @@ export class NavService {
         debounceTime(300),
         map(result => {
           this.isHandset = result.matches;
-          console.log(this.isHandset)
           return result.matches;
         })
       );
