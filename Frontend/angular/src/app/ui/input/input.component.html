@@ -140,7 +140,6 @@
 </ng-container>
 
 <!-- color picker -->
-
 <mat-form-field
   *ngIf="uiElement.inputType == 'color-picker'"
   [appearance]="uiElement.appearance"
@@ -153,6 +152,7 @@
     matInput
     [(colorPicker)]="value"
     [cpPosition]="safeGet(uiElement, 'cpPosition', 'auto')"
+    [cpPresetColors]="safeGet(uiElement, 'cpPresetColors', ['#fff', '#000', '#2889e9', '#e920e9', '#fff500', 'rgb(236,64,64)'])"
     [style.background]="value"
     [evalValidate]="uiElement.errorCondition"
     [placeholder]="uiElement.placeholder"
