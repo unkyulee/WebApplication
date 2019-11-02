@@ -7,7 +7,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 // user imports
 import { EventService } from "./event.service";
 import { ConfigService } from "./config.service";
-import { map } from 'rxjs/operators';
+import { map, distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 
 @Injectable()
@@ -29,8 +29,11 @@ export class NavService {
     this.isHandset$ = this.breakpointObserver
       .observe([Breakpoints.Handset])
       .pipe(
+        distinctUntilChanged(),
+        debounceTime(300),
         map(result => {
           this.isHandset = result.matches;
+          console.log(this.isHandset)
           return result.matches;
         })
       );
