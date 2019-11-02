@@ -136,11 +136,11 @@ export class LayoutComponent extends BaseComponent
     let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
     uiElement = { ...uiElement };
     if (event.uiElement) uiElement = Object.assign(uiElement, event.uiElement);
-    if(event.uiElementInit) {
-      try{
-        eval(event.uiElementInit)
-      } catch(e) {
-        console.error(e)
+    if (event.uiElementInit) {
+      try {
+        eval(event.uiElementInit);
+      } catch (e) {
+        console.error(e);
       }
     }
 
@@ -183,26 +183,5 @@ export class LayoutComponent extends BaseComponent
     let sheet = this.bottomSheet.open(UIComposerActionsComponent, {
       data: { data: event.data ? event.data : {}, uiElement: uiElement }
     });
-
-    // apply layout style
-    if (uiElement.layoutStyle) {
-      for (let key of Object.keys(uiElement.layoutStyle)) {
-        this.renderer.setStyle(
-          sheet["containerInstance"]["_elementRef"].nativeElement,
-          key,
-          uiElement.layoutStyle[key]
-        );
-      }
-    }
-
-    // apply layout class
-    if (uiElement.layoutClass) {
-      for (let key of Object.keys(uiElement.layoutClass)) {
-        this.renderer.addClass(
-          sheet["containerInstance"]["_elementRef"].nativeElement,
-          key
-        );
-      }
-    }
   }
 }
