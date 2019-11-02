@@ -11,6 +11,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { ScrollDispatchModule } from "@angular/cdk/scrolling";
 import { TagInputModule } from 'ngx-chips';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -146,7 +147,8 @@ export function momentAdapterFactory() {
         }
       }
     ),
-    TagInputModule
+    TagInputModule,
+    ColorPickerModule
   ],
   providers: [
     {
