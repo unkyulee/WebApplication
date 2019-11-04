@@ -11,6 +11,7 @@
     (eventClicked)="eventClicked($event.event)"
     (dayClicked)="dayClicked($event.day.date)"
     (eventTimesChanged)="eventTimesChanged($event)"
+    (beforeViewRender)="beforeMonthViewRender($event)"
   >
   </mwl-calendar-month-view>
   <mwl-calendar-week-view
@@ -24,6 +25,7 @@
     (eventTimesChanged)="eventTimesChanged($event)"
     [dayStartHour]="uiElement.dayStartHour ? uiElement.dayStartHour : 0"
     [dayEndHour]="uiElement.dayEndHour ? uiElement.dayEndHour : 24"
+    (beforeViewRender)="beforeWeekViewRender($event)"
   >
   </mwl-calendar-week-view>
   <mwl-calendar-day-view
@@ -34,6 +36,7 @@
     (eventClicked)="eventClicked($event.event)"
     (hourSegmentClicked)="hourSegmentClicked($event.date)"
     (eventTimesChanged)="eventTimesChanged($event)"
+    (beforeViewRender)="beforeDayViewRender($event)"
   >
   </mwl-calendar-day-view>
 </div>
