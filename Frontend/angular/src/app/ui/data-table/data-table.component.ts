@@ -81,7 +81,7 @@ export class DataTableComponent extends BaseComponent {
           }
         }
         setTimeout(() => this.requestDownload(), 0);
-      } else if (event.name == "pagination") {
+      } else if (event.name == "pagination" && (!event.key || event.key == this.uiElement.key)) {
         this.page = event.page;
         this.size = event.size;
         setTimeout(() => this.requestDownload(), 0);

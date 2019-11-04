@@ -1,12 +1,16 @@
-import { Component } from "@angular/core";
+import { Component, ElementRef } from "@angular/core";
 import {
   CalendarEvent,
-  CalendarEventTimesChangedEvent
+  CalendarEventTimesChangedEvent,
+  CalendarNativeDateFormatter,
+  DateFormatterParams,
+  CalendarDateFormatter
 } from "angular-calendar";
 import * as moment from "moment";
 
 // user Imports
 import { BaseComponent } from "../base.component";
+import { supportsPassiveEventListeners } from '@angular/cdk/platform';
 
 /*
 const colors: any = {
@@ -38,6 +42,12 @@ const colors: any = {
   templateUrl: "calendar.component.html"
 })
 export class CalendarComponent extends BaseComponent {
+  constructor(
+    public elRef:ElementRef
+  ) {
+    super()
+  }
+
   viewDate: Date = new Date();
   activeDayIsOpen: boolean = true;
   locale: string;
