@@ -45,6 +45,7 @@ import * as moment from "moment";
 import { CalendarModule, DateAdapter, CalendarDateFormatter, CalendarMomentDateFormatter, MOMENT } from "angular-calendar";
 import { adapterFactory } from "angular-calendar/date-adapters/moment";
 import { SideNavComponent } from './side-nav/side-nav.component';
+import { StepperComponent } from './stepper/stepper.component';
 export function momentAdapterFactory() {
   return adapterFactory(moment);
 }
@@ -74,7 +75,8 @@ export function momentAdapterFactory() {
     CodeEditorComponent,
     TreeComponent,
     CalendarComponent,
-    SideNavComponent
+    SideNavComponent,
+    StepperComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -96,7 +98,8 @@ export function momentAdapterFactory() {
     CodeEditorComponent,
     TreeComponent,
     CalendarComponent,
-    SideNavComponent
+    SideNavComponent,
+    StepperComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -119,7 +122,8 @@ export function momentAdapterFactory() {
     CodeEditorComponent,
     TreeComponent,
     CalendarComponent,
-    SideNavComponent
+    SideNavComponent,
+    StepperComponent
   ],
   imports: [
     CommonModule,

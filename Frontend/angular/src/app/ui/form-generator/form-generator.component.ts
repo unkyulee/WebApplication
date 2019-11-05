@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { Subscription, EMPTY } from "rxjs";
+import { EMPTY } from "rxjs";
 import { catchError } from "rxjs/operators";
 import * as obj from "object-path";
 
@@ -22,7 +22,6 @@ export class FormGeneratorComponent extends BaseComponent {
   }
 
   // event subscription
-  onEvent: Subscription;
   ngOnInit() {
     super.ngOnInit();
     // download data
