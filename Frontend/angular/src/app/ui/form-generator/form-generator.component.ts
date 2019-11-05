@@ -79,7 +79,11 @@ export class FormGeneratorComponent extends BaseComponent {
           JSON.parse(JSON.stringify(obj.get(this.data, event.path)))
         );
       }
-    } else if (event && event.name == "delete-data") {
+    } else if (
+      event &&
+      event.name == "delete-data" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
       if (obj.has(this.data, event.path)) {
         let data = obj.get(this.data, event.path);
         if (data.indexOf(event.data) > -1) {
@@ -99,12 +103,12 @@ export class FormGeneratorComponent extends BaseComponent {
           this.delete();
         }
       } else this.delete();
-    } else if(event && event.name == "open-section") {
-      let section = this.uiElement.screen.find(x => x.key == event.key)
-      if(section) section.expanded = true;
-    } else if(event && event.name == "close-section") {
-      let section = this.uiElement.screen.find(x => x.key == event.key)
-      if(section) section.expanded = false;
+    } else if (event && event.name == "open-section") {
+      let section = this.uiElement.screen.find(x => x.key == event.key);
+      if (section) section.expanded = true;
+    } else if (event && event.name == "close-section") {
+      let section = this.uiElement.screen.find(x => x.key == event.key);
+      if (section) section.expanded = false;
     }
   }
 
