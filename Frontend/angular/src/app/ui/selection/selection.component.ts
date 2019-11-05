@@ -1,4 +1,4 @@
-import { Component, ViewChild } from "@angular/core";
+import { Component, ViewChild, ElementRef } from "@angular/core";
 import { MatSelect } from "@angular/material";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
@@ -12,7 +12,9 @@ import { BaseComponent } from "../base.component";
   templateUrl: "./selection.component.html"
 })
 export class SelectionComponent extends BaseComponent {
+
   @ViewChild("select") select: MatSelect;
+  @ViewChild("autocomplete") autocomplete: ElementRef;
 
   ngOnInit() {
     super.ngOnInit();

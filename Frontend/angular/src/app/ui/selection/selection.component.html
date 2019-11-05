@@ -48,6 +48,7 @@
     <mat-label>{{ uiElement.label }}</mat-label>
     <input
       matInput
+      #autocomplete
       [placeholder]="uiElement.placeholder"
       [evalValidate]="uiElement.errorCondition"
       [(ngModel)]="value"

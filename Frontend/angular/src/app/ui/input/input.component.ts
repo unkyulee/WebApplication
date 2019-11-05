@@ -16,6 +16,8 @@ export class InputComponent extends BaseComponent {
     super();
   }
 
+  @ViewChild("input") input: ElementRef;
+
   typeAheadEventEmitter = new Subject<string>();
 
   ngOnInit() {
