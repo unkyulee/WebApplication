@@ -89,6 +89,10 @@ export class BaseComponent {
         console.error(e);
       }
     }
+
+    if(this.onCustomEvent) {
+      this.onCustomEvent.unsubscribe()
+    }
   }
 
   default() {

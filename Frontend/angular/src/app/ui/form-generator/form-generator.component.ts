@@ -33,6 +33,11 @@ export class FormGeneratorComponent extends BaseComponent {
     );
   }
 
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.onEvent.unsubscribe();
+  }
+
   eventHandler(event) {
     if (
       event &&
@@ -111,10 +116,6 @@ export class FormGeneratorComponent extends BaseComponent {
     }
   }
 
-  ngOnDestroy() {
-    super.ngOnDestroy();
-    this.onEvent.unsubscribe();
-  }
 
   requestDownload(cached?) {
     // retrieve REST information
