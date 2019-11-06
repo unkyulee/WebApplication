@@ -9,9 +9,11 @@
   (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
-  [tabIndex]="uiElement.tabIndex?uiElement.tabIndex:-1"
+  [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1"
 >
-  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{ uiElement.icon }}</mat-icon>
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{
+    uiElement.icon
+  }}</mat-icon>
   {{ uiElement.label }}
 </button>
 
@@ -23,9 +25,11 @@
   (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
-  [tabIndex]="uiElement.tabIndex?uiElement.tabIndex:-1"
+  [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1"
 >
-  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{ uiElement.icon }}</mat-icon>
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{
+    uiElement.icon
+  }}</mat-icon>
   {{ uiElement.label }}
 </button>
 
@@ -37,11 +41,17 @@
   (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
-  [tabIndex]="uiElement.tabIndex?uiElement.tabIndex:-1"
+  [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1"
 >
-  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{ eval(uiElement.icon) }}</mat-icon>
+  <mat-icon
+    *ngIf="uiElement.icon"
+    [ngStyle]="uiElement.iconStyle"
+    [matBadge]="safeGet(uiElement, 'matBadge', '')"
+    [matBadgePosition]="safeGet(uiElement, 'matBadgePosition', '')"
+    [matBadgeColor]="safeGet(uiElement, 'matBadgeColor', '')"
+    >{{ eval(uiElement.icon) }}</mat-icon
+  >
 </button>
-
 
 <button
   *ngIf="uiElement.buttonType == 'mat-fab' && condition(uiElement)"
@@ -51,9 +61,11 @@
   (click)="click($event)"
   [color]="uiElement.color"
   [ngStyle]="uiElement.style"
-  [tabIndex]="uiElement.tabIndex?uiElement.tabIndex:-1"
+  [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1"
 >
-  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{ eval(uiElement.icon) }}</mat-icon>
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{
+    eval(uiElement.icon)
+  }}</mat-icon>
   {{ uiElement.label }}
 </button>
 
@@ -64,7 +76,7 @@
   [matTooltip]="uiElement.tooltip"
   (click)="click($event)"
   [ngStyle]="uiElement.style"
-  [tabIndex]="uiElement.tabIndex?uiElement.tabIndex:-1"
+  [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1"
 >
   {{ uiElement.label }}
 </button>

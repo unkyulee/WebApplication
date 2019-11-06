@@ -18,7 +18,10 @@ export class FormGeneratorComponent extends BaseComponent {
   }
   set data(v: any) {
     this._data = v;
-    if (v) obj.set(this._data, "_params_.data", { ...v });
+    if (v) {
+      obj.del(this.data, '_params_.data');
+      obj.set(this.data, "_params_.data", JSON.parse(JSON.stringify(v)));
+    }
   }
 
   // event subscription
@@ -268,6 +271,10 @@ export class FormGeneratorComponent extends BaseComponent {
         this.snackBar.open("Saved", null, { duration: 2000 });
       }
     }
+
+    // save the current state
+    obj.del(this.data, '_params_.data');
+    obj.set(this.data, "_params_.data", JSON.parse(JSON.stringify(this.data)));
   }
 
   delete() {

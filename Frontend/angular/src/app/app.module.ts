@@ -24,13 +24,14 @@ import { UIModule } from "./ui/ui.module";
 // app component
 import { AppComponent } from "./app.component";
 import { LayoutComponent } from "./layout/layout.component";
+import { SoundService } from './services/sound.service';
 
 // catch-all routes
 const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [    
+  imports: [
     HttpClientModule,
     HttpClientJsonpModule,
     MaterialModule,
@@ -52,7 +53,8 @@ const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
     RestService,
     CordovaService,
     DBService,
-    ExportService
+    ExportService,
+    SoundService
   ],
   bootstrap: [AppComponent]
 })

@@ -30,6 +30,7 @@ export class UIComposerDialogComponent extends BaseComponent {
 
   // showLoadingBar
   showLoadingBar: boolean = false;
+  isDialog: boolean = true;
 
   // toolbar actions
   actions: any[];

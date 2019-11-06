@@ -15,6 +15,7 @@ import { MatSnackBar } from "@angular/material";
 import { CordovaService } from "../services/cordova.service";
 import { ExportService } from "../services/export.service";
 import { AuthService } from "../services/auth/auth.service";
+import { SoundService } from '../services/sound.service';
 
 @Component({
   template: ""
@@ -22,6 +23,7 @@ import { AuthService } from "../services/auth/auth.service";
 export class BaseComponent {
   constructor() {
     // dependency injection
+    this.sound = AppInjector.get(SoundService);
     this.event = AppInjector.get(EventService);
     this.rest = AppInjector.get(RestService);
     this.nav = AppInjector.get(NavService);
@@ -41,6 +43,7 @@ export class BaseComponent {
   @Input() data: any;
 
   // global services
+  public sound: SoundService;
   public event: EventService;
   public rest: RestService;
   public nav: NavService;
