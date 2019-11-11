@@ -1,6 +1,7 @@
 const path = require("path");
 const fs = require("fs");
 const ObjectID = require("mongodb").ObjectID;
+const obj = require("object-path");
 
 module.exports.requiresAuthentication = async function requiresAuthentication(
   db,
@@ -26,12 +27,30 @@ module.exports.process = async function process(db, req, res) {
 
 module.exports.authenticated = async function authenticated(db, req, res) {
   // angular navigation
-  let angular_navigation = await db.find(
+  let angular_navigation_acl = await db.find(
     "angular.navigation",
     { navigation_id: `${res.locals.nav._id}` },
     { order: 1 },
     1000
   );
+
+  // filter navigation with ACL
+  let angular_navigation = [];
+  for (let nav of angular_navigation_acl) {
+    let ACL = true;
+    if (nav.ACL) {
+      ACL = false;
+      let roles = obj.get(res.locals, "token.roles", []);
+      for (let role of roles) {
+        if (nav.ACL.includes(role)) {
+          ACL = true;
+          break;
+        }
+      }
+    }
+
+    if (ACL) angular_navigation.push(nav);
+  }
 
   // get all uiElementIds from angular_navigation
   let angular_ui = {};

@@ -19,7 +19,7 @@ export class FormGeneratorComponent extends BaseComponent {
   set data(v: any) {
     this._data = v;
     if (v) {
-      obj.del(this.data, '_params_.data');
+      obj.del(this.data, "_params_.data");
       obj.set(this.data, "_params_.data", JSON.parse(JSON.stringify(v)));
     }
   }
@@ -119,7 +119,6 @@ export class FormGeneratorComponent extends BaseComponent {
     }
   }
 
-
   requestDownload(cached?) {
     // retrieve REST information
     let src = this.uiElement.src;
@@ -182,9 +181,6 @@ export class FormGeneratorComponent extends BaseComponent {
   }
 
   save() {
-    // hide the splash
-    this.event.send("splash-show");
-
     // check if there are not error
     let errorMessage = "";
     for (let screen of this.uiElement.screen) {
@@ -225,6 +221,9 @@ export class FormGeneratorComponent extends BaseComponent {
 
     // update data through rest web services
     if (src) {
+      // hide the splash
+      this.event.send("splash-show");
+
       this.rest
         .request(src, data, method)
         .pipe(
@@ -273,7 +272,7 @@ export class FormGeneratorComponent extends BaseComponent {
     }
 
     // save the current state
-    obj.del(this.data, '_params_.data');
+    obj.del(this.data, "_params_.data");
     obj.set(this.data, "_params_.data", JSON.parse(JSON.stringify(this.data)));
   }
 

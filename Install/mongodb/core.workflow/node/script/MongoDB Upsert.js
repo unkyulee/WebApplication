@@ -22,16 +22,26 @@ async function verify(ds, config, verifyConfig, data, row) {
           case "encryption":
             {
               let target = data[verifyConfig.field];
-              source = req.app.locals.encryption.decrypt(source);
-              result = source == target;
+              if(target) {
+                source = req.app.locals.encryption.decrypt(source);
+                result = source == target;
+              } else {
+                result = true;
+              }
+
             }
             break;
 
           case "hash":
             {
               let target = data[verifyConfig.field];
-              target = hash.hash(target);
-              result = source == target;
+              if(target) {
+                target = hash.hash(target);
+                result = source == target;
+              } else {
+                // if value doesn't exist?
+                result = true;
+              }
             }
             break;
         }
@@ -145,8 +155,12 @@ async function run() {
 
   // encrypt fields
   if (config.encryptedFields) {
-    for (let field of config.encryptedFields)
-      data[field] = req.app.locals.encryption.encrypt(data[field]);
+    for (let field of config.encryptedFields) {
+      if(data[field]) {
+        data[field] = req.app.locals.encryption.encrypt(data[field]);
+      }
+    }
+
   }
 
   // exclude fields
