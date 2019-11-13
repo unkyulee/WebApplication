@@ -1,0 +1,22 @@
+<ngx-barcode
+  [bc-value]="value"
+  [bc-display-value]="true"
+  [bc-element-type]="uiElement.bcElementType"
+  [ngStyle]="uiElement.style"
+  [ngClass]="uiElement.class"
+  [bc-width]="uiElement.bcWidth?uiElement.bcWidth:2"
+  [bc-height]="uiElement.bcHeight?uiElement.bcHeight:100"
+  [bc-margin]="uiElement.bcMargin?uiElement.bcMargin:10"
+  [bc-margin-top]="uiElement.bcMarginTop?uiElement.bcMarginTop:10"
+  [bc-margin-bottom]="uiElement.bcMarginBottom?uiElement.bcMarginBottom:10"
+  [bc-margin-left]="uiElement.bcMarginLeft?uiElement.bcMarginLeft:10"
+  [bc-margin-right]="uiElement.bcMarginRight?uiElement.bcMarginRight:10"
+  [id]="uiElement.id"
+></ngx-barcode>
+<button
+  #print
+  [printSectionId]="uiElement.id"
+  [printStyle]="uiElement.printStyle"
+  ngxPrint
+  hidden
+></button>

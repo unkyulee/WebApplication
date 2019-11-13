@@ -37,7 +37,8 @@ import { CordovaService } from "src/app/services/cordova.service";
 import { ExportService } from "src/app/services/export.service";
 import { AuthService } from "src/app/services/auth/auth.service";
 import { SideNavComponent } from "../side-nav/side-nav.component";
-import { StepperComponent } from '../stepper/stepper.component';
+import { StepperComponent } from "../stepper/stepper.component";
+import { BarcodeComponent } from "../barcode/barcode.component";
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -151,6 +152,9 @@ export class UILayoutWrapperComponent {
   findComponentFactory(type) {
     let componentFactory = null;
     switch (type) {
+      case "barcode":
+        componentFactory = this.cfr.resolveComponentFactory(BarcodeComponent);
+        break;
       case "stepper":
         componentFactory = this.cfr.resolveComponentFactory(StepperComponent);
         break;

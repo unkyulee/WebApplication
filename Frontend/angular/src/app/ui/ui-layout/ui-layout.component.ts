@@ -19,9 +19,9 @@ import { BaseComponent } from "../base.component";
   `
 })
 export class UILayoutComponent extends BaseComponent {
-  @HostListener("click") onClick() {
+  @HostListener("click", [`$event`]) onClick(event) {
     if (obj.has(this.uiElement, "click")) {
-      this.click(this.data, this.uiElement.click);
+      this.click(event, this.data, this.uiElement.click);
     }
   }
 }

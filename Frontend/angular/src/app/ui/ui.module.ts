@@ -10,8 +10,10 @@ import { FileUploadModule } from "ng2-file-upload";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { ScrollDispatchModule } from "@angular/cdk/scrolling";
-import { TagInputModule } from 'ngx-chips';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { TagInputModule } from "ngx-chips";
+import { ColorPickerModule } from "ngx-color-picker";
+import { NgxBarcodeModule } from "ngx-barcode";
+import { NgxPrintModule } from "ngx-print";
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -42,10 +44,17 @@ import { TreeComponent } from "./tree/tree.component";
 import { CalendarComponent } from "./calendar/calendar.component";
 // calendar modules
 import * as moment from "moment";
-import { CalendarModule, DateAdapter, CalendarDateFormatter, CalendarMomentDateFormatter, MOMENT } from "angular-calendar";
+import {
+  CalendarModule,
+  DateAdapter,
+  CalendarDateFormatter,
+  CalendarMomentDateFormatter,
+  MOMENT
+} from "angular-calendar";
 import { adapterFactory } from "angular-calendar/date-adapters/moment";
-import { SideNavComponent } from './side-nav/side-nav.component';
-import { StepperComponent } from './stepper/stepper.component';
+import { SideNavComponent } from "./side-nav/side-nav.component";
+import { StepperComponent } from "./stepper/stepper.component";
+import { BarcodeComponent } from "./barcode/barcode.component";
 export function momentAdapterFactory() {
   return adapterFactory(moment);
 }
@@ -76,7 +85,8 @@ export function momentAdapterFactory() {
     TreeComponent,
     CalendarComponent,
     SideNavComponent,
-    StepperComponent
+    StepperComponent,
+    BarcodeComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -99,7 +109,8 @@ export function momentAdapterFactory() {
     TreeComponent,
     CalendarComponent,
     SideNavComponent,
-    StepperComponent
+    StepperComponent,
+    BarcodeComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -123,7 +134,8 @@ export function momentAdapterFactory() {
     TreeComponent,
     CalendarComponent,
     SideNavComponent,
-    StepperComponent
+    StepperComponent,
+    BarcodeComponent
   ],
   imports: [
     CommonModule,
@@ -152,7 +164,9 @@ export function momentAdapterFactory() {
       }
     ),
     TagInputModule,
-    ColorPickerModule
+    ColorPickerModule,
+    NgxBarcodeModule,
+    NgxPrintModule
   ],
   providers: [
     {
