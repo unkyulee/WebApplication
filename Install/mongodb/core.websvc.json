@@ -200,9 +200,7 @@
     "api_url": "changepassword",
     "post_description": "Change Password",
     "post_datasource": "000000000000000000000000",
-    "post_workflow": "000000000000000000000150",
-    "_created": ISODate("2018-05-16T16:58:50.083+0000"),
-    "_updated": ISODate("2018-05-16T16:58:50.083+0000")
+    "post_workflow": "000000000000000000000150"
   },
   {
     "_id": ObjectId("000000000000000000000072"),
@@ -214,9 +212,7 @@
     "post_description": "Change Password",
     "post_datasource": "000000000000000000000000",
     "post_workflow": "000000000000000000000150",
-    "post_configuration": "{ 'admin': true }",
-    "_created": ISODate("2018-05-16T16:58:50.083+0000"),
-    "_updated": ISODate("2018-05-16T16:58:50.083+0000")
+    "post_configuration": "{ 'admin': true }"
   },
   {
     "_id": ObjectId("000000000000000000000080"),
@@ -361,5 +357,25 @@
     "delete_datasource": "000000000000000000000000",
     "delete_workflow": "000000000000000000000030",
     "delete_configuration": "{ 'collection': 'cms', 'admin': true }"
+  },
+  {
+    "_id": ObjectId("000000000000000000000120"),
+    "navigation_id": "000000000000000000000030",
+    "navigation_name": "Electron API",
+    "navigation_url": "/electron",
+    "description": "Electron Configuration",
+    "api_url": "config",
+    "get_description": "Get",
+    "get_datasource": "b00001000000000000000000",
+    "get_workflow": "000000000000000000000010",
+    "get_configuration": "{collection: 'electron'}",
+    "post_description": "Upsert item",
+    "post_datasource": "b00001000000000000000000",
+    "post_workflow": "000000000000000000000020",
+    "post_configuration": "{collection: 'electron', defaultFields: [{type:'NowIfNew',column:'_created'}, {type:'Now',column:'_updated'}]}",
+    "delete_description": "Delete item",
+    "delete_datasource": "b00001000000000000000000",
+    "delete_workflow": "000000000000000000000030",
+    "delete_configuration": "{collection: 'electron'}"
   }
 ]

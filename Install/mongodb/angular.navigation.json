@@ -90,6 +90,23 @@
           "000000000000000000001016",
           "000000000000000000001017"
         ]
+      },
+      {
+        "name": "Electron",
+        "type": "item",
+        "url": "/electron",
+        "uiElementIds": [
+          "000000000000000000000030"
+        ]
+      },
+      {
+        "name": "Electron",
+        "type": "sub",
+        "url": "/electron/detail",
+        "parent_url": "/electron",
+        "uiElementIds": [
+          "000000000000000000000031"
+        ]
       }
     ]
   },

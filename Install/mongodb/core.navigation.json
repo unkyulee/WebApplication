@@ -18,6 +18,15 @@
   },
 
   {
+    "_id": ObjectId("000000000000000000000030"),
+    "name": "Electron Web Services",
+    "description": "Provide electron configuration",
+    "url": "/electron",
+    "priority": 3,
+    "module": "websvc"
+  },
+
+  {
     "_id": ObjectId("000000000000000000000020"),
     "name": "Admin",
     "description": "Provide site administration",
@@ -191,7 +200,7 @@
           "background": "white",
           "color": "rgba(0,0,0,.87)",
           "flex-direction": "row",
-          "flex-wrap": "wrap",          
+          "flex-wrap": "wrap",
           "width": "100%"
         },
         "class": {

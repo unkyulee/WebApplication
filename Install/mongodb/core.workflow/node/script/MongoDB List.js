@@ -86,7 +86,7 @@ async function run() {
     else if (key === "_sort_desc") continue;
     else if (key === "_projection") continue;
     // _id gets ObjectId wrapper
-    else if (key === "_id") filter.$and.push({ _id: ObjectID(data[key]) });
+    else if (key === "_id" && data[key]) filter.$and.push({ _id: ObjectID(data[key]) });
     // search
     else if (key === "_search") {
       if (data[key]) {
