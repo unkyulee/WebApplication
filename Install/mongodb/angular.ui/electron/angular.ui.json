@@ -167,20 +167,6 @@
             }
           },
           {
-            "type": "typography",
-            "condition": "!this.data._id",
-            "default": "this.data._id?'Caricamento in corso':'Devi salvare'",
-            "layoutStyle": {
-              "text-align": "center"
-            },
-            "style": {
-              "padding": "10px",
-              "text-transform": "uppercase",
-              "font-weight": "bold",
-              "color": "chartreuse"
-            }
-          },
-          {
             "type": "button",
             "buttonType": "mat-icon-button",
             "icon": "save",
@@ -193,7 +179,7 @@
         "key": "electron",
         "src": "`/electron/config?_id=${this.data._params_._id}`",
         "method": "get",
-        "transform": "response.data",
+        "transform": "response.data[0]",
         "layoutStyle": {
           "flex-grow": 1,
           "display": "flex",
