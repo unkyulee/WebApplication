@@ -20,14 +20,29 @@
     [events]="events"
     [refresh]="refresh"
     [locale]="locale"
+    [precision]="safeGet(uiElement, 'precision', 'minutes')"
     (eventClicked)="eventClicked($event.event)"
     (hourSegmentClicked)="hourSegmentClicked($event.date)"
     (eventTimesChanged)="eventTimesChanged($event)"
     [dayStartHour]="uiElement.dayStartHour ? uiElement.dayStartHour : 0"
     [dayEndHour]="uiElement.dayEndHour ? uiElement.dayEndHour : 24"
     (beforeViewRender)="beforeWeekViewRender($event)"
+    [eventTitleTemplate]="eventTitleTemplate"
   >
   </mwl-calendar-week-view>
+
+  <ng-template #eventTitleTemplate let-event="event" let-view="view">
+    <ng-container *ngFor="let ui of safeGet(uiElement, 'eventTitleTemplate', [])">
+        <ng-container *ngIf="condition(ui)">
+          <ng-container
+            ui-layout-wrapper
+            [uiElement]="ui"
+            [data]="event"
+          ></ng-container>
+        </ng-container>
+      </ng-container>
+  </ng-template>
+
   <mwl-calendar-day-view
     *ngIf="uiElement.calendarType == 'daily'"
     [viewDate]="viewDate"
