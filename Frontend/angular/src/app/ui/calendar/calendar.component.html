@@ -32,15 +32,17 @@
   </mwl-calendar-week-view>
 
   <ng-template #eventTitleTemplate let-event="event" let-view="view">
-    <ng-container *ngFor="let ui of safeGet(uiElement, 'eventTitleTemplate', [])">
-        <ng-container *ngIf="condition(ui)">
-          <ng-container
-            ui-layout-wrapper
-            [uiElement]="ui"
-            [data]="event"
-          ></ng-container>
-        </ng-container>
+    <ng-container
+      *ngFor="let ui of safeGet(uiElement, 'eventTitleTemplate', [])"
+    >
+      <ng-container *ngIf="condition(ui)">
+        <ng-container
+          ui-layout-wrapper
+          [uiElement]="ui"
+          [data]="event"
+        ></ng-container>
       </ng-container>
+    </ng-container>
   </ng-template>
 
   <mwl-calendar-day-view
