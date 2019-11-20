@@ -22,19 +22,17 @@ export class InputComponent extends BaseComponent {
 
   ngOnInit() {
     super.ngOnInit();
+
     // not all the input will be sent as an event / rest
     // will be debounced every 700 ms
     this.typeAheadEventEmitter
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(300)
-      )
+      .pipe(distinctUntilChanged(), debounceTime(300))
       .subscribe(v => this.inputChanged(v));
 
     this.dateTimeAdapter.setLocale(
       this.uiElement.locale
         ? this.uiElement.locale
-        : this.config.get("locale_long")
+        : this.config.get("locale")
     );
 
     // subscript to event

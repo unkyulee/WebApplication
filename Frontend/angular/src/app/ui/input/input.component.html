@@ -115,6 +115,7 @@
     [pickerMode]="uiElement.pickerMode ? uiElement.pickerMode : 'dialog'"
     [startView]="uiElement.startView ? uiElement.startView : 'month'"
     [stepMinute]="uiElement.stepMinute ? uiElement.stepMinute : 1"
+    [firstDayOfWeek]="safeGet(uiElement, 'firstDayOfWeek', 1)"
     (yearSelected)="yearSelected($event, datetimepicker)"
     (monthSelected)="monthSelected($event, datetimepicker)"
   ></owl-date-time>
