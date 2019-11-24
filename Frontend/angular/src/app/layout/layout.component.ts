@@ -147,8 +147,12 @@ export class LayoutComponent extends BaseComponent
     // open dialog
     this.currDialog = this.dialog.open(UIComposerDialogComponent, {
       height: event.height,
+      minHeight: event.minHeight,
+      maxHeight: event.maxHeight,
       width: event.width,
-      panelClass: "full-width-dialog"
+      minWidth: event.minWidth,
+      maxWidth: event.maxWidth,
+      panelClass: (typeof event.panelClass == 'undefined') ? "full-width-dialog" : null
     });
     this.currDialog.componentInstance.data = event.data ? event.data : {};
     this.currDialog.componentInstance.uiElement = uiElement;
