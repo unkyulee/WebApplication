@@ -1,167 +1,97 @@
-[
-  {
-    "_id": ObjectId("000000000000000000000110"),
-    "name": "WebSVC List",
-    "type": "layout",
-    "contentStyle": {
-      "display": "flex",
-      "flexDirection": "column",
-      "height": "100%"
-    },
-    "layoutStyle": {
-      "width": "100%",
-      "display": "flex",
-      "flex-direction": "column",
-      "color": "white",
-      "height": "100%"
-    },
-    "screen": [
-      {
-        "name": "Filter",
-        "type": "layout",
-        "layoutStyle": {
-          "background": "#2C313D",
-          "color": "white",
-          "display": "flex",
-          "flex-flow": "row wrap"
-        },
-        "screen": [
-          {
-            "type": "input",
-            "key": "search",
-            "label": "Search ...",
-            "floatLabel": "never",
-            "icon": "search",
-            "iconColor": "white",
-            "style": {
-              "margin": "-12px 0 -12px 8px"
-            },
-            "class": {
-              "white": true
-            },
-            "changed": "this.event.send({name:'refresh'});"
-          },
-          {
-            "type": "div",
-            "comment": "spacer",
-            "layoutStyle": { "flex-grow": 1, "width": "1px" }
-          },
-          {
-            "type": "button",
-            "buttonType": "mat-icon-button",
-            "icon": "add_circle",
-            "click": "this.router.navigateByUrl(`/core.websvc/detail`)"
-          }
-        ]
-      },
-      {
-        "type": "data-table",
-        "tableType": "card",
-        "key": "table",
-        "src": "`/adminapi/core.websvc?_search=${this.data.search?this.data.search:''}`",
-        "method": "get",
-        "transform": "response.data",
-        "layoutStyle": {
-          "flex-grow": 1,
-          "display": "flex",
-          "flex-direction": "column",
-          "height": "100%",
-          "overflow-y": "auto"
-        },
-        "style": {
-          "cursor": "pointer"
-        },
-        "itemBoxStyle": {
-          "margin": "8px",
-          "padding": "8px"
-        },
-        "click": "this.router.navigateByUrl(`/core.websvc/detail?_id=${item._id}`)",
-        "columns": [
-          {
-            "type": "typography",
-            "key": "navigation_url",
-            "label": "navigation_url"
-          },
-          { "type": "typography", "key": "api_url", "label": "api_url" },
-          {
-            "type": "typography",
-            "key": "description",
-            "label": "description"
-          },
-          {
-            "type": "typography",
-            "key": "enabled",
-            "label": "enabled"
-          }
-        ]
-      }
-    ]
+{
+  "_id": "000000000000000000000110",
+  "name": "WebSVC List",
+  "type": "layout",
+  "contentStyle": {
+    "display": "flex",
+    "flexDirection": "column",
+    "height": "100%"
   },
-  {
-    "_id": ObjectId("000000000000000000000111"),
-    "type": "layout",
-    "name": "Web Service Detail",
-    "contentStyle": {
-      "display": "flex",
-      "flexDirection": "column",
-      "height": "100%",
-      "width": "100vw"
-    },
-    "layoutStyle": {
-      "width": "100%",
-      "display": "flex",
-      "flex-wrap": "wrap",
-      "color": "white"
-    },
-    "screen": [
-      {
-        "type": "form-generator",
-        "src": "this.data._params_._id ? `/adminapi/core.websvc?_id=${this.data._params_._id}` : ''",
-        "method": "get",
-        "transform": "response.data[0]",
-        "layoutStyle": {
-          "flex-grow": 1,
-          "display": "flex",
-          "flex-direction": "column",
-          "height": "100%",
-          "overflow-y": "auto"
+  "layoutStyle": {
+    "width": "100%",
+    "display": "flex",
+    "flex-direction": "column",
+    "color": "white",
+    "height": "100%"
+  },
+  "screen": [
+    {
+      "name": "Filter",
+      "type": "layout",
+      "layoutStyle": {
+        "background": "#2C313D",
+        "color": "white",
+        "display": "flex",
+        "flex-flow": "row wrap"
+      },
+      "screen": [
+        {
+          "type": "input",
+          "key": "search",
+          "label": "Search ...",
+          "floatLabel": "never",
+          "icon": "search",
+          "iconColor": "white",
+          "style": {
+            "margin": "-12px 0 -12px 8px"
+          },
+          "class": {
+            "white": true
+          },
+          "changed": "this.event.send({name:'refresh'});"
         },
-        "save": {
-          "src": "/adminapi/core.websvc",
-          "method": "post",
-          "saveAction": "if(!this.data._id) { this.data._id = response._id; } this.snackBar.open('Saved', null, { duration: 2000 });"
-        },
-        "delete": {
-          "src": "`/adminapi/core.websvc?_id=${this.data._id}`",
-          "method": "delete",
-          "deleteAction": "this.event.send({name: 'close-dialog'}); this.event.send({name: 'refresh'});"
-        },
-        "screen": [
-          {
-            "header": {
-              "display": false
-            },
-            "screen": [
-              {
-                "type": "code-editor",
-                "editorType": "json",
-                "path": ".",
-                "editorOptions": {
-                  "theme": "vs-dark",
-                  "automaticLayout": true
-                },
-                "layoutStyle": {
-                  "width": "100%"
-                },
-                "style": {
-                  "width": "100%",
-                  "height": "600px"
-                }
-              }
-            ]
+        {
+          "type": "div",
+          "comment": "spacer",
+          "layoutStyle": {
+            "flex-grow": 1,
+            "width": "1px"
           }
-        ]
-      }
-    ]
-  }
-]
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "add_circle",
+          "click": "this.router.navigateByUrl(`/core.websvc/detail`)"
+        }
+      ]
+    },
+    {
+      "type": "data-table",
+      "tableType": "card",
+      "key": "table",
+      "src": "`/adminapi/core.websvc?_search=${this.data.search?this.data.search:''}`",
+      "method": "get",
+      "transform": "response.data",
+      "layoutStyle": {
+        "flex-grow": 1,
+        "display": "flex",
+        "flex-direction": "column",
+        "height": "100%",
+        "overflow-y": "auto"
+      },
+      "style": {
+        "cursor": "pointer"
+      },
+      "itemBoxStyle": {
+        "margin": "8px",
+        "padding": "8px"
+      },
+      "click": "this.router.navigateByUrl(`/core.websvc/detail?_id=${item._id}`)",
+      "columns": [
+        {
+          "type": "typography",
+          "format": "`${this.data.navigation_url}/${this.data.api_url}`",
+          "style": {
+            "fontWeight": "bold"
+          }
+        },
+        {
+          "type": "typography",
+          "key": "description",
+          "label": "description"
+        }
+      ]
+    }
+  ]
+}
