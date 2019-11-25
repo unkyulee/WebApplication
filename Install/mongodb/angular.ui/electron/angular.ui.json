@@ -1,230 +1,135 @@
-[
-  {
-    "_id": ObjectId("000000000000000000000030"),
-    "name": "Electron",
-    "type": "layout",
-    "contentStyle": {
-        "display": "flex",
-        "flexDirection": "column",
-        "flex-grow": 1
-      },
+{
+  "_id": ObjectId("000000000000000000000030"),
+  "name": "Electron",
+  "type": "layout",
+  "contentStyle": {
+    "display": "flex",
+    "flexDirection": "column",
+    "flex-grow": 1
+  },
+  "layoutStyle": {
+    "width": "100%",
+    "display": "flex",
+    "flex-direction": "column",
+    "color": "white",
+    "height": "100%"
+  },
+  "screen": [
+    {
+      "type": "layout",
       "layoutStyle": {
-        "width": "100%",
-        "display": "flex",
-        "flex-direction": "column",
+        "background": "#2C313D",
         "color": "white",
-        "height": "100%"
+        "display": "flex",
+        "flex-flow": "row wrap",
+        "min-height": "40px"
       },
+      "init": "obj.ensureExists(this.data, 'filters', {});",
       "screen": [
         {
-          "type": "layout",
-          "layoutStyle": {
-            "background": "#2C313D",
-            "color": "white",
-            "display": "flex",
-            "flex-flow": "row wrap",
-            "min-height": "40px"
-          },
-          "init": "obj.ensureExists(this.data, 'filters', {});",
-          "screen": [
-            {
-              "type": "button",
-              "buttonType": "mat-icon-button",
-              "icon": "filter_list",
-              "click": "this.event.send({name: 'toggle-sidenav', key: 'filters'})"
-            },
-            {
-              "type": "div",
-              "comment": "spacer",
-              "layoutStyle": { "flex-grow": 1, "width": "1px" }
-            },
-            {
-              "type": "button",
-              "buttonType": "mat-icon-button",
-              "icon": "add_circle",
-              "click": "this.event.send({name: 'open-dialog', uiElementId: '000000000000000000000031', width: '100vw', height: '100vh'})"
-            }
-          ]
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "filter_list",
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'filters'})"
         },
         {
-          "type": "side-nav",
-          "key": "filters",
-          "opened": "this.nav.isHandset == false ? true : false",
-          "mode": "this.nav.isHandset == false ? 'side' : 'over'",
+          "type": "div",
+          "comment": "spacer",
           "layoutStyle": {
             "flex-grow": 1,
-            "height": "100%",
-            "width": "100%",
-            "display": "flex",
-            "flex-direction": "column"
+            "width": "1px"
+          }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "add_circle",
+          "click": "this.router.navigateByUrl(`/electron/detail`)"
+        }
+      ]
+    },
+    {
+      "type": "side-nav",
+      "key": "filters",
+      "opened": "this.nav.isHandset == false ? true : false",
+      "mode": "this.nav.isHandset == false ? 'side' : 'over'",
+      "layoutStyle": {
+        "flex-grow": 1,
+        "height": "100%",
+        "width": "100%",
+        "display": "flex",
+        "flex-direction": "column"
+      },
+      "containerStyle": {
+        "display": "flex",
+        "flex-direction": "column",
+        "height": "100%"
+      },
+      "sideStyle": {
+        "background": "ghostwhite",
+        "display": "flex",
+        "flexFlow": "row wrap",
+        "color": "black",
+        "padding": "4px",
+        "max-width": "300px",
+        "height": "100%"
+      },
+      "sideScreen": [
+        {
+          "type": "input",
+          "key": "filters._id",
+          "default": "``",
+          "label": "_id",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
           },
-          "containerStyle": {
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name: 'refresh', key: 'electron'});"
+        }
+      ],
+      "screen": [
+        {
+          "type": "data-table",
+          "tableType": "card",
+          "key": "electron",
+          "src": "`/electron/config`",
+          "method": "get",
+          "transform": "response.data",
+          "size": 100,
+          "preProcess": "data = {...data, ...this.data.filters};",
+          "layoutStyle": {
+            "flex-grow": 1,
             "display": "flex",
             "flex-direction": "column",
-            "height": "100%"
+            "height": "100%",
+            "overflow-y": "auto"
           },
-          "sideStyle": {
-            "background": "ghostwhite",
-            "display": "flex",
-            "flexFlow": "row wrap",
-            "color": "black",
+          "itemBoxStyle": {
+            "cursor": "pointer",
+            "margin": "8px",
             "padding": "4px",
-            "max-width": "300px",
-            "height": "100%"
+            "font-size": "small",
+            "display": "flex",
+            "flex-flow": "row wrap"
           },
-          "sideScreen": [
+          "click": "this.router.navigateByUrl(`/electron/detail?_id=${item._id}`)",
+          "columns": [
             {
-              "type": "input",
-              "key": "filters._id",
-              "default": "``",
-              "label": "_id",
-              "floatLabel": "auto",
-              "layoutStyle": { "width": "100%" },
-              "style": { "width": "100%" },
-              "changed": "this.event.send({name: 'refresh', key: 'electron'});"
-            }
-          ],
-          "screen": [
-            {
-              "type": "data-table",
-              "tableType": "card",
-              "key": "electron",
-              "src": "`/electron/config`",
-              "method": "get",
-              "transform": "response.data",
-              "size": 100,
-              "preProcess": "data = {...data, ...this.data.filters};",
+              "type": "typography",
+              "key": "title",
               "layoutStyle": {
-                "flex-grow": 1,
-                "display": "flex",
-                "flex-direction": "column",
-                "height": "100%",
-                "overflow-y": "auto"
+                "width": "100%"
               },
-              "itemBoxStyle": {
-                "cursor": "pointer",
-                "margin": "8px",
-                "padding": "4px",
-                "font-size": "small",
-                "display": "flex",
-                "flex-flow": "row wrap"
-              },
-              "click": "this.router.navigateByUrl(`/electron/detail?_id=${item._id}`)",
-              "columns": [
-                {
-                  "type": "typography",
-                  "key": "title",
-                  "layoutStyle": { "width": "100%" },
-                  "style": { "width": "100%" }
-                }
-              ]
+              "style": {
+                "width": "100%"
+              }
             }
           ]
         }
       ]
-  },
-  {
-    "_id": ObjectId("000000000000000000000031"),
-    "name": "Electron",
-    "type": "layout",
-    "contentStyle": {
-      "display": "flex",
-      "flexDirection": "column",
-      "height": "100%"
-    },
-    "layoutStyle": {
-      "width": "100%",
-      "display": "flex",
-      "flex-wrap": "wrap",
-      "color": "white",
-      "height": "100%"
-    },
-    "screen": [
-      {
-        "type": "layout",
-        "layoutStyle": {
-          "background": "rgb(44, 49, 61)",
-          "width": "100%",
-          "display": "flex",
-          "flex-wrap": "wrap",
-          "color": "white"
-        },
-        "screen": [
-          {
-            "type": "button",
-            "buttonType": "mat-icon-button",
-            "icon": "delete",
-            "click": "if(confirm('Sei sicuro di voler eliminare?')) { this.event.send({name: 'delete', key: 'electron'}) }"
-          },
-          {
-            "type": "div",
-            "comment": "spacer",
-            "layoutStyle": {
-              "flex-grow": 1
-            },
-            "style": {
-              "width": "1px"
-            }
-          },
-          {
-            "type": "button",
-            "buttonType": "mat-icon-button",
-            "icon": "save",
-            "click": "this.event.send({name: 'save', key: 'electron'});"
-          }
-        ]
-      },
-      {
-        "type": "form-generator",
-        "key": "electron",
-        "src": "`/electron/config?_id=${this.data._params_._id}`",
-        "method": "get",
-        "transform": "response.data[0]",
-        "layoutStyle": {
-          "flex-grow": 1,
-          "display": "flex",
-          "flex-direction": "column",
-          "height": "100%",
-          "overflow-y": "auto"
-        },
-        "save": {
-          "src": "`/electron/config`",
-          "method": "post",
-          "saveAction": "if(!this.data._id) { this.data._id = response._id; } this.snackBar.open('Salvato', null, { duration: 2000 });"
-        },
-        "delete": {
-          "src": "`/electron/config?_id=${this.data._id}`",
-          "method": "delete",
-          "deleteAction": "this.event.send({name: 'close-dialog'}); this.event.send({name: 'refresh'});"
-        },
-        "screen": [
-          {
-            "expanded": true,
-            "header": {
-              "display": false
-            },
-            "screen": [
-              {
-                "type": "code-editor",
-                "editorType": "json",
-                "path": ".",
-                "label": "Code",
-                "editorOptions": {
-                  "theme": "vs-dark",
-                  "automaticLayout": true
-                },
-                "layoutStyle": {
-                  "width": "100%"
-                },
-                "style": {
-                  "width": "100%",
-                  "height": "600px"
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-]
+    }
+  ]
+}

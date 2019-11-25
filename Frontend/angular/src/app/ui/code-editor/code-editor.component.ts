@@ -13,9 +13,12 @@ import { EMPTY } from "rxjs";
 })
 export class CodeEditorComponent extends BaseComponent {
   error: string;
+  type: string;
   compileError: string;
 
   ngOnInit() {
+    super.ngOnInit();
+
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event =>
       this.eventHandler(event)
@@ -23,6 +26,7 @@ export class CodeEditorComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 
@@ -139,7 +143,7 @@ export class CodeEditorComponent extends BaseComponent {
   get value() {
     // fixed text
     this.error = "";
-    obj.set(this, "uiElement.type", "");
+    this.type = "";
 
     // remove _params_
     let data = { ...this.data };
@@ -151,10 +155,10 @@ export class CodeEditorComponent extends BaseComponent {
       // property doesn't exist
       this.error = "JSON property does not exist.";
     } else if (data.constructor != "".constructor) {
-      this.uiElement.type = "object";
+      this.type = "object";
       this._value = JSON.stringify(data, null, 2);
     } else {
-      this.uiElement.type = "string";
+      this.type = "string";
       this._value = data;
     }
 
@@ -166,7 +170,7 @@ export class CodeEditorComponent extends BaseComponent {
 
     if(v != this._value) {
       let data = v;
-      if (this.uiElement.type == "object") {
+      if (this.type == "object") {
         // if the type is object then convert string -> object
         try {
           data = JSON.parse(data);
