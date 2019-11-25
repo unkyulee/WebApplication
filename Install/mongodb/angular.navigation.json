@@ -6,13 +6,9 @@
     "name": "Profile",
     "url": "/profile",
     "order": 0,
-    "uiElementIds": [
-      "000000000000000000000000"
-    ],
+    "uiElementIds": ["000000000000000000000000"],
     "hidden": {
-      "uiElementIds": [
-        "000000000000000000000001"
-      ]
+      "uiElementIds": ["000000000000000000000001"]
     }
   },
   {
@@ -27,19 +23,14 @@
         "name": "Contents",
         "type": "item",
         "url": "/cms",
-        "uiElementIds": [
-          "000000000000000000000005"
-        ]
+        "uiElementIds": ["000000000000000000000005"]
       },
       {
         "name": "Contents Dettaglio",
         "type": "sub",
         "parent_url": "/cms",
         "url": "/cms/detail",
-        "uiElementIds": [
-          "000000000000000000000007",
-          "000000000000000000000006"
-        ]
+        "uiElementIds": ["000000000000000000000007", "000000000000000000000006"]
       }
     ]
   },
@@ -52,61 +43,42 @@
     "order": 10,
     "children": [
       {
-        "name": "App Config",
+        "name": "Site",
         "type": "item",
         "url": "/core.navigation",
-        "uiElementIds": [
-          "000000000000000000000010"
-        ],
+        "uiElementIds": ["000000000000000000000010"],
         "hidden": {
-          "uiElementIds": [
-            "000000000000000000100110"
-          ]
+          "uiElementIds": ["000000000000000000100110"]
         }
       },
       {
-        "name": "Angular Navigation",
+        "name": "Navigation",
         "type": "item",
         "url": "/angular.navigation",
-        "uiElementIds": [
-          "000000000000000000000013"
-        ]
+        "uiElementIds": ["000000000000000000000013"],
+        "hidden": {
+          "uiElementIds": ["000000000000000000000014"]
+        }
       },
       {
         "name": "UI Element",
         "type": "item",
         "url": "/angular.ui",
-        "uiElementIds": [
-          "000000000000000000000015",
-          "000000000000000000000016"
-        ]
+        "uiElementIds": ["000000000000000000000015"]
       },
-      {
-        "name": "UI Element",
-        "type": "sub",
-        "url": "/angular.ui/detail",
-        "parent_url": "/angular.ui",
-        "uiElementIds": [
-          "000000000000000000001016",
-          "000000000000000000001017"
-        ]
-      },
+
       {
         "name": "Electron",
         "type": "item",
         "url": "/electron",
-        "uiElementIds": [
-          "000000000000000000000030"
-        ]
+        "uiElementIds": ["000000000000000000000030"]
       },
       {
         "name": "Electron",
         "type": "sub",
         "url": "/electron/detail",
         "parent_url": "/electron",
-        "uiElementIds": [
-          "000000000000000000000031"
-        ]
+        "uiElementIds": ["000000000000000000000031"]
       }
     ]
   },
@@ -122,34 +94,26 @@
         "name": "Web Services",
         "type": "item",
         "url": "/core.websvc",
-        "uiElementIds": [
-          "000000000000000000000110"
-        ]
+        "uiElementIds": ["000000000000000000000110"]
       },
       {
         "name": "Web Services Detail",
         "type": "sub",
         "url": "/core.websvc/detail",
         "parent_url": "/core.websvc",
-        "uiElementIds": [
-          "000000000000000000000111"
-        ]
+        "uiElementIds": ["000000000000000000000111"]
       },
       {
         "name": "Workflow",
         "type": "item",
         "url": "/core.workflow",
-        "uiElementIds": [
-          "000000000000000000000113"
-        ]
+        "uiElementIds": ["000000000000000000000113"]
       },
       {
         "name": "Data Service",
         "type": "item",
         "url": "/core.dataservice",
-        "uiElementIds": [
-          "000000000000000000000116"
-        ]
+        "uiElementIds": ["000000000000000000000116"]
       }
     ]
   },
@@ -165,27 +129,18 @@
         "name": "Scheduled Tasks",
         "type": "item",
         "url": "/task",
-        "uiElementIds": [
-          "000000000000000000000121",
-          "000000000000000000000120"
-        ]
+        "uiElementIds": ["000000000000000000000121", "000000000000000000000120"]
       },
       {
         "name": "Scheduled Tasks Detail",
         "type": "sub",
         "parent_url": "/task",
         "url": "/task/detail",
-        "uiElementIds": [
-          "000000000000000000000123",
-          "000000000000000000000122"
-        ]
+        "uiElementIds": ["000000000000000000000123", "000000000000000000000122"]
       }
     ],
     "hidden": {
-      "uiElementIds": [
-        "000000000000000000000124",
-        "000000000000000000000125"
-      ]
+      "uiElementIds": ["000000000000000000000124", "000000000000000000000125"]
     }
   },
   {
@@ -200,30 +155,22 @@
         "name": "Users",
         "type": "item",
         "url": "/core.user",
-        "uiElementIds": [
-          "000000000000000000000130"
-        ],
+        "uiElementIds": ["000000000000000000000130"],
         "hidden": {
-          "uiElementIds": [
-            "000000000000000000000131"
-          ]
+          "uiElementIds": ["000000000000000000000131"]
         }
       },
       {
         "name": "Group",
         "type": "item",
         "url": "/core.group",
-        "uiElementIds": [
-          "000000000000000000000133"
-        ]
+        "uiElementIds": ["000000000000000000000133"]
       },
       {
         "name": "Role",
         "type": "item",
         "url": "/core.role",
-        "uiElementIds": [
-          "000000000000000000000136"
-        ]
+        "uiElementIds": ["000000000000000000000136"]
       }
     ],
     "_created": ISODate("2018-04-17T18:31:11.153+0000"),

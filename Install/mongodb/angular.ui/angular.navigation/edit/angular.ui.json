@@ -1,0 +1,75 @@
+{
+    "_id": ObjectId("000000000000000000000014"),
+    "name": "Angular Navigation",
+    "layoutStyle": {
+      "display": "flex",
+      "flex-direction": "column",
+      "flex-grow": 1
+    },
+    "contentStyle": {
+      "display": "flex",
+      "flex-direction": "row",
+      "flex-wrap": "wrap",
+      "flex-grow": 1,
+      "font-size": "small",
+      "height": "100%"
+    },
+    "screen": [
+      {
+        "name": "Filter",
+        "type": "layout",
+        "layoutStyle": {
+          "background": "#2C313D",
+          "color": "white",
+          "display": "flex",
+          "flex-flow": "row wrap",
+          "min-height": "40px",
+          "width": "100%"
+        },
+        "screen": [
+          {
+            "type": "div",
+            "comment": "spacer",
+            "layoutStyle": {
+              "flex-grow": 1
+            },
+            "style": {
+              "width": "1px"
+            }
+          },
+          {
+            "type": "button",
+            "buttonType": "mat-icon-button",
+            "icon": "save",
+            "click": "this.event.send({name: 'save', key: 'navigation'})"
+          }
+        ]
+      },
+      {
+        "type": "code-editor",
+        "editorType": "json",
+        "key": "navigation",
+        "path": "",
+        "save": {
+          "src": "`/adminapi/angular.navigation`",
+          "method": "post",
+          "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
+        },
+        "editorOptions": {
+          "theme": "vs-dark",
+          "automaticLayout": true
+        },
+        "layoutStyle": {
+          "flex-grow": 1,
+          "display": "flex",
+          "flex-direction": "column",
+          "height": "100%",
+          "width": "100%"
+        },
+        "style": {
+          "width": "100%",
+          "height": "100%"
+        }
+      }
+    ]
+  }
