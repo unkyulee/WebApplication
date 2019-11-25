@@ -47,7 +47,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '000000000000000000000014', maxWidth: '500px', panelClass: ''})"
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '000000000000000000000014', width: '100vw', height: '100vh'})"
         }
       ]
     },
@@ -166,7 +166,7 @@
             "padding": "4px",
             "fontSize": "small"
           },
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '000000000000000000000014', data: item, maxWidth: '500px', panelClass: ''})",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '000000000000000000000014', data: item, width: '100vw', height: '100vh'})",
           "columns": [
             {
               "type": "typography",
