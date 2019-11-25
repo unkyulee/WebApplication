@@ -97,15 +97,19 @@ export class UILayoutWrapperComponent {
           this.config.get("uiElements"),
           this.uiElement.uiElementId
         );
-        element = JSON.parse(JSON.stringify(element));
-        this.uiElement = Object.assign({}, this.uiElement, element);
-        // run init script
-        if (this.uiElement.uiElementInit) {
-          try {
-            eval(this.uiElement.uiElementInit);
-          } catch (e) {
-            console.error(e);
+        if(element) {
+          element = JSON.parse(JSON.stringify(element));
+          this.uiElement = Object.assign({}, this.uiElement, element);
+          // run init script
+          if (this.uiElement.uiElementInit) {
+            try {
+              eval(this.uiElement.uiElementInit);
+            } catch (e) {
+              console.error(e);
+            }
           }
+        } else {
+          console.error(`uiElement missing ${this.uiElement.uiElementId}`)
         }
       }
 
