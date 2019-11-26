@@ -14,6 +14,7 @@ import { TagInputModule } from "ngx-chips";
 import { ColorPickerModule } from "ngx-color-picker";
 import { NgxBarcodeModule } from "ngx-barcode";
 import { NgxPrintModule } from "ngx-print";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -166,7 +167,8 @@ export function momentAdapterFactory() {
     TagInputModule,
     ColorPickerModule,
     NgxBarcodeModule,
-    NgxPrintModule
+    NgxPrintModule,
+    DragDropModule
   ],
   providers: [
     {

@@ -72,6 +72,9 @@
 <!-- Card List -->
 <ng-container *ngIf="uiElement.tableType == 'card'">
   <cdk-virtual-scroll-viewport
+    cdkDropList
+    [cdkDropListData]="rows"
+    (cdkDropListDropped)="drop($event)"
     [ngStyle]="
       uiElement.contentLayoutStyle
         ? uiElement.contentLayoutStyle
@@ -80,6 +83,8 @@
     [itemSize]="total < size ? total : size"
   >
     <mat-card
+      cdkDrag
+      [cdkDragDisabled]="uiElement.dragNdrop != true"
       *cdkVirtualFor="let row of rows"
       (click)="click($event, row, uiElement.click)"
       [ngStyle]="
@@ -114,6 +119,7 @@
 <!-- Simple List -->
 <div
   *ngIf="uiElement.tableType == 'list'"
+  cdkDropListGroup
   [ngStyle]="
     uiElement.contentLayoutStyle
       ? uiElement.contentLayoutStyle

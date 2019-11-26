@@ -3,6 +3,11 @@ import * as obj from "object-path";
 
 // user imports
 import { BaseComponent } from "../base.component";
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem
+} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "data-table",
@@ -63,7 +68,6 @@ export class DataTableComponent extends BaseComponent {
     );
   }
 
-
   eventHandler(event) {
     if (event && (!event.key || event.key == this.uiElement.key)) {
       if (
@@ -81,7 +85,10 @@ export class DataTableComponent extends BaseComponent {
           }
         }
         setTimeout(() => this.requestDownload(), 0);
-      } else if (event.name == "pagination" && (!event.key || event.key == this.uiElement.key)) {
+      } else if (
+        event.name == "pagination" &&
+        (!event.key || event.key == this.uiElement.key)
+      ) {
         this.page = event.page;
         this.size = event.size;
         setTimeout(() => this.requestDownload(), 0);
@@ -227,4 +234,13 @@ export class DataTableComponent extends BaseComponent {
     if (this.sort) this.requestDownload();
   }
 
+  drop(event: CdkDragDrop<string[]>) {
+    if (this.uiElement.drop) {
+      try {
+        eval(this.uiElement.drop);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
 }
