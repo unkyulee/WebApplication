@@ -1,11 +1,11 @@
 {
-  "_id": ObjectId("000000000000000000000030"),
-  "name": "Electron",
+  "_id": "000000000000000000000030",
+  "name": "Core Config",
   "type": "layout",
   "contentStyle": {
     "display": "flex",
     "flexDirection": "column",
-    "flex-grow": 1
+    "flexGrow": 1
   },
   "layoutStyle": {
     "width": "100%",
@@ -44,7 +44,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "this.router.navigateByUrl(`/electron/detail`)"
+          "click": "this.router.navigateByUrl(`/core.config/detail`)"
         }
       ]
     },
@@ -87,18 +87,48 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name: 'refresh', key: 'electron'});"
+          "changed": "this.event.send({name: 'refresh', key: 'core.config'});"
+        },
+        {
+          "type": "input",
+          "key": "filters._search",
+          "default": "``",
+          "label": "Cerca ...",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'core.config'});"
+        },
+        {
+          "type": "selection",
+          "selectionType": "autocomplete",
+          "label": "Site",
+          "floatLabel": "auto",
+          "src": "`/adminapi/core.navigation?name=${obj.get(this, '_value', '')}`",
+          "transform": "response.data",
+          "optionLabelTransform": "`${option.name} - ${option.module} - ${option.url}`",
+          "inputValueTransform": "obj.has(this, '_value._id') ? `${this._value.name}` : this._value",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "selected": "this.data.filters.navigation_id = this._value._id; this.event.send({name:'refresh', key: 'core.config'});"
         }
       ],
       "screen": [
         {
           "type": "data-table",
           "tableType": "card",
-          "key": "electron",
-          "src": "`/electron/config`",
+          "key": "core.config",
+          "src": "`/adminapi/core.config?_projection=navigation_id,type`",
           "method": "get",
           "transform": "response.data",
-          "size": 100,
           "preProcess": "data = {...data, ...this.data.filters};",
           "layoutStyle": {
             "flex-grow": 1,
@@ -115,11 +145,44 @@
             "display": "flex",
             "flex-flow": "row wrap"
           },
-          "click": "this.router.navigateByUrl(`/electron/detail?_id=${item._id}`)",
+          "click": "this.router.navigateByUrl(`/core.config/detail?_id=${item._id}`)",
           "columns": [
             {
               "type": "typography",
-              "key": "title",
+              "key": "name",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "fontWeight": "bold",
+                "width": "100%"
+              }
+            },
+            {
+              "type": "typography",
+              "key": "type",
+              "format": "`type: ${this._value}`",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "typography",
+              "key": "_id",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "typography",
+              "key": "navigation_id",
+              "format": "`navigation_id: ${this._value}`",
               "layoutStyle": {
                 "width": "100%"
               },

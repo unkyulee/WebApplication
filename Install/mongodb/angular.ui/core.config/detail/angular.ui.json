@@ -1,6 +1,6 @@
 {
-  "_id": "000000000000000000000113",
-  "name": "Core Config",
+  "_id": "000000000000000000000031",
+  "name": "Core Config Detail",
   "type": "layout",
   "contentStyle": {
     "display": "flex",
@@ -16,6 +16,7 @@
   },
   "screen": [
     {
+      "name": "Filter",
       "type": "layout",
       "layoutStyle": {
         "background": "#2C313D",
@@ -24,7 +25,6 @@
         "flex-flow": "row wrap",
         "min-height": "40px"
       },
-      "init": "obj.ensureExists(this.data, 'filters', {});",
       "screen": [
         {
           "type": "button",
@@ -36,15 +36,17 @@
           "type": "div",
           "comment": "spacer",
           "layoutStyle": {
-            "flex-grow": 1,
+            "flex-grow": 1
+          },
+          "style": {
             "width": "1px"
           }
         },
         {
           "type": "button",
           "buttonType": "mat-icon-button",
-          "icon": "add_circle",
-          "click": "this.router.navigateByUrl(`/core.workflow/detail`)"
+          "icon": "save",
+          "click": "this.event.send({name: 'save', key: 'core.config'})"
         }
       ]
     },
@@ -71,15 +73,12 @@
         "flexFlow": "row wrap",
         "color": "black",
         "padding": "4px",
-        "max-width": "300px",
-        "height": "100%"
+        "max-width": "300px"
       },
       "sideScreen": [
         {
           "type": "input",
-          "key": "filters._id",
-          "default": "``",
-          "label": "_id",
+          "label": "JSON Path",
           "floatLabel": "auto",
           "layoutStyle": {
             "width": "100%"
@@ -87,13 +86,17 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name: 'refresh', key: 'core.workflow'});"
+          "changed": "this.event.send({name: 'path', key: 'core.config', path: this._value});"
         },
         {
-          "type": "input",
-          "key": "filters._search",
-          "default": "``",
-          "label": "Cerca ...",
+          "type": "selection",
+          "label": "Language",
+          "options": [
+            "",
+            "javascript",
+            "html",
+            "json"
+          ],
           "floatLabel": "auto",
           "layoutStyle": {
             "width": "100%"
@@ -101,57 +104,56 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'core.workflow'});"
+          "selected": "this.event.send({name: 'editorOptions', key: 'core.config', editorOptions: {language: option}});"
+        },
+        {
+          "type": "typography",
+          "text": " ",
+          "style": {
+            "height": "64px"
+          }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-fab",
+          "color": "warn",
+          "icon": "search",
+          "condition": "this.nav.isHandset",
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'filters'})",
+          "layoutStyle": {
+            "position": "absolute",
+            "bottom": "24px",
+            "right": "24px"
+          }
         }
       ],
       "screen": [
         {
-          "type": "data-table",
-          "tableType": "card",
-          "key": "core.workflow",
-          "src": "`/adminapi/core.workflow?_projection=name,description`",
-          "method": "get",
-          "transform": "response.data",
-          "preProcess": "data = {...data, ...this.data.filters};",
+          "type": "code-editor",
+          "editorType": "json",
+          "key": "core.config",
+          "path": "",
+          "init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send('splash-show');\r\n   this.rest.request(`/adminapi/core.config?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
+          "save": {
+            "src": "`/adminapi/core.config`",
+            "method": "post",
+            "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
+          },
+          "editorOptions": {
+            "theme": "vs-dark",
+            "automaticLayout": true
+          },
           "layoutStyle": {
             "flex-grow": 1,
             "display": "flex",
             "flex-direction": "column",
             "height": "100%",
-            "overflow-y": "auto"
+            "width": "100%"
           },
-          "itemBoxStyle": {
-            "cursor": "pointer",
-            "margin": "8px",
-            "padding": "4px",
-            "font-size": "small",
-            "display": "flex",
-            "flex-flow": "row wrap"
-          },
-          "click": "this.router.navigateByUrl(`/core.workflow/detail?_id=${item._id}`)",
-          "columns": [
-            {
-              "type": "typography",
-              "key": "name",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "fontWeight": "bold",
-                "width": "100%"
-              }
-            },
-            {
-              "type": "typography",
-              "key": "description",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%"
-              }
-            }
-          ]
+          "style": {
+            "width": "100%",
+            "height": "100%"
+          }
         }
       ]
     }

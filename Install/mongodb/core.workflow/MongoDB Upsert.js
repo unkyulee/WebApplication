@@ -169,7 +169,12 @@ async function run() {
   }
 
   // upsert
-  let upsertedId = await ds.update(collection, data);
+  let upsertedId = null;
+  if(row) {
+    upsertedId = await ds.update(collection, data);
+  } else {
+    upsertedId = await ds.insert(collection, data);
+  }
 
   // return result
   return { _id: upsertedId };

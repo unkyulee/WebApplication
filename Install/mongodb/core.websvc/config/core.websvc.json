@@ -1,0 +1,20 @@
+{
+  "_id": "000000000000000000000120",
+  "navigation_id": "000000000000000000000021",
+  "navigation_name": "Admin API",
+  "navigation_url": "/adminapi",
+  "description": "Configuration",
+  "api_url": "core.config",
+  "get_description": "Get",
+  "get_datasource": "000000000000000000000000",
+  "get_workflow": "000000000000000000000010",
+  "get_configuration": "{collection: 'core.config'}",
+  "post_description": "Upsert item",
+  "post_datasource": "000000000000000000000000",
+  "post_workflow": "000000000000000000000020",
+  "post_configuration": "{collection: 'core.config'}",
+  "delete_description": "Delete item",
+  "delete_datasource": "000000000000000000000000",
+  "delete_workflow": "000000000000000000000030",
+  "delete_configuration": "{collection: 'core.config'}"
+}

@@ -10,32 +10,32 @@ class MongoDB {
 
   async connect() {
     let that = this;
-    return new Promise(function (resolve, reject) {
-      MongoClient.connect(that.url, { useNewUrlParser: true, useUnifiedTopology: true }, function (
-        err,
-        client
-      ) {
-        if (err == null && client != null) {
-          that.client = client;
-          that.db = client.db(that.dbName);
-          resolve(that.db);
-        } else {
-          reject(err);
+    return new Promise(function(resolve, reject) {
+      MongoClient.connect(
+        that.url,
+        { useNewUrlParser: true, useUnifiedTopology: true },
+        function(err, client) {
+          if (err == null && client != null) {
+            that.client = client;
+            that.db = client.db(that.dbName);
+            resolve(that.db);
+          } else {
+            reject(err);
+          }
         }
-      });
+      );
     });
   }
 
   async close() {
     if (this.client) {
-      this.client.close()
+      this.client.close();
     }
-
   }
 
   async count(collection, query) {
     let that = this;
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (!that.db) reject("db not initialized");
       that.db
         .collection(collection)
@@ -58,7 +58,7 @@ class MongoDB {
     let that = this;
     if (!sort) sort = { _created: -1 };
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (!that.db) reject("db not initialized");
       that.db
         .collection(collection)
@@ -67,7 +67,7 @@ class MongoDB {
         .sort(sort)
         .limit(limit)
         .skip(skip)
-        .toArray(function (err, results) {
+        .toArray(function(err, results) {
           if (err) reject(err);
           resolve(results);
         });
@@ -78,7 +78,7 @@ class MongoDB {
     let that = this;
     if (!sort) sort = { _created: -1 };
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (!that.db) reject("db not initialized");
       that.db
         .collection(collection)
@@ -92,7 +92,7 @@ class MongoDB {
 
   async update(collection, data) {
     let that = this;
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (!that.db) reject("db not initialized");
 
       // check if it has _id - UPDATE
@@ -122,9 +122,23 @@ class MongoDB {
     });
   }
 
+  async insert(collection, data) {
+    let that = this;
+    return new Promise(function(resolve, reject) {
+      if (!that.db) reject("db not initialized");
+
+      // INSERT
+      if(data._id) data._id = ObjectID(`${data._id}`)
+      that.db.collection(collection).insertOne(data, (err, res) => {
+        if (err) reject(err);
+        resolve(data._id);
+      });
+    });
+  }
+
   async delete(collection, query) {
     let that = this;
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       if (!that.db) reject("db not initialized");
       if (!query) reject("delete filter not specified");
       that.db.collection(collection).deleteMany(query, (err, obj) => {
