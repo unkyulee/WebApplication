@@ -96,7 +96,7 @@ async function run() {
           }
         });
         projection = { ...projection, score: { $meta: "textScore" } };
-        sort = { score: { $meta: "textScore" } };
+        if(!sort) sort = { score: { $meta: "textScore" } };
       }
     }
 
