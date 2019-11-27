@@ -1,194 +1,194 @@
-﻿const hash = require("../lib/hash");
-const obj = require("object-path");
+﻿var moment = require("moment-timezone");
 
-async function verify(ds, config, verifyConfig, data, row) {
-  let result = false;
-
-  switch (verifyConfig.type) {
-    case "MatchIfExists":
-      {
-        if (row == null) {
-          // verify only when data exists
-          result = true;
-          break;
-        }
-        let source = row[verifyConfig.column];
-        if (!source) {
-          // verify only when data exists
-          result = true;
-        }
-
-        // is any algorithm applied?
-        switch (verifyConfig.algorithm) {
-          case "encryption":
-            {
-              let target = data[verifyConfig.field];
-              if (target) {
-                source = req.app.locals.encryption.decrypt(source);
-                result = source == target;
-              } else {
-                result = true;
-              }
-            }
-            break;
-
-          case "hash":
-            {
-              let target = data[verifyConfig.field];
-              if (target) {
-                target = hash.hash(target);
-                result = source == target;
-              } else {
-                // if value doesn't exist?
-                result = true;
-              }
-            }
-            break;
-        }
-      }
-      break;
-  }
-
-  return result;
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
 }
 
 async function run() {
   // read configuration
   let config = res.locals.configuration;
-  if (!config) return { error: "No Configuration Specified" };
+  if (!config) return "No Configuration Specified";
 
   config = jsonic(config);
   let collection = config["collection"];
-  if (!collection) return { error: "No Collection Specified" };
+  if (!collection) return "No Collection Specified";
 
   // form values
   let data = Object.assign({}, req.query, req.body);
 
+  // pagination
+  let page = data.page || 1;
+  page = parseInt(page);
+  let size = data.size || 10;
+  size = parseInt(size);
+
+  // sort
+  let sort = null;
+  if (data._sort) {
+    sort = {};
+    sort[data._sort] = 1;
+  }
+  if (data._sort_desc) {
+    sort = {};
+    sort[data._sort_desc] = -1;
+  }
+
+  // build filter
+  let filter = { $and: [] };
+
+  // check if the configuration has filterFields
+  if (config.filterFields) {
+    for (let field of config.filterFields) {
+      switch (field.type) {
+        case "header":
+          {
+            let value = req.headers[field.key];
+            if (!value) return { error: `No ${field.key} specified` };
+            let f = {};
+            f[field.column] = value;
+
+            // add filter
+            filter["$and"].push(f);
+          }
+          break;
+      }
+    }
+  }
+
+  // process the projection
+  let projection = {};
+  // include columns
+  if (data._projection) {
+    try {
+      let columns = data._projection.split(",");
+      for (let column of columns) {
+        column = column.trim();
+        projection[column] = 1;
+      }
+    } catch {}
+  }
+  if (data._projection_ne) {
+    try {
+      let columns = data._projection_ne.split(",");
+      for (let column of columns) {
+        column = column.trim();
+        projection[column] = 0;
+      }
+    } catch {}
+  }
+
+  for (let key of Object.keys(data)) {
+    if (key === "page") continue;
+    else if (key === "size") continue;
+    else if (key === "_export") continue;
+    else if (key === "_aggregation") continue;
+    else if (key === "_sort") continue;
+    else if (key === "_sort_desc") continue;
+    else if (key === "_projection") continue;
+    // _id gets ObjectId wrapper
+    else if (key === "_id" && data[key]) filter.$and.push({ _id: ObjectID(data[key]) });
+    // search
+    else if (key === "_search") {
+      if (data[key]) {
+        filter.$and.push({
+          $text: {
+            $search: data[key]
+          }
+        });
+        projection = { ...projection, score: { $meta: "textScore" } };
+        if(!sort) sort = { score: { $meta: "textScore" } };
+      }
+    }
+
+    // range
+    else if (key.endsWith("_date_gte") || key.endsWith("_created_gte")) {
+      let f = {};
+      f[key.replace("_gte", "")] = { $gte: moment(data[key]).toDate() };
+      filter.$and.push(f);
+    } else if (key.endsWith("_date_gt") || key.endsWith("_created_gt")) {
+      let f = {};
+      f[key.replace("_gt", "")] = { $gt: moment(data[key]).toDate() };
+      filter.$and.push(f);
+    } else if (key.endsWith("_date_lte") || key.endsWith("_created_lte")) {
+      let f = {};
+      f[key.replace("_lte", "")] = { $lte: moment(data[key]).toDate() };
+      filter.$and.push(f);
+    } else if (key.endsWith("_date_lt") || key.endsWith("_created_lt")) {
+      let f = {};
+      f[key.replace("_lt", "")] = { $lt: moment(data[key]).toDate() };
+      filter.$and.push(f);
+    }
+    // expression
+    else if (key.endsWith("$")) {
+      let f = {};
+      f[key.substring(0, key.length - 1)] = eval(data[key]);
+      filter.$and.push(f);
+    }
+    // otherwise, string filter
+    else {
+      // if it is array make an or filter
+      if (Array.isArray(data[key])) {
+        let or = { $or: [] };
+        for (let v of data[key]) {
+          let f = {};
+          f[key] = v;
+          or.$or.push(f);
+        }
+        filter.$and.push(or);
+      } else if (data[key]) {
+        let f = {};
+        f[key] = new RegExp(escapeRegExp(data[key]), "ig");
+        filter.$and.push(f);
+      }
+    }
+  }
+
+  // if $and is empty then remove
+  if (filter.$and.length == 0) delete filter.$and;
+
   // retrieve data service
   let ds = res.locals.ds;
-  if (!ds) return { error: "No data service instantiated" };
+  if (!ds) return "No data service instantiated";
 
   // connect to database
   await ds.connect();
 
-  // retrieve current data
-  let rows = await ds.find(config.collection, {
-    _id: ObjectID(data._id)
-  });
-  let row = null;
-  if (rows.length > 0) row = rows[0];
+  // query to the collection
+  let result = [];
+  if (data._aggregation)
+    result = await ds.aggregate(collection, filter, jsonic(data._aggregation));
+  else
+    result = await ds.find(
+      collection,
+      filter,
+      sort,
+      size,
+      (page - 1) * size,
+      projection
+    );
+  let total = await ds.count(collection, filter);
 
-  // verify data
-  if (config.verify) {
-    for (let verifyConfig of config.verify) {
-      let valid = await verify(ds, config, verifyConfig, data, row);
-      if (!valid) {
-        return { error: verifyConfig.message };
-      }
-    }
-  }
-
-  // set default field
-  if (config.defaultFields) {
-    for (let def of config.defaultFields) {
-      switch (def.type) {
-        case "Date":
-          if (data[def.column]) data[def.column] = new Date(data[def.column]);
-          break;
-        case "DateInArray":
-          {
-            let array = obj.get(data, def.path);
-            if (array) {
-              for (let v of array) {
-                if (v[def.column]) {
-                  v[def.column] = new Date(v[def.column]);
-                }
-              }
-            }
-          }
-
-          if (data[def.column]) data[def.column] = new Date(data[def.column]);
-          break;
-        case "NowIfNew":
-          if ((!row || !row[def.column]) && !data[def.column]) {
-            data[def.column] = new Date();
-          } else if (data[def.column]) {
-            data[def.column] = new Date(data[def.column]);
-          }
-          break;
-        case "Now":
-          data[def.column] = new Date();
-          break;
-        case "header":
-          {
-            let value = req.headers[def.key];
-            if (!value) return { error: `No ${def.key} specified` };
-            data[def.column] = value;
-          }
-          break;
-        case "hash":
-          if (data[def.column]) data[def.column] = hash.hash(data[def.column]);
-          break;
-        case "tokenIfNew":
-          if (
-            res.locals.token[def.key] &&
-            (!row || (row && !row[def.column]))
-          ) {
-            data[def.column] = res.locals.token[def.key];
-          }
-          break;
-        case "Unique":
-          {
-            // do not create duplicate of the value
-            if (data[def.column]) {
-              // initialize row
-              if (!row) row = {};
-              if (!row[def.column]) row[def.column] = [];
-
-              // check if the value exists
-              for (let value of data[def.column]) {
-                let item = row[def.column].find(
-                  x => x[def.key] == value[def.key]
-                );
-                if (!item) {
-                  row[def.column].push(value);
-                }
-              }
-
-              // convert to array
-              data[def.column] = row[def.column];
-            }
-          }
-
-          break;
-      }
-    }
-  }
-
-  // encrypt fields
-  if (config.encryptedFields) {
-    for (let field of config.encryptedFields) {
-      if (data[field]) {
-        data[field] = req.app.locals.encryption.encrypt(data[field]);
-      }
-    }
-  }
-
-  // exclude fields
+  // remove fields
   if (config.excludeFields) {
-    for (let field of config.excludeFields) delete data[field];
-  }
-
-  // upsert
-  let upsertedId = null;
-  if (row) {
-    upsertedId = await ds.update(collection, data);
-  } else {
-    upsertedId = await ds.insert(collection, data);
+    for (let row of result) {
+      for (let fields of config.excludeFields) {
+        if (row[fields]) delete row[fields];
+      }
+    }
   }
 
   // return result
-  return { _id: upsertedId };
+  return {
+    page: page,
+    size: result.length,
+    total: total,
+    filter: filter,
+    sort: sort,
+    projection: projection,
+    params: data,
+    websvc: res.locals.websvcurl,
+    data: result
+  };
 }
 
 run();
