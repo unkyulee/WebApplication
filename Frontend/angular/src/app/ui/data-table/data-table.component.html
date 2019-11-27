@@ -84,7 +84,7 @@
   >
     <mat-card
       cdkDrag
-      [cdkDragDisabled]="uiElement.dragNdrop != true"
+      [cdkDragDisabled]="uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true"
       *cdkVirtualFor="let row of rows"
       (click)="click($event, row, uiElement.click)"
       [ngStyle]="
