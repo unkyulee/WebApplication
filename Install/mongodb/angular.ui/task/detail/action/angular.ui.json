@@ -77,16 +77,6 @@
       "sideScreen": [
         {
           "type": "input",
-          "default": "``",
-          "label": "UI Element ID",
-          "floatLabel": "auto",
-          "layoutStyle": { "width": "100%" },
-          "style": { "width": "100%" },
-          "changed": "this.event.send('splash-show'); this.rest.request(`/adminapi/angular.ui?_id=${this._value}`).subscribe(r => { this.event.send({name: 'load-code', key: 'script', data: obj.get(r, 'data.0')}); this.event.send('splash-hide'); this.event.send({name: 'changed'}); })"
-        },
-
-        {
-          "type": "input",
           "label": "JSON Path",
           "floatLabel": "auto",
           "layoutStyle": { "width": "100%" },

@@ -53,9 +53,12 @@ export class LayoutComponent extends BaseComponent
 
   onBackButton(e) {
     e.preventDefault();
+
     // close dialogs if any exists
     if (this.dialog.openDialogs.length > 0) {
       this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
+    } else if (!obj.get(this.currSheet, 'containerInstance._destroyed', false)) {
+      this.bottomSheet._openedBottomSheetRef.dismiss();
     }
     // check if it is last nav stack
     else if (this.nav.navigationStack.length == 2) {
@@ -81,6 +84,9 @@ export class LayoutComponent extends BaseComponent
       "backbutton",
       this.onBackButton.bind(this)
     );
+
+    // expose event service to window.__CONFIG__
+    obj.set(window, '__CONFIG__.event', this.event)
 
     // event handler
     this.onEvent = this.event.onEvent.subscribe(event => {
@@ -130,7 +136,6 @@ export class LayoutComponent extends BaseComponent
     this.onEvent.unsubscribe();
   }
 
-  currDialog: MatDialogRef<UIComposerDialogComponent>;
   openDialog(event) {
     // get ui elements
     let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
@@ -145,23 +150,24 @@ export class LayoutComponent extends BaseComponent
     }
 
     // open dialog
-    this.currDialog = this.dialog.open(UIComposerDialogComponent, {
+    let currDialog = this.dialog.open(UIComposerDialogComponent, {
       height: event.height,
       minHeight: event.minHeight,
       maxHeight: event.maxHeight,
       width: event.width,
       minWidth: event.minWidth,
       maxWidth: event.maxWidth,
-      panelClass: (typeof event.panelClass == 'undefined') ? "full-width-dialog" : null
+      panelClass:
+        typeof event.panelClass == "undefined" ? "full-width-dialog" : null
     });
-    this.currDialog.componentInstance.data = event.data ? event.data : {};
-    this.currDialog.componentInstance.uiElement = uiElement;
+    currDialog.componentInstance.data = event.data ? event.data : {};
+    currDialog.componentInstance.uiElement = uiElement;
 
     // apply layout style
     if (uiElement.layoutStyle) {
       for (let key of Object.keys(uiElement.layoutStyle)) {
         this.renderer.setStyle(
-          this.currDialog["_containerInstance"]["_elementRef"].nativeElement,
+          currDialog["_containerInstance"]["_elementRef"].nativeElement,
           key,
           uiElement.layoutStyle[key]
         );
@@ -172,19 +178,20 @@ export class LayoutComponent extends BaseComponent
     if (uiElement.layoutClass) {
       for (let key of Object.keys(uiElement.layoutClass)) {
         this.renderer.addClass(
-          this.currDialog["_containerInstance"]["_elementRef"].nativeElement,
+          currDialog["_containerInstance"]["_elementRef"].nativeElement,
           key
         );
       }
     }
   }
 
+  currSheet;
   openSheet(event) {
     // get ui elements
     let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
     uiElement = JSON.parse(JSON.stringify(uiElement));
 
-    let sheet = this.bottomSheet.open(UIComposerActionsComponent, {
+    this.currSheet = this.bottomSheet.open(UIComposerActionsComponent, {
       data: { data: event.data ? event.data : {}, uiElement: uiElement }
     });
   }
