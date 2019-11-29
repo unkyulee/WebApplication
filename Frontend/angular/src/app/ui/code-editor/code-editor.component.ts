@@ -8,8 +8,7 @@ import { EMPTY } from "rxjs";
 
 @Component({
   selector: "code-editor",
-  templateUrl: "code-editor.component.html",
-  styleUrls: ["code-editor.component.css"]
+  templateUrl: "code-editor.component.html"
 })
 export class CodeEditorComponent extends BaseComponent {
   error: string;
@@ -176,7 +175,7 @@ export class CodeEditorComponent extends BaseComponent {
           data = JSON.parse(data);
         } catch (e) {
           this.compileError = `${e.stack}`;
-          throw e;
+          return;
         }
       }
       if(this.uiElement.path) {

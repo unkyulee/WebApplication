@@ -1,0 +1,76 @@
+{
+  "_id": "000000000000000000000123",
+  "name": "Task Log",
+  "contentStyle": {
+    "display": "flex",
+    "flexDirection": "column",
+    "height": "100%"
+  },
+  "layoutStyle": {
+    "width": "100%",
+    "display": "flex",
+    "flex-direction": "column",
+    "color": "white",
+    "height": "100%"
+  },
+  "screen": [
+    {
+      "type": "data-table",
+      "tableType": "card",
+      "key": "log",
+      "src": "`/adminapi/tasklog?task_instance_id=${this.data._id}`",
+      "method": "get",
+      "transform": "response.data",
+      "afterViewInit": "setTimeout(() => {window.dispatchEvent(new Event('resize'))}, 1000)",
+      "layoutStyle": {
+        "flex-grow": 1,
+        "display": "flex",
+        "flex-direction": "column",
+        "height": "100%",
+        "overflow-y": "auto"
+      },
+      "itemBoxStyle": {
+        "margin": "8px",
+        "padding": "8px",
+        "cursor": "pointer",
+        "fontSize": "small",
+        "display": "flex",
+        "flexFlow": "row wrap"
+      },
+      "columns": [
+        {
+          "type": "typography",
+          "key": "action",
+          "label": "Action",
+          "layoutStyle": {
+            "fontWeight": "bold"
+          }
+        },
+        {
+          "type": "layout",
+          "layoutStyle": {
+            "width": "1px",
+            "flexGrow": 1
+          }
+        },
+        {
+          "type": "typography",
+          "key": "_created",
+          "label": "Created",
+          "format": "moment(this._value).format('L LTS')"
+        },
+        {
+          "type": "layout",
+          "layoutStyle": {
+            "width": "100%"
+          }
+        },
+        {
+          "type": "typography",
+          "key": "msg",
+          "label": "Log Message"
+        }
+      ]
+    }
+  ]
+}
