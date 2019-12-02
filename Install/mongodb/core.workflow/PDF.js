@@ -1,5 +1,6 @@
 var Mustache = require("mustache");
 var pdf = require("html-pdf");
+var obj = require("object-path");
 
 (async function () {
     // form values
@@ -8,12 +9,18 @@ var pdf = require("html-pdf");
     // load config
     await res.locals.ds.connect();
     let config = await res.locals.ds.find("core.config", {
-        navigation_id: req.headers["x-app-key"],
+        navigation_id: req.cookies["x-app-key"],
         pdf: params.pdf
     });
+    if (config.length == 0) {
+        res.send(`configuration does not exist for ${req.cookies["x-app-key"]} of pdf ${params.pdf}`);
+        res.end();
+        return;
+    }
+    config = config[0];
 
     // transform
-    let data = await eval(config.data)
+    let data = await eval(config.data);
 
     // prepare html
     var html = Mustache.render(config.template, data);
