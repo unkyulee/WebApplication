@@ -51,6 +51,12 @@ async function run() {
             filter["$and"].push(f);
           }
           break;
+          case "filter":
+            {
+              // add filter
+              filter["$and"].push(eval(field.filter));
+            }
+            break;
       }
     }
   }
@@ -96,7 +102,7 @@ async function run() {
           }
         });
         projection = { ...projection, score: { $meta: "textScore" } };
-        if(!sort) sort = { score: { $meta: "textScore" } };
+        sort = { score: { $meta: "textScore" } };
       }
     }
 

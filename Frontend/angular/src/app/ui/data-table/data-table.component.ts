@@ -21,6 +21,9 @@ export class DataTableComponent extends BaseComponent {
       this._rows = obj.get(this.data, this.uiElement.key);
     }
 
+    if (typeof this._rows != "undefined" && !Array.isArray(this._rows))
+      this._rows = [this._rows];
+
     return this._rows;
   }
 
@@ -38,14 +41,6 @@ export class DataTableComponent extends BaseComponent {
         console.error(e);
       }
       obj.set(this.data, this.uiElement.key, defaultValue);
-    }
-
-    if (this.uiElement.format) {
-      try {
-        this._rows = eval(this.uiElement.format);
-      } catch (e) {
-        console.error(e);
-      }
     }
   }
 

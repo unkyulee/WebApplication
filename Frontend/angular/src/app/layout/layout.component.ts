@@ -57,7 +57,9 @@ export class LayoutComponent extends BaseComponent
     // close dialogs if any exists
     if (this.dialog.openDialogs.length > 0) {
       this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
-    } else if (!obj.get(this.currSheet, 'containerInstance._destroyed', false)) {
+    } else if (
+      !obj.get(this.currSheet, "containerInstance._destroyed", false)
+    ) {
       this.bottomSheet._openedBottomSheetRef.dismiss();
     }
     // check if it is last nav stack
@@ -86,7 +88,7 @@ export class LayoutComponent extends BaseComponent
     );
 
     // expose event service to window.__CONFIG__
-    obj.set(window, '__CONFIG__.event', this.event)
+    obj.set(window, "__CONFIG__.event", this.event);
 
     // event handler
     this.onEvent = this.event.onEvent.subscribe(event => {
@@ -189,10 +191,14 @@ export class LayoutComponent extends BaseComponent
   openSheet(event) {
     // get ui elements
     let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
-    uiElement = JSON.parse(JSON.stringify(uiElement));
+    if (!uiElement) {
+      console.error(`${event.uiElementId} is missing`)
+    } else {
+      uiElement = JSON.parse(JSON.stringify(uiElement));
 
-    this.currSheet = this.bottomSheet.open(UIComposerActionsComponent, {
-      data: { data: event.data ? event.data : {}, uiElement: uiElement }
-    });
+      this.currSheet = this.bottomSheet.open(UIComposerActionsComponent, {
+        data: { data: event.data ? event.data : {}, uiElement: uiElement }
+      });
+    }
   }
 }
