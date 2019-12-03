@@ -1,56 +1,196 @@
 {
-  "_id": ObjectId("000000000000000000000136"),
-  "navigation_id": "000000000000000000000020",
-  "navigation_name": "Site Administration Application",
-  "type": "data-table",
-  "name": "Roles Data Table",
-  "src": "/adminapi/core.role",
-  "list": {
-    "src": "/adminapi/core.role",
-    "method": "get",
-    "size": 1000,
-    "transform": "response.data",
-    "filters": [
-      {
-        "key": "navigation_name",
-        "label": "Navigation",
-        "optionSrc": "`/adminapi/core.navigation?_sort=title&_search=${this.value}`",
-        "optionTransform": "response.data",
-        "optionLabel": "name"
-      }
-    ],
-    "table": {
-      "groupBy": "navigation_name",
-      "columns": [        
+  "_id": "000000000000000000000136",
+  "name": "Core Role List",
+  "type": "layout",
+  "contentStyle": {
+    "display": "flex",
+    "flexDirection": "column",
+    "flexGrow": 1
+  },
+  "layoutStyle": {
+    "width": "100%",
+    "display": "flex",
+    "flex-direction": "column",
+    "color": "white",
+    "height": "100%"
+  },
+  "screen": [
+    {
+      "name": "Filter",
+      "type": "layout",
+      "layoutStyle": {
+        "background": "#2C313D",
+        "color": "white",
+        "display": "flex",
+        "flex-flow": "row wrap",
+        "min-height": "40px"
+      },
+      "init": "obj.ensureExists(this.data, 'fitler_role', {});",
+      "screen": [
         {
-          "key": "name",
-          "label": "name",
-          "link": "`detail/${row._id}`",
-          "canAutoResize": true
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "filter_list",
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'fitler_role'})"
         },
         {
-          "key": "description",
-          "label": "description",
-          "canAutoResize": true
+          "type": "div",
+          "comment": "spacer",
+          "layoutStyle": {
+            "flex-grow": 1
+          },
+          "style": {
+            "width": "1px"
+          }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "add_circle",
+          "click": "this.router.navigateByUrl(`/core.role/detail`)"
+        }
+      ]
+    },
+    {
+      "type": "side-nav",
+      "key": "fitler_role",
+      "opened": "this.nav.isHandset == false ? true : false",
+      "mode": "this.nav.isHandset == false ? 'side' : 'over'",
+      "layoutStyle": {
+        "flex-grow": 1,
+        "height": "100%",
+        "width": "100%",
+        "display": "flex",
+        "flex-direction": "column"
+      },
+      "containerStyle": {
+        "display": "flex",
+        "flex-direction": "column",
+        "height": "100%"
+      },
+      "sideStyle": {
+        "background": "ghostwhite",
+        "display": "flex",
+        "flexFlow": "row wrap",
+        "color": "black",
+        "padding": "4px",
+        "max-width": "300px"
+      },
+      "sideScreen": [
+        {
+          "type": "input",
+          "key": "fitler_role._search",
+          "default": "``",
+          "label": "Cerca ...",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'roles'});"
+        },
+        {
+          "type": "selection",
+          "selectionType": "autocomplete",
+          "label": "Site",
+          "floatLabel": "auto",
+          "src": "`/adminapi/core.navigation?name=${obj.get(this, '_value', '')}`",
+          "transform": "response.data",
+          "optionLabelTransform": "`${option.name} - ${option.module} - ${option.url}`",
+          "inputValueTransform": "obj.has(this, '_value._id') ? `${this._value.name}` : this._value",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "selected": "this.data.fitler_role.navigation_id = this._value._id; this.event.send({name:'refresh', key: 'roles'});"
+        },
+        {
+          "type": "input",
+          "key": "fitler_role._id",
+          "default": "``",
+          "label": "_id",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'roles'});"
+        },
+        {
+          "type": "typography",
+          "text": " ",
+          "style": {
+            "height": "64px"
+          }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-fab",
+          "color": "warn",
+          "icon": "search",
+          "condition": "this.nav.isHandset",
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'fitler_role'})",
+          "layoutStyle": {
+            "position": "absolute",
+            "bottom": "24px",
+            "right": "24px"
+          }
+        }
+      ],
+      "screen": [
+        {
+          "type": "data-table",
+          "tableType": "card",
+          "key": "roles",
+          "src": "`/adminapi/core.role`",
+          "method": "get",
+          "transform": "response.data",
+          "preProcess": "data = {...data, ...this.data.fitler_role}",
+          "layoutStyle": {
+            "flex-grow": 1,
+            "display": "flex",
+            "flex-direction": "column",
+            "height": "100%",
+            "overflow-y": "auto",
+            "width": "100%"
+          },
+          "itemBoxStyle": {
+            "cursor": "pointer",
+            "margin": "8px",
+            "padding": "4px",
+            "fontSize": "small"
+          },
+          "click": "this.router.navigateByUrl(`/core.role/detail?_id=${item._id}`)",
+          "columns": [
+            {
+              "type": "typography",
+              "key": "name",
+              "label": "name",
+              "style": {
+                "fontWeight": "bold"
+              }
+            },
+            {
+              "type": "typography",
+              "key": "_id",
+              "label": "_id",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+            },
+            {
+              "type": "typography",
+              "key": "description",
+              "label": "desc.",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+            }
+          ]
         }
       ]
     }
-  },
-  "detail": {
-    "src": "`/adminapi/core.role?_id=${this.id}`",
-    "method": "get",
-    "transform": "response.data[0]",
-    "screen": [
-      {
-        "name": "Role Details",
-        "screen": [
-          {
-            "path": ".",
-            "label": "core.role",
-            "type": "json-editor"
-          }
-        ]
-      }
-    ]
-  }
+  ]
 }

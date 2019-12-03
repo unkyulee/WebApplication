@@ -1,7 +1,8 @@
 {
-  "_id": "000000000000000000000014",
-  "name": "Angular Navigation",
-  "layoutStyle": {
+  "_id": "000000000000000000000137",
+  "name": "Core Role Detail",
+  "type": "layout",
+  "contentStyle": {
     "display": "flex",
     "flex-direction": "row",
     "flex-wrap": "wrap",
@@ -9,7 +10,7 @@
     "font-size": "small",
     "height": "100%"
   },
-  "contentStyle": {
+  "layoutStyle": {
     "display": "flex",
     "flex-direction": "row",
     "flex-wrap": "wrap",
@@ -50,7 +51,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "save",
-          "click": "this.event.send({name: 'save', key: 'navigation'})"
+          "click": "this.event.send({name: 'save', key: 'role'})"
         }
       ]
     },
@@ -90,7 +91,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name: 'path', key: 'navigation', path: this._value});"
+          "changed": "this.event.send({name: 'path', key: 'role', path: this._value});"
         },
         {
           "type": "selection",
@@ -108,7 +109,7 @@
           "style": {
             "width": "100%"
           },
-          "selected": "this.event.send({name: 'editorOptions', key: 'navigation', editorOptions: {language: option}});"
+          "selected": "this.event.send({name: 'editorOptions', key: 'role', editorOptions: {language: option}});"
         },
         {
           "type": "typography",
@@ -135,11 +136,11 @@
         {
           "type": "code-editor",
           "editorType": "json",
-          "key": "navigation",
+          "key": "role",
           "path": "",
-          "init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send('splash-show');\r\n   this.rest.request(`/adminapi/angular.navigation?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
+          "init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send('splash-show');\r\n   this.rest.request(`/adminapi/core.role?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
           "save": {
-            "src": "`/adminapi/angular.navigation`",
+            "src": "`/adminapi/core.role`",
             "method": "post",
             "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
           },
@@ -161,6 +162,5 @@
         }
       ]
     }
-  ],
-  "type": "layout"
+  ]
 }
