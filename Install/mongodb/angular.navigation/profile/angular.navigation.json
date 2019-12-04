@@ -1,0 +1,12 @@
+{
+  "_id": ObjectId("000000000000000000000000"),
+  "navigation_id": "000000000000000000000020",
+  "navigation_name": "Admin",
+  "name": "Profile",
+  "url": "/profile",
+  "order": 0,
+  "uiElementIds": ["000000000000000000000000"],
+  "hidden": {
+    "uiElementIds": ["000000000000000000000001"]
+  }
+}
