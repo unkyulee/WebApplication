@@ -157,3 +157,40 @@
     </ng-container>
   </div>
 </div>
+
+
+
+
+<!-- Drop group -->
+<div
+  *ngIf="uiElement.tableType == 'drop-group'"
+  cdkDropListGroup
+  [ngStyle]="
+    uiElement.contentLayoutStyle
+      ? uiElement.contentLayoutStyle
+      : config.get('dataTable.contentLayoutStyle')
+  "
+>
+  <div
+    *ngFor="let row of rows"
+    [ngStyle]="
+      uiElement.itemBoxStyle
+        ? uiElement.itemBoxStyle
+        : config.get('dataTable.itemBoxStyle')
+    "
+    [ngClass]="
+      uiElement.itemBoxClass
+        ? uiElement.itemBoxClass
+        : config.get('dataTable.itemBoxClass')
+    "
+    (click)="click($event, row, uiElement.click)"
+  >
+    <ng-container *ngFor="let column of uiElement.columns">
+      <ng-container
+        ui-layout-wrapper
+        [uiElement]="column"
+        [data]="row"
+      ></ng-container>
+    </ng-container>
+  </div>
+</div>
