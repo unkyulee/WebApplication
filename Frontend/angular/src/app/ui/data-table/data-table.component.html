@@ -84,7 +84,9 @@
   >
     <mat-card
       cdkDrag
-      [cdkDragDisabled]="uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true"
+      [cdkDragDisabled]="
+        uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
+      "
       *cdkVirtualFor="let row of rows"
       (click)="click($event, row, uiElement.click)"
       [ngStyle]="
@@ -119,7 +121,9 @@
 <!-- Simple List -->
 <div
   *ngIf="uiElement.tableType == 'list'"
-  cdkDropListGroup
+  cdkDropList
+  [cdkDropListData]="rows"
+  (cdkDropListDropped)="drop($event)"
   [ngStyle]="
     uiElement.contentLayoutStyle
       ? uiElement.contentLayoutStyle
@@ -127,6 +131,10 @@
   "
 >
   <div
+    cdkDrag
+    [cdkDragDisabled]="
+      uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
+    "
     *ngFor="let row of rows"
     [ngStyle]="
       uiElement.itemBoxStyle

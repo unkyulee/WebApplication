@@ -3,7 +3,7 @@
 </ng-container>
 
 <ng-container *ngIf="isAuthenticated">
-  <mat-sidenav-container fullscreen>
+  <mat-sidenav-container fullscreen cdkDropListGroup>
     <mat-sidenav
       #drawer
       fixedInViewport="true"
@@ -16,7 +16,10 @@
     </mat-sidenav>
 
     <mat-sidenav-content [ngStyle]="config.get('content.layoutStyle')">
-      <toolbar [ngStyle]="config.get('toolbar.layoutStyle')" *ngIf="config.get('toolbar.show', true)"></toolbar>
+      <toolbar
+        [ngStyle]="config.get('toolbar.layoutStyle')"
+        *ngIf="config.get('toolbar.show', true)"
+      ></toolbar>
       <ui-composer [ngStyle]="config.get('content.style')"></ui-composer>
     </mat-sidenav-content>
   </mat-sidenav-container>
