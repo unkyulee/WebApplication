@@ -3,11 +3,7 @@ import * as obj from "object-path";
 
 // user imports
 import { BaseComponent } from "../base.component";
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem
-} from "@angular/cdk/drag-drop";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "data-table",

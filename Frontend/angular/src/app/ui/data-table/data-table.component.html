@@ -1,73 +1,13 @@
-<ngx-datatable
+<jqxDataTable
   *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
   [ngClass]="uiElement.class ? uiElement.class : config.get('dataTable.class')"
   [ngStyle]="uiElement.style ? uiElement.style : config.get('dataTable.style')"
-  [rows]="rows"
-  [externalSorting]="
-    uiElement.externalSorting ? uiElement.externalSorting : false
-  "
-  (sort)="onSort($event)"
-  [columnMode]="uiElement.columnMode ? uiElement.columnMode : 'force'"
-  [headerHeight]="
-    uiElement.headerHeight
-      ? uiElement.headerHeight
-      : config.get('dataTable.headerHeight')
-  "
-  [footerHeight]="
-    uiElement.footerHeight
-      ? uiElement.footerHeight
-      : config.get('dataTable.footerHeight')
-  "
-  [rowHeight]="uiElement.rowHeight ? uiElement.rowHeight : 'auto'"
-  [scrollbarH]="uiElement.scrollbarH ? uiElement.scrollbarH : true"
-  [reorderable]="uiElement.reorderable ? uiElement.reorderable : true"
-  [selectionType]="uiElement.selectionType ? uiElement.selectionType : ''"
-  [groupRowsBy]="
-    uiElement.group?.groupRowsBy ? uiElement.group.groupRowsBy : ''
-  "
-  [groupExpansionDefault]="
-    uiElement.group?.groupExpansionDefault ? true : false
-  "
-  [count]="total"
-  [offset]="page - 1"
-  [limit]="size"
-  (page)="requestDownload($event)"
-  [externalPaging]="uiElement.externalPaging ? uiElement.externalPaging : true"
-  (activate)="$event.type == 'click' ? click($event.row) : ''"
+  [source]="uiElement.dataType"
+  [sortable]="true"
+  [pageable]="true"
+  [columns]="uiElement.columns"
 >
-  <!-- Group Header Template -->
-  <ngx-datatable-group-header
-    *ngIf="uiElement.group?.groupRowsBy"
-    [rowHeight]="uiElement.group?.rowHeight"
-  >
-    <ng-template let-group="group" ngx-datatable-group-header-template>
-      <div
-        [ngStyle]="uiElement.group?.style"
-        [innerHTML]="format(group, uiElement.group?.format) | safe: 'html'"
-      ></div>
-    </ng-template>
-  </ngx-datatable-group-header>
-
-  <!-- Column Template -->
-  <ngx-datatable-column
-    *ngFor="let column of uiElement.columns"
-    [name]="column.label"
-    [prop]="column.key"
-    [flexGrow]="column.flexGrow"
-    [canAutoResize]="column.canAutoResize"
-    [width]="
-      column.width ? column.width : config.get('dataTable.minColumnWidth')
-    "
-  >
-    <ng-template ngx-datatable-cell-template let-row="row" let-value="value">
-      <div
-        [ngStyle]="column?.style"
-        [innerHTML]="format(value, column.format, row) | safe: 'html'"
-        (click)="click($event, row, column.click)"
-      ></div>
-    </ng-template>
-  </ngx-datatable-column>
-</ngx-datatable>
+</jqxDataTable>
 
 <!-- Card List -->
 <ng-container *ngIf="uiElement.tableType == 'card'">
@@ -157,9 +97,6 @@
     </ng-container>
   </div>
 </div>
-
-
-
 
 <!-- Drop group -->
 <div

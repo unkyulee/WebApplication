@@ -3,7 +3,6 @@ import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { MaterialModule } from "../core/material.module";
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { SignaturePadModule } from "angular2-signaturepad";
 import { Ng2ImgMaxModule } from "ng2-img-max";
 import { FileUploadModule } from "ng2-file-upload";
@@ -43,6 +42,8 @@ import { CodeEditorComponent } from "./code-editor/code-editor.component";
 import { MonacoEditorModule } from "ngx-monaco-editor";
 import { TreeComponent } from "./tree/tree.component";
 import { CalendarComponent } from "./calendar/calendar.component";
+import { jqxDataTableComponent } from "jqwidgets-ng/jqxdatatable";
+
 // calendar modules
 import * as moment from "moment";
 import {
@@ -87,7 +88,8 @@ export function momentAdapterFactory() {
     CalendarComponent,
     SideNavComponent,
     StepperComponent,
-    BarcodeComponent
+    BarcodeComponent,
+    jqxDataTableComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -111,7 +113,8 @@ export function momentAdapterFactory() {
     CalendarComponent,
     SideNavComponent,
     StepperComponent,
-    BarcodeComponent
+    BarcodeComponent,
+    jqxDataTableComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -136,14 +139,14 @@ export function momentAdapterFactory() {
     CalendarComponent,
     SideNavComponent,
     StepperComponent,
-    BarcodeComponent
+    BarcodeComponent,
+    jqxDataTableComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     MaterialModule,
     FormsModule,
-    NgxDatatableModule,
     SignaturePadModule,
     Ng2ImgMaxModule,
     FileUploadModule,
