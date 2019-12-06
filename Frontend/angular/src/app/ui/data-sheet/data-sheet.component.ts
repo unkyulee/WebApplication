@@ -3,17 +3,14 @@ import * as obj from "object-path";
 
 // user imports
 import { BaseComponent } from "../base.component";
+import { jqxDataTableComponent } from "jqwidgets-ng/jqxdatatable";
 
 @Component({
   selector: "data-sheet",
   templateUrl: "./data-sheet.component.html"
 })
 export class DataSheetComponent extends BaseComponent {
-  @ViewChild("dataTableReference") dataTableReference: ElementRef;
-  @HostListener("window:resize", ["$event"])
-  onResize(event) {
-    console.log(event.target.innerWidth);
-  }
+  @ViewChild("dataTableReference") table: jqxDataTableComponent;
 
   ///
   _rows = [];
@@ -71,12 +68,6 @@ export class DataSheetComponent extends BaseComponent {
     this.requestDownload();
   }
 
-  ngAfterViewInit() {
-    super.ngAfterViewInit();
-
-    //setTimeout(() => this.dataTableReference.refresh(), 1000);
-  }
-
   ngOnDestroy() {
     super.ngOnDestroy();
     this.onEvent.unsubscribe();
@@ -132,11 +123,7 @@ export class DataSheetComponent extends BaseComponent {
     }
 
     // refresh data table
-    this.dataAdapter = new jqx.dataAdapter({
-      localdata: this.rows,
-      datatype: "array",
-      datafields: this.uiElement.datafields
-    });
+    this.refreshTable();
   }
 
   cellsrenderer(row, column, value) {
@@ -149,5 +136,38 @@ export class DataSheetComponent extends BaseComponent {
       }
     }
     return value;
+  }
+
+  refreshTable() {
+    // refresh data table
+    this.dataAdapter = new jqx.dataAdapter({
+      localdata: this.rows,
+      datatype: "array",
+      datafields: this.uiElement.datafields
+    });
+  }
+
+  onRowClick(event) {
+    // event.args.row
+    let script = obj.get(this.uiElement, "onRowClick");
+    if (script) {
+      try {
+        eval(script);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
+  onRowDoubleClick(event) {
+    // event.args.row
+    let script = obj.get(this.uiElement, "onRowDoubleClick");
+    if (script) {
+      try {
+        eval(script);
+      } catch (e) {
+        console.error(e);
+      }
+    }
   }
 }

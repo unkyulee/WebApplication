@@ -1,16 +1,17 @@
 <jqxDataTable
   #dataTableReference
   *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
+  [width]="safeGet(uiElement, 'width')"
+  [height]="safeGet(uiElement, 'height')"
   [source]="dataAdapter"
   [columns]="uiElement.columns"
-  [ngClass]="uiElement.class"
-  [ngStyle]="uiElement.style"
   [sortable]="uiElement.sortable"
   [pageable]="uiElement.pageable"
   [columnsResize]="safeGet(uiElement, 'columnsResize', false)"
   [selectionMode]="safeGet(uiElement, 'selectionMode', 'singleRow')"
   [altRows]="safeGet(uiElement, 'altRows', true)"
   [editable]="safeGet(uiElement, 'editable', false)"
-  [height]="safeGet(uiElement, 'height')"
+  (onRowClick)="onRowClick($event)"
+  (onRowDoubleClick)="onRowDoubleClick($event)"
 >
 </jqxDataTable>

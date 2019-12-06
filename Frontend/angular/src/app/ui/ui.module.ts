@@ -14,6 +14,7 @@ import { ColorPickerModule } from "ngx-color-picker";
 import { NgxBarcodeModule } from "ngx-barcode";
 import { NgxPrintModule } from "ngx-print";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { jqxDataTableModule }    from 'jqwidgets-ng/jqxdatatable';
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -42,7 +43,6 @@ import { CodeEditorComponent } from "./code-editor/code-editor.component";
 import { MonacoEditorModule } from "ngx-monaco-editor";
 import { TreeComponent } from "./tree/tree.component";
 import { CalendarComponent } from "./calendar/calendar.component";
-import { jqxDataTableModule }    from 'jqwidgets-ng/jqxdatatable';
 
 // calendar modules
 import * as moment from "moment";
