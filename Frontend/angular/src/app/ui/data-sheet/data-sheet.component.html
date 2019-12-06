@@ -1,28 +1,16 @@
-<table [ngStyle]="uiElement.style">
-  <tr
-    *ngFor="let row of rows"
-    [ngStyle]="row.style"
-    (click)="click($event, row, row.click?row.click:uiElement.trClick, $event)"
-  >
-    <td
-      *ngFor="let column of row.columns"
-      [ngStyle]="column.style ? column.style : uiElement.tdStyle"
-      [attr.colspan]="column.colspan"
-      [attr.rowspan]="column.rowspan"
-      [title]="column.title ? column.title : ''"
-      (click)="click($event, column, column.click?column.click:uiElement.tdClick)"
-    >
-      <ng-container *ngIf="column.screen">
-        <ng-container *ngFor="let ui of column.screen">
-          <ng-container *ngIf="condition(ui)">
-            <ng-container
-              ui-layout-wrapper
-              [uiElement]="ui"
-              [data]="column"
-            ></ng-container>
-          </ng-container>
-        </ng-container>
-      </ng-container>
-    </td>
-  </tr>
-</table>
+<jqxDataTable
+  #dataTableReference
+  *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
+  [source]="dataAdapter"
+  [columns]="uiElement.columns"
+  [ngClass]="uiElement.class"
+  [ngStyle]="uiElement.style"
+  [sortable]="uiElement.sortable"
+  [pageable]="uiElement.pageable"
+  [columnsResize]="safeGet(uiElement, 'columnsResize', false)"
+  [selectionMode]="safeGet(uiElement, 'selectionMode', 'singleRow')"
+  [altRows]="safeGet(uiElement, 'altRows', true)"
+  [editable]="safeGet(uiElement, 'editable', false)"
+  [height]="safeGet(uiElement, 'height')"
+>
+</jqxDataTable>

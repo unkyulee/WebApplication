@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild, HostListener, ElementRef } from "@angular/core";
 import * as obj from "object-path";
 
 // user imports
@@ -9,20 +9,22 @@ import { BaseComponent } from "../base.component";
   templateUrl: "./data-sheet.component.html"
 })
 export class DataSheetComponent extends BaseComponent {
-  /// rows
+  @ViewChild("dataTableReference") dataTableReference: ElementRef;
+  @HostListener("window:resize", ["$event"])
+  onResize(event) {
+    console.log(event.target.innerWidth);
+  }
+
+  ///
   _rows = [];
   get rows() {
-    // set default key
-    if (!this.uiElement.key) this.uiElement.key = "sheet";
-
     if (this.data && this.uiElement.key) {
-      if (this._rows != obj.get(this.data, this.uiElement.key)) {
-        this._rows = obj.get(this.data, this.uiElement.key);
-      }
       this._rows = obj.get(this.data, this.uiElement.key);
     }
 
-    if (!this._rows) this._rows = [];
+    if (typeof this._rows != "undefined" && !Array.isArray(this._rows))
+      this._rows = [this._rows];
+
     return this._rows;
   }
 
@@ -33,20 +35,18 @@ export class DataSheetComponent extends BaseComponent {
 
     // set default when value is empty
     if (!v && this.uiElement.key && this.uiElement.default) {
-      obj.set(this.data, this.uiElement.key, this.uiElement.default);
+      let defaultValue = this.uiElement.default;
       try {
-        obj.set(this.data, this.uiElement.key, eval(this.uiElement.default));
-      } catch (e) {}
-    }
-
-    if (this.uiElement.format) {
-      try {
-        obj.set(this.data, this.uiElement.key, eval(this.uiElement.format));
+        defaultValue = eval(this.uiElement.default);
       } catch (e) {
         console.error(e);
       }
+      obj.set(this.data, this.uiElement.key, defaultValue);
     }
   }
+
+  // dataTable dataAdapter
+  dataAdapter: any;
 
   ngOnInit() {
     super.ngOnInit();
@@ -62,7 +62,19 @@ export class DataSheetComponent extends BaseComponent {
       }
     });
 
+    // this.uiElement.columns
+    obj.ensureExists(this.uiElement, "columns", []);
+    for (let column of this.uiElement.columns) {
+      column.cellsrenderer = this.cellsrenderer.bind(this);
+    }
+
     this.requestDownload();
+  }
+
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
+
+    //setTimeout(() => this.dataTableReference.refresh(), 1000);
   }
 
   ngOnDestroy() {
@@ -80,10 +92,13 @@ export class DataSheetComponent extends BaseComponent {
         console.error(e);
       }
       let data = this.nav.getParams();
-      try {
-        eval(this.uiElement.preProcess);
-      } catch (e) {
-        console.error(e);
+
+      if (this.uiElement.preProcess) {
+        try {
+          eval(this.uiElement.preProcess);
+        } catch (e) {
+          console.error(e);
+        }
       }
 
       // show splash
@@ -115,5 +130,24 @@ export class DataSheetComponent extends BaseComponent {
         console.error(e);
       }
     }
+
+    // refresh data table
+    this.dataAdapter = new jqx.dataAdapter({
+      localdata: this.rows,
+      datatype: "array",
+      datafields: this.uiElement.datafields
+    });
+  }
+
+  cellsrenderer(row, column, value) {
+    let renderer = obj.get(this.uiElement, `cellsrenderer.${column}`);
+    if (renderer) {
+      try {
+        value = eval(renderer);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return value;
   }
 }

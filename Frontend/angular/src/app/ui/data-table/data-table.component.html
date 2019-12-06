@@ -1,14 +1,3 @@
-<jqxDataTable
-  *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
-  [ngClass]="uiElement.class ? uiElement.class : config.get('dataTable.class')"
-  [ngStyle]="uiElement.style ? uiElement.style : config.get('dataTable.style')"
-  [source]="uiElement.dataType"
-  [sortable]="true"
-  [pageable]="true"
-  [columns]="uiElement.columns"
->
-</jqxDataTable>
-
 <!-- Card List -->
 <ng-container *ngIf="uiElement.tableType == 'card'">
   <cdk-virtual-scroll-viewport

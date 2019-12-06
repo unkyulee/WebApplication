@@ -42,7 +42,7 @@ import { CodeEditorComponent } from "./code-editor/code-editor.component";
 import { MonacoEditorModule } from "ngx-monaco-editor";
 import { TreeComponent } from "./tree/tree.component";
 import { CalendarComponent } from "./calendar/calendar.component";
-import { jqxDataTableComponent } from "jqwidgets-ng/jqxdatatable";
+import { jqxDataTableModule }    from 'jqwidgets-ng/jqxdatatable';
 
 // calendar modules
 import * as moment from "moment";
@@ -88,8 +88,7 @@ export function momentAdapterFactory() {
     CalendarComponent,
     SideNavComponent,
     StepperComponent,
-    BarcodeComponent,
-    jqxDataTableComponent
+    BarcodeComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -113,8 +112,7 @@ export function momentAdapterFactory() {
     CalendarComponent,
     SideNavComponent,
     StepperComponent,
-    BarcodeComponent,
-    jqxDataTableComponent
+    BarcodeComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -139,8 +137,7 @@ export function momentAdapterFactory() {
     CalendarComponent,
     SideNavComponent,
     StepperComponent,
-    BarcodeComponent,
-    jqxDataTableComponent
+    BarcodeComponent
   ],
   imports: [
     CommonModule,
@@ -171,7 +168,8 @@ export function momentAdapterFactory() {
     ColorPickerModule,
     NgxBarcodeModule,
     NgxPrintModule,
-    DragDropModule
+    DragDropModule,
+    jqxDataTableModule
   ],
   providers: [
     {
