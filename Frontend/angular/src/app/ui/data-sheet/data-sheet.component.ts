@@ -18,7 +18,8 @@ export class DataSheetComponent extends BaseComponent {
   }
   set data(v) {
     this._data = v;
-    this.refreshDataAdapter();
+    //
+    this.requestDownload();
   }
 
   ///

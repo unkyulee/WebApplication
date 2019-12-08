@@ -22,9 +22,7 @@ import { BaseComponent } from "src/app/ui/base.component";
   ]
 })
 export class UIComposerDialogComponent extends BaseComponent {
-  constructor(
-    public dialogRef: MatDialogRef<UIComposerDialogComponent>
-  ) {
+  constructor(public dialogRef: MatDialogRef<UIComposerDialogComponent>) {
     super();
   }
 
@@ -47,7 +45,9 @@ export class UIComposerDialogComponent extends BaseComponent {
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
-    setTimeout(() => {this.event.send({name: 'changed'})}, 1000)
+    setTimeout(() => {
+      this.event.send({ name: "changed" });
+    }, 1000);
   }
 
   eventHandler(event) {
@@ -64,6 +64,7 @@ export class UIComposerDialogComponent extends BaseComponent {
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 }

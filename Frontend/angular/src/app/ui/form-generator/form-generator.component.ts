@@ -56,9 +56,17 @@ export class FormGeneratorComponent extends BaseComponent {
         }
       }
       this.requestDownload(false);
-    } else if (event && event.name == "merge-data") {
+    } else if (
+      event &&
+      event.name == "merge-data" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
       this.data = Object.assign(this.data, event.data);
-    } else if (event && event.name == "insert-data") {
+    } else if (
+      event &&
+      event.name == "insert-data" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
       obj.ensureExists(this.data, event.path, []);
       let data = obj.get(this.data, event.path);
       if (!data) data = [];
@@ -98,18 +106,18 @@ export class FormGeneratorComponent extends BaseComponent {
           data.splice(data.indexOf(event.data), 1);
         }
       }
-    } else if (event && event.name == "save") {
-      if (event.key) {
-        if (event.key == this.uiElement.key) {
-          this.save();
-        }
-      } else this.save();
-    } else if (event && event.name == "delete") {
-      if (event.key) {
-        if (event.key == this.uiElement.key) {
-          this.delete();
-        }
-      } else this.delete();
+    } else if (
+      event &&
+      event.name == "save" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
+      this.save();
+    } else if (
+      event &&
+      event.name == "delete" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
+      this.delete();
     } else if (event && event.name == "open-section") {
       let section = this.uiElement.screen.find(x => x.key == event.key);
       if (section) section.expanded = true;
