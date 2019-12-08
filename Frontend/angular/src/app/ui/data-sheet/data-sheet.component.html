@@ -1,10 +1,10 @@
 <jqxDataTable
   #dataTableReference
   *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
-  [width]="safeGet(uiElement, 'width')"
-  [height]="safeGet(uiElement, 'height')"
   [source]="dataAdapter"
   [columns]="uiElement.columns"
+  [width]="safeGet(uiElement, 'width')"
+  [height]="safeGet(uiElement, 'height')"
   [sortable]="uiElement.sortable"
   [pageable]="uiElement.pageable"
   [columnsResize]="safeGet(uiElement, 'columnsResize', false)"
@@ -15,3 +15,26 @@
   (onRowDoubleClick)="onRowDoubleClick($event)"
 >
 </jqxDataTable>
+
+<jqxGrid
+  #dataGridReference
+  *ngIf="!uiElement.tableType || uiElement.tableType == 'grid'"
+  [source]="dataAdapter"
+  [columns]="uiElement.columns"
+  [width]="safeGet(uiElement, 'width')"
+  [height]="safeGet(uiElement, 'height')"
+  [autoheight]="safeGet(uiElement, 'autoheight')"
+  [showeverpresentrow]="safeGet(uiElement, 'showeverpresentrow')"
+  [everpresentrowposition]="safeGet(uiElement, 'everpresentrowposition')"
+  [selectionmode]="safeGet(uiElement, 'selectionMode', 'singlerow')"
+  [everpresentrowactionsmode]="
+    safeGet(uiElement, 'everpresentrowactionsmode', 'columns')
+  "
+  [editable]="safeGet(uiElement, 'editable', false)"
+  [filterable]="safeGet(uiElement, 'filterable', false)"
+  [sortable]="uiElement.sortable"
+  [altrows]="safeGet(uiElement, 'altRows', true)"
+  (rowclick)="onRowClick($event)"
+  (onCellbeginedit)="onCellBeginEdit($event)"
+>
+</jqxGrid>

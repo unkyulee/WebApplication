@@ -28,7 +28,7 @@ export class FormGeneratorComponent extends BaseComponent {
   ngOnInit() {
     super.ngOnInit();
     // download data
-    this.requestDownload();
+    this.requestDownload(this.uiElement.cached != false);
 
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event =>

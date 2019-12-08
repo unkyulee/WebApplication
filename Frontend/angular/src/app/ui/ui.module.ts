@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "../core/material.module";
 import { SignaturePadModule } from "angular2-signaturepad";
 import { Ng2ImgMaxModule } from "ng2-img-max";
@@ -14,7 +14,8 @@ import { ColorPickerModule } from "ngx-color-picker";
 import { NgxBarcodeModule } from "ngx-barcode";
 import { NgxPrintModule } from "ngx-print";
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { jqxDataTableModule }    from 'jqwidgets-ng/jqxdatatable';
+import { jqxDataTableModule } from "jqwidgets-ng/jqxdatatable";
+import { jqxGridModule } from "jqwidgets-ng/jqxgrid";
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -144,6 +145,7 @@ export function momentAdapterFactory() {
     RouterModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     SignaturePadModule,
     Ng2ImgMaxModule,
     FileUploadModule,
@@ -169,7 +171,8 @@ export function momentAdapterFactory() {
     NgxBarcodeModule,
     NgxPrintModule,
     DragDropModule,
-    jqxDataTableModule
+    jqxDataTableModule,
+    jqxGridModule
   ],
   providers: [
     {

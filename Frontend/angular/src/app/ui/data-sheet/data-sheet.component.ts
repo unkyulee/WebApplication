@@ -1,4 +1,4 @@
-import { Component, ViewChild, HostListener, ElementRef } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import * as obj from "object-path";
 
 // user imports
@@ -12,16 +12,30 @@ import { jqxDataTableComponent } from "jqwidgets-ng/jqxdatatable";
 export class DataSheetComponent extends BaseComponent {
   @ViewChild("dataTableReference") table: jqxDataTableComponent;
 
+  _data;
+  get data() {
+    return this._data;
+  }
+  set data(v) {
+    this._data = v;
+    this.refreshDataAdapter();
+  }
+
   ///
-  _rows = [];
+  _rows;
   get rows() {
     if (this.data && this.uiElement.key) {
-      this._rows = obj.get(this.data, this.uiElement.key);
+      this._rows = obj.get(this.data, this.uiElement.key, []);
     }
 
     if (typeof this._rows != "undefined" && !Array.isArray(this._rows))
       this._rows = [this._rows];
 
+    // when data gets updated
+    this._rows = new jqx.observableArray(
+      this._rows,
+      v => (this.rows = this.dataAdapter.records)
+    );
     return this._rows;
   }
 
@@ -44,6 +58,14 @@ export class DataSheetComponent extends BaseComponent {
 
   // dataTable dataAdapter
   dataAdapter: any;
+  refreshDataAdapter() {
+    // refresh data table
+    this.dataAdapter = new jqx.dataAdapter({
+      localdata: this.rows,
+      datatype: "observableArray",
+      datafields: this.uiElement.datafields
+    });
+  }
 
   ngOnInit() {
     super.ngOnInit();
@@ -59,12 +81,7 @@ export class DataSheetComponent extends BaseComponent {
       }
     });
 
-    // this.uiElement.columns
-    obj.ensureExists(this.uiElement, "columns", []);
-    for (let column of this.uiElement.columns) {
-      column.cellsrenderer = this.cellsrenderer.bind(this);
-    }
-
+    //
     this.requestDownload();
   }
 
@@ -74,6 +91,7 @@ export class DataSheetComponent extends BaseComponent {
   }
 
   requestDownload() {
+    this.refreshDataAdapter();
     //
     if (this.uiElement.src) {
       let src = this.uiElement.src;
@@ -116,35 +134,14 @@ export class DataSheetComponent extends BaseComponent {
     // map data from response
     if (this.uiElement.transform) {
       try {
-        this.data[this.uiElement.key] = await eval(this.uiElement.transform);
+        this.rows = await eval(this.uiElement.transform);
       } catch (e) {
         console.error(e);
       }
     }
 
     // refresh data table
-    this.refreshTable();
-  }
-
-  cellsrenderer(row, column, value) {
-    let renderer = obj.get(this.uiElement, `cellsrenderer.${column}`);
-    if (renderer) {
-      try {
-        value = eval(renderer);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return value;
-  }
-
-  refreshTable() {
-    // refresh data table
-    this.dataAdapter = new jqx.dataAdapter({
-      localdata: this.rows,
-      datatype: "array",
-      datafields: this.uiElement.datafields
-    });
+    this.refreshDataAdapter();
   }
 
   onRowClick(event) {
@@ -162,6 +159,17 @@ export class DataSheetComponent extends BaseComponent {
   onRowDoubleClick(event) {
     // event.args.row
     let script = obj.get(this.uiElement, "onRowDoubleClick");
+    if (script) {
+      try {
+        eval(script);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
+  onCellBeginEdit(event) {
+    let script = obj.get(this.uiElement, "onCellBeginEdit");
     if (script) {
       try {
         eval(script);
