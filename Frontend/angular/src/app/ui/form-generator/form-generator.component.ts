@@ -99,11 +99,22 @@ export class FormGeneratorComponent extends BaseComponent {
       event.name == "delete-data" &&
       (!event.key || event.key == this.uiElement.key)
     ) {
-      if (obj.has(this.data, event.path)) {
-        let data = obj.get(this.data, event.path);
+      let data = obj.get(this.data, event.path);
+      if (data) {
         if (data.indexOf(event.data) > -1) {
-          // if exists then do nothing - it's already there
+          // delete data
           data.splice(data.indexOf(event.data), 1);
+        } else if (
+          event.datakey &&
+          data.find(item => item[event.datakey] == event.data[event.datakey])
+        ) {
+          let found = data.find(
+            item => item[event.datakey] == event.data[event.datakey]
+          );
+          if (found) {
+            // item found - delete it
+            data.splice(data.indexOf(found), 1);
+          }
         }
       }
     } else if (

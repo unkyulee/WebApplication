@@ -80,6 +80,13 @@ export class DataSheetComponent extends BaseComponent {
       ) {
         setTimeout(() => this.requestDownload(), 0);
       }
+      else if (
+        event &&
+        event.name == "refreshDataAdapter" &&
+        (!event.key || event.key == this.uiElement.key)
+      ) {
+        setTimeout(() => this.refreshDataAdapter(), 0);
+      }
     });
 
     //
