@@ -37,6 +37,7 @@ export class DataSheetComponent extends BaseComponent {
       this._rows,
       v => (this.rows = this.dataAdapter.records)
     );
+
     return this._rows;
   }
 
@@ -55,17 +56,6 @@ export class DataSheetComponent extends BaseComponent {
       }
       obj.set(this.data, this.uiElement.key, defaultValue);
     }
-  }
-
-  // dataTable dataAdapter
-  dataAdapter: any;
-  refreshDataAdapter() {
-    // refresh data table
-    this.dataAdapter = new jqx.dataAdapter({
-      localdata: this.rows,
-      datatype: "observableArray",
-      datafields: this.uiElement.datafields
-    });
   }
 
   ngOnInit() {
@@ -88,9 +78,10 @@ export class DataSheetComponent extends BaseComponent {
         setTimeout(() => this.refreshDataAdapter(), 0);
       }
     });
+  }
 
-    //
-    this.requestDownload();
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
   }
 
   ngOnDestroy() {
@@ -100,6 +91,7 @@ export class DataSheetComponent extends BaseComponent {
 
   requestDownload() {
     this.refreshDataAdapter();
+
     //
     if (this.uiElement.src) {
       let src = this.uiElement.src;
@@ -142,7 +134,7 @@ export class DataSheetComponent extends BaseComponent {
     // map data from response
     if (this.uiElement.transform) {
       try {
-        this.rows = await eval(this.uiElement.transform);
+        this.rows = await eval(this.uiElement.transform);;
       } catch (e) {
         console.error(e);
       }
@@ -150,6 +142,17 @@ export class DataSheetComponent extends BaseComponent {
 
     // refresh data table
     this.refreshDataAdapter();
+  }
+
+  // dataTable dataAdapter
+  dataAdapter: any;
+  refreshDataAdapter() {
+    // refresh data table
+    this.dataAdapter = new jqx.dataAdapter({
+      localdata: this.rows,
+      datatype: "observableArray",
+      datafields: this.uiElement.datafields
+    });
   }
 
   onRowClick(event) {
