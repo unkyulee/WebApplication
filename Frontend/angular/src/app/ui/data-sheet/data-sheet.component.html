@@ -1,8 +1,6 @@
 <jqxDataTable
   #dataTableReference
   *ngIf="!uiElement.tableType || uiElement.tableType == 'table'"
-  [ngStyle]="uiElement.style"
-  [ngClass]="uiElement.class"
   [source]="dataAdapter"
   [columns]="uiElement.columns"
   [width]="safeGet(uiElement, 'width')"
@@ -18,13 +16,9 @@
 >
 </jqxDataTable>
 
-{{uiElement.style | json}}
-
 <jqxGrid
   #dataGridReference
   *ngIf="!uiElement.tableType || uiElement.tableType == 'grid'"
-  [ngStyle]="uiElement.style"
-  [ngClass]="uiElement.class"
   [source]="dataAdapter"
   [columns]="uiElement.columns"
   [width]="safeGet(uiElement, 'width')"

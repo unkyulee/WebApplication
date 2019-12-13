@@ -3,11 +3,11 @@ import * as obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from "@angular/material";
 
 @Component({
   selector: "side-nav",
-  templateUrl: 'side-nav.component.html'
+  templateUrl: "side-nav.component.html"
 })
 export class SideNavComponent extends BaseComponent {
   @HostListener("click") onClick() {
@@ -20,8 +20,8 @@ export class SideNavComponent extends BaseComponent {
   @ViewChild("sidenav") sidenav: MatSidenav;
 
   ngOnInit() {
-     // event handler
-     this.onEvent = this.event.onEvent.subscribe(event =>
+    // event handler
+    this.onEvent = this.event.onEvent.subscribe(event =>
       this.eventHandler(event)
     );
   }
@@ -32,8 +32,24 @@ export class SideNavComponent extends BaseComponent {
   }
 
   eventHandler(event) {
-    if (event && event.name == 'toggle-sidenav' && (!event.key || event.key == this.uiElement.key)) {
+    if (
+      event &&
+      event.name == "toggle-sidenav" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
       this.sidenav.toggle();
+    } else if (
+      event &&
+      event.name == "open-sidenav" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
+      this.sidenav.open()
+    } else if (
+      event &&
+      event.name == "close-sidenav" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
+      this.sidenav.close()
     }
   }
 }
