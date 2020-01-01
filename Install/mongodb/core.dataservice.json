@@ -1,8 +1,0 @@
-{
-    "_id": ObjectId("000000000000000000000000"),
-    "type": "MongoDB",
-    "name": "Site Admin MongoDB Data Services",
-    "description": "Connects to Site Admin MongoDB",
-    "connectionString": "mongodb://127.0.0.1:27017/web",
-    "database": "web"
-  }

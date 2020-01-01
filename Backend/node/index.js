@@ -55,7 +55,7 @@ app.all("*", async (req, res) => {
       return;
     }
 
-    res.locals.module = await router.resolveModule(db, req, res);
+    res.locals.module = require(`./src/modules/${res.locals.nav.module}`);
     if (!res.locals.module) {
       res.status(404);
       res.end();
@@ -72,7 +72,7 @@ app.all("*", async (req, res) => {
     res.status(500);
   } finally {
     // Close MongoDB
-    if(db) await db.close();
+    if (db) await db.close();
   }
 });
 
