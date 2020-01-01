@@ -49,13 +49,7 @@
   },
   "navigation": {
     "style": {
-      "width": "256px",
-      "backgroundColor": "#2C313D"
-    },
-    "close": {
-      "style": {
-        "color": "#95989E"
-      }
+      "width": "256px"
     },
     "header": {
       "screen": [
@@ -63,10 +57,9 @@
           "type": "typography",
           "text": "Admin",
           "style": {
-            "color": "white",
             "fontSize": "20px",
             "textAlign": "center",
-            "padding": "48px 8px 12px"
+            "padding": "24px 8px 12px"
           }
         }
       ]
