@@ -1,25 +1,13 @@
 <div
-  [ngStyle]="config.get('user.style')"
-  [ngClass]="config.get('user.class')"
+  [ngStyle]="config.get('theme.user.style')"
+  [ngClass]="config.get('theme.user.class')"
 >
-  <button mat-button [matMenuTriggerFor]="menu">
-    <ng-container *ngFor="let ui of config.get('user.header.screen')">
-      <ng-container
-        ui-layout-wrapper
-        *ngIf="condition(ui)"
-        [uiElement]="ui"
-        [data]="data"
-      ></ng-container>
-    </ng-container>
-  </button>
-  <mat-menu #menu="matMenu" [overlapTrigger]="false">
-    <ng-container *ngFor="let ui of config.get('user.menu.screen')">
-      <ng-container
-        ui-layout-wrapper
-        *ngIf="condition(ui)"
-        [uiElement]="ui"
-        [data]="data"
-      ></ng-container>
-    </ng-container>
-  </mat-menu>
+  <ng-container *ngFor="let ui of config.get('theme.user.screen')">
+    <ng-container
+      ui-layout-wrapper
+      *ngIf="condition(ui)"
+      [uiElement]="ui"
+      [data]="data"
+    ></ng-container>
+  </ng-container>
 </div>

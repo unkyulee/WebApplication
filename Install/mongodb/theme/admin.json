@@ -1,70 +1,5 @@
 {
   "_id": ObjectId("000000000000000000000000"),
-  "user": {
-    "class": {
-      "mat-elevation-z2": true
-    },
-    "style": {
-      "color": "white",
-      "margin": 0,
-      "padding": 0,
-      "background": "crimson"
-    },
-    "header": {
-      "screen": [
-        {
-          "type": "button",
-          "buttonType": "mat-icon-button",
-          "icon": "account_circle",
-          "style": {
-            "position": "absolute",
-            "left": 0
-          }
-        },
-        {
-          "type": "typography",
-          "default": "`${this.user.name()}`",
-          "style": {
-            "marginLeft": "24px"
-          }
-        }
-      ]
-    },
-    "menu": {
-      "screen": [
-        {
-          "type": "button",
-          "buttonType": "mat-menu-item",
-          "label": "Profile",
-          "click": "this.nav.navigateByUrl(`/profile`)"
-        },
-        {
-          "type": "button",
-          "buttonType": "mat-menu-item",
-          "label": "Logout",
-          "click": "this.event.send('logout')"
-        }
-      ]
-    }
-  },
-  "navigation": {
-    "style": {
-      "width": "256px"
-    },
-    "header": {
-      "screen": [
-        {
-          "type": "typography",
-          "text": "Admin",
-          "style": {
-            "fontSize": "20px",
-            "textAlign": "center",
-            "padding": "24px 8px 12px"
-          }
-        }
-      ]
-    }
-  },
   "toolbar": {
     "layoutStyle": {
       "height": "56px"
@@ -77,7 +12,7 @@
       "height": "56px"
     },
     "class": {
-      "mat-elevation-z1": true
+      "mat-elevation-z1": false
     },
     "actions": [
       {
@@ -89,6 +24,7 @@
       }
     ]
   },
+
   "content": {
     "layoutStyle": {
       "overflow": "hidden",
@@ -100,11 +36,103 @@
       "width": "100%",
       "minWidth": "100%",
       "padding": "0",
-      "background": "#f1f1f1",
       "display": "flex",
       "flexDirection": "column",
       "flex-grow": 1,
       "height": "100%"
     }
+  },
+  "navigation": {
+    "style": {
+      "width": "256px"
+    },
+    "header": {
+      "screen": [
+        {
+          "type": "typography",
+          "text": "Admin Panel",
+          "style": {
+            "fontSize": "20px",
+            "padding": "24px 8px 12px",
+            "fontFamily": "auto",
+            "fontWeight": "bold",
+            "textTransform": "uppercase",
+            "color": "gray"
+          }
+        }
+      ]
+    }
+  },
+  "user": {
+    "screen": [
+      {
+        "type": "divider",
+        "layoutStyle": {
+          "width": "100%"
+        }
+      },
+      {
+        "type": "popup-menu",
+        "key": "user",
+        "xPosition": "before",
+        "layoutStyle": {
+          "padding": "8px",
+          "display": "flex",
+          "flex-direction": "row"
+        },
+        "menu": [
+          {
+            "type": "button",
+            "buttonType": "mat-menu-item",
+            "label": "Profile",
+            "click": "this.nav.navigateByUrl(`/profile`)"
+          },
+          {
+            "type": "button",
+            "buttonType": "mat-menu-item",
+            "label": "Logout",
+            "click": "this.event.send('logout')"
+          }
+        ],
+        "screen": [
+          {
+            "type": "layout",
+            "layoutStyle": {
+              "flexGrow": 1
+            },
+            "screen": [
+              {
+                "type": "typography",
+                "default": "`${this.user.name()}`",
+                "style": {
+                  "fontSize": "15px",
+                  "fontWeight": "bold"
+                }
+              },
+              {
+                "type": "typography",
+                "default": "`${this.user.id()}`",
+                "style": {
+                  "color": "gray",
+                  "fontSize": "small"
+                }
+              }
+            ]
+          },
+          {
+            "type": "button",
+            "buttonType": "mat-icon-button",
+            "icon": "arrow_drop_down",
+            "click": "this.event.send({name: 'popup-trigger', key: 'user'})"
+          }
+        ]
+      },
+      {
+        "type": "divider",
+        "layoutStyle": {
+          "width": "100%"
+        }
+      }
+    ]
   }
 }

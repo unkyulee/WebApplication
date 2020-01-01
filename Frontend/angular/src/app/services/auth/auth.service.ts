@@ -32,7 +32,7 @@ export class AuthService {
     // listen to events
     this.event.onEvent.subscribe(async e => {
       if (e == "logout") {
-        await this.authStrategy.logout();
+        await this.logout();
       }
     });
   }
