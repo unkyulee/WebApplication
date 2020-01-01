@@ -15,7 +15,7 @@ import { MatSnackBar } from "@angular/material";
 import { CordovaService } from "../services/cordova.service";
 import { ExportService } from "../services/export.service";
 import { AuthService } from "../services/auth/auth.service";
-import { SoundService } from '../services/sound.service';
+import { SoundService } from "../services/sound.service";
 
 @Component({
   template: ""
@@ -81,8 +81,7 @@ export class BaseComponent {
     this.default();
   }
 
-  ngAfterViewInit() {
-  }
+  ngAfterViewInit() {}
 
   ngOnDestroy() {
     if (this.uiElement && this.uiElement.destroy) {
@@ -93,21 +92,20 @@ export class BaseComponent {
       }
     }
 
-    if(this.onCustomEvent) {
-      this.onCustomEvent.unsubscribe()
-    }
+    if (this.onEvent) this.onEvent.unsubscribe();
+    if (this.onCustomEvent) this.onCustomEvent.unsubscribe();
   }
 
   default() {
-    if(obj.has(this.data) && obj.has(this.uiElement)) {
+    if (obj.has(this.data) && obj.has(this.uiElement)) {
       if (typeof obj.get(this.data, this.uiElement.key) == "undefined") {
         // set default
-        if(this.uiElement.default) {
+        if (this.uiElement.default) {
           let defaultValue = this.uiElement.default;
           try {
             defaultValue = eval(this.uiElement.default);
           } catch (e) {
-            console.error(e)
+            console.error(e);
           }
           obj.set(this.data, this.uiElement.key, defaultValue);
         }

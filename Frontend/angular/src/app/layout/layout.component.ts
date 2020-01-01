@@ -56,49 +56,63 @@ export class LayoutComponent extends BaseComponent
 
     // event handler
     this.onEvent = this.event.onEvent.subscribe(event => {
-      console.log(event)
-      if (event.name == "drawer-toggle") {
-        this.drawer.toggle();
-      } else if (event.name == "drawer-close") {
-        this.drawer.close();
-      } else if (event.name == "drawer-open") {
-        this.drawer.open();
-      } else if (event.name == "changed") {
-        setTimeout(() => {
-          this.cordova.detectChanges(this.ref);
-        }, 100);
-      } else if (event.name == "open-dialog") {
-        setTimeout(() => this.openDialog(event), 0);
-      } else if (event && event.name == "close-dialog") {
-        if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
-          this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
-        setTimeout(() => {
-          this.cordova.detectChanges(this.ref);
-        }, 100);
-      } else if (event && event.name == "close-all-dialog") {
-        if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
-          for (let dialog of this.dialog.openDialogs) {
-            dialog.close();
-          }
-        setTimeout(() => {
-          this.cordova.detectChanges(this.ref);
-        }, 100);
-      } else if (event.name == "open-sheet") {
-        setTimeout(() => this.openSheet(event), 0);
-      } else if (event.name == "navigation-changed") {
-        if (this.drawer) this.drawer.close();
-        // scroll back to top when page changes
-        try {
-          document.getElementById("layout_main_content").scrollTop = 0;
-        } catch {}
-      } else if(event.name == "authenticated" || event.name == "logout") {
-        this.auth.isAuthenticated()
+      switch (event.name) {
+        case "drawer-toggle":
+          this.drawer.toggle();
+          break;
+        case "drawer-close":
+          this.drawer.close();
+          break;
+        case "drawer-open":
+          this.drawer.open();
+          break;
+        case "changed":
+          //
+          // FORCE ZONE UPDATE ANGULAR
+          //
+          setTimeout(() => {
+            this.cordova.detectChanges(this.ref);
+          }, 100);
+          break;
+        case "open-dialog":
+          this.openDialog(event);
+          this.event.send({ name: "changed" });
+          break;
+        case "close-dialog":
+          // close dialog
+          if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
+            this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
+          this.event.send({ name: "changed" });
+          break;
+        case "close-all-dialog":
+          // close all dialog
+          if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
+            for (let dialog of this.dialog.openDialogs) {
+              dialog.close();
+            }
+          this.event.send({ name: "changed" });
+          break;
+        case "open-sheet":
+          this.openSheet(event);
+          this.event.send({ name: "changed" });
+          break;
+        case "navigation-changed":
+          // close drawer and scroll back to top when page changes
+          if (this.drawer) this.drawer.close();
+          try {
+            document.getElementById("layout_main_content").scrollTop = 0;
+          } catch {}
+          break;
+        case "authenticated":
+        case "logout":
+          this.auth.isAuthenticated();
+          break;
       }
     });
   }
 
   ngOnDestroy() {
-    this.onEvent.unsubscribe();
+    super.ngOnDestroy();
   }
 
   onBackButton(e) {
