@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import * as obj from "object-path";
 
 // user imports
 import { RestService } from "../rest.service";
@@ -7,6 +6,7 @@ import { EventService } from "../event.service";
 import { ConfigService } from "../config.service";
 import { DefaultAuthStrategy } from "./service/default";
 import { NoAuthStrategy } from './service/noauth';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -44,8 +44,9 @@ export class AuthService {
     return this.authStrategy.logout();
   }
 
+  isAuthenticated$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   async isAuthenticated() {
-    return this.authStrategy.isAuthenticated();
+    return this.authStrategy.isAuthenticated(this.isAuthenticated$);
   }
 
   async refreshAuthentication() {

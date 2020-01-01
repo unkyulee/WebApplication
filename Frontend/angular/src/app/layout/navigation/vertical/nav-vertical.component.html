@@ -1,5 +1,5 @@
 <!-- Close Button -->
-<button class="mat-icon-button back" (click)="event.send('drawer-toggle')">
+<button class="mat-icon-button back" (click)="event.send({name: 'drawer-toggle'})">
   <span class="mat-button-wrapper">
     <mat-icon
       class="secondary-text mat-icon material-icons"
@@ -28,7 +28,7 @@
   <a
     *ngIf="item.type == 'item' && condition(item)"
     class="nav-link"
-    [routerLink]="[item.url]"    
+    [routerLink]="[item.url]"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: item.exactMatch || false }"
     matRipple
@@ -52,7 +52,7 @@
         *ngIf="child.type != 'sub' && condition(item)"
         class="nav-link"
         style="padding: 0 48px"
-        [routerLink]="[child.url]"        
+        [routerLink]="[child.url]"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: child.exactMatch || false }"
         matRipple

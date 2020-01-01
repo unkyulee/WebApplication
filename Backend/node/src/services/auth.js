@@ -5,7 +5,7 @@ const strMatch = require("../lib/strMatch").strMatch;
 const obj = require("object-path");
 
 class Auth {
-  async canModuleProcess(db, req, res) {    
+  async canModuleProcess(db, req, res) {
     // check if the current module requires authentication
     let requiresAuthentication = await res.locals.module.requiresAuthentication(
       db,
@@ -18,21 +18,17 @@ class Auth {
     }
 
     // check if the request is authenticated
-    let isAuthenticated = await this.isAuthenticated(db, req, res);    
+    let isAuthenticated = await this.isAuthenticated(db, req, res);
     if (isAuthenticated == false) {
       // if not authenticated then try to authenticate the request
-      isAuthenticated = await this.authenticate(db, req, res);      
+      isAuthenticated = await this.authenticate(db, req, res);
       if (isAuthenticated == false) {
         // clear cookie
-        res.clearCookie("x-app-key");
+        res.clearCookie("company_id");
         res.clearCookie("authorization");
 
         // authentication failed
         res.status(403);
-        return false;
-      } else {
-        // if authentication is successful then return the angular config
-        res.send(await res.locals.module.authenticated(db, req, res));
         return false;
       }
     }
@@ -45,32 +41,62 @@ class Auth {
       return false;
     }
 
-    // check if it is requesting for validate
-    if (req.headers["validate"]) {
-      // save push notification registration id
-      if (req.headers.registrationid && req.headers["x-app-key"]) {
-        let users = await db.find("core.user", {
-          id: res.locals.token.unique_name,
-          navigation_id: req.headers["x-app-key"]
-        });
-
-        if (users.length > 0) {
-          //
-          let user = users[0];
-          await db.update("core.user", {
-            _id: user["_id"],
-            registrationId: req.headers.registrationid
-          });
-        }
-      }
-
-      //
-      res.send(await res.locals.module.authenticated(db, req, res));
-      return false;
-    }
-
     // authorized
     return true;
+  }
+
+  // authenticate the user
+  async authenticate(db, req, res) {
+    let authenticated = false;
+
+    // get id, password, company_id
+    if (req.body.id && req.headers["company_id"]) {
+      // find in the db - 'core.user'
+      let results = await db.find("core.user", {
+        id: req.body.id,
+        company_id: req.headers["company_id"]
+      });
+      if (results.length > 0) {
+        let user = results[0];
+
+        // validate password
+        if (!user.password && !req.body.password) {
+          // when both user and request has empty password
+          // then skip password validation
+          authenticated = true;
+        }
+        if (user.password && req.body.password) {
+          let hashedPassword = hash.hash(req.body.password);
+          if (hashedPassword == user.password) {
+            authenticated = true;
+          }
+        }
+
+        if (authenticated) {
+          // create token
+          this.createToken(req, res, user.id, user.name);
+        }
+      }
+    }
+
+    return authenticated;
+  }
+
+  // create JWT token
+  createToken(req, res, id, name) {
+    var signOptions = {
+      issuer: req.get("host"),
+      subject: req.headers["company_id"],
+      audience: req.get("host"),
+      expiresIn: "30d"
+    };
+    var payload = {
+      unique_name: id,
+      nameid: name
+    };
+    let token = jwt.sign(payload, req.app.locals.secret, signOptions);
+    res.locals.token = jwt.verify(token, req.app.locals.secret);
+    res.set("Authorization", `Bearer ${token}`);
   }
 
   async isAuthenticated(db, req, res) {
@@ -104,8 +130,7 @@ class Auth {
             req,
             res,
             res.locals.token.unique_name,
-            res.locals.token.nameid,
-            res.locals.token.roles
+            res.locals.token.nameid
           );
         }
 
@@ -120,6 +145,8 @@ class Auth {
   }
 
   async isAuthorized(db, req, res) {
+    return true;
+    /*
     // check decoded token
     let roleIds = res.locals.token.roles;
 
@@ -168,67 +195,16 @@ class Auth {
     }
 
     return authorized;
+    */
+
   }
 
-  async authenticate(db, req, res) {
-    let authenticated = false;
-
-    // get id, password, navigation_id
-    if (req.body.id && req.headers["x-app-key"]) {
-      // find in the db - 'core.user'
-      let results = await db.find("core.user", {
-        id: req.body.id,
-        navigation_id: req.headers["x-app-key"]
-      });
-      if (results.length > 0) {
-        let user = results[0];
-
-        // validate password
-        if (!user.password && !req.body.password) {
-          authenticated = true;
-        }
-        if (user.password && req.body.password) {
-          let hashedPassword = hash.hash(req.body.password);
-          if (hashedPassword == user.password) {
-            authenticated = true;
-          }
-        }
-
-        if (authenticated) {
-          // get roles
-          let roles = await this.getRoles(db, req, res, user);
-
-          // create token
-          this.createToken(req, res, user.id, user.name, roles);
-        }
-      }
-    }
-
-    return authenticated;
-  }
-
-  createToken(req, res, id, name, roles) {
-    var signOptions = {
-      issuer: req.get("host"),
-      subject: req.headers["x-app-key"],
-      audience: req.get("host"),
-      expiresIn: "30d"
-    };
-    var payload = {
-      unique_name: id,
-      nameid: name,
-      roles: roles
-    };
-    let token = jwt.sign(payload, req.app.locals.secret, signOptions);
-    res.locals.token = jwt.verify(token, req.app.locals.secret);
-    res.set("Authorization", `Bearer ${token}`);
-  }
 
   async getRoles(db, eq, res, user) {
     let roleIds = {};
 
     // get groups
-    let groups = obj.get(user, "groups");        
+    let groups = obj.get(user, "groups");
     if (groups) {
       for (let group of groups) {
         // get roles

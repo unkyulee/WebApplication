@@ -23,7 +23,7 @@ export class RestService {
   }
 
   host() {
-    return this.config.get("rest");
+    return this.config.get("host");
   }
 
   // request REST service
@@ -92,7 +92,7 @@ export class RestService {
           if (cached != false) {
             try {
               localStorage.setItem(url, JSON.stringify(res));
-            } catch {}            
+            } catch {}
 
             // check if differs from cached
             if (JSON.stringify(response) != JSON.stringify(res)) {

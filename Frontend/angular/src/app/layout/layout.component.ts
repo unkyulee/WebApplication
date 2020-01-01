@@ -8,21 +8,14 @@ import {
   Renderer2
 } from "@angular/core";
 
-import {
-  MatSidenav,
-  MatDialog,
-  MatBottomSheet,
-  MatDialogRef
-} from "@angular/material";
+import { MatSidenav, MatDialog, MatBottomSheet } from "@angular/material";
 import * as obj from "object-path";
 
 // user component
 import { BaseComponent } from "../ui/base.component";
 import { UIComposerDialogComponent } from "./ui-composer-dialog/ui-composer-dialog.component";
 import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
-
-// cordova
-declare var navigator: any;
+import { Observable, Subject } from "rxjs";
 
 @Component({
   selector: "layout",
@@ -40,42 +33,13 @@ export class LayoutComponent extends BaseComponent
     super();
   }
 
-  // authenticated status
-  isAuthenticated: boolean;
-
   // drawer
   @ViewChild("drawer") drawer: MatSidenav;
 
-  async ngOnInit() {
-    // check if authenticated
-    this.isAuthenticated = await this.auth.isAuthenticated();
-  }
-
-  onBackButton(e) {
-    e.preventDefault();
-
-    // close dialogs if any exists
-    if (this.dialog.openDialogs.length > 0) {
-      this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
-    } else if (
-      !obj.get(this.currSheet, "containerInstance._destroyed", false)
-    ) {
-      this.bottomSheet._openedBottomSheetRef.dismiss();
-    }
-    // check if it is last nav stack
-    else if (this.nav.navigationStack.length == 2) {
-      // if the drawer is not open then open the drawer
-      if (this.drawer.opened == false) this.drawer.open();
-      else {
-        // if the drawer is still open then ask to close the app
-        if (confirm("Do you want to exit the app?")) {
-          navigator.app.exitApp();
-        }
-      }
-    } else {
-      this.nav.back();
-    }
-    this.event.send({ name: "changed" });
+  ngOnInit() {
+    super.ngOnInit();
+    // is authenticated?
+    this.auth.isAuthenticated();
   }
 
   ngAfterViewInit() {
@@ -92,13 +56,14 @@ export class LayoutComponent extends BaseComponent
 
     // event handler
     this.onEvent = this.event.onEvent.subscribe(event => {
-      if (event == "drawer-toggle") {
+      console.log(event)
+      if (event.name == "drawer-toggle") {
         this.drawer.toggle();
-      } else if (event == "drawer-close") {
+      } else if (event.name == "drawer-close") {
         this.drawer.close();
-      } else if (event == "drawer-open") {
+      } else if (event.name == "drawer-open") {
         this.drawer.open();
-      } else if (event && event.name == "changed") {
+      } else if (event.name == "changed") {
         setTimeout(() => {
           this.cordova.detectChanges(this.ref);
         }, 100);
@@ -126,16 +91,41 @@ export class LayoutComponent extends BaseComponent
         try {
           document.getElementById("layout_main_content").scrollTop = 0;
         } catch {}
-      } else if (event == "logout") {
-        this.isAuthenticated = false;
-      } else if (event == "authenticated") {
-        this.isAuthenticated = true;
+      } else if(event.name == "authenticated" || event.name == "logout") {
+        this.auth.isAuthenticated()
       }
     });
   }
 
   ngOnDestroy() {
     this.onEvent.unsubscribe();
+  }
+
+  onBackButton(e) {
+    e.preventDefault();
+
+    // close dialogs if any exists
+    if (this.dialog.openDialogs.length > 0) {
+      this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
+    } else if (
+      !obj.get(this.currSheet, "containerInstance._destroyed", false)
+    ) {
+      this.bottomSheet._openedBottomSheetRef.dismiss();
+    }
+    // check if it is last nav stack
+    else if (this.nav.navigationStack.length == 2) {
+      // if the drawer is not open then open the drawer
+      if (this.drawer.opened == false) this.drawer.open();
+      else {
+        // if the drawer is still open then ask to close the app
+        if (confirm("Do you want to exit the app?")) {
+          this.cordova.navigator.app.exitApp();
+        }
+      }
+    } else {
+      this.nav.back();
+    }
+    this.event.send({ name: "changed" });
   }
 
   openDialog(event) {
@@ -192,7 +182,7 @@ export class LayoutComponent extends BaseComponent
     // get ui elements
     let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
     if (!uiElement) {
-      console.error(`${event.uiElementId} is missing`)
+      console.error(`${event.uiElementId} is missing`);
     } else {
       uiElement = JSON.parse(JSON.stringify(uiElement));
 

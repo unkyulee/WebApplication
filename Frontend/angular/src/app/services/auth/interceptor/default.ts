@@ -15,7 +15,7 @@ export class DefaultInterceptorStrategy {
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
       // add navigation_id to the request
-      headers["X-App-Key"] = this.config.get("_id");
+      headers["company_id"] = this.config.get("_id");
 
       // copy headers
       for (let header of req.headers.keys())
@@ -38,7 +38,7 @@ export class DefaultInterceptorStrategy {
           let token = authorization.split(" ")[1];
           try {
             if (token) localStorage.setItem("token", token);
-          } catch {}          
+          } catch {}
         } else {
           // if the token is not present then it means unauthenticated
           // make sure that the application has unauthenticated status

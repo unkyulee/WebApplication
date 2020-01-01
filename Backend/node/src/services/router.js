@@ -7,7 +7,7 @@ class Router {
     res.header("Access-Control-Allow-Credentials", "true");
     res.header(
       "Access-Control-Allow-Headers",
-      "Authorization, Origin, X-Requested-With, Content-Type, Accept, X-App-Key"
+      "Authorization, Origin, X-Requested-With, Content-Type, Accept, company_id"
     );
     res.header("Access-Control-Expose-Headers", "Authorization");
 
@@ -17,9 +17,9 @@ class Router {
       res.cookie("authorization", req.headers.authorization);
     }
 
-    // copy back the navigation_id
-    if (req.headers["x-app-key"]) {
-      res.cookie("x-app-key", req.headers["x-app-key"]);
+    // copy back the company_id
+    if (req.headers["company_id"]) {
+      res.cookie("company_id", req.headers["company_id"]);
     }
 
     // intercept OPTIONS method
@@ -29,20 +29,20 @@ class Router {
     }
 
     // redirect case
-    if (req.query.bearer && req.query.navigation_id) {
+    if (req.query.bearer && req.query.company_id) {
       const url = require("url");
 
       // assign cookie with authentication
       res.cookie("authorization", `Bearer ${req.query.bearer}`);
-      res.cookie("x-app-key", req.query.navigation_id);
+      res.cookie("company_id", req.query.company_id);
 
       // should it redirect?
       // image should be displayed in the print page
       // so do not redirect in that case
       if (!req.query.print) {
-        // strip out bearer and navigation_id
+        // strip out bearer and company_id
         delete req.query.bearer;
-        delete req.query.navigation_id;
+        delete req.query.company_id;
 
         // shall be redirected
         let redirectUrl = url.format({

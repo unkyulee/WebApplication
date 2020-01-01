@@ -1,8 +1,8 @@
-<ng-container *ngIf="!isAuthenticated">
+<ng-container *ngIf="!(auth.isAuthenticated$ | async)">
   <login></login>
 </ng-container>
 
-<ng-container *ngIf="isAuthenticated">
+<ng-container *ngIf="(auth.isAuthenticated$ | async)">
   <mat-sidenav-container fullscreen>
     <mat-sidenav
       #drawer

@@ -19,97 +19,48 @@ module.exports.process = async function process(db, req, res) {
 
   // process index.js
   if (filename == "index.js") {
-    return IndexJS(req, res);
+    return await IndexJS(db, req, res);
+  }
+  // process login screen
+  else if (filename == "login") {
+    return await LoginScreen(db, req, res);
+  }
+  // process navigation request
+  else if (filename == "navigation") {
+    return await Navigation(db, req, res);
+  }
+  // process theme request
+  else if (filename == "theme") {
+    return await Theme(db, req, res);
   }
   // otherwise return index.html
-  return IndexHtml(req, res);
-};
-
-module.exports.authenticated = async function authenticated(db, req, res) {
-  // angular navigation
-  let angular_navigation_acl = await db.find(
-    "angular.navigation",
-    { navigation_id: `${res.locals.nav._id}` },
-    { order: 1 },
-    1000
-  );
-
-  // filter navigation with ACL
-  let angular_navigation = [];
-  for (let nav of angular_navigation_acl) {
-    let ACL = true;
-    if (nav.ACL) {
-      ACL = false;
-      let roles = obj.get(res.locals, "token.roles", []);
-      for (let role of roles) {
-        if (nav.ACL.includes(role)) {
-          ACL = true;
-          break;
-        }
-      }
-    }
-
-    if (ACL) angular_navigation.push(nav);
-  }
-
-  // get all uiElementIds from angular_navigation
-  let angular_ui = {};
-  if (angular_navigation) {
-    let uiElementIds = [];
-    for (let nav of angular_navigation) {
-      if (nav.uiElementIds)
-        uiElementIds.push.apply(uiElementIds, nav.uiElementIds);
-      if (nav.hidden && nav.hidden.uiElementIds)
-        uiElementIds.push.apply(uiElementIds, nav.hidden.uiElementIds);
-      if (nav.children) {
-        for (let child of nav.children) {
-          if (child.uiElementIds)
-            uiElementIds.push.apply(uiElementIds, child.uiElementIds);
-          if (child.hidden && child.hidden.uiElementIds)
-            uiElementIds.push.apply(uiElementIds, child.hidden.uiElementIds);
-        }
-      }
-    }
-    // create an or filter
-    let elementIdFilter = { $or: [] };
-    for (let elementId of uiElementIds)
-      elementIdFilter.$or.push({ _id: ObjectID(elementId) });
-
-    // retrieve angular ui
-    let angular_ui_list = await db.find(
-      "angular.ui",
-      elementIdFilter,
-      null,
-      1000
-    );
-
-    // convert to dictionary
-    for (let ui of angular_ui_list) angular_ui[`${ui._id}`] = ui;
-  }
-  return JSON.stringify(
-    {
-      angular_navigation: angular_navigation,
-      angular_ui: angular_ui
-    },
-    null,
-    4
-  );
+  return IndexHtml(db, req, res);
 };
 
 // return app configuration js
-async function IndexJS(req, res) {
+async function IndexJS(db, req, res) {
   //
   let config = {
-    rest: `${getProtocol(req)}://${req.get("host")}${req.baseUrl}`,
-    auth: `${getProtocol(req)}://${req.get("host")}${req.baseUrl}${
-      res.locals.nav.url
-    }`
+    host: `${getProtocol(req)}://${req.get("host")}${req.baseUrl}`
   };
   config = Object.assign(config, res.locals.nav);
   return `window.__CONFIG__ = ${JSON.stringify(config)}`;
 }
 
-async function IndexHtml(req, res) {
+// retrieve login screen
+async function LoginScreen(db, req, res) {
+  // retrieve login screen
+  let uiElementId = obj.get(res.locals, "nav.login");
+  if (uiElementId) {
+    let results = await db.find("core.ui", { _id: ObjectID(uiElementId) });
+    if(results && results.length > 0)
+      return results[0]
+  }
+}
+async function Navigation(db, req, res) {}
+async function Theme(db, req, res) {}
+
+async function IndexHtml(db, req, res) {
   return new Promise(function(resolve, reject) {
     // read "index.tmpl" from static folder
     let filepath = path.join(req.app.locals.wwwroot, "index.tmpl");

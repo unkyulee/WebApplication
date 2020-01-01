@@ -1,8 +1,8 @@
 import { catchError } from "rxjs/operators";
 import { HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { EMPTY } from "rxjs";
-import * as obj from "object-path";
 
+// services
 import { RestService } from "src/app/services/rest.service";
 import { ConfigService } from "src/app/services/config.service";
 import { EventService } from "src/app/services/event.service";
@@ -12,7 +12,7 @@ export class DefaultAuthStrategy {
     private rest: RestService,
     private config: ConfigService,
     private event: EventService
-  ) { }
+  ) {}
 
   async login(data) {
     // clear localstorage
@@ -20,26 +20,22 @@ export class DefaultAuthStrategy {
 
     return new Promise((resolve, reject) => {
       // get auth url
-      let authUrl = this.config.get("auth");
+      let authUrl = `${this.config.get("host")}${this.config.get("url")}`;
 
       // request through REST
       this.rest
-        .request(authUrl, data, "post")
+        .request(authUrl, data, "post", { responseType: "text" })
         .pipe(
           catchError(
             // when response is not 200
             (err: HttpErrorResponse) => {
-              console.error(err);
-              reject(err.message);
+              reject(err);
               return EMPTY;
             }
           )
         )
         // when response is sucessful
-        .subscribe(response => {
-          // refresh navigation information
-          this.refreshAuthentication();
-
+        .subscribe(() => {
           // authentication successful
           resolve();
         });
@@ -51,7 +47,7 @@ export class DefaultAuthStrategy {
     localStorage.clear();
   }
 
-  async isAuthenticated() {
+  async isAuthenticated(isAuthenticated$) {
     let isValidAuth = false;
 
     // check if the token is valid
@@ -69,15 +65,15 @@ export class DefaultAuthStrategy {
             isValidAuth = true;
             // when authentication is proven to be valid locally
             // verify with the server
-            this.refreshAuthentication();
+            //this.refreshAuthentication();
           } else {
             // if the app is not matching then it's not valid
             isValidAuth = false;
           }
-        } catch (e) { }
+        } catch (e) {}
       } else {
         // navigation is not loaded - so load the navigation
-        this.refreshAuthentication();
+        //this.refreshAuthentication();
       }
     }
 
@@ -85,6 +81,7 @@ export class DefaultAuthStrategy {
     if (!isValidAuth) localStorage.clear();
 
     // return auth result
+    isAuthenticated$.next(isValidAuth)
     return isValidAuth;
   }
 
@@ -130,7 +127,7 @@ export class DefaultAuthStrategy {
           catchError(
             // when response is not 200
             (err: HttpErrorResponse) => {
-              reject(err.message);
+              reject(err);
               return EMPTY;
             }
           )
@@ -162,8 +159,7 @@ export class DefaultAuthStrategy {
             "nav",
             JSON.stringify(response.angular_navigation)
           );
-        } catch { }
-
+        } catch {}
       }
     }
 
@@ -177,7 +173,12 @@ export class DefaultAuthStrategy {
           data: response.angular_ui
         });
         // save angular_ui
-        try { localStorage.setItem("uiElements", JSON.stringify(response.angular_ui)); } catch { }
+        try {
+          localStorage.setItem(
+            "uiElements",
+            JSON.stringify(response.angular_ui)
+          );
+        } catch {}
       }
     }
   }

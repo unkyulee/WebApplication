@@ -2,25 +2,26 @@ import { Component } from "@angular/core";
 import * as obj from "object-path";
 
 // user imports
-import { BaseComponent } from 'src/app/ui/base.component';
+import { BaseComponent } from "src/app/ui/base.component";
 
 @Component({
   selector: "login",
   templateUrl: "./login.component.html"
 })
 export class LoginComponent extends BaseComponent {
-  
-  ngOnInit() {
-    obj.ensureExists(this, "data", {})
-    obj.ensureExists(this, "uiElement", {})
+  async ngOnInit() {
+    obj.ensureExists(this, "data", {});
+    obj.ensureExists(this, "uiElement", {});
 
-    // load default login screen
-    this.uiElement = this.config.get("login", {});
+    // retreive login screen
+    this.rest.request(`${this.config.get("url")}/login`).subscribe(r => {
+      this.uiElement = r;
+    });
 
     // handle events
     this.onEvent = this.event.onEvent.subscribe(async event => {
       if (event.name == "login") {
-        if(event.data) this.data = Object.assign(this.data, event.data)
+        if (event.data) this.data = Object.assign(this.data, event.data);
         await this.authenticate();
       }
     });
@@ -35,13 +36,16 @@ export class LoginComponent extends BaseComponent {
     // try login
     this.event.send("splash-show"); // show splash
     try {
+      delete this.data.error;
       await this.auth.login(this.data);
       // login success
-      this.event.send("authenticated");
+      this.event.send({name: "authenticated"});
     } catch (e) {
       // login error
-      this.data.error = e;
+      let message = obj.get(this.uiElement, `errors.${e.status}`, e.message);
+      this.data.error = message;
+    } finally {
+      this.event.send("splash-hide"); // hide splash
     }
-    this.event.send("splash-hide"); // hide splash
   }
 }
