@@ -36,10 +36,14 @@ export class LoginComponent extends BaseComponent {
     // try login
     this.event.send("splash-show"); // show splash
     try {
+      // remove error message from the data
       delete this.data.error;
+      // clear localstorage
+      localStorage.clear();
+      // try login
       await this.auth.login(this.data);
       // login success
-      this.event.send({name: "authenticated"});
+      this.event.send({ name: "authenticated" });
     } catch (e) {
       // login error
       let message = obj.get(this.uiElement, `errors.${e.status}`, e.message);
