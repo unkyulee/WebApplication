@@ -16,7 +16,7 @@ export class DefaultAuthStrategy {
     private user: UserService
   ) {}
 
-  async login(data) {
+  async login(data, isAuthenticated$) {
     return new Promise((resolve, reject) => {
       // get auth url
       let authUrl = `${this.config.get("host")}${this.config.get("url")}`;
@@ -35,13 +35,16 @@ export class DefaultAuthStrategy {
         )
         // when response is sucessful
         .subscribe(() => {
-          // authentication successful
+          // login success
+          isAuthenticated$.next(true);
+          this.event.send({ name: "login-success" });
           resolve();
         });
     });
   }
 
-  async logout() {
+  async logout(isAuthenticated$) {
+    isAuthenticated$.next(false)
     // clear localstorage
     localStorage.clear();
   }
@@ -57,7 +60,7 @@ export class DefaultAuthStrategy {
         // when authentication is proven to be valid locally
         // verify with the server
         try {
-          await this.login(null);
+          await this.login(null, isAuthenticated$);
           isValidAuth = true;
         } catch {}
       }

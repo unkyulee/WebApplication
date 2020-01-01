@@ -14,7 +14,7 @@ export class LoginComponent extends BaseComponent {
     obj.ensureExists(this, "uiElement", {});
 
     // retreive login screen
-    this.rest.request(`${this.config.get("url")}/login`).subscribe(r => {
+    this.rest.request(`${this.config.get("url")}/login.config`).subscribe(r => {
       this.uiElement = r;
     });
 
@@ -42,8 +42,6 @@ export class LoginComponent extends BaseComponent {
       localStorage.clear();
       // try login
       await this.auth.login(this.data);
-      // login success
-      this.event.send({ name: "authenticated" });
     } catch (e) {
       // login error
       let message = obj.get(this.uiElement, `errors.${e.status}`, e.message);

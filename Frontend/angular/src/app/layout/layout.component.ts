@@ -103,9 +103,8 @@ export class LayoutComponent extends BaseComponent
             document.getElementById("layout_main_content").scrollTop = 0;
           } catch {}
           break;
-        case "authenticated":
-        case "logout":
-          this.auth.isAuthenticated();
+        case "login-success":
+          this.nav.loadNavigation();
           break;
       }
     });

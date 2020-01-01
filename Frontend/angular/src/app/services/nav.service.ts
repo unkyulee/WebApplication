@@ -1,14 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { Location } from "@angular/common";
-import { Observable } from 'rxjs';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 // user imports
 import { EventService } from "./event.service";
 import { ConfigService } from "./config.service";
-import { map, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-
+import { RestService } from "./rest.service";
 
 @Injectable()
 export class NavService {
@@ -17,31 +14,23 @@ export class NavService {
     private location: Location,
     private event: EventService,
     private config: ConfigService,
-    private breakpointObserver: BreakpointObserver
+    private rest: RestService
   ) {
     // monitor navigation changes
     router.events.subscribe(e => this.routerEventHandler(e));
 
     // event handler
     this.event.onEvent.subscribe(e => this.eventHandler(e));
-
-    // observe screen size changes
-    this.isHandset$ = this.breakpointObserver
-      .observe([Breakpoints.Handset])
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(300),
-        map(result => {
-          this.isHandset = result.matches;
-          return result.matches;
-        })
-      );
-    this.isHandset$.subscribe();
   }
 
-  // detect window size changes
-  public isHandset: boolean;
-  public isHandset$: Observable<boolean>;
+  loadNavigation() {
+    this.rest
+      .request(`${this.config.get("host")}${this.config.get("url")}/navigation.config`)
+      .subscribe(r => {
+        this.config.set("nav", r.nav);
+        this.config.set("theme", r.theme);
+      });
+  }
 
   routerEventHandler(e) {
     if (e instanceof NavigationEnd) {
@@ -61,7 +50,7 @@ export class NavService {
       let params = this.getParams();
 
       // see if there is a navigation filter
-      if ( this.config.get("navigation.filter") ) {
+      if (this.config.get("navigation.filter")) {
         try {
           eval(this.config.get("navigation.filter"));
         } catch (e) {
@@ -79,18 +68,14 @@ export class NavService {
       // send out events
       this.event.send({
         name: "navigation-changed",
-        data: {
-          router: e,
-          navigation: this.currNav,
-          isHandset: this.isHandset
-        }
+        data: this.currNav
       });
     }
   }
 
   eventHandler(e) {
     if (e == "authenticated" || e.name == "navigation-updated") {
-      if(e.name == "navigation-updated") {
+      if (e.name == "navigation-updated") {
         // save when server has new navigation
         this.config.set("nav", e.data);
       }
@@ -99,9 +84,9 @@ export class NavService {
       this.currNav = this.find(this.currUrl);
       if (this.currNav) {
         // keep the current query string before changing the nav
-        let url = this.currNav.url
+        let url = this.currNav.url;
         let queryStrings = this.location.path().split("?");
-        if(queryStrings.length > 1) url += `?${queryStrings[1]}`
+        if (queryStrings.length > 1) url += `?${queryStrings[1]}`;
 
         this.router.navigateByUrl(url);
       }
@@ -109,10 +94,7 @@ export class NavService {
       // send out events - trying to force reload the page
       this.event.send({
         name: "navigation-changed",
-        data: {
-          router: null,
-          navigation: this.currNav
-        }
+        data: this.currNav
       });
     }
   }
@@ -122,7 +104,7 @@ export class NavService {
   currNav: any;
 
   find(url: string) {
-    let navigation = this.config.get("nav")
+    let navigation = this.config.get("nav");
 
     if (!navigation) return null;
 
@@ -196,12 +178,12 @@ export class NavService {
     param[name] = value;
 
     // remove param if empty
-    if (typeof value == 'undefined' || value == null) delete param[name];
+    if (typeof value == "undefined" || value == null) delete param[name];
 
     // form query string
     let queryString = new URLSearchParams();
     for (let key in param) {
-      if (typeof param[key] !== 'undefined' && param[key] != null) {
+      if (typeof param[key] !== "undefined" && param[key] != null) {
         if (Array.isArray(param[key])) {
           for (let v of param[key]) queryString.append(key, v);
         } else {
@@ -220,9 +202,8 @@ export class NavService {
         // update url - without renavigating to the page
         this.location.replaceState(url, queryString.toString());
         // leave only last stack of the navigation history of the same page
-        let lastNav = this.navigationStack[this.navigationStack.length-1];
-        if(lastNav && lastNav.startsWith(url))
-          this.navigationStack.pop();
+        let lastNav = this.navigationStack[this.navigationStack.length - 1];
+        if (lastNav && lastNav.startsWith(url)) this.navigationStack.pop();
         // update navigation statck
         this.navigate(`${url}?${queryString.toString()}`);
       }
@@ -235,7 +216,7 @@ export class NavService {
   navigate(url) {
     // add to navigation stack
     // if last entry is the same then don't add to the queu
-    if(this.navigationStack[this.navigationStack.length-1] != url) {
+    if (this.navigationStack[this.navigationStack.length - 1] != url) {
       this.navigationStack.push(url);
     }
 
@@ -244,7 +225,7 @@ export class NavService {
   }
 
   navigateByUrl(url) {
-    this.router.navigateByUrl(url)
+    this.router.navigateByUrl(url);
   }
 
   navPopStack(match?) {
@@ -272,6 +253,5 @@ export class NavService {
         this.currNav.parent_url ? this.currNav.parent_url : this.currNav.url
       );
     }
-
   }
 }

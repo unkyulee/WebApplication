@@ -22,16 +22,12 @@ module.exports.process = async function process(db, req, res) {
     return await IndexJS(db, req, res);
   }
   // process login screen
-  else if (filename == "login") {
+  else if (filename == "login.config") {
     return await LoginScreen(db, req, res);
   }
   // process navigation request
-  else if (filename == "navigation") {
+  else if (filename == "navigation.config") {
     return await Navigation(db, req, res);
-  }
-  // process theme request
-  else if (filename == "theme") {
-    return await Theme(db, req, res);
   }
   // otherwise return index.html
   return IndexHtml(db, req, res);
@@ -50,15 +46,24 @@ async function IndexJS(db, req, res) {
 // retrieve login screen
 async function LoginScreen(db, req, res) {
   // retrieve login screen
-  let uiElementId = obj.get(res.locals, "nav.login");
-  if (uiElementId) {
-    let results = await db.find("core.ui", { _id: ObjectID(uiElementId) });
-    if(results && results.length > 0)
-      return results[0]
+  let _id = obj.get(res.locals, "nav.login");
+  if (_id) {
+    let results = await db.find("core.ui", { _id: ObjectID(_id) });
+    if (results && results.length > 0) return results[0];
   }
 }
-async function Navigation(db, req, res) {}
-async function Theme(db, req, res) {}
+
+async function Navigation(db, req, res) {
+  // retrieve theme
+  let _id = obj.get(res.locals, "nav.theme");
+  let theme = {};
+  if (_id) {
+    let results = await db.find("core.theme", { _id: ObjectID(_id) });
+    if (results && results.length > 0) theme = results[0];
+  }
+
+  return {theme}
+}
 
 async function IndexHtml(db, req, res) {
   return new Promise(function(resolve, reject) {

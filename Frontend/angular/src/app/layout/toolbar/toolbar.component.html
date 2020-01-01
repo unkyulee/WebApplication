@@ -1,6 +1,6 @@
 <mat-toolbar
-  [ngClass]="config.get('toolbar.class')"
-  [ngStyle]="config.get('toolbar.style')"
+  [ngClass]="config.get('theme.toolbar.class')"
+  [ngStyle]="config.get('theme.toolbar.style')"
 >
   <mat-progress-bar
     *ngIf="showLoadingBar"
@@ -12,7 +12,7 @@
   <button
     type="button"
     mat-icon-button
-    (click)="isTopNav ? event.send({name: 'drawer-toggle'}) : nav.back()"
+    (click)="isTopNav ? event.send({ name: 'drawer-toggle' }) : nav.back()"
     tabIndex="-1"
   >
     <mat-icon *ngIf="isTopNav">menu</mat-icon>
@@ -21,7 +21,7 @@
   <span class="title" [matTooltip]="title">{{ title }}</span>
   <div class="flex-spacer"></div>
 
-  <ng-container *ngFor="let action of actions">
+  <ng-container *ngFor="let action of config.get('theme.toolbar.actions')">
     <ng-container *ngIf="condition(action)">
       <ng-container
         ui-layout-wrapper

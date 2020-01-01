@@ -23,20 +23,14 @@ export class ToolbarComponent extends BaseComponent {
   // showLoadingBar
   showLoadingBar: boolean = false;
 
-  //
-  actions: any[];
-
   ngOnInit() {
-    // load global actions
-    this.actions = this.config.get("toolbar.actions");
-
     // handle events
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event.name == "navigation-changed") {
         this.handleNavigationChanged()
-      } else if (event == "splash-show") {
+      } else if (event.name == "toolbar-loading-show") {
         this.showLoadingBar = true;
-      } else if (event == "splash-hide") {
+      } else if (event.name == "toolbar-loading-hide") {
         this.showLoadingBar = false;
       }
     });

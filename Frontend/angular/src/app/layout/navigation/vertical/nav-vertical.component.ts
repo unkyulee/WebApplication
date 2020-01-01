@@ -12,7 +12,7 @@ export class NavVerticalComponent extends BaseComponent {
     // detect configuration changes
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event.name == "navigation-changed")
-        if (event.data.router) this.currUrl = event.data.router.url;
+        this.currUrl = event.data.url;
     });
   }
 
