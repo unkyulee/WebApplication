@@ -25,6 +25,7 @@ import { UIModule } from "./ui/ui.module";
 import { AppComponent } from "./app.component";
 import { LayoutComponent } from "./layout/layout.component";
 import { SoundService } from './services/sound.service';
+import { UIService } from './services/ui.service';
 
 // catch-all routes
 const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
@@ -50,6 +51,7 @@ const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
     ConfigService,
     UserService,
     NavService,
+    UIService,
     RestService,
     CordovaService,
     DBService,

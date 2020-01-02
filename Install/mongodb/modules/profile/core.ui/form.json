@@ -1,0 +1,64 @@
+{
+  "_id": ObjectId("100000000000000000000000"),
+  "type": "layout",
+  "name": "Profile",
+  "layoutStyle": {
+    "flex-grow": 1,
+    "display": "flex",
+    "flex-direction": "column",
+    "height": "100%",
+    "overflow-y": "auto",
+    "padding": "8px"
+  },
+  "screen": [
+    {
+      "key": "id",
+      "label": "utente",
+      "readonly": true,
+      "layoutStyle": { "width": "100%" },
+      "style": { "width": "100%" }
+    },
+    {
+      "key": "name",
+      "label": "nome",
+      "layoutStyle": { "width": "100%" },
+      "style": { "width": "100%" }
+    },
+    {
+      "type": "input",
+      "inputType": "email",
+      "key": "email",
+      "label": "e-mail",
+      "layoutStyle": { "width": "100%" },
+      "style": { "width": "100%" }
+    },
+    {
+      "key": "mobile",
+      "label": "cellulare",
+      "layoutStyle": { "width": "100%" },
+      "style": { "width": "100%" }
+    },
+    {
+      "type": "button",
+      "buttonType": "mat-button",
+      "icon": "vpn_key",
+      "color": "warn",
+      "label": "Cambia la password",
+      "click": "this.event.send({name:'open-dialog', uiElementId: '100000000000000000000010', width: '90vw', maxWidth: '400px', panelClass: '', data: this.data});",
+      "layoutStyle": {
+        "width": "100%"
+      }
+    },
+    {
+      "type": "button",
+      "buttonType": "mat-button",
+      "icon": "save",
+      "label": "Salva",
+      "color": "primary",
+      "click": "this.event.send({name: 'save'});",
+      "layoutStyle": {
+        "width": "100%"
+      }
+    }
+  ]
+}

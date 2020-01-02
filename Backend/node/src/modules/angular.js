@@ -29,6 +29,10 @@ module.exports.process = async function process(db, req, res) {
   else if (filename == "navigation.config") {
     return await Navigation(db, req, res);
   }
+  // process ui element request
+  else if (filename == "ui.element") {
+    return await UIElement(db, req, res);
+  }
   // otherwise return index.html
   return IndexHtml(db, req, res);
 };
@@ -62,7 +66,26 @@ async function Navigation(db, req, res) {
     if (results && results.length > 0) theme = results[0];
   }
 
-  return {theme}
+  // retrieve features and load navigation
+  let nav = [];
+  let features = obj.get(res.locals, "nav.features", []);
+  for(let feature of features) {
+    let results = await db.find("core.feature", { key: feature });
+    if(results && results.length > 0) {
+      let navigations = obj.get(results[0], "navigations");
+      if(navigations) nav = [...nav, ...navigations];
+    }
+  }
+
+  return {theme, nav}
+}
+
+async function UIElement(db, req, res) {
+  let id = obj.get(req.query, "uiElementId");
+  if(id) {
+    let results = await db.find("core.ui", { _id: ObjectID(id) });
+    if(results && results.length > 0) return results[0]
+  }
 }
 
 async function IndexHtml(db, req, res) {

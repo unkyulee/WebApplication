@@ -12,6 +12,9 @@ export class ConfigService {
   constructor(
     private breakpointObserver: BreakpointObserver
   ) {
+    //
+    obj.ensureExists(window, "__CONFIG__", {})
+
     // observe screen size changes
     this.isHandset$ = this.breakpointObserver
       .observe([Breakpoints.Handset])

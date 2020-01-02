@@ -16,6 +16,7 @@ import { CordovaService } from "../services/cordova.service";
 import { ExportService } from "../services/export.service";
 import { AuthService } from "../services/auth/auth.service";
 import { SoundService } from "../services/sound.service";
+import { UIService } from '../services/ui.service';
 
 @Component({
   template: ""
@@ -27,6 +28,7 @@ export class BaseComponent {
     this.event = AppInjector.get(EventService);
     this.rest = AppInjector.get(RestService);
     this.nav = AppInjector.get(NavService);
+    this.ui = AppInjector.get(UIService);
     this.config = AppInjector.get(ConfigService);
     this.user = AppInjector.get(UserService);
     this.db = AppInjector.get(DBService);
@@ -47,6 +49,7 @@ export class BaseComponent {
   public event: EventService;
   public rest: RestService;
   public nav: NavService;
+  public ui: UIService;
   public config: ConfigService;
   public user: UserService;
   public db: DBService;

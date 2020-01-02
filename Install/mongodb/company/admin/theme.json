@@ -2,14 +2,9 @@
   "_id": ObjectId("000000000000000000000000"),
   "toolbar": {
     "layoutStyle": {
-      "height": "56px"
-    },
-    "style": {
       "position": "sticky",
       "top": 0,
-      "zIndex": 1000,
-      "minHeight": "56px",
-      "height": "56px"
+      "zIndex": 1000
     },
     "class": {
       "mat-elevation-z1": false
@@ -24,13 +19,13 @@
       }
     ]
   },
-
   "content": {
     "layoutStyle": {
       "overflow": "hidden",
       "display": "flex",
       "flex-direction": "column",
-      "flex-grow": 1
+      "flex-grow": 1,
+      "height": "100%"
     },
     "style": {
       "width": "100%",
@@ -39,7 +34,8 @@
       "display": "flex",
       "flexDirection": "column",
       "flex-grow": 1,
-      "height": "100%"
+      "height": "100%",
+      "overflow-y": "auto"
     }
   },
   "navigation": {
@@ -85,7 +81,7 @@
             "type": "button",
             "buttonType": "mat-menu-item",
             "label": "Profile",
-            "click": "this.nav.navigateByUrl(`/profile`)"
+            "click": "this.nav.navigateByUrl(`/profile`); this.event.send({name: 'drawer-close'})"
           },
           {
             "type": "button",

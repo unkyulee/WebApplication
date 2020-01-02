@@ -11,12 +11,12 @@ import { BaseComponent } from "src/app/ui/base.component";
 export class UIComposerComponent extends BaseComponent {
   ngOnInit() {
     // detect configuration changes
-    this.onEvent = this.event.onEvent.subscribe(event =>
-      this.eventHandler(event)
+    this.onEvent = this.event.onEvent.subscribe(async (event) =>
+      await this.eventHandler(event)
     );
   }
 
-  eventHandler(event) {
+  async eventHandler(event) {
     if (event.name == "navigation-changed") {
       // reset data
       this.data = {
@@ -36,7 +36,7 @@ export class UIComposerComponent extends BaseComponent {
             console.error(e);
           }
         }
-        this.loadUI(this.nav.currNav.uiElementIds);
+        await this.loadUI(this.nav.currNav.uiElementIds);
       }
     } else if (event.name == "ui-updated") {
       // load UI when navigation changes
@@ -53,13 +53,13 @@ export class UIComposerComponent extends BaseComponent {
   }
 
   uiElements: any[];
-  loadUI(uiElements) {
+  async loadUI(uiElements) {
     // load ui
-    let ui = [];
+    let elements = [];
     for (let id of uiElements) {
-      let element = obj.get(this.config.get("uiElements"), id);
-      if (element) ui.push(element);
+      let element = await this.ui.get(id);
+      if (element) elements.push(element);
     }
-    this.uiElements = [...ui];
+    this.uiElements = [...elements];
   }
 }

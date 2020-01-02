@@ -141,9 +141,9 @@ export class LayoutComponent extends BaseComponent
     this.event.send({ name: "changed" });
   }
 
-  openDialog(event) {
+  async openDialog(event) {
     // get ui elements
-    let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
+    let uiElement = await this.ui.get(event.uiElementId);
     uiElement = { ...uiElement };
     if (event.uiElement) uiElement = Object.assign(uiElement, event.uiElement);
     if (event.uiElementInit) {
@@ -191,9 +191,9 @@ export class LayoutComponent extends BaseComponent
   }
 
   currSheet;
-  openSheet(event) {
+  async openSheet(event) {
     // get ui elements
-    let uiElement = obj.get(this.config.get("uiElements"), event.uiElementId);
+    let uiElement = await this.ui.get(event.uiElementId);
     if (!uiElement) {
       console.error(`${event.uiElementId} is missing`);
     } else {

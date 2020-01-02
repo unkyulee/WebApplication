@@ -18,7 +18,12 @@
     <mat-icon *ngIf="isTopNav">menu</mat-icon>
     <mat-icon *ngIf="!isTopNav">arrow_back</mat-icon>
   </button>
-  <span class="title" [matTooltip]="title">{{ title }}</span>
+  <span
+    class="title"
+    [matTooltip]="title"
+    [ngStyle]="config.get('theme.toolbar.titleStyle')"
+    >{{ title }}</span
+  >
   <div class="flex-spacer"></div>
 
   <ng-container *ngFor="let action of config.get('theme.toolbar.actions')">

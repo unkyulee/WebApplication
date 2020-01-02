@@ -1,0 +1,15 @@
+{
+  "_id": ObjectId("100000000000000000000000"),
+  "name": "Profile",
+  "key": "profile",
+  "description": "Update password or email, telephone information of the logged in user",
+  "navigations": [
+    {
+      "type": "hidden",
+      "name": "Profile",
+      "url": "/profile",
+      "uiElementIds": ["100000000000000000000000"]
+    }
+  ],
+  "permissions": ["profile.view", "profile.update", "profile.changepassword"]
+}

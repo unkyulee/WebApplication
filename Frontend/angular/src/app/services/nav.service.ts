@@ -27,7 +27,14 @@ export class NavService {
     this.rest
       .request(`${this.config.get("host")}${this.config.get("url")}/navigation.config`)
       .subscribe(r => {
-        this.config.set("nav", r.nav);
+        //
+        let nav = this.config.get("nav");
+        if(JSON.stringify(nav) != JSON.stringify(r.nav)) {
+          this.config.set("nav", r.nav);
+          this.event.send({name: "navigation-updated"})
+        }
+
+        // update
         this.config.set("theme", r.theme);
       });
   }
@@ -75,11 +82,6 @@ export class NavService {
 
   eventHandler(e) {
     if (e == "authenticated" || e.name == "navigation-updated") {
-      if (e.name == "navigation-updated") {
-        // save when server has new navigation
-        this.config.set("nav", e.data);
-      }
-
       // set initial navigation
       this.currNav = this.find(this.currUrl);
       if (this.currNav) {
