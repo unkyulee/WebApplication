@@ -62,17 +62,29 @@ class Router {
     // first path is the navigation name
     let navName = req.url.split("/")[1];
 
-    // find in the db - 'core.navigation'
-    let results = await db.find("core.company", { url: `/${navName}` });
+    let nav;
+    if (navName == "api") {
+      let apiPath = req.url.split("/")[2];
+      let apiName = req.url.split("/")[3];
 
-    if (results.length == 0) {
+      let results = await db.find("core.websvc", {
+        url: `${apiPath}/${apiName}`
+      });
+      if (results && results.length > 0) {
+        nav = results[0];
+        nav.module = "websvc";
+      }
+    } else {
+      // find in the db - 'core.navigation'
+      let results = await db.find("core.company", { url: `/${navName}` });
       // if result is not found then load default navigation
-      results = await db.find("core.company", { url: `/` });
+      if (results.length == 0)
+        results = await db.find("core.company", { url: `/` });
+      if (results && results.length > 0) nav = results[0];
     }
 
-    return results[0];
+    return nav;
   }
-
 }
 
 module.exports = new Router();

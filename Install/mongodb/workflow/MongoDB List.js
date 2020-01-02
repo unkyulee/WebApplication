@@ -51,12 +51,22 @@ async function run() {
             filter["$and"].push(f);
           }
           break;
-          case "filter":
-            {
+        case "filter":
+          {
+            // add filter
+            filter["$and"].push(eval(field.filter));
+          }
+          break;
+        case "token":
+          {
+            if (res.locals.token[field.key]) {
               // add filter
-              filter["$and"].push(eval(field.filter));
+              let f = {};
+              f[field.column] = res.locals.token[field.key];
+              filter["$and"].push(f);
             }
-            break;
+          }
+          break;
       }
     }
   }
@@ -92,7 +102,8 @@ async function run() {
     else if (key === "_sort_desc") continue;
     else if (key === "_projection") continue;
     // _id gets ObjectId wrapper
-    else if (key === "_id" && data[key]) filter.$and.push({ _id: ObjectID(data[key]) });
+    else if (key === "_id" && data[key])
+      filter.$and.push({ _id: ObjectID(data[key]) });
     // search
     else if (key === "_search") {
       if (data[key]) {

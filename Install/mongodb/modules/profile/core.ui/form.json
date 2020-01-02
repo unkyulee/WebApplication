@@ -10,6 +10,7 @@
     "overflow-y": "auto",
     "padding": "8px"
   },
+  "init": "this.rest.request(`/api/profile/user`).subscribe(r => this.data = r.data[0])",
   "screen": [
     {
       "key": "id",
@@ -55,7 +56,7 @@
       "icon": "save",
       "label": "Salva",
       "color": "primary",
-      "click": "this.event.send({name: 'save'});",
+      "click": "this.rest.request(`/api/profile/user`, this.data, 'post').subscribe(r => this.snackBar.open('Salvato', null, { duration: 2000 }))",
       "layoutStyle": {
         "width": "100%"
       }
