@@ -45,7 +45,7 @@
       "icon": "vpn_key",
       "color": "warn",
       "label": "Cambia la password",
-      "click": "this.event.send({name:'open-dialog', uiElementId: '100000000000000000000010', width: '90vw', maxWidth: '400px', panelClass: '', data: this.data});",
+      "click": "this.event.send({name:'open-dialog', uiElementId: '100000000000000000000010', option: {width: '90vw', maxWidth: '400px'}, data: this.data});",
       "layoutStyle": {
         "width": "100%"
       }
