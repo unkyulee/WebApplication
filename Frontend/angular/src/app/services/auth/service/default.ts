@@ -37,7 +37,7 @@ export class DefaultAuthStrategy {
         .subscribe(() => {
           // login success
           isAuthenticated$.next(true);
-          this.event.send({ name: "login-success" });
+          this.event.sendAsync({ name: "login-success" });
           resolve();
         });
     });

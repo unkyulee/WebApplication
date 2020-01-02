@@ -15,7 +15,6 @@ import * as obj from "object-path";
 import { BaseComponent } from "../ui/base.component";
 import { UIComposerDialogComponent } from "./ui-composer-dialog/ui-composer-dialog.component";
 import { UIComposerActionsComponent } from "./ui-composer-actions/ui-composer-actions.component";
-import { Observable, Subject } from "rxjs";
 
 @Component({
   selector: "layout",

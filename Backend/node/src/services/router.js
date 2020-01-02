@@ -64,8 +64,8 @@ class Router {
 
     let nav;
     if (navName == "api") {
-      let apiPath = req.url.split("/")[2];
-      let apiName = req.url.split("/")[3];
+      let apiPath = req.path.split("/")[2];
+      let apiName = req.path.split("/")[3];
 
       let results = await db.find("core.websvc", {
         url: `${apiPath}/${apiName}`

@@ -1,0 +1,298 @@
+{
+  "_id": "000000000000000000000121",
+  "name": "Scheduled Task Detail",
+  "type": "layout",
+  "layoutStyle": {
+    "width": "100%",
+    "display": "flex",
+    "flex-wrap": "wrap",
+    "color": "white",
+    "height": "100%"
+  },
+  "screen": [
+    {
+      "type": "layout",
+      "layoutStyle": {
+        "background": "rgb(44, 49, 61)",
+        "width": "100%",
+        "display": "flex",
+        "flex-wrap": "wrap",
+        "color": "white"
+      },
+      "screen": [
+        {
+          "type": "div",
+          "comment": "spacer",
+          "layoutStyle": {
+            "flex-grow": 1,
+            "width": "1px"
+          }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "save",
+          "click": "this.event.send({ 'name': 'save' });"
+        }
+      ]
+    },
+    {
+      "type": "form-generator",
+      "src": "`/api/admin/task?_id=${this.data._params_._id}`",
+      "method": "get",
+      "transform": "response.data[0]",
+      "layoutStyle": {
+        "flex-grow": 1,
+        "display": "flex",
+        "flex-direction": "column",
+        "height": "100%",
+        "overflow-y": "auto"
+      },
+      "save": {
+        "src": "`/api/admin/task`",
+        "method": "post",
+        "transform": "delete data.instances; delete data.actions;",
+        "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
+      },
+      "screen": [
+        {
+          "expanded": true,
+          "style": {
+            "width": "100%"
+          },
+          "header": {
+            "screen": [
+              {
+                "type": "typography",
+                "text": "Task Detail"
+              }
+            ]
+          },
+          "screen": [
+            {
+              "type": "typography",
+              "condition": "this.data.status",
+              "key": "status",
+              "style": {
+                "fontWeight": "bold",
+                "background": "grey",
+                "padding": "8px",
+                "margin": "4px",
+                "color": "white",
+                "textAlign": "center"
+              }
+            },
+            {
+              "type": "input",
+              "key": "name",
+              "label": "Task name",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "input",
+              "key": "cron",
+              "label": "CRON",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "input",
+              "inputType": "date",
+              "key": "next_run_date",
+              "label": "Next Run",
+              "readonly": "true",
+              "format": "this.data.next_run_date ? moment(this.data.next_run_date).format('L LT') : ''",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "button",
+              "label": "Run",
+              "color": "warn",
+              "click": "this.data.status = ''; this.data.next_run_date = new Date(); this.event.send({name: 'save'});"
+            }
+          ]
+        },
+        {
+          "expanded": true,
+          "style": {
+            "width": "100%"
+          },
+          "header": {
+            "screen": [
+              {
+                "type": "typography",
+                "text": "Actions"
+              }
+            ]
+          },
+          "screen": [
+            {
+              "type": "layout",
+              "layoutStyle": {
+                "display": "flex",
+                "width": "100%",
+                "padding": "4px"
+              },
+              "screen": [
+                {
+                  "type": "layout",
+                  "layoutStyle": {
+                    "flex-grow": 1,
+                    "width": "1px"
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "New Action",
+                  "color": "warn",
+                  "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000122', data: {task_id: this.data._id} });"
+                }
+              ]
+            },
+            {
+              "type": "data-table",
+              "condition": "this.data._id",
+              "tableType": "list",
+              "key": "actions",
+              "src": "`/api/admin/taskaction?task_id=${this.data._id}&_sort=order&size=1000`",
+              "method": "get",
+              "transform": "response.data",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "itemBoxStyle": {
+                "margin": "4px",
+                "background": "aliceblue",
+                "display": "flex",
+                "cursor": "pointer"
+              },
+              "click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000122', data: item});",
+              "columns": [
+                {
+                  "type": "typography",
+                  "condition": "this.data.enabled == false",
+                  "text": "disabled",
+                  "style": {
+                    "color": "crimson",
+                    "padding": "4px",
+                    "fontWeight": "bold"
+                  }
+                },
+                {
+                  "type": "typography",
+                  "key": "order",
+                  "style": {
+                    "color": "grey",
+                    "padding": "4px"
+                  }
+                },
+                {
+                  "type": "typography",
+                  "key": "name",
+                  "style": {
+                    "fontWeight": "bold",
+                    "padding": "4px"
+                  }
+                },
+                {
+                  "type": "layout",
+                  "layoutStyle": {
+                    "width": "1px",
+                    "flex-grow": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "expanded": true,
+          "style": {
+            "width": "100%"
+          },
+          "header": {
+            "screen": [
+              {
+                "type": "typography",
+                "text": "Task Execution History"
+              }
+            ]
+          },
+          "screen": [
+            {
+              "type": "data-table",
+              "tableType": "list",
+              "key": "instances",
+              "src": "`/api/admin/taskinstance?task_id=${this.data._id}&_sort_desc=started`",
+              "method": "get",
+              "transform": "response.data",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "itemBoxStyle": {
+                "margin": "4px",
+                "padding": "4px",
+                "background": "aliceblue",
+                "display": "flex",
+                "cursor": "pointer"
+              },
+              "click": "this.event.send({name:'open-dialog', width: '80vw', height: '80vh', uiElementId: '000000000000000000000123', data: {_id: item._id} });",
+              "columns": [
+                {
+                  "type": "typography",
+                  "key": "status",
+                  "label": "status"
+                },
+                {
+                  "type": "layout",
+                  "layoutStyle": {
+                    "width": "1px",
+                    "flexGrow": 1
+                  }
+                },
+                {
+                  "type": "typography",
+                  "key": "started",
+                  "label": "started",
+                  "format": "moment(v).format('L LTS')"
+                },
+                {
+                  "type": "layout",
+                  "layoutStyle": {
+                    "width": "1px",
+                    "flexGrow": 1
+                  }
+                },
+                {
+                  "type": "typography",
+                  "key": "ended",
+                  "label": "ended",
+                  "format": "moment(v).format('L LTS')"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "contentStyle": {
+    "display": "flex",
+    "flexDirection": "column",
+    "height": "100%"
+  }
+}

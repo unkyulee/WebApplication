@@ -1,5 +1,8 @@
 <!-- Close Button -->
-<button class="mat-icon-button back" (click)="event.send({name: 'drawer-toggle'})">
+<button
+  class="mat-icon-button back"
+  (click)="event.send({ name: 'drawer-toggle' })"
+>
   <span class="mat-button-wrapper">
     <mat-icon
       class="secondary-text mat-icon material-icons"
@@ -11,9 +14,7 @@
 </button>
 
 <div [ngStyle]="config.get('theme.navigation.header.style')">
-  <ng-container
-    *ngFor="let ui of config.get('theme.navigation.header.screen')"
-  >
+  <ng-container *ngFor="let ui of config.get('theme.navigation.header.screen')">
     <ng-container
       ui-layout-wrapper
       [uiElement]="ui"

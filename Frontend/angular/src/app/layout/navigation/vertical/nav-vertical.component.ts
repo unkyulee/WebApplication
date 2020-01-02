@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+import * as obj from "object-path";
+
+// user imports
 import { BaseComponent } from 'src/app/ui/base.component';
 
 @Component({
@@ -11,8 +14,9 @@ export class NavVerticalComponent extends BaseComponent {
   ngOnInit() {
     // detect configuration changes
     this.onEvent = this.event.onEvent.subscribe(event => {
-      if (event.name == "navigation-changed")
-        this.currUrl = event.data.url;
+      if (event.name == "navigation-changed") {
+        this.currUrl = obj.get(event, "data.url");
+      }
     });
   }
 

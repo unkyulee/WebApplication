@@ -1,0 +1,212 @@
+{
+  "_id": "000000000000000000000013",
+  "name": "Angular Navigation",
+  "type": "layout",
+  "contentStyle": {
+    "display": "flex",
+    "flexDirection": "column",
+    "flexGrow": 1
+  },
+  "layoutStyle": {
+    "width": "100%",
+    "display": "flex",
+    "flex-direction": "column",
+    "color": "white",
+    "height": "100%"
+  },
+  "screen": [
+    {
+      "name": "Filter",
+      "type": "layout",
+      "layoutStyle": {
+        "background": "#2C313D",
+        "color": "white",
+        "display": "flex",
+        "flex-flow": "row wrap",
+        "min-height": "40px"
+      },
+      "init": "obj.ensureExists(this.data, 'filter_navigation', {});",
+      "screen": [
+        {
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "filter_list",
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'filter_navigation'})"
+        },
+        {
+          "type": "div",
+          "comment": "spacer",
+          "layoutStyle": {
+            "flex-grow": 1
+          },
+          "style": {
+            "width": "1px"
+          }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "add_circle",
+          "click": "this.router.navigateByUrl(`/angular.navigation/detail`)"
+        }
+      ]
+    },
+    {
+      "type": "side-nav",
+      "key": "filter_navigation",
+      "opened": "this.config.isHandset == false ? true : false",
+      "mode": "this.config.isHandset == false ? 'side' : 'over'",
+      "layoutStyle": {
+        "flex-grow": 1,
+        "height": "100%",
+        "width": "100%",
+        "display": "flex",
+        "flex-direction": "column"
+      },
+      "containerStyle": {
+        "display": "flex",
+        "flex-direction": "column",
+        "height": "100%"
+      },
+      "sideStyle": {
+        "background": "ghostwhite",
+        "display": "flex",
+        "flexFlow": "row wrap",
+        "color": "black",
+        "padding": "4px",
+        "max-width": "300px"
+      },
+      "sideScreen": [
+        {
+          "type": "input",
+          "key": "filter_navigation._search",
+          "default": "``",
+          "label": "Cerca ...",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'navigations'});"
+        },
+        {
+          "type": "selection",
+          "selectionType": "autocomplete",
+          "label": "Site",
+          "floatLabel": "auto",
+          "src": "`/api/admin/core.company?name=${obj.get(this, '_value', '')}`",
+          "transform": "response.data",
+          "optionLabelTransform": "`${option.name} - ${option.module} - ${option.url}`",
+          "inputValueTransform": "obj.has(this, '_value._id') ? `${this._value.name}` : this._value",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "selected": "this.data.filter_navigation.navigation_id = this._value._id; this.event.send({name:'refresh', key: 'navigations'});"
+        },
+        {
+          "type": "input",
+          "key": "filter_navigation._id",
+          "default": "``",
+          "label": "_id",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'navigations'});"
+        },
+        {
+          "type": "typography",
+          "text": " ",
+          "style": {
+            "height": "64px"
+          }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-fab",
+          "color": "warn",
+          "icon": "search",
+          "condition": "this.config.isHandset",
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'filter_navigation'})",
+          "layoutStyle": {
+            "position": "absolute",
+            "bottom": "24px",
+            "right": "24px"
+          }
+        }
+      ],
+      "screen": [
+        {
+          "type": "data-table",
+          "tableType": "card",
+          "key": "navigations",
+          "src": "`/api/admin/angular.navigation?_sort=order`",
+          "method": "get",
+          "transform": "response.data",
+          "preProcess": "data = {...data, ...this.data.filter_navigation}",
+          "layoutStyle": {
+            "flex-grow": 1,
+            "display": "flex",
+            "flex-direction": "column",
+            "height": "100%",
+            "overflow-y": "auto",
+            "width": "100%"
+          },
+          "itemBoxStyle": {
+            "cursor": "pointer",
+            "margin": "8px",
+            "padding": "4px",
+            "fontSize": "small"
+          },
+          "click": "this.router.navigateByUrl(`/angular.navigation/detail?_id=${item._id}`)",
+          "columns": [
+            {
+              "type": "typography",
+              "key": "name",
+              "label": "name",
+              "style": {
+                "fontWeight": "bold"
+              }
+            },
+            {
+              "type": "typography",
+              "key": "_id",
+              "label": "_id",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+            },
+            {
+              "type": "typography",
+              "key": "navigation_id",
+              "label": "site",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+            },
+            {
+              "type": "typography",
+              "key": "url"
+            },
+            {
+              "type": "typography",
+              "key": "order",
+              "label": "order",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+            },
+            {
+              "type": "typography",
+              "key": "ACL",
+              "label": "ACL",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

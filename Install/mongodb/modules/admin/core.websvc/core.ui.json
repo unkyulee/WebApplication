@@ -1,0 +1,17 @@
+{
+  "_id": ObjectId("200000000000000000000030"),
+  "url": "admin/core.ui",
+  "description": "core.ui",
+  "get_description": "Get",
+  "get_configuration": "{collection: 'core.ui'}",
+  "get_datasource": "000000000000000000000000",
+  "get_workflow": "000000000000000000000010",
+  "post_description": "Upsert",
+  "post_configuration": "{collection: 'core.ui'}",
+  "post_datasource": "000000000000000000000000",
+  "post_workflow": "000000000000000000000020",
+  "delete_description": "Delete",
+  "delete_configuration": "{collection: 'core.ui'}",
+  "delete_datasource": "000000000000000000000000",
+  "delete_workflow": "000000000000000000000030"
+}

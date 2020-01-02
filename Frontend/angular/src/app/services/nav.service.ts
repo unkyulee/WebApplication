@@ -25,13 +25,15 @@ export class NavService {
 
   loadNavigation() {
     this.rest
-      .request(`${this.config.get("host")}${this.config.get("url")}/navigation.config`)
+      .request(
+        `${this.config.get("host")}${this.config.get("url")}/navigation.config`
+      )
       .subscribe(r => {
         //
         let nav = this.config.get("nav");
-        if(JSON.stringify(nav) != JSON.stringify(r.nav)) {
+        if (JSON.stringify(nav) != JSON.stringify(r.nav)) {
           this.config.set("nav", r.nav);
-          this.event.send({name: "navigation-updated"})
+          this.event.send({ name: "navigation-updated" });
         }
 
         // update
@@ -47,41 +49,42 @@ export class NavService {
       // save current url
       this.currUrl = e.url;
       this.currNav = this.find(e.url);
-
-      // check if the current url and found url has the same
-      if (this.currNav && this.currUrl.includes(this.currNav.url) == false) {
-        this.router.navigateByUrl("/");
-      }
-
-      // check any auto login parameters to be saved
-      let params = this.getParams();
-
-      // see if there is a navigation filter
-      if (this.config.get("navigation.filter")) {
-        try {
-          eval(this.config.get("navigation.filter"));
-        } catch (e) {
-          console.error(e);
+      if (this.currNav) {
+        // check if the current url and found url has the same
+        if (this.currNav && this.currUrl.includes(this.currNav.url) == false) {
+          this.router.navigateByUrl("/");
         }
-      }
 
-      // if it is at the root with no navigation assigned
-      // then navigate to the first item
-      if (e.url == "/") {
-        let first = this.find(e.url);
-        if (first && first.url != e.url) this.router.navigateByUrl(first.url);
-      }
+        // check any auto login parameters to be saved
+        let params = this.getParams();
 
-      // send out events
-      this.event.send({
-        name: "navigation-changed",
-        data: this.currNav
-      });
+        // see if there is a navigation filter
+        if (this.config.get("navigation.filter")) {
+          try {
+            eval(this.config.get("navigation.filter"));
+          } catch (e) {
+            console.error(e);
+          }
+        }
+
+        // if it is at the root with no navigation assigned
+        // then navigate to the first item
+        if (e.url == "/") {
+          let first = this.find(e.url);
+          if (first && first.url != e.url) this.router.navigateByUrl(first.url);
+        }
+
+        // send out events
+        this.event.send({
+          name: "navigation-changed",
+          data: this.currNav
+        });
+      }
     }
   }
 
   eventHandler(e) {
-    if (e == "authenticated" || e.name == "navigation-updated") {
+    if (e.name == "login-success" || e.name == "navigation-updated") {
       // set initial navigation
       this.currNav = this.find(this.currUrl);
       if (this.currNav) {
@@ -91,13 +94,13 @@ export class NavService {
         if (queryStrings.length > 1) url += `?${queryStrings[1]}`;
 
         this.router.navigateByUrl(url);
-      }
 
-      // send out events - trying to force reload the page
-      this.event.send({
-        name: "navigation-changed",
-        data: this.currNav
-      });
+        // send out events - trying to force reload the page
+        this.event.send({
+          name: "navigation-changed",
+          data: this.currNav
+        });
+      }
     }
   }
 
