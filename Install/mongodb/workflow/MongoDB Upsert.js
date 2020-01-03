@@ -72,7 +72,9 @@ async function run() {
 
   // retrieve current data
   let rows = await ds.find(config.collection, {
-    _id: ObjectID(data._id)
+    query: {
+      _id: ObjectID(data._id)
+    }
   });
   let row = null;
   if (rows.length > 0) row = rows[0];
@@ -147,11 +149,9 @@ async function run() {
           break;
         case "ObjectID":
           if (data[def.column]) {
-            if(Array.isArray(data[def.column])) {
+            if (Array.isArray(data[def.column])) {
               data[def.column] = data[def.column].map(x => ObjectID(x));
-            }
-            else
-              data[def.column] = ObjectID(data[def.column]);
+            } else data[def.column] = ObjectID(data[def.column]);
           }
           break;
       }
@@ -174,7 +174,7 @@ async function run() {
 
   // upsert
   let upsertedId = null;
-  if (row || data._id) {
+  if (row) {
     upsertedId = await ds.update(collection, data);
   } else {
     upsertedId = await ds.insert(collection, data);

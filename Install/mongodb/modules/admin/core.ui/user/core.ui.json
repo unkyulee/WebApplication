@@ -199,13 +199,26 @@
                 }
               },
               {
-                "type": "typography",
-                "key": "groups",
-                "label": "groups",
-                "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
+                "type": "data-table",
+                "tableType": "list",
+                "key": "_params_.groups",
                 "layoutStyle": {
-                  "width": "100%"
-                }
+                  "width": "100%",
+                  "margin": "4px"
+                },
+                "columns": [
+                  {
+                    "type": "typography",
+                    "key": "name",
+                    "style": {
+                      "background": "dimgray",
+                      "width": "fit-content",
+                      "padding": "3px",
+                      "borderRadius": "4px",
+                      "color": "white"
+                    }
+                  }
+                ]
               }
             ]
           }

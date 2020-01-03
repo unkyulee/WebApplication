@@ -53,13 +53,15 @@ class MongoDB {
     return new Promise(function(resolve, reject) {
       if (!that.db) reject("db not initialized");
       let q = that.db.collection(collection);
-      if (query.query) q = q.find(query.query);
-      if (query.aggregate) q = q.aggregate(query.aggregate);
+      if (query.query && !query.aggregate) q = q.find(query.query);
+      if (query.aggregate) {
+        if (query.query) query.aggregate.unshift({ $match: query.query });
+        q = q.aggregate(query.aggregate);
+      }
       if (query.project) q = q.project(query.project);
       if (query.sort) q = q.sort(query.sort);
       if (query.limit) q = q.limit(query.limit);
       if (query.skip) q = q.skip(query.skip);
-
       q.toArray(function(err, results) {
         if (err) reject(err);
         resolve(results);

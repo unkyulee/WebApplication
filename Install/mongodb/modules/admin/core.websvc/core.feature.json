@@ -1,0 +1,17 @@
+{
+  "_id": "200000000000000000000020",
+  "url": "admin/core.feature",
+  "description": "core.feature",
+  "get_description": "Get",
+  "get_configuration": "{collection: 'core.feature'}",
+  "get_datasource": "000000000000000000000000",
+  "get_workflow": "000000000000000000000010",
+  "post_description": "Upsert",
+  "post_configuration": "{collection: 'core.feature'}",
+  "post_datasource": "000000000000000000000000",
+  "post_workflow": "000000000000000000000020",
+  "delete_description": "Delete",
+  "delete_configuration": "{collection: 'core.feature'}",
+  "delete_datasource": "000000000000000000000000",
+  "delete_workflow": "000000000000000000000030"
+}

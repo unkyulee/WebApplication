@@ -44,7 +44,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "this.router.navigateByUrl(`/core.config/detail`)"
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000051', option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})"
         }
       ]
     },
@@ -135,17 +135,27 @@
             "display": "flex",
             "flex-direction": "column",
             "height": "100%",
-            "overflow-y": "auto"
+            "overflow-y": "auto",
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%",
+            "display": "flex",
+            "flex-direction": "column"
+          },
+          "contentLayoutStyle": {
+            "flex-grow": 1,
+            "height": "100%"
           },
           "itemBoxStyle": {
             "cursor": "pointer",
             "margin": "8px",
-            "padding": "4px",
-            "font-size": "small",
+            "padding": "8px",
+            "fontSize": "small",
             "display": "flex",
-            "flex-flow": "row wrap"
+            "flexFlow": "row wrap"
           },
-          "click": "this.router.navigateByUrl(`/core.config/detail?_id=${item._id}`)",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000051', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
           "columns": [
             {
               "type": "typography",
@@ -181,8 +191,8 @@
             },
             {
               "type": "typography",
-              "key": "navigation_id",
-              "format": "`navigation_id: ${this._value}`",
+              "key": "company_id",
+              "format": "`company: ${this._value}`",
               "layoutStyle": {
                 "width": "100%"
               },
