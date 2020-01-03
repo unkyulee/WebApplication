@@ -1,6 +1,6 @@
 {
-  "_id": "000000000000000000000013",
-  "name": "Angular Navigation",
+  "_id": "200000000000000000000010",
+  "name": "Core Company",
   "type": "layout",
   "contentStyle": {
     "display": "flex",
@@ -25,13 +25,13 @@
         "flex-flow": "row wrap",
         "min-height": "40px"
       },
-      "init": "obj.ensureExists(this.data, 'filter_navigation', {});",
+      "init": "obj.ensureExists(this.data, 'filter', {});",
       "screen": [
         {
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "filter_list",
-          "click": "this.event.send({name: 'toggle-sidenav', key: 'filter_navigation'})"
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'filter'})"
         },
         {
           "type": "div",
@@ -47,13 +47,13 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "this.router.navigateByUrl(`/angular.navigation/detail`)"
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000011', option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})"
         }
       ]
     },
     {
       "type": "side-nav",
-      "key": "filter_navigation",
+      "key": "filter",
       "opened": "this.config.isHandset == false ? true : false",
       "mode": "this.config.isHandset == false ? 'side' : 'over'",
       "layoutStyle": {
@@ -79,7 +79,7 @@
       "sideScreen": [
         {
           "type": "input",
-          "key": "filter_navigation._search",
+          "key": "filter.name",
           "default": "``",
           "label": "Cerca ...",
           "floatLabel": "auto",
@@ -89,28 +89,11 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'navigations'});"
-        },
-        {
-          "type": "selection",
-          "selectionType": "autocomplete",
-          "label": "Site",
-          "floatLabel": "auto",
-          "src": "`/api/admin/core.company?name=${obj.get(this, '_value', '')}`",
-          "transform": "response.data",
-          "optionLabelTransform": "`${option.name} - ${option.module} - ${option.url}`",
-          "inputValueTransform": "obj.has(this, '_value._id') ? `${this._value.name}` : this._value",
-          "layoutStyle": {
-            "width": "100%"
-          },
-          "style": {
-            "width": "100%"
-          },
-          "selected": "this.data.filter_navigation.navigation_id = this._value._id; this.event.send({name:'refresh', key: 'navigations'});"
+          "changed": "this.event.send({name:'refresh', key: 'companies'});"
         },
         {
           "type": "input",
-          "key": "filter_navigation._id",
+          "key": "filter._id",
           "default": "``",
           "label": "_id",
           "floatLabel": "auto",
@@ -120,7 +103,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'navigations'});"
+          "changed": "this.event.send({name:'refresh', key: 'companies'});"
         },
         {
           "type": "typography",
@@ -135,7 +118,7 @@
           "color": "warn",
           "icon": "search",
           "condition": "this.config.isHandset",
-          "click": "this.event.send({name: 'toggle-sidenav', key: 'filter_navigation'})",
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'filter'})",
           "layoutStyle": {
             "position": "absolute",
             "bottom": "24px",
@@ -147,11 +130,11 @@
         {
           "type": "data-table",
           "tableType": "card",
-          "key": "navigations",
-          "src": "`/api/admin/angular.navigation?_sort=order`",
+          "key": "companies",
+          "src": "`/api/admin/core.company?_sort=order`",
           "method": "get",
           "transform": "response.data",
-          "preProcess": "data = {...data, ...this.data.filter_navigation}",
+          "preProcess": "data = {...data, ...this.data.filter}",
           "layoutStyle": {
             "flex-grow": 1,
             "display": "flex",
@@ -160,49 +143,64 @@
             "overflow-y": "auto",
             "width": "100%"
           },
+          "style": {
+            "width": "100%",
+            "display": "flex",
+            "flex-direction": "column"
+          },
+          "contentLayoutStyle": {
+            "flex-grow": 1,
+            "height": "100%"
+          },
           "itemBoxStyle": {
             "cursor": "pointer",
             "margin": "8px",
-            "padding": "4px",
-            "fontSize": "small"
+            "padding": "8px",
+            "fontSize": "small",
+            "display": "flex",
+            "flexFlow": "row wrap"
           },
-          "click": "this.router.navigateByUrl(`/angular.navigation/detail?_id=${item._id}`)",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000011', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
           "columns": [
             {
               "type": "typography",
               "key": "name",
               "label": "name",
+              "layoutStyle": {
+                "width": "100%"
+              },
               "style": {
-                "fontWeight": "bold"
+                "fontWeight": "bold",
+                "fontSize": "larger"
               }
             },
             {
               "type": "typography",
-              "key": "_id",
-              "label": "_id",
-              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+              "key": "description",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "color": "gray"
+              }
             },
             {
               "type": "typography",
-              "key": "navigation_id",
-              "label": "site",
-              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+              "key": "url",
+              "label": "url",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
+              "layoutStyle": {
+                "width": "100%"
+              }
             },
             {
               "type": "typography",
-              "key": "url"
-            },
-            {
-              "type": "typography",
-              "key": "order",
-              "label": "order",
-              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
-            },
-            {
-              "type": "typography",
-              "key": "ACL",
-              "label": "ACL",
-              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+              "key": "features",
+              "label": "features",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
+              "layoutStyle": {
+                "width": "100%"
+              }
             }
           ]
         }

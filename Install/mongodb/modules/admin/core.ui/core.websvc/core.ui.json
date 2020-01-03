@@ -45,7 +45,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000061', option: {width: '100vw', height: '100vh'}})"
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000061', option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})"
         }
       ]
     },

@@ -144,7 +144,7 @@
           "save": {
             "src": "`/api/admin/core.ui`",
             "method": "post",
-            "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
+            "saveAction": "if(!this.data._id) { this.data._id = response._id; } this.snackBar.open('Salvato', null, { duration: 2000 });"
           },
           "editorOptions": {
             "theme": "vs-dark",

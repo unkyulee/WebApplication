@@ -1,5 +1,5 @@
 {
-  "_id": "000000000000000000000120",
+  "_id": "200000000000000000000100",
   "name": "Scheduled Task",
   "type": "layout",
   "contentStyle": {
@@ -44,7 +44,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "this.router.navigateByUrl(`/task/detail`)"
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000101', option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})"
         }
       ]
     },

@@ -138,7 +138,7 @@
             "editorType": "json",
             "key": "cms",
             "path": "",
-            "init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send('splash-show');\r\n   this.rest.request(`/api/admin/cms?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
+            "init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send({name: 'splash-show'});\r\n   this.rest.request(`/api/admin/cms?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
             "save": {
               "src": "`/api/admin/cms`",
               "method": "post",
