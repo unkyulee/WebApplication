@@ -47,46 +47,23 @@ class MongoDB {
     });
   }
 
-  async find(
-    collection,
-    query,
-    sort = null,
-    limit = 10,
-    skip = 0,
-    project = {}
-  ) {
+  async find(collection, query) {
     let that = this;
-    if (!sort) sort = { _created: -1 };
 
     return new Promise(function(resolve, reject) {
       if (!that.db) reject("db not initialized");
-      that.db
-        .collection(collection)
-        .find(query)
-        .project(project)
-        .sort(sort)
-        .limit(limit)
-        .skip(skip)
-        .toArray(function(err, results) {
-          if (err) reject(err);
-          resolve(results);
-        });
-    });
-  }
+      let q = that.db.collection(collection);
+      if (query.query) q = q.find(query.query);
+      if (query.aggregate) q = q.aggregate(query.aggregate);
+      if (query.project) q = q.project(query.project);
+      if (query.sort) q = q.sort(query.sort);
+      if (query.limit) q = q.limit(query.limit);
+      if (query.skip) q = q.skip(query.skip);
 
-  async aggregate(collection, query, group, sort) {
-    let that = this;
-    if (!sort) sort = { _created: -1 };
-
-    return new Promise(function(resolve, reject) {
-      if (!that.db) reject("db not initialized");
-      that.db
-        .collection(collection)
-        .aggregate([{ $match: query }, { $group: group }])
-        .toArray((err, results) => {
-          if (err) reject(err);
-          resolve(results);
-        });
+      q.toArray(function(err, results) {
+        if (err) reject(err);
+        resolve(results);
+      });
     });
   }
 
@@ -128,7 +105,7 @@ class MongoDB {
       if (!that.db) reject("db not initialized");
 
       // INSERT
-      if(data._id) data._id = ObjectID(`${data._id}`)
+      if (data._id) data._id = ObjectID(`${data._id}`);
       that.db.collection(collection).insertOne(data, (err, res) => {
         if (err) reject(err);
         resolve(data._id);

@@ -53,8 +53,10 @@ class Auth {
     if (req.body.id && req.headers["company_id"]) {
       // find in the db - 'core.user'
       let results = await db.find("core.user", {
-        id: req.body.id,
-        company_id: req.headers["company_id"]
+        query: {
+          id: req.body.id,
+          company_id: req.headers["company_id"]
+        }
       });
       if (results.length > 0) {
         let user = results[0];
@@ -196,27 +198,8 @@ class Auth {
 
     return authorized;
     */
-
   }
 
-
-  async getRoles(db, eq, res, user) {
-    let roleIds = {};
-
-    // get groups
-    let groups = obj.get(user, "groups");
-    if (groups) {
-      for (let group of groups) {
-        // get roles
-        let roles = await db.find("core.role", {
-          groups: `${group._id}`
-        });
-        for (let role of roles) roleIds[`${role._id}`] = 1;
-      }
-    }
-
-    return Object.keys(roleIds);
-  }
 }
 
 module.exports = new Auth();

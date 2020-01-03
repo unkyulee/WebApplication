@@ -172,18 +172,19 @@ async function run() {
 
   // query to the collection
   let result = [];
-  if (data._aggregation)
-    result = await ds.aggregate(collection, filter, jsonic(data._aggregation));
-  else
-    result = await ds.find(
-      collection,
-      filter,
+  let total = 0;
+  result = await ds.find(
+    collection,
+    {
+      query: filter,
+      aggregate: config.aggregate,
       sort,
       size,
-      (page - 1) * size,
+      skip: (page - 1) * size,
       projection
-    );
-  let total = await ds.count(collection, filter);
+    }
+  );
+  total = await ds.count(collection, filter);
 
   // remove fields
   if (config.excludeFields) {

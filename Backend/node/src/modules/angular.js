@@ -52,7 +52,7 @@ async function LoginScreen(db, req, res) {
   // retrieve login screen
   let _id = obj.get(res.locals, "nav.login");
   if (_id) {
-    let results = await db.find("core.ui", { _id: ObjectID(_id) });
+    let results = await db.find("core.ui", { query: { _id: ObjectID(_id) } });
     if (results && results.length > 0) return results[0];
   }
 }
@@ -62,29 +62,31 @@ async function Navigation(db, req, res) {
   let _id = obj.get(res.locals, "nav.theme");
   let theme = {};
   if (_id) {
-    let results = await db.find("core.theme", { _id: ObjectID(_id) });
+    let results = await db.find("core.theme", {
+      query: { _id: ObjectID(_id) }
+    });
     if (results && results.length > 0) theme = results[0];
   }
 
   // retrieve features and load navigation
   let nav = [];
   let features = obj.get(res.locals, "nav.features", []);
-  for(let feature of features) {
-    let results = await db.find("core.feature", { key: feature });
-    if(results && results.length > 0) {
+  for (let feature of features) {
+    let results = await db.find("core.feature", { query: { key: feature } });
+    if (results && results.length > 0) {
       let navigations = obj.get(results[0], "navigations");
-      if(navigations) nav = [...nav, ...navigations];
+      if (navigations) nav = [...nav, ...navigations];
     }
   }
 
-  return {theme, nav}
+  return { theme, nav };
 }
 
 async function UIElement(db, req, res) {
   let id = obj.get(req.query, "uiElementId");
-  if(id) {
-    let results = await db.find("core.ui", { _id: ObjectID(id) });
-    if(results && results.length > 0) return results[0]
+  if (id) {
+    let results = await db.find("core.ui", { query: { _id: ObjectID(id) } });
+    if (results && results.length > 0) return results[0];
   }
 }
 

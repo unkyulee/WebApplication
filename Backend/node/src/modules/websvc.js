@@ -24,7 +24,9 @@ module.exports.process = async function process(db, req, res) {
   // load dataservices
   if (websvc[`${method}_datasource`]) {
     let dataservices = await db.find("core.dataservice", {
-      _id: ObjectID(websvc[`${method}_datasource`])
+      query: {
+        _id: ObjectID(websvc[`${method}_datasource`])
+      }
     });
     if (dataservices.length > 0) {
       let ds = dataservices[0];
@@ -38,7 +40,9 @@ module.exports.process = async function process(db, req, res) {
 
   if (workflow_id) {
     let workflows = await db.find("core.workflow", {
-      _id: ObjectID(workflow_id)
+      query: {
+        _id: ObjectID(workflow_id)
+      }
     });
     if (workflows.length > 0) {
       let workflow = workflows[0];

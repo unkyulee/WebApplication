@@ -94,12 +94,6 @@
             "type": "item",
             "url": "/core.group",
             "uiElementIds": ["200000000000000000000120"]
-          },
-          {
-            "name": "Role",
-            "type": "item",
-            "url": "/core.role",
-            "uiElementIds": ["200000000000000000000130"]
           }
       ]
     }

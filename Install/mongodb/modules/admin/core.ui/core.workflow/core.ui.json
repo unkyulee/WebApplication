@@ -44,7 +44,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "this.router.navigateByUrl(`/core.workflow/detail`)"
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000071', option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})"
         }
       ]
     },
@@ -87,7 +87,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name: 'refresh', key: 'core.workflow'});"
+          "changed": "this.event.send({name: 'refresh', key: 'core.workflows'});"
         },
         {
           "type": "input",
@@ -101,15 +101,15 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'core.workflow'});"
+          "changed": "this.event.send({name:'refresh', key: 'core.workflows'});"
         }
       ],
       "screen": [
         {
           "type": "data-table",
           "tableType": "card",
-          "key": "core.workflow",
-          "src": "`/api/admin/core.workflow?_projection=name,description`",
+          "key": "core.workflows",
+          "src": "`/api/admin/core.workflow`",
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filters};",
@@ -120,6 +120,15 @@
             "height": "100%",
             "overflow-y": "auto"
           },
+          "style": {
+            "width": "100%",
+            "display": "flex",
+            "flex-direction": "column"
+          },
+          "contentLayoutStyle": {
+            "flex-grow": 1,
+            "height": "100%"
+          },
           "itemBoxStyle": {
             "cursor": "pointer",
             "margin": "8px",
@@ -128,7 +137,7 @@
             "display": "flex",
             "flex-flow": "row wrap"
           },
-          "click": "this.router.navigateByUrl(`/core.workflow/detail?_id=${item._id}`)",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000071', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
           "columns": [
             {
               "type": "typography",
@@ -148,7 +157,8 @@
                 "width": "100%"
               },
               "style": {
-                "width": "100%"
+                "width": "100%",
+                "color": "gray"
               }
             }
           ]

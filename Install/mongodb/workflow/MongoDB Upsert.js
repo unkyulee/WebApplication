@@ -22,20 +22,19 @@ async function verify(ds, config, verifyConfig, data, row) {
           case "encryption":
             {
               let target = data[verifyConfig.field];
-              if(target) {
+              if (target) {
                 source = req.app.locals.encryption.decrypt(source);
                 result = source == target;
               } else {
                 result = true;
               }
-
             }
             break;
 
           case "hash":
             {
               let target = data[verifyConfig.field];
-              if(target) {
+              if (target) {
                 target = hash.hash(target);
                 result = source == target;
               } else {
@@ -118,9 +117,7 @@ async function run() {
         case "tokenIfNew":
           if (
             res.locals.token[def.key] &&
-            (
-              !row || (row && !row[def.column])
-            )
+            (!row || (row && !row[def.column]))
           ) {
             data[def.column] = res.locals.token[def.key];
           }
@@ -147,7 +144,15 @@ async function run() {
               data[def.column] = row[def.column];
             }
           }
-
+          break;
+        case "ObjectID":
+          if (data[def.column]) {
+            if(Array.isArray(data[def.column])) {
+              data[def.column] = data[def.column].map(x => ObjectID(x));
+            }
+            else
+              data[def.column] = ObjectID(data[def.column]);
+          }
           break;
       }
     }
@@ -156,11 +161,10 @@ async function run() {
   // encrypt fields
   if (config.encryptedFields) {
     for (let field of config.encryptedFields) {
-      if(data[field]) {
+      if (data[field]) {
         data[field] = req.app.locals.encryption.encrypt(data[field]);
       }
     }
-
   }
 
   // exclude fields
@@ -170,7 +174,7 @@ async function run() {
 
   // upsert
   let upsertedId = null;
-  if(row) {
+  if (row || data._id) {
     upsertedId = await ds.update(collection, data);
   } else {
     upsertedId = await ds.insert(collection, data);

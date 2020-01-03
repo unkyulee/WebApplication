@@ -131,7 +131,7 @@
           "type": "data-table",
           "tableType": "card",
           "key": "companies",
-          "src": "`/api/admin/core.company?_sort=order`",
+          "src": "`/api/admin/core.company`",
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filter}",

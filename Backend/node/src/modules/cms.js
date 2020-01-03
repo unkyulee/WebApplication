@@ -31,9 +31,11 @@ module.exports.process = async function process(db, req, res) {
 
   // search for contents in cms
   let results = await db.find("cms", {
-    navigation_id: `${res.locals.nav._id}`,
-    name: name,
-    folder: folder
+    query: {
+      navigation_id: `${res.locals.nav._id}`,
+      name: name,
+      folder: folder
+    }
   });
   if (results.length > 0) {
     return processContent(req, res, results[0]);
@@ -46,10 +48,10 @@ module.exports.process = async function process(db, req, res) {
 };
 
 async function processContent(req, res, content) {
-  if(content.headers) {
-   for(let header of content.headers) {
-    res.set(header.key, header.value);
-   }
+  if (content.headers) {
+    for (let header of content.headers) {
+      res.set(header.key, header.value);
+    }
   }
 
   if (content.type == "binary") {

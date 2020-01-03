@@ -68,7 +68,9 @@ class Router {
       let apiName = req.path.split("/")[3];
 
       let results = await db.find("core.websvc", {
-        url: `${apiPath}/${apiName}`
+        query: {
+          url: `${apiPath}/${apiName}`
+        }
       });
       if (results && results.length > 0) {
         nav = results[0];
@@ -76,10 +78,12 @@ class Router {
       }
     } else {
       // find in the db - 'core.navigation'
-      let results = await db.find("core.company", { url: `/${navName}` });
+      let results = await db.find("core.company", {
+        query: { url: `/${navName}` }
+      });
       // if result is not found then load default navigation
       if (results.length == 0)
-        results = await db.find("core.company", { url: `/` });
+        results = await db.find("core.company", { query: { url: `/` } });
       if (results && results.length > 0) nav = results[0];
     }
 
