@@ -1,11 +1,12 @@
 const hash = require("../lib/hash");
 const jwt = require("jsonwebtoken");
 const ObjectID = require("mongodb").ObjectID;
-const strMatch = require("../lib/strMatch").strMatch;
-const obj = require("object-path");
 
 class Auth {
   async canModuleProcess(db, req, res) {
+    // check if the request is authenticated
+    let isAuthenticated = await this.isAuthenticated(db, req, res);
+
     // check if the current module requires authentication
     let requiresAuthentication = await res.locals.module.requiresAuthentication(
       db,
@@ -16,9 +17,6 @@ class Auth {
     if (requiresAuthentication == false) {
       return true;
     }
-
-    // check if the request is authenticated
-    let isAuthenticated = await this.isAuthenticated(db, req, res);
     if (isAuthenticated == false) {
       // if not authenticated then try to authenticate the request
       isAuthenticated = await this.authenticate(db, req, res);
@@ -29,20 +27,11 @@ class Auth {
 
         // authentication failed
         res.status(403);
-        return false;
       }
     }
 
-    // check if the request is authorized
-    let isAuthorized = await this.isAuthorized(db, req, res);
-    if (isAuthorized == false) {
-      // request is not authorized
-      res.status(401);
-      return false;
-    }
-
-    // authorized
-    return true;
+    // authenticated
+    return isAuthenticated;
   }
 
   // authenticate the user
@@ -55,7 +44,7 @@ class Auth {
       let results = await db.find("core.user", {
         query: {
           id: req.body.id,
-          company_id: req.headers["company_id"]
+          company_id: ObjectID(req.headers["company_id"])
         }
       });
       if (results.length > 0) {
@@ -73,10 +62,9 @@ class Auth {
             authenticated = true;
           }
         }
-
         if (authenticated) {
           // create token
-          this.createToken(req, res, user.id, user.name);
+          this.createToken(req, res, user.id, user.name, user.groups);
         }
       }
     }
@@ -85,7 +73,7 @@ class Auth {
   }
 
   // create JWT token
-  createToken(req, res, id, name) {
+  createToken(req, res, id, name, groups) {
     var signOptions = {
       issuer: req.get("host"),
       subject: req.headers["company_id"],
@@ -94,11 +82,17 @@ class Auth {
     };
     var payload = {
       unique_name: id,
-      nameid: name
+      nameid: name,
+      groups
     };
+    // create token
     let token = jwt.sign(payload, req.app.locals.secret, signOptions);
-    res.locals.token = jwt.verify(token, req.app.locals.secret);
+
+    // set header
     res.set("Authorization", `Bearer ${token}`);
+
+    // save token info to the global
+    res.locals.token = jwt.verify(token, req.app.locals.secret);
   }
 
   async isAuthenticated(db, req, res) {
@@ -132,7 +126,8 @@ class Auth {
             req,
             res,
             res.locals.token.unique_name,
-            res.locals.token.nameid
+            res.locals.token.nameid,
+            res.locals.token.groups
           );
         }
 
@@ -145,61 +140,6 @@ class Auth {
 
     return authenticated;
   }
-
-  async isAuthorized(db, req, res) {
-    return true;
-    /*
-    // check decoded token
-    let roleIds = res.locals.token.roles;
-
-    // for each role - retrieve allowed and not_allowed rules
-    let allowed = {};
-    let not_allowed = {};
-    for (let roleId of roleIds) {
-      let roles = await db.find("core.role", {
-        _id: ObjectID(roleId)
-      });
-      if (roles.length > 0) {
-        let role = roles[0];
-
-        if (role.allowed) for (let policy of role.allowed) allowed[policy] = 1;
-        if (role.not_allowed)
-          for (let policy of role.not_allowed) not_allowed[policy] = 1;
-      }
-    }
-
-    // is it allowed ?
-    let authorized = false;
-
-    for (let policy of Object.keys(allowed)) {
-      let policyUrl = policy.split(":")[0];
-      let policyMethod = policy.split(":")[1];
-      if (
-        strMatch(req.url, policyUrl) == true &&
-        strMatch(req.method, policyMethod) == true
-      ) {
-        authorized = true;
-        break;
-      }
-    }
-
-    // is it not allowed
-    for (let policy of Object.keys(not_allowed)) {
-      let policyUrl = policy.split(":")[0];
-      let policyMethod = policy.split(":")[1];
-      if (
-        strMatch(req.url, policyUrl) == true &&
-        strMatch(req.method, policyMethod) == true
-      ) {
-        authorized = false;
-        break;
-      }
-    }
-
-    return authorized;
-    */
-  }
-
 }
 
 module.exports = new Auth();

@@ -68,6 +68,17 @@ async function Navigation(db, req, res) {
     if (results && results.length > 0) theme = results[0];
   }
 
+  // retrieve permission
+  let permission = new Set();
+  let groupIDs = obj.get(res.locals, "token.groups", []).map(x => ObjectID(x));
+  let groups = await db.find("core.group", { query: { _id: {$in: groupIDs} } });
+  for(let group of groups) {
+    let permissions = obj.ensureExists(group, "permissions", []);
+    for(let p of permissions) {
+      permission.add(p)
+    }
+  }
+
   // retrieve features and load navigation
   let nav = [];
   let features = obj.get(res.locals, "nav.features", []);
@@ -79,7 +90,7 @@ async function Navigation(db, req, res) {
     }
   }
 
-  return { theme, nav };
+  return { theme, permissions: Array.from(permission), nav };
 }
 
 async function UIElement(db, req, res) {

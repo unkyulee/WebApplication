@@ -10,6 +10,8 @@ import { RestService } from "../rest.service";
 import { EventService } from "../event.service";
 import { ConfigService } from "../config.service";
 import { UserService } from "../user/user.service";
+import { NavService } from '../nav.service';
+import { UIService } from '../ui.service';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +19,9 @@ export class AuthService {
     public rest: RestService,
     public event: EventService,
     public config: ConfigService,
-    public user: UserService
+    public user: UserService,
+    public nav: NavService,
+    public ui: UIService
   ) {
     // setup authentication strategy
     let strategy = this.config.get("authentication.authStrategy");
@@ -26,7 +30,7 @@ export class AuthService {
         this.authStrategy = new NoAuthStrategy();
         break;
       default:
-        this.authStrategy = new DefaultAuthStrategy(rest, config, event, user);
+        this.authStrategy = new DefaultAuthStrategy(rest, config, event, user, nav, ui);
     }
 
     // listen to events

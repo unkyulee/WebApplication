@@ -29,16 +29,24 @@ export class NavService {
         `${this.config.get("host")}${this.config.get("url")}/navigation.config`
       )
       .subscribe(r => {
-        //
+        // save navigations
         let nav = this.config.get("nav");
         if (JSON.stringify(nav) != JSON.stringify(r.nav)) {
           this.config.set("nav", r.nav);
           this.event.send({ name: "navigation-updated" });
         }
 
-        // update
+        // save theme
         this.config.set("theme", r.theme);
+
+        // save permission
+        this.config.set("permissions", r.permissions);
       });
+  }
+
+  clear() {
+    this.config.set("nav", null);
+    this.config.set("theme", null);
   }
 
   routerEventHandler(e) {
@@ -259,4 +267,5 @@ export class NavService {
       );
     }
   }
+
 }

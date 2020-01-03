@@ -44,4 +44,8 @@ export class ConfigService {
     if (!window.__CONFIG__) window.__CONFIG__ = {};
     obj.set(window.__CONFIG__, name, value);
   }
+
+  clear() {
+    window.__CONFIG__ = {}
+  }
 }

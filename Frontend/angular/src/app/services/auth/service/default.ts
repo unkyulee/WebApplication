@@ -7,13 +7,17 @@ import { RestService } from "src/app/services/rest.service";
 import { ConfigService } from "src/app/services/config.service";
 import { EventService } from "src/app/services/event.service";
 import { UserService } from "../../user/user.service";
+import { NavService } from '../../nav.service';
+import { UIService } from '../../ui.service';
 
 export class DefaultAuthStrategy {
   constructor(
     private rest: RestService,
     private config: ConfigService,
     private event: EventService,
-    private user: UserService
+    private user: UserService,
+    private nav: NavService,
+    private ui: UIService
   ) {}
 
   async login(data, isAuthenticated$) {
@@ -44,9 +48,13 @@ export class DefaultAuthStrategy {
   }
 
   async logout(isAuthenticated$) {
-    isAuthenticated$.next(false)
-    // clear localstorage
+    // clear
+    this.nav.clear();
+    this.ui.clear();
     localStorage.clear();
+
+    // reset flag
+    isAuthenticated$.next(false);
   }
 
   async isAuthenticated(isAuthenticated$) {

@@ -32,4 +32,9 @@ export class UIService {
 
     return uiElement;
   }
+
+  clear() {
+    this.loadedAt = {};
+    this.config.set("ui", {});
+  }
 }
