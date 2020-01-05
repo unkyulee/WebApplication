@@ -2,7 +2,7 @@
   [ngStyle]="config.get('theme.user.style')"
   [ngClass]="config.get('theme.user.class')"
 >
-  <ng-container *ngFor="let ui of config.get('theme.user.screen')">
+  <ng-container *ngFor="let ui of config.get('theme.user.screens')">
     <ng-container
       ui-layout-wrapper
       *ngIf="condition(ui)"

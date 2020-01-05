@@ -1,6 +1,6 @@
 {
-  "_id": "200000000000000000000010",
-  "name": "Core Company",
+  "_id": "200000000000000000000130",
+  "name": "Admin Theme",
   "type": "layout",
   "contentStyle": {
     "display": "flex",
@@ -25,7 +25,6 @@
         "flex-flow": "row wrap",
         "min-height": "40px"
       },
-      "init": "obj.ensureExists(this.data, 'filter', {});",
       "screens": [
         {
           "type": "button",
@@ -46,8 +45,8 @@
         {
           "type": "button",
           "buttonType": "mat-icon-button",
-          "icon": "add_circle",
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000011', option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})"
+          "icon": "save",
+          "click": "this.event.send({name: 'save', key: 'core.theme'})"
         }
       ]
     },
@@ -79,9 +78,8 @@
       "sideScreen": [
         {
           "type": "input",
-          "key": "filter.name",
           "default": "``",
-          "label": "Cerca ...",
+          "label": "UI Element ID",
           "floatLabel": "auto",
           "layoutStyle": {
             "width": "100%"
@@ -89,13 +87,11 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'companies'});"
+          "changed": "this.event.send({name: 'splash-show'}); this.rest.request(`/api/admin/core.ui?_id=${this._value}`).subscribe(r => { this.event.send({name: 'load-code', key: 'core.theme', data: obj.get(r, 'data.0')}); this.event.send({name:'splash-hide'}); this.event.send({name: 'changed'}); })"
         },
         {
           "type": "input",
-          "key": "filter._id",
-          "default": "``",
-          "label": "_id",
+          "label": "JSON Path",
           "floatLabel": "auto",
           "layoutStyle": {
             "width": "100%"
@@ -103,7 +99,20 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'companies'});"
+          "changed": "this.event.send({name: 'path', key: 'core.theme', path: this._value});"
+        },
+        {
+          "type": "selection",
+          "label": "Language",
+          "options": ["", "javascript", "html", "json"],
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "selected": "this.event.send({name: 'editorOptions', key: 'core.theme', editorOptions: {language: option}});"
         },
         {
           "type": "typography",
@@ -128,81 +137,30 @@
       ],
       "screens": [
         {
-          "type": "data-table",
-          "tableType": "card",
-          "key": "companies",
-          "src": "`/api/admin/core.company`",
-          "method": "get",
-          "transform": "response.data",
-          "preProcess": "data = {...data, ...this.data.filter}",
+          "type": "code-editor",
+          "editorType": "json",
+          "key": "core.theme",
+          "path": "",
+          "save": {
+            "src": "`/api/admin/core.theme`",
+            "method": "post",
+            "saveAction": "if(!this.data._id) { this.data._id = response._id; } this.snackBar.open('Salvato', null, { duration: 2000 });"
+          },
+          "editorOptions": {
+            "theme": "vs-dark",
+            "automaticLayout": true
+          },
           "layoutStyle": {
             "flex-grow": 1,
             "display": "flex",
             "flex-direction": "column",
             "height": "100%",
-            "overflow-y": "auto",
             "width": "100%"
           },
           "style": {
             "width": "100%",
-            "display": "flex",
-            "flex-direction": "column"
-          },
-          "contentLayoutStyle": {
-            "flex-grow": 1,
             "height": "100%"
-          },
-          "itemBoxStyle": {
-            "cursor": "pointer",
-            "margin": "8px",
-            "padding": "8px",
-            "fontSize": "small",
-            "display": "flex",
-            "flexFlow": "row wrap"
-          },
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000011', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
-          "columns": [
-            {
-              "type": "typography",
-              "key": "name",
-              "label": "name",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "fontWeight": "bold",
-                "fontSize": "larger"
-              }
-            },
-            {
-              "type": "typography",
-              "key": "description",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "color": "gray"
-              }
-            },
-            {
-              "type": "typography",
-              "key": "url",
-              "label": "url",
-              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
-              "layoutStyle": {
-                "width": "100%"
-              }
-            },
-            {
-              "type": "typography",
-              "key": "features",
-              "label": "features",
-              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
-              "layoutStyle": {
-                "width": "100%"
-              }
-            }
-          ]
+          }
         }
       ]
     }

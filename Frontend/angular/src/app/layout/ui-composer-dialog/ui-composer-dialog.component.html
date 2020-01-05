@@ -36,7 +36,7 @@
   [ngStyle]="uiElement.contentStyle"
   [ngClass]="uiElement.contentClass"
 >
-  <ng-container *ngFor="let ui of uiElement.screen">
+  <ng-container *ngFor="let ui of uiElement.screens">
     <ng-container *ngIf="condition(ui)">
       <ng-container
         ui-layout-wrapper

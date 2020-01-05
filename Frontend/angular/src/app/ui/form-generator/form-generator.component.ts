@@ -130,10 +130,10 @@ export class FormGeneratorComponent extends BaseComponent {
     ) {
       this.delete();
     } else if (event && event.name == "open-section") {
-      let section = this.uiElement.screen.find(x => x.key == event.key);
+      let section = this.uiElement.screens.find(x => x.key == event.key);
       if (section) section.expanded = true;
     } else if (event && event.name == "close-section") {
-      let section = this.uiElement.screen.find(x => x.key == event.key);
+      let section = this.uiElement.screens.find(x => x.key == event.key);
       if (section) section.expanded = false;
     }
   }
@@ -202,8 +202,8 @@ export class FormGeneratorComponent extends BaseComponent {
   save() {
     // check if there are not error
     let errorMessage = "";
-    for (let screen of this.uiElement.screen) {
-      for (let ui of screen.screen) {
+    for (let screen of this.uiElement.screens) {
+      for (let ui of screen.screens) {
         let value = this.data[ui.key]; // used by the evaluation script
         let error = eval(ui.errorCondition);
         if (error) {

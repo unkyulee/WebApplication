@@ -3,12 +3,8 @@
   "name": "Admin",
   "description": "Admin Site",
   "url": "/admin",
-  "priority": 0,
   "module": "angular",
   "locale": "it",
-  "locale_long": "it-IT",
-  "login": "000000000000000000000000",
-  "theme": "000000000000000000000000",
   "features": [
     "profile",
     "admin"

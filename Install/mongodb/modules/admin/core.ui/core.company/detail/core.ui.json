@@ -7,7 +7,9 @@
     "flexDirection": "column",
     "flexGrow": 1,
     "height": "100%",
-    "width": "100%"
+    "width": "100%",
+    "overflow-y": "auto",
+    "overflow-x": "hidden"
   },
   "layoutStyle": {
     "display": "flex",
@@ -16,7 +18,7 @@
     "height": "100%",
     "width": "100%"
   },
-  "screen": [
+  "screens": [
     {
       "type": "layout",
       "layoutStyle": {
@@ -26,7 +28,7 @@
         "flex-wrap": "wrap",
         "color": "white"
       },
-      "screen": [
+      "screens": [
         {
           "type": "div",
           "layoutStyle": {
@@ -64,27 +66,162 @@
       "steps": [
         {
           "label": "Site Configuration",
-          "screen": []
+          "screens": [
+            {
+              "type": "input",
+              "key": "url",
+              "label": "URL",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "input",
+              "key": "name",
+              "label": "name",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "input",
+              "inputType": "textarea",
+              "key": "description",
+              "label": "Description",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "input",
+              "inputType": "hidden",
+              "key": "module",
+              "default": "`angular`"
+            },
+            {
+              "type": "input",
+              "key": "locale",
+              "label": "Locale",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "typography",
+              "key": "_id",
+              "label": "_id",
+              "layoutStyle": {
+                "width": "100%",
+                "textAlign": "right"
+              },
+              "style": {
+                "padding": "4px",
+                "color": "gray"
+              }
+            }
+          ]
         },
         {
           "label": "Features",
-          "screen": []
+          "screens": [
+            {
+              "type": "selection",
+              "selectionType": "autocomplete",
+              "key": "_params_.feature",
+              "label": "Add a feature",
+              "src": "`/api/admin/core.feature?_sort=name&size=100&name=${this._value?this._value:''}`",
+              "transform": "response.data",
+              "optionLabelTransform": "`${option.name}`",
+              "inputValueTransform": "obj.get(this._value, 'name', typeof this._value == 'object'?'':this._value)",
+              "selected": "obj.ensureExists(this.data, 'features', []); let feature = this.uiElement.options.find(x => x == this._value); this.data.features.push(feature); setTimeout(() => this.value = '')",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
+              "type": "data-table",
+              "key": "features",
+              "tableType": "list",
+              "condition": "this.data.features",
+              "layoutStyle": {
+                "flex-grow": 1,
+                "display": "flex",
+                "flex-direction": "column",
+                "marginTop": "-12px",
+                "marginBottom": "12px",
+                "width": "100%"
+              },
+              "itemBoxStyle": {
+                "background": "aliceblue",
+                "margin": "4px",
+                "padding": "4px",
+                "cursor": "pointer"
+              },
+              "itemBoxClass": {
+                "mat-elevation-z1": true
+              },
+              "click": "this.event.send({name: 'open-sheet', uiElementId: '788688320000000000000130', data: {engineer: item, appointment: this.data}})",
+              "columns": [
+                {
+                  "type": "typography",
+                  "format": "this.data"
+                }
+              ]
+            }
+          ]
         },
         {
           "label": "Login Screen",
-          "screen": []
+          "screens": [
+            {
+              "type": "button",
+              "label": "View Login Screen",
+              "color": "warn",
+              "click": "this.rest.request(\r\n    `/api/admin/core.ui`, \r\n    {_id: this.data._id}\r\n).subscribe(r => { \r\n    this.event.send({\r\n        name: 'open-dialog', \r\n        uiElementId: '200000000000000000000030',\r\n        data: r.data[0],\r\n        option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n    }) \r\n})"
+            }
+          ]
         },
         {
           "label": "Theme",
-          "screen": []
+          "screens": [
+            {
+              "type": "button",
+              "label": "View Theme",
+              "color": "warn",
+              "click": "this.rest.request(\r\n    `/api/admin/core.theme`, \r\n    {_id: this.data._id}\r\n).subscribe(r => { \r\n    this.event.send({\r\n        name: 'open-dialog', \r\n        uiElementId: '200000000000000000000130',\r\n        data: r.data[0],\r\n        option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n    }) \r\n})"
+            }
+          ]
         },
         {
           "label": "Access Rights & Groups",
-          "screen": []
+          "screens": [
+            {
+              "type": "data-table",
+              "tableType": "list",
+              "columns": [
+
+              ]
+            }
+          ]
         },
         {
           "label": "Users",
-          "screen": []
+          "screens": []
         }
       ]
     }

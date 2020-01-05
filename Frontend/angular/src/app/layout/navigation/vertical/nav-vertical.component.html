@@ -14,7 +14,7 @@
 </button>
 
 <div [ngStyle]="config.get('theme.navigation.header.style')">
-  <ng-container *ngFor="let ui of config.get('theme.navigation.header.screen')">
+  <ng-container *ngFor="let ui of config.get('theme.navigation.header.screens')">
     <ng-container
       ui-layout-wrapper
       [uiElement]="ui"

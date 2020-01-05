@@ -1,5 +1,5 @@
 {
-  "_id": ObjectId("000000000000000000000000"),
+  "_id": "000000000000000000000000",
   "toolbar": {
     "layoutStyle": {
       "position": "sticky",
@@ -43,7 +43,7 @@
       "width": "256px"
     },
     "header": {
-      "screen": [
+      "screens": [
         {
           "type": "typography",
           "text": "Admin Panel",
@@ -60,7 +60,7 @@
     }
   },
   "user": {
-    "screen": [
+    "screens": [
       {
         "type": "divider",
         "layoutStyle": {
@@ -76,7 +76,7 @@
           "display": "flex",
           "flex-direction": "row"
         },
-        "menu": [
+        "menus": [
           {
             "type": "button",
             "buttonType": "mat-menu-item",
@@ -90,13 +90,13 @@
             "click": "this.event.send('logout')"
           }
         ],
-        "screen": [
+        "screens": [
           {
             "type": "layout",
             "layoutStyle": {
               "flexGrow": 1
             },
-            "screen": [
+            "screens": [
               {
                 "type": "typography",
                 "default": "`${this.user.name()}`",

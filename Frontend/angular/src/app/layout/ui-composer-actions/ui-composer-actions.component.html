@@ -1,5 +1,5 @@
 <div [ngStyle]="uiElement.layoutStyle" [ngClass]="uiElement.layoutClass">
-  <ng-container *ngFor="let ui of uiElement?.screen">
+  <ng-container *ngFor="let ui of uiElement?.screens">
     <ng-container
       ui-layout-wrapper
       *ngIf="condition(ui)"

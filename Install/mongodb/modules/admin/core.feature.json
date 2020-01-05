@@ -50,6 +50,14 @@
           ]
         },
         {
+          "name": "Theme",
+          "type": "item",
+          "url": "/core.theme",
+          "uiElementIds": [
+            "200000000000000000000130"
+          ]
+        },
+        {
           "name": "UI Script",
           "type": "item",
           "url": "/core.ui.script",

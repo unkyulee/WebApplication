@@ -14,7 +14,7 @@
     "color": "white",
     "height": "100%"
   },
-  "screen": [
+  "screens": [
     {
       "type": "layout",
       "layoutStyle": {
@@ -25,7 +25,7 @@
         "min-height": "40px"
       },
       "init": "obj.ensureExists(this.data, 'filters', {});",
-      "screen": [
+      "screens": [
         {
           "type": "button",
           "buttonType": "mat-icon-button",
@@ -104,7 +104,7 @@
           "changed": "this.event.send({name:'refresh', key: 'core.workflows'});"
         }
       ],
-      "screen": [
+      "screens": [
         {
           "type": "data-table",
           "tableType": "card",

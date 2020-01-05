@@ -18,7 +18,7 @@
       "font-size": "small",
       "height": "100%"
     },
-    "screen": [
+    "screens": [
       {
         "name": "Filter",
         "type": "layout",
@@ -30,7 +30,7 @@
           "min-height": "40px",
           "width": "100%"
         },
-        "screen": [
+        "screens": [
           {
             "type": "button",
             "buttonType": "mat-icon-button",
@@ -132,7 +132,7 @@
             }
           }
         ],
-        "screen": [
+        "screens": [
           {
             "type": "code-editor",
             "editorType": "json",

@@ -36,10 +36,10 @@
       "method": "get",
       "transform": "response.data[0]",
 
-      "screen": [
+      "screens": [
         {
           "name": "core.dataservice",
-          "screen": [
+          "screens": [
             {
               "path": ".",
               "label": "core.dataservice",

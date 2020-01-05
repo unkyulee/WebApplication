@@ -14,7 +14,7 @@
       "color": "white",
       "height": "100%"
     },
-    "screen": [
+    "screens": [
       {
         "name": "Filter",
         "type": "layout",
@@ -26,7 +26,7 @@
           "min-height": "40px"
         },
         "init": "obj.ensureExists(this.data, 'filter', {});",
-        "screen": [
+        "screens": [
           {
             "type": "button",
             "buttonType": "mat-icon-button",
@@ -126,7 +126,7 @@
             }
           }
         ],
-        "screen": [
+        "screens": [
           {
             "type": "data-table",
             "tableType": "card",

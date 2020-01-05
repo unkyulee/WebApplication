@@ -7,7 +7,7 @@ import { BaseComponent } from "../base.component";
 @Component({
   selector: "ui-layout",
   template: `
-    <ng-container *ngFor="let ui of uiElement.screen">
+    <ng-container *ngFor="let ui of uiElement.screens">
       <ng-container *ngIf="condition(ui)">
         <ng-container
           ui-layout-wrapper

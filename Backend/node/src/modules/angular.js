@@ -50,20 +50,21 @@ async function IndexJS(db, req, res) {
 // retrieve login screen
 async function LoginScreen(db, req, res) {
   // retrieve login screen
-  let _id = obj.get(res.locals, "nav.login");
+  let _id = obj.get(res.locals, "nav._id");
   if (_id) {
-    let results = await db.find("core.ui", { query: { _id: ObjectID(_id) } });
+    let results = await db.find("core.ui", { query: { _id } });
     if (results && results.length > 0) return results[0];
   }
 }
 
 async function Navigation(db, req, res) {
+  let _id = obj.get(res.locals, "nav._id");
+
   // retrieve theme
-  let _id = obj.get(res.locals, "nav.theme");
   let theme = {};
   if (_id) {
     let results = await db.find("core.theme", {
-      query: { _id: ObjectID(_id) }
+      query: { _id }
     });
     if (results && results.length > 0) theme = results[0];
   }

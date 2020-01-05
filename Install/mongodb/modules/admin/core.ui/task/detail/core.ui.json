@@ -9,7 +9,7 @@
     "color": "white",
     "height": "100%"
   },
-  "screen": [
+  "screens": [
     {
       "type": "layout",
       "layoutStyle": {
@@ -19,7 +19,7 @@
         "flex-wrap": "wrap",
         "color": "white"
       },
-      "screen": [
+      "screens": [
         {
           "type": "div",
           "comment": "spacer",
@@ -54,21 +54,21 @@
         "transform": "delete data.instances; delete data.actions;",
         "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
       },
-      "screen": [
+      "screens": [
         {
           "expanded": true,
           "style": {
             "width": "100%"
           },
           "header": {
-            "screen": [
+            "screens": [
               {
                 "type": "typography",
                 "text": "Task Detail"
               }
             ]
           },
-          "screen": [
+          "screens": [
             {
               "type": "typography",
               "condition": "this.data.status",
@@ -132,14 +132,14 @@
             "width": "100%"
           },
           "header": {
-            "screen": [
+            "screens": [
               {
                 "type": "typography",
                 "text": "Actions"
               }
             ]
           },
-          "screen": [
+          "screens": [
             {
               "type": "layout",
               "layoutStyle": {
@@ -147,7 +147,7 @@
                 "width": "100%",
                 "padding": "4px"
               },
-              "screen": [
+              "screens": [
                 {
                   "type": "layout",
                   "layoutStyle": {
@@ -225,14 +225,14 @@
             "width": "100%"
           },
           "header": {
-            "screen": [
+            "screens": [
               {
                 "type": "typography",
                 "text": "Task Execution History"
               }
             ]
           },
-          "screen": [
+          "screens": [
             {
               "type": "data-table",
               "tableType": "list",

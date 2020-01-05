@@ -13,7 +13,7 @@
     "color": "white",
     "height": "100%"
   },
-  "screen": [
+  "screens": [
     {
       "name": "Filter",
       "type": "layout",
@@ -24,7 +24,7 @@
         "flex-flow": "row wrap",
         "min-height": "40px"
       },
-      "screen": [
+      "screens": [
         {
           "type": "button",
           "buttonType": "mat-icon-button",
@@ -152,7 +152,7 @@
           }
         }
       ],
-      "screen": [
+      "screens": [
         {
           "type": "code-editor",
           "editorType": "json",

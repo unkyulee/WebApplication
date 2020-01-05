@@ -16,7 +16,7 @@
     "height": "100%",
     "width": "100%"
   },
-  "screen": [
+  "screens": [
     {
       "type": "layout",
       "layoutStyle": {
@@ -26,7 +26,7 @@
         "flex-wrap": "wrap",
         "color": "white"
       },
-      "screen": [
+      "screens": [
         {
           "type": "button",
           "buttonType": "mat-icon-button",
@@ -125,7 +125,7 @@
           }
         }
       ],
-      "screen": [
+      "screens": [
         {
           "type": "code-editor",
           "editorType": "json",

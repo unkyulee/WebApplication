@@ -13,7 +13,7 @@
     "color": "white",
     "height": "100%"
   },
-  "screen": [
+  "screens": [
     {
       "type": "data-table",
       "tableType": "card",

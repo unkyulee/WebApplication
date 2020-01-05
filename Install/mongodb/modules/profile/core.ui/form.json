@@ -11,7 +11,7 @@
     "padding": "8px"
   },
   "init": "this.rest.request(`/api/profile/user`).subscribe(r => this.data = r.data[0])",
-  "screen": [
+  "screens": [
     {
       "key": "id",
       "label": "utente",

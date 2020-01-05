@@ -2,7 +2,7 @@
   *ngIf="!uiElement.stepperType || uiElement.stepperType == 'horizontal'"
 >
   <mat-step *ngFor="let step of uiElement.steps" [label]="step.label">
-    <ng-container *ngFor="let ui of step.screen">
+    <ng-container *ngFor="let ui of step.screens">
       <ng-container *ngIf="condition(ui)">
         <ng-container
           ui-layout-wrapper
@@ -21,7 +21,7 @@
   [ngClass]="uiElement.class"
 >
   <mat-step *ngFor="let step of uiElement.steps" [label]="step.label">
-    <ng-container *ngFor="let ui of step.screen">
+    <ng-container *ngFor="let ui of step.screens">
       <ng-container *ngIf="condition(ui)">
         <ng-container
           ui-layout-wrapper

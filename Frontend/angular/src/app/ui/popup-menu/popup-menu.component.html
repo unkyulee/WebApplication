@@ -1,7 +1,7 @@
 <mat-menu #appMenu="matMenu" [yPosition]="uiElement.yPosition?uiElement.yPosition:'below'"
     [xPosition]="uiElement.xPosition?uiElement.xPosition:'after'">
     <ng-template matMenuContent>
-        <ng-container *ngFor="let menu of uiElement.menu">
+        <ng-container *ngFor="let menu of uiElement.menus">
             <ng-container *ngIf="condition(menu)">
                 <ng-container ui-layout-wrapper [uiElement]="menu" [data]="data"></ng-container>
             </ng-container>
@@ -9,7 +9,7 @@
     </ng-template>
 </mat-menu>
 
-<ng-container *ngFor="let ui of uiElement.screen">
+<ng-container *ngFor="let ui of uiElement.screens">
     <ng-container *ngIf="condition(ui)">
         <ng-container ui-layout-wrapper [uiElement]="ui" [data]="data"></ng-container>
     </ng-container>

@@ -3,7 +3,7 @@
   [ngClass]="uiElement.class"
 >
   <div
-    *ngFor="let ui of uiElement.screen"
+    *ngFor="let ui of uiElement.screens"
     [ngStyle]="ui.style ? ui.style : safeGet(uiElement, 'section.style')"
     [ngClass]="ui.style ? ui.style : safeGet(uiElement, 'section.class')"
   >
@@ -28,7 +28,7 @@
             ui.expanded == false ? "chevron_right" : "expand_more"
           }}</mat-icon>
         </button>
-        <ng-container *ngFor="let header of ui?.header?.screen">
+        <ng-container *ngFor="let header of ui?.header?.screens">
           <ng-container
             ui-layout-wrapper
             *ngIf="condition(header)"
@@ -51,7 +51,7 @@
             : safeGet(uiElement, 'container.class')
         "
       >
-        <ng-container *ngFor="let screen of ui?.screen">
+        <ng-container *ngFor="let screen of ui?.screens">
           <ng-container
             ui-layout-wrapper
             *ngIf="condition(screen)"
