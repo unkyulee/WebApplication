@@ -1,0 +1,66 @@
+{
+  "_id": "200000000000000000000112",
+  "type": "layout",
+  "layoutStyle": {
+    "display": "flex",
+    "flexFlow": "row wrap"
+  },
+  "screens": [
+    {
+      "type": "typography",
+      "key": "name",
+      "label": "name",
+      "layoutStyle": {},
+      "style": {
+        "fontWeight": "bold",
+        "fontSize": "larger"
+      }
+    },
+    {
+      "type": "layout",
+      "layoutStyle": {
+        "width": "1px",
+        "flexGrow": 1
+      }
+    },
+    {
+      "type": "typography",
+      "key": "id",
+      "layoutStyle": {},
+      "style": {
+        "color": "gray"
+      }
+    },
+    {
+      "type": "typography",
+      "key": "_params_.company.0.name",
+      "label": "Company",
+      "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
+      "layoutStyle": {
+        "width": "100%"
+      }
+    },
+    {
+      "type": "data-table",
+      "tableType": "list",
+      "key": "_params_.groups",
+      "layoutStyle": {
+        "width": "100%",
+        "margin": "4px"
+      },
+      "columns": [
+        {
+          "type": "typography",
+          "key": "name",
+          "style": {
+            "background": "dimgray",
+            "width": "fit-content",
+            "padding": "3px",
+            "borderRadius": "4px",
+            "color": "white"
+          }
+        }
+      ]
+    }
+  ]
+}

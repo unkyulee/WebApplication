@@ -40,7 +40,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "save",
-          "click": "this.event.send({name: 'save'});"
+          "click": "let data = {...this.data}; delete data._params_; this.rest.request(`/api/admin/core.company`, data, 'post').subscribe(r => {this.data._id = r._id; this.snackBar.open('Saved', null, { duration: 2000 })})"
         }
       ]
     },
@@ -145,7 +145,7 @@
               "transform": "response.data",
               "optionLabelTransform": "`${option.name}`",
               "inputValueTransform": "obj.get(this._value, 'name', typeof this._value == 'object'?'':this._value)",
-              "selected": "obj.ensureExists(this.data, 'features', []); let feature = this.uiElement.options.find(x => x == this._value); this.data.features.push(feature); setTimeout(() => this.value = '')",
+              "selected": "obj.ensureExists(this.data, 'features', []); let feature = this.uiElement.options.find(x => x == this._value); this.data.features.push(feature.key); setTimeout(() => this.value = '')",
               "layoutStyle": {
                 "width": "100%"
               },
@@ -158,6 +158,8 @@
               "key": "features",
               "tableType": "list",
               "condition": "this.data.features",
+              "cdkDragDisabled": "this.config.isHandset || typeof this.config.isHandset == 'undefined'",
+              "drop": "if(event.container == event.previousContainer) {\r\n    let items = obj.get(this.data, 'features', [])\r\n    if(items.length > event.currentIndex && items.length > event.previousIndex) {\r\n        let movedItem = items[event.previousIndex]\r\n        let remainingItems = items.filter((item, index) => index !== event.previousIndex);\r\n        \r\n        this.data.features = [\r\n            ...remainingItems.slice(0, event.currentIndex),\r\n            movedItem,\r\n            ...remainingItems.slice(event.currentIndex)\r\n        ]\r\n    }\r\n}",
               "layoutStyle": {
                 "flex-grow": 1,
                 "display": "flex",
@@ -170,7 +172,9 @@
                 "background": "aliceblue",
                 "margin": "4px",
                 "padding": "4px",
-                "cursor": "pointer"
+                "cursor": "pointer",
+                "display": "flex",
+                "flexFlow": "row wrap"
               },
               "itemBoxClass": {
                 "mat-elevation-z1": true
@@ -179,7 +183,23 @@
               "columns": [
                 {
                   "type": "typography",
-                  "format": "this.data"
+                  "format": "this.data",
+                  "style": {
+                    "padding": "8px"
+                  }
+                },
+                {
+                  "type": "layout",
+                  "layoutStyle": {
+                    "width": "1px",
+                    "flexGrow": 1
+                  }
+                },
+                {
+                  "type": "button",
+                  "buttonType": "mat-icon-button",
+                  "icon": "clear",
+                  "click": "if (confirm(`Cancello ${this.data}?`)) {\r\n    this.event.send({ \r\n        name: 'delete-data', \r\n        path: 'features', \r\n        data: this.data \r\n    })\r\n}\r\n"
                 }
               ]
             }
@@ -209,19 +229,117 @@
         },
         {
           "label": "Access Rights & Groups",
+          "condition": "this.data._id",
           "screens": [
+            {
+              "type": "button",
+              "label": "New Group",
+              "color": "warn",
+              "layoutStyle": {
+                "margin": "8px"
+              },
+              "click": "this.event.send({name: 'open-dialog', data: {company_id: this.data._id}, uiElementId: '200000000000000000000121', option: {maxWidth: '800px', maxHeight: '600px', width: '100vw', height: '100vh'}})"
+            },
             {
               "type": "data-table",
               "tableType": "list",
+              "size": 1000,
+              "key": "_params_.groups",
+              "src": "`/api/admin/core.group?company_id=${this.data._id}`",
+              "transform": "response.data",
+              "layoutStyle": {
+                "flex-grow": 1,
+                "display": "flex",
+                "flex-direction": "column",
+                "height": "100%",
+                "overflow-y": "auto",
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%",
+                "display": "flex",
+                "flex-direction": "column"
+              },
+              "contentLayoutStyle": {
+                "flex-grow": 1,
+                "height": "100%"
+              },
+              "itemBoxStyle": {
+                "cursor": "pointer",
+                "margin": "8px",
+                "padding": "8px",
+                "fontSize": "small",
+                "background": "aliceblue"
+              },
+              "itemBoxClass": {
+                "mat-elevation-z1": true
+              },
+              "click": "this.event.send({name: 'open-dialog', data: item, uiElementId: '200000000000000000000121', option: {maxWidth: '800px', maxHeight: '600px', width: '100vw', height: '100vh'}})",
               "columns": [
-
+                {
+                  "type": "ui-element-id",
+                  "uiElementId": "200000000000000000000122"
+                }
               ]
             }
           ]
         },
         {
           "label": "Users",
-          "screens": []
+          "condition": "this.data._id",
+          "screens": [
+            {
+              "type": "button",
+              "label": "New User",
+              "color": "warn",
+              "layoutStyle": {
+                "margin": "8px"
+              },
+              "click": "this.event.send({name: 'open-dialog', data: {company_id: this.data._id}, uiElementId: '200000000000000000000111', option: {maxWidth: '800px', maxHeight: '600px', width: '100vw', height: '100vh'}})"
+            },
+            {
+              "type": "data-table",
+              "tableType": "list",
+              "size": 1000,
+              "key": "_params_.users",
+              "src": "`/api/admin/core.user?company_id=${this.data._id}`",
+              "transform": "response.data",
+              "layoutStyle": {
+                "flex-grow": 1,
+                "display": "flex",
+                "flex-direction": "column",
+                "height": "100%",
+                "overflow-y": "auto",
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%",
+                "display": "flex",
+                "flex-direction": "column"
+              },
+              "contentLayoutStyle": {
+                "flex-grow": 1,
+                "height": "100%"
+              },
+              "itemBoxStyle": {
+                "cursor": "pointer",
+                "margin": "8px",
+                "padding": "8px",
+                "fontSize": "small",
+                "background": "aliceblue"
+              },
+              "itemBoxClass": {
+                "mat-elevation-z1": true
+              },
+              "click": "this.event.send({name: 'open-dialog', data: item, uiElementId: '200000000000000000000111', option: {maxWidth: '800px', maxHeight: '600px', width: '100vw', height: '100vh'}})",
+              "columns": [
+                {
+                  "type": "ui-element-id",
+                  "uiElementId": "200000000000000000000112"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

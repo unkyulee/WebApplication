@@ -39,6 +39,7 @@ import { AuthService } from "src/app/services/auth/auth.service";
 import { SideNavComponent } from "../side-nav/side-nav.component";
 import { StepperComponent } from "../stepper/stepper.component";
 import { BarcodeComponent } from "../barcode/barcode.component";
+import { UIService } from 'src/app/services/ui.service';
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -63,6 +64,7 @@ export class UILayoutWrapperComponent {
     this.cordova = AppInjector.get(CordovaService);
     this.exp = AppInjector.get(ExportService);
     this.auth = AppInjector.get(AuthService);
+    this.ui = AppInjector.get(UIService)
   }
 
   // global services
@@ -77,6 +79,7 @@ export class UILayoutWrapperComponent {
   public cordova: CordovaService;
   public exp: ExportService;
   public auth: AuthService;
+  public ui: UIService;
 
   componentRef: any;
 
@@ -84,7 +87,7 @@ export class UILayoutWrapperComponent {
   @Input() uiElement: any;
   @Input() data: any;
 
-  ngOnChanges() {
+  async ngOnChanges() {
     // create component
     if (
       !this.componentRef &&
@@ -93,10 +96,7 @@ export class UILayoutWrapperComponent {
     ) {
       // if type is ui-element-id then load from the uiElement first
       if (this.uiElement.type == "ui-element-id") {
-        let element = obj.get(
-          this.config.get("uiElements"),
-          this.uiElement.uiElementId
-        );
+        let element = await this.ui.get(this.uiElement.uiElementId);
         if(element) {
           element = JSON.parse(JSON.stringify(element));
           this.uiElement = Object.assign({}, this.uiElement, element);

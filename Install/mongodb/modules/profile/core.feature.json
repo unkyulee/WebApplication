@@ -1,5 +1,5 @@
 {
-  "_id": ObjectId("100000000000000000000000"),
+  "_id": "100000000000000000000000",
   "name": "Profile",
   "key": "profile",
   "description": "Update password or email, telephone information of the logged in user",
@@ -8,8 +8,26 @@
       "type": "hidden",
       "name": "Profile",
       "url": "/profile",
-      "uiElementIds": ["100000000000000000000000"]
+      "uiElementIds": [
+        "100000000000000000000000"
+      ]
+    },
+    {
+      "name": "Utente",
+      "type": "collapse",
+      "permissions": [
+        "user.view"
+      ],
+      "children": [
+        {
+          "name": "Utente",
+          "type": "item",
+          "url": "/users",
+          "uiElementIds": [
+            "100000000000000000010000"
+          ]
+        }
+      ]
     }
-  ],
-  "permissions": ["profile.view", "profile.update", "profile.changepassword"]
+  ]
 }

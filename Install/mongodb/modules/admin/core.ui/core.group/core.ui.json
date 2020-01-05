@@ -156,56 +156,13 @@
               "cursor": "pointer",
               "margin": "8px",
               "padding": "8px",
-              "fontSize": "small",
-              "display": "flex",
-              "flexFlow": "row wrap"
+              "fontSize": "small"
             },
             "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000121', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
             "columns": [
               {
-                "type": "typography",
-                "key": "name",
-                "label": "name",
-                "layoutStyle": {
-                },
-                "style": {
-                  "fontWeight": "bold",
-                  "fontSize": "larger"
-                }
-              },
-              {
-                "type": "layout",
-                "layoutStyle": {
-                    "width": "1px",
-                    "flexGrow": 1
-                }
-              },
-              {
-                "type": "typography",
-                "key": "id",
-                "layoutStyle": {
-                },
-                "style": {
-                  "color": "gray"
-                }
-              },
-              {
-                "type": "typography",
-                "key": "_params_.company.0.name",
-                "label": "Company",
-                "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
-                "layoutStyle": {
-                  "width": "100%"
-                }
-              },
-              {
-                "type": "typography",
-                "key": "permissions",
-                "label": "permissions",
-                "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
-                "layoutStyle": {
-                  "width": "100%"
-                }
+                "type": "ui-element-id",
+                "uiElementId": "200000000000000000000122"
               }
             ]
           }

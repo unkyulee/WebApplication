@@ -1,6 +1,6 @@
 {
 	"_id" : "000000000000000000000000",
 	"company_id" : "000000000000000000000000",
-    "name" : "Administrator",
+    "name" : "Administrators",
     "permissions": ["*"]
 }

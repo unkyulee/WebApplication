@@ -1,0 +1,128 @@
+{
+  "_id": "100000000000000000010000",
+  "name": "Users",
+  "type": "layout",
+  "contentStyle": {
+    "display": "flex",
+    "flexDirection": "column",
+    "flex-grow": 1
+  },
+  "layoutStyle": {
+    "width": "100%",
+    "display": "flex",
+    "flex-direction": "column",
+    "color": "white",
+    "height": "100%"
+  },
+  "screens": [
+    {
+      "type": "layout",
+      "layoutStyle": {
+        "background": "#2C313D",
+        "color": "white",
+        "display": "flex",
+        "flex-flow": "row wrap",
+        "min-height": "40px"
+      },
+      "init": "obj.ensureExists(this.data, 'filters_users', {});",
+      "screens": [
+        {
+          "type": "input",
+          "key": "filters_users.name",
+          "default": "``",
+          "label": "Cerca ...",
+          "floatLabel": "never",
+          "icon": "search",
+          "iconColor": "white",
+          "style": {
+            "margin-top": "-12px",
+            "margin-bottom": "-8px",
+            "margin-left": "8px"
+          },
+          "class": {
+            "white": true
+          },
+          "changed": "this.event.send({name: 'refresh', key: 'table'})"
+        },
+        {
+          "type": "div",
+          "comment": "spacer",
+          "layoutStyle": { "flex-grow": 1, "width": "1px" }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "add_circle",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '100000000000000000010001', option: { width: '100vw', height: '100vh', panelClass: 'full-width-dialog' }})"
+        }
+      ]
+    },
+    {
+      "type": "data-table",
+      "tableType": "card",
+      "key": "table",
+      "src": "`/api/profile/users`",
+      "method": "get",
+      "transform": "response.data",
+      "preProcess": "data = {...data, ...this.data.filters_users}",
+      "size": 100,
+      "layoutStyle": {
+        "flex-grow": 1,
+        "display": "flex",
+        "flex-direction": "column",
+        "height": "100%",
+        "overflow-y": "auto",
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%",
+        "display": "flex",
+        "flex-direction": "column"
+      },
+      "contentLayoutStyle": {
+        "flex-grow": 1,
+        "height": "100%"
+      },
+      "itemBoxStyle": {
+        "cursor": "pointer",
+        "margin": "8px",
+        "padding": "8px",
+        "fontSize": "small"
+      },
+      "click": "this.event.send({name: 'open-dialog', uiElementId: 'a44444000000000000000020', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
+      "columns": [
+        {
+          "type": "typography",
+          "key": "name",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "fontWeight": "bold"
+          }
+        },
+        {
+          "type": "typography",
+          "key": "id",
+          "layoutStyle": {
+            "width": "100%"
+          }
+        },
+        {
+          "type": "typography",
+          "key": "mobile",
+          "layoutStyle": {
+            "width": "100%"
+          }
+        },
+        {
+          "type": "typography",
+          "key": "email",
+          "layoutStyle": {
+            "width": "100%"
+          }
+        }
+      ]
+    }
+  ]
+}

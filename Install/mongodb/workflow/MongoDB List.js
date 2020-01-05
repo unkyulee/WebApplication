@@ -45,6 +45,7 @@ async function run() {
             let value = req.headers[field.key];
             if (!value) return { error: `No ${field.key} specified` };
             let f = {};
+            if (field.key == "company_id") value = ObjectID(value);
             f[field.column] = value;
 
             // add filter
@@ -65,6 +66,12 @@ async function run() {
               f[field.column] = res.locals.token[field.key];
               filter["$and"].push(f);
             }
+          }
+          break;
+        case "ObjectID":
+          {
+            if (data[field.column])
+              data[field.column] = ObjectID(data[field.column]);
           }
           break;
       }
@@ -154,7 +161,11 @@ async function run() {
         filter.$and.push(or);
       } else if (data[key]) {
         let f = {};
-        f[key] = new RegExp(escapeRegExp(data[key]), "ig");
+        if (typeof data[key] == "string") {
+          f[key] = new RegExp(escapeRegExp(data[key]), "ig");
+        } else {
+          f[key] = data[key];
+        }
         filter.$and.push(f);
       }
     }
@@ -173,17 +184,14 @@ async function run() {
   // query to the collection
   let result = [];
   let total = 0;
-  result = await ds.find(
-    collection,
-    {
-      query: filter,
-      aggregate: config.aggregate,
-      sort,
-      size,
-      skip: (page - 1) * size,
-      projection
-    }
-  );
+  result = await ds.find(collection, {
+    query: filter,
+    aggregate: config.aggregate,
+    sort,
+    size,
+    skip: (page - 1) * size,
+    projection
+  });
   total = await ds.count(collection, filter);
 
   // remove fields

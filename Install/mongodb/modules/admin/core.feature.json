@@ -10,6 +10,7 @@
     {
       "name": "Company",
       "type": "collapse",
+      "permissions": ["company.view"],
       "children": [
         {
           "name": "Company",
@@ -31,6 +32,7 @@
     },
     {
       "name": "Development",
+      "permissions": ["developerment.view"],
       "type": "collapse",
       "children": [
         {
@@ -96,13 +98,7 @@
           "uiElementIds": [
             "200000000000000000000090"
           ]
-        }
-      ]
-    },
-    {
-      "name": "Users",
-      "type": "collapse",
-      "children": [
+        },
         {
           "name": "Users",
           "type": "item",
