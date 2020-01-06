@@ -6,7 +6,7 @@
   "module": "angular",
   "locale": "it",
   "features": [
-    "profile",
-    "admin"
+    "admin",
+    "user"
   ]
 }

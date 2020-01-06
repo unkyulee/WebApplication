@@ -11,8 +11,8 @@
     let adminMode = false
     if(config.admin == true) adminMode = true
 
-    let navigation_id = req.headers['x-app-key']
-    if (!navigation_id) return "No X-App-Key specified"
+    let navigation_id = req.headers['company_id']
+    if (!navigation_id) return "No company_id specified"
 
     // form values
     let data = Object.assign({}, req.query, req.body)
@@ -26,7 +26,7 @@
 
     // send delete query
     let filter = { $and: [ { _id: ObjectID(`${data._id}`) } ] }
-    
+
     return await ds.delete(collection, filter)
 }
 

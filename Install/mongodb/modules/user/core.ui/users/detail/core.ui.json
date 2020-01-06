@@ -14,7 +14,6 @@
     {
       "key": "id",
       "label": "utente",
-      "readonly": true,
       "layoutStyle": {
         "width": "100%"
       },
@@ -76,6 +75,7 @@
     {
       "type": "button",
       "buttonType": "mat-button",
+      "condition": "this.data._id",
       "icon": "vpn_key",
       "color": "warn",
       "label": "Ripristina password",
@@ -87,10 +87,21 @@
     {
       "type": "button",
       "buttonType": "mat-button",
+      "icon": "delete",
+      "label": "Cancella",
+      "color": "warn",
+      "click": "if (confirm(`Cancello ${this.data.id}?`)) {\r\n    this.rest.request(\r\n        `/api/user/users`,\r\n        this.data,\r\n        'delete').subscribe(r => {\r\n            this.event.send({ name: 'close-dialog' });\r\n            this.event.send({ name: 'refresh' });\r\n        })\r\n}\r\n",
+      "layoutStyle": {
+        "width": "100%"
+      }
+    },
+    {
+      "type": "button",
+      "buttonType": "mat-button",
       "icon": "save",
       "label": "Salva",
       "color": "primary",
-      "click": "this.rest.request(\r\n    `/api/user/users`, \r\n    this.data, \r\n    'post')\r\n.subscribe(r => \r\n    this.snackBar.open('Salvato', null, { duration: 2000 })\r\n)",
+      "click": "this.rest.request(\r\n    `/api/user/users`,\r\n    this.data,\r\n    'post').subscribe(r => {\r\n        this.data._id = r._id;\r\n        this.snackBar.open('Salvato', null, { duration: 2000 });\r\n    })",
       "layoutStyle": {
         "width": "100%"
       }

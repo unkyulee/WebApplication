@@ -20,38 +20,12 @@
   },
   "screens": [
     {
-      "type": "layout",
-      "layoutStyle": {
-        "background": "rgb(44, 49, 61)",
-        "width": "100%",
-        "display": "flex",
-        "flex-wrap": "wrap",
-        "color": "white"
-      },
-      "screens": [
-        {
-          "type": "div",
-          "layoutStyle": {
-            "flex-grow": 1,
-            "width": "1px"
-          }
-        },
-        {
-          "type": "button",
-          "buttonType": "mat-icon-button",
-          "icon": "save",
-          "click": "let data = {...this.data}; delete data._params_; this.rest.request(`/api/admin/core.company`, data, 'post').subscribe(r => {this.data._id = r._id; this.snackBar.open('Saved', null, { duration: 2000 })})"
-        }
-      ]
-    },
-    {
       "type": "stepper",
       "stepperType": "vertical",
       "layoutStyle": {
         "width": "100%",
         "display": "flex",
         "flex-direction": "column",
-        "height": "100%",
         "align-items": "center"
       },
       "style": {
@@ -212,7 +186,7 @@
               "type": "button",
               "label": "View Login Screen",
               "color": "warn",
-              "click": "this.rest.request(\r\n    `/api/admin/core.ui`, \r\n    {_id: this.data._id}\r\n).subscribe(r => { \r\n    this.event.send({\r\n        name: 'open-dialog', \r\n        uiElementId: '200000000000000000000030',\r\n        data: r.data[0],\r\n        option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n    }) \r\n})"
+              "click": "this.rest.request(\r\n    `/api/admin/core.ui`, \r\n    {_id: this.data._id}\r\n).subscribe(r => {\r\n    obj.ensureExists(r, \"data.0\", {_id: this.data._id}); \r\n    this.event.send({\r\n        name: 'open-dialog', \r\n        uiElementId: '200000000000000000000030',\r\n        data: r.data[0],\r\n        option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n    }) \r\n})"
             }
           ]
         },
@@ -223,7 +197,7 @@
               "type": "button",
               "label": "View Theme",
               "color": "warn",
-              "click": "this.rest.request(\r\n    `/api/admin/core.theme`, \r\n    {_id: this.data._id}\r\n).subscribe(r => { \r\n    this.event.send({\r\n        name: 'open-dialog', \r\n        uiElementId: '200000000000000000000130',\r\n        data: r.data[0],\r\n        option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n    }) \r\n})"
+              "click": "this.rest.request(\r\n    `/api/admin/core.theme`, \r\n    {_id: this.data._id}\r\n).subscribe(r => { \r\n    obj.ensureExists(r, \"data.0\", {_id: this.data._id})\r\n    this.event.send({\r\n        name: 'open-dialog', \r\n        uiElementId: '200000000000000000000130',\r\n        data: r.data[0],\r\n        option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n    }) \r\n})"
             }
           ]
         },
@@ -342,6 +316,18 @@
           ]
         }
       ]
+    },
+    {
+      "type": "button",
+      "buttonType": "mat-fab",
+      "color": "warn",
+      "icon": "save",
+      "layoutStyle": {
+        "position": "absolute",
+        "right": "24px",
+        "bottom": "24px"
+      },
+      "click": "let data = {...this.data}; delete data._params_; this.rest.request(`/api/admin/core.company`, data, 'post').subscribe(r => {this.data._id = r._id; this.snackBar.open('Saved', null, { duration: 2000 })})"
     }
   ]
 }

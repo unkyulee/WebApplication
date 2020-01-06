@@ -27,7 +27,7 @@
   "screens": [
     {
       "type": "typography",
-      "text": "Admin",
+      "format": "this.config.name",
       "style": {
         "fontSize": "24px",
         "textAlign": "center",
