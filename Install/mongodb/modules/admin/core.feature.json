@@ -3,9 +3,6 @@
   "name": "Admin",
   "key": "admin",
   "description": "Top level admin features",
-  "permissions": [
-    "admin.view"
-  ],
   "navigations": [
     {
       "name": "Company",

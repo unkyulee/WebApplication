@@ -1,7 +1,7 @@
 ﻿async function run() {
   // get navigation id
-  let navigation_id = req.headers["x-app-key"];
-  if (!navigation_id) return "No X-App-Key specified";
+  let company_id = req.headers["company_id"];
+  if (!company_id) return "No company_id specified";
 
   // retrieve data service
   let ds = res.locals.ds;
@@ -10,7 +10,12 @@
   await ds.connect();
 
   // get dropbox token
-  let config = await ds.find("core.config", { _id: ObjectID(navigation_id) });
+  let config = await ds.find("core.config", {
+    query: {
+      company_id: ObjectID(company_id),
+      type: "dropbox"
+    }
+  });
   if (config.length == 0) return { error: "Config doesn't exist" };
   config = config[0];
   let dropbox_api_key = req.app.locals.encryption.decrypt(
