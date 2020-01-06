@@ -1,7 +1,7 @@
 {
-  "_id": ObjectId("100000000000000000000000"),
+  "_id": "100000000000000000000000",
   "description": "User Profile",
-  "url": "profile/user",
+  "url": "user/profile",
   "get_description": "Get",
   "get_datasource": "000000000000000000000000",
   "get_workflow": "000000000000000000000010",

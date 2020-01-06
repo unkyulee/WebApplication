@@ -1,7 +1,7 @@
 {
   "_id": "100000000000000000000000",
-  "name": "Profile",
-  "key": "profile",
+  "name": "User Management",
+  "key": "user",
   "description": "Update password or email, telephone information of the logged in user",
   "navigations": [
     {
@@ -22,7 +22,7 @@
         {
           "name": "Utente",
           "type": "item",
-          "url": "/users",
+          "url": "/user",
           "uiElementIds": [
             "100000000000000000010000"
           ]

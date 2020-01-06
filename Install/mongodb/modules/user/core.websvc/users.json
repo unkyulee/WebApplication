@@ -1,0 +1,21 @@
+{
+  "_id": "100000000000000000010000",
+  "url": "user/users",
+  "description": "core.user",
+  "get_description": "Get",
+  "get_configuration": "{\r\n    \"collection\": \"core.user\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ],\r\n    \"aggregate\": [\r\n        {\r\n            \"$lookup\": {\r\n                \"from\": \"core.group\",\r\n                \"localField\": \"groups\",\r\n                \"foreignField\": \"_id\",\r\n                \"as\": \"_params_.groups\"\r\n            }\r\n        }\r\n    ]\r\n}",
+  "get_datasource": "000000000000000000000000",
+  "get_workflow": "000000000000000000000010",
+  "post_description": "Upsert",
+  "post_configuration": "{\r\n    \"collection\": \"core.user\",\r\n    \"defaultFields\": [\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"groups\"\r\n        },\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"tokenIfNew\",\r\n            \"column\": \"_createdBy\",\r\n            \"key\": \"unique_name\"\r\n        },\r\n        {\r\n            \"type\": \"NowIfNew\",\r\n            \"column\": \"_created\"\r\n        },\r\n        {\r\n            \"type\": \"Now\",\r\n            \"column\": \"_updated\"\r\n        }\r\n    ]\r\n}",
+  "post_datasource": "000000000000000000000000",
+  "post_workflow": "000000000000000000000020",
+  "delete_description": "Delete",
+  "delete_configuration": "{collection: 'core.user'}",
+  "delete_datasource": "000000000000000000000000",
+  "delete_workflow": "000000000000000000000030",
+  "put_configuration": "{\r\n    \"collection\": \"core.user\",\r\n    \"verify\": [\r\n        {\r\n            \"type\": \"MatchIfExists\",\r\n            \"field\": \"password_old\",\r\n            \"column\": \"password\",\r\n            \"algorithm\": \"hash\",\r\n            \"message\": \"Password does not match\"\r\n        }\r\n    ],\r\n    \"defaultFields\": [\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"groups\"\r\n        },\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"NowIfNew\",\r\n            \"column\": \"_created\"\r\n        },\r\n        {\r\n            \"type\": \"Now\",\r\n            \"column\": \"_updated\"\r\n        },\r\n        {\r\n            \"type\": \"hash\",\r\n            \"column\": \"password\"\r\n        }\r\n    ],\r\n    \"excludeFields\": [\r\n        \"password_old\",\r\n        \"password_confirm\"\r\n    ]\r\n}",
+  "put_datasource": "000000000000000000000000",
+  "put_description": "Reset Password",
+  "put_workflow": "000000000000000000000020"
+}

@@ -1,5 +1,5 @@
 {
-  "_id": ObjectId("000000000000000000000000"),
+  "_id": "000000000000000000000000",
   "type": "layout",
   "layoutStyle": {
     "width": "100%",
@@ -24,7 +24,7 @@
     "403": "Login Failed. Please, check your Login ID and Password",
     "401": "Access not authorized"
   },
-  "screen": [
+  "screens": [
     {
       "type": "typography",
       "text": "Admin",

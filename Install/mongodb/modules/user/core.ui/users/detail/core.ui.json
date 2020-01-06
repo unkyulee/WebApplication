@@ -1,0 +1,99 @@
+{
+  "_id": "100000000000000000010001",
+  "type": "layout",
+  "name": "Utente Dettaglio",
+  "contentStyle": {
+    "flex-grow": 1,
+    "display": "flex",
+    "flex-direction": "column",
+    "height": "100%",
+    "overflow-y": "auto",
+    "padding": "8px"
+  },
+  "screens": [
+    {
+      "key": "id",
+      "label": "utente",
+      "readonly": true,
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%"
+      }
+    },
+    {
+      "type": "selection",
+      "key": "groups",
+      "compare": "o1._id == o2._id",
+      "label": "Gruppo di sicurezza",
+      "src": "/api/user/group?_projection=_id,name",
+      "transform": "response.data",
+      "multiple": true,
+      "optionLabelTransform": "`${option.name}`",
+      "optionKey": "_id",
+      "errorCondition": "!value",
+      "errorMessage": "manca Gruppo di sicurezza",
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%"
+      }
+    },
+    {
+      "key": "name",
+      "label": "nome",
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%"
+      }
+    },
+    {
+      "type": "input",
+      "inputType": "email",
+      "key": "email",
+      "label": "e-mail",
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%"
+      }
+    },
+    {
+      "key": "mobile",
+      "label": "cellulare",
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%"
+      }
+    },
+    {
+      "type": "button",
+      "buttonType": "mat-button",
+      "icon": "vpn_key",
+      "color": "warn",
+      "label": "Ripristina password",
+      "click": "this.event.send({name:'open-dialog', uiElementId: '100000000000000000010002', option: {width: '90vw', maxWidth: '400px'}, data: this.data});",
+      "layoutStyle": {
+        "width": "100%"
+      }
+    },
+    {
+      "type": "button",
+      "buttonType": "mat-button",
+      "icon": "save",
+      "label": "Salva",
+      "color": "primary",
+      "click": "this.rest.request(\r\n    `/api/user/users`, \r\n    this.data, \r\n    'post')\r\n.subscribe(r => \r\n    this.snackBar.open('Salvato', null, { duration: 2000 })\r\n)",
+      "layoutStyle": {
+        "width": "100%"
+      }
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "_id": "100000000000000000010000",
+  "name": "Users",
+  "type": "layout",
+  "contentStyle": {
+    "display": "flex",
+    "flexDirection": "column",
+    "flexGrow": 1
+  },
+  "layoutStyle": {
+    "width": "100%",
+    "display": "flex",
+    "flex-direction": "column",
+    "color": "white",
+    "height": "100%"
+  },
+  "screens": [
+    {
+      "type": "layout",
+      "layoutStyle": {
+        "background": "#2C313D",
+        "color": "white",
+        "display": "flex",
+        "flex-flow": "row wrap",
+        "min-height": "40px"
+      },
+      "init": "obj.ensureExists(this.data, 'filter_users', {});",
+      "screens": [
+        {
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "filter_list",
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'filter_users'})"
+        },
+        {
+          "type": "div",
+          "comment": "spacer",
+          "layoutStyle": { "flex-grow": 1, "width": "1px" }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-icon-button",
+          "icon": "add_circle",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '100000000000000000010001', option: { width: '100vw', height: '100vh', panelClass: 'full-width-dialog' }})"
+        }
+      ]
+    },
+    {
+      "type": "side-nav",
+      "key": "filter_users",
+      "opened": "this.config.isHandset == false ? true : false",
+      "mode": "this.config.isHandset == false ? 'side' : 'over'",
+      "layoutStyle": {
+        "flex-grow": 1,
+        "height": "100%",
+        "width": "100%",
+        "display": "flex",
+        "flex-direction": "column"
+      },
+      "containerStyle": {
+        "display": "flex",
+        "flex-direction": "column",
+        "height": "100%"
+      },
+      "sideStyle": {
+        "background": "ghostwhite",
+        "display": "flex",
+        "flexFlow": "row wrap",
+        "color": "black",
+        "padding": "4px",
+        "max-width": "300px"
+      },
+      "sideScreen": [
+        {
+          "type": "input",
+          "key": "filter_users._search",
+          "default": "``",
+          "label": "Cerca ...",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'engineers'});"
+        },
+        {
+          "key": "filter_users.name",
+          "default": "``",
+          "label": "Nome",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "70%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'engineers'});"
+        },
+        {
+          "key": "filter_users.id",
+          "default": "``",
+          "label": "ID",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "30%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'engineers'});"
+        },
+        {
+          "type": "typography",
+          "text": " ",
+          "style": {
+            "height": "64px"
+          }
+        },
+        {
+          "type": "button",
+          "buttonType": "mat-fab",
+          "color": "warn",
+          "icon": "search",
+          "condition": "this.config.isHandset",
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'filter_users'})",
+          "layoutStyle": {
+            "position": "absolute",
+            "bottom": "24px",
+            "right": "24px"
+          }
+        }
+      ],
+      "screens": [
+        {
+          "type": "data-table",
+          "tableType": "card",
+          "key": "table",
+          "src": "`/api/user/users`",
+          "method": "get",
+          "transform": "response.data",
+          "preProcess": "data = {...data, ...this.data.filter_users}",
+          "size": 100,
+          "layoutStyle": {
+            "flex-grow": 1,
+            "display": "flex",
+            "flex-direction": "column",
+            "height": "100%",
+            "overflow-y": "auto",
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%",
+            "display": "flex",
+            "flex-direction": "column"
+          },
+          "contentLayoutStyle": {
+            "flex-grow": 1,
+            "height": "100%"
+          },
+          "itemBoxStyle": {
+            "cursor": "pointer",
+            "margin": "8px",
+            "padding": "8px",
+            "fontSize": "small"
+          },
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '100000000000000000010001', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
+          "columns": [
+            {
+              "type": "ui-element-id",
+              "uiElementId": "100000000000000000010003"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -110,6 +110,7 @@ async function run() {
           {
             let value = req.headers[def.key];
             if (!value) return { error: `No ${def.key} specified` };
+            if(def.column == "company_id") value = ObjectID(value);
             data[def.column] = value;
           }
           break;
