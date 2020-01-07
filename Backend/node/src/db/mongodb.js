@@ -49,6 +49,7 @@ class MongoDB {
 
   async find(collection, query) {
     let that = this;
+    if (!query.limit) query.limit = 10;
 
     return new Promise(function(resolve, reject) {
       if (!that.db) reject("db not initialized");
