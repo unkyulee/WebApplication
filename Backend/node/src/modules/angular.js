@@ -91,7 +91,15 @@ async function Navigation(db, req, res) {
     }
   }
 
-  return { theme, permissions: Array.from(permission), nav };
+  // retrieve module configuration
+  let module = {};
+  for (let feature of features) {
+    let results = await db.find("core.config", { query: { company_id: obj.get(res.locals, "nav._id") , type: feature } });
+    if(results && results.length > 0)
+    module[feature] = results[0];
+  }
+
+  return { theme, permissions: Array.from(permission), nav, module };
 }
 
 async function UIElement(db, req, res) {

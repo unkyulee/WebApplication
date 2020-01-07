@@ -41,6 +41,9 @@ export class NavService {
 
         // save permission
         this.config.set("permissions", r.permissions);
+
+        // save module config
+        this.config.set("module", r.module);
       });
   }
 
