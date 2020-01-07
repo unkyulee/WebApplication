@@ -1,4 +1,5 @@
 ﻿var moment = require("moment-timezone");
+var obj = require("object-path");
 
 function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
@@ -31,6 +32,10 @@ async function run() {
   if (data._sort_desc) {
     sort = {};
     sort[data._sort_desc] = -1;
+  }
+  if(sort == null) {
+    sort = {};
+    sort['_created'] = -1;
   }
 
   // build filter
@@ -184,6 +189,10 @@ async function run() {
   // query to the collection
   let result = [];
   let total = 0;
+  if(Object.keys(projection).length > 0) {
+    obj.ensureExists(config, "aggregate", []);
+    config.aggregate.push({$addFields:projection})
+  }
   result = await ds.find(collection, {
     query: filter,
     aggregate: config.aggregate,

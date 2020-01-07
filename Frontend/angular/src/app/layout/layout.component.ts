@@ -33,7 +33,7 @@ export class LayoutComponent extends BaseComponent
   }
 
   // drawer
-  @ViewChild("drawer") drawer: MatSidenav;
+  @ViewChild("drawer", {static: false}) drawer: MatSidenav;
 
   ngOnInit() {
     super.ngOnInit();

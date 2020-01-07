@@ -26,6 +26,7 @@ export class DataTableComponent extends BaseComponent {
   set rows(v: any) {
     if (this.data && this.uiElement.key) {
       obj.set(this.data, this.uiElement.key, v);
+      console.log(obj.get(this.data, `${this.uiElement.key}.0`))
     }
 
     // set default when value is empty

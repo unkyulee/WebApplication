@@ -1,4 +1,5 @@
 <!-- Card List -->
+{{rows[0].name | json}}
 <ng-container *ngIf="uiElement.tableType == 'card'">
   <cdk-virtual-scroll-viewport
     cdkDropList
@@ -10,6 +11,7 @@
         : config.get('dataTable.contentLayoutStyle')
     "
     [itemSize]="total < size ? total : size"
+    minBufferPx="2000" maxBufferPx="4000"
   >
     <mat-card
       cdkDrag

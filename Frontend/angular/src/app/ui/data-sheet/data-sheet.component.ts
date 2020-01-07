@@ -10,7 +10,7 @@ import { jqxDataTableComponent } from "jqwidgets-ng/jqxdatatable";
   templateUrl: "./data-sheet.component.html"
 })
 export class DataSheetComponent extends BaseComponent {
-  @ViewChild("dataTableReference") table: jqxDataTableComponent;
+  @ViewChild("dataTableReference", {static: false}) table: jqxDataTableComponent;
 
   _data;
   get data() {
