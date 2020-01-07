@@ -49,7 +49,7 @@ class MongoDB {
 
   async find(collection, query) {
     let that = this;
-    if (!query.limit) query.limit = 10;
+    if (!query.size) query.size = 10;
 
     return new Promise(function(resolve, reject) {
       if (!that.db) reject("db not initialized");
@@ -61,7 +61,7 @@ class MongoDB {
       }
       if (query.project) q = q.project(query.project);
       if (query.sort) q = q.sort(query.sort);
-      if (query.limit) q = q.limit(query.limit);
+      if (query.size) q = q.limit(query.size);
       if (query.skip) q = q.skip(query.skip);
       q.toArray(function(err, results) {
         if (err) reject(err);
