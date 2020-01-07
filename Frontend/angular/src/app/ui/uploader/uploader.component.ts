@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from "@angular/core";
 import { Subscription } from "rxjs";
 import { FileUploader } from "ng2-file-upload";
 import { Ng2ImgMaxService } from "ng2-img-max";
-import * as obj from "object-path";
+var obj = require("object-path");
 
 // user imports
 import { BaseComponent } from "../base.component";

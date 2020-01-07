@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from "@angular/core";
 import { MatSelect } from "@angular/material/select";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import * as obj from "object-path";
+var obj = require("object-path");
 
 // user imports
 import { BaseComponent } from "../base.component";

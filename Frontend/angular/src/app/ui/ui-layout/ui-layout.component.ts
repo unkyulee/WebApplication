@@ -1,5 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import * as obj from "object-path";
+var obj = require("object-path");
 
 // user Imports
 import { BaseComponent } from "../base.component";

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Observable } from "rxjs";
 import { map, distinctUntilChanged, debounceTime } from "rxjs/operators";
-import * as obj from "object-path";
+var obj = require("object-path");
 
 // get config from index.html
 declare var window: any;

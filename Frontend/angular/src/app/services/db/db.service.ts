@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import * as obj from "object-path";
+var obj = require("object-path");
 
 // user imports
 import { RestService } from "../rest.service";

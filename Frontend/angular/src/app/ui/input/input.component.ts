@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from "@angular/core";
 import { DateTimeAdapter } from "ng-pick-datetime";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import * as obj from "object-path";
+var obj = require("object-path");
 
 import { BaseComponent } from "../base.component";
 

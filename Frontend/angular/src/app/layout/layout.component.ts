@@ -11,7 +11,7 @@ import {
 import { MatBottomSheet } from "@angular/material/bottom-sheet";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSidenav } from "@angular/material/sidenav";
-import * as obj from "object-path";
+var obj = require("object-path");
 
 // user component
 import { BaseComponent } from "../ui/base.component";

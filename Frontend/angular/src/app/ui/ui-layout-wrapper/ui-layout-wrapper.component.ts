@@ -5,7 +5,7 @@ import {
   Renderer2,
   Input
 } from "@angular/core";
-import * as obj from "object-path";
+var obj = require("object-path");
 
 // UI components
 import { InputComponent } from "../input/input.component";

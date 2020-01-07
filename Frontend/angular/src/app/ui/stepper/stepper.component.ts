@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { BaseComponent } from '../base.component';
-import * as obj from "object-path";
+var obj = require("object-path");
 
 @Component({
   selector: "stepper",

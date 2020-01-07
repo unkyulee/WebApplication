@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, NgZone } from "@angular/core";
 import { Subscription, ReplaySubject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { AppInjector } from "../app.component";
-import * as obj from "object-path";
+var obj = require("object-path");
 
 import { EventService } from "../services/event.service";
 import { RestService } from "../services/rest.service";
