@@ -8,7 +8,9 @@ import {
   Renderer2
 } from "@angular/core";
 
-import { MatSidenav, MatDialog, MatBottomSheet } from "@angular/material";
+import { MatBottomSheet } from "@angular/material/bottom-sheet";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSidenav } from "@angular/material/sidenav";
 import * as obj from "object-path";
 
 // user component

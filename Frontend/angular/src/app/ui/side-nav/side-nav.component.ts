@@ -3,7 +3,7 @@ import * as obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";
-import { MatSidenav } from "@angular/material";
+import { MatSidenav } from "@angular/material/sidenav";
 
 @Component({
   selector: "side-nav",

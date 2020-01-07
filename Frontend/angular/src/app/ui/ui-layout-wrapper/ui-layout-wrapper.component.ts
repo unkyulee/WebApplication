@@ -32,7 +32,7 @@ import { ConfigService } from "src/app/services/config.service";
 import { UserService } from "src/app/services/user/user.service";
 import { DBService } from "src/app/services/db/db.service";
 import { Router } from "@angular/router";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { CordovaService } from "src/app/services/cordova.service";
 import { ExportService } from "src/app/services/export.service";
 import { AuthService } from "src/app/services/auth/auth.service";

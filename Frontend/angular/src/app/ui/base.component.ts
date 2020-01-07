@@ -11,7 +11,7 @@ import { ConfigService } from "../services/config.service";
 import { UserService } from "../services/user/user.service";
 import { DBService } from "../services/db/db.service";
 import { Router } from "@angular/router";
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { CordovaService } from "../services/cordova.service";
 import { ExportService } from "../services/export.service";
 import { AuthService } from "../services/auth/auth.service";

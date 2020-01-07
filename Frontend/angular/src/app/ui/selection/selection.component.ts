@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from "@angular/core";
-import { MatSelect } from "@angular/material";
+import { MatSelect } from "@angular/material/select";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import * as obj from "object-path";

@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from "@angular/core";
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 // user Imports
 import { BaseComponent } from '../base.component';
