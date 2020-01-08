@@ -39,7 +39,7 @@ module.exports.process = async function process(db, req, res) {
   let workflow_id = websvc[`${method}_workflow`];
 
   if (workflow_id) {
-    let workflows = await db.find("core.workflow", {
+    let workflows = await db.find("workflow", {
       query: {
         _id: ObjectID(workflow_id)
       }

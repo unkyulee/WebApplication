@@ -72,7 +72,7 @@ async function Navigation(db, req, res) {
   // retrieve permission
   let permission = new Set();
   let groupIDs = obj.get(res.locals, "token.groups", []).map(x => ObjectID(x));
-  let groups = await db.find("core.group", { query: { _id: {$in: groupIDs} } });
+  let groups = await db.find("group", { query: { _id: {$in: groupIDs} } });
   for(let group of groups) {
     let permissions = obj.ensureExists(group, "permissions", []);
     for(let p of permissions) {

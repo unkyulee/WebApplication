@@ -1,5 +1,5 @@
 {
-    "_id": "200000000000000000000040",
+    "_id": ObjectId("200000000000000000000040"),
     "url": "admin/core.ui.script",
     "description": "core.ui.script",
     "get_description": "Get",

@@ -131,7 +131,7 @@
           "type": "data-table",
           "tableType": "card",
           "key": "users",
-          "src": "`/api/admin/core.user`",
+          "src": "`/api/admin/user`",
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filter}",

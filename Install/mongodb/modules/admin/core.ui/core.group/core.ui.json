@@ -131,7 +131,7 @@
             "type": "data-table",
             "tableType": "card",
             "key": "groups",
-            "src": "`/api/admin/core.group`",
+            "src": "`/api/admin/group`",
             "method": "get",
             "transform": "response.data",
             "preProcess": "data = {...data, ...this.data.filter}",

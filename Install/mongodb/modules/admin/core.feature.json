@@ -1,5 +1,5 @@
 {
-  "_id": "200000000000000000000000",
+  "_id": ObjectId("200000000000000000000000"),
   "name": "Admin",
   "key": "admin",
   "description": "Top level admin features",

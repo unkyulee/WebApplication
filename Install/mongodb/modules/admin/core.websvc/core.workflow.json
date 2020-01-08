@@ -1,5 +1,5 @@
 {
-  "_id": "200000000000000000000070",
+  "_id": ObjectId("200000000000000000000070"),
   "url": "admin/core.workflow",
   "description": "core.workflow",
   "get_description": "Get",

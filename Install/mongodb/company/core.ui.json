@@ -1,5 +1,5 @@
 {
-  "_id": "000000000000000000000000",
+  "_id": ObjectId("000000000000000000000000"),
   "type": "layout",
   "layoutStyle": {
     "width": "100%",
@@ -27,7 +27,7 @@
   "screens": [
     {
       "type": "typography",
-      "format": "this.config.name",
+      "text": "Admin",
       "style": {
         "fontSize": "24px",
         "textAlign": "center",

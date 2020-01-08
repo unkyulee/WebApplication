@@ -5,9 +5,9 @@
   "get_description": "Get",
   "get_datasource": "000000000000000000000000",
   "get_workflow": "000000000000000000000010",
-  "get_configuration": "{\r\n  \"collection\": \"core.user\",\r\n  \"excludeFields\": [\"password\"],\r\n  \"filterFields\": [\r\n    { \"type\": \"header\", \"key\": \"company_id\", \"column\": \"company_id\" }, {type:'token', column:'id', key:'unique_name'}  ]\r\n}\r\n",
+  "get_configuration": "{\r\n  \"collection\": \"user\",\r\n  \"excludeFields\": [\"password\"],\r\n  \"filterFields\": [\r\n    { \"type\": \"header\", \"key\": \"company_id\", \"column\": \"company_id\" }, {type:'token', column:'id', key:'unique_name'}  ]\r\n}\r\n",
   "post_description": "Upsert",
   "post_datasource": "000000000000000000000000",
   "post_workflow": "000000000000000000000020",
-  "post_configuration": "{\r\n  \"collection\": \"core.user\",\r\n  \"verify\": [\r\n    {\r\n      \"type\": \"MatchIfExists\",\r\n      \"field\": \"password_old\",\r\n      \"column\": \"password\",\r\n      \"algorithm\": \"hash\",\r\n      \"message\": \"Password does not match\"\r\n    }\r\n  ],\r\n  \"defaultFields\": [\r\n    {\r\n      \"type\": \"NowIfNew\",\r\n      \"column\": \"_created\"\r\n    },\r\n    {\r\n      \"type\": \"Now\",\r\n      \"column\": \"_updated\"\r\n    },\r\n    {\r\n      \"type\": \"header\",\r\n      \"key\": \"company_id\",\r\n      \"column\": \"company_id\"\r\n    },\r\n    {\r\n      \"type\": \"hash\",      \r\n      \"column\": \"password\"\r\n    }\r\n  ],  \r\n  \"excludeFields\": [\"password_old\", \"password_confirm\"]  \r\n}\r\n"
+  "post_configuration": "{\r\n  \"collection\": \"user\",\r\n  \"verify\": [\r\n    {\r\n      \"type\": \"MatchIfExists\",\r\n      \"field\": \"password_old\",\r\n      \"column\": \"password\",\r\n      \"algorithm\": \"hash\",\r\n      \"message\": \"Password does not match\"\r\n    }\r\n  ],\r\n  \"defaultFields\": [\r\n    {\r\n      \"type\": \"NowIfNew\",\r\n      \"column\": \"_created\"\r\n    },\r\n    {\r\n      \"type\": \"Now\",\r\n      \"column\": \"_updated\"\r\n    },\r\n    {\r\n      \"type\": \"header\",\r\n      \"key\": \"company_id\",\r\n      \"column\": \"company_id\"\r\n    },\r\n    {\r\n      \"type\": \"hash\",      \r\n      \"column\": \"password\"\r\n    }\r\n  ],  \r\n  \"excludeFields\": [\"password_old\", \"password_confirm\"]  \r\n}\r\n"
 }

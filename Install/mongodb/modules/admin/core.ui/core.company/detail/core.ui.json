@@ -219,7 +219,7 @@
               "tableType": "list",
               "size": 1000,
               "key": "_params_.groups",
-              "src": "`/api/admin/core.group?company_id=${this.data._id}`",
+              "src": "`/api/admin/group?company_id=${this.data._id}`",
               "transform": "response.data",
               "layoutStyle": {
                 "flex-grow": 1,
@@ -276,7 +276,7 @@
               "tableType": "list",
               "size": 1000,
               "key": "_params_.users",
-              "src": "`/api/admin/core.user?company_id=${this.data._id}`",
+              "src": "`/api/admin/user?company_id=${this.data._id}`",
               "transform": "response.data",
               "layoutStyle": {
                 "flex-grow": 1,

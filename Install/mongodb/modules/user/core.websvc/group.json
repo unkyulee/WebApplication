@@ -1,9 +1,9 @@
 {
   "_id": "100000000000000000000001",
   "url": "user/group",
-  "description": "core.group",
+  "description": "group",
   "get_description": "Get",
-  "get_configuration": "{\r\n    \"collection\": \"core.group\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ]\r\n}",
+  "get_configuration": "{\r\n    \"collection\": \"group\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ]\r\n}",
   "get_datasource": "000000000000000000000000",
   "get_workflow": "000000000000000000000010"
 }
