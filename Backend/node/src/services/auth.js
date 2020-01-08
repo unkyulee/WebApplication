@@ -40,8 +40,8 @@ class Auth {
 
     // get id, password, company_id
     if (req.body.id && req.headers["company_id"]) {
-      // find in the db - 'core.user'
-      let results = await db.find("core.user", {
+      // find in the db - 'user'
+      let results = await db.find("user", {
         query: {
           id: req.body.id,
           company_id: ObjectID(req.headers["company_id"])
