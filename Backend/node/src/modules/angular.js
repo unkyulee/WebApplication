@@ -82,19 +82,33 @@ async function Navigation(db, req, res) {
 
   // retrieve features and load navigation
   let nav = [];
+  let set = [];
   let features = obj.get(res.locals, "nav.features", []);
   for (let feature of features) {
     let results = await db.find("core.feature", { query: { key: feature } });
     if (results && results.length > 0) {
+      // get navigation
       let navigations = obj.get(results[0], "navigations");
       if (navigations) nav = [...nav, ...navigations];
+      // get settings
+      let settings = obj.get(results[0], "settings");
+      if(settings) set = [...set, ...settings]
     }
+  }
+  // merge settings at the end
+  if(set.length > 0) {
+    nav.push({
+      "name": "Impostazioni",
+      "type": "collapse",
+      "permissions": ["config"],
+      "children": set
+    })
   }
 
   // retrieve module configuration
   let module = {};
   for (let feature of features) {
-    let results = await db.find("core.config", { query: { company_id: obj.get(res.locals, "nav._id") , type: feature } });
+    let results = await db.find("config", { query: { company_id: obj.get(res.locals, "nav._id") , type: feature } });
     if(results && results.length > 0)
     module[feature] = results[0];
   }

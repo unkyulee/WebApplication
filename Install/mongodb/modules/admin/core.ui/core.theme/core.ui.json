@@ -79,7 +79,7 @@
         {
           "type": "input",
           "default": "``",
-          "label": "UI Element ID",
+          "label": "Theme ID",
           "floatLabel": "auto",
           "layoutStyle": {
             "width": "100%"
@@ -87,7 +87,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name: 'splash-show'}); this.rest.request(`/api/admin/core.ui?_id=${this._value}`).subscribe(r => { this.event.send({name: 'load-code', key: 'core.theme', data: obj.get(r, 'data.0')}); this.event.send({name:'splash-hide'}); this.event.send({name: 'changed'}); })"
+          "changed": "this.event.send({name: 'splash-show'}); this.rest.request(`/api/admin/core.theme?_id=${this._value}`).subscribe(r => { this.event.send({name: 'load-code', key: 'core.theme', data: obj.get(r, 'data.0')}); this.event.send({name:'splash-hide'}); this.event.send({name: 'changed'}); })"
         },
         {
           "type": "input",

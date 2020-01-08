@@ -19,6 +19,7 @@ export class UIService {
       (this.loadedAt[uiElementId] &&
         this.loadedAt[uiElementId] < moment().add(-1, "hour"))
     ) {
+
       // then reload the uiElement
       let url = `${this.config.get("host")}${this.config.get(
         "url"

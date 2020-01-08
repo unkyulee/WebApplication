@@ -10,7 +10,7 @@
   await ds.connect();
 
   // get dropbox token
-  let config = await ds.find("core.config", {
+  let config = await ds.find("config", {
     query: {
       company_id: ObjectID(company_id),
       type: "dropbox"

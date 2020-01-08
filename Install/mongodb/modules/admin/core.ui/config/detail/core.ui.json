@@ -46,7 +46,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "save",
-          "click": "this.event.send({name: 'save', key: 'core.config'})"
+          "click": "this.event.send({name: 'save', key: 'config'})"
         }
       ]
     },
@@ -86,7 +86,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name: 'path', key: 'core.config', path: this._value});"
+          "changed": "this.event.send({name: 'path', key: 'config', path: this._value});"
         },
         {
           "type": "selection",
@@ -104,7 +104,7 @@
           "style": {
             "width": "100%"
           },
-          "selected": "this.event.send({name: 'editorOptions', key: 'core.config', editorOptions: {language: option}});"
+          "selected": "this.event.send({name: 'editorOptions', key: 'config', editorOptions: {language: option}});"
         },
         {
           "type": "typography",
@@ -131,11 +131,11 @@
         {
           "type": "code-editor",
           "editorType": "json",
-          "key": "core.config",
+          "key": "config",
           "path": "",
-          "init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send({name: 'splash-show'});\r\n   this.rest.request(`/api/admin/core.config?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
+          "init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send({name: 'splash-show'});\r\n   this.rest.request(`/api/admin/config?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
           "save": {
-            "src": "`/api/admin/core.config`",
+            "src": "`/api/admin/config`",
             "method": "post",
             "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
           },

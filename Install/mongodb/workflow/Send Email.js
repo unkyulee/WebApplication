@@ -16,7 +16,7 @@ async function run() {
   await ds.connect();
 
   // get email configuration
-  let config = await ds.find("core.config", { _id: ObjectID(navigation_id) });
+  let config = await ds.find("config", { _id: ObjectID(navigation_id) });
   if (config.length == 0) return { error: "Config doesn't exist" };
   config = config[0];
 

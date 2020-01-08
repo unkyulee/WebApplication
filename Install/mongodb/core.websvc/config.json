@@ -1,0 +1,13 @@
+{
+  "_id": "000000000000000000000001",
+  "url": "common/config",
+  "description": "config",
+  "get_description": "Get",
+  "get_configuration": "{\r\n    \"collection\": \"config\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ]\r\n}",
+  "get_datasource": "000000000000000000000000",
+  "get_workflow": "000000000000000000000010",
+  "post_description": "Upsert",
+  "post_configuration": "{\r\n    \"collection\": \"config\",\r\n    \"defaultFields\": [\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ]\r\n}",
+  "post_datasource": "000000000000000000000000",
+  "post_workflow": "000000000000000000000020"
+}

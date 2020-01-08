@@ -27,7 +27,6 @@
     (input)="typeAheadEventEmitter.next($event)"
     (focus)="focus($event)"
   />
-
   <button
     type="button"
     matSuffix
@@ -36,7 +35,7 @@
     *ngIf="uiElement.icon"
     [ngStyle]="uiElement.iconStyle"
   >
-    <mat-icon [style.color]="uiElement.iconColor || 'green'">{{
+    <mat-icon>{{
       uiElement.icon
     }}</mat-icon>
   </button>

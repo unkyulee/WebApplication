@@ -24,13 +24,13 @@
         "flex-flow": "row wrap",
         "min-height": "40px"
       },
-      "init": "obj.ensureExists(this.data, 'filters', {});",
+      "init": "obj.ensureExists(this.data, 'filters_config', {});",
       "screens": [
         {
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "filter_list",
-          "click": "this.event.send({name: 'toggle-sidenav', key: 'filters'})"
+          "click": "this.event.send({name: 'toggle-sidenav', key: 'filters_config'})"
         },
         {
           "type": "div",
@@ -50,7 +50,7 @@
     },
     {
       "type": "side-nav",
-      "key": "filters",
+      "key": "filters_config",
       "opened": "this.config.isHandset == false ? true : false",
       "mode": "this.config.isHandset == false ? 'side' : 'over'",
       "layoutStyle": {
@@ -77,21 +77,7 @@
       "sideScreen": [
         {
           "type": "input",
-          "key": "filters._id",
-          "default": "``",
-          "label": "_id",
-          "floatLabel": "auto",
-          "layoutStyle": {
-            "width": "100%"
-          },
-          "style": {
-            "width": "100%"
-          },
-          "changed": "this.event.send({name: 'refresh', key: 'core.config'});"
-        },
-        {
-          "type": "input",
-          "key": "filters._search",
+          "key": "filters_config._search",
           "default": "``",
           "label": "Cerca ...",
           "floatLabel": "auto",
@@ -101,16 +87,30 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'core.config'});"
+          "changed": "this.event.send({name:'refresh', key: 'config'});"
+        },
+        {
+          "type": "input",
+          "key": "filters_config._id",
+          "default": "``",
+          "label": "_id",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name: 'refresh', key: 'config'});"
         },
         {
           "type": "selection",
           "selectionType": "autocomplete",
-          "label": "Site",
+          "label": "Company",
           "floatLabel": "auto",
           "src": "`/api/admin/core.company?name=${obj.get(this, '_value', '')}`",
           "transform": "response.data",
-          "optionLabelTransform": "`${option.name} - ${option.module} - ${option.url}`",
+          "optionLabelTransform": "`${option.name} - ${option.url}`",
           "inputValueTransform": "obj.has(this, '_value._id') ? `${this._value.name}` : this._value",
           "layoutStyle": {
             "width": "100%"
@@ -118,18 +118,32 @@
           "style": {
             "width": "100%"
           },
-          "selected": "this.data.filters.navigation_id = this._value._id; this.event.send({name:'refresh', key: 'core.config'});"
+          "selected": "this.data.filters_config.company_id = this._value._id; this.event.send({name:'refresh', key: 'config'});"
+        },
+        {
+          "type": "input",
+          "key": "filters_config.type",
+          "default": "``",
+          "label": "type",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'config'});"
         }
       ],
       "screens": [
         {
           "type": "data-table",
           "tableType": "card",
-          "key": "core.config",
-          "src": "`/api/admin/core.config?_projection=navigation_id,type`",
+          "key": "config",
+          "src": "`/api/admin/config`",
           "method": "get",
           "transform": "response.data",
-          "preProcess": "data = {...data, ...this.data.filters};",
+          "preProcess": "data = {...data, ...this.data.filters_config};",
           "layoutStyle": {
             "flex-grow": 1,
             "display": "flex",
@@ -160,18 +174,25 @@
             {
               "type": "typography",
               "key": "name",
-              "layoutStyle": {
-                "width": "100%"
-              },
               "style": {
-                "fontWeight": "bold",
-                "width": "100%"
+                "fontWeight": "bold"
               }
+            },
+            {
+              "type": "layout",
+              "layoutStyle": {
+                "width": "1px",
+                "flexGrow": 1
+              }
+            },
+            {
+              "type": "typography",
+              "key": "_id"
             },
             {
               "type": "typography",
               "key": "type",
-              "format": "`type: ${this._value}`",
+              "format": "`type: <b style='color: blue'>${this._value}</b>`",
               "layoutStyle": {
                 "width": "100%"
               },
@@ -179,19 +200,10 @@
                 "width": "100%"
               }
             },
+
             {
               "type": "typography",
-              "key": "_id",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%"
-              }
-            },
-            {
-              "type": "typography",
-              "key": "company_id",
+              "key": "_params_.company.0.name",
               "format": "`company: ${this._value}`",
               "layoutStyle": {
                 "width": "100%"

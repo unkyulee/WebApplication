@@ -8,7 +8,7 @@ var obj = require("object-path");
 
     // load config
     await res.locals.ds.connect();
-    let config = await res.locals.ds.find("core.config", {
+    let config = await res.locals.ds.find("config", {
         navigation_id: req.cookies["x-app-key"],
         pdf: params.pdf
     });

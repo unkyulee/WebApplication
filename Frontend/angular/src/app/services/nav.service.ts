@@ -6,6 +6,7 @@ import { Location } from "@angular/common";
 import { EventService } from "./event.service";
 import { ConfigService } from "./config.service";
 import { RestService } from "./rest.service";
+import { PermissionService } from "./permission.service";
 
 @Injectable()
 export class NavService {
@@ -14,7 +15,8 @@ export class NavService {
     private location: Location,
     private event: EventService,
     private config: ConfigService,
-    private rest: RestService
+    private rest: RestService,
+    private permission: PermissionService
   ) {
     // monitor navigation changes
     router.events.subscribe(e => this.routerEventHandler(e));
@@ -29,13 +31,6 @@ export class NavService {
         `${this.config.get("host")}${this.config.get("url")}/navigation.config`
       )
       .subscribe(r => {
-        // save navigations
-        let nav = this.config.get("nav");
-        if (JSON.stringify(nav) != JSON.stringify(r.nav)) {
-          this.config.set("nav", r.nav);
-          this.event.send({ name: "navigation-updated" });
-        }
-
         // save theme
         this.config.set("theme", r.theme);
 
@@ -44,6 +39,13 @@ export class NavService {
 
         // save module config
         this.config.set("module", r.module);
+
+        // save navigations
+        let nav = this.config.get("nav");
+        if (JSON.stringify(nav) != JSON.stringify(r.nav)) {
+          this.config.set("nav", r.nav);
+          this.event.send({ name: "navigation-updated" });
+        }
       });
   }
 
@@ -121,7 +123,6 @@ export class NavService {
 
   find(url: string) {
     let navigation = this.config.get("nav");
-
     if (!navigation) return null;
 
     // split by ?
@@ -134,23 +135,34 @@ export class NavService {
     // find item
     let firstNavItem = null;
     for (const navItem of navigation) {
-      // save first navigation item
-      if (firstNavItem == null && navItem.type == "item")
-        firstNavItem = navItem;
-
-      // if has children then loop through children
-      if (navItem.children) {
-        for (const child of navItem.children) {
-          // save first navigation item
-          if (firstNavItem == null && child.type == "item")
-            firstNavItem = child;
-
-          if (child.url && url == child.url) return child;
+      if (this.permission.check(navItem)) {
+        // save first navigation item
+        if (firstNavItem == null && navItem.type == "item") {
+          firstNavItem = navItem;
         }
-      }
 
-      // return found item
-      if (url == navItem.url) return navItem;
+        // if has children then loop through children
+        if (navItem.children) {
+          for (const child of navItem.children) {
+            if (this.permission.check(child)) {
+              // save first navigation item
+              if (firstNavItem == null && child.type == "item") {
+                firstNavItem = child;
+              }
+
+              if (
+                child.url &&
+                url == child.url &&
+                this.permission.check(navItem)
+              )
+                return child;
+            }
+          }
+        }
+
+        // return found item
+        if (url == navItem.url) return navItem;
+      }
     }
 
     return firstNavItem;
@@ -270,5 +282,4 @@ export class NavService {
       );
     }
   }
-
 }
