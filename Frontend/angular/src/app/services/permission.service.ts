@@ -27,6 +27,23 @@ export class PermissionService {
     return allowed;
   }
 
+  permitted(permissions) {
+    let allowed = false;
+    // give permission i.e. profile.view does profile.* allows?
+    let allowed_permissions = this.config.get("permissions", []);
+    //
+    for (let permission of permissions) {
+      for (let allowed_permission of allowed_permissions) {
+        if (this.match(permission, allowed_permission)) {
+          allowed = true;
+          break;
+        }
+      }
+    }
+
+    return allowed;
+  }
+
   // https://stackoverflow.com/questions/26246601/wildcard-string-comparison-in-javascript
   match(str, rule) {
     // "."  => Find a single character, except newline or line terminator

@@ -39,7 +39,8 @@ import { AuthService } from "src/app/services/auth/auth.service";
 import { SideNavComponent } from "../side-nav/side-nav.component";
 import { StepperComponent } from "../stepper/stepper.component";
 import { BarcodeComponent } from "../barcode/barcode.component";
-import { UIService } from 'src/app/services/ui.service';
+import { UIService } from "src/app/services/ui.service";
+import { PermissionService } from "src/app/services/permission.service";
 
 @Component({
   selector: "[ui-layout-wrapper]",
@@ -64,7 +65,8 @@ export class UILayoutWrapperComponent {
     this.cordova = AppInjector.get(CordovaService);
     this.exp = AppInjector.get(ExportService);
     this.auth = AppInjector.get(AuthService);
-    this.ui = AppInjector.get(UIService)
+    this.ui = AppInjector.get(UIService);
+    this.permission = AppInjector.get(PermissionService);
   }
 
   // global services
@@ -80,6 +82,7 @@ export class UILayoutWrapperComponent {
   public exp: ExportService;
   public auth: AuthService;
   public ui: UIService;
+  public permission: PermissionService;
 
   componentRef: any;
 
@@ -97,7 +100,7 @@ export class UILayoutWrapperComponent {
       // if type is ui-element-id then load from the uiElement first
       if (this.uiElement.type == "ui-element-id") {
         let element = await this.ui.get(this.uiElement.uiElementId);
-        if(element) {
+        if (element) {
           element = JSON.parse(JSON.stringify(element));
           this.uiElement = Object.assign({}, this.uiElement, element);
           // run init script
@@ -109,7 +112,7 @@ export class UILayoutWrapperComponent {
             }
           }
         } else {
-          console.error(`uiElement missing ${this.uiElement.uiElementId}`)
+          console.error(`uiElement missing ${this.uiElement.uiElementId}`);
         }
       }
 

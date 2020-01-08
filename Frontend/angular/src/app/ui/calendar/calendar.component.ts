@@ -48,6 +48,7 @@ const colors: any = {
     `
       .bg-now {
         background-color: lightcoral !important;
+        opacity: 0.4;
       }
     `
   ]

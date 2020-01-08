@@ -100,7 +100,7 @@ async function Navigation(db, req, res) {
     nav.push({
       "name": "Impostazioni",
       "type": "collapse",
-      "permissions": ["config"],
+      "permissions": ["config.view"],
       "children": set
     })
   }
