@@ -87,7 +87,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name: 'refresh', key: 'core.workflows'});"
+          "changed": "this.event.send({name: 'refresh', key: 'workflows'});"
         },
         {
           "type": "input",
@@ -101,15 +101,15 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'core.workflows'});"
+          "changed": "this.event.send({name:'refresh', key: 'workflows'});"
         }
       ],
       "screens": [
         {
           "type": "data-table",
           "tableType": "card",
-          "key": "core.workflows",
-          "src": "`/api/admin/core.workflow`",
+          "key": "workflows",
+          "src": "`/api/admin/workflow`",
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filters};",

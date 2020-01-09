@@ -1,4 +1,5 @@
 ﻿const hash = require("../lib/hash");
+const obj = require("object-path");
 
 async function verify(ds, config, verifyConfig, data, row) {
   let result = false;
@@ -96,6 +97,18 @@ async function run() {
         case "Date":
           if (data[def.column]) data[def.column] = new Date(data[def.column]);
           break;
+        case "DateInArray":
+          {
+            let array = obj.get(data, def.path);
+            if (array) {
+              for (let v of array) {
+                if (v[def.column]) {
+                  v[def.column] = new Date(v[def.column]);
+                }
+              }
+            }
+          }
+          break;
         case "NowIfNew":
           if ((!row || !row[def.column]) && !data[def.column]) {
             data[def.column] = new Date();
@@ -110,7 +123,7 @@ async function run() {
           {
             let value = req.headers[def.key];
             if (!value) return { error: `No ${def.key} specified` };
-            if(def.column == "company_id") value = ObjectID(value);
+            if (def.column == "company_id") value = ObjectID(value);
             data[def.column] = value;
           }
           break;
