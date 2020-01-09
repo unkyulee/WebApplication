@@ -6,7 +6,7 @@ import { MaterialModule } from "../core/material.module";
 import { SignaturePadModule } from "angular2-signaturepad";
 import { Ng2ImgMaxModule } from "ng2-img-max";
 import { FileUploadModule } from "ng2-file-upload";
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from "ng-pick-datetime";
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from "../../../ext/ng-pick-datetime";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { ScrollDispatchModule } from "@angular/cdk/scrolling";
 import { TagInputModule } from "ngx-chips";
