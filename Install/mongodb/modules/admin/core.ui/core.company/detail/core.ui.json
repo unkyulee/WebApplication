@@ -146,9 +146,7 @@
                 "background": "aliceblue",
                 "margin": "4px",
                 "padding": "4px",
-                "cursor": "pointer",
-                "display": "flex",
-                "flexFlow": "row wrap"
+                "cursor": "pointer"
               },
               "itemBoxClass": {
                 "mat-elevation-z1": true
@@ -156,24 +154,33 @@
               "click": "this.event.send({name: 'open-sheet', uiElementId: '788688320000000000000130', data: {engineer: item, appointment: this.data}})",
               "columns": [
                 {
-                  "type": "typography",
-                  "format": "this.data",
-                  "style": {
-                    "padding": "8px"
-                  }
-                },
-                {
                   "type": "layout",
                   "layoutStyle": {
-                    "width": "1px",
-                    "flexGrow": 1
-                  }
-                },
-                {
-                  "type": "button",
-                  "buttonType": "mat-icon-button",
-                  "icon": "clear",
-                  "click": "if (confirm(`Cancello ${this.data}?`)) {\r\n    this.event.send({ \r\n        name: 'delete-data', \r\n        path: 'features', \r\n        data: this.data \r\n    })\r\n}\r\n"
+                    "display": "flex",
+                    "flexFlow": "row wrap"
+                  },
+                  "screens": [
+                    {
+                      "type": "typography",
+                      "format": "this.data",
+                      "style": {
+                        "padding": "8px"
+                      }
+                    },
+                    {
+                      "type": "layout",
+                      "layoutStyle": {
+                        "width": "1px",
+                        "flexGrow": 1
+                      }
+                    },
+                    {
+                      "type": "button",
+                      "buttonType": "mat-icon-button",
+                      "icon": "clear",
+                      "click": "if (confirm(`Cancello ${this.data}?`)) {\r\n    this.event.send({ \r\n        name: 'delete-data', \r\n        path: 'features', \r\n        data: this.data \r\n    })\r\n}\r\n"
+                    }
+                  ]
                 }
               ]
             }

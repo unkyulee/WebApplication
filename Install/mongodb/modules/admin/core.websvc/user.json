@@ -1,9 +1,9 @@
 {
-  "_id": ObjectId("200000000000000000000110"),
+  "_id": "200000000000000000000110",
   "url": "admin/user",
   "description": "user",
   "get_description": "Get",
-  "get_configuration": "{\r\n    \"collection\": \"user\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ],\r\n    \"aggregate\": [\r\n        {\r\n            \"$lookup\": {\r\n                \"from\": \"core.company\",\r\n                \"localField\": \"company_id\",\r\n                \"foreignField\": \"_id\",\r\n                \"as\": \"_params_.company\"\r\n            }\r\n        },\r\n        {\r\n            \"$lookup\": {\r\n                \"from\": \"core.group\",\r\n                \"localField\": \"groups\",\r\n                \"foreignField\": \"_id\",\r\n                \"as\": \"_params_.groups\"\r\n            }\r\n        }\r\n    ]\r\n}",
+  "get_configuration": "{\r\n    \"collection\": \"user\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ],\r\n    \"aggregate\": [\r\n        {\r\n            \"$lookup\": {\r\n                \"from\": \"core.company\",\r\n                \"localField\": \"company_id\",\r\n                \"foreignField\": \"_id\",\r\n                \"as\": \"_params_.company\"\r\n            }\r\n        },\r\n        {\r\n            \"$lookup\": {\r\n                \"from\": \"group\",\r\n                \"localField\": \"groups\",\r\n                \"foreignField\": \"_id\",\r\n                \"as\": \"_params_.groups\"\r\n            }\r\n        }\r\n    ]\r\n}",
   "get_datasource": "000000000000000000000000",
   "get_workflow": "000000000000000000000010",
   "post_description": "Upsert",

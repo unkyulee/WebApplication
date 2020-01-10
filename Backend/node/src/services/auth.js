@@ -1,6 +1,7 @@
 const hash = require("../lib/hash");
 const jwt = require("jsonwebtoken");
 const ObjectID = require("mongodb").ObjectID;
+const obj = require("object-path");
 
 class Auth {
   async canModuleProcess(db, req, res) {
@@ -116,23 +117,25 @@ class Auth {
         // decoded token will be saved as token in the res.locals
         res.locals.token = jwt.verify(token, req.app.locals.secret);
 
-        // if authentication is expiring soon then issue a new token
-        // if half of the time is passed then renew
-        let tokenSpan = res.locals.token.exp - res.locals.token.iat;
-        let currSpan = res.locals.token.exp - new Date() / 1000;
-        if (tokenSpan / 2 > currSpan) {
-          // create token
-          this.createToken(
-            req,
-            res,
-            res.locals.token.unique_name,
-            res.locals.token.nameid,
-            res.locals.token.groups
-          );
-        }
+        if (obj.get(res.locals.token, "groups")) {
+          // if authentication is expiring soon then issue a new token
+          // if half of the time is passed then renew
+          let tokenSpan = res.locals.token.exp - res.locals.token.iat;
+          let currSpan = res.locals.token.exp - new Date() / 1000;
+          if (tokenSpan / 2 > currSpan) {
+            // create token
+            this.createToken(
+              req,
+              res,
+              res.locals.token.unique_name,
+              res.locals.token.nameid,
+              res.locals.token.groups
+            );
+          }
 
-        // authenticated
-        authenticated = true;
+          // authenticated
+          authenticated = true;
+        }
       } catch (e) {
         authenticated = false;
       }
