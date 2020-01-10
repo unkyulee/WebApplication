@@ -1,4 +1,5 @@
 ﻿async function run() {
+
   // get navigation id
   let company_id = req.headers["company_id"];
   if (!company_id) return "No company_id specified";
@@ -6,6 +7,7 @@
   // retrieve data service
   let ds = res.locals.ds;
   if (!ds) return "No data service instantiated";
+
   // connect to database
   await ds.connect();
 
@@ -18,6 +20,8 @@
   });
   if (config.length == 0) return { error: "Config doesn't exist" };
   config = config[0];
+
+  // get dropbox_api_key
   let dropbox_api_key = req.app.locals.encryption.decrypt(
     config.dropbox_api_key
   );

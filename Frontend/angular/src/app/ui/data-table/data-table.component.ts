@@ -134,7 +134,7 @@ export class DataTableComponent extends BaseComponent {
     }
   }
 
-  requestDownload(pageInfo?, cached?) {
+  requestDownload(pageInfo?) {
     // get page
     this.getPage();
 
@@ -192,7 +192,7 @@ export class DataTableComponent extends BaseComponent {
       // send REST request
       this.event.send("splash-show"); // show splash
       this.rest
-        .request(src, data, this.uiElement.method, options, cached)
+        .request(src, data, this.uiElement.method, options, this.uiElement.cached)
         .subscribe(response => this.responseDownload(response));
     } else {
       this.total = this.rows ? this.rows.length : 0;

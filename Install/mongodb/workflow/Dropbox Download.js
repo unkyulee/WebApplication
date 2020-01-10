@@ -1,4 +1,7 @@
-﻿async function run() {
+﻿var fetch = require("isomorphic-fetch"); // or another library of choice.
+var Dropbox = require("dropbox").Dropbox;
+
+async function run() {
   // get navigation id
   let company_id = req.cookies["company_id"];
   if (!company_id) company_id = req.query.company_id;
@@ -10,7 +13,7 @@
   // connect to database
   await ds.connect();
 
-  // get dropbox token
+  // retrieve config
   let config = await ds.find("config", {
     query: {
       company_id: ObjectID(company_id),
@@ -19,6 +22,8 @@
   });
   if (config.length == 0) return { error: "Config doesn't exist" };
   config = config[0];
+
+  // retrieve dropbox_api_key
   let dropbox_api_key = req.app.locals.encryption.decrypt(
     config.dropbox_api_key
   );
@@ -26,6 +31,7 @@
 
   // form values
   let data = Object.assign({}, req.query, req.body);
+
   // get uploaded filestream
   let file = await download(dropbox_api_key, data.filepath);
 
@@ -35,12 +41,9 @@
     `inline; filename=${encodeURIComponent(file.name)}`
   );
   res.end(file.fileBinary, "binary");
-
   return;
 }
 
-var fetch = require("isomorphic-fetch"); // or another library of choice.
-var Dropbox = require("dropbox").Dropbox;
 //
 async function download(dropbox_api_key, filepath) {
   return new Promise(function(resolve, reject) {

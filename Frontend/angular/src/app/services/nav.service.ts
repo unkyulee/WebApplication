@@ -28,7 +28,8 @@ export class NavService {
   loadNavigation() {
     this.rest
       .request(
-        `${this.config.get("host")}${this.config.get("url")}/navigation.config`
+        `${this.config.get("host")}${this.config.get("url")}/navigation.config`,
+        null, 'get', {}, true
       )
       .subscribe(r => {
         // save theme

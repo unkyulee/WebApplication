@@ -41,7 +41,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '100000000000000000010001', option: { width: '100vw', height: '100vh', panelClass: 'full-width-dialog' }})"
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '100000000000000000010001', option: { width: '100vw', maxWidth: '450px', maxHeight: '100vh'}})"
         }
       ]
     },
@@ -166,7 +166,7 @@
             "fontSize": "small"
           },
           "init": "(async () => { await this.ui.get('100000000000000000010003') })();",
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '100000000000000000010001', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '100000000000000000010001', data: item, option: {width: '100vw', maxWidth: '450px', maxHeight: '100vh'}})",
           "columns": [
             {
               "type": "ui-element-id",

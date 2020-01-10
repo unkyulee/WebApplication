@@ -24,7 +24,7 @@ export class UIService {
       let url = `${this.config.get("host")}${this.config.get(
         "url"
       )}/ui.element`;
-      uiElement = await this.rest.requestAsync(url, { uiElementId });
+      uiElement = await this.rest.requestAsync(url, { uiElementId }, 'get', {}, true);
       if (uiElement) {
         this.config.set(`ui.${uiElementId}`, uiElement);
         this.loadedAt[uiElementId] = new Date();
