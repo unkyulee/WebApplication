@@ -1,5 +1,5 @@
 {
-  "_id": "200000000000000000000061",
+  "_id": ObjectId("200000000000000000000061"),
   "type": "layout",
   "name": "Web Service Detail",
   "contentStyle": {

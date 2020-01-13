@@ -24,6 +24,9 @@ MD .\www
 xcopy /s /y %AngularPath%\dist .\www
 xcopy /s /y /i .\app\assets\* .\www\assets
 
+REM replace script tag
+..\script\fart.exe ".\www\index.html" "<script" "<script type='text/javascript'"
+
 REM Reset angular platform
 call cordova platform remove android
 call cordova platform add android

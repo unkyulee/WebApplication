@@ -1,5 +1,5 @@
 {
-  "_id": "200000000000000000000050",
+  "_id": ObjectId("200000000000000000000050"),
   "url": "admin/config",
   "description": "config",
   "get_description": "Get",

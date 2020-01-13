@@ -1,161 +1,156 @@
 {
-    "_id": "200000000000000000000071",
-    "name": "Core Workflow Detail",
-    "type": "layout",
-    "contentStyle": {
-      "display": "flex",
-      "flexDirection": "column",
-      "flexGrow": 1
-    },
-    "layoutStyle": {
-      "width": "100%",
-      "display": "flex",
-      "flex-direction": "column",
-      "color": "white",
-      "height": "100%"
-    },
-    "screens": [
-      {
-        "name": "Filter",
-        "type": "layout",
-        "layoutStyle": {
-          "background": "#2C313D",
-          "color": "white",
-          "display": "flex",
-          "flex-flow": "row wrap",
-          "min-height": "40px"
-        },
-        "screens": [
-          {
-            "type": "button",
-            "buttonType": "mat-icon-button",
-            "icon": "filter_list",
-            "click": "this.event.send({name: 'toggle-sidenav', key: 'filters'})"
-          },
-          {
-            "type": "div",
-            "comment": "spacer",
-            "layoutStyle": {
-              "flex-grow": 1
-            },
-            "style": {
-              "width": "1px"
-            }
-          },
-          {
-            "type": "button",
-            "buttonType": "mat-icon-button",
-            "icon": "save",
-            "click": "this.event.send({name: 'save', key: 'workflow'})"
-          }
-        ]
-      },
-      {
-        "type": "side-nav",
-        "key": "filters",
-        "opened": "this.config.isHandset == false ? true : false",
-        "mode": "this.config.isHandset == false ? 'side' : 'over'",
-        "layoutStyle": {
-          "flex-grow": 1,
-          "height": "100%",
-          "width": "100%",
-          "display": "flex",
-          "flex-direction": "column"
-        },
-        "containerStyle": {
-          "display": "flex",
-          "flex-direction": "column",
-          "height": "100%"
-        },
-        "sideStyle": {
-          "background": "ghostwhite",
-          "display": "flex",
-          "flexFlow": "row wrap",
-          "color": "black",
-          "padding": "4px",
-          "max-width": "300px"
-        },
-        "sideScreen": [
-          {
-            "type": "input",
-            "label": "JSON Path",
-            "floatLabel": "auto",
-            "layoutStyle": {
-              "width": "100%"
-            },
-            "style": {
-              "width": "100%"
-            },
-            "changed": "this.event.send({name: 'path', key: 'workflow', path: this._value});"
-          },
-          {
-            "type": "selection",
-            "label": "Language",
-            "options": [
-              "",
-              "javascript",
-              "html",
-              "json"
-            ],
-            "floatLabel": "auto",
-            "layoutStyle": {
-              "width": "100%"
-            },
-            "style": {
-              "width": "100%"
-            },
-            "selected": "this.event.send({name: 'editorOptions', key: 'workflow', editorOptions: {language: option}});"
-          },
-          {
-            "type": "typography",
-            "text": " ",
-            "style": {
-              "height": "64px"
-            }
-          },
-          {
-            "type": "button",
-            "buttonType": "mat-fab",
-            "color": "warn",
-            "icon": "search",
-            "condition": "this.config.isHandset",
-            "click": "this.event.send({name: 'toggle-sidenav', key: 'filters'})",
-            "layoutStyle": {
-              "position": "absolute",
-              "bottom": "24px",
-              "right": "24px"
-            }
-          }
-        ],
-        "screens": [
-          {
-            "type": "code-editor",
-            "editorType": "json",
-            "key": "workflow",
-            "path": "",
-            "init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send({name: 'splash-show'});\r\n   this.rest.request(`/api/admin/workflow?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
-            "save": {
-              "src": "`/api/admin/workflow`",
-              "method": "post",
-              "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
-            },
-            "editorOptions": {
-              "theme": "vs-dark",
-              "automaticLayout": true
-            },
-            "layoutStyle": {
-              "flex-grow": 1,
-              "display": "flex",
-              "flex-direction": "column",
-              "height": "100%",
-              "width": "100%"
-            },
-            "style": {
-              "width": "100%",
-              "height": "100%"
-            }
-          }
-        ]
-      }
-    ]
-  }
+	"_id": "200000000000000000000071",
+	"name": "Core Workflow Detail",
+	"type": "layout",
+	"contentStyle": {
+		"display": "flex",
+		"flexDirection": "column",
+		"flexGrow": 1
+	},
+	"layoutStyle": {
+		"width": "100%",
+		"display": "flex",
+		"flex-direction": "column",
+		"color": "white",
+		"height": "100%"
+	},
+	"screens": [
+		{
+			"name": "Filter",
+			"type": "layout",
+			"layoutStyle": {
+				"background": "#2C313D",
+				"color": "white",
+				"display": "flex",
+				"flex-flow": "row wrap",
+				"min-height": "40px"
+			},
+			"screens": [
+				{
+					"type": "button",
+					"buttonType": "mat-icon-button",
+					"icon": "filter_list",
+					"click": "this.event.send({name: 'toggle-sidenav', key: 'filters'})"
+				},
+				{
+					"type": "div",
+					"comment": "spacer",
+					"layoutStyle": {
+						"flex-grow": 1
+					},
+					"style": {
+						"width": "1px"
+					}
+				},
+				{
+					"type": "button",
+					"buttonType": "mat-icon-button",
+					"icon": "save",
+					"click": "this.event.send({name: 'save', key: 'workflow'})"
+				}
+			]
+		},
+		{
+			"type": "side-nav",
+			"key": "filters",
+			"opened": "this.config.isHandset == false ? true : false",
+			"mode": "this.config.isHandset == false ? 'side' : 'over'",
+			"layoutStyle": {
+				"flex-grow": 1,
+				"height": "100%",
+				"width": "100%",
+				"display": "flex",
+				"flex-direction": "column"
+			},
+			"containerStyle": {
+				"display": "flex",
+				"flex-direction": "column",
+				"height": "100%"
+			},
+			"sideStyle": {
+				"background": "ghostwhite",
+				"display": "flex",
+				"flexFlow": "row wrap",
+				"color": "black",
+				"padding": "4px",
+				"max-width": "300px"
+			},
+			"sideScreen": [
+				{
+					"type": "input",
+					"label": "JSON Path",
+					"floatLabel": "auto",
+					"layoutStyle": {
+						"width": "100%"
+					},
+					"style": {
+						"width": "100%"
+					},
+					"changed": "this.event.send({name: 'path', key: 'workflow', path: this._value});"
+				},
+				{
+					"type": "selection",
+					"label": "Language",
+					"options": ["", "javascript", "html", "json"],
+					"floatLabel": "auto",
+					"layoutStyle": {
+						"width": "100%"
+					},
+					"style": {
+						"width": "100%"
+					},
+					"selected": "this.event.send({name: 'editorOptions', key: 'workflow', editorOptions: {language: option}});"
+				},
+				{
+					"type": "typography",
+					"text": " ",
+					"style": {
+						"height": "64px"
+					}
+				},
+				{
+					"type": "button",
+					"buttonType": "mat-fab",
+					"color": "warn",
+					"icon": "search",
+					"condition": "this.config.isHandset",
+					"click": "this.event.send({name: 'toggle-sidenav', key: 'filters'})",
+					"layoutStyle": {
+						"position": "absolute",
+						"bottom": "24px",
+						"right": "24px"
+					}
+				}
+			],
+			"screens": [
+				{
+					"type": "code-editor",
+					"editorType": "json",
+					"key": "workflow",
+					"path": "",
+					"init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send({name: 'splash-show'});\r\n   this.rest.request(`/api/admin/workflow?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
+					"save": {
+						"src": "`/api/admin/workflow`",
+						"method": "post",
+						"saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
+					},
+					"editorOptions": {
+						"theme": "vs-dark",
+						"automaticLayout": true
+					},
+					"layoutStyle": {
+						"flex-grow": 1,
+						"display": "flex",
+						"flex-direction": "column",
+						"height": "100%",
+						"width": "100%"
+					},
+					"style": {
+						"width": "100%",
+						"height": "100%"
+					}
+				}
+			]
+		}
+	]
+}
