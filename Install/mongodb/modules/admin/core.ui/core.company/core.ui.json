@@ -132,6 +132,7 @@
           "tableType": "card",
           "key": "companies",
           "src": "`/api/admin/core.company`",
+          "size": 25,
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filter}",

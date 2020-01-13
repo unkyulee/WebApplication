@@ -19,13 +19,19 @@ export class UIService {
       (this.loadedAt[uiElementId] &&
         this.loadedAt[uiElementId] < moment().add(-1, "hour"))
     ) {
-
       // then reload the uiElement
       let url = `${this.config.get("host")}${this.config.get(
         "url"
       )}/ui.element`;
       uiElement = await this.rest.requestAsync(url, { uiElementId }, 'get', {}, true);
       if (uiElement) {
+        if(uiElement.load) {
+          try {
+            eval(uiElement.load)
+          } catch(e) {
+            console.error(e)
+          }
+        }
         this.config.set(`ui.${uiElementId}`, uiElement);
         this.loadedAt[uiElementId] = new Date();
       }

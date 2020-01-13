@@ -58,7 +58,10 @@ export class UIComposerComponent extends BaseComponent {
     let elements = [];
     for (let id of uiElements) {
       let element = await this.ui.get(id);
-      if (element) elements.push(element);
+      // run load script if exists
+      if (element) {
+        elements.push(element);
+      }
     }
     this.uiElements = [...elements];
   }
