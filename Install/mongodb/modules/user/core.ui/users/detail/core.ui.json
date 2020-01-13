@@ -24,9 +24,8 @@
     {
       "type": "selection",
       "key": "groups",
-      "compare": "o1._id == o2._id",
       "label": "Gruppo di sicurezza",
-      "src": "/api/user/group?_projection=_id,name",
+      "src": "/api/user/group",
       "transform": "response.data",
       "multiple": true,
       "optionLabelTransform": "`${option.name}`",
@@ -101,7 +100,7 @@
       "icon": "save",
       "label": "Salva",
       "color": "primary",
-      "click": "this.rest.request(\r\n    `/api/user/users`,\r\n    this.data,\r\n    'post').subscribe(r => {\r\n        this.data._id = r._id;\r\n        this.snackBar.open('Salvato', null, { duration: 2000 });\r\n    })",
+      "click": "let data = JSON.parse(JSON.stringify(this.data));\r\ndelete data._params_;\r\nthis.rest.request(\r\n    `/api/user/users`,\r\n    data,\r\n    'post').subscribe(r => {\r\n        this.data._id = r._id;\r\n        this.snackBar.open('Salvato', null, { duration: 2000 });\r\n    })",
       "layoutStyle": {
         "width": "100%"
       }

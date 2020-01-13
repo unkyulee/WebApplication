@@ -25,7 +25,7 @@
       "layoutStyle": {
         "width": "100%"
       },
-      "click": "this.event.send({name:'close-dialog'});\r\nthis.rest.request(\r\n  `/api/user/users?_id=${this.data._id}`, this.data, 'put'\r\n).subscribe(\r\n  response => {\r\n    this.snackBar.open('Cambiato', null, {duration: 2000})\r\n  }\r\n);\r\n"
+      "click": "this.event.send({name:'close-dialog'});\r\n\r\nlet data = JSON.parse(JSON.stringify(this.data));\r\ndelete data._params_;\r\nthis.rest.request(\r\n  `/api/user/users?_id=${this.data._id}`, data, 'put'\r\n).subscribe(\r\n  response => {\r\n    this.snackBar.open('Cambiato', null, {duration: 2000})\r\n  }\r\n);\r\n"
     }
   ]
 }
