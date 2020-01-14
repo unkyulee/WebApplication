@@ -38,15 +38,59 @@
 		},
 		{
 			"type": "form-generator",
-			"src": "`/api/admin/task?_id=${this.data._params_._id}`",
-			"method": "get",
-			"transform": "response.data[0]",
 			"layoutStyle": {
 				"flex-grow": 1,
 				"display": "flex",
 				"flex-direction": "column",
 				"height": "100%",
 				"overflow-y": "auto"
+			},
+			"style": {
+				"display": "flex",
+				"flex-wrap": "wrap",
+				"justify-content": "space-between",
+				"margin-bottom": "200px"
+			},
+			"header": {
+				"style": {
+					"background": "rgb(44, 49, 61)",
+					"color": "white",
+					"fontWeight": "bold",
+					"textTransform": "uppercase",
+					"display": "flex",
+					"align-items": "center",
+					"width": "100%",
+					"maxWidth": "800px"
+				},
+				"class": {
+					"mat-elevation-z4": true
+				}
+			},
+			"section": {
+				"style": {
+					"width": "100%",
+					"display": "flex",
+					"flex-direction": "column",
+					"align-items": "center"
+				}
+			},
+			"container": {
+				"style": {
+					"display": "flex",
+					"flex-direction": "row",
+					"flex-wrap": "wrap",
+					"align-items": "stretch",
+					"box-sizing": "border-box",
+					"padding": "8px",
+					"margin": "0 8px 8px 8px",
+					"background": "white",
+					"color": "rgba(0,0,0,.87)",
+					"max-width": "800px",
+					"width": "100%"
+				},
+				"class": {
+					"mat-elevation-z4": true
+				}
 			},
 			"save": {
 				"src": "`/api/admin/task`",
@@ -70,16 +114,14 @@
 					},
 					"screens": [
 						{
-							"type": "typography",
-							"condition": "this.data.status",
+							"type": "input",
 							"key": "status",
+							"label": "Status",
+							"layoutStyle": {
+								"width": "100%"
+							},
 							"style": {
-								"fontWeight": "bold",
-								"background": "grey",
-								"padding": "8px",
-								"margin": "4px",
-								"color": "white",
-								"textAlign": "center"
+								"width": "100%"
 							}
 						},
 						{
@@ -159,7 +201,7 @@
 									"type": "button",
 									"label": "New Action",
 									"color": "warn",
-									"click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000122', data: {task_id: this.data._id} });"
+									"click": "this.event.send({name:'open-dialog', uiElementId: '200000000000000000000102', data: {task_id: this.data._id}, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'} });"
 								}
 							]
 						},
@@ -167,8 +209,9 @@
 							"type": "data-table",
 							"condition": "this.data._id",
 							"tableType": "list",
-							"key": "actions",
-							"src": "`/api/admin/taskaction?task_id=${this.data._id}&_sort=order&size=1000`",
+							"key": "_params_.actions",
+							"src": "`/api/admin/task.action?task_id=${this.data._id}&_sort=order`",
+							"size": 1000,
 							"method": "get",
 							"transform": "response.data",
 							"layoutStyle": {
@@ -180,7 +223,7 @@
 								"display": "flex",
 								"cursor": "pointer"
 							},
-							"click": "this.event.send({name:'open-dialog', width: '100vw', height: '100vh', uiElementId: '000000000000000000000122', data: item});",
+							"click": "this.event.send({name:'open-dialog', uiElementId: '000000000000000000000122', data: item, option: { width: '100vw', height: '100vh', panelClass: 'full-width-dialog' } });",
 							"columns": [
 								{
 									"type": "typography",
@@ -236,8 +279,8 @@
 						{
 							"type": "data-table",
 							"tableType": "list",
-							"key": "instances",
-							"src": "`/api/admin/taskinstance?task_id=${this.data._id}&_sort_desc=started`",
+							"key": "_params_.instances",
+							"src": "`/api/admin/task.instance?task_id=${this.data._id}&_sort_desc=started`",
 							"method": "get",
 							"transform": "response.data",
 							"layoutStyle": {
@@ -250,7 +293,7 @@
 								"display": "flex",
 								"cursor": "pointer"
 							},
-							"click": "this.event.send({name:'open-dialog', width: '80vw', height: '80vh', uiElementId: '000000000000000000000123', data: {_id: item._id} });",
+							"click": "this.event.send({name:'open-dialog', uiElementId: '000000000000000000000123', data: {_id: item._id}, option: {width: '80vw', height: '80vh'} });",
 							"columns": [
 								{
 									"type": "typography",

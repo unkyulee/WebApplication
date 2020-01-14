@@ -109,7 +109,7 @@
           "type": "data-table",
           "tableType": "card",
           "key": "tasks",
-          "src": "/api/admin/task",
+          "src": "`/api/admin/task`",
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filters};",
@@ -118,34 +118,36 @@
             "display": "flex",
             "flex-direction": "column",
             "height": "100%",
-            "overflow-y": "auto"
+            "overflow-y": "auto",
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%",
+            "display": "flex",
+            "flex-direction": "column"
+          },
+          "contentLayoutStyle": {
+            "flex-grow": 1,
+            "height": "100%"
           },
           "itemBoxStyle": {
             "cursor": "pointer",
             "margin": "8px",
-            "padding": "4px",
-            "font-size": "small",
+            "padding": "8px",
+            "fontSize": "small",
             "display": "flex",
-            "flex-flow": "row wrap"
+            "flexWrap": "row wrap"
           },
-          "click": "this.router.navigateByUrl(`/task/detail?_id=${item._id}`)",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000101', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'} })",
           "columns": [
             {
               "type": "typography",
               "key": "status",
-              "style": {
-                "fontWeight": "bold",
-                "background": "grey",
-                "padding": "4px",
-                "margin": "4px",
-                "color": "white",
-                "textAlign": "center"
-              }
-            },
-            {
-              "type": "layout",
               "layoutStyle": {
-                "width": "100%"
+                "width": "100px"
+              },
+              "style": {
+                "color": "blue"
               }
             },
             {
@@ -153,13 +155,17 @@
               "key": "name",
               "label": "Task name",
               "layoutStyle": {
-                "width": "100%"
               },
               "style": {
-                "color": "blue",
                 "fontWeight": "bold",
-                "cursor": "pointer",
-                "textDecoration": "underline"
+                "fontSize": "16px"
+              }
+            },
+            {
+              "type": "layout",
+              "layoutStyle": {
+                "width": "1px",
+                "flexGrow": 1
               }
             },
             {
@@ -168,7 +174,6 @@
               "key": "next_run_date",
               "label": "Next Run",
               "layoutStyle": {
-                "width": "100%"
               },
               "format": "`next: ${moment(this._value).format('L LT')}`"
             }

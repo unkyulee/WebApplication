@@ -47,7 +47,6 @@ export class UIComposerComponent extends BaseComponent {
 
   uiElements: any[];
   async loadUI(uiElements) {
-    console.log('loadUI')
     // load ui
     this.uiElements = [];
     let elements = [];
