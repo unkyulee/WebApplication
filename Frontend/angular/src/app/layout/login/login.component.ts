@@ -34,7 +34,7 @@ export class LoginComponent extends BaseComponent {
   // login
   async authenticate() {
     // try login
-    this.event.send("splash-show"); // show splash
+    this.event.send({name: "splash-show"}); // show splash
     try {
       // remove error message from the data
       delete this.data.error;
@@ -47,7 +47,7 @@ export class LoginComponent extends BaseComponent {
       let message = obj.get(this.uiElement, `errors.${e.status}`, e.message);
       this.data.error = message;
     } finally {
-      this.event.send("splash-hide"); // hide splash
+      this.event.send({name: "splash-hide"}); // hide splash
     }
   }
 }

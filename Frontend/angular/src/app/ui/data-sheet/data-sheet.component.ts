@@ -111,7 +111,7 @@ export class DataSheetComponent extends BaseComponent {
       }
 
       // show splash
-      this.event.send("splash-show");
+      this.event.send({name: "splash-show"});
 
       this.rest
         .request(
@@ -129,7 +129,7 @@ export class DataSheetComponent extends BaseComponent {
 
   async responseDownload(response) {
     // stop the loading indicator
-    this.event.send("splash-hide");
+    this.event.send({name: "splash-hide"});
 
     // map data from response
     if (this.uiElement.transform) {

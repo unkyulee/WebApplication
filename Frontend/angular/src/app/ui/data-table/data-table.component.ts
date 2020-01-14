@@ -190,7 +190,7 @@ export class DataTableComponent extends BaseComponent {
       }
 
       // send REST request
-      this.event.send("splash-show"); // show splash
+      this.event.send({name: "splash-show"}); // show splash
       this.rest
         .request(src, data, this.uiElement.method, options, this.uiElement.cached)
         .subscribe(response => this.responseDownload(response));
@@ -202,7 +202,7 @@ export class DataTableComponent extends BaseComponent {
 
   responseDownload(response) {
     // hide splash
-    this.event.send("splash-hide");
+    this.event.send({name: "splash-hide"});
 
     // map data from response
     let transform = this.uiElement.transform || "response.data";

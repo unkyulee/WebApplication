@@ -28,9 +28,9 @@ export class ToolbarComponent extends BaseComponent {
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event.name == "navigation-changed") {
         this.handleNavigationChanged()
-      } else if (event.name == "toolbar-loading-show") {
+      } else if (event.name == "splash-show") {
         this.showLoadingBar = true;
-      } else if (event.name == "toolbar-loading-hide") {
+      } else if (event.name == "splash-hide") {
         this.showLoadingBar = false;
       }
     });

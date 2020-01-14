@@ -154,13 +154,13 @@ export class FormGeneratorComponent extends BaseComponent {
 
       // download data through rest web services
       // start the splash
-      this.event.send("splash-show");
+      this.event.send({name: "splash-show"});
       this.rest
         .request(src, data, method, {}, cached)
         .pipe(
           catchError(err => {
             // hide the splash
-            this.event.send("splash-hide");
+            this.event.send({name: "splash-hide"});
             //
             if (this.uiElement.errorAction) {
               try {
@@ -179,7 +179,7 @@ export class FormGeneratorComponent extends BaseComponent {
 
   responseDownload(response) {
     // hide the splash
-    this.event.send("splash-hide");
+    this.event.send({name: "splash-hide"});
 
     // go through data transformation
     let data = {};
@@ -241,14 +241,14 @@ export class FormGeneratorComponent extends BaseComponent {
     // update data through rest web services
     if (src) {
       // hide the splash
-      this.event.send("splash-show");
+      this.event.send({name: "splash-show"});
 
       this.rest
         .request(src, data, method)
         .pipe(
           catchError(err => {
             // hide the splash
-            this.event.send("splash-hide");
+            this.event.send({name: "splash-hide"});
 
             // save failed
             let errorAction = obj.get(this.uiElement, "save.errorAction");
@@ -266,13 +266,13 @@ export class FormGeneratorComponent extends BaseComponent {
         .subscribe(response => this.saveAction(response));
     } else {
       // hide splash
-      this.event.send("splash-hide");
+      this.event.send({name: "splash-hide"});
     }
   }
 
   saveAction(response) {
     // hide the splash
-    this.event.send("splash-hide");
+    this.event.send({name: "splash-hide"});
 
     let saveAction = obj.get(this.uiElement, "save.saveAction");
     if (saveAction)

@@ -55,14 +55,13 @@ export class UIComposerComponent extends BaseComponent {
   uiElements: any[];
   async loadUI(uiElements) {
     // load ui
-    let elements = [];
+    this.uiElements = [];
     for (let id of uiElements) {
       let element = await this.ui.get(id);
       // run load script if exists
       if (element) {
-        elements.push(element);
+        this.uiElements.push(element);
       }
     }
-    this.uiElements = [...elements];
   }
 }

@@ -50,7 +50,7 @@
 
     <ng-container *ngFor="let child of item.children">
       <a
-        *ngIf="child.type != 'sub' && permission.check(item)"
+        *ngIf="child.type != 'sub' && permission.check(child)"
         class="nav-link"
         style="padding: 0 48px"
         [routerLink]="[child.url]"
