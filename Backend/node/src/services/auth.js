@@ -1,4 +1,3 @@
-const hash = require('../lib/hash');
 const jwt = require('jsonwebtoken');
 const ObjectID = require('mongodb').ObjectID;
 const obj = require('object-path');
@@ -55,7 +54,7 @@ class Auth {
 					authenticated = true;
 				}
 				if (user.password && req.body.password) {
-					let hashedPassword = hash.hash(req.body.password);
+					let hashedPassword = req.app.locals.encryption.hash(req.body.password);
 					if (hashedPassword == user.password) {
 						authenticated = true;
 					}

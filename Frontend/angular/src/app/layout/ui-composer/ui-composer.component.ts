@@ -38,13 +38,6 @@ export class UIComposerComponent extends BaseComponent {
         }
         await this.loadUI(this.nav.currNav.uiElementIds);
       }
-    } else if (event.name == "ui-updated") {
-      // load UI when navigation changes
-      if (this.nav.currNav) this.loadUI(this.nav.currNav.uiElementIds);
-      // send refresh event after some time so that the screen gets cleared
-      setTimeout(() => {
-        this.event.send({ name: "refresh" });
-      }, 5000);
     }
   }
 
@@ -54,14 +47,17 @@ export class UIComposerComponent extends BaseComponent {
 
   uiElements: any[];
   async loadUI(uiElements) {
+    console.log('loadUI')
     // load ui
     this.uiElements = [];
+    let elements = [];
     for (let id of uiElements) {
       let element = await this.ui.get(id);
       // run load script if exists
       if (element) {
-        this.uiElements.push(element);
+        elements.push(element);
       }
     }
+    this.uiElements = elements;
   }
 }

@@ -51,12 +51,7 @@ export class UIComposerDialogComponent extends BaseComponent {
   }
 
   eventHandler(event) {
-    if (event.name == "ui-updated") {
-      // load UI when navigation changes
-      if (this.uiElement) {
-        this.uiElement = event.data[this.uiElement._id];
-      }
-    } else if (event == "splash-show") {
+    if (event == "splash-show") {
       this.showLoadingBar = true;
     } else if (event == "splash-hide") {
       this.showLoadingBar = false;
