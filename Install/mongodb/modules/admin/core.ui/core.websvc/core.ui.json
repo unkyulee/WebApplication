@@ -147,7 +147,7 @@
           "tableType": "card",
           "key": "websvcs",
           "src": "`/api/admin/core.websvc?_sort=url`",
-          "size": 100,
+          "size": 25,
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filter_websvc}",
