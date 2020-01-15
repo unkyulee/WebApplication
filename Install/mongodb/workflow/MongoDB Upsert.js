@@ -147,6 +147,10 @@ async function verify(verifyConfig) {
 }
 
 function defaultFields() {
+	// remove _params_ if exists
+	obj.del(context.data, '_params_');
+
+	//
 	let fields = obj.get(context, 'config.defaultFields', []);
 	for (let def of fields) {
 		switch (def.type) {

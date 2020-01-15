@@ -1,189 +1,173 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
-import { MatSelect } from "@angular/material/select";
-import { Subject } from "rxjs";
-import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-var obj = require("object-path");
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { MatSelect } from '@angular/material/select';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+var obj = require('object-path');
 
 // user imports
-import { BaseComponent } from "../base.component";
+import { BaseComponent } from '../base.component';
 
 @Component({
-  selector: "selection",
-  templateUrl: "./selection.component.html"
+	selector: 'selection',
+	templateUrl: './selection.component.html',
 })
 export class SelectionComponent extends BaseComponent {
+	@ViewChild('select', { static: false }) select: MatSelect;
+	@ViewChild('autocomplete', { static: false }) autocomplete: ElementRef;
 
-  @ViewChild("select", {static: false}) select: MatSelect;
-  @ViewChild("autocomplete", {static: false}) autocomplete: ElementRef;
+	ngOnInit() {
+		super.ngOnInit();
+		// load options
+		if (!this.uiElement.minimumLength) {
+			this.loadOption();
+		}
 
-  ngOnInit() {
-    super.ngOnInit();
-    // load options
-    if (!this.uiElement.minimumLength) {
-      this.loadOption();
-    }
+		// not all the input will be sent as an event / rest
+		// will be debounced every 700 ms
+		this.typeAheadEventEmitter.pipe(distinctUntilChanged(), debounceTime(300)).subscribe(v => {
+			this.typeAheadEventHandler(v);
+		});
+	}
 
-    // not all the input will be sent as an event / rest
-    // will be debounced every 700 ms
-    this.typeAheadEventEmitter
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(300)
-      )
-      .subscribe(v => {
-        this.typeAheadEventHandler(v);
-      });
-  }
+	ngAfterViewInit() {
+		super.ngAfterViewInit();
+		// bind compare function for mat-select
+		if (this.select) this.select.compareWith = (o1, o2) => this.compareWith(o1, o2);
+	}
 
-  ngAfterViewInit() {
-    super.ngAfterViewInit();
-    // bind compare function for mat-select
-    if (this.select)
-      this.select.compareWith = (o1, o2) => this.compareWith(o1, o2);
-  }
+	ngOnDestroy() {
+		super.ngOnDestroy();
+		this.typeAheadEventEmitter.unsubscribe();
+	}
 
-  ngOnDestroy() {
-    super.ngOnDestroy();
-    this.typeAheadEventEmitter.unsubscribe();
-  }
+	_value: any;
+	get value() {
+		// if the key is specify fied then find it from this.data
+		if (this.data && this.uiElement.key) {
+			//
+			this._value = obj.get(this.data, this.uiElement.key);
+		}
 
-  _value: any;
-  get value() {
-    // if the key is specify fied then find it from this.data
-    if (this.data && this.uiElement.key) {
-      //
-      this._value = obj.get(this.data, this.uiElement.key);
-    }
+		// because autocomplete assumes that the value displayed is string
+		// whereas option can be an object, it requires formatting
+		if (this.uiElement.inputValueTransform) {
+			try {
+				this._value = eval(this.uiElement.inputValueTransform);
+			} catch (e) {
+				console.error(e);
+			}
+		}
 
-    // because autocomplete assumes that the value displayed is string
-    // whereas option can be an object, it requires formatting
-    if (this.uiElement.inputValueTransform) {
-      try {
-        this._value = eval(this.uiElement.inputValueTransform);
-      } catch (e) {
-        console.error(e);
-      }
-    }
+		return this._value;
+	}
 
-    // selection multiple mode must be array
-    if (
-      typeof this._value !== "undefined" &&
-      this.uiElement.multiple &&
-      !Array.isArray(this._value)
-    ) {
-      this._value = [this._value];
-    }
+	set value(v: any) {
+		this._value = v;
 
-    return this._value;
-  }
+		// if the key is specify fied then save it to this.data
+		if (this.data && this.uiElement.key) {
+			// selection multiple mode must be array
+			if (typeof this._value !== 'undefined' && this.uiElement.multiple && !Array.isArray(this._value)) {
+				console.log('converting to array', this._value);
+				this._value = [this._value];
+			}
+			// if null then assign default
+			obj.set(this.data, this.uiElement.key, this._value);
+		}
 
-  set value(v: any) {
-    this._value = v;
+		// check if the minimumLength is specified
+		if (typeof v != 'undefined' && this.uiElement.minimumLength > 0 && this.uiElement.minimumLength > v.length) {
+			// search value has not reached the minimum length
+			return;
+		} else if (this.uiElement.selectionType == 'autocomplete') {
+			// proceed with deferred type
+			this.typeAheadEventEmitter.next(v);
+		}
 
-    // if the key is specify fied then save it to this.data
-    if (this.data && this.uiElement.key) {
-      // if null then assign default
-      obj.set(this.data, this.uiElement.key, this._value);
-    }
+		// close the selection panel
+		if (this.select && this.uiElement.keepOpen != true) this.select.close();
+	}
 
-    // check if the minimumLength is specified
-    if (
-      typeof v != "undefined" &&
-      this.uiElement.minimumLength > 0 &&
-      this.uiElement.minimumLength > v.length
-    ) {
-      // search value has not reached the minimum length
-      return;
-    } else if (this.uiElement.selectionType == "autocomplete") {
-      // proceed with deferred type
-      this.typeAheadEventEmitter.next(v);
-    }
+	loadOption() {
+		if (this.uiElement.src) {
+			// download data through rest web services
+			let src = this.uiElement.src;
+			try {
+				src = eval(src);
+			} catch (e) {}
 
-    // close the selection panel
-    if (this.select && this.uiElement.keepOpen != true) this.select.close();
-  }
+			let data = this.uiElement.data;
+			try {
+				data = eval(data);
+			} catch (e) {}
 
-  loadOption() {
-    if (this.uiElement.src) {
-      // download data through rest web services
-      let src = this.uiElement.src;
-      try {
-        src = eval(src);
-      } catch (e) {}
+			this.rest
+				.request(src, data, this.uiElement.method, {}, this.uiElement.cached)
+				.subscribe(response => this.loadOptionHandler(response));
+		} else {
+			this.isLoading = false;
+		}
+	}
 
-      let data = this.uiElement.data;
-      try {
-        data = eval(data);
-      } catch (e) {}
+	loadOptionHandler(response) {
+		this.isLoading = false;
 
-      this.rest
-        .request(src, data, this.uiElement.method, {}, this.uiElement.cached)
-        .subscribe(response => this.loadOptionHandler(response));
-    } else {
-      this.isLoading = false;
-    }
-  }
+		if (this.uiElement.transform) this.uiElement.options = eval(this.uiElement.transform);
+	}
 
-  loadOptionHandler(response) {
-    this.isLoading = false;
+	// delayed typing -> send rest request
+	private typeAheadEventEmitter = new Subject<string>();
+	typeAheadEventHandler(v) {
+		this.loadOption();
+		this.changed();
+	}
 
-    if (this.uiElement.transform)
-      this.uiElement.options = eval(this.uiElement.transform);
-  }
+	changed() {
+		if (this.uiElement.changed) {
+			try {
+				eval(this.uiElement.changed);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}
 
-  // delayed typing -> send rest request
-  private typeAheadEventEmitter = new Subject<string>();
-  typeAheadEventHandler(v) {
-    this.loadOption();
-    this.changed();
-  }
+	selected(option?) {
+		if (this.uiElement.selected) {
+			try {
+				eval(this.uiElement.selected);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}
 
-  changed() {
-    if (this.uiElement.changed) {
-      try {
-        eval(this.uiElement.changed);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
+	format(option) {
+		let value = option;
 
-  selected(option?) {
-    if (this.uiElement.selected) {
-      try {
-        eval(this.uiElement.selected);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
+		if (value && this.uiElement.optionLabelTransform) {
+			try {
+				value = eval(this.uiElement.optionLabelTransform);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+		return value;
+	}
 
-  format(option) {
-    let value = option;
+	isLoading = false;
+	isOpen = false;
+	openChanged(event) {
+		this.isOpen = event;
+		this.isLoading = event;
+	}
 
-    if (value && this.uiElement.optionLabelTransform) {
-      try {
-        value = eval(this.uiElement.optionLabelTransform);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    return value;
-  }
-
-  isLoading = false;
-  isOpen = false;
-  openChanged(event) {
-    this.isOpen = event;
-    this.isLoading = event;
-  }
-
-  compareWith(o1: any, o2: any): boolean {
-    if (this.uiElement.compare) {
-      try {
-        return eval(this.uiElement.compare) == true;
-      } catch {}
-    }
-    return JSON.stringify(o1) == JSON.stringify(o2);
-  }
+	compareWith(o1: any, o2: any): boolean {
+		if (this.uiElement.compare) {
+			try {
+				return eval(this.uiElement.compare) == true;
+			} catch {}
+		}
+		return JSON.stringify(o1) == JSON.stringify(o2);
+	}
 }
