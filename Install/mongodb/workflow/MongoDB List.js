@@ -110,7 +110,7 @@ function processFilterFields() {
 	if (obj.get(context.data, '_search')) {
 		// add fulltext filter
 		context.filter.$and.push({
-			$text: { $search: data[key] },
+			$text: { $search: context.data['_search'] },
 		});
 
 		// add textScore sort

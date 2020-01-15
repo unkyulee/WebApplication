@@ -26,7 +26,7 @@ class Encryption {
 	}
 
 	hash(data) {
-		var hash = crypto.createHmac('sha512', '');
+		var hash = Crypto.createHmac('sha512', '');
 		hash.update(data);
 		return hash.digest('hex');
 	}

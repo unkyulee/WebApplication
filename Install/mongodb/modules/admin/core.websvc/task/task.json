@@ -7,7 +7,7 @@
   "get_datasource": "000000000000000000000000",
   "get_workflow": "000000000000000000000010",
   "post_description": "Upsert",
-  "post_configuration": "{\r\n    \"collection\": \"task\",\r\n    \"defaultFields\": [\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ]\r\n}",
+  "post_configuration": "{\r\n    \"collection\": \"task\",\r\n    \"defaultFields\": [\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"Date\",\r\n            \"column\": \"next_run_date\"\r\n        }\r\n    ]\r\n}",
   "post_datasource": "000000000000000000000000",
   "post_workflow": "000000000000000000000020",
   "delete_description": "Delete",

@@ -1,0 +1,51 @@
+{
+  "_id": "200000000000000000000104",
+  "name": "Schedule Task Actions",
+  "screens": [
+    {
+      "type": "button",
+      "buttonType": "mat-button",
+      "label": "Run",
+      "color": "primary",
+      "click": "this.event.send({name:'close-sheet'}); this.data.status = ''; this.data.next_run_date = new Date(); this.event.send({name: 'save'});",
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%",
+        "margin": "4px"
+      }
+    },
+    {
+      "type": "button",
+      "buttonType": "mat-button",
+      "label": "New Action",
+      "color": "primary",
+      "click": "this.event.send({name:'close-sheet'}); this.event.send({name:'open-dialog', uiElementId: '200000000000000000000102', data: {task_id: this.data._id}, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'} });",
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%",
+        "margin": "4px"
+      }
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "button",
+      "buttonType": "mat-button",
+      "label": "Save",
+      "color": "warn",
+      "click": "this.event.send({name:'close-sheet'}); this.event.send({ 'name': 'save' });",
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%",
+        "margin": "4px"
+      }
+    }
+  ]
+}

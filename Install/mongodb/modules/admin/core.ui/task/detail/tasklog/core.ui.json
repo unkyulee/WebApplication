@@ -18,21 +18,31 @@
 			"type": "data-table",
 			"tableType": "card",
 			"key": "log",
-			"src": "`/api/admin/tasklog?task_instance_id=${this.data._id}`",
+			"src": "`/api/admin/task.log?task_instance_id=${this.data._id}`",
+			"size": 100,
 			"method": "get",
 			"transform": "response.data",
-			"afterViewInit": "setTimeout(() => {window.dispatchEvent(new Event('resize'))}, 1000)",
 			"layoutStyle": {
 				"flex-grow": 1,
 				"display": "flex",
 				"flex-direction": "column",
 				"height": "100%",
-				"overflow-y": "auto"
+				"overflow-y": "auto",
+				"width": "100%"
+			},
+			"style": {
+				"width": "100%",
+				"display": "flex",
+				"flex-direction": "column"
+			},
+			"contentLayoutStyle": {
+				"flex-grow": 1,
+				"height": "100%"
 			},
 			"itemBoxStyle": {
+				"cursor": "pointer",
 				"margin": "8px",
 				"padding": "8px",
-				"cursor": "pointer",
 				"fontSize": "small",
 				"display": "flex",
 				"flexFlow": "row wrap"
@@ -43,7 +53,8 @@
 					"key": "action",
 					"label": "Action",
 					"layoutStyle": {
-						"fontWeight": "bold"
+						"fontWeight": "bold",
+						"width": "100px"
 					}
 				},
 				{

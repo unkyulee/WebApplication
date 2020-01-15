@@ -9,33 +9,12 @@
 		"color": "white",
 		"height": "100%"
 	},
+	"contentStyle": {
+		"display": "flex",
+		"flexDirection": "column",
+		"height": "100%"
+	},
 	"screens": [
-		{
-			"type": "layout",
-			"layoutStyle": {
-				"background": "rgb(44, 49, 61)",
-				"width": "100%",
-				"display": "flex",
-				"flex-wrap": "wrap",
-				"color": "white"
-			},
-			"screens": [
-				{
-					"type": "div",
-					"comment": "spacer",
-					"layoutStyle": {
-						"flex-grow": 1,
-						"width": "1px"
-					}
-				},
-				{
-					"type": "button",
-					"buttonType": "mat-icon-button",
-					"icon": "save",
-					"click": "this.event.send({ 'name': 'save' });"
-				}
-			]
-		},
 		{
 			"type": "form-generator",
 			"layoutStyle": {
@@ -101,9 +80,6 @@
 			"screens": [
 				{
 					"expanded": true,
-					"style": {
-						"width": "100%"
-					},
 					"header": {
 						"screens": [
 							{
@@ -113,17 +89,6 @@
 						]
 					},
 					"screens": [
-						{
-							"type": "input",
-							"key": "status",
-							"label": "Status",
-							"layoutStyle": {
-								"width": "100%"
-							},
-							"style": {
-								"width": "100%"
-							}
-						},
 						{
 							"type": "input",
 							"key": "name",
@@ -140,7 +105,18 @@
 							"key": "cron",
 							"label": "CRON",
 							"layoutStyle": {
+								"width": "50%"
+							},
+							"style": {
 								"width": "100%"
+							}
+						},
+						{
+							"type": "input",
+							"key": "status",
+							"label": "Status",
+							"layoutStyle": {
+								"width": "50%"
 							},
 							"style": {
 								"width": "100%"
@@ -159,20 +135,11 @@
 							"style": {
 								"width": "100%"
 							}
-						},
-						{
-							"type": "button",
-							"label": "Run",
-							"color": "warn",
-							"click": "this.data.status = ''; this.data.next_run_date = new Date(); this.event.send({name: 'save'});"
 						}
 					]
 				},
 				{
 					"expanded": true,
-					"style": {
-						"width": "100%"
-					},
 					"header": {
 						"screens": [
 							{
@@ -182,29 +149,6 @@
 						]
 					},
 					"screens": [
-						{
-							"type": "layout",
-							"layoutStyle": {
-								"display": "flex",
-								"width": "100%",
-								"padding": "4px"
-							},
-							"screens": [
-								{
-									"type": "layout",
-									"layoutStyle": {
-										"flex-grow": 1,
-										"width": "1px"
-									}
-								},
-								{
-									"type": "button",
-									"label": "New Action",
-									"color": "warn",
-									"click": "this.event.send({name:'open-dialog', uiElementId: '200000000000000000000102', data: {task_id: this.data._id}, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'} });"
-								}
-							]
-						},
 						{
 							"type": "data-table",
 							"condition": "this.data._id",
@@ -223,7 +167,7 @@
 								"display": "flex",
 								"cursor": "pointer"
 							},
-							"click": "this.event.send({name:'open-dialog', uiElementId: '000000000000000000000122', data: item, option: { width: '100vw', height: '100vh', panelClass: 'full-width-dialog' } });",
+							"click": "this.event.send({name:'open-dialog', uiElementId: '200000000000000000000102', data: item, option: { width: '100vw', height: '100vh', panelClass: 'full-width-dialog' } });",
 							"columns": [
 								{
 									"type": "typography",
@@ -264,9 +208,6 @@
 				},
 				{
 					"expanded": true,
-					"style": {
-						"width": "100%"
-					},
 					"header": {
 						"screens": [
 							{
@@ -293,18 +234,31 @@
 								"display": "flex",
 								"cursor": "pointer"
 							},
-							"click": "this.event.send({name:'open-dialog', uiElementId: '000000000000000000000123', data: {_id: item._id}, option: {width: '80vw', height: '80vh'} });",
+							"click": "this.event.send({name:'open-dialog', uiElementId: '200000000000000000000103', data: {_id: item._id}, option: {width: '80vw', height: '80vh'} });",
 							"columns": [
 								{
 									"type": "typography",
 									"key": "status",
-									"label": "status"
+									"label": "status",
+									"style": {
+										"fontWeight": "bold"
+									}
 								},
 								{
 									"type": "layout",
 									"layoutStyle": {
 										"width": "1px",
 										"flexGrow": 1
+									}
+								},
+								{
+									"type": "typography",
+									"label": "ended",
+									"condition": "this.data.ended",
+									"format": "`${moment(this.data.ended).diff(moment(this.data.started), 'seconds')} s`",
+									"style": {
+										"marginRight": "8px",
+										"color": "crimson"
 									}
 								},
 								{
@@ -312,30 +266,24 @@
 									"key": "started",
 									"label": "started",
 									"format": "moment(v).format('L LTS')"
-								},
-								{
-									"type": "layout",
-									"layoutStyle": {
-										"width": "1px",
-										"flexGrow": 1
-									}
-								},
-								{
-									"type": "typography",
-									"key": "ended",
-									"label": "ended",
-									"format": "moment(v).format('L LTS')"
 								}
 							]
 						}
 					]
 				}
 			]
+		},
+		{
+			"type": "button",
+			"buttonType": "mat-fab",
+			"click": "this.event.send({name: 'open-sheet', uiElementId: '200000000000000000000104', data: this.data});",
+			"icon": "add",
+			"color": "primary",
+			"layoutStyle": {
+				"position": "absolute",
+				"bottom": "32px",
+				"right": "25px"
+			}
 		}
-	],
-	"contentStyle": {
-		"display": "flex",
-		"flexDirection": "column",
-		"height": "100%"
-	}
+	]
 }
