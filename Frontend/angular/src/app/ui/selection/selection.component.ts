@@ -80,7 +80,7 @@ export class SelectionComponent extends BaseComponent {
 		}
 
 		// check if the minimumLength is specified
-		if (typeof v != 'undefined' && this.uiElement.minimumLength > 0 && this.uiElement.minimumLength > v.length) {
+		if (typeof this._value != 'undefined' && this.uiElement.minimumLength > 0 && this.uiElement.minimumLength > this._value.length) {
 			// search value has not reached the minimum length
 			return;
 		} else if (this.uiElement.selectionType == 'autocomplete') {
@@ -89,7 +89,7 @@ export class SelectionComponent extends BaseComponent {
 		}
 
 		// close the selection panel
-		if (this.select && this.uiElement.keepOpen != true) this.select.close();
+		if (this.select && this.uiElement.keepOpen != false) this.select.close();
 	}
 
 	loadOption() {
