@@ -180,19 +180,19 @@ function processFilter() {
 		// range
 		if (key.endsWith('_date_gte') || key.endsWith('_created_gte')) {
 			let f = {};
-			f[key.replace('_gte', '')] = { $gte: moment(data[key]).toDate() };
+			f[key.replace('_gte', '')] = { $gte: moment(context.data[key]).toDate() };
 			context.filter.$and.push(f);
 		} else if (key.endsWith('_date_gt') || key.endsWith('_created_gt')) {
 			let f = {};
-			f[key.replace('_gt', '')] = { $gt: moment(data[key]).toDate() };
+			f[key.replace('_gt', '')] = { $gt: moment(context.data[key]).toDate() };
 			context.filter.$and.push(f);
 		} else if (key.endsWith('_date_lte') || key.endsWith('_created_lte')) {
 			let f = {};
-			f[key.replace('_lte', '')] = { $lte: moment(data[key]).toDate() };
+			f[key.replace('_lte', '')] = { $lte: moment(context.data[key]).toDate() };
 			context.filter.$and.push(f);
 		} else if (key.endsWith('_date_lt') || key.endsWith('_created_lt')) {
 			let f = {};
-			f[key.replace('_lt', '')] = { $lt: moment(data[key]).toDate() };
+			f[key.replace('_lt', '')] = { $lt: moment(context.data[key]).toDate() };
 			context.filter.$and.push(f);
 		}
 		// expression

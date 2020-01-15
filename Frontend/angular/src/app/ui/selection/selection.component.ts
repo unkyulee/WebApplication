@@ -68,10 +68,14 @@ export class SelectionComponent extends BaseComponent {
 		if (this.data && this.uiElement.key) {
 			// selection multiple mode must be array
 			if (typeof this._value !== 'undefined' && this.uiElement.multiple && !Array.isArray(this._value)) {
-				console.log('converting to array', this._value);
 				this._value = [this._value];
 			}
 			// if null then assign default
+			if(typeof this._value == 'undefined' && this.uiElement.default) {
+				try {
+					this._value = eval(this.uiElement.default)
+				} catch {}
+			}
 			obj.set(this.data, this.uiElement.key, this._value);
 		}
 
