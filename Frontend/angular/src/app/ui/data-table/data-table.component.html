@@ -81,7 +81,7 @@
     <ng-container *ngFor="let column of uiElement.columns">
       <ng-container
         ui-layout-wrapper
-        [uiElement]="column"
+        [uiElement]="copy(column)"
         [data]="row"
       ></ng-container>
     </ng-container>

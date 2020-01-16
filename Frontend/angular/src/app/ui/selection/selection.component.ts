@@ -87,9 +87,6 @@ export class SelectionComponent extends BaseComponent {
 			// proceed with deferred type
 			this.typeAheadEventEmitter.next(v);
 		}
-
-		// close the selection panel
-		if (this.select && this.uiElement.keepOpen != false) this.select.close();
 	}
 
 	loadOption() {

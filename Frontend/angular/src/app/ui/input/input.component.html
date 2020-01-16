@@ -185,7 +185,7 @@
     [placeholder]="uiElement.placeholder"
     [(ngModel)]="value"
     [required]="uiElement.required"
-    [readonly]="uiElement.readonly"
+    [readonly]="true"
     (keyup.enter)="keyupEnter()"
     (input)="typeAheadEventEmitter.next($event)"
     (focus)="focus($event)"

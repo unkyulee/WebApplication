@@ -244,6 +244,10 @@ export class BaseComponent {
   safeGet(data, path, def_value) {
     return obj.get(data, path, def_value);
   }
+
+  copy(obj) {
+    return JSON.parse(JSON.stringify(obj))
+  }
 }
 
 function componentDestroyed(component: OnDestroy) {
