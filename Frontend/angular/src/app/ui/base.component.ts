@@ -68,14 +68,6 @@ export class BaseComponent {
   onCustomEvent: Subscription;
 
   ngOnInit() {
-    if (obj.has(this, "uiElement.init")) {
-      try {
-        eval(this.uiElement.init);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
     // event handler
     if (obj.has(this, "uiElement.eventHandler")) {
       this.onCustomEvent = this.event.onEvent

@@ -1,123 +1,66 @@
 <!-- Card List -->
 <ng-container *ngIf="uiElement.tableType == 'card'">
-  <cdk-virtual-scroll-viewport
-    cdkDropList
-    [cdkDropListData]="rows"
-    (cdkDropListDropped)="drop($event)"
-    [ngStyle]="
-      uiElement.contentLayoutStyle
-        ? uiElement.contentLayoutStyle
-        : config.get('dataTable.contentLayoutStyle')
-    "
-    [itemSize]="total < size ? total : size"
-    maxBufferPx="40000"
-  >
-    <mat-card
-      cdkDrag
-      [cdkDragDisabled]="
-        uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
-      "
-      *cdkVirtualFor="let row of rows"
-      (click)="click($event, row, uiElement.click)"
-      [ngStyle]="
-        uiElement.itemBoxStyle
-          ? uiElement.itemBoxStyle
-          : config.get('dataTable.itemBoxStyle')
-      "
-      [ngClass]="
-        uiElement.itemBoxClass
-          ? uiElement.itemBoxClass
-          : config.get('dataTable.itemBoxClass')
-      "
-    >
-      <ng-container *ngFor="let column of uiElement.columns">
-        <ng-container
-          ui-layout-wrapper
-          [uiElement]="column"
-          [data]="row"
-        ></ng-container>
-      </ng-container>
-    </mat-card>
-  </cdk-virtual-scroll-viewport>
-  <pagination
-    *ngIf="total > size"
-    [key]="uiElement.key"
-    [total]="total"
-    [page]="page"
-    [size]="size"
-  ></pagination>
+	<cdk-virtual-scroll-viewport
+		cdkDropList
+		[cdkDropListData]="rows"
+		(cdkDropListDropped)="drop($event)"
+		[ngStyle]="uiElement.contentLayoutStyle"
+		[itemSize]="total < size ? total : size"
+		maxBufferPx="40000"
+	>
+		<mat-card
+			cdkDrag
+			[cdkDragDisabled]="uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true"
+			*cdkVirtualFor="let row of rows"
+			(click)="click($event, row, uiElement.click)"
+			[ngStyle]="uiElement.itemBoxStyle"
+			[ngClass]="uiElement.itemBoxClass"
+		>
+			<ng-container *ngFor="let column of uiElement.columns">
+				<ng-container ui-layout-wrapper [uiElement]="copy(column)" [data]="row">
+        </ng-container>
+			</ng-container>
+		</mat-card>
+	</cdk-virtual-scroll-viewport>
+	<pagination *ngIf="total > size" [key]="uiElement.key" [total]="total" [page]="page" [size]="size"></pagination>
 </ng-container>
 
 <!-- Simple List -->
 <div
-  *ngIf="uiElement.tableType == 'list'"
-  cdkDropList
-  [cdkDropListData]="rows"
-  (cdkDropListDropped)="drop($event)"
-  [ngStyle]="
-    uiElement.contentLayoutStyle
-      ? uiElement.contentLayoutStyle
-      : config.get('dataTable.contentLayoutStyle')
-  "
+	*ngIf="uiElement.tableType == 'list'"
+	cdkDropList
+	[cdkDropListData]="rows"
+	(cdkDropListDropped)="drop($event)"
+	[ngStyle]="uiElement.contentLayoutStyle"
 >
-  <div
-    cdkDrag
-    [cdkDragDisabled]="
-      uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
-    "
-    *ngFor="let row of rows"
-    [ngStyle]="
-      uiElement.itemBoxStyle
-        ? uiElement.itemBoxStyle
-        : config.get('dataTable.itemBoxStyle')
-    "
-    [ngClass]="
-      uiElement.itemBoxClass
-        ? uiElement.itemBoxClass
-        : config.get('dataTable.itemBoxClass')
-    "
-    (click)="click($event, row, uiElement.click)"
-  >
-    <ng-container *ngFor="let column of uiElement.columns">
-      <ng-container
-        ui-layout-wrapper
-        [uiElement]="copy(column)"
-        [data]="row"
-      ></ng-container>
-    </ng-container>
-  </div>
+	<div
+		cdkDrag
+		[cdkDragDisabled]="uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true"
+		*ngFor="let row of rows"
+		[ngStyle]="uiElement.itemBoxStyle"
+		[ngClass]="uiElement.itemBoxClass"
+		(click)="click($event, row, uiElement.click)"
+	>
+		<ng-container *ngFor="let column of uiElement.columns">
+			<ng-container ui-layout-wrapper [uiElement]="copy(column)" [data]="row"></ng-container>
+		</ng-container>
+	</div>
 </div>
 
 <!-- Drop group -->
 <div
-  *ngIf="uiElement.tableType == 'drop-group'"
-  cdkDropListGroup
-  [ngStyle]="
-    uiElement.contentLayoutStyle
-      ? uiElement.contentLayoutStyle
-      : config.get('dataTable.contentLayoutStyle')
-  "
+	*ngIf="uiElement.tableType == 'drop-group'"
+	cdkDropListGroup
+	[ngStyle]="uiElement.contentLayoutStyle"
 >
-  <div
-    *ngFor="let row of rows"
-    [ngStyle]="
-      uiElement.itemBoxStyle
-        ? uiElement.itemBoxStyle
-        : config.get('dataTable.itemBoxStyle')
-    "
-    [ngClass]="
-      uiElement.itemBoxClass
-        ? uiElement.itemBoxClass
-        : config.get('dataTable.itemBoxClass')
-    "
-    (click)="click($event, row, uiElement.click)"
-  >
-    <ng-container *ngFor="let column of uiElement.columns">
-      <ng-container
-        ui-layout-wrapper
-        [uiElement]="column"
-        [data]="row"
-      ></ng-container>
-    </ng-container>
-  </div>
+	<div
+		*ngFor="let row of rows"
+		[ngStyle]="uiElement.itemBoxStyle"
+		[ngClass]="uiElement.itemBoxClass"
+		(click)="click($event, row, uiElement.click)"
+	>
+		<ng-container *ngFor="let column of uiElement.columns">
+			<ng-container ui-layout-wrapper [uiElement]="column" [data]="row"></ng-container>
+		</ng-container>
+	</div>
 </div>
