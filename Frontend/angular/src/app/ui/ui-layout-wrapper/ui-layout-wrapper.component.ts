@@ -84,15 +84,6 @@ export class UILayoutWrapperComponent {
 	@Input() data: any;
 
 	async ngOnChanges() {
-		// init
-		if (obj.has(this, 'uiElement.init')) {
-			try {
-				eval(this.uiElement.init);
-			} catch (e) {
-				console.error(e);
-			}
-		}
-
 		// create component
 		if (!this.componentRef && this.uiElement && this.condition(this.uiElement)) {
 			// if type is ui-element-id then load from the uiElement first
@@ -111,6 +102,15 @@ export class UILayoutWrapperComponent {
 					}
 				} else {
 					console.error(`uiElement missing ${this.uiElement.uiElementId}`);
+				}
+			}
+
+			// init
+			if (obj.has(this, 'uiElement.init')) {
+				try {
+					eval(this.uiElement.init);
+				} catch (e) {
+					console.error(e);
 				}
 			}
 

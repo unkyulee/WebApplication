@@ -5,13 +5,14 @@
   "contentStyle": {
     "display": "flex",
     "flexDirection": "column",
-    "flexGrow": 1
+    "flexGrow": 1,
+    "width": "100%",
+    "height": "100%"
   },
   "layoutStyle": {
     "width": "100%",
     "display": "flex",
     "flex-direction": "column",
-    "color": "white",
     "height": "100%"
   },
   "screens": [
@@ -48,7 +49,7 @@
     {
       "type": "side-nav",
       "key": "filter_users",
-      "opened": "this.config.isHandset == false ? true : false",
+      "opened": "false",
       "mode": "this.config.isHandset == false ? 'side' : 'over'",
       "layoutStyle": {
         "flex-grow": 1,
@@ -138,6 +139,7 @@
           "tableType": "card",
           "key": "table",
           "src": "`/api/user/users`",
+          "cached": true,
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filter_users}",
@@ -166,7 +168,7 @@
             "fontSize": "small"
           },
           "init": "(async () => { await this.ui.get('100000000000000000010003') })();",
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '100000000000000000010001', data: item, option: {width: '100vw', maxWidth: '450px', maxHeight: '100vh'}})",
+          "click": "this.data.click ? eval(this.data.click) : this.event.send({name: 'open-dialog', uiElementId: '100000000000000000010001', data: item, option: {width: '100vw', maxWidth: '450px', maxHeight: '100vh'}})",
           "columns": [
             {
               "type": "ui-element-id",
