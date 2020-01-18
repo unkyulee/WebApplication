@@ -238,7 +238,11 @@ export class BaseComponent {
   }
 
   copy(obj) {
-    return JSON.parse(JSON.stringify(obj))
+    //return obj
+    if(Array.isArray(obj))
+      return [...obj]
+    else
+      return {...obj}
   }
 }
 

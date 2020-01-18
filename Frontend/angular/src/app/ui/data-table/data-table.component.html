@@ -17,8 +17,7 @@
 			[ngClass]="uiElement.itemBoxClass"
 		>
 			<ng-container *ngFor="let column of uiElement.columns">
-				<ng-container ui-layout-wrapper [uiElement]="copy(column)" [data]="row">
-        </ng-container>
+				<ng-container ui-layout-wrapper [uiElement]="column" [data]="row"> </ng-container>
 			</ng-container>
 		</mat-card>
 	</cdk-virtual-scroll-viewport>
@@ -42,17 +41,13 @@
 		(click)="click($event, row, uiElement.click)"
 	>
 		<ng-container *ngFor="let column of uiElement.columns">
-			<ng-container ui-layout-wrapper [uiElement]="copy(column)" [data]="row"></ng-container>
+			<ng-container ui-layout-wrapper [uiElement]="column" [data]="row"></ng-container>
 		</ng-container>
 	</div>
 </div>
 
 <!-- Drop group -->
-<div
-	*ngIf="uiElement.tableType == 'drop-group'"
-	cdkDropListGroup
-	[ngStyle]="uiElement.contentLayoutStyle"
->
+<div *ngIf="uiElement.tableType == 'drop-group'" cdkDropListGroup [ngStyle]="uiElement.contentLayoutStyle">
 	<div
 		*ngFor="let row of rows"
 		[ngStyle]="uiElement.itemBoxStyle"

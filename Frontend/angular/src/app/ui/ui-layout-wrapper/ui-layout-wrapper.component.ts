@@ -39,7 +39,6 @@ import { PermissionService } from 'src/app/services/permission.service';
 @Component({
 	selector: '[ui-layout-wrapper]',
 	template: ``,
-	//, styles: [`:host { display: contents; }`]
 })
 export class UILayoutWrapperComponent {
 	constructor(
@@ -85,6 +84,15 @@ export class UILayoutWrapperComponent {
 	@Input() data: any;
 
 	async ngOnChanges() {
+		// init
+		if (obj.has(this, 'uiElement.init')) {
+			try {
+				eval(this.uiElement.init);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+
 		// create component
 		if (!this.componentRef && this.uiElement && this.condition(this.uiElement)) {
 			// if type is ui-element-id then load from the uiElement first
@@ -113,18 +121,9 @@ export class UILayoutWrapperComponent {
 			this.componentRef = this.viewContainerRef.createComponent(componentFactory);
 		}
 
-		// init
-		if (obj.has(this, 'uiElement.init')) {
-			try {
-				eval(this.uiElement.init);
-			} catch (e) {
-				console.error(e);
-			}
-		}
-
 		// apply changes
 		if (this.componentRef) {
-			this.componentRef.instance.uiElement = this.uiElement;
+			this.componentRef.instance.uiElement = JSON.parse(JSON.stringify(this.uiElement));
 			this.componentRef.instance.data = this.data;
 
 			// apply layout style
