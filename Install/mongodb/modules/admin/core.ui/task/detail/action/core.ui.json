@@ -74,7 +74,7 @@
 				"padding": "4px",
 				"max-width": "300px"
 			},
-			"sideScreen": [
+			"sideScreens": [
 				{
 					"type": "input",
 					"label": "JSON Path",

@@ -18,13 +18,14 @@
   </mat-sidenav-content>
   <mat-sidenav
     #sidenav
+    *ngIf="uiElement.sideCondition ? condition({condition: uiElement.sideCondition}) : true"
     [opened]="uiElement.opened ? safeEval(uiElement.opened) : false"
     [mode]="uiElement.mode ? safeEval(uiElement.mode) : 'over'"
     [position]="uiElement.position ? safeEval(uiElement.position) : 'start'"
     [ngStyle]="uiElement.sideStyle"
     [ngClass]="uiElement.sideClass"
   >
-    <ng-container *ngFor="let ui of uiElement.sideScreen">
+    <ng-container *ngFor="let ui of uiElement.sideScreens">
       <ng-container *ngIf="condition(ui)">
         <ng-container
           ui-layout-wrapper

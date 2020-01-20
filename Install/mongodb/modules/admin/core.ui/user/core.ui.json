@@ -76,7 +76,7 @@
         "padding": "4px",
         "max-width": "300px"
       },
-      "sideScreen": [
+      "sideScreens": [
         {
           "type": "input",
           "key": "filter._search",

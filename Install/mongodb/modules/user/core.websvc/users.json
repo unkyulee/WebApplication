@@ -3,7 +3,7 @@
   "url": "user/users",
   "description": "user",
   "get_description": "Get",
-  "get_configuration": "{\r\n    \"collection\": \"user\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ],\r\n    \"aggregate\": [\r\n        {\r\n            \"$lookup\": {\r\n                \"from\": \"group\",\r\n                \"localField\": \"groups\",\r\n                \"foreignField\": \"_id\",\r\n                \"as\": \"_params_.groups\"\r\n            }\r\n        }\r\n    ],\r\n    \"excludeFields\": [\r\n        \"password\"\r\n    ]\r\n}",
+  "get_configuration": "{\r\n    \"collection\": \"user\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"groups\"\r\n        }\r\n    ],\r\n    \"aggregate\": [\r\n        {\r\n            \"$lookup\": {\r\n                \"from\": \"group\",\r\n                \"localField\": \"groups\",\r\n                \"foreignField\": \"_id\",\r\n                \"as\": \"_params_.groups\"\r\n            }\r\n        }\r\n    ],\r\n    \"excludeFields\": [\r\n        \"password\"\r\n    ]\r\n}",
   "get_datasource": "000000000000000000000000",
   "get_workflow": "000000000000000000000010",
   "post_description": "Upsert",

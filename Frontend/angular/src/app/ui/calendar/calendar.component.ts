@@ -2,9 +2,6 @@ import { Component, ElementRef, ViewEncapsulation } from "@angular/core";
 import {
   CalendarEvent,
   CalendarEventTimesChangedEvent,
-  CalendarNativeDateFormatter,
-  DateFormatterParams,
-  CalendarDateFormatter,
   CalendarMonthViewBeforeRenderEvent,
   CalendarWeekViewBeforeRenderEvent,
   CalendarDayViewBeforeRenderEvent
@@ -13,7 +10,6 @@ import * as moment from "moment";
 
 // user Imports
 import { BaseComponent } from "../base.component";
-import { supportsPassiveEventListeners } from '@angular/cdk/platform';
 
 /*
 const colors: any = {

@@ -1,5 +1,5 @@
 {
-  "_id": ObjectId("200000000000000000000060"),
+  "_id": "200000000000000000000060",
   "name": "WebSVC List",
   "type": "layout",
   "contentStyle": {
@@ -74,7 +74,7 @@
         "padding": "4px",
         "max-width": "300px"
       },
-      "sideScreen": [
+      "sideScreens": [
         {
           "type": "input",
           "key": "filter_websvc.url",
