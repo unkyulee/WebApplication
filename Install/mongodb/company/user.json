@@ -3,5 +3,5 @@
 	"company_id" : ObjectId("000000000000000000000000"),
 	"id" : "admin",
 	"name" : "Administrator",
-	"groups": ["000000000000000000000000"]
+	"groups": [ObjectId("000000000000000000000000")]
 }

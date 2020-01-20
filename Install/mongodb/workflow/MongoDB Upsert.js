@@ -38,7 +38,7 @@ async function run() {
 	}
 
 	// monitor
-	monitorChanges();
+	await monitorChanges();
 
 	// return result
 	return { _id: context._id };
@@ -236,9 +236,9 @@ async function monitorChanges() {
 		let monitors = obj.get(context.config, 'monitors', []);
 		for (let monitor of monitors) {
 			let prev = obj.get(context.prev, monitor);
-      let curr = obj.get(context.data, monitor);
+			let curr = obj.get(context.data, monitor);
 
-			if (prev && curr && prev != curr) {
+			if (prev && curr && JSON.stringify(prev) != JSON.stringify(curr)) {
 				// create change log
 				let changelog = {
 					source: context.config.collection,
@@ -248,9 +248,9 @@ async function monitorChanges() {
 					company_id: ObjectID(req.headers['company_id']),
 					prev,
 					curr,
-        };
-        await context.ds.insert('changelog', changelog);
-      }
+				};
+				await context.ds.insert('changelog', changelog);
+			}
 		}
 	}
 }
