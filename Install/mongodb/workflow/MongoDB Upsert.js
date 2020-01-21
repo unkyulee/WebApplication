@@ -246,6 +246,7 @@ async function monitorChanges() {
 					_createdBy: res.locals.token['unique_name'],
 					_created: new Date(),
 					company_id: ObjectID(req.headers['company_id']),
+					column: monitor,
 					prev,
 					curr,
 				};

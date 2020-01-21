@@ -7,19 +7,7 @@ import { BaseComponent } from "src/app/ui/base.component";
 @Component({
   selector: "[ui-composer-dialog]",
   templateUrl: "./ui-composer-dialog.component.html",
-  styles: [
-    `
-      :host {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-        height: 100%;
-        max-height: 100vh;
-        max-width: 100vw;
-        overflow: hidden;
-      }
-    `
-  ]
+  styleUrls: ["./ui-composer-dialog.component.scss"]
 })
 export class UIComposerDialogComponent extends BaseComponent {
   constructor(public dialogRef: MatDialogRef<UIComposerDialogComponent>) {
@@ -51,9 +39,9 @@ export class UIComposerDialogComponent extends BaseComponent {
   }
 
   eventHandler(event) {
-    if (event == "splash-show") {
+    if (event.name == "splash-show") {
       this.showLoadingBar = true;
-    } else if (event == "splash-hide") {
+    } else if (event.name == "splash-hide") {
       this.showLoadingBar = false;
     }
   }
