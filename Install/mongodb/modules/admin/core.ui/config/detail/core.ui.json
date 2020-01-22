@@ -92,7 +92,6 @@
           "type": "selection",
           "label": "Language",
           "options": [
-            "",
             "javascript",
             "html",
             "json"

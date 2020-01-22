@@ -91,7 +91,7 @@
 				{
 					"type": "selection",
 					"label": "Language",
-					"options": ["", "javascript", "html", "json"],
+					"options": ["javascript", "html", "json"],
 					"floatLabel": "auto",
 					"layoutStyle": {
 						"width": "100%"
