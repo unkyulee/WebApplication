@@ -71,16 +71,20 @@ export class SelectionComponent extends BaseComponent {
 				this._value = [this._value];
 			}
 			// if null then assign default
-			if(typeof this._value == 'undefined' && this.uiElement.default) {
+			if (typeof this._value == 'undefined' && this.uiElement.default) {
 				try {
-					this._value = eval(this.uiElement.default)
+					this._value = eval(this.uiElement.default);
 				} catch {}
 			}
 			obj.set(this.data, this.uiElement.key, this._value);
 		}
 
 		// check if the minimumLength is specified
-		if (typeof this._value != 'undefined' && this.uiElement.minimumLength > 0 && this.uiElement.minimumLength > this._value.length) {
+		if (
+			typeof this._value != 'undefined' &&
+			this.uiElement.minimumLength > 0 &&
+			this.uiElement.minimumLength > this._value.length
+		) {
 			// search value has not reached the minimum length
 			return;
 		} else if (this.uiElement.selectionType == 'autocomplete') {
@@ -102,6 +106,8 @@ export class SelectionComponent extends BaseComponent {
 				data = eval(data);
 			} catch (e) {}
 
+			this.event.send({ name: 'splash-show' });
+			this.isLoading = true;
 			this.rest
 				.request(src, data, this.uiElement.method, {}, this.uiElement.cached)
 				.subscribe(response => this.loadOptionHandler(response));
@@ -112,6 +118,7 @@ export class SelectionComponent extends BaseComponent {
 
 	loadOptionHandler(response) {
 		this.isLoading = false;
+		this.event.send({ name: 'splash-hide' });
 
 		if (this.uiElement.transform) this.uiElement.options = eval(this.uiElement.transform);
 	}
