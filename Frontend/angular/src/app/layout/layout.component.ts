@@ -56,7 +56,7 @@ export class LayoutComponent extends BaseComponent
     obj.set(window, "__CONFIG__.event", this.event);
 
     // event handler
-    this.onEvent = this.event.onEvent.subscribe(event => {
+    this.onEvent = this.event.onEvent.subscribe(async (event) => {
       switch (event.name) {
         case "drawer-toggle":
           this.drawer.toggle();
@@ -76,7 +76,7 @@ export class LayoutComponent extends BaseComponent
           }, 100);
           break;
         case "open-dialog":
-          this.openDialog(event);
+          await this.openDialog(event);
           this.event.send({ name: "changed" });
           break;
         case "close-dialog":
