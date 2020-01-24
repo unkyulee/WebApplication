@@ -163,7 +163,7 @@ export class FormGeneratorComponent extends BaseComponent {
 		this.event.send({ name: 'refreshed' });
 	}
 
-	save() {
+	async save() {
 		// check if there are not error
 		let errorMessage = '';
 		for (let screen of this.uiElement.screens) {
@@ -178,6 +178,16 @@ export class FormGeneratorComponent extends BaseComponent {
 		if (errorMessage) {
 			alert(errorMessage);
 			return;
+		}
+
+		// beforeSave
+		if(obj.get(this.uiElement, 'beforeSave')) {
+			try {
+				console.log(obj.get(this.uiElement, 'beforeSave'))
+				await eval(obj.get(this.uiElement, 'beforeSave'))
+			} catch(e) {
+				console.error(e)
+			}
 		}
 
 		// retrieve REST information
