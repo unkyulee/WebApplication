@@ -10,7 +10,7 @@
     "overflow-y": "auto",
     "padding": "8px"
   },
-  "init": "this.rest.request(`/api/user/profile`).subscribe(r => this.data = r.data[0])",
+  "init": "this.rest.request(`/api/user/profile`).subscribe(r => {this.data = Object.assign(this.data, r.data[0]); });",
   "screens": [
     {
       "key": "id",
