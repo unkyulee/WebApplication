@@ -183,7 +183,6 @@ export class FormGeneratorComponent extends BaseComponent {
 		// beforeSave
 		if(obj.get(this.uiElement, 'beforeSave')) {
 			try {
-				console.log(obj.get(this.uiElement, 'beforeSave'))
 				await eval(obj.get(this.uiElement, 'beforeSave'))
 			} catch(e) {
 				console.error(e)

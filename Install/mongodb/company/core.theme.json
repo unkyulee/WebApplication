@@ -1,10 +1,13 @@
 {
-  "_id": ObjectId("000000000000000000000000"),
+  "_id": "000000000000000000000000",
   "toolbar": {
     "layoutStyle": {
       "position": "sticky",
       "top": 0,
       "zIndex": 1000
+    },
+    "style": {
+      "position": "relative"
     },
     "class": {
       "mat-elevation-z1": false
