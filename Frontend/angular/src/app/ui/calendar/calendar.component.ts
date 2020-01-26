@@ -109,6 +109,8 @@ export class CalendarComponent extends BaseComponent {
         setTimeout(() => this.requestDownload(), 0);
       } else if (event && event.name == "viewDate") {
         this.viewDate = moment(event.date).toDate();
+      } else if (event && event.name == 'events') {
+        this.events = event.events;
       }
     });
 
