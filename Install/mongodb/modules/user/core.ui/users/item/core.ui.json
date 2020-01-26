@@ -70,6 +70,14 @@
 				"margin": "4px",
 				"fontSize": "small"
 			},
+			"contentLayoutStyle": {
+				"display": "flex",
+				"flexFlow": "row wrap"
+			},
+			"itemBoxStyle": {
+				"marginRight": "8px",
+				"fontSize": "small"
+			},
 			"columns": [
 				{
 					"type": "typography",
