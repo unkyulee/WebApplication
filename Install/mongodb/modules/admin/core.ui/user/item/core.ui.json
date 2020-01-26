@@ -48,6 +48,13 @@
         "width": "100%",
         "margin": "4px"
       },
+      "contentLayoutStyle": {
+        "display": "flex",
+        "flexFlow": "row wrap"
+      },
+      "itemBoxStyle": {
+        "marginRight": "8px"
+      },
       "columns": [
         {
           "type": "typography",
