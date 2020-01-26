@@ -7,13 +7,6 @@
 	let collection = config['collection'];
 	if (!collection) return 'No Collection Specified';
 
-	// check if it is admin mode
-	let adminMode = false;
-	if (config.admin == true) adminMode = true;
-
-	let navigation_id = req.headers['company_id'];
-	if (!navigation_id) return 'No company_id specified';
-
 	// form values
 	let data = Object.assign({}, req.query, req.body);
 
