@@ -21,6 +21,8 @@
   *ngIf="!uiElement.tableType || uiElement.tableType == 'grid'"
   [source]="dataAdapter"
   [columns]="uiElement.columns"
+  [groupable]="safeGet(uiElement, 'groupable', false)"
+  [showgroupsheader]="safeGet(uiElement, 'showgroupsheader', false)"
   [width]="safeGet(uiElement, 'width')"
   [height]="safeGet(uiElement, 'height')"
   [autoheight]="safeGet(uiElement, 'autoheight')"

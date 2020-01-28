@@ -73,7 +73,7 @@ export class RestService {
         let response = {};
 
         // check if cache exists
-        if (cached != false) {
+        if (cached == true) {
           let cachedResponse = localStorage.getItem(url);
           if (cachedResponse) {
             try {

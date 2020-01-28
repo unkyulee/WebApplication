@@ -1,192 +1,195 @@
-import { Component, ViewChild } from "@angular/core";
-var obj = require("object-path");
+import { Component, ViewChild, Renderer2 } from '@angular/core';
+var obj = require('object-path');
 
 // user imports
-import { BaseComponent } from "../base.component";
-import { jqxDataTableComponent } from "jqwidgets-ng/jqxdatatable";
+import { BaseComponent } from '../base.component';
+import { jqxDataTableComponent } from 'jqwidgets-ng/jqxdatatable';
+import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 
 @Component({
-  selector: "data-sheet",
-  templateUrl: "./data-sheet.component.html"
+	selector: 'data-sheet',
+	templateUrl: './data-sheet.component.html',
 })
 export class DataSheetComponent extends BaseComponent {
-  @ViewChild("dataTableReference", {static: false}) table: jqxDataTableComponent;
+	@ViewChild('dataTableReference', { static: false }) table: jqxDataTableComponent;
+	@ViewChild('dataGridReference', { static: false }) grid: jqxGridComponent;
 
-  _data;
-  get data() {
-    return this._data;
-  }
-  set data(v) {
-    this._data = v;
-    //
-    setTimeout(() => this.requestDownload(), 1000);
-  }
+	constructor(private renderer: Renderer2) {
+		super();
+	}
 
-  ///
-  _rows;
-  get rows() {
-    if (this.data && this.uiElement.key) {
-      this._rows = obj.get(this.data, this.uiElement.key, []);
-    }
+	_data;
+	get data() {
+		return this._data;
+	}
+	set data(v) {
+		this._data = v;
+		//
+		setTimeout(() => this.requestDownload(), 1000);
+	}
 
-    if (typeof this._rows != "undefined" && !Array.isArray(this._rows))
-      this._rows = [this._rows];
+	///
+	_rows;
+	get rows() {
+		if (this.data && this.uiElement.key) {
+			this._rows = obj.get(this.data, this.uiElement.key, []);
+		}
 
-    // when data gets updated
-    this._rows = new jqx.observableArray(
-      this._rows,
-      v => (this.rows = this.dataAdapter.records)
-    );
+		if (typeof this._rows != 'undefined' && !Array.isArray(this._rows)) this._rows = [this._rows];
 
-    return this._rows;
-  }
+		return this._rows;
+	}
 
-  set rows(v: any) {
-    if (this.data && this.uiElement.key) {
-      obj.set(this.data, this.uiElement.key, v);
-    }
+	set rows(v: any) {
+		if (this.data && this.uiElement.key) {
+			obj.set(this.data, this.uiElement.key, v);
+		}
 
-    // set default when value is empty
-    if (!v && this.uiElement.key && this.uiElement.default) {
-      let defaultValue = this.uiElement.default;
-      try {
-        defaultValue = eval(this.uiElement.default);
-      } catch (e) {
-        console.error(e);
-      }
-      obj.set(this.data, this.uiElement.key, defaultValue);
-    }
-  }
+		// set default when value is empty
+		if (!v && this.uiElement.key && this.uiElement.default) {
+			let defaultValue = this.uiElement.default;
+			try {
+				defaultValue = eval(this.uiElement.default);
+			} catch (e) {
+				console.error(e);
+			}
+			obj.set(this.data, this.uiElement.key, defaultValue);
+		}
+	}
 
-  ngOnInit() {
-    super.ngOnInit();
+	ngOnInit() {
+		super.ngOnInit();
 
-    // subscript to event
-    this.onEvent = this.event.onEvent.subscribe(event => {
-      if (
-        event &&
-        event.name == "refresh" &&
-        (!event.key || event.key == this.uiElement.key)
-      ) {
-        setTimeout(() => this.requestDownload(), 0);
-      }
-      else if (
-        event &&
-        event.name == "refreshDataAdapter" &&
-        (!event.key || event.key == this.uiElement.key)
-      ) {
-        setTimeout(() => this.refreshDataAdapter(), 0);
-      }
-    });
-  }
+		// subscript to event
+		this.onEvent = this.event.onEvent.subscribe(event => {
+			if (event && event.name == 'refresh' && (!event.key || event.key == this.uiElement.key)) {
+				setTimeout(() => this.requestDownload(), 0);
+			} else if (event && event.name == 'refreshDataAdapter' && (!event.key || event.key == this.uiElement.key)) {
+				setTimeout(() => this.refreshDataAdapter(), 0);
+			}
+		});
+	}
 
-  ngAfterViewInit() {
-    super.ngAfterViewInit();
-  }
+	ngAfterViewInit() {
+		super.ngAfterViewInit();
 
-  ngOnDestroy() {
-    super.ngOnDestroy();
-    this.onEvent.unsubscribe();
-  }
+		if (this.grid && this.uiElement.containerStyle) {
+			// apply style to the grid container
+			let el = this.grid.elementRef.nativeElement;
+			for (let style of Object.keys(this.uiElement.containerStyle)) {
+				this.renderer.setStyle(el, style, this.uiElement.containerStyle[style]);
+			}
+		}
+	}
 
-  requestDownload() {
-    this.refreshDataAdapter();
+	ngOnDestroy() {
+		super.ngOnDestroy();
+		this.onEvent.unsubscribe();
+	}
 
-    //
-    if (this.uiElement.src) {
-      let src = this.uiElement.src;
-      try {
-        src = eval(src);
-      } catch (e) {
-        console.error(e);
-      }
-      let data = this.nav.getParams();
+	requestDownload() {
+		this.refreshDataAdapter();
 
-      if (this.uiElement.preProcess) {
-        try {
-          eval(this.uiElement.preProcess);
-        } catch (e) {
-          console.error(e);
-        }
-      }
+		//
+		if (this.uiElement.src) {
+			let src = this.uiElement.src;
+			try {
+				src = eval(src);
+			} catch (e) {
+				console.error(e);
+			}
+			let data = this.nav.getParams();
 
-      // show splash
-      this.event.send({name: "splash-show"});
+			if (this.uiElement.preProcess) {
+				try {
+					eval(this.uiElement.preProcess);
+				} catch (e) {
+					console.error(e);
+				}
+			}
 
-      this.rest
-        .request(
-          src,
-          data,
-          this.uiElement.method,
-          {},
-          typeof this.uiElement.cache === "undefined"
-            ? true
-            : this.uiElement.cache
-        )
-        .subscribe(response => this.responseDownload(response));
-    }
-  }
+			// show splash
+			this.event.send({ name: 'splash-show' });
 
-  async responseDownload(response) {
-    // stop the loading indicator
-    this.event.send({name: "splash-hide"});
+			this.rest
+				.request(src, data, this.uiElement.method, {}, this.uiElement.cached)
+				.subscribe(response => this.responseDownload(response));
+		}
+	}
 
-    // map data from response
-    if (this.uiElement.transform) {
-      try {
-        this.rows = await eval(this.uiElement.transform);;
-      } catch (e) {
-        console.error(e);
-      }
-    }
+	async responseDownload(response) {
+		// stop the loading indicator
+		this.event.send({ name: 'splash-hide' });
 
-    // refresh data table
-    this.refreshDataAdapter();
-  }
+		// map data from response
+		if (this.uiElement.transform) {
+			try {
+				this.rows = await eval(this.uiElement.transform);
+			} catch (e) {
+				console.error(e);
+			}
+		}
 
-  // dataTable dataAdapter
-  dataAdapter: any;
-  refreshDataAdapter() {
-    // refresh data table
-    this.dataAdapter = new jqx.dataAdapter({
-      localdata: this.rows,
-      datatype: "observableArray",
-      datafields: this.uiElement.datafields
-    });
-  }
+		// refresh data table
+		this.refreshDataAdapter();
+	}
 
-  onRowClick(event) {
-    // event.args.row
-    let script = obj.get(this.uiElement, "onRowClick");
-    if (script) {
-      try {
-        eval(script);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
+	// dataTable dataAdapter
+	dataAdapter: any;
+	refreshDataAdapter() {
+		// refresh data table
+		this.dataAdapter = new jqx.dataAdapter({
+			localdata: new jqx.observableArray(this.rows, v => (this.rows = this.dataAdapter.records)),
+			datatype: 'observableArray',
+			datafields: this.uiElement.datafields,
+		});
 
-  onRowDoubleClick(event) {
-    // event.args.row
-    let script = obj.get(this.uiElement, "onRowDoubleClick");
-    if (script) {
-      try {
-        eval(script);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
+		// check if groups
+		if (this.uiElement.groups) {
+			for (let group of this.uiElement.groups) {
+				setTimeout(() => {
+					this.grid.removegroup(group);
+					this.grid.addgroup(group);
+					if (this.uiElement.expandallgroups) {
+						this.grid.expandallgroups();
+					}
+				});
+			}
+		}
+	}
 
-  onCellBeginEdit(event) {
-    let script = obj.get(this.uiElement, "onCellBeginEdit");
-    if (script) {
-      try {
-        eval(script);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-  }
+	onRowClick(event) {
+		// event.args.row
+		let script = obj.get(this.uiElement, 'onRowClick');
+		if (script) {
+			try {
+				eval(script);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}
+
+	onRowDoubleClick(event) {
+		// event.args.row
+		let script = obj.get(this.uiElement, 'onRowDoubleClick');
+		if (script) {
+			try {
+				eval(script);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}
+
+	onCellBeginEdit(event) {
+		let script = obj.get(this.uiElement, 'onCellBeginEdit');
+		if (script) {
+			try {
+				eval(script);
+			} catch (e) {
+				console.error(e);
+			}
+		}
+	}
 }
