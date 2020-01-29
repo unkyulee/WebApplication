@@ -84,7 +84,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'engineers'});"
+          "changed": "this.event.send({name:'refresh', key: 'users'});"
         },
         {
           "key": "filter_users.name",
@@ -97,7 +97,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'engineers'});"
+          "changed": "this.event.send({name:'refresh', key: 'users'});"
         },
         {
           "key": "filter_users.id",
@@ -110,7 +110,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'engineers'});"
+          "changed": "this.event.send({name:'refresh', key: 'users'});"
         },
         {
           "type": "typography",
@@ -137,7 +137,7 @@
         {
           "type": "data-table",
           "tableType": "card",
-          "key": "table",
+          "key": "users",
           "src": "`/api/user/users`",
           "cached": true,
           "method": "get",

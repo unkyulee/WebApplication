@@ -20,19 +20,12 @@ module.exports.process = async function process(db, req, res) {
   // get the filename
   let name = paths[paths.length - 1];
 
-  // if filename is not given then 'index.html' as default
-  if (!name) {
-    name = "index.html";
-    paths.push("index.html");
-  }
-
   // get folder
   let folder = `/${paths.slice(2, paths.length - 1).join("/")}`;
 
   // search for contents in cms
   let results = await db.find("cms", {
     query: {
-      navigation_id: `${res.locals.nav._id}`,
       name: name,
       folder: folder
     }
