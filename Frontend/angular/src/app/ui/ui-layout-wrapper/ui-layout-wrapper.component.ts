@@ -35,6 +35,7 @@ import { StepperComponent } from '../stepper/stepper.component';
 import { BarcodeComponent } from '../barcode/barcode.component';
 import { UIService } from 'src/app/services/ui.service';
 import { PermissionService } from 'src/app/services/permission.service';
+import { SplitterComponent } from '../splitter/splitter.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -155,6 +156,9 @@ export class UILayoutWrapperComponent {
 	findComponentFactory(type) {
 		let componentFactory = null;
 		switch (type) {
+			case 'splitter':
+				componentFactory = this.cfr.resolveComponentFactory(SplitterComponent);
+				break;
 			case 'barcode':
 				componentFactory = this.cfr.resolveComponentFactory(BarcodeComponent);
 				break;

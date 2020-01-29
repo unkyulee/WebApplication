@@ -14,8 +14,11 @@ import { ColorPickerModule } from "ngx-color-picker";
 import { NgxBarcodeModule } from "ngx-barcode";
 import { NgxPrintModule } from "ngx-print";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+
+// jqx
 import { jqxDataTableModule } from "jqwidgets-ng/jqxdatatable";
 import { jqxGridModule } from "jqwidgets-ng/jqxgrid";
+import { jqxSplitterModule } from "jqwidgets-ng/jqxsplitter";
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -44,6 +47,10 @@ import { CodeEditorComponent } from "./code-editor/code-editor.component";
 import { MonacoEditorModule } from "ngx-monaco-editor";
 import { TreeComponent } from "./tree/tree.component";
 import { CalendarComponent } from "./calendar/calendar.component";
+import { SideNavComponent } from "./side-nav/side-nav.component";
+import { StepperComponent } from "./stepper/stepper.component";
+import { BarcodeComponent } from "./barcode/barcode.component";
+import { SplitterComponent } from './splitter/splitter.component';
 
 // calendar modules
 import * as moment from "moment";
@@ -55,9 +62,7 @@ import {
   MOMENT
 } from "angular-calendar";
 import { adapterFactory } from "angular-calendar/date-adapters/moment";
-import { SideNavComponent } from "./side-nav/side-nav.component";
-import { StepperComponent } from "./stepper/stepper.component";
-import { BarcodeComponent } from "./barcode/barcode.component";
+
 export function momentAdapterFactory() {
   return adapterFactory(moment);
 }
@@ -89,7 +94,8 @@ export function momentAdapterFactory() {
     CalendarComponent,
     SideNavComponent,
     StepperComponent,
-    BarcodeComponent
+    BarcodeComponent,
+    SplitterComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -113,7 +119,8 @@ export function momentAdapterFactory() {
     CalendarComponent,
     SideNavComponent,
     StepperComponent,
-    BarcodeComponent
+    BarcodeComponent,
+    SplitterComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -138,7 +145,8 @@ export function momentAdapterFactory() {
     CalendarComponent,
     SideNavComponent,
     StepperComponent,
-    BarcodeComponent
+    BarcodeComponent,
+    SplitterComponent
   ],
   imports: [
     CommonModule,
@@ -172,7 +180,8 @@ export function momentAdapterFactory() {
     NgxPrintModule,
     DragDropModule,
     jqxDataTableModule,
-    jqxGridModule
+    jqxGridModule,
+    jqxSplitterModule
   ],
   providers: [
     {
