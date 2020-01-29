@@ -5,6 +5,7 @@
   <mat-sidenav-content
     [ngStyle]="uiElement.contentStyle"
     [ngClass]="uiElement.contentClass"
+    #content
   >
     <ng-container *ngFor="let ui of uiElement.screens">
       <ng-container *ngIf="condition(ui)">

@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewChild } from "@angular/core";
+import { Component, HostListener, ViewChild, ElementRef } from "@angular/core";
 var obj = require("object-path");
 
 // user Imports
@@ -18,6 +18,7 @@ export class SideNavComponent extends BaseComponent {
 
   // drawer
   @ViewChild("sidenav", {static: false}) sidenav: MatSidenav;
+  @ViewChild("content", {static: false}) content: ElementRef;
 
   ngOnInit() {
     // event handler

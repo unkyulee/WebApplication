@@ -79,7 +79,15 @@ export class BaseComponent {
     this.default();
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+    if (this.uiElement && this.uiElement.afterInit) {
+      try {
+        eval(this.uiElement.afterInit);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
 
   ngOnDestroy() {
     if (this.uiElement && this.uiElement.destroy) {

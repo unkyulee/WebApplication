@@ -18,13 +18,7 @@ export class UIComposerDialogComponent extends BaseComponent {
   showLoadingBar: boolean = false;
   isDialog: boolean = true;
 
-  // toolbar actions
-  actions: any[];
-
   ngOnInit() {
-    // load global actions
-    this.actions = this.config.get("toolbar.actions");
-
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event =>
       this.eventHandler(event)
