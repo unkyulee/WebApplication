@@ -109,7 +109,7 @@
           "type": "data-table",
           "tableType": "card",
           "key": "tasks",
-          "src": "`/api/admin/task`",
+          "src": "`/api/admin/task?_sort=name`",
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filters};",

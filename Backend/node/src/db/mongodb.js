@@ -46,6 +46,7 @@ class MongoDB {
 	async find(collection, query) {
 		let that = this;
 		if (!query.size) query.size = 10;
+		if (!query.query) query.query = {};
 		return new Promise(function(resolve, reject) {
 			try {
 				if (!that.db) reject('db not initialized');
@@ -64,8 +65,8 @@ class MongoDB {
 					resolve(results);
 				});
 			} catch (ex) {
-        console.error(ex, collection, query)
-				resolve({ex, collection, query});
+				console.error(ex, collection, query);
+				resolve({ ex, collection, query });
 			}
 		});
 	}
