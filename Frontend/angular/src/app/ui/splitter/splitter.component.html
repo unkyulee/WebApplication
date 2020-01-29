@@ -5,9 +5,9 @@
 	[panels]="safeGet(uiElement, 'panels', [])"
 >
 	<div>
-    <ng-container ui-layout-wrapper [uiElement]="safeGet(uiElement, 'screens.0')" [data]="data"></ng-container>
+    <ng-container ui-layout-wrapper [uiElement]="safeGet(uiElement, 'screens.0', {})" [data]="data"></ng-container>
   </div>
   <div>
-		<ng-container ui-layout-wrapper [uiElement]="safeGet(uiElement, 'screens.1')" [data]="data"></ng-container>
+		<ng-container ui-layout-wrapper [uiElement]="safeGet(uiElement, 'screens.1', {})" [data]="data"></ng-container>
 	</div>
 </jqxSplitter>
