@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
+
 html,
 body {
   height: 100%;
@@ -11,7 +13,7 @@ body {
 
 /* scroll bar */
 *::-webkit-scrollbar {
-  width: 0.3em;
+  width: 0.8em;
 }
 
 *::-webkit-scrollbar-track {

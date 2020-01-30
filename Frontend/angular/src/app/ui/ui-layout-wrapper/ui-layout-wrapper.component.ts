@@ -36,6 +36,7 @@ import { BarcodeComponent } from '../barcode/barcode.component';
 import { UIService } from 'src/app/services/ui.service';
 import { PermissionService } from 'src/app/services/permission.service';
 import { SplitterComponent } from '../splitter/splitter.component';
+import { GanttComponent } from '../gantt/gantt.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -156,6 +157,9 @@ export class UILayoutWrapperComponent {
 	findComponentFactory(type) {
 		let componentFactory = null;
 		switch (type) {
+			case 'gantt':
+				componentFactory = this.cfr.resolveComponentFactory(GanttComponent);
+				break;
 			case 'splitter':
 				componentFactory = this.cfr.resolveComponentFactory(SplitterComponent);
 				break;

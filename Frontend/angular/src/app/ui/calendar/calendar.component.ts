@@ -7,47 +7,21 @@ import {
   CalendarDayViewBeforeRenderEvent
 } from "angular-calendar";
 import * as moment from "moment";
+var obj = require('object-path');
 
 // user Imports
 import { BaseComponent } from "../base.component";
-
-/*
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  },
-  green: {
-    primary: '#008000',
-    secondary: '#90EE90'
-  },
-  gray: {
-    primary: '#808080',
-    secondary: '#D3D3D3'
-  }
-};
-*/
 
 @Component({
   selector: "calendar",
   templateUrl: "calendar.component.html",
   encapsulation: ViewEncapsulation.None,
-  styles: [
-    `
-      .bg-now {
-        background-color: lightcoral !important;
-        opacity: 0.4;
-      }
-    `
-  ]
+  styles: [`
+    .bg-now {
+      background-color: lightcoral !important;
+      opacity: 0.4;
+    }
+  `]
 })
 export class CalendarComponent extends BaseComponent {
   constructor(
@@ -61,38 +35,6 @@ export class CalendarComponent extends BaseComponent {
   locale: string;
 
   events: CalendarEvent[] = [];
-
-  /*
-    start: subDays(startOfDay(new Date()), 1),
-    end: addDays(new Date(), 1),
-    title: 'A 3 day event',
-    color: colors.red,
-    actions: this.actions,
-    allDay: true,
-    resizable: {
-      beforeStart: true,
-      afterEnd: true
-    },
-    draggable: true
-  */
-
-  /*
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent("Edited", event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent("Deleted", event);
-      }
-    }
-  ];
-  */
 
   ngOnInit() {
     super.ngOnInit();
@@ -162,7 +104,8 @@ export class CalendarComponent extends BaseComponent {
     // map data from response
     if (this.uiElement.transform) {
       try {
-        this.data[this.uiElement.key] = await eval(this.uiElement.transform);
+        let value = await eval(this.uiElement.transform);
+        obj.set(this.data, this.uiElement.key, value)
       } catch (e) {
         console.error(e);
       }
