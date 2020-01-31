@@ -159,6 +159,7 @@
 						"fontSize": "small"
 					},
 					"click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000121', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
+					"init": "this.ui.get('200000000000000000000122')",
 					"columns": [
 						{
 							"type": "ui-element-id",
