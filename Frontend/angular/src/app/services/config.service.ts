@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { Observable } from "rxjs";
-import { map, distinctUntilChanged, debounceTime } from "rxjs/operators";
+import { map, distinctUntilChanged, debounceTime, first } from "rxjs/operators";
 var obj = require("object-path");
 
 // get config from index.html
@@ -19,6 +19,7 @@ export class ConfigService {
     this.isHandset$ = this.breakpointObserver
       .observe([Breakpoints.Handset])
       .pipe(
+        first(),
         distinctUntilChanged(),
         debounceTime(300),
         map(result => {
