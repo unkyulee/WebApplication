@@ -1,50 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Cordova</title>
-    <base href="./" />
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="index.js"></script>
-    <style>
-      .mat-icon-button .mat-icon,
-      .mat-icon-button i {
-        line-height: 18px !important;
-      }
+	<head>
+		<meta charset="utf-8" />
+		<title>Cordova</title>
+		<base href="./" />
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="msapplication-tap-highlight" content="no" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script src="index.js"></script>
+		<style>
+			.mat-icon-button .mat-icon,
+			.mat-icon-button i {
+				line-height: 18px !important;
+			}
 
-      .material-icons {
-        font-size: 21px !important;
-      }
-    </style>
-  </head>
+			.material-icons {
+				font-size: 21px !important;
+			}
+		</style>
+	</head>
 
-  <body>
-    <app-root></app-root>
-    <script src="cordova.js"></script>
-    <script>
-      document.addEventListener("deviceready", onDeviceReady, false);
-      document.addEventListener("resume", onResume, false);
+	<body>
+		<app-root></app-root>
+		<script src="cordova.js"></script>
+		<script>
+			document.addEventListener('deviceready', onDeviceReady, false);
+			document.addEventListener('resume', onResume, false);
 
-      function onDeviceReady() {
-        try {
-          // Download the update silently, and install it immerdiately
-          codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
-        } catch(e) {}
+			function onDeviceReady() {
+				try {
+					// Download the update silently, and install it immerdiately
+					codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
+				} catch (e) {}
 
-        if (window.onDeviceReadyExtra) {
-          window.onDeviceReadyExtra();
-        }
-      }
+				if (window.onDeviceReadyExtra) {
+					window.onDeviceReadyExtra();
+				}
+			}
 
-      function onResume() {
-        try {
-          // Download the update silently, and install it immerdiately
-          codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
-        } catch(e) {}
-      }
-    </script>
-  </body>
+			function onResume() {
+				try {
+					// Download the update silently, and install it immerdiately
+					codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
+					// refresh
+					window.__CONFIG__.event.send({ name: 'refresh' });
+				} catch (e) {}
+			}
+		</script>
+	</body>
 </html>
