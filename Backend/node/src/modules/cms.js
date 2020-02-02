@@ -47,8 +47,10 @@ async function processContent(req, res, content) {
     }
   }
 
-  if (content.type == "binary") {
+  if (content.type == "base64") {
     content.content = Buffer.from(content.content, "base64");
+  } else if(content.type == "binary") {
+    content.content = content.content.buffer;
   }
 
   return content.content;
