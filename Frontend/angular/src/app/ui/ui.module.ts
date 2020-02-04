@@ -63,6 +63,7 @@ import {
 } from "angular-calendar";
 import { adapterFactory } from "angular-calendar/date-adapters/moment";
 import { GanttComponent } from './gantt/gantt.component';
+import { TabsComponent } from './tabs/tabs.component';
 
 export function momentAdapterFactory() {
   return adapterFactory(moment);
@@ -97,7 +98,8 @@ export function momentAdapterFactory() {
     StepperComponent,
     BarcodeComponent,
     SplitterComponent,
-    GanttComponent
+    GanttComponent,
+    TabsComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -123,7 +125,8 @@ export function momentAdapterFactory() {
     StepperComponent,
     BarcodeComponent,
     SplitterComponent,
-    GanttComponent
+    GanttComponent,
+    TabsComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -150,7 +153,8 @@ export function momentAdapterFactory() {
     StepperComponent,
     BarcodeComponent,
     SplitterComponent,
-    GanttComponent
+    GanttComponent,
+    TabsComponent
   ],
   imports: [
     CommonModule,

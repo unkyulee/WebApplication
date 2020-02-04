@@ -37,6 +37,7 @@ import { UIService } from 'src/app/services/ui.service';
 import { PermissionService } from 'src/app/services/permission.service';
 import { SplitterComponent } from '../splitter/splitter.component';
 import { GanttComponent } from '../gantt/gantt.component';
+import { TabsComponent } from '../tabs/tabs.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -157,6 +158,9 @@ export class UILayoutWrapperComponent {
 	findComponentFactory(type) {
 		let componentFactory = null;
 		switch (type) {
+			case 'tabs':
+				componentFactory = this.cfr.resolveComponentFactory(TabsComponent);
+				break;
 			case 'gantt':
 				componentFactory = this.cfr.resolveComponentFactory(GanttComponent);
 				break;
