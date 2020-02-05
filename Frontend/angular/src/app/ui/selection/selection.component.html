@@ -91,5 +91,7 @@
 		[secondaryPlaceholder]="uiElement.secondaryPlaceholder"
 		[separatorKeyCodes]="safeGet(uiElement, 'separatorKeyCodes', [13])"
 		[separatorKeys]="safeGet(uiElement, 'separatorKeys', [''])"
+		[addOnBlur]="safeGet(uiElement, 'addOnBlur', true)"
+		[modelAsStrings]="safeGet(uiElement, 'modelAsStrings', false)"
 	></tag-input>
 </ng-container>
