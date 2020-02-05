@@ -5,6 +5,7 @@
 		[cdkDropListData]="rows"
 		(cdkDropListDropped)="drop($event)"
 		[ngStyle]="uiElement.contentLayoutStyle"
+		[ngClass]="uiElement.contentLayoutClass"
 		[itemSize]="total < size ? total : size"
 		maxBufferPx="40000"
 	>
@@ -31,6 +32,7 @@
 	[cdkDropListData]="rows"
 	(cdkDropListDropped)="drop($event)"
 	[ngStyle]="uiElement.contentLayoutStyle"
+	[ngClass]="uiElement.contentLayoutClass"
 >
 	<div
 		cdkDrag
