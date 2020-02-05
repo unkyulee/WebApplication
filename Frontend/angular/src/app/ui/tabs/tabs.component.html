@@ -1,9 +1,11 @@
-<mat-tab-group [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
+<mat-tab-group [ngStyle]="uiElement.style" [ngClass]="uiElement.class" [color]="uiElement.color" [backgroundColor]="uiElement.backgroundColor">
 	<ng-container *ngFor="let ui of uiElement.screens">
 		<mat-tab *ngIf="condition(ui)" [label]="ui.label">
-			<ng-container *ngIf="condition(ui)">
-				<ng-container ui-layout-wrapper [uiElement]="ui" [data]="data"></ng-container>
-			</ng-container>
+			<ng-template matTabContent>
+				<ng-container *ngIf="condition(ui)">
+					<ng-container ui-layout-wrapper [uiElement]="ui" [data]="data"></ng-container>
+				</ng-container>
+			</ng-template>
 		</mat-tab>
 	</ng-container>
 </mat-tab-group>
