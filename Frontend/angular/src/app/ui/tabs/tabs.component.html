@@ -1,9 +1,16 @@
-<mat-tab-group [ngStyle]="uiElement.style" [ngClass]="uiElement.class" [color]="uiElement.color" [backgroundColor]="uiElement.backgroundColor">
+<mat-tab-group
+	[ngStyle]="uiElement.style"
+	[ngClass]="uiElement.class"
+	[color]="uiElement.color"
+	[animationDuration]="safeGet(uiElement, 'animationDuration', '0ms')"
+	[selectedIndex]="selectedIndex"
+	[backgroundColor]="uiElement.backgroundColor"
+>
 	<ng-container *ngFor="let ui of uiElement.screens">
 		<mat-tab *ngIf="condition(ui)" [label]="ui.label">
 			<ng-template matTabContent>
 				<ng-container *ngIf="condition(ui)">
-					<ng-container ui-layout-wrapper [uiElement]="ui" [data]="data"></ng-container>
+					<ng-container ui-layout-wrapper [uiElement]="ui" [data]="safeGet(data, ui.key, {})"></ng-container>
 				</ng-container>
 			</ng-template>
 		</mat-tab>

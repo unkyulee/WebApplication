@@ -1,30 +1,40 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import * as moment from 'moment';
 
 // services
 import { ConfigService } from './config.service';
 import { RestService } from './rest.service';
+import { NavService } from './nav.service';
+
+// get config from index.html
+declare var window: any;
 
 @Injectable()
 export class UIService {
-	constructor(private config: ConfigService, private rest: RestService) {
+	constructor(private config: ConfigService, private rest: RestService, private nav: NavService) {
+		// save the point in time to trigger the next refresh
 		this.loadedAt = moment();
 	}
 
 	loadedAt: any;
 
 	async get(uiElementId) {
-		// check if loadedAt is within 1 hour
-		if(moment().add(-1, 'hours') > this.loadedAt) {
+		// check if loadedAt is within 6 hour
+		if (moment().add(-6, 'hours') > this.loadedAt || window.dev == true) {
 			this.loadedAt = moment();
-			this.config.set('ui', {}); // clear ui cache
+
+			// reset configuration
+			this.config.clear(); // clear ui cache
+
+			// request the app
+			this.nav.loadNavigation();
 		}
 
 		let uiElement = this.config.get(`ui.${uiElementId}`);
-		if(!uiElement) {
+		if (!uiElement) {
 			let url = `${this.config.get('host')}${this.config.get('url')}/ui.element`;
 			uiElement = await this.rest.requestAsync(url, { uiElementId }, 'get', {}, true);
-			this.config.set(`ui.${uiElementId}`, uiElement)
+			this.config.set(`ui.${uiElementId}`, uiElement);
 		}
 
 		// run load script

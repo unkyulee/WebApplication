@@ -19,6 +19,8 @@ export class UIComposerDialogComponent extends BaseComponent {
   isDialog: boolean = true;
 
   ngOnInit() {
+    super.ngOnInit();
+
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event =>
       this.eventHandler(event)
@@ -27,9 +29,7 @@ export class UIComposerDialogComponent extends BaseComponent {
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
-    setTimeout(() => {
-      this.event.send({ name: "changed" });
-    }, 1000);
+    setTimeout(() => {this.event.send({name: 'changed'});}, 3000)
   }
 
   eventHandler(event) {

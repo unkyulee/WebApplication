@@ -111,7 +111,7 @@ export class UILayoutWrapperComponent {
 			// init
 			if (obj.has(this, 'uiElement.init')) {
 				try {
-					eval(this.uiElement.init);
+					await eval(this.uiElement.init);
 				} catch (e) {
 					console.error(e);
 				}

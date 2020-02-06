@@ -9,8 +9,8 @@ import { BaseComponent } from 'src/app/ui/base.component';
   selector: "ui-composer-actions",
   templateUrl: "./ui-composer-actions.component.html"
 })
-export class UIComposerActionsComponent extends BaseComponent {  
-  constructor(    
+export class UIComposerActionsComponent extends BaseComponent {
+  constructor(
     private bottomSheetRef: MatBottomSheetRef<UIComposerActionsComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public e: any
   ) {
@@ -20,14 +20,21 @@ export class UIComposerActionsComponent extends BaseComponent {
     this.uiElement = e.uiElement;
     this.data = e.data;
   }
-  
+
   ngOnInit() {
+    super.ngOnInit();
+
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event && event.name == "close-sheet") {
         this.close();
       }
     });
+  }
+
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
+    setTimeout(() => {this.event.send({name: 'changed'});}, 3000)
   }
 
   ngOnDestroy() {
@@ -43,6 +50,6 @@ export class UIComposerActionsComponent extends BaseComponent {
       }
     } else {
       this.bottomSheetRef.dismiss();
-    }    
+    }
   }
 }
