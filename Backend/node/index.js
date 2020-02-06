@@ -79,4 +79,5 @@ app.all("*", async (req, res) => {
 // Initiate the server
 app.listen(process.env.PORT, () => {
   console.log(`PORT: ${process.env.PORT}, IP: ${process.env.BIND_IP}`);
+  console.log(`DATABASE_URI: ${process.env.DATABASE_URI}, DB: ${process.env.DB}`);
 });
