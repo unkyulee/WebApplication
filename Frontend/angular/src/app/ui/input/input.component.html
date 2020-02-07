@@ -170,16 +170,7 @@
     #input
     [(colorPicker)]="value"
     [cpPosition]="safeGet(uiElement, 'cpPosition', 'auto')"
-    [cpPresetColors]="
-      safeGet(uiElement, 'cpPresetColors', [
-        '#fff',
-        '#000',
-        '#2889e9',
-        '#e920e9',
-        '#fff500',
-        'rgb(236,64,64)'
-      ])
-    "
+    [cpPresetColors]="safeGet(uiElement, 'cpPresetColors',  ['#fff', '#FAE3E3', '#D1E8FF', '#FDF1BA', '#90EE90', '#D3D3D3'])"
     [style.background]="value"
     [evalValidate]="uiElement.errorCondition"
     [placeholder]="uiElement.placeholder"
