@@ -65,8 +65,6 @@ export class DataTableComponent extends BaseComponent {
         event.name == "refresh" &&
         (!event.key || event.key == this.uiElement.key)
       ) {
-        this.page = 0; // reset to first page
-
         // run refresh script
         if (this.uiElement.refresh) {
           try {
