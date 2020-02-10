@@ -16,12 +16,7 @@ import { BaseComponent } from "../base.component";
   selector: "calendar",
   templateUrl: "calendar.component.html",
   encapsulation: ViewEncapsulation.None,
-  styles: [`
-    .bg-now {
-      background-color: lightcoral !important;
-      opacity: 0.4;
-    }
-  `]
+  styleUrls: ["calendar.component.scss"]
 })
 export class CalendarComponent extends BaseComponent {
   constructor(
@@ -160,40 +155,6 @@ export class CalendarComponent extends BaseComponent {
         };
       }
       return iEvent;
-    });
-  }
-
-  beforeMonthViewRender(renderEvent: CalendarMonthViewBeforeRenderEvent): void {
-    renderEvent.body.forEach(day => {
-      const dayOfMonth = day.date.getDate();
-      if (dayOfMonth > 5 && dayOfMonth < 10 && day.inMonth) {
-        day.cssClass = 'bg-pink';
-      }
-    });
-  }
-
-  beforeWeekViewRender(renderEvent: CalendarWeekViewBeforeRenderEvent) {
-    let now = moment().set({minute:0,second:0,millisecond:0}).toISOString()
-    renderEvent.hourColumns.forEach(hourColumn => {
-      hourColumn.hours.forEach(hour => {
-        hour.segments.forEach(segment => {
-          if (
-            moment(segment.date).set({minute:0}).toISOString() == now
-          ) {
-            segment.cssClass = 'bg-now';
-          }
-        });
-      });
-    });
-  }
-
-  beforeDayViewRender(renderEvent: CalendarDayViewBeforeRenderEvent) {
-    renderEvent.body.hourGrid.forEach(hour => {
-      hour.segments.forEach((segment, index) => {
-        if (moment(segment.date).toISOString() == moment().toISOString()) {
-          segment.cssClass = 'bg-pink';
-        }
-      });
     });
   }
 
