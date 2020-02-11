@@ -1,66 +1,62 @@
 <div [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
-	<ng-template #eventTitleTemplate let-event="event" let-view="view">
-		<ng-container *ngFor="let ui of safeGet(uiElement, 'eventTitleTemplate', [])">
-			<ng-container *ngIf="condition(ui)">
-				<ng-container ui-layout-wrapper [uiElement]="ui" [data]="event"></ng-container>
-			</ng-container>
-		</ng-container>
-	</ng-template>
-	<ng-template
-		#currentTimeMarkerTemplate
-		let-columnDate="columnDate"
-		let-dayStartHour="dayStartHour"
-		let-dayStartMinute="dayStartMinute"
-		let-dayEndHour="dayEndHour"
-		let-dayEndMinute="dayEndMinute"
-		let-isVisible="isVisible"
-		let-topPx="topPx"
-	>
-		<div class="cal-current-time-marker" *ngIf="isVisible" [style.top.px]="topPx"></div>
-	</ng-template>
-	<mwl-calendar-month-view
-		*ngIf="!uiElement.calendarType || uiElement.calendarType == 'monthly'"
-		[viewDate]="viewDate"
-		[events]="events"
-		[refresh]="refresh"
-		[ngStyle]="uiElement.calendarStyle"
-		[ngClass]="uiElement.calendarClass"
-		[activeDayIsOpen]="uiElement.activeDayIsOpen ? uiElement.activeDayIsOpen : true"
-		(dayClicked)="dayClicked($event.day)"
-		(eventClicked)="eventClicked($event.event)"
-		(dayClicked)="dayClicked($event.day.date)"
-		(eventTimesChanged)="eventTimesChanged($event)"
-	>
-	</mwl-calendar-month-view>
-	<mwl-calendar-week-view
-		*ngIf="uiElement.calendarType == 'weekly'"
-		[viewDate]="viewDate"
-		[events]="events"
-		[refresh]="refresh"
-		[locale]="locale"
-		[ngStyle]="uiElement.calendarStyle"
-		[ngClass]="uiElement.calendarClass"
-		[precision]="safeGet(uiElement, 'precision', 'minutes')"
-		(eventClicked)="eventClicked($event.event)"
-		(hourSegmentClicked)="hourSegmentClicked($event.date)"
-		(eventTimesChanged)="eventTimesChanged($event)"
-		[dayStartHour]="uiElement.dayStartHour ? uiElement.dayStartHour : 0"
-		[dayEndHour]="uiElement.dayEndHour ? uiElement.dayEndHour : 24"
-    [eventTitleTemplate]="eventTitleTemplate"
-    [currentTimeMarkerTemplate]="currentTimeMarkerTemplate"
-	>
-	</mwl-calendar-week-view>
+  <ng-template #eventTitleTemplate let-event="event" let-view="view">
+    <ng-container
+      *ngFor="let ui of safeGet(uiElement, 'eventTitleTemplate', [])"
+    >
+      <ng-container *ngIf="condition(ui)">
+        <ng-container
+          ui-layout-wrapper
+          [uiElement]="ui"
+          [data]="event"
+        ></ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-template>
 
-	<mwl-calendar-day-view
-		*ngIf="uiElement.calendarType == 'daily'"
-		[viewDate]="viewDate"
-		[events]="events"
-		[refresh]="refresh"
-		[ngStyle]="uiElement.calendarStyle"
-		[ngClass]="uiElement.calendarClass"
-		(eventClicked)="eventClicked($event.event)"
-		(hourSegmentClicked)="hourSegmentClicked($event.date)"
-		(eventTimesChanged)="eventTimesChanged($event)"
-	>
-	</mwl-calendar-day-view>
+  <mwl-calendar-month-view
+    *ngIf="!uiElement.calendarType || uiElement.calendarType == 'monthly'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [ngStyle]="uiElement.calendarStyle"
+    [ngClass]="uiElement.calendarClass"
+    [activeDayIsOpen]="
+      uiElement.activeDayIsOpen ? uiElement.activeDayIsOpen : true
+    "
+    (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="eventClicked($event.event)"
+    (dayClicked)="dayClicked($event.day.date)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view
+    *ngIf="uiElement.calendarType == 'weekly'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [locale]="locale"
+    [ngStyle]="uiElement.calendarStyle"
+    [ngClass]="uiElement.calendarClass"
+    [precision]="safeGet(uiElement, 'precision', 'minutes')"
+    (eventClicked)="eventClicked($event.event)"
+    (hourSegmentClicked)="hourSegmentClicked($event.date)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+    [dayStartHour]="uiElement.dayStartHour ? uiElement.dayStartHour : 0"
+    [dayEndHour]="uiElement.dayEndHour ? uiElement.dayEndHour : 24"
+    [eventTitleTemplate]="eventTitleTemplate"
+  >
+  </mwl-calendar-week-view>
+
+  <mwl-calendar-day-view
+    *ngIf="uiElement.calendarType == 'daily'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [ngStyle]="uiElement.calendarStyle"
+    [ngClass]="uiElement.calendarClass"
+    (eventClicked)="eventClicked($event.event)"
+    (hourSegmentClicked)="hourSegmentClicked($event.date)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+  >
+  </mwl-calendar-day-view>
 </div>
