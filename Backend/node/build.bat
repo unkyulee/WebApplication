@@ -1,23 +1,37 @@
 REM swap index.html with index.html.prod
 copy /y ..\..\Frontend\angular\src\index.prod.html ..\..\Frontend\angular\src\index.html
 
-REM build angular app
+REM clear wwwroot
+RD /Q /S .\wwwroot
+MD .\wwwroot
+
+
+REM -------------------------------------------------------------
+REM Build angular app
+REM -------------------------------------------------------------
 pushd ..\..\Frontend\angular
 call build.bat
 popd
 
-REM remove wwwroot
-RD /Q /S .\wwwroot
-
-REM create wwwroot
-MD .\wwwroot
-
-REM copy angular
 xcopy /s /y ..\..\Frontend\angular\dist .\wwwroot
 
 REM remove index.js
 del .\wwwroot\index.js
-ren .\wwwroot\index.html index.tmpl
+ren .\wwwroot\index.html angular.html
+
+
+REM -------------------------------------------------------------
+REM Build vue app
+REM -------------------------------------------------------------
+pushd ..\..\Frontend\vue
+call build.bat
+popd
+
+xcopy /s /y ..\..\Frontend\vue\dist .\wwwroot
+
+REM remove index.js
+del .\wwwroot\index.js
+ren .\wwwroot\index.html vue.html
 
 REM create an empty favicon.ico
 type NUL > .\wwwroot\favicon.ico

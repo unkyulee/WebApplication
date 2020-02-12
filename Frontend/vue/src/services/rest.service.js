@@ -16,13 +16,10 @@ export default {
     switch (method) {
       case "post":
         return await axios.post(url, data, options);
-
       case "put":
         return await axios.put(url);
-
       case "delete":
         return await axios.delete(url);
-
       default:
         return await axios.get(url);
     }

@@ -64,6 +64,19 @@
               }
             },
             {
+              "type": "selection",
+              "key": "module",
+              "label": "module",
+              "options": ["angular", "vue"],
+              "default": "`angular`",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "width": "100%"
+              }
+            },
+            {
               "type": "input",
               "inputType": "textarea",
               "key": "description",
@@ -74,12 +87,6 @@
               "style": {
                 "width": "100%"
               }
-            },
-            {
-              "type": "input",
-              "inputType": "hidden",
-              "key": "module",
-              "default": "`angular`"
             },
             {
               "type": "input",
@@ -187,11 +194,11 @@
           ]
         },
         {
-          "label": "Login Screen",
+          "label": "Initial Screen",
           "screens": [
             {
               "type": "button",
-              "label": "View Login Screen",
+              "label": "View Inistial Screen",
               "color": "warn",
               "click": "this.rest.request(\r\n    `/api/admin/core.ui`, \r\n    {_id: this.data._id}\r\n).subscribe(r => {\r\n    obj.ensureExists(r, \"data.0\", {_id: this.data._id}); \r\n    this.event.send({\r\n        name: 'open-dialog', \r\n        uiElementId: '200000000000000000000030',\r\n        data: r.data[0],\r\n        option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n    }) \r\n})"
             }

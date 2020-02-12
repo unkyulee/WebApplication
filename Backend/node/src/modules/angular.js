@@ -128,7 +128,7 @@ async function UIElement(db, req, res) {
 async function IndexHtml(db, req, res) {
 	return new Promise(function(resolve, reject) {
 		// read "index.tmpl" from static folder
-		let filepath = path.join(req.app.locals.wwwroot, 'index.tmpl');
+		let filepath = path.join(req.app.locals.wwwroot, '/angular.html');
 		fs.readFile(filepath, 'utf8', function(err, contents) {
 			if (err != null) reject(err);
 			else {
