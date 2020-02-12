@@ -1,15 +1,13 @@
 import Vue from "vue";
 import App from "./App.vue";
+
+// import styles
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
 import "./style.css";
 
-Vue.config.productionTip = false;
 
-// Vuetify plugin
-import Vuetify from "vuetify/lib";
-import "vuetify/src/stylus/app.styl";
-Vue.use(Vuetify, {
-  iconfont: "md"
-});
+Vue.config.productionTip = false;
 
 // Router plugin
 import VueRouter from "vue-router";

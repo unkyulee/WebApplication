@@ -1,27 +1,26 @@
 <template>
-  <v-app>    
-    <Layout></Layout>
-  </v-app>
+  <composer />
 </template>
 
 <script>
-import Layout from './layout/Layout.vue'
-import { EventService } from './services/event.service.js';
-import AuthService from './services/auth.service.js'
-import RestService from './services/rest.service.js'
-import ConfigService from './services/config.service.js'
+// services
+import event from "./services/event.service";
+import rest from "./services/rest.service";
+import config from "./services/config.service";
+
+// composer
+import Composer from "./composer/Composer.vue";
 
 export default {
   components: {
-    Layout
+    Composer
   },
   provide: function() {
     return {
-      EventService: EventService
-      , AuthService: AuthService
-      , RestService: RestService
-      , ConfigService: ConfigService
-    }
+      event,
+      rest,
+      config
+    };
   }
 };
 </script>
