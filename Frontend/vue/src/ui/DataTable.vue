@@ -11,7 +11,7 @@
         v-bind:key="index"
         v-bind:style="uiElement.itemBoxStyle"
         v-bind:class="uiElement.itemBoxClass"
-        @click="click($event)"
+        @click="click($event, uiElement, row)"
       >
         <UiElement
           v-for="(column, index) in uiElement.columns"
@@ -32,7 +32,6 @@ const obj = require("object-path");
 
 export default {
   extends: Base,
-  props: ["uiElement", "data"],
   computed: {
     rows: {
       get: function() {

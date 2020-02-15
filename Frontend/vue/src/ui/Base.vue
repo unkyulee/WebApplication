@@ -25,8 +25,14 @@ export default {
       }
       return passed;
     },
-    click: function($event) {
-      console.log(`clicked`, $event);
+    click: function($event, uiElement, item) {
+      if(this.uiElement.click) {
+        try {
+          eval(this.uiElement.click)
+        } catch(ex) {
+          console.error(ex)
+        }
+      }
     },
     filterUiElement(uiElement, data) {
       if (uiElement.filterUiElement) {

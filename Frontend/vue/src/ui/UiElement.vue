@@ -40,6 +40,13 @@
       v-bind:class="uiElement.layoutClass"
       v-bind:style="uiElement.layoutStyle"
     />
+    <Stepper
+      v-if="uiElement.type == 'stepper'"
+      v-bind:uiElement="filterUiElement(uiElement, data)"
+      v-bind:data="filterData(uiElement, data)"
+      v-bind:class="uiElement.layoutClass"
+      v-bind:style="uiElement.layoutStyle"
+    />
   </keep-alive>
 </template>
 
@@ -50,6 +57,7 @@ import Typography from "./Typography";
 import Input from "./Input";
 import Button from "./Button";
 import DataTable from "./DataTable";
+import Stepper from "./Stepper";
 
 export default Vue.component("UiElement", {
   extends: Base,
@@ -57,7 +65,8 @@ export default Vue.component("UiElement", {
     Typography,
     Input,
     Button,
-    DataTable
+    DataTable,
+    Stepper
   },
   props: ["uiElement", "data"]
 });

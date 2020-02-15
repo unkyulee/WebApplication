@@ -16,20 +16,30 @@ export default {
   components: {
     UiElement
   },
-  inject: ["config", "rest"],
+  inject: ["config", "rest", "event"],
   data: function() {
-		return {
-			style: {},
-			uiElement: {},
-			data: {},
-		};
+    return {
+      style: {},
+      uiElement: {},
+      data: {}
+    };
   },
   mounted: async function() {
+    // subscribe to data-change event
+    this.event.subscribe("composer", "data", event => {
+      this.data = { ...event.data };
+    });
+
     // load initial configuration
-    let url = `${this.config.get("host")}${this.config.get("url")}/ui.element?uiElementId=${this.config.get('uiElementId')}`;
+    let url = `${this.config.get("host")}${this.config.get(
+      "url"
+    )}/ui.element?uiElementId=${this.config.get("uiElementId")}`;
     let response = await this.rest.request(url);
     // save the uiElement
     this.uiElement = response.data;
+  },
+  destroyed: function() {
+    this.event.unsubscribe_all("composer");
   }
 };
 </script>

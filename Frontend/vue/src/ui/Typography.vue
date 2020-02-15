@@ -14,18 +14,7 @@ const obj = require('object-path');
 
 export default {
   extends: Base,
-  props: ["uiElement", "data"],
-  data: function() {
-    return {};
-  },
   methods: {
-    condition: function(uiElement) {
-      let passed = true;
-      if (uiElement.condition) {
-        passed = eval(uiElement.condition);
-      }
-      return passed;
-    },
     value: function() {
       let text = null;
 

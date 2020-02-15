@@ -1,25 +1,43 @@
 <template>
-  <md-field
-    v-if="condition(uiElement)"
-    v-bind:class="uiElement.class"
-    v-bind:style="uiElement.style"
-  >
-    <label>{{uiElement.label}}</label>
-    <md-input v-model="value" v-bind:type="uiElement.inputType"></md-input>
-  </md-field>
+  <keep-alive>
+    <md-field
+      v-if="
+        !uiElement.inputType ||
+        uiElement.inputType == 'text' ||
+        uiElement.inputType == 'number' ||
+        uiElement.inputType == 'email' ||
+        uiElement.inputType == 'password'"
+      v-bind:class="uiElement.class"
+      v-bind:style="uiElement.style"
+    >
+      <label>{{uiElement.label}}</label>
+      <md-input v-model="value" v-bind:type="uiElement.inputType"></md-input>
+    </md-field>
+
+    <date-pick v-if="uiElement.inputType == 'date-inline'" v-model="value" :hasInputElement="false"></date-pick>
+  </keep-alive>
 </template>
 
 <script>
+import Vue from "vue";
+
+import { MdField } from "vue-material/dist/components";
+Vue.use(MdField);
+
 import Base from "./Base";
-const obj = require('object-path');
+const obj = require("object-path");
+
+import DatePick from "vue-date-pick";
+import "vue-date-pick/dist/vueDatePick.css";
 
 export default {
   extends: Base,
+  components: { DatePick },
   props: ["uiElement", "data"],
   computed: {
     value: {
       get() {
-        let value = null;
+        this._value = null;
 
         // do not set value if it is password
         if (this.uiElement.inputType == "password") return;
@@ -37,23 +55,23 @@ export default {
           }
 
           // set value
-          value = obj.get(this.data, this.uiElement.key);
+          this._value = obj.get(this.data, this.uiElement.key);
         }
 
         // Transform
         if (this.uiElement.transform) {
           try {
-            value = eval(this.uiElement.transform);
+            this._value = eval(this.uiElement.transform);
           } catch (e) {
             //
           }
         }
 
         // if number
-        if (value && this.uiElement.inputType == "number")
-          value = parseFloat(value);
+        if (this._value && this.uiElement.inputType == "number")
+          this._value = parseFloat(this._value);
 
-        return value;
+        return this._value;
       },
       set(v) {
         if (this.data && this.uiElement.key) {
@@ -61,6 +79,9 @@ export default {
           // if number
           if (v && this.uiElement.inputType == "number")
             obj.set(this.data, this.uiElement.key, parseFloat(v));
+
+          // update
+          this.event.send({name: 'data', data: this.data})
         }
       }
     }

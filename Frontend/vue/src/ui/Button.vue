@@ -9,8 +9,12 @@
 </template>
 
 <script>
+import Vue from "vue";
+import { MdButton } from "vue-material/dist/components";
+Vue.use(MdButton);
+
 import Base from "./Base";
-//const obj = require('object-path');
+const obj = require('object-path');
 
 export default {
   extends: Base,
