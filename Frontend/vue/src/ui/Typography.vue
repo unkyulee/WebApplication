@@ -9,7 +9,11 @@
 </template>
 
 <script>
+import Base from "./Base";
+const obj = require('object-path');
+
 export default {
+  extends: Base,
   props: ["uiElement", "data"],
   data: function() {
     return {};
@@ -45,7 +49,9 @@ export default {
         text = this.uiElement.default;
         try {
           text = eval(this.uiElement.default);
-        } catch (e) {}
+        } catch {
+          //
+        }
       }
 
       // if format is specified

@@ -10,7 +10,11 @@
 </template>
 
 <script>
+import Base from "./Base";
+const obj = require('object-path');
+
 export default {
+  extends: Base,
   props: ["uiElement", "data"],
   computed: {
     value: {
@@ -26,7 +30,9 @@ export default {
             let def = this.uiElement.default;
             try {
               def = eval(this.uiElement.default);
-            } catch (e) {}
+            } catch (e) {
+              //
+            }
             obj.set(this.data, this.uiElement.key, def);
           }
 
@@ -38,7 +44,9 @@ export default {
         if (this.uiElement.transform) {
           try {
             value = eval(this.uiElement.transform);
-          } catch (e) {}
+          } catch (e) {
+            //
+          }
         }
 
         // if number

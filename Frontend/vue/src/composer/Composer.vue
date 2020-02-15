@@ -1,12 +1,12 @@
 <template>
-  <keep-alive>
+  <div v-bind:class="uiElement.layoutClass" v-bind:style="uiElement.layoutStyle">
     <UiElement
       v-for="(ui, index) in uiElement.screens"
       v-bind:key="index"
       v-bind:uiElement="ui"
       v-bind:data="data"
     />
-  </keep-alive>
+  </div>
 </template>
 
 <script>

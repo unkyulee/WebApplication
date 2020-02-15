@@ -9,8 +9,11 @@
 </template>
 
 <script>
-const obj = require('object-path');
+import Base from "./Base";
+//const obj = require('object-path');
+
 export default {
+  extends: Base,
   props: ["uiElement", "data"],
   inject: ["config", "event"],
   methods: {
@@ -30,15 +33,6 @@ export default {
           console.error(e);
         }
       }
-    }
-  },
-  computed: {
-    event: function(sender) {
-      return {
-        send: function(e) {
-          _event.send(e.name, e);
-        }
-      };
     }
   }
 };
