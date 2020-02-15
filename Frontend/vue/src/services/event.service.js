@@ -4,11 +4,14 @@ export default {
 	_event: {},
 	// subscribe to an event that corresponds to the name
 	subscribe: function(subscriber, event, callback) {
-		obj.set(this._event, `${event}.${subscriber}`, callback);
+		obj.ensureExists(this._event, event, {})
+		this._event[event][subscriber] = callback;
 	},
 	unsubscribe: function(subscriber, event) {
 		// remove subscriber from the event
-		if (obj.has(this._event, `${event}.${subscriber}`)) obj.del(this._event, `${event}.${subscriber}`);
+		if(this._event[event] && this._event[event][subscriber]) {
+			delete this._event[event][subscriber]
+		}
 	},
 	unsubscribe_all: function(subscriber) {
 		for (let event of Object.keys(this._event)) {
@@ -20,7 +23,9 @@ export default {
 		let subscribers = obj.get(this._event, event.name, {});
 		for (let sub of Object.keys(subscribers)) {
 			if (subscribers[sub]) {
-				setTimeout(() => subscribers[sub](event));
+				setTimeout(() => {
+					subscribers[sub](event)
+				});
 			}
 		}
 	},

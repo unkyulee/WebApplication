@@ -3,13 +3,14 @@
 </template>
 
 <script>
+const Vue = require("vue");
 const obj = require("object-path");
 
 export default {
   props: ["uiElement", "data"],
-  inject: ["config", "event"],
+  inject: ["config", "event", "rest"],
   mounted: function() {
-    if (this.uiElement.init) {
+    if (this.uiElement && this.uiElement.init) {
       try {
         eval(this.uiElement.init);
       } catch (ex) {

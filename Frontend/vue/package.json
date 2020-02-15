@@ -9,6 +9,8 @@
 	},
 	"dependencies": {
 		"axios": "^0.19.2",
+		"debounce": "^1.2.0",
+		"moment": "^2.24.0",
 		"object-path": "^0.11.4",
 		"vue": "^2.6.11",
 		"vue-date-pick": "^1.2.1",

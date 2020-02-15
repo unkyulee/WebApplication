@@ -1,23 +1,29 @@
 <template>
-  <div>
-    <md-steppers md-vertical v-bind:md-active-step.sync="active" v-bind:md-linear="uiElement.linear">
-      <md-step
-        v-for="(step, index) in uiElement.steps"
-        v-bind:key="index"
-        v-bind:id="step.key"
-        v-bind:md-done.sync="step.done"
-        v-bind:md-label="step.label"
-        v-bind:md-description="step.description"
-      >
-        <UiElement
-          v-for="(ui, index) in step.screens"
-          v-bind:key="index"
-          v-bind:uiElement="ui"
-          v-bind:data="data"
-        />
-      </md-step>
-    </md-steppers>
-  </div>
+  <md-steppers
+    md-vertical
+    :md-active-step.sync="active"
+    :md-linear="uiElement.linear"
+    :class="uiElement.class"
+    :style="uiElement.style"
+  >
+    <md-step
+      v-for="(step, index) in uiElement.steps"
+      :key="index"
+      :id="step.key"
+      :md-done.sync="step.done"
+      :md-label="step.label"
+      :md-description="step.description"
+      :class="step.class"
+      :style="step.style"
+    >
+      <UiElement
+        v-for="(ui, index) in step.screens"
+        :key="index"
+        :uiElement="ui"
+        :data="data"
+      />
+    </md-step>
+  </md-steppers>
 </template>
 
 <script>

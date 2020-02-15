@@ -20,20 +20,27 @@
 
 <script>
 import Vue from "vue";
-
 import { MdField } from "vue-material/dist/components";
-Vue.use(MdField);
-
-import Base from "./Base";
-const obj = require("object-path");
-
-import DatePick from "vue-date-pick";
 import "vue-date-pick/dist/vueDatePick.css";
+import DatePick from "vue-date-pick";
+
+// utilities
+const obj = require("object-path");
+import { debounce } from "debounce";
+
+// user imports
+import Base from "./Base";
+
+// use MdField
+Vue.use(MdField);
 
 export default {
   extends: Base,
   components: { DatePick },
-  props: ["uiElement", "data"],
+  mounted: function() {
+    // changed
+    this.changed = debounce(this.changed, 200);
+  },
   computed: {
     value: {
       get() {
@@ -75,24 +82,30 @@ export default {
       },
       set(v) {
         if (this.data && this.uiElement.key) {
-          obj.set(this.data, this.uiElement.key, v);
+          this.$set(this.data, this.uiElement.key, v);
           // if number
           if (v && this.uiElement.inputType == "number")
-            obj.set(this.data, this.uiElement.key, parseFloat(v));
+            this.$set(this.data, this.uiElement.key, parseFloat(v));
 
           // update
-          this.event.send({name: 'data', data: this.data})
+          console.log(this.data)
+          this.event.send({ name: "data", data: this.data });
         }
+
+        // changed
+        this.changed()
       }
     }
   },
   methods: {
-    condition: function(uiElement) {
-      let passed = true;
-      if (uiElement.condition) {
-        passed = eval(uiElement.condition);
+    changed(e) {
+      if (this.uiElement.changed) {
+        try {
+          eval(this.uiElement.changed);
+        } catch (ex) {
+          console.error(ex);
+        }
       }
-      return passed;
     }
   }
 };

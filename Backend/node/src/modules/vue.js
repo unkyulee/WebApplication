@@ -55,6 +55,7 @@ async function IndexJS(db, req, res) {
 			company = company[0]; // take the first row;
 			// save company_id in the config
 			config._id = company._id;
+			config.locale = company.locale;
 			// load the configuration of the module
 			let configuration = await db.find('config', { query: { company_id: company._id, type: config.key } });
 			if(configuration && configuration.length > 0) {

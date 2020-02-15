@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import Vuew from "vue";
 import Base from "./Base";
 
 //
@@ -32,6 +33,41 @@ const obj = require("object-path");
 
 export default {
   extends: Base,
+  mounted: function() {
+    // subscribe to refresh
+    if (this.uiElement.key) {
+      this.event.subscribe(this.uiElement.key, "refresh", () => {
+        this.requestDownload();
+      });
+    }
+
+    // download request
+    this.requestDownload();
+  },
+  destroyed: function() {
+    if (this.uiElement.key) {
+      this.event.unsubscribe_all(this.uiElement.key);
+    }
+  },
+  methods: {
+    async requestDownload() {
+      // load initial configuration
+      if (this.uiElement.src) {
+        let response = await this.rest.request(this.uiElement.src);
+        response = response.data;
+        if (this.uiElement.transform) {
+          try {
+            response = eval(this.uiElement.transform);
+          } catch (ex) {
+            console.error(ex);
+          }
+        }
+
+        this.rows = response;
+        this.event.send({name: 'data', data: this.data});
+      }
+    }
+  },
   computed: {
     rows: {
       get: function() {
@@ -45,7 +81,11 @@ export default {
 
         return rows;
       },
-      set: function(val) {}
+      set: function(v) {
+        if (this.data && this.uiElement.key) {
+          obj.set(this.data, this.uiElement.key, v);
+        }
+      }
     }
   }
 };

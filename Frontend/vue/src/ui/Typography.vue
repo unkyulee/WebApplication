@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="condition(uiElement) && value()"
     v-html="value()"
     @click="click($event)"
     :class="uiElement.class"
@@ -10,7 +9,8 @@
 
 <script>
 import Base from "./Base";
-const obj = require('object-path');
+const obj = require("object-path");
+const moment = require("moment");
 
 export default {
   extends: Base,

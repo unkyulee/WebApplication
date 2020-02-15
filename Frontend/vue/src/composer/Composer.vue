@@ -31,9 +31,7 @@ export default {
     });
 
     // load initial configuration
-    let url = `${this.config.get("host")}${this.config.get(
-      "url"
-    )}/ui.element?uiElementId=${this.config.get("uiElementId")}`;
+    let url = `${this.config.get("url")}/ui.element?uiElementId=${this.config.get("uiElementId")}`;
     let response = await this.rest.request(url);
     // save the uiElement
     this.uiElement = response.data;

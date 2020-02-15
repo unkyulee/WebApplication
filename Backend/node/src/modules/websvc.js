@@ -8,6 +8,13 @@ const moment = require('moment-timezone');
 const util = require('../lib/utility');
 
 module.exports.requiresAuthentication = async function requiresAuthentication(db, req, res) {
+	let paths = req.path.split('/');
+	if(paths.length >= 2) {
+		if(paths[2] == "public")
+			// if the api starts with public
+			// does not require authentication
+			return false;
+	}
 	return true;
 };
 

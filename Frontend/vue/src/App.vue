@@ -11,6 +11,9 @@ import config from "./services/config.service";
 // composer
 import Composer from "./composer/Composer.vue";
 
+//
+import * as moment from "moment";
+
 export default {
   components: {
     Composer
@@ -21,6 +24,12 @@ export default {
       rest,
       config
     };
+  },
+  mounted: function() {
+    // init moment locale
+    if (config.get("locale")) {
+      moment.locale(config.get("locale"));
+    }
   }
 };
 </script>
