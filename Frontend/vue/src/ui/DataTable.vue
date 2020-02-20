@@ -30,9 +30,11 @@ import Base from "./Base";
 
 //
 const obj = require("object-path");
+const moment = require("moment");
 
 export default {
   extends: Base,
+  props: ["uiElement", "data"],
   mounted: function() {
     // subscribe to refresh
     if (this.uiElement.key) {
@@ -53,7 +55,14 @@ export default {
     async requestDownload() {
       // load initial configuration
       if (this.uiElement.src) {
-        let response = await this.rest.request(this.uiElement.src);
+        let src = this.uiElement.src;
+        try {
+          src = eval(src)
+        } catch(ex) {
+          //
+          console.error(ex)
+        }
+        let response = await this.rest.request(src);
         response = response.data;
         if (this.uiElement.transform) {
           try {

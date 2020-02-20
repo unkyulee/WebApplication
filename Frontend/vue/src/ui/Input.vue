@@ -88,7 +88,6 @@ export default {
             this.$set(this.data, this.uiElement.key, parseFloat(v));
 
           // update
-          console.log(this.data)
           this.event.send({ name: "data", data: this.data });
         }
 
