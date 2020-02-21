@@ -110,6 +110,7 @@
   <owl-date-time
     #datetimepicker
     [disabled]="uiElement.readonly == true ? true : false"
+    [startAt]="safeEval(safeGet(this.uiElement, 'startAt', ''))"
     [pickerType]="uiElement.pickerType ? uiElement.pickerType : 'both'"
     [pickerMode]="uiElement.pickerMode ? uiElement.pickerMode : 'dialog'"
     [startView]="uiElement.startView ? uiElement.startView : 'month'"
