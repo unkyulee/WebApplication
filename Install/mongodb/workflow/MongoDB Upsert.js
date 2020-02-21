@@ -265,14 +265,19 @@ async function postProcess() {
 		if (process.type == 'updateAlso') {
 			// check the condition
 			let filter = {};
+			let conditionPassed = true;
 			for (let condition of process.condition) {
 				if (!context.data[condition]) {
 					// condition not met break
+					conditionPassed = false;
 					break;
 				}
 				// save as a filter
 				filter[condition] = context.data[condition];
 			}
+
+			// check condition
+			if(!conditionPassed) break;
 
 			// see if there is a already existing row
 			let row = {};

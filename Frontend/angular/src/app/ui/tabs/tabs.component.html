@@ -7,11 +7,9 @@
 	[backgroundColor]="uiElement.backgroundColor"
 >
 	<ng-container *ngFor="let ui of uiElement.screens">
-		<mat-tab *ngIf="condition(ui)" [label]="ui.label">
+		<mat-tab [label]="ui.label" *ngIf="condition(ui)">
 			<ng-template matTabContent>
-				<ng-container *ngIf="condition(ui)">
-					<ng-container ui-layout-wrapper [uiElement]="ui" [data]="safeGet(data, ui.key, {})"></ng-container>
-				</ng-container>
+				<ng-container ui-layout-wrapper [uiElement]="ui" [data]="safeGet(data, ui.key, data)"></ng-container>
 			</ng-template>
 		</mat-tab>
 	</ng-container>

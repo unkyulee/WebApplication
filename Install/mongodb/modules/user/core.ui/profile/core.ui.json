@@ -14,7 +14,7 @@
   "screens": [
     {
       "key": "id",
-      "label": "utente",
+      "label": "utente (login id)",
       "readonly": true,
       "layoutStyle": { "width": "100%" },
       "style": { "width": "100%" }
