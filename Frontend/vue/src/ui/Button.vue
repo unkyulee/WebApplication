@@ -1,9 +1,9 @@
 <template>
   <md-button
-    class="md-raised"
     v-if="condition(uiElement)"
-    v-bind:class="uiElement.class"
-    v-bind:style="uiElement.style"
+    :class="uiElement.class"
+    :style="uiElement.style"
+    :disabled="uiElement.disabled?safeEval(uiElement.disabled):false"
     @click="click($event)"
   >{{uiElement.label}}</md-button>
 </template>

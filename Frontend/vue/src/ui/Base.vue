@@ -54,6 +54,13 @@ export default {
         }
       }
       return data;
+    },
+    safeEval(script) {
+      try {
+        return eval(script)
+      } catch(ex) {
+        console.error(script, ex)
+      }
     }
   }
 };
