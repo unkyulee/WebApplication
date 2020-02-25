@@ -15,6 +15,17 @@
       <md-input v-model="value" v-bind:type="uiElement.inputType"></md-input>
     </md-field>
 
+    <!-- Textarea -->
+    <md-field
+      v-if="uiElement.inputType == 'textarea'"
+      v-model="value"
+      v-bind:class="uiElement.class"
+      v-bind:style="uiElement.style"
+    >
+      <label>{{uiElement.label}}</label>
+      <md-textarea v-model="value"></md-textarea>
+    </md-field>
+
     <!-- Date Inline -->
     <date-pick
       v-if="uiElement.inputType == 'date-inline'"
@@ -158,9 +169,13 @@ export default {
       }
     },
     isDateDisabled(date) {
-      if (this.uiElement.available_dates && this.uiElement.available_dates.find) {
-        let result = this.uiElement.available_dates.find(x =>
-          moment(x).format('YYYY-MM-DD') == moment(date).format('YYYY-MM-DD')
+      if (
+        this.uiElement.available_dates &&
+        this.uiElement.available_dates.find
+      ) {
+        let result = this.uiElement.available_dates.find(
+          x =>
+            moment(x).format("YYYY-MM-DD") == moment(date).format("YYYY-MM-DD")
         );
         return !result;
       }

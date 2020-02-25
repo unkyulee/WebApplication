@@ -57,12 +57,14 @@ export default {
       if (this.uiElement.src) {
         let src = this.uiElement.src;
         try {
-          src = eval(src)
-        } catch(ex) {
+          src = eval(src);
+        } catch (ex) {
           //
-          console.error(ex)
+          console.error(ex);
         }
+        this.event.send({ name: "splash-show" });
         let response = await this.rest.request(src);
+        this.event.send({ name: "splash-hide" });
         response = response.data;
         if (this.uiElement.transform) {
           try {
@@ -73,7 +75,7 @@ export default {
         }
 
         this.rows = response;
-        this.event.send({name: 'data', data: this.data});
+        this.event.send({ name: "data", data: this.data });
       }
     }
   },

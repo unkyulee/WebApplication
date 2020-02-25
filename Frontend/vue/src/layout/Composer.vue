@@ -6,15 +6,18 @@
       v-bind:uiElement="ui"
       v-bind:data="data"
     />
+    <Splash />
   </div>
 </template>
 
 <script>
 import UiElement from "../ui/UiElement";
+import Splash from "./Splash.vue";
 
 export default {
   components: {
-    UiElement
+    UiElement,
+    Splash
   },
   inject: ["config", "rest", "event", "ui"],
   data: function() {
