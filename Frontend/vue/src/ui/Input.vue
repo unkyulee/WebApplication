@@ -158,7 +158,7 @@ export default {
       }
     },
     isDateDisabled(date) {
-      if (this.uiElement.available_dates) {
+      if (this.uiElement.available_dates && this.uiElement.available_dates.find) {
         let result = this.uiElement.available_dates.find(x =>
           moment(x).format('YYYY-MM-DD') == moment(date).format('YYYY-MM-DD')
         );

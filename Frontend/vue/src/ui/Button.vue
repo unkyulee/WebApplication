@@ -5,7 +5,10 @@
     :style="uiElement.style"
     :disabled="uiElement.disabled?safeEval(uiElement.disabled):false"
     @click="click($event)"
-  >{{uiElement.label}}</md-button>
+  >
+    <md-icon v-if="uiElement.icon">{{uiElement.icon}}</md-icon>
+    {{uiElement.label}}
+  </md-button>
 </template>
 
 <script>
@@ -14,12 +17,15 @@ import { MdButton } from "vue-material/dist/components";
 Vue.use(MdButton);
 
 import Base from "./Base";
-const obj = require('object-path');
+
+//
+const obj = require("object-path");
+const moment = require("moment");
 
 export default {
   extends: Base,
   props: ["uiElement", "data"],
-  inject: ["config", "event"],
+  inject: ["config", "event", "rest"],
   methods: {
     condition: function(uiElement) {
       let passed = true;
@@ -27,16 +33,6 @@ export default {
         passed = eval(uiElement.condition);
       }
       return passed;
-    },
-    click: async function(event, item, script) {
-      let clickScript = script ? script : this.uiElement.click;
-      if (clickScript) {
-        try {
-          await eval(clickScript);
-        } catch (e) {
-          console.error(e);
-        }
-      }
     }
   }
 };

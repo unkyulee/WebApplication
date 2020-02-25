@@ -16,7 +16,7 @@ export default {
   components: {
     UiElement
   },
-  inject: ["config", "rest", "event"],
+  inject: ["config", "rest", "event", "ui"],
   data: function() {
     return {
       style: {},
@@ -30,11 +30,8 @@ export default {
       this.data = { ...event.data };
     });
 
-    // load initial configuration
-    let url = `${this.config.get("url")}/ui.element?uiElementId=${this.config.get("uiElementId")}`;
-    let response = await this.rest.request(url);
-    // save the uiElement
-    this.uiElement = response.data;
+    // load initial screen
+    this.uiElement = await this.ui.get(this.config.get("uiElementId"));
   },
   destroyed: function() {
     this.event.unsubscribe_all("composer");

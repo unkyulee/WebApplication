@@ -59,6 +59,7 @@
 
 <script>
 import Vue from "vue";
+
 import Base from "./Base";
 import Typography from "./Typography";
 import Input from "./Input";
@@ -76,7 +77,6 @@ export default Vue.component("UiElement", {
     DataTable,
     Stepper,
     Divider
-  },
-  props: ["uiElement", "data"]
+  }
 });
 </script>

@@ -4,11 +4,14 @@
 
 <script>
 const Vue = require("vue");
+
+//
 const obj = require("object-path");
+const moment = require("moment");
 
 export default {
   props: ["uiElement", "data"],
-  inject: ["config", "event", "rest"],
+  inject: ["config", "event", "rest", "ui"],
   mounted: function() {
     if (this.uiElement && this.uiElement.init) {
       try {
@@ -27,11 +30,11 @@ export default {
       return passed;
     },
     click: function($event, uiElement, item) {
-      if(this.uiElement.click) {
+      if (this.uiElement.click) {
         try {
-          eval(this.uiElement.click)
-        } catch(ex) {
-          console.error(ex)
+          eval(this.uiElement.click);
+        } catch (ex) {
+          console.error(ex);
         }
       }
     },
@@ -57,9 +60,9 @@ export default {
     },
     safeEval(script) {
       try {
-        return eval(script)
-      } catch(ex) {
-        console.error(script, ex)
+        return eval(script);
+      } catch (ex) {
+        console.error(script, ex);
       }
     }
   }
