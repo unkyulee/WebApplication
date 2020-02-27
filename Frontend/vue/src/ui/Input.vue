@@ -49,6 +49,7 @@
 <script>
 import Vue from "vue";
 import { MdField } from "vue-material/dist/components";
+// date picker
 import DatePick from "vue-date-pick";
 import "vue-date-pick/dist/vueDatePick.css";
 
@@ -144,10 +145,10 @@ export default {
       },
       set(v) {
         if (this.data && this.uiElement.key) {
-          this.$set(this.data, this.uiElement.key, v);
+          obj.set(this.data, this.uiElement.key, v);
           // if number
           if (v && this.uiElement.inputType == "number")
-            this.$set(this.data, this.uiElement.key, parseFloat(v));
+            obj.set(this.data, this.uiElement.key, parseFloat(v));
 
           // update
           this.event.send({ name: "data", data: this.data });

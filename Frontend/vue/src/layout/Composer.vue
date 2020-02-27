@@ -30,7 +30,7 @@ export default {
   mounted: async function() {
     // subscribe to data-change event
     this.event.subscribe("composer", "data", event => {
-      this.data = { ...event.data };
+      this.data = Object.assign({}, this.data, event.data);
     });
 
     // load initial screen

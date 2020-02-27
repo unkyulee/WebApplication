@@ -17,7 +17,7 @@ export default {
 			case 'post':
 				return await axios.post(url, data, options);
 			case 'put':
-				return await axios.put(url);
+				return await axios.put(url, data, options);
 			case 'delete':
 				return await axios.delete(url);
 			default:
