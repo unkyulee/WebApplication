@@ -5,26 +5,26 @@
   "description": "Top level admin features",
   "navigations": [
     {
-      "name": "Company",
-      "type": "item",
-      "url": "/core.company",
-      "uiElementIds": [
-        "200000000000000000000010"
-      ]
-    },
-    {
-      "name": "Scheduled Tasks",
-      "type": "item",
-      "url": "/task",
-      "uiElementIds": [
-        "200000000000000000000100"
-      ]
-    },
-    {
       "name": "Development",
       "permissions": ["developerment.view"],
       "type": "collapse",
       "children": [
+        {
+          "name": "Company",
+          "type": "item",
+          "url": "/core.company",
+          "uiElementIds": [
+            "200000000000000000000010"
+          ]
+        },
+        {
+          "name": "Scheduled Tasks",
+          "type": "item",
+          "url": "/task",
+          "uiElementIds": [
+            "200000000000000000000100"
+          ]
+        },
         {
           "name": "Feature",
           "type": "item",
