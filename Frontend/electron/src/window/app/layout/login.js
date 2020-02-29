@@ -16,9 +16,9 @@ Vue.component('Login', {
 			:style="uiElement.style">
 				<UiElement
 					v-for="(ui, index) in uiElement.screens"
-					v-bind:key="index"
-					v-bind:uiElement="ui"
-					v-bind:data="data" />
+					:key="index"
+					:uiElement="ui"
+					:data="data" />
 		</div>
 	</div>
 	`,

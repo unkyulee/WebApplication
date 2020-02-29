@@ -35,7 +35,7 @@ module.exports = {
 			// Create the window object
 			mainWindow = new BrowserWindow({
 				// Set main window title
-				title: 'Loading Screen',
+				title: config.get('name', 'Loading ...'),
 				// Enable frame if on macOS or if custom titlebar setting is disabled
 				frame: false,
 				// Show default title bar on macOS and hide it on others

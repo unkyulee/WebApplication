@@ -2,6 +2,9 @@ const obj = require("object-path");
 _event = {};
 
 module.exports = {
+  status: function() {
+    return _event;
+  },
   // subscribe to an event that corresponds to the name
   subscribe: function(subscriber, event, callback) {
     obj.set(_event, `${event}.${subscriber}`, callback);

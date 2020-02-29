@@ -19,6 +19,9 @@ export class ToolbarComponent extends BaseComponent {
 	// isTopNavigation
 	isTopNav: boolean = true;
 
+	// show
+	show: boolean = true;
+
 	// showLoadingBar
 	showLoadingBar: boolean = false;
 
@@ -29,6 +32,7 @@ export class ToolbarComponent extends BaseComponent {
 		// handle events
 		this.onEvent = this.event.onEvent.subscribe(event => {
 			if (event.name == 'navigation-changed') {
+				this.show = true;
 				this.handleNavigationChanged();
 			} else if (event.name == 'toolbar-actions') {
 				this.actions = event.data;
@@ -36,6 +40,8 @@ export class ToolbarComponent extends BaseComponent {
 				this.showLoadingBar = true;
 			} else if (event.name == 'splash-hide') {
 				this.showLoadingBar = false;
+			} else if (event.name == 'hide-toolbar') {
+				this.show = false;
 			}
 		});
 	}

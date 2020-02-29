@@ -1,6 +1,7 @@
 <mat-toolbar
   [ngClass]="config.get('theme.toolbar.class')"
   [ngStyle]="config.get('theme.toolbar.style')"
+  *ngIf="show"
 >
   <mat-progress-bar
     *ngIf="showLoadingBar"

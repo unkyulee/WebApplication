@@ -20,20 +20,20 @@ Vue.component('Navigation', {
 			// copy nav
 			let navs = [];
 			for (let nav of config.get('nav')) {
-				if(nav.type == 'hidden') continue;
+				if (nav.type == 'hidden') continue;
 
 				// add icon for config menu
-				if(nav.permissions && nav.permissions.indexOf("config.view") >= 0) {
-					nav.icon = "fa fa-lg fa-cog"
-					nav.url = nav.children[0].url
+				if (nav.permissions && nav.permissions.indexOf('config.view') >= 0) {
+					nav.icon = 'fa fa-lg fa-cog';
+					nav.url = nav.children[0].url;
 				}
 
 				// set all menu inactive
 				nav.style = this.inactive;
 
 				// check permission
-				if(nav.permissions) {
-					if(permission.permitted(nav.permissions)) {
+				if (nav.permissions) {
+					if (permission.permitted(nav.permissions)) {
 						navs.push(nav);
 					}
 				} else {
@@ -46,6 +46,21 @@ Vue.component('Navigation', {
 
 			// select the first menu
 			this.click(this.navs[0]);
+		});
+
+		// listen to login-success and logout event
+		event.subscribe('navigation', 'nav-selected', selectedNav => {
+			// toggle active
+			let newNavs = [];
+			for (let nav of this.navs) {
+				if (nav.url == selectedNav.url) {
+					nav.style = this.active;
+				} else {
+					nav.style = this.inactive;
+				}
+				newNavs.push(nav);
+			}
+			this.navs = newNavs;
 		});
 	},
 	destroyed: function() {
@@ -71,18 +86,6 @@ Vue.component('Navigation', {
 	},
 	methods: {
 		click: function(selectedNav) {
-			// toggle active
-			let newNavs = [];
-			for (let nav of this.navs) {
-				if (nav == selectedNav) {
-					nav.style = this.active;
-				} else {
-					nav.style = this.inactive;
-				}
-				newNavs.push(nav);
-			}
-			this.navs = newNavs;
-
 			// send menu selected
 			event.send('nav-selected', selectedNav);
 		},

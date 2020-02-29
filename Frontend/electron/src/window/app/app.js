@@ -12,6 +12,18 @@ require('./app/layout/navigation');
 require('./app/layout/composer');
 require('./app/layout/auto-update');
 
+// channel redirects the message to the webviews
+ipcRenderer.on('channel', (sender, $event) => {
+	// redirect all IPC messages to webviews
+	let webView = document.getElementById($event.to);
+	if($event.to == '') {
+		event.send($event.channel, $event.data)
+	}
+	else if (webView) {
+		webView.send($event.channel, $event.data);
+	}
+});
+
 new Vue({
 	el: '#app',
 	template: `
@@ -22,10 +34,8 @@ new Vue({
     </template>
     <template v-if="registered">
       <login v-if="authenticated == false"></login>
-      <div v-else-if="authenticated == true" v-bind:style="appStyle">
-        <navigation />
-        <composer />
-      </div>
+			<navigation v-if="authenticated == true" />
+			<composer v-if="authenticated == true" />
     </template>
 	</div>
   `,
@@ -59,10 +69,6 @@ new Vue({
 	data: function() {
 		return {
 			style: {
-				width: '100%',
-				height: '100%',
-			},
-			appStyle: {
 				width: '100%',
 				height: '100%',
 				border: '1px solid rgba(#000, .12)',
@@ -104,6 +110,12 @@ new Vue({
 			config.set('module', r.module);
 
 			// save navigation
+			for (let nav of r.nav) {
+				// assign default viewport
+				if (!nav.viewport) nav.viewport = 'default';
+				// add http...
+				if (nav.url && !nav.url.startsWith('http')) nav.url = `${config.get('service_url')}${nav.url}`;
+			}
 			config.set('nav', r.nav);
 
 			// check desktop permission exists

@@ -60,6 +60,9 @@ export class NavService {
 			// add to navigation stack
 			this.navigate(e.url);
 
+			// split if #
+			e.url = e.url.split("#")[0]
+
 			// save current url
 			this.currUrl = e.url;
 			this.currNav = this.find(e.url);
@@ -68,9 +71,6 @@ export class NavService {
 				if (this.currNav && this.currUrl.includes(this.currNav.url) == false) {
 					this.router.navigateByUrl('/');
 				}
-
-				// check any auto login parameters to be saved
-				let params = this.getParams();
 
 				// see if there is a navigation filter
 				if (this.config.get('navigation.filter')) {
