@@ -111,6 +111,7 @@
           "key": "workflows",
           "src": "`/api/admin/workflow`",
           "method": "get",
+          "size": 25,
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filters};",
           "layoutStyle": {

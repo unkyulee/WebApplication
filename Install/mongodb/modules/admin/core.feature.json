@@ -7,6 +7,8 @@
     {
       "name": "Development",
       "permissions": ["developerment.view"],
+      "icon": "fa fa-lg fa-lock",
+      "url": "/core.company",
       "type": "collapse",
       "children": [
         {

@@ -14,6 +14,7 @@
       "name": "Utente",
       "type": "item",
       "url": "/user",
+      "icon": "fa fa-lg fa-key",
       "uiElementIds": ["100000000000000000010000"],
       "permissions": ["user.view"]
     }
