@@ -3,7 +3,7 @@ Vue.component('WebView', {
   <webview
     :useragent="uiElement.useragent"
     :partition="uiElement.partition"
-    :src="uiElement.src"
+    :src="uiElement.src?uiElement.src: '_blank'"
     :id="uiElement.id"
     :style="uiElement.style"
     :class="uiElement.class"

@@ -8,7 +8,6 @@ Vue.component('AutoUpdate', {
   </div>`,
 	mounted: async function() {
 		ipcRenderer.on('checking-for-update', () => {
-			console.log('checking-for-update');
 			this.message = 'Checking for update ...';
 			this.show = true;
 			setTimeout(() => this.show = false, 15000);
@@ -48,7 +47,7 @@ Vue.component('AutoUpdate', {
 		});
 
 		// initiate update-check
-		setTimeout(() => ipcRenderer.send('update-check'), 10 * 1000);
+		setTimeout(() => ipcRenderer.send('update-check'), 30 * 1000);
 		setInterval(() => ipcRenderer.send('update-check'), 4 * 60 * 60 * 1000);
 	},
 	destroyed: async function() {},

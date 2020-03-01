@@ -8,7 +8,12 @@ const window = require('./window');
 // check update
 ipcMain.on('update-check', () => {
 	// check update
-	autoUpdater.checkForUpdatesAndNotify();
+	try {
+		console.log('initiate update check')
+		autoUpdater.checkForUpdatesAndNotify();
+	} catch(ex) {
+		console.error(ex)
+	}
 });
 
 //

@@ -16,10 +16,9 @@ require('./app/layout/auto-update');
 ipcRenderer.on('channel', (sender, $event) => {
 	// redirect all IPC messages to webviews
 	let webView = document.getElementById($event.to);
-	if($event.to == '') {
-		event.send($event.channel, $event.data)
-	}
-	else if (webView) {
+	if ($event.to == '') {
+		event.send($event.channel, $event.data);
+	} else if (webView) {
 		webView.send($event.channel, $event.data);
 	}
 });
@@ -45,10 +44,13 @@ new Vue({
 
 		// listen to login-success and logout event
 		event.subscribe('index', 'login-success', async () => {
-			// download config
-			await this.downloadConfig();
 			// check if authenticated
 			this.authenticated = true;
+
+			setTimeout(async () => {
+				// download config
+				await this.downloadConfig();
+			});
 		});
 		event.subscribe('index', 'logout', async () => {
 			// check if authenticated
