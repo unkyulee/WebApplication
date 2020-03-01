@@ -1,0 +1,39 @@
+{
+  "name": "electron-shell",
+  "version": "1.1.1",
+  "description": "Desktop shell to host angular app",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build --win --publish never",
+    "deploy": "clean.bat && electron-builder build --win --publish always"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unkyulee/electron-shell.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unkyulee/electron-shell/issues"
+  },
+  "homepage": "https://github.com/unkyulee/electron-shell#readme",
+  "devDependencies": {
+    "electron": "^7.1.1",
+    "electron-builder": "^22.1.0"
+  },
+  "dependencies": {
+    "async-request": "^1.2.0",
+    "axios": "^0.19.1",
+    "custom-electron-titlebar": "^3.1.0",
+    "electron-reload": "^1.5.0",
+    "electron-store": "^5.1.0",
+    "electron-updater": "^4.2.0",
+    "electron-window-state": "^5.0.3",
+    "jquery": "^3.4.1",
+    "moment": "^2.24.0",
+    "object-path": "^0.11.4",
+    "sweetalert2": "^9.3.4",
+    "underscore": "^1.9.1"
+  }
+}
