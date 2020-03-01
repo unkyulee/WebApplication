@@ -6,18 +6,18 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder build --win --publish never",
-    "deploy": "clean.bat && electron-builder build --win --publish always"
+    "deploy": "electron-builder build --win --publish always"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unkyulee/electron-shell.git"
+    "url": "git+https://github.com/unkyulee/electron.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/unkyulee/electron-shell/issues"
+    "url": "https://github.com/unkyulee/electron.git"
   },
-  "homepage": "https://github.com/unkyulee/electron-shell#readme",
+  "homepage": "https://github.com/unkyulee/electron",
   "devDependencies": {
     "electron": "^7.1.1",
     "electron-builder": "^22.1.0"
