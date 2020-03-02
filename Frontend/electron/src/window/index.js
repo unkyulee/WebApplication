@@ -1,11 +1,12 @@
-const { process, ipcRenderer } = require("electron");
+const { ipcRenderer } = require("electron");
+const { process } = require('electron').remote;
 
 // services
 const event = require("../service/event");
 const config = require("../service/config");
 
 // custom titlebar
-if (process.platform !== 'darwin') {
+if (process.platform != 'darwin') {
   const titlebar = require("custom-electron-titlebar");
   // Create main window titlebar
   let mainTitlebar = new titlebar.Titlebar({
@@ -17,5 +18,3 @@ if (process.platform !== 'darwin') {
   // Setting title explicitly
   mainTitlebar.updateTitle(config.get("module.desktop.title"));
 }
-
-
