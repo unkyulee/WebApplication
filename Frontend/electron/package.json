@@ -1,6 +1,6 @@
 {
   "name": "electron-shell",
-  "version": "1.1.3",
+  "version": "1.1.0",
   "description": "Desktop shell to host angular app",
   "main": "app.js",
   "scripts": {
@@ -11,12 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unkyulee/electron.git"
+    "url": "git+https://github.com/unkyulee/YesBut-CRM.git"
   },
-  "author": "",
+  "author": "YesBut",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/unkyulee/electron.git"
+    "url": "https://github.com/unkyulee/YesBut-CRM.git"
   },
   "homepage": "https://github.com/unkyulee/electron",
   "devDependencies": {

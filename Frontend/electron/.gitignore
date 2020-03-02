@@ -1,6 +1,4 @@
 dist
 node_modules
 electron-builder.yml
-app/config.json
 package-lock.json
-app/*
