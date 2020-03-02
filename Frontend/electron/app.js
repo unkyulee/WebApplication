@@ -2,6 +2,10 @@
 const { app, ipcMain, shell } = require('electron');
 const window = require('./src/process/window');
 
+if(process.platform == "darwin") {
+	app.disableHardwareAcceleration()
+}
+
 // auto update
 require('./src/process/update');
 
