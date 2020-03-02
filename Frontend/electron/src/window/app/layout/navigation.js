@@ -25,7 +25,7 @@ Vue.component('Navigation', {
 				// add icon for config menu
 				if (nav.permissions && nav.permissions.indexOf('config.view') >= 0) {
 					nav.icon = 'fa fa-lg fa-cog';
-					nav.url = nav.children[0].url;
+					nav.url = `${config.get('service_url')}${nav.children[0].url}`;
 				}
 
 				// set all menu inactive

@@ -37,9 +37,9 @@ module.exports = {
 				// Set main window title
 				title: config.get('name', 'Loading ...'),
 				// Enable frame if on macOS or if custom titlebar setting is disabled
-				frame: false,
+				frame: process.platform !== 'darwin' ? false : true,
 				// Show default title bar on macOS and hide it on others
-				titleBarStyle: 'hidden',
+				titleBarStyle: process.platform !== 'darwin' ? 'hidden' : 'default',
 				// Set main window icon
 				icon,
 				webPreferences: {

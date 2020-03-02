@@ -2,9 +2,12 @@
 const { app, ipcMain, shell } = require('electron');
 const window = require('./src/process/window');
 
-if(process.platform == "darwin") {
-	app.disableHardwareAcceleration()
+if(process.platform == 'darwin') {
+	app.disableHardwareAcceleration();
 }
+
+// Import electron context menu library
+const contextMenu = require('electron-context-menu');
 
 // auto update
 require('./src/process/update');
@@ -25,7 +28,7 @@ if (!singleInstanceLock) {
 	app.quit();
 } else {
 	// Focus current instance
-	app.on('second-instance', () => {});
+	app.on('second-instance', () => { });
 
 	// create main window object
 	app.on('ready', async () => {
@@ -38,11 +41,25 @@ if (!singleInstanceLock) {
 	});
 
 	// Listen for web contents being created
-	app.on('web-contents-created', (e, contents) => {
+	app.on('web-contents-created', (e, c) => {
+		// Initialize the context menu
+		contextMenu({
+			prepend: (d, p, bW) => [{
+				// Allows user to search the selected text on Google in external browser
+				label: 'Search Google for "{selection}"',
+				visible: p.selectionText.trim().length > 0,
+				click: () => {
+					shell.openExternal(`https://google.com/search?q=${encodeURIComponent(p.selectionText)}`);
+				}
+			}],
+			window: c,
+			showCopyImage: false,
+			showSaveImageAs: true,
+		})
 		// Check for a webview
-		if (contents.getType() == 'webview') {
+		if (c.getType() == 'webview') {
 			// Listen for any new window events
-			contents.on('new-window', (e, url) => {
+			c.on('new-window', (e, url) => {
 				e.preventDefault();
 				shell.openExternal(url);
 			});
