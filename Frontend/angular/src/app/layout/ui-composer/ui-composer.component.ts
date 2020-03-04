@@ -29,9 +29,9 @@ export class UIComposerComponent extends BaseComponent {
       // load UI when navigation changes
       if (this.nav.currNav) {
         // check if there are any replication setup
-        if (this.nav.currNav.onLoad) {
+        if (this.nav.currNav.init) {
           try {
-            eval(this.nav.currNav.onLoad);
+            eval(this.nav.currNav.init);
           } catch (e) {
             console.error(e);
           }

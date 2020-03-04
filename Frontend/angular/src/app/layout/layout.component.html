@@ -9,8 +9,8 @@
       fixedInViewport="true"
       class="mat-elevation-z2 no-print"
       [ngStyle]="config.get('theme.navigation.style')"
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="'over'"
+      [attr.role]="config.isHandset ? 'dialog' : 'navigation'"
+      [mode]="config.isHandset ? 'over' : 'side'"
     >
       <nav-vertical></nav-vertical>
     </mat-sidenav>
