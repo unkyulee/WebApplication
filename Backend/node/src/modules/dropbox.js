@@ -10,7 +10,7 @@ module.exports.process = async function process(db, req, res) {
 	let config = await db.find('config', {
 		query: {
 			company_id: ObjectID(res.locals.token.sub),
-			type: 'google',
+			type: 'dropbox',
 		},
   });
   if(config && config.length > 0) {
@@ -21,29 +21,8 @@ module.exports.process = async function process(db, req, res) {
 		return;
   }
 
-  // request for token
-  let response = {}
-  try {
-    response = await rp({
-      method: 'POST',
-      uri: 'https://oauth2.googleapis.com/token',
-      form: {
-        code: req.query.code,
-        client_id: config.google_client_id,
-        client_secret: config.google_client_secret,
-        grant_type: 'authorization_code',
-        redirect_uri: `${req.protocol}://${req.headers.host}/google/`
-      },
-    });
-  } catch(e) {
-    res.send(`${e.stack}`);
-    res.status(500);
-    res.end();
-    return;
-  }
-
   // write tokens on config
-  config.google = req.app.locals.encryption.encrypt(response);
+  config.dropbox_api_key = req.app.locals.encryption.encrypt(req.query.code);
   await db.update('config', config);
 
   return `<script>window.location='${req.query.state}'</script>`;

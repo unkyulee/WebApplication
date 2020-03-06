@@ -77,6 +77,8 @@ class Router {
 			nav = { module: 'cms' };
 		} else if (navName == 'google') {
 			nav = { module: 'google' };
+		} else if (navName == 'dropbox') {
+			nav = { module: 'dropbox' };
 		} else {
 			// find in the db - 'core.navigation'
 			let results = await db.find('core.company', {
