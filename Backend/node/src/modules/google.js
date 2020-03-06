@@ -1,5 +1,6 @@
 var rp = require('request-promise-native');
 const ObjectID = require('mongodb').ObjectID;
+const util = require('../lib/utility');
 
 module.exports.requiresAuthentication = async function requiresAuthentication(db, req, res) {
 	return true;
@@ -24,16 +25,17 @@ module.exports.process = async function process(db, req, res) {
   // request for token
   let response = {}
   try {
+    let form = {
+      code: req.query.code,
+      client_id: config.google_client_id,
+      client_secret: config.google_client_secret,
+      grant_type: 'authorization_code',
+      redirect_uri: `${util.getProtocol(req)}://${req.get('host')}/google/`
+    };
     response = await rp({
       method: 'POST',
       uri: 'https://oauth2.googleapis.com/token',
-      form: {
-        code: req.query.code,
-        client_id: config.google_client_id,
-        client_secret: config.google_client_secret,
-        grant_type: 'authorization_code',
-        redirect_uri: `${req.protocol}://${req.headers.host}/google/`
-      },
+      form,
     });
   } catch(e) {
     res.send(`${e.stack}`);

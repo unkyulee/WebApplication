@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const ObjectID = require('mongodb').ObjectID;
 const obj = require('object-path');
+const util = require('../lib/utility');
 
 module.exports.requiresAuthentication = async function requiresAuthentication(db, req, res) {
 	if (req.method == 'GET') return false;
@@ -37,7 +38,7 @@ module.exports.process = async function process(db, req, res) {
 async function IndexJS(db, req, res) {
 	//
 	let config = {
-		host: `${getProtocol(req)}://${req.get('host')}${req.baseUrl}`,
+		host: `${util.getProtocol(req)}://${req.get('host')}${req.baseUrl}`,
 	};
 	config = Object.assign(config, res.locals.nav);
 	return `window.__CONFIG__ = ${JSON.stringify(config)}`;
@@ -141,11 +142,4 @@ async function IndexHtml(db, req, res) {
 			}
 		});
 	});
-}
-
-function getProtocol(req) {
-	var proto = req.connection.encrypted ? 'https' : 'http';
-	// only do this if you trust the proxy
-	proto = req.headers['x-forwarded-proto'] || proto;
-	return proto.split(/\s*,\s*/)[0];
 }
