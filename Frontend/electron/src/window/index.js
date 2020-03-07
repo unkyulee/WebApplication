@@ -17,4 +17,6 @@ if (process.platform != 'darwin') {
 
   // Setting title explicitly
   mainTitlebar.updateTitle(config.get("module.desktop.title"));
+
+  document.getElementsByClassName("container-after-titlebar")[0].style.overflowY = "hidden";
 }

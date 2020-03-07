@@ -53,7 +53,7 @@ Vue.component('Navigation', {
 			// toggle active
 			let newNavs = [];
 			for (let nav of this.navs) {
-				if (nav.url == selectedNav.url) {
+				if (nav.name == selectedNav.name) {
 					nav.style = this.active;
 				} else {
 					nav.style = this.inactive;
@@ -74,6 +74,7 @@ Vue.component('Navigation', {
 				height: '100%',
 				background: '#202020',
 				boxShadow: '1px 0 15px rgba(0, 0, 0, 0.07)',
+				overflowY: 'auto'
 			},
 			active: {
 				color: 'white',

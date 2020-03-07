@@ -10,7 +10,7 @@ module.exports = {
 	set: function(name, value) {
 		if (typeof name == 'object') {
 			store.set(name);
-		} else {
+		} else if(value) {
 			store.set(name, value);
 		}
 	},
