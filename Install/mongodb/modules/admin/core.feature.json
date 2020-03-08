@@ -6,7 +6,9 @@
   "navigations": [
     {
       "name": "Development",
-      "permissions": ["developerment.view"],
+      "permissions": [
+        "development.view"
+      ],
       "icon": "fa fa-lg fa-lock",
       "url": "/core.company",
       "type": "collapse",
