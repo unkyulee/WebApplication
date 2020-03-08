@@ -132,7 +132,9 @@ export class FormGeneratorComponent extends BaseComponent {
 							} catch (e) {
 								console.error(e);
 							}
-						} else alert(JSON.stringify(err));
+						} else {
+							console.error(err);
+						}
 
 						return EMPTY;
 					})
@@ -176,7 +178,7 @@ export class FormGeneratorComponent extends BaseComponent {
 			}
 		}
 		if (errorMessage) {
-			alert(errorMessage);
+			console.error(errorMessage);
 			return;
 		}
 
@@ -231,7 +233,9 @@ export class FormGeneratorComponent extends BaseComponent {
 							} catch (e) {
 								console.error(e);
 							}
-						} else alert(JSON.stringify(err));
+						} else {
+							console.error(err);
+						}
 
 						return EMPTY;
 					})

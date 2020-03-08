@@ -105,7 +105,9 @@ export class CodeEditorComponent extends BaseComponent {
               } catch (e) {
                 console.error(e);
               }
-            } else alert(JSON.stringify(err));
+            } else {
+              console.error(err);
+            }
 
             return EMPTY;
           })
