@@ -132,12 +132,15 @@ export class DataTableComponent extends BaseComponent {
 
 		// download data through rest web services
 		let src = this.uiElement.src;
-		if (src) {
+		if(src) {
 			try {
 				src = eval(src);
 			} catch (e) {
 				console.error(e);
 			}
+		}
+
+		if (src) {
 			// look at query params and pass it on to the request
 			let data = this.uiElement.data;
 			// apply nav parameters if necessary
