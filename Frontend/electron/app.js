@@ -66,7 +66,4 @@ if (!singleInstanceLock) {
 		}
 	});
 }
-// Opens links in external browser
-ipcMain.on('link-open', (sender, args) => {
-	shell.openExternal(args);
-});
+
