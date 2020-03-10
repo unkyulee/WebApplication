@@ -10,8 +10,8 @@ const email = require('../lib/email');
 
 module.exports.requiresAuthentication = async function requiresAuthentication(db, req, res) {
 	let paths = req.path.split('/');
-	if(paths.length >= 2) {
-		if(paths[2] == "public")
+	if (paths.length >= 2) {
+		if (paths[2] == 'public')
 			// if the api starts with public
 			// does not require authentication
 			return false;

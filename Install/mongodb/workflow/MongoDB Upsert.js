@@ -262,45 +262,10 @@ async function monitorChanges() {
 async function postProcess() {
 	let processes = obj.get(context, 'config.postProcess', []);
 	for (let process of processes) {
-		if (process.type == 'updateAlso') {
-			// check the condition
-			let filter = {};
-			let conditionPassed = true;
-			for (let condition of process.condition) {
-				if (!context.data[condition]) {
-					// condition not met break
-					conditionPassed = false;
-					break;
-				}
-				// save as a filter
-				filter[condition] = context.data[condition];
-			}
-
-			// check condition
-			if(!conditionPassed) break;
-
-			// see if there is a already existing row
-			let row = {};
-			let rows = await context.ds.find(process.collection, {
-				query: {...filter},
-			});
-			if (rows.length > 0) {
-				row = rows[0];
-			}
-
-			// collect values
-			for (let value of process.values) {
-				if (value.type == 'column') {
-					row[value.column] = context.data[value.column];
-				} else if (value.type == 'NowIfNew') {
-					if (!row[value.column]) {
-						row[value.column] = new Date();
-					}
-				}
-			}
-
-			// upsert row
-			await context.ds.update(process.collection, row);
+		try {
+			await eval(process);
+		} catch (ex) {
+			throw ex
 		}
 	}
 }
