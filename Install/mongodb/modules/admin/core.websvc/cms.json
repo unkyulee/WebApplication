@@ -1,15 +1,24 @@
 {
-    "_id": ObjectId("200000000000000000000090"),
+    "_id": "200000000000000000000090",
     "url": "admin/cms",
     "description": "cms",
     "get_description": "Get",
     "get_configuration": "{ 'collection': 'cms' }",
     "get_datasource": "000000000000000000000000",
     "get_workflow": "000000000000000000000010",
-    "post_description": "Upsert",
-    "post_configuration": "{ 'collection': 'cms' }",
+    "put_description": "Upsert",
+    "put_configuration": "{ 'collection': 'cms' }",
+    "put_datasource": "000000000000000000000000",
+    "put_workflow": "000000000000000000000020",
+
+    "post_description": "Upload",
+    "post_configuration": {
+      "collection": "cms",
+      "column": "content"
+    },
     "post_datasource": "000000000000000000000000",
-    "post_workflow": "000000000000000000000020",
+    "post_workflow": "000000000000000000000040",
+
     "delete_description": "Delete",
     "delete_configuration": "{ 'collection': 'cms' }",
     "delete_datasource": "000000000000000000000000",

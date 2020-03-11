@@ -47,7 +47,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000091', option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})"
+          "click": "this.event.send({\r\n    name: 'open-dialog', \r\n    uiElementId: '200000000000000000000091', \r\n    option: {\r\n        width: '100vw', \r\n        height: '100vh', \r\n        maxWidth: '600px', \r\n        maxHeight: '400px'\r\n    } \r\n});"
         }
       ]
     },
@@ -89,7 +89,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'navigations'});"
+          "changed": "this.event.send({name:'refresh', key: 'cms_list'});"
         },
         {
           "type": "input",
@@ -103,7 +103,35 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'navigations'});"
+          "changed": "this.event.send({name:'refresh', key: 'cms_list'});"
+        },
+        {
+          "type": "input",
+          "key": "filter_cms.folder",
+          "default": "``",
+          "label": "Folder",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'cms_list'});"
+        },
+        {
+          "type": "input",
+          "key": "filter_cms.name",
+          "default": "``",
+          "label": "Filename",
+          "floatLabel": "auto",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "changed": "this.event.send({name:'refresh', key: 'cms_list'});"
         },
         {
           "type": "typography",
@@ -130,8 +158,8 @@
         {
           "type": "data-table",
           "tableType": "card",
-          "key": "navigations",
-          "src": "`/api/admin/cms`",
+          "key": "cms_list",
+          "src": "`/api/admin/cms?_project_ne=content`",
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filter_cms}",
@@ -160,18 +188,8 @@
             "display": "flex",
             "flexFlow": "row wrap"
           },
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000091', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000091', data: item, option: {width: '100vw', height: '100vh', maxWidth: '600px', maxHeight: '400px'} })",
           "columns": [
-            {
-              "type": "typography",
-              "format": "`${this.data.folder}/${this.data.name}`",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "fontWeight": "bold"
-              }
-            },
             {
               "type": "typography",
               "key": "type",
@@ -179,7 +197,46 @@
                 "width": "100%"
               },
               "style": {
+                "color": "white",
+                "padding": "3px",
+                "background": "crimson",
+                "width": "fit-content",
+                "textTransform": "uppercase"
+              }
+            },
+            {
+              "type": "typography",
+              "format": "`${location.origin}/cms${this.data.folder}/${this.data.name}`",
+              "layoutStyle": {
+                "width": "100%",
+                "marginBottom": "4px",
+                "marginTop": "4px"
+              },
+              "style": {
+                "fontSize": "larger",
                 "color": "darkblue"
+              }
+            },
+            {
+              "type": "typography",
+              "key": "folder",
+              "label": "Folder",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> <span'>${this._value?this._value:' - '}</span>`",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+              }
+            },
+            {
+              "type": "typography",
+              "key": "folder",
+              "label": "Filename",
+              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> <span'>${this._value?this._value:' - '}</span>`",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
               }
             }
           ]
