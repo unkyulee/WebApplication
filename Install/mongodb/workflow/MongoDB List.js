@@ -29,7 +29,7 @@ async function run() {
 		total: context.total,
 		filter: JSON.parse(JSON.stringify(context.filter)),
 		sort: JSON.parse(JSON.stringify(context.sort)),
-		project: context.projection,
+		project: context.project,
 		params: context.data,
 		websvc: res.locals.websvcurl,
 		data: context.result,
@@ -123,6 +123,31 @@ function processFilterFields() {
 
 		// remove _search from the data
 		obj.del(context.data, '_search');
+	}
+
+	// see if _project parameter exists
+	if (obj.get(context.data, '_project')) {
+		let projects = obj
+			.get(context.data, '_project', '')
+			.trim()
+			.split(',');
+		if (projects) {
+			context.project = {};
+			for (let project of projects) context.project[project] = true;
+		}
+		// remove _search from the data
+		obj.del(context.data, '_project');
+	} else if (obj.get(context.data, '_project_ne')) {
+		let projects = obj
+			.get(context.data, '_project_ne', '')
+			.trim()
+			.split(',');
+		if (projects) {
+			context.project = {};
+			for (let project of projects) context.project[project] = false;
+		}
+		// remove _search from the data
+		obj.del(context.data, '_project_ne');
 	}
 
 	// check if the configuration has filterFields

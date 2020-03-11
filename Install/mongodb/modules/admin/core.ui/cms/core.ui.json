@@ -92,23 +92,6 @@
           "changed": "this.event.send({name:'refresh', key: 'navigations'});"
         },
         {
-          "type": "selection",
-          "selectionType": "autocomplete",
-          "label": "Site",
-          "floatLabel": "auto",
-          "src": "`/api/admin/core.company?name=${obj.get(this, '_value', '')}`",
-          "transform": "response.data",
-          "optionLabelTransform": "`${option.name} - ${option.module} - ${option.url}`",
-          "inputValueTransform": "obj.has(this, '_value._id') ? `${this._value.name}` : this._value",
-          "layoutStyle": {
-            "width": "100%"
-          },
-          "style": {
-            "width": "100%"
-          },
-          "selected": "this.data.filter_cms.navigation_id = this._value._id; this.event.send({name:'refresh', key: 'navigations'});"
-        },
-        {
           "type": "input",
           "key": "filter_cms._id",
           "default": "``",
@@ -148,7 +131,7 @@
           "type": "data-table",
           "tableType": "card",
           "key": "navigations",
-          "src": "`/api/admin/cms?_projection=navigation_id,folder,name`",
+          "src": "`/api/admin/cms`",
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filter_cms}",
@@ -182,21 +165,22 @@
             {
               "type": "typography",
               "format": "`${this.data.folder}/${this.data.name}`",
+              "layoutStyle": {
+                "width": "100%"
+              },
               "style": {
                 "fontWeight": "bold"
               }
             },
             {
               "type": "typography",
-              "key": "_id",
-              "label": "_id",
-              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
-            },
-            {
-              "type": "typography",
-              "key": "navigation_id",
-              "label": "navigation_id",
-              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`"
+              "key": "type",
+              "layoutStyle": {
+                "width": "100%"
+              },
+              "style": {
+                "color": "darkblue"
+              }
             }
           ]
         }

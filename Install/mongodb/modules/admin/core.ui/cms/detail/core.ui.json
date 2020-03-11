@@ -20,7 +20,6 @@
 	},
 	"screens": [
 		{
-			"name": "Filter",
 			"type": "layout",
 			"layoutStyle": {
 				"background": "#2C313D",
@@ -82,29 +81,41 @@
 			},
 			"sideScreens": [
 				{
-					"type": "input",
-					"label": "JSON Path",
+					"type": "selection",
+					"key": "type",
+					"label": "Type",
+					"options": ["base64", "binary"],
 					"floatLabel": "auto",
 					"layoutStyle": {
 						"width": "100%"
 					},
 					"style": {
 						"width": "100%"
-					},
-					"changed": "this.event.send({name: 'path', key: 'cms', path: this._value});"
+					}
 				},
 				{
-					"type": "selection",
-					"label": "Language",
-					"options": ["javascript", "html", "json"],
+					"type": "input",
+					"key": "folder",
+					"label": "Folder",
 					"floatLabel": "auto",
 					"layoutStyle": {
 						"width": "100%"
 					},
 					"style": {
 						"width": "100%"
+					}
+				},
+				{
+					"type": "input",
+					"key": "name",
+					"label": "Name",
+					"floatLabel": "auto",
+					"layoutStyle": {
+						"width": "100%"
 					},
-					"selected": "this.event.send({name: 'editorOptions', key: 'cms', editorOptions: {language: option}});"
+					"style": {
+						"width": "100%"
+					}
 				},
 				{
 					"type": "typography",
@@ -132,13 +143,12 @@
 					"type": "code-editor",
 					"editorType": "json",
 					"key": "cms",
-					"path": "",
-					"init": "if(obj.has(this.data, '_params_._id')) {\r\n   let _id =  obj.get(this.data, '_params_._id');\r\n   this.event.send({name: 'splash-show'});\r\n   this.rest.request(`/api/admin/cms?_id=${_id}`).subscribe(r => {\r\n       this.data = r.data[0];\r\n       this.event.send('splash-hide');\r\n       this.event.send({name: 'changed'})\r\n   })\r\n}",
+					"path": "content",
 					"save": {
-						"src": "`/api/admin/cms`",
-						"method": "post",
-						"saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
-					},
+            "src": "`/api/admin/cms`",
+            "method": "post",
+            "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
+          },
 					"editorOptions": {
 						"theme": "vs-dark",
 						"automaticLayout": true
