@@ -17,9 +17,14 @@ const log = async (db, task, taskInstanceId, action, msg) => {
 
 class Task {
   // interval in seconds
-  async runOnce(DATABASE_URI, DB) {
-    console.log("started");
+  async run(interval, DATABASE_URI, DB) {
+    await this.runOnce(DATABASE_URI, DB);
+    setTimeout(() => {
+      this.run(interval, DATABASE_URI, DB)
+    }, interval * 1000)
+  }
 
+  async runOnce(DATABASE_URI, DB) {
     let db = null;
 
     try {
@@ -42,11 +47,9 @@ class Task {
     } finally {
       // close connection
       if (db) {
-        console.log("closing db connection");
         await db.close();
       }
     }
-    console.log("completed");
   }
 
   async resetDeadTasks(db) {

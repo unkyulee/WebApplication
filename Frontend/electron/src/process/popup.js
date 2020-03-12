@@ -7,6 +7,9 @@ const mainWindow = require('./window');
 module.exports = {
 	window: null,
 	create: async function(option) {
+		// avoid duplicate window creataion
+		if(this.window) return;
+
 		return new Promise(resolve => {
 			// Create the window object
 			this.window = new BrowserWindow({

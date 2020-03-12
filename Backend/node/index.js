@@ -78,6 +78,14 @@ app.all('*', async (req, res) => {
 	}
 });
 
+// start the task
+if (process.env.TASK) {
+	let interval = parseInt(process.env.TASK);
+	const task = require('./src/services/task');
+	console.log(`start task with ${interval}s`);
+	task.run(interval, process.env.DATABASE_URI, process.env.DB)
+}
+
 // Initiate the server
 app.listen(process.env.PORT, () => {
 	console.log(`PORT: ${process.env.PORT}, IP: ${process.env.BIND_IP}`);
