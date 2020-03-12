@@ -38,6 +38,7 @@ import { PermissionService } from 'src/app/services/permission.service';
 import { SplitterComponent } from '../splitter/splitter.component';
 import { GanttComponent } from '../gantt/gantt.component';
 import { TabsComponent } from '../tabs/tabs.component';
+import { SoundService } from 'src/app/services/sound.service';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -63,6 +64,7 @@ export class UILayoutWrapperComponent {
 		this.auth = AppInjector.get(AuthService);
 		this.ui = AppInjector.get(UIService);
 		this.permission = AppInjector.get(PermissionService);
+		this.sound = AppInjector.get(SoundService);
 	}
 
 	// global services
@@ -79,6 +81,7 @@ export class UILayoutWrapperComponent {
 	public auth: AuthService;
 	public ui: UIService;
 	public permission: PermissionService;
+	public sound: SoundService;
 
 	componentRef: any;
 

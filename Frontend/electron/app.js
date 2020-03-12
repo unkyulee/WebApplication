@@ -1,17 +1,10 @@
 // Base Electron modules
-const { app, ipcMain, shell } = require('electron');
+const { app, shell } = require('electron');
 const window = require('./src/process/window');
-
-if(process.platform == 'darwin') {
-	app.disableHardwareAcceleration();
-}
-
-// Import electron context menu library
-const contextMenu = require('electron-context-menu');
-
+// on mac hw acceleration flickers the angular screen
+if(process.platform == 'darwin') app.disableHardwareAcceleration();
 // auto update
 require('./src/process/update');
-
 // hot reload
 if (!app.isPackaged) {
 	require('electron-reload')(__dirname, {
@@ -19,7 +12,6 @@ if (!app.isPackaged) {
 		electron: require(`${__dirname}/node_modules/electron`),
 	});
 }
-
 // Using singleInstanceLock for making app single instance
 const singleInstanceLock = app.requestSingleInstanceLock();
 // Checks for single instance lock
@@ -29,7 +21,6 @@ if (!singleInstanceLock) {
 } else {
 	// Focus current instance
 	app.on('second-instance', () => { });
-
 	// create main window object
 	app.on('ready', async () => {
 		// open bootstrap window
@@ -39,21 +30,13 @@ if (!singleInstanceLock) {
 	app.on('window-all-closed', () => {
 		app.quit();
 	});
-
 	// Listen for web contents being created
 	app.on('web-contents-created', (e, c) => {
+		// Import electron context menu library
 		// Initialize the context menu
-		contextMenu({
-			prepend: (d, p, bW) => [{
-				// Allows user to search the selected text on Google in external browser
-				label: 'Search Google for "{selection}"',
-				visible: p.selectionText.trim().length > 0,
-				click: () => {
-					shell.openExternal(`https://google.com/search?q=${encodeURIComponent(p.selectionText)}`);
-				}
-			}],
+		require('electron-context-menu')({
 			window: c,
-			showCopyImage: false,
+			showCopyImage: true,
 			showSaveImageAs: true,
 		})
 		// Check for a webview

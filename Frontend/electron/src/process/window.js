@@ -2,19 +2,12 @@ const { app, BrowserWindow, nativeImage, Menu, dialog, ipcMain } = require('elec
 const windowStateKeeper = require('electron-window-state');
 const url = require('url');
 const path = require('path');
-
 // services
 const config = require('../service/config');
-
-//
-let mainWindow;
-
-// redirect message
-ipcMain.on("channel", (e, msg) => {
-	mainWindow.webContents.send("channel", msg);
-});
+const popup = require('./popup');
 
 module.exports = {
+	window: null,
 	create: async function() {
 		return new Promise(resolve => {
 			// Building main menu from template
@@ -33,7 +26,7 @@ module.exports = {
 			if (iconDataUri) icon = nativeImage.createFromDataURL(iconDataUri);
 
 			// Create the window object
-			mainWindow = new BrowserWindow({
+			this.window = new BrowserWindow({
 				// Set main window title
 				title: config.get('name', 'Loading ...'),
 				// Enable frame if on macOS or if custom titlebar setting is disabled
@@ -59,38 +52,91 @@ module.exports = {
 			// Let us register listeners on the window, so we can update the state
 			// automatically (the listeners will be removed when the window is closed)
 			// and restore the maximized or full screen state
-			mainWindowState.manage(mainWindow);
+			mainWindowState.manage(this.window);
+
+			// redirect message
+			ipcMain.on('channel', (e, msg) => {
+				this.window.webContents.send('channel', msg);
+			});
+
+			// create popup window
+			ipcMain.on('popup', async (e, option) => {
+				await popup.create(option);
+			});
+
+			ipcMain.on('popup-show', (e, option) => {
+				popup.show()
+			});
+			ipcMain.on('popup-hide', (e, option) => {
+				popup.hide()
+			});
+
+			// Main Window Closed Event
+			this.window.on('closed', () => {
+				app.quit();
+			});
 
 			// Shows window once ready
-			mainWindow.once('ready-to-show', () => {
-				mainWindow.show();
-				resolve(mainWindow);
+			this.window.once('ready-to-show', async () => {
+				this.window.show();
+				resolve(this.window);
 			});
 
 			// Load the main window HTML file
-			mainWindow.loadURL(
+			this.window.loadURL(
 				url.format({
 					pathname: path.join(__dirname, '../', 'window', 'index.html'),
 					protocol: 'file:',
 					slashes: true,
 				})
 			);
-
-			// Main Window Closed Event
-			mainWindow.on('closed', () => {
-				app.quit();
-			});
 		});
 	},
+
+	send: function(name, event) {
+		mainWindow.webContents.send(name, event);
+	},
+
 	createMenuTemplate: function() {
 		let fileMenuTemplate;
 		fileMenuTemplate = [
+			{
+				label: 'Show Notification',
+				accelerator: 'CmdOrCtrl+Shift+N',
+				click() {
+					const popup = require("./popup");
+					if(popup.window) popup.show();
+				},
+			},
+
 			{
 				label: 'Force Reload',
 				accelerator: 'CmdOrCtrl+Shift+R',
 				click() {
 					var window = BrowserWindow.getFocusedWindow();
 					window.webContents.reload();
+				},
+			},
+
+			{
+				label: 'Open DevTools',
+				accelerator: 'CmdOrCtrl+Shift+I',
+				click() {
+					var window = BrowserWindow.getFocusedWindow();
+					window.webContents.openDevTools();
+				},
+			},
+
+			{
+				type: 'separator',
+			},
+			{
+				label: 'Check for updates',
+				accelerator: 'CmdOrCtrl+Shift+U',
+				click() {
+					// check update
+					const autoupdate = require('./update');
+					autoupdate.check();
 				},
 			},
 			{
@@ -114,18 +160,6 @@ module.exports = {
 				},
 			},
 			{
-				type: 'separator',
-			},
-			{
-				label: 'Check for updates',
-				accelerator: 'CmdOrCtrl+Shift+U',
-				click() {
-					// check update
-					const autoupdate = require('./update');
-					autoupdate.check();
-				},
-			},
-			{
 				label: 'Quit',
 				accelerator: 'CmdOrCtrl+Q',
 				click() {
@@ -134,20 +168,6 @@ module.exports = {
 			},
 		];
 
-		// Checks if app is packaged or not
-		//if (!app.isPackaged)
-		{
-			// Allows DevTools if app is not packaged
-			fileMenuTemplate.unshift({
-				label: 'Open DevTools',
-				accelerator: 'CmdOrCtrl+Shift+I',
-				click() {
-					var window = BrowserWindow.getFocusedWindow();
-					window.webContents.openDevTools();
-				},
-			});
-		}
-
 		// Create the main menu template
 		return [
 			{
@@ -155,8 +175,5 @@ module.exports = {
 				submenu: fileMenuTemplate,
 			},
 		];
-	},
-	send: function(name, event) {
-		mainWindow.webContents.send(name, event);
 	},
 };
