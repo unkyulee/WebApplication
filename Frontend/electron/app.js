@@ -1,6 +1,12 @@
 // Base Electron modules
 const { app, shell } = require('electron');
 const window = require('./src/process/window');
+// start up setting
+const config = require('./service/config');
+app.setLoginItemSettings({
+  openAtLogin: config.get('module.desktop.openAtLogin', true),
+  openAsHidden: config.get('module.desktop.openAsHidden', true)
+})
 // on mac hw acceleration flickers the angular screen
 if(process.platform == 'darwin') app.disableHardwareAcceleration();
 // auto update
