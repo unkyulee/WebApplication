@@ -65,15 +65,16 @@ module.exports = {
 			});
 
 			ipcMain.on('popup-show', (e, option) => {
-				popup.show()
+				popup.show();
 			});
 			ipcMain.on('popup-hide', (e, option) => {
-				popup.hide()
+				popup.hide();
 			});
 
 			// Main Window Closed Event
 			this.window.on('close', () => {
-				app.exit(0);
+				popup.exit();
+				app.quit();
 			});
 
 			// Shows window once ready
@@ -104,8 +105,8 @@ module.exports = {
 				label: 'Show Notification',
 				accelerator: 'CmdOrCtrl+Shift+N',
 				click() {
-					const popup = require("./popup");
-					if(popup.window) popup.show();
+					const popup = require('./popup');
+					if (popup.window) popup.show();
 				},
 			},
 

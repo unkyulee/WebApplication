@@ -58,9 +58,12 @@ module.exports = {
 		});
 	},
 	show: function() {
-		this.window.show();
+		if(this.window) this.window.show();
 	},
 	hide: function() {
-		this.window.hide();
+		if(this.window) this.window.hide();
 	},
+	exit: function() {
+		if(this.window) this.window.destroy();
+	}
 };
