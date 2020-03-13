@@ -75,7 +75,7 @@ Vue.component('Composer', {
 			// hide all the screen
 			for (let viewport of this.viewports) {
 				// show the selected screen
-				if (viewport.viewport == nav.viewport) {
+				if (viewport.viewport == nav.viewport || (!nav.viewport && viewport.viewport == 'default')) {
 					viewport.layoutStyle = this.show;
 					// update the url of the first screen
 					if(nav.url) viewport.screens[0].src = nav.url;

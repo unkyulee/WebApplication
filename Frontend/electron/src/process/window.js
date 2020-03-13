@@ -72,8 +72,8 @@ module.exports = {
 			});
 
 			// Main Window Closed Event
-			this.window.on('closed', () => {
-				app.quit();
+			this.window.on('close', () => {
+				app.exit(0);
 			});
 
 			// Shows window once ready
@@ -171,7 +171,7 @@ module.exports = {
 		// Create the main menu template
 		return [
 			{
-				label: 'File',
+				label: 'Menu',
 				submenu: fileMenuTemplate,
 			},
 		];

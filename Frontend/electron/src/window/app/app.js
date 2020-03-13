@@ -15,11 +15,11 @@ require('./app/layout/auto-update');
 // channel redirects the message to the webviews
 ipcRenderer.on('channel', (sender, $event) => {
 	// redirect all IPC messages to webviews
-	let webView = document.getElementById($event.to);
-	if ($event.to == '') {
+	if (!$event.to) {
 		event.send($event.channel, $event.data);
-	} else if (webView) {
-		webView.send($event.channel, $event.data);
+	} else {
+		let webView = document.getElementById($event.to);
+		if (webView) webView.send($event.channel, $event.data);
 	}
 });
 
@@ -115,7 +115,18 @@ new Vue({
 				// assign default viewport
 				if (!nav.viewport) nav.viewport = 'default';
 				// add http...
-				if (nav.url && !nav.url.startsWith('http')) nav.url = `${config.get('service_url')}${nav.url}`;
+				if (nav.url && !nav.url.startsWith('http')) {
+					nav.url = `${config.get('service_url')}${nav.url}`;
+				}
+
+				if (nav.children) {
+					for (let child of nav.children) {
+						// add http...
+						if (child.url && !child.url.startsWith('http')) {
+							child.url = `${config.get('service_url')}${child.url}`;
+						}
+					}
+				}
 			}
 			config.set('nav', r.nav);
 
@@ -128,8 +139,8 @@ new Vue({
 					// create a popup window
 					ipcRenderer.send('popup', {
 						url: `${config.get('service_url')}/notification`,
-						title: `Notification`
-					})
+						title: `Notification`,
+					});
 				}
 
 				// update navigation

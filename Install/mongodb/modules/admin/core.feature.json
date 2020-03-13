@@ -6,6 +6,7 @@
   "navigations": [
     {
       "name": "Development",
+      "id": "development",
       "permissions": [
         "development.view"
       ],
@@ -15,6 +16,7 @@
       "children": [
         {
           "name": "Company",
+          "id": "core.company",
           "type": "item",
           "url": "/core.company",
           "uiElementIds": [
@@ -23,14 +25,16 @@
         },
         {
           "name": "Scheduled Tasks",
+          "id": "scheduled_task",
           "type": "item",
-          "url": "/task",
+          "url": "/scheduled_task",
           "uiElementIds": [
             "200000000000000000000100"
           ]
         },
         {
           "name": "Feature",
+          "id": "core.feature",
           "type": "item",
           "url": "/core.feature",
           "uiElementIds": [
@@ -39,6 +43,7 @@
         },
         {
           "name": "UI Element",
+          "id": "core.ui",
           "type": "item",
           "url": "/core.ui",
           "uiElementIds": [
@@ -47,6 +52,7 @@
         },
         {
           "name": "Theme",
+          "id": "core.theme",
           "type": "item",
           "url": "/core.theme",
           "uiElementIds": [
@@ -54,15 +60,8 @@
           ]
         },
         {
-          "name": "UI Script",
-          "type": "item",
-          "url": "/core.ui.script",
-          "uiElementIds": [
-            "200000000000000000000040"
-          ]
-        },
-        {
           "name": "Config",
+          "id": "core.config",
           "type": "item",
           "url": "/core.config",
           "uiElementIds": [
@@ -71,6 +70,7 @@
         },
         {
           "name": "Web Services",
+          "id": "core.websvc",
           "type": "item",
           "url": "/core.websvc",
           "uiElementIds": [
@@ -79,6 +79,7 @@
         },
         {
           "name": "Workflow",
+          "id": "core.workflow",
           "type": "item",
           "url": "/core.workflow",
           "uiElementIds": [
@@ -87,6 +88,7 @@
         },
         {
           "name": "CMS",
+          "id": "cms",
           "type": "item",
           "url": "/cms",
           "uiElementIds": [
@@ -95,6 +97,7 @@
         },
         {
           "name": "Users",
+          "id": "core.user",
           "type": "item",
           "url": "/core.user",
           "uiElementIds": [
@@ -103,6 +106,7 @@
         },
         {
           "name": "Group",
+          "id": "core.group",
           "type": "item",
           "url": "/core.group",
           "uiElementIds": [

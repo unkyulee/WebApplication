@@ -3,14 +3,21 @@ const event = require('../../../service/event');
 
 Vue.component('Navigation', {
 	template: `
-	<md-list
-		:style="style">
-		<md-list-item
-			v-for="(nav, index) in navs"
-			@click="click(nav)"
-			:key="index">
-			<i :class="nav.icon" :style="nav.style"></i>
+	<md-list :style="style">
+		<md-list-item v-for="(nav, index) in navs" :key="index" style='position: relative'>
+			<md-badge v-if="nav.badge" :md-content="nav.badge" style='position: absolute; right: 4px'></md-badge>
 			<md-tooltip md-direction="right">{{nav.name}}</md-tooltip>
+
+			<i v-if="nav.type != 'collapse'" :class="nav.icon" :style="nav.style" @click="click(nav)"></i>
+
+			<md-menu v-if="nav.type == 'collapse'" md-size="auto" :md-offset-x="60" :md-offset-y="-30">
+				<i :class="nav.icon" :style="nav.style" md-menu-trigger></i>
+				<md-menu-content>
+					<md-menu-item v-for="(child, child_index) in nav.children" :key="child_index" @click="click(child)">
+						{{child.name}}
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
 		</md-list-item>
 	</md-list>
 	`,
@@ -50,17 +57,28 @@ Vue.component('Navigation', {
 
 		// listen to login-success and logout event
 		event.subscribe('navigation', 'nav-selected', selectedNav => {
-			// toggle active
-			let newNavs = [];
 			for (let nav of this.navs) {
-				if (nav.name == selectedNav.name) {
-					nav.style = this.active;
-				} else {
-					nav.style = this.inactive;
-				}
-				newNavs.push(nav);
+				// set menu item inactive
+				this.$set(nav, 'style', this.inactive)
+
+				// see if the item is the selected one
+				let selected = false;
+
+				if (nav.id == selectedNav.id) selected = true;
+				else if(nav.children && nav.children.find(x => x.id == selectedNav.id)) selected = true;
+
+				// set active
+				if(selected) this.$set(nav, 'style', this.active)
 			}
-			this.navs = newNavs;
+		});
+
+		// listen to badge-update
+		event.subscribe('navigation', 'nav-badge', nav => {
+			// find the matching nav
+			let selectedNav = this.navs.find(x => (x.id = nav.id));
+			if (selectedNav) {
+				this.$set(selectedNav, 'badge', nav.badge);
+			}
 		});
 	},
 	destroyed: function() {
@@ -70,11 +88,11 @@ Vue.component('Navigation', {
 	data: function() {
 		return {
 			style: {
-				width: '52px',
+				width: '60px',
 				height: '100%',
 				background: '#202020',
 				boxShadow: '1px 0 15px rgba(0, 0, 0, 0.07)',
-				overflowY: 'auto'
+				overflowY: 'auto',
 			},
 			active: {
 				color: 'white',
