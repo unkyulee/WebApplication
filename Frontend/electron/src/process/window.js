@@ -94,7 +94,7 @@ module.exports = {
 	},
 
 	send: function(name, event) {
-		mainWindow.webContents.send(name, event);
+		this.window.webContents.send(name, event);
 	},
 
 	createMenuTemplate: function() {
@@ -135,8 +135,8 @@ module.exports = {
 				accelerator: 'CmdOrCtrl+Shift+U',
 				click() {
 					// check update
-					const autoupdate = require('./update');
-					autoupdate.check();
+					const { autoUpdater } = require('electron-updater');
+					autoUpdater.checkForUpdatesAndNotify();
 				},
 			},
 			{
