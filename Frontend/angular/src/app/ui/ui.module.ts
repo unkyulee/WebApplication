@@ -19,6 +19,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { jqxDataTableModule } from "jqwidgets-ng/jqxdatatable";
 import { jqxGridModule } from "jqwidgets-ng/jqxgrid";
 import { jqxSplitterModule } from "jqwidgets-ng/jqxsplitter";
+import { jqxEditorModule } from 'jqwidgets-ng/jqxeditor';
+
 
 // validators
 import { EvalValidator } from "../core/eval.validator";
@@ -51,6 +53,9 @@ import { SideNavComponent } from "./side-nav/side-nav.component";
 import { StepperComponent } from "./stepper/stepper.component";
 import { BarcodeComponent } from "./barcode/barcode.component";
 import { SplitterComponent } from './splitter/splitter.component';
+import { GanttComponent } from './gantt/gantt.component';
+import { TabsComponent } from './tabs/tabs.component';
+import { EditorComponent } from './editor/editor.component';
 
 // calendar modules
 import * as moment from "moment";
@@ -62,12 +67,7 @@ import {
   MOMENT
 } from "angular-calendar";
 import { adapterFactory } from "angular-calendar/date-adapters/moment";
-import { GanttComponent } from './gantt/gantt.component';
-import { TabsComponent } from './tabs/tabs.component';
-
-export function momentAdapterFactory() {
-  return adapterFactory(moment);
-}
+export function momentAdapterFactory() { return adapterFactory(moment); }
 
 @NgModule({
   declarations: [
@@ -99,7 +99,8 @@ export function momentAdapterFactory() {
     BarcodeComponent,
     SplitterComponent,
     GanttComponent,
-    TabsComponent
+    TabsComponent,
+    EditorComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -126,7 +127,8 @@ export function momentAdapterFactory() {
     BarcodeComponent,
     SplitterComponent,
     GanttComponent,
-    TabsComponent
+    TabsComponent,
+    EditorComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -154,7 +156,8 @@ export function momentAdapterFactory() {
     BarcodeComponent,
     SplitterComponent,
     GanttComponent,
-    TabsComponent
+    TabsComponent,
+    EditorComponent
   ],
   imports: [
     CommonModule,
@@ -189,7 +192,8 @@ export function momentAdapterFactory() {
     DragDropModule,
     jqxDataTableModule,
     jqxGridModule,
-    jqxSplitterModule
+    jqxSplitterModule,
+    jqxEditorModule
   ],
   providers: [
     {

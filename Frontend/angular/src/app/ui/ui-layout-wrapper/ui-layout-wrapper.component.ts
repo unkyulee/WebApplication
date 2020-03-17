@@ -1,5 +1,22 @@
 import { Component, ComponentFactoryResolver, ViewContainerRef, Renderer2, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppInjector } from 'src/app/app.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 var obj = require('object-path');
+
+// services
+import { EventService } from 'src/app/services/event.service';
+import { RestService } from 'src/app/services/rest.service';
+import { NavService } from 'src/app/services/nav.service';
+import { ConfigService } from 'src/app/services/config.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { DBService } from 'src/app/services/db/db.service';
+import { SoundService } from 'src/app/services/sound.service';
+import { CordovaService } from 'src/app/services/cordova.service';
+import { ExportService } from 'src/app/services/export.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UIService } from 'src/app/services/ui.service';
+import { PermissionService } from 'src/app/services/permission.service';
 
 // UI components
 import { InputComponent } from '../input/input.component';
@@ -18,27 +35,13 @@ import { PopupMenuComponent } from '../popup-menu/popup-menu.component';
 import { CodeEditorComponent } from '../code-editor/code-editor.component';
 import { TreeComponent } from '../tree/tree.component';
 import { CalendarComponent } from '../calendar/calendar.component';
-import { AppInjector } from 'src/app/app.component';
-import { EventService } from 'src/app/services/event.service';
-import { RestService } from 'src/app/services/rest.service';
-import { NavService } from 'src/app/services/nav.service';
-import { ConfigService } from 'src/app/services/config.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { DBService } from 'src/app/services/db/db.service';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CordovaService } from 'src/app/services/cordova.service';
-import { ExportService } from 'src/app/services/export.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { StepperComponent } from '../stepper/stepper.component';
 import { BarcodeComponent } from '../barcode/barcode.component';
-import { UIService } from 'src/app/services/ui.service';
-import { PermissionService } from 'src/app/services/permission.service';
 import { SplitterComponent } from '../splitter/splitter.component';
 import { GanttComponent } from '../gantt/gantt.component';
 import { TabsComponent } from '../tabs/tabs.component';
-import { SoundService } from 'src/app/services/sound.service';
+import { EditorComponent } from '../editor/editor.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -161,6 +164,9 @@ export class UILayoutWrapperComponent {
 	findComponentFactory(type) {
 		let componentFactory = null;
 		switch (type) {
+			case 'editor':
+				componentFactory = this.cfr.resolveComponentFactory(EditorComponent);
+				break;
 			case 'tabs':
 				componentFactory = this.cfr.resolveComponentFactory(TabsComponent);
 				break;
