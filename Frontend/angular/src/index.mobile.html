@@ -8,7 +8,7 @@
 		<meta name="format-detection" content="telephone=no" />
 		<meta name="msapplication-tap-highlight" content="no" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" />
 		<script src="index.js"></script>
 		<style>
 			.mat-icon-button .mat-icon,
@@ -31,21 +31,26 @@
 
 			function onDeviceReady() {
 				try {
-					// Download the update silently, and install it immerdiately
-					codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
-				} catch (e) {}
+					setTimeout(() => {
+						// Download the update silently, and install it immerdiately
+						codePush.sync(null, { installMode: InstallMode.ON_NEXT_RESUME });
+					}, 10000);
 
-				if (window.onDeviceReadyExtra) {
-					window.onDeviceReadyExtra();
-				}
+					if (window.onDeviceReadyExtra) {
+						window.onDeviceReadyExtra();
+					}
+				} catch (e) {}
 			}
 
 			function onResume() {
 				try {
-					// Download the update silently, and install it immerdiately
-					codePush.sync(null, { installMode: InstallMode.IMMEDIATE });
+					setTimeout(() => {
+						// Download the update silently, and install it immerdiately
+						codePush.sync(null, { installMode: InstallMode.ON_NEXT_RESUME });
+					}, 10000);
+
 					// refresh
-					window.__CONFIG__.event.send({ name: 'refresh' });
+					window.__CONFIG__.event.sendAsync({ name: 'refresh' });
 				} catch (e) {}
 			}
 		</script>
