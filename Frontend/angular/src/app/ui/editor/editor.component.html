@@ -1,9 +1,9 @@
 <!-- editor -->
 <jqxEditor
   #editorReference
-  [width]="safeGet(uiElement, 'width')"
-  [height]="safeGet(uiElement, 'height')"
-  [tools]="safeGet(uiElement, 'tools')"
-  (onChange)="onEditorChanged()"
+  [width]="safeGet(uiElement, 'width', '100%')"
+  [height]="safeGet(uiElement, 'height', '300')"
+  [tools]="safeGet(uiElement, 'tools', '')"
+  (onChange)="onChanged()"
 >
 </jqxEditor>
