@@ -4,14 +4,18 @@ const event = require('../../../service/event');
 Vue.component('Navigation', {
 	template: `
 	<md-list :style="style">
-		<md-list-item v-for="(nav, index) in navs" :key="index" style='position: relative'>
+
+		<md-list-item
+			v-for="(nav, index) in navs"
+			:key="index"
+			@click="click(nav)"
+			style='position: relative'>
+
 			<md-badge v-if="nav.badge" :md-content="nav.badge" style='position: absolute; right: 4px'></md-badge>
 			<md-tooltip md-direction="right">{{nav.name}}</md-tooltip>
-
-			<i v-if="nav.type != 'collapse'" :class="nav.icon" :style="nav.style" @click="click(nav)"></i>
-
-			<md-menu v-if="nav.type == 'collapse'" md-size="auto" :md-offset-x="60" :md-offset-y="-30">
-				<i :class="nav.icon" :style="nav.style" md-menu-trigger></i>
+			<i v-if="nav.type != 'collapse'" :class="nav.icon" :style="nav.style"></i>
+			<md-menu v-if="nav.type == 'collapse'" md-size="auto" :md-offset-x="60" :md-offset-y="-30" :md-active="nav.active">
+				<i :class="nav.icon" :style="nav.style"></i>
 				<md-menu-content>
 					<md-menu-item v-for="(child, child_index) in nav.children" :key="child_index" @click="click(child)">
 						{{child.name}}
@@ -105,8 +109,14 @@ Vue.component('Navigation', {
 	},
 	methods: {
 		click: function(selectedNav) {
-			// send menu selected
-			event.send('nav-selected', selectedNav);
+			if(selectedNav.type != 'collapse') {
+				// send menu selected
+				event.send('nav-selected', selectedNav);
+			} else {
+				// open popup
+				this.$set(selectedNav, 'active', !selectedNav.active)
+			}
+
 		},
 	},
 });

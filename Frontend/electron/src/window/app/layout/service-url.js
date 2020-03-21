@@ -26,6 +26,7 @@ Vue.component('ServiceUrl', {
 	},
 	methods: {
 		registerServiceURL($event) {
+			this.service_url = this.service_url.trim();
 			config.set('service_url', this.service_url);
 			remote.app.relaunch();
 			remote.app.exit(0);
