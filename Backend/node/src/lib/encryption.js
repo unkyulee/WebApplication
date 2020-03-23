@@ -8,7 +8,7 @@ class Encryption {
 	encrypt(data) {
 		try {
 			var cipher = Crypto.createCipher('aes-256-cbc', this.password);
-			var encrypted = Buffer.concat([cipher.update(new Buffer(data, 'utf8')), cipher.final()]);
+			var encrypted = Buffer.concat([cipher.update(new Buffer.from(data, 'utf8')), cipher.final()]);
 			return encrypted.toString('base64');
 		} catch (exception) {
 			throw new Error(exception.message);

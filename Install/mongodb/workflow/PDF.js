@@ -7,14 +7,28 @@ var pdf = require('html-pdf');
 
 	// load config
 	await res.locals.ds.connect();
-	let config = await res.locals.ds.find('config', {
-		query: {
-			company_id: ObjectID(req.cookies['company_id']),
-			type: 'pdf',
-			pdf: params.pdf,
-		},
-	});
-	config = config[0];
+
+	let config;
+	if(params.template) {
+		// load from template
+		config = await res.locals.ds.find('core.ui', {
+			query: {
+				_id: ObjectID(params.template)
+			},
+		});
+		config = config[0];
+	} else {
+		// load from custom config
+		config = await res.locals.ds.find('config', {
+			query: {
+				company_id: ObjectID(req.cookies['company_id']),
+				type: 'pdf',
+				pdf: params.pdf,
+			},
+		});
+		config = config[0];
+	}
+
 	if (!config) {
 		res.send(`configuration does not exist for ${req.cookies['company_id']} of pdf ${params.pdf}`);
 		res.end();

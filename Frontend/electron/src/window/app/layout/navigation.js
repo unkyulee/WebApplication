@@ -114,7 +114,10 @@ Vue.component('Navigation', {
 				event.send('nav-selected', selectedNav);
 			} else {
 				// open popup
-				this.$set(selectedNav, 'active', !selectedNav.active)
+				if(selectedNav.active == false)
+					this.$set(selectedNav, 'active', !selectedNav.active)
+				else
+					this.$set(selectedNav, 'active', true)
 			}
 
 		},

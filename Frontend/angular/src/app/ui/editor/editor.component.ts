@@ -14,9 +14,13 @@ export class EditorComponent extends BaseComponent {
 	}
 
 	@ViewChild('editorReference', { static: false }) editorReference: jqxEditorComponent;
-	ngAfterViewInit() {
-		super.ngAfterViewInit();
 
+	_data;
+	get data() {
+		return this._data;
+	}
+	set data(v) {
+		this._data = v;
 		// retrieve value
 		if (this.data && this.uiElement.key) {
 			// if null then assign default

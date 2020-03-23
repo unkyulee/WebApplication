@@ -89,8 +89,6 @@ async function upload(dropbox_api_key, saveTo, contents) {
         resolve(encodeURIComponent(saveTo));
       })
       .catch(function(err) {
-        res.status(500);
-        res.send(err);
         reject(JSON.stringify(err));
       });
   });
