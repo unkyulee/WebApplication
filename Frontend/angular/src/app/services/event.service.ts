@@ -3,7 +3,6 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class EventService {
-
     // event
     onEvent: BehaviorSubject<any> = new BehaviorSubject<any>({})
 

@@ -19,6 +19,7 @@ export class UIComposerActionsComponent extends BaseComponent {
     //
     this.uiElement = e.uiElement;
     this.data = e.data;
+    if(e.event) this.event = e.event;
   }
 
   ngOnInit() {
@@ -34,7 +35,6 @@ export class UIComposerActionsComponent extends BaseComponent {
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
-    setTimeout(() => {this.event.send({name: 'changed'});}, 3000)
   }
 
   ngOnDestroy() {
