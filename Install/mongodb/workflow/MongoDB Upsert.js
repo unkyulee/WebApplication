@@ -30,6 +30,9 @@ async function run() {
 		for (let field of context.config.excludeFields) delete context.data[field];
 	}
 
+	// post process
+	await preProcess();
+
 	// upsert
 	if (context.prev) {
 		context._id = await context.ds.update(context.config.collection, context.data);
@@ -255,6 +258,18 @@ async function monitorChanges() {
 				};
 				await context.ds.insert('changelog', changelog);
 			}
+		}
+	}
+}
+
+
+async function preProcess() {
+	let processes = obj.get(context, 'config.preProcess', []);
+	for (let process of processes) {
+		try {
+			await eval(process);
+		} catch (ex) {
+			throw ex
 		}
 	}
 }

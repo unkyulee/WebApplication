@@ -63,16 +63,16 @@ Vue.component('Navigation', {
 		event.subscribe('navigation', 'nav-selected', selectedNav => {
 			for (let nav of this.navs) {
 				// set menu item inactive
-				this.$set(nav, 'style', this.inactive)
+				this.$set(nav, 'style', this.inactive);
 
 				// see if the item is the selected one
 				let selected = false;
 
 				if (nav.id == selectedNav.id) selected = true;
-				else if(nav.children && nav.children.find(x => x.id == selectedNav.id)) selected = true;
+				else if (nav.children && nav.children.find(x => x.id == selectedNav.id)) selected = true;
 
 				// set active
-				if(selected) this.$set(nav, 'style', this.active)
+				if (selected) this.$set(nav, 'style', this.active);
 			}
 		});
 
@@ -109,17 +109,16 @@ Vue.component('Navigation', {
 	},
 	methods: {
 		click: function(selectedNav) {
-			if(selectedNav.type != 'collapse') {
+			if (selectedNav.type != 'collapse') {
 				// send menu selected
 				event.send('nav-selected', selectedNav);
 			} else {
 				// open popup
-				if(selectedNav.active == false)
-					this.$set(selectedNav, 'active', !selectedNav.active)
-				else
-					this.$set(selectedNav, 'active', true)
+				this.$set(selectedNav, 'active', false);
+				setTimeout(() => {
+					this.$set(selectedNav, 'active', true);
+				})
 			}
-
 		},
 	},
 });
