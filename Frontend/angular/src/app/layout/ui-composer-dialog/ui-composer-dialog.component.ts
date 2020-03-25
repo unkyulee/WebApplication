@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 // user imports
@@ -11,7 +11,10 @@ import { EventService } from 'src/app/services/event.service';
 	styleUrls: ['./ui-composer-dialog.component.scss'],
 })
 export class UIComposerDialogComponent extends BaseComponent {
-	constructor(public dialogRef: MatDialogRef<UIComposerDialogComponent>) {
+	constructor(
+			public dialogRef: MatDialogRef<UIComposerDialogComponent>,
+			public ref: ChangeDetectorRef
+		) {
 		super();
 
 		// save main event service
@@ -35,6 +38,13 @@ export class UIComposerDialogComponent extends BaseComponent {
 
 	ngAfterViewInit() {
 		super.ngAfterViewInit();
+		setTimeout(() => this.cordova.detectChanges(this.ref), 2000);
+	}
+
+	ngOnDestroy() {
+		super.ngOnDestroy();
+		this.onEvent.unsubscribe();
+		delete this.event;
 	}
 
 	eventHandler(event) {
@@ -43,20 +53,16 @@ export class UIComposerDialogComponent extends BaseComponent {
 			this.showLoadingBar = true;
 		} else if (event.name == 'splash-hide') {
 			this.showLoadingBar = false;
+		} else if (event.name == 'changed') {
+			this.cordova.detectChanges(this.ref)
 		}
 
 		// redirect close-dialog, open-dialog
 		if (
-			['open-dialog', 'close-dialog', 'close-all-dialog', 'open-sheet', 'refresh', 'changed'].includes(event.name)
+			['open-dialog', 'close-dialog', 'close-all-dialog', 'open-sheet', 'refresh'].includes(event.name)
 		) {
       event.event = this.event;
 			this.mainEventService.send(event);
 		}
-	}
-
-	ngOnDestroy() {
-		super.ngOnDestroy();
-		this.onEvent.unsubscribe();
-		delete this.event;
 	}
 }

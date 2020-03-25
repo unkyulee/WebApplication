@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject, ChangeDetectorRef } from "@angular/core";
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from "@angular/material/bottom-sheet";
 import { Subscription } from "rxjs";
 
@@ -12,7 +12,8 @@ import { BaseComponent } from 'src/app/ui/base.component';
 export class UIComposerActionsComponent extends BaseComponent {
   constructor(
     private bottomSheetRef: MatBottomSheetRef<UIComposerActionsComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public e: any
+    @Inject(MAT_BOTTOM_SHEET_DATA) public e: any,
+    public ref: ChangeDetectorRef
   ) {
     super()
 
@@ -29,15 +30,19 @@ export class UIComposerActionsComponent extends BaseComponent {
     this.onEvent = this.event.onEvent.subscribe(event => {
       if (event && event.name == "close-sheet") {
         this.close();
+      } else if(event && event.name == 'changed') {
+        this.cordova.detectChanges(this.ref)
       }
     });
   }
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
+    setTimeout(() => this.cordova.detectChanges(this.ref), 2000);
   }
 
   ngOnDestroy() {
+    super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 
