@@ -48,7 +48,6 @@ export class UIComposerDialogComponent extends BaseComponent {
 	}
 
 	eventHandler(event) {
-		console.log(event);
 		if (event.name == 'splash-show') {
 			this.showLoadingBar = true;
 		} else if (event.name == 'splash-hide') {
