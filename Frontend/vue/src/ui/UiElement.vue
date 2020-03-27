@@ -54,6 +54,13 @@
       :class="uiElement.layoutClass"
       :style="uiElement.layoutStyle"
     />
+    <Chips
+      v-if="uiElement.type == 'chips' && condition(uiElement)"
+      :uiElement="filterUiElement(uiElement, data)"
+      :data="filterData(uiElement, data)"
+      :class="uiElement.layoutClass"
+      :style="uiElement.layoutStyle"
+    />
   </keep-alive>
 </template>
 
@@ -67,6 +74,7 @@ import Button from "./Button";
 import DataTable from "./DataTable";
 import Stepper from "./Stepper";
 import Divider from "./Divider";
+import Chips from "./Chips";
 
 export default Vue.component("UiElement", {
   extends: Base,
@@ -76,7 +84,8 @@ export default Vue.component("UiElement", {
     Button,
     DataTable,
     Stepper,
-    Divider
+    Divider,
+    Chips
   }
 });
 </script>
