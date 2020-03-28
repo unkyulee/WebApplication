@@ -16,12 +16,7 @@
       :class="step.class"
       :style="step.style"
     >
-      <UiElement
-        v-for="(ui, index) in step.screens"
-        :key="index"
-        :uiElement="ui"
-        :data="data"
-      />
+      <UiElement v-for="(ui, index) in step.screens" :key="index" :uiElement="ui" :data="data" />
     </md-step>
   </md-steppers>
 </template>

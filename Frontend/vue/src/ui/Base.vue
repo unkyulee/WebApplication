@@ -3,8 +3,6 @@
 </template>
 
 <script>
-const Vue = require("vue");
-
 //
 const obj = require("object-path");
 const moment = require("moment");
@@ -13,7 +11,10 @@ export default {
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui"],
   mounted: function() {
-    if (this.uiElement && this.uiElement.init) {
+    if (
+      this.uiElement &&
+      this.uiElement.init
+    ) {
       try {
         eval(this.uiElement.init);
       } catch (ex) {
@@ -37,26 +38,6 @@ export default {
           console.error(ex);
         }
       }
-    },
-    filterUiElement(uiElement, data) {
-      if (uiElement.filterUiElement) {
-        try {
-          eval(uiElement.filterUiElement);
-        } catch (ex) {
-          console.error(ex);
-        }
-      }
-      return uiElement;
-    },
-    filterData(uiElement, data) {
-      if (uiElement.filterData) {
-        try {
-          eval(uiElement.filterData);
-        } catch (ex) {
-          console.error(ex);
-        }
-      }
-      return data;
     },
     safeEval(script) {
       try {

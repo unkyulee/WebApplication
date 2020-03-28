@@ -8,7 +8,7 @@ import { MdDivider } from "vue-material/dist/components";
 
 import Base from "./Base";
 
-Vue.use(MdDivider)
+Vue.use(MdDivider);
 
 export default {
   extends: Base

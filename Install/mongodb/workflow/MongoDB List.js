@@ -6,6 +6,9 @@ async function run() {
 	// initialize
 	await initialize();
 
+	// pre process
+	await preProcess();
+
 	// build filter before processing parameters
 	processFilterFields();
 
@@ -21,6 +24,9 @@ async function run() {
 
 	// exclude fields
 	excludeFields();
+
+	// post process
+	await postProcess();
 
 	// return result
 	return {
@@ -254,6 +260,33 @@ function processFilter() {
 	if (context.filter.$and.length == 0) delete context.filter.$and;
 }
 
+///
+async function preProcess() {
+	let processes = obj.get(context, 'config.preProcess', []);
+	for (let process of processes) {
+		try {
+			await eval(process);
+		} catch (ex) {
+			res.send(ex)
+			throw ex
+		}
+	}
+}
+
+///
+async function postProcess() {
+	let processes = obj.get(context, 'config.postProcess', []);
+	for (let process of processes) {
+		try {
+			await eval(process);
+		} catch (ex) {
+			res.send(ex)
+			throw ex
+		}
+	}
+}
+
+///
 async function query() {
 	// query to the collection
 	context.result = await context.ds.find(context.config.collection, {

@@ -1,25 +1,23 @@
 <template>
-  <div v-bind:style="uiElement.layoutStyle" v-bind:class="uiElement.layoutClass">
-    <!-- Simple List -->
+  <!-- Simple List -->
+  <div
+    v-if="uiElement.tableType == 'list'"
+    v-bind:style="uiElement.contentLayoutStyle"
+    v-bind:class="uiElement.contentLayoutStyle"
+  >
     <div
-      v-if="uiElement.tableType == 'list'"
-      v-bind:style="uiElement.contentLayoutStyle"
-      v-bind:class="uiElement.contentLayoutClass"
+      v-for="(row, index) of rows"
+      v-bind:key="index"
+      v-bind:style="uiElement.itemBoxStyle"
+      v-bind:class="uiElement.itemBoxClass"
+      @click="click($event, uiElement, row)"
     >
-      <div
-        v-for="(row, index) of rows"
+      <UiElement
+        v-for="(column, index) in uiElement.columns"
         v-bind:key="index"
-        v-bind:style="uiElement.itemBoxStyle"
-        v-bind:class="uiElement.itemBoxClass"
-        @click="click($event, uiElement, row)"
-      >
-        <UiElement
-          v-for="(column, index) in uiElement.columns"
-          v-bind:key="index"
-          v-bind:uiElement="filterUiElement(column, row)"
-          v-bind:data="filterData(column, row)"
-        />
-      </div>
+        v-bind:uiElement="filterUiElement(column, row)"
+        v-bind:data="filterData(column, row)"
+      />
     </div>
   </div>
 </template>
@@ -77,6 +75,26 @@ export default {
         this.rows = response;
         this.event.send({ name: "data", data: this.data });
       }
+    },
+    filterUiElement(uiElement, data) {
+      if (uiElement.filterUiElement) {
+        try {
+          eval(uiElement.filterUiElement);
+        } catch (ex) {
+          console.error(ex);
+        }
+      }
+      return uiElement;
+    },
+    filterData(uiElement, data) {
+      if (uiElement.filterData) {
+        try {
+          eval(uiElement.filterData);
+        } catch (ex) {
+          console.error(ex);
+        }
+      }
+      return data;
     }
   },
   computed: {

@@ -23,17 +23,6 @@ const obj = require("object-path");
 const moment = require("moment");
 
 export default {
-  extends: Base,
-  props: ["uiElement", "data"],
-  inject: ["config", "event", "rest"],
-  methods: {
-    condition: function(uiElement) {
-      let passed = true;
-      if (uiElement.condition) {
-        passed = eval(uiElement.condition);
-      }
-      return passed;
-    }
-  }
+  extends: Base
 };
 </script>
