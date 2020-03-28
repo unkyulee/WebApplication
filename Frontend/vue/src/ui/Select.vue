@@ -23,9 +23,6 @@ import Base from "./Base";
 export default {
   extends: Base,
   mounted: function() {
-    // init uiElement.options
-    obj.ensureExists(this.uiElement, "options", []);
-
     // changed
     this.changed = debounce(this.changed, 200);
   },

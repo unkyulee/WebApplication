@@ -8,25 +8,25 @@
         uiElement.inputType == 'number' ||
         uiElement.inputType == 'email' ||
         uiElement.inputType == 'password'"
-      :class="uiElement.class"
-      :style="uiElement.style"
     >
       <label>{{uiElement.label}}</label>
-      <md-input v-model="value" :type="uiElement.inputType"></md-input>
+      <md-input
+        v-model="value"
+        :type="uiElement.inputType"
+        :class="uiElement.class"
+        :style="uiElement.style"
+      ></md-input>
     </md-field>
 
     <!-- Textarea -->
-    <md-field
-      v-if="uiElement.inputType == 'textarea'"
-      v-model="value"
-      :class="uiElement.class"
-      :style="uiElement.style"
-    >
+    <md-field v-if="uiElement.inputType == 'textarea'" v-model="value">
       <label>{{uiElement.label}}</label>
       <md-textarea
         v-model="value"
         :md-autogrow="uiElement.autogrow"
         :rows="uiElement.rows"
+        :class="uiElement.class"
+        :style="uiElement.style"
       ></md-textarea>
     </md-field>
 

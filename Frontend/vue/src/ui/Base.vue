@@ -11,12 +11,18 @@ export default {
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui"],
   mounted: function() {
-    if (
-      this.uiElement &&
-      this.uiElement.init
-    ) {
+    if (this.uiElement && this.uiElement.init) {
       try {
         eval(this.uiElement.init);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
+  },
+  destroyed: function() {
+    if (this.uiElement && this.uiElement.destroy) {
+      try {
+        eval(this.uiElement.destroy);
       } catch (ex) {
         console.error(ex);
       }
