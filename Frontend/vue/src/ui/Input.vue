@@ -15,6 +15,8 @@
         :type="uiElement.inputType"
         :class="uiElement.class"
         :style="uiElement.style"
+        @keyup="keyup"
+        :id="uiElement.key"
       ></md-input>
     </md-field>
 
@@ -183,6 +185,15 @@ export default {
             moment(x).format("YYYY-MM-DD") == moment(date).format("YYYY-MM-DD")
         );
         return !result;
+      }
+    },
+    keyup(e) {
+      if(this.uiElement.keyup) {
+        try {
+          eval(this.uiElement.keyup)
+        } catch(e) {
+          console.error(e)
+        }
       }
     }
   }

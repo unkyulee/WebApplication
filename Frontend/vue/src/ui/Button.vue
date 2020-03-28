@@ -5,6 +5,7 @@
     :style="uiElement.style"
     :disabled="uiElement.disabled?safeEval(uiElement.disabled):false"
     @click="click($event)"
+    :id="uiElement.key"
   >
     <md-icon v-if="uiElement.icon">{{uiElement.icon}}</md-icon>
     {{uiElement.label}}
