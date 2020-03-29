@@ -1,347 +1,79 @@
 {
   "_id": "200000000000000000000011",
-  "name": "Core Company Detail",
   "type": "layout",
   "contentStyle": {
     "display": "flex",
-    "flexDirection": "column",
-    "flexGrow": 1,
-    "height": "100%",
-    "width": "100%",
-    "overflow-y": "auto",
-    "overflow-x": "hidden"
+    "flexFlow": "row wrap",
+    "height": 0,
+    "flexGrow": 1
   },
   "layoutStyle": {
-    "display": "flex",
-    "flexDirection": "column",
-    "flexGrow": 1,
+    "width": "100%",
     "height": "100%",
-    "width": "100%"
+    "display": "flex",
+    "flexFlow": "row wrap",
+    "overflow-y": "auto"
   },
-  "screens": [
-    {
-      "type": "stepper",
-      "stepperType": "vertical",
-      "layoutStyle": {
-        "width": "100%",
-        "display": "flex",
-        "flex-direction": "column",
-        "align-items": "center"
-      },
-      "style": {
-        "display": "flex",
-        "flex-direction": "column",
-        "padding": "8px",
-        "width": "100%"
-      },
-      "class": {
-        "mat-elevation-z4": true
-      },
-      "steps": [
-        {
-          "label": "Site Configuration",
-          "screens": [
-            {
-              "type": "input",
-              "key": "url",
-              "label": "URL",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%"
-              }
-            },
-            {
-              "type": "input",
-              "key": "name",
-              "label": "name",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%"
-              }
-            },
-            {
-              "type": "selection",
-              "key": "module",
-              "label": "module",
-              "options": ["angular", "vue"],
-              "default": "`angular`",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%"
-              }
-            },
-            {
-              "type": "input",
-              "inputType": "textarea",
-              "key": "description",
-              "label": "Description",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%"
-              }
-            },
-            {
-              "type": "input",
-              "key": "locale",
-              "label": "Locale",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%"
-              }
-            },
-            {
-              "type": "typography",
-              "key": "_id",
-              "label": "_id",
-              "layoutStyle": {
-                "width": "100%",
-                "textAlign": "right"
-              },
-              "style": {
-                "padding": "4px",
-                "color": "gray"
-              }
-            }
-          ]
-        },
-        {
-          "label": "Features",
-          "screens": [
-            {
-              "type": "selection",
-              "selectionType": "autocomplete",
-              "key": "_params_.feature",
-              "label": "Add a feature",
-              "src": "`/api/admin/core.feature?_sort=name&size=100&name=${this._value?this._value:''}`",
-              "transform": "response.data",
-              "optionLabelTransform": "`${option.name}`",
-              "inputValueTransform": "obj.get(this._value, 'name', typeof this._value == 'object'?'':this._value)",
-              "selected": "obj.ensureExists(this.data, 'features', []); let feature = this.uiElement.options.find(x => x == this._value); this.data.features.push(feature.key); setTimeout(() => this.value = '')",
-              "layoutStyle": {
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%"
-              }
-            },
-            {
-              "type": "data-table",
-              "key": "features",
-              "tableType": "list",
-              "condition": "this.data.features",
-              "cdkDragDisabled": "this.config.isHandset || typeof this.config.isHandset == 'undefined'",
-              "drop": "if(event.container == event.previousContainer) {\r\n    let items = obj.get(this.data, 'features', [])\r\n    if(items.length > event.currentIndex && items.length > event.previousIndex) {\r\n        let movedItem = items[event.previousIndex]\r\n        let remainingItems = items.filter((item, index) => index !== event.previousIndex);\r\n        \r\n        this.data.features = [\r\n            ...remainingItems.slice(0, event.currentIndex),\r\n            movedItem,\r\n            ...remainingItems.slice(event.currentIndex)\r\n        ]\r\n    }\r\n}",
-              "layoutStyle": {
-                "flex-grow": 1,
-                "display": "flex",
-                "flex-direction": "column",
-                "marginTop": "-12px",
-                "marginBottom": "12px",
-                "width": "100%"
-              },
-              "itemBoxStyle": {
-                "background": "aliceblue",
-                "margin": "4px",
-                "padding": "4px",
-                "cursor": "pointer"
-              },
-              "itemBoxClass": {
-                "mat-elevation-z1": true
-              },
-              "click": "this.event.send({name: 'open-sheet', uiElementId: '788688320000000000000130', data: {engineer: item, appointment: this.data}})",
-              "columns": [
-                {
-                  "type": "layout",
-                  "layoutStyle": {
-                    "display": "flex",
-                    "flexFlow": "row wrap"
-                  },
-                  "screens": [
-                    {
-                      "type": "typography",
-                      "format": "this.data",
-                      "style": {
-                        "padding": "8px"
-                      }
-                    },
-                    {
-                      "type": "layout",
-                      "layoutStyle": {
-                        "width": "1px",
-                        "flexGrow": 1
-                      }
-                    },
-                    {
-                      "type": "button",
-                      "buttonType": "mat-icon-button",
-                      "icon": "clear",
-                      "click": "if (confirm(`Cancello ${this.data}?`)) {\r\n    this.event.send({ \r\n        name: 'delete-data', \r\n        path: 'features', \r\n        data: this.data \r\n    })\r\n}\r\n"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "label": "Initial Screen",
-          "screens": [
-            {
-              "type": "button",
-              "label": "View Inistial Screen",
-              "color": "warn",
-              "click": "this.rest.request(\r\n    `/api/admin/core.ui`, \r\n    {_id: this.data._id}\r\n).subscribe(r => {\r\n    obj.ensureExists(r, \"data.0\", {_id: this.data._id}); \r\n    this.event.send({\r\n        name: 'open-dialog', \r\n        uiElementId: '200000000000000000000030',\r\n        data: r.data[0],\r\n        option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n    }) \r\n})"
-            }
-          ]
-        },
-        {
-          "label": "Theme",
-          "screens": [
-            {
-              "type": "button",
-              "label": "View Theme",
-              "color": "warn",
-              "click": "this.rest.request(\r\n    `/api/admin/core.theme`, \r\n    {_id: this.data._id}\r\n).subscribe(r => { \r\n    obj.ensureExists(r, \"data.0\", {_id: this.data._id})\r\n    this.event.send({\r\n        name: 'open-dialog', \r\n        uiElementId: '200000000000000000000130',\r\n        data: r.data[0],\r\n        option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n    }) \r\n})"
-            }
-          ]
-        },
-        {
-          "label": "Access Rights & Groups",
-          "condition": "this.data._id",
-          "screens": [
-            {
-              "type": "button",
-              "label": "New Group",
-              "color": "warn",
-              "layoutStyle": {
-                "margin": "8px"
-              },
-              "click": "this.event.send({name: 'open-dialog', data: {company_id: this.data._id}, uiElementId: '200000000000000000000121', option: {maxWidth: '800px', maxHeight: '600px', width: '100vw', height: '100vh'}})"
-            },
-            {
-              "type": "data-table",
-              "tableType": "list",
-              "size": 1000,
-              "key": "_params_.groups",
-              "src": "`/api/admin/group?company_id=${this.data._id}`",
-              "transform": "response.data",
-              "layoutStyle": {
-                "flex-grow": 1,
-                "display": "flex",
-                "flex-direction": "column",
-                "height": "100%",
-                "overflow-y": "auto",
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%",
-                "display": "flex",
-                "flex-direction": "column"
-              },
-              "contentLayoutStyle": {
-                "flex-grow": 1,
-                "height": "100%"
-              },
-              "itemBoxStyle": {
-                "cursor": "pointer",
-                "margin": "8px",
-                "padding": "8px",
-                "fontSize": "small",
-                "background": "aliceblue"
-              },
-              "itemBoxClass": {
-                "mat-elevation-z1": true
-              },
-              "click": "this.event.send({name: 'open-dialog', data: item, uiElementId: '200000000000000000000121', option: {maxWidth: '800px', maxHeight: '600px', width: '100vw', height: '100vh'}})",
-              "columns": [
-                {
-                  "type": "ui-element-id",
-                  "uiElementId": "200000000000000000000122"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "label": "Users",
-          "condition": "this.data._id",
-          "screens": [
-            {
-              "type": "button",
-              "label": "New User",
-              "color": "warn",
-              "layoutStyle": {
-                "margin": "8px"
-              },
-              "click": "this.event.send({name: 'open-dialog', data: {company_id: this.data._id}, uiElementId: '200000000000000000000111', option: {maxWidth: '800px', maxHeight: '600px', width: '100vw', height: '100vh'}})"
-            },
-            {
-              "type": "data-table",
-              "tableType": "list",
-              "size": 1000,
-              "key": "_params_.users",
-              "src": "`/api/admin/user?company_id=${this.data._id}`",
-              "transform": "response.data",
-              "layoutStyle": {
-                "flex-grow": 1,
-                "display": "flex",
-                "flex-direction": "column",
-                "height": "100%",
-                "overflow-y": "auto",
-                "width": "100%"
-              },
-              "style": {
-                "width": "100%",
-                "display": "flex",
-                "flex-direction": "column"
-              },
-              "contentLayoutStyle": {
-                "flex-grow": 1,
-                "height": "100%"
-              },
-              "itemBoxStyle": {
-                "cursor": "pointer",
-                "margin": "8px",
-                "padding": "8px",
-                "fontSize": "small",
-                "background": "aliceblue"
-              },
-              "itemBoxClass": {
-                "mat-elevation-z1": true
-              },
-              "click": "this.event.send({name: 'open-dialog', data: item, uiElementId: '200000000000000000000111', option: {maxWidth: '800px', maxHeight: '600px', width: '100vw', height: '100vh'}})",
-              "columns": [
-                {
-                  "type": "ui-element-id",
-                  "uiElementId": "200000000000000000000112"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
+  "actions": [
     {
       "type": "button",
-      "buttonType": "mat-fab",
-      "color": "warn",
-      "icon": "save",
+      "buttonType": "mat-icon-button",
+      "label": "Salva",
+      "click": "this.event.send({name: 'save'})",
+      "icon": "save"
+    }
+  ],
+  "screens": [
+    {
+      "type": "tabs",
+      "init": "obj.set(this.data, '_params_.initial', { company_id: this.data._id });\r\nobj.set(this.data, '_params_.theme', { company_id: this.data._id } );\r\nobj.set(this.data, '_params_.permission', { filter: {company_id: this.data._id} } );\r\nobj.set(this.data, '_params_.users', { filter: {company_id: this.data._id} } );",
+      "eventHandler": "if(event.name == 'save') {\r\n    this.rest.request(`/api/admin/core.compnay`, this.data, 'post').subscribe()\r\n}",
       "layoutStyle": {
-        "position": "absolute",
-        "right": "24px",
-        "bottom": "24px"
+        "width": "100%",
+        "height": "100%"
       },
-      "click": "let data = {...this.data}; delete data._params_; this.rest.request(`/api/admin/core.company`, data, 'post').subscribe(r => {this.data._id = r._id; this.snackBar.open('Saved', null, { duration: 2000 })})"
+      "style": {
+        "width": "100%",
+        "height": "100%"
+      },
+      "color": "accent",
+      "backgroundColor": "primary",
+      "screens": [
+        {
+          "label": "SITE",
+          "type": "ui-element-id",
+          "uiElementId": "200000000000000000000012"
+        },
+        {
+          "label": "FEATURE",
+          "type": "ui-element-id",
+          "uiElementId": "200000000000000000000013"
+        },
+        {
+          "label": "INITIAL SCREEN",
+          "key": "_params_.initial",
+          "type": "ui-element-id",
+          "uiElementId": "200000000000000000000014"
+        },
+        {
+          "label": "THEME",
+          "key": "_params_.theme",
+          "type": "ui-element-id",
+          "uiElementId": "200000000000000000000015"
+        },
+        {
+          "label": "PERMISSION",
+          "key": "_params_.permission",
+          "type": "ui-element-id",
+          "uiElementId": "200000000000000000000120"
+        },
+        {
+          "label": "USERS",
+          "key": "_params_.users",
+          "type": "ui-element-id",
+          "uiElementId": "200000000000000000000110"
+        }
+      ]
     }
   ]
 }

@@ -32,18 +32,9 @@
       }
     },
     {
-      "type": "typography",
-      "key": "_params_.company.0.name",
-      "label": "Company",
-      "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
-      "layoutStyle": {
-        "width": "100%"
-      }
-    },
-    {
       "type": "data-table",
       "tableType": "list",
-      "key": "_params_.groups",
+      "key": "groups",
       "layoutStyle": {
         "width": "100%",
         "margin": "4px"
@@ -58,7 +49,7 @@
       "columns": [
         {
           "type": "typography",
-          "key": "name",
+          "format": "this.data",
           "style": {
             "background": "dimgray",
             "width": "fit-content",

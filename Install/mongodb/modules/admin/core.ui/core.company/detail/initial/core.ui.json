@@ -1,0 +1,91 @@
+{
+  "_id": "200000000000000000000014",
+  "name": "Core Company - Initial Screen",
+  "type": "side-nav",
+  "key": "filters",
+  "opened": "true",
+  "mode": "'side'",
+  "layoutStyle": {
+    "width": "100%",
+    "display": "flex",
+    "flex-direction": "column",
+    "color": "white",
+    "height": "100%",
+    "overflow": "hidden"
+  },
+  "containerStyle": {
+    "display": "flex",
+    "flex-direction": "column",
+    "height": "100%",
+    "overflow": "hidden"
+  },
+  "sideStyle": {
+    "background": "ghostwhite",
+    "display": "flex",
+    "flexFlow": "row wrap",
+    "color": "black",
+    "padding": "4px",
+    "max-width": "300px",
+    "width": "300px"
+  },
+  "sideScreens": [
+    {
+      "type": "input",
+      "label": "JSON Path",
+      "floatLabel": "auto",
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%"
+      },
+      "changed": "this.event.send({name: 'path', key: 'initial', path: this._value});"
+    },
+    {
+      "type": "selection",
+      "label": "Language",
+      "options": [
+        "javascript",
+        "html",
+        "json"
+      ],
+      "floatLabel": "auto",
+      "layoutStyle": {
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%"
+      },
+      "selected": "this.event.send({name: 'editorOptions', key: 'initial', editorOptions: {language: option}});"
+    }
+  ],
+  "screens": [
+    {
+      "type": "code-editor",
+      "editorType": "json",
+      "key": "initial",
+      "path": "",
+      "init": "// find the uiElement with the same id as the company_id\r\n(async () => {\r\n    let uiElement = await this.ui.get(this.data.company_id);\r\n    // if uiElement is not loaded then load from default\r\n    if(!uiElement) {\r\n        uiElement = await this.ui.get('000000000000000000000000');\r\n    }\r\n\r\n    this.event.send({\r\n        name: 'load-code',\r\n        key: 'initial',\r\n        data: uiElement \r\n    });\r\n})();\r\n",
+      "save": {
+        "src": "`/api/admin/core.ui`",
+        "method": "post",
+        "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
+      },
+      "editorOptions": {
+        "theme": "vs-dark",
+        "automaticLayout": true
+      },
+      "layoutStyle": {
+        "flex-grow": 1,
+        "display": "flex",
+        "flex-direction": "column",
+        "height": "100%",
+        "width": "100%"
+      },
+      "style": {
+        "width": "100%",
+        "height": "100%"
+      }
+    }
+  ]
+}

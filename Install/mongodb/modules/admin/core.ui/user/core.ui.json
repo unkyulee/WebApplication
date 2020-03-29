@@ -106,6 +106,23 @@
           "changed": "this.event.send({name:'refresh', key: 'users'});"
         },
         {
+          "type": "selection",
+          "selectionType": "autocomplete",
+          "label": "Company",
+          "floatLabel": "auto",
+          "src": "`/api/admin/core.company?name=${obj.get(this, '_value', '')}`",
+          "transform": "response.data",
+          "optionLabelTransform": "`${option.name} - ${option.url}`",
+          "inputValueTransform": "obj.has(this, '_value._id') ? `${this._value.name}` : this._value",
+          "layoutStyle": {
+            "width": "100%"
+          },
+          "style": {
+            "width": "100%"
+          },
+          "selected": "this.data.filter.company_id = this._value._id; this.event.send({name:'refresh', key: 'users'});"
+        },
+        {
           "type": "typography",
           "text": " ",
           "style": {
@@ -159,6 +176,7 @@
             "fontSize": "small"
           },
           "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000111', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
+          "init": "this.ui.get('200000000000000000000112')",
           "columns": [
             {
               "type": "ui-element-id",

@@ -131,7 +131,7 @@
           "type": "data-table",
           "tableType": "card",
           "key": "companies",
-          "src": "`/api/admin/core.company`",
+          "src": "`/api/admin/core.company?_upd`",
           "size": 25,
           "method": "get",
           "transform": "response.data",
@@ -189,15 +189,6 @@
               "type": "typography",
               "key": "url",
               "label": "url",
-              "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
-              "layoutStyle": {
-                "width": "100%"
-              }
-            },
-            {
-              "type": "typography",
-              "key": "features",
-              "label": "features",
               "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
               "layoutStyle": {
                 "width": "100%"

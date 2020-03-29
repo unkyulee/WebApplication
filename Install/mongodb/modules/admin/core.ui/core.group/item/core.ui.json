@@ -39,16 +39,6 @@
       "style": {
         "color": "gray"
       }
-    },
-
-    {
-      "type": "typography",
-      "key": "permissions",
-      "label": "permissions",
-      "format": "`<small style='padding: 4px; color: grey'>${this.uiElement.label}. </small> ${this._value?this._value:' - '}`",
-      "layoutStyle": {
-        "width": "100%"
-      }
     }
   ]
 }
