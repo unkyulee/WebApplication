@@ -42,6 +42,7 @@ import { SplitterComponent } from '../splitter/splitter.component';
 import { GanttComponent } from '../gantt/gantt.component';
 import { TabsComponent } from '../tabs/tabs.component';
 import { EditorComponent } from '../editor/editor.component';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -164,6 +165,9 @@ export class UILayoutWrapperComponent {
 	findComponentFactory(type) {
 		let componentFactory = null;
 		switch (type) {
+			case 'icon':
+				componentFactory = this.cfr.resolveComponentFactory(IconComponent);
+				break;
 			case 'editor':
 				componentFactory = this.cfr.resolveComponentFactory(EditorComponent);
 				break;

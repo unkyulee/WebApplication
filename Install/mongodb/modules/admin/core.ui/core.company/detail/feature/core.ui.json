@@ -40,6 +40,7 @@
       "key": "features",
       "tableType": "list",
       "condition": "this.data.features",
+      "eventHandler": "if (event.name == 'delete-features') {\r\n    obj.ensureExists(this.data, 'features', []);\r\n    let index = this.data.features.indexOf(event.data);\r\n    if (index > -1) {\r\n        this.data.features.splice(index, 1);\r\n    }\r\n    this.event.send({name: 'save'})\r\n}",
       "cdkDragDisabled": "this.config.isHandset || typeof this.config.isHandset == 'undefined'",
       "drop": "if(event.container == event.previousContainer) {\r\n    let items = obj.get(this.data, 'features', [])\r\n    if(items.length > event.currentIndex && items.length > event.previousIndex) {\r\n        let movedItem = items[event.previousIndex]\r\n        let remainingItems = items.filter((item, index) => index !== event.previousIndex);\r\n        \r\n        this.data.features = [\r\n            ...remainingItems.slice(0, event.currentIndex),\r\n            movedItem,\r\n            ...remainingItems.slice(event.currentIndex)\r\n        ]\r\n    }\r\n}",
       "layoutStyle": {
@@ -59,7 +60,6 @@
       "itemBoxClass": {
         "mat-elevation-z1": true
       },
-      "click": "this.event.send({name: 'open-sheet', uiElementId: '788688320000000000000130', data: {engineer: item, appointment: this.data}})",
       "columns": [
         {
           "type": "layout",
@@ -86,7 +86,7 @@
               "type": "button",
               "buttonType": "mat-icon-button",
               "icon": "clear",
-              "click": "if (confirm(`Cancello ${this.data}?`)) {\r\n    this.event.send({ \r\n        name: 'delete-data', \r\n        path: 'features', \r\n        data: this.data \r\n    })\r\n}\r\n"
+              "click": "if (confirm(`Cancello ${this.data}?`)) {\r\n    this.event.send({ \r\n        name: 'delete-features', \r\n        data: this.data \r\n    })\r\n}\r\n"
             }
           ]
         }

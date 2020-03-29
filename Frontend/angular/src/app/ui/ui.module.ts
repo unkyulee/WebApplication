@@ -67,6 +67,7 @@ import {
   MOMENT
 } from "angular-calendar";
 import { adapterFactory } from "angular-calendar/date-adapters/moment";
+import { IconComponent } from './icon/icon.component';
 export function momentAdapterFactory() { return adapterFactory(moment); }
 
 @NgModule({
@@ -100,7 +101,8 @@ export function momentAdapterFactory() { return adapterFactory(moment); }
     SplitterComponent,
     GanttComponent,
     TabsComponent,
-    EditorComponent
+    EditorComponent,
+    IconComponent
   ],
   entryComponents: [
     UILayoutWrapperComponent,
@@ -128,7 +130,8 @@ export function momentAdapterFactory() { return adapterFactory(moment); }
     SplitterComponent,
     GanttComponent,
     TabsComponent,
-    EditorComponent
+    EditorComponent,
+    IconComponent
   ],
   exports: [
     UILayoutWrapperComponent,
@@ -157,7 +160,8 @@ export function momentAdapterFactory() { return adapterFactory(moment); }
     SplitterComponent,
     GanttComponent,
     TabsComponent,
-    EditorComponent
+    EditorComponent,
+    IconComponent
   ],
   imports: [
     CommonModule,
