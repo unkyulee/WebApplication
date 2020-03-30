@@ -81,6 +81,7 @@
 <script>
 import Vue from "vue";
 const obj = require("object-path");
+const moment = require("moment");
 
 import Base from "./Base";
 import Typography from "./Typography";

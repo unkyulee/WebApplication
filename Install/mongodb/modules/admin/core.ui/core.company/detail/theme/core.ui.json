@@ -65,9 +65,9 @@
       "editorType": "json",
       "key": "theme",
       "path": "",
-      "init": "// find the uiElement with the same id as the company_id\r\n(async () => {\r\n    let theme = await this.rest.requestAsync(\r\n        `/api/admin/core.theme`,\r\n        { _id: this.data.company_id }\r\n    );\r\n    theme = obj.get(theme, 'data.0');\r\n    if (!theme) {\r\n        theme = await this.rest.requestAsync(\r\n            `/api/admin/core.theme`,\r\n            { _id: '000000000000000000000000' }\r\n        );\r\n        theme = obj.get(theme, 'data.0');\r\n        if(!theme) theme = {};\r\n        theme.company_id = this.data.company_id;\r\n    }\r\n\r\n    this.event.send({\r\n        name: 'load-code',\r\n        key: 'theme',\r\n        data: theme\r\n    });\r\n})();\r\n",
+      "init": "// find the uiElement with the same id as the company_id\r\n(async () => {\r\n    let theme = await this.rest.requestAsync(\r\n        `/api/admin/core.theme`,\r\n        { _id: this.data.company_id }\r\n    );\r\n    theme = obj.get(theme, 'data.0');\r\n    if (!theme) {\r\n        theme = await this.rest.requestAsync(\r\n            `/api/admin/core.theme`,\r\n            { _id: '000000000000000000000000' }\r\n        );\r\n        theme = obj.get(theme, 'data.0');\r\n        if(!theme) theme = {};\r\n        theme._id = this.data.company_id;\r\n    }\r\n\r\n    this.event.send({\r\n        name: 'load-code',\r\n        key: 'theme',\r\n        data: theme\r\n    });\r\n})();\r\n",
       "save": {
-        "src": "`/api/admin/core.ui`",
+        "src": "`/api/admin/core.theme`",
         "method": "post",
         "saveAction": "if(!this.data._id) { this.data._id = response._id; this.nav.setParam('_id', response._id, true); } this.snackBar.open('Salvato', null, { duration: 2000 });"
       },

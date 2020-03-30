@@ -59,14 +59,17 @@ async function IndexJS(db, req, res) {
 			config.locale = company.locale;
 			// load the configuration of the module
 			let configuration = await db.find('config', { query: { company_id: company._id, type: config.key } });
-			if(configuration && configuration.length > 0) {
-				config.feature = configuration[0]
+			if (configuration && configuration.length > 0) {
+				config.feature = configuration[0];
 			}
 		}
 
-		// features
-		// return as a javascript
-		return `window.__CONFIG__ = ${JSON.stringify(config)}`;
+		// check if the app is enabled
+		if (config.feature.enabled) {
+			// features
+			// return as a javascript
+			return `window.__CONFIG__ = ${JSON.stringify(config)}`;
+		}
 	}
 }
 
