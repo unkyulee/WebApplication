@@ -1,6 +1,6 @@
 {
-  "_id": "200000000000000000000110",
-  "name": "User Admin",
+  "_id": "200000000000000000000120",
+  "name": "Group Admin",
   "type": "layout",
   "contentStyle": {
     "display": "flex",
@@ -47,7 +47,7 @@
           "type": "button",
           "buttonType": "mat-icon-button",
           "icon": "add_circle",
-          "click": "let data = {};\r\n\r\nif(obj.get(this.data, 'filter.company_id')) {\r\n    data.company_id = obj.get(this.data, 'filter.company_id')\r\n}\r\n\r\nthis.event.send({\r\n    name: 'open-dialog', \r\n    uiElementId: '200000000000000000000111', \r\n    data,\r\n    option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}\r\n})"
+          "click": "let data = {};\r\nif(obj.get(this.data, 'filter.company_id')) {\r\n    data.company_id = obj.get(this.data, 'filter.company_id')\r\n}\r\n\r\nthis.event.send({\r\n    name: 'open-dialog', \r\n    uiElementId: '200000000000000000000121', \r\n    option: {\r\n        width: '100vw', \r\n        height: '100vh', \r\n        panelClass: 'full-width-dialog'\r\n    },\r\n    data\r\n})"
         }
       ]
     },
@@ -89,7 +89,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'users'});"
+          "changed": "this.event.send({name:'refresh', key: 'groups'});"
         },
         {
           "type": "input",
@@ -103,7 +103,7 @@
           "style": {
             "width": "100%"
           },
-          "changed": "this.event.send({name:'refresh', key: 'users'});"
+          "changed": "this.event.send({name:'refresh', key: 'groups'});"
         },
         {
           "type": "selection",
@@ -121,34 +121,14 @@
             "width": "100%"
           },
           "selected": "this.data.filter.company_id = this._value._id; this.event.send({name:'refresh', key: 'users'});"
-        },
-        {
-          "type": "typography",
-          "text": " ",
-          "style": {
-            "height": "64px"
-          }
-        },
-        {
-          "type": "button",
-          "buttonType": "mat-fab",
-          "color": "warn",
-          "icon": "search",
-          "condition": "this.config.isHandset",
-          "click": "this.event.send({name: 'toggle-sidenav', key: 'filter'})",
-          "layoutStyle": {
-            "position": "absolute",
-            "bottom": "24px",
-            "right": "24px"
-          }
         }
       ],
       "screens": [
         {
           "type": "data-table",
           "tableType": "card",
-          "key": "users",
-          "src": "`/api/admin/user`",
+          "key": "groups",
+          "src": "`/api/admin/group`",
           "method": "get",
           "transform": "response.data",
           "preProcess": "data = {...data, ...this.data.filter}",
@@ -175,12 +155,12 @@
             "padding": "8px",
             "fontSize": "small"
           },
-          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000111', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
-          "init": "this.ui.get('200000000000000000000112')",
+          "click": "this.event.send({name: 'open-dialog', uiElementId: '200000000000000000000121', data: item, option: {width: '100vw', height: '100vh', panelClass: 'full-width-dialog'}})",
+          "init": "this.ui.get('200000000000000000000122')",
           "columns": [
             {
               "type": "ui-element-id",
-              "uiElementId": "200000000000000000000112"
+              "uiElementId": "200000000000000000000122"
             }
           ]
         }

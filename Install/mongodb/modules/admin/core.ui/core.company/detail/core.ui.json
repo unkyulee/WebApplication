@@ -21,13 +21,20 @@
       "label": "Salva",
       "click": "this.event.send({name: 'save'})",
       "icon": "save"
+    },
+    {
+      "type": "button",
+      "buttonType": "mat-icon-button",
+      "label": "Refresh",
+      "click": "this.event.send({name: 'refresh'})",
+      "icon": "refresh"
     }
   ],
   "screens": [
     {
       "type": "tabs",
       "init": "obj.set(this.data, '_params_.initial', { company_id: this.data._id });\r\nobj.set(this.data, '_params_.theme', { company_id: this.data._id } );\r\nobj.set(this.data, '_params_.permission', { filter: {company_id: this.data._id} } );\r\nobj.set(this.data, '_params_.users', { filter: {company_id: this.data._id} } );",
-      "eventHandler": "if (event.name == 'save') {\r\n    this.event.send({ name: 'splash-show' });\r\n    this.rest.request(`/api/admin/core.company`, this.data, 'post')\r\n        .subscribe(r => {\r\n            this.event.send({ name: 'splash-hide' });\r\n            this.snackBar.open('Salvato', null, { duration: 2000 });\r\n        })\r\n}",
+      "eventHandler": "if (event.name == 'save') {\r\n    this.event.send({ name: 'splash-show' });\r\n    this.rest.request(`/api/admin/core.company`, this.data, 'post')\r\n        .subscribe(r => {\r\n            this.data._id = r._id;\r\n            this.event.send({ name: 'splash-hide' });\r\n            this.snackBar.open('Salvato', null, { duration: 2000 });\r\n        })\r\n}",
       "layoutStyle": {
         "width": "100%",
         "height": "100%"
