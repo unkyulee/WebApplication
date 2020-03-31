@@ -12,7 +12,7 @@
 }
 
 ::ng-deep .mat-tab-label-container {
-	overflow: auto !important;
+	overflow: unset !important;
 }
 
 ::ng-deep .mat-tab-header::-webkit-scrollbar {

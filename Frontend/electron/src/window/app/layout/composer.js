@@ -42,7 +42,7 @@ Vue.component('Composer', {
 			let viewport = {};
 			for (let nav of navs) {
 				// loop through navs and group by viewport
-				if (!viewport[nav.viewport]) viewport[nav.viewport] = nav;
+				if (!viewport[nav.id]) viewport[nav.id] = nav;
 			}
 
 			// create screens as many numbers of viewport
@@ -52,8 +52,8 @@ Vue.component('Composer', {
 					viewport[vp].screens = [
 						{
 							type: 'webview',
-							id: 'default',
-							src: viewport[vp].url,
+							id: vp.id,
+							src: '_blank',
 							layoutStyle: {
 								width: '100%',
 								height: '100%',
@@ -75,7 +75,7 @@ Vue.component('Composer', {
 			// hide all the screen
 			for (let viewport of this.viewports) {
 				// show the selected screen
-				if (viewport.viewport == nav.viewport || (!nav.viewport && viewport.viewport == 'default')) {
+				if (viewport.id == nav.id) {
 					viewport.layoutStyle = this.show;
 					// update the url of the first screen
 					if(nav.url) viewport.screens[0].src = nav.url;
