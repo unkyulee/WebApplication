@@ -1,6 +1,6 @@
 const config = require('../../../service/config');
 const event = require('../../../service/event');
-
+const obj = require("object-path");
 // ui
 require('../ui/ui-element');
 
@@ -34,55 +34,47 @@ Vue.component('Composer', {
 		};
 	},
 	mounted: async function() {
-		// listen to navigation-updated
-		event.subscribe('composer', 'navigation-updated', async () => {
-			// copy screens
-			let navs = config.get('nav');
-			// find out how many viewports are configured
-			let viewport = {};
-			for (let nav of navs) {
-				// loop through navs and group by viewport
-				if (!viewport[nav.id]) viewport[nav.id] = nav;
+		// listen to nav-selected
+		event.subscribe('composer', 'nav-selected', nav => {
+			console.log(JSON.parse(JSON.stringify(nav)))
+			console.log(JSON.parse(JSON.stringify(this.viewports)))
+
+			// hide all the screen
+			for (let viewport of this.viewports) {
+				viewport.layoutStyle = this.hide;
 			}
 
-			// create screens as many numbers of viewport
-			let viewports = [];
-			for (let vp of Object.keys(viewport)) {
-				if (!viewport[vp].screens) {
-					viewport[vp].screens = [
+			// create viewport if not exists
+			let viewport = this.viewports.find(x => x.id == nav.id);
+			if(!viewport) {
+				viewport = {
+					id: nav.id,
+					layoutStyle: {
+						width: '100%',
+						height: '100%'
+					},
+					screens: [
 						{
 							type: 'webview',
-							id: vp.id,
-							src: '_blank',
+							id: nav.id,
+							src: nav.url,
 							layoutStyle: {
 								width: '100%',
 								height: '100%',
 							},
-						},
-					];
+						}
+					]
 				}
-				viewports.push({
-					...viewport[vp],
-					layoutStyle: this.hide,
-				});
-			}
-			// set
-			this.viewports = viewports;
-		});
+				// if the nav has custom screen
+				if(nav.screens) viewport.screens = nav.screens;
 
-		// listen to nav-selected
-		event.subscribe('composer', 'nav-selected', nav => {
-			// hide all the screen
-			for (let viewport of this.viewports) {
-				// show the selected screen
-				if (viewport.id == nav.id) {
-					viewport.layoutStyle = this.show;
-					// update the url of the first screen
-					if(nav.url) viewport.screens[0].src = nav.url;
-				}
-				// hide other screens
-				else viewport.layoutStyle = this.hide;
+				// add viewport
+				this.viewports.push(viewport);
 			}
+
+			// show the viewport
+			viewport.layoutStyle = this.show;
+
 		});
 	},
 	destroyed: function() {
