@@ -85,7 +85,6 @@ async function IndexHtml(db, req, res) {
 	return new Promise(function(resolve, reject) {
 		// base_href must contain company name
 		let paths = req.url.split('?')[0].split('/');
-		console.log(paths)
 		if (paths.length >= 2) {
 			// read "index.tmpl" from static folder
 			let filepath = path.join(req.app.locals.wwwroot, '/vue.html');
