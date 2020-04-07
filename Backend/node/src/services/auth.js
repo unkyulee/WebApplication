@@ -20,7 +20,7 @@ class Auth {
 				// clear cookie
 				res.clearCookie('company_id');
 				res.clearCookie('authorization');
-        res.set('Authorization', ``);
+				res.set('Authorization', ``);
 
 				// authentication failed
 				res.status(403);
@@ -97,12 +97,12 @@ class Auth {
 
 		// do the JWT toekn thingy
 		let token;
-		if (req.headers.authorization) token = req.headers.authorization.replace('Bearer ', '');
-		// if headers not given check cooikes - only if it is get and file download
-		else if (req.cookies.authorization && req.method == 'GET') {
-			token = req.cookies.authorization.replace('Bearer ', '');
-		} else if (req.query.bearer && req.method == 'GET') {
+		if (req.query.bearer && req.method == 'GET') {
 			token = req.query.bearer;
+		} else if (req.cookies.authorization && req.method == 'GET') {
+			token = req.cookies.authorization.replace('Bearer ', '');
+		} else if (req.headers.authorization) {
+			token = req.headers.authorization.replace('Bearer ', '');
 		}
 
 		if (token) {

@@ -72,7 +72,7 @@ app.all('*', async (req, res) => {
 			res.end();
 		}
 	} catch (e) {
-		res.send(`${e.stack}`);
+		console.error(e)
 		res.status(500);
 	} finally {
 		// Close MongoDB
