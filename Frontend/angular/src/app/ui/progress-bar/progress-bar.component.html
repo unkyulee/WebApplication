@@ -1,8 +1,14 @@
 <mat-progress-bar
-  *ngIf="condition(uiElement)"
+  *ngIf="condition(uiElement) && !uiElement.progressType"
   [ngStyle]="uiElement.style"
   [ngClass]="uiElement.class"
   [mode]="uiElement.mode?uiElement.mode:'determinate'"
   [value]="value"
   [bufferValue]="bufferValue"
 ></mat-progress-bar>
+
+<mat-spinner
+  *ngIf="condition(uiElement) && uiElement.progressType == 'spinner'"
+  [ngStyle]="uiElement.style"
+  [ngClass]="uiElement.class"
+></mat-spinner>

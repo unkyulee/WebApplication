@@ -212,6 +212,7 @@ export class UILayoutWrapperComponent {
 				componentFactory = this.cfr.resolveComponentFactory(DividerComponent);
 				break;
 			case 'progress-bar':
+			case 'progress':
 				componentFactory = this.cfr.resolveComponentFactory(ProgressBarComponent);
 				break;
 			case 'form-generator':
