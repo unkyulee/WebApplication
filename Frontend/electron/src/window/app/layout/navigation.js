@@ -79,7 +79,7 @@ Vue.component('Navigation', {
 		// listen to badge-update
 		event.subscribe('navigation', 'nav-badge', nav => {
 			// find the matching nav
-			let selectedNav = this.navs.find(x => (x.id = nav.id));
+			let selectedNav = this.navs.find(x => (x.id == nav.id));
 			if (selectedNav) {
 				this.$set(selectedNav, 'badge', nav.badge);
 			}

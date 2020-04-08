@@ -36,9 +36,6 @@ Vue.component('Composer', {
 	mounted: async function() {
 		// listen to nav-selected
 		event.subscribe('composer', 'nav-selected', nav => {
-			console.log(JSON.parse(JSON.stringify(nav)))
-			console.log(JSON.parse(JSON.stringify(this.viewports)))
-
 			// hide all the screen
 			for (let viewport of this.viewports) {
 				viewport.layoutStyle = this.hide;
