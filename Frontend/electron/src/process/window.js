@@ -4,7 +4,6 @@ const url = require('url');
 const path = require('path');
 // services
 const config = require('../service/config');
-const popup = require('./popup');
 
 module.exports = {
 	window: null,
@@ -101,15 +100,6 @@ module.exports = {
 	createMenuTemplate: function() {
 		let fileMenuTemplate;
 		fileMenuTemplate = [
-			{
-				label: 'Show Notification',
-				accelerator: 'CmdOrCtrl+Shift+N',
-				click() {
-					const popup = require('./popup');
-					if (popup.window) popup.show();
-				},
-			},
-
 			{
 				label: 'Force Reload',
 				accelerator: 'CmdOrCtrl+Shift+R',

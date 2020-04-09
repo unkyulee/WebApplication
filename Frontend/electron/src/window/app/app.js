@@ -134,15 +134,6 @@ new Vue({
 			if (!permission.permitted(['desktop.enabled'])) {
 				auth.logout();
 			} else {
-				// run desktop notification
-				if (config.get('module.notification.desktop_notification_enabled')) {
-					// create a popup window
-					ipcRenderer.send('popup', {
-						url: `${config.get('service_url')}/notification`,
-						title: `Notification`,
-					});
-				}
-
 				// update navigation
 				event.send('navigation-updated');
 			}
