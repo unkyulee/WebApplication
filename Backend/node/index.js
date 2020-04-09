@@ -77,28 +77,28 @@ app.all('*', async (req, res) => {
 	} finally {
 		// Close MongoDB
 		if (db) await db.close();
+	}
 
-		// send analytics
-		if (process.env.TID) {
-			let client_id = obj.get(res, 'locals.token.unique_name');
-			if (!client_id) {
-				let params = Object.assign({}, req.query, req.body);
-				client_id = params.client_id;
-			}
-
-			await rp({
-				method: 'POST',
-				uri: 'http://www.google-analytics.com/collect',
-				form: {
-					v: 1,
-					tid: process.env.TID,
-					cid: client_id,
-					t: 'pageview',
-					dh: req.get('host'),
-					dp: req.url,
-				},
-			});
+	// send analytics
+	if (process.env.TID) {
+		let client_id = obj.get(res, 'locals.token.unique_name');
+		if (!client_id) {
+			let params = Object.assign({}, req.query, req.body);
+			client_id = params.client_id;
 		}
+
+		await rp({
+			method: 'POST',
+			uri: 'http://www.google-analytics.com/collect',
+			form: {
+				v: 1,
+				tid: process.env.TID,
+				cid: client_id,
+				t: 'pageview',
+				dh: req.get('host'),
+				dp: req.url,
+			},
+		});
 	}
 });
 
