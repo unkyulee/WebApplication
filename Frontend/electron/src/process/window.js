@@ -58,21 +58,8 @@ module.exports = {
 				this.window.webContents.send('channel', msg);
 			});
 
-			// create popup window
-			ipcMain.on('popup', async (e, option) => {
-				await popup.create(option);
-			});
-
-			ipcMain.on('popup-show', (e, option) => {
-				popup.show();
-			});
-			ipcMain.on('popup-hide', (e, option) => {
-				popup.hide();
-			});
-
 			// Main Window Closed Event
 			this.window.on('close', () => {
-				popup.exit();
 				app.quit();
 			});
 
