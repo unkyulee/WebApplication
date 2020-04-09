@@ -35,6 +35,11 @@ import { UIService } from "./services/ui.service";
 // catch-all routes
 const appRoutes: Routes = [{ path: "**", component: LayoutComponent }];
 
+// locale registration
+import { registerLocaleData } from '@angular/common';
+import it from '@angular/common/locales/it';
+registerLocaleData(it);
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
