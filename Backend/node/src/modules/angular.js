@@ -31,7 +31,7 @@ module.exports.process = async function process(db, req, res) {
 		return await UIElement(db, req, res);
 	}
 	// otherwise return index.html
-	return IndexHtml(db, req, res);
+	return await IndexHtml(db, req, res);
 };
 
 // return app configuration js

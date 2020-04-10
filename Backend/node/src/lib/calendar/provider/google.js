@@ -51,12 +51,11 @@ module.exports = {
 				}
 			}
 
-			let response = await axios.post(
-				`https://www.googleapis.com/calendar/v3/calendars/${obj.get(params, 'config.calendar')}/events`,
-				data,
-				{ headers: { Authorization: `Bearer ${token.access_token}` } }
-			);
-
+			let url = `https://www.googleapis.com/calendar/v3/calendars/${obj.get(params, 'config.calendar')}/events`;
+			// sendUpdates - all, externalOnly, none
+			if (params.sendUpdates) url += `?sendUpdates=${params.sendUpdates}`;
+			let response = await axios.post(url, data, { headers: { Authorization: `Bearer ${token.access_token}` } });
+			//
 			return response.data;
 		}
 	},
@@ -66,7 +65,6 @@ module.exports = {
 		let token = await this.getToken(db, res, req, params);
 		// see if the calendar is specified
 		if (obj.get(params, 'config.calendar') && obj.get(params, 'event') && obj.get(params, 'event.event.id')) {
-
 			// create an event to the calendar
 			let data = {
 				start: { dateTime: moment(obj.get(params, 'event.appointment_date')).format('YYYY-MM-DDTHH:mm:ssZZ') },
@@ -90,11 +88,16 @@ module.exports = {
 				}
 			}
 
-			let response = await axios.put(
-				`https://www.googleapis.com/calendar/v3/calendars/${obj.get(params, 'config.calendar')}/events/${obj.get(params, 'event.event.id')}`,
-				data,
-				{ headers: { Authorization: `Bearer ${token.access_token}` } }
-			);
+			let url = `https://www.googleapis.com/calendar/v3/calendars/${obj.get(
+				params,
+				'config.calendar'
+			)}/events/${obj.get(params, 'event.event.id')}`;
+
+			// sendUpdates - all, externalOnly, none
+			if (params.sendUpdates) url += `?sendUpdates=${params.sendUpdates}`;
+
+			// send the response
+			let response = await axios.put(url, data, { headers: { Authorization: `Bearer ${token.access_token}` } });
 
 			return response.data;
 		}
@@ -106,7 +109,10 @@ module.exports = {
 		// see if the calendar is specified
 		if (obj.get(params, 'config.calendar') && obj.get(params, 'event') && obj.get(params, 'event.event.id')) {
 			let response = await axios.delete(
-				`https://www.googleapis.com/calendar/v3/calendars/${obj.get(params, 'config.calendar')}/events/${obj.get(params, 'event.event.id')}`,
+				`https://www.googleapis.com/calendar/v3/calendars/${obj.get(
+					params,
+					'config.calendar'
+				)}/events/${obj.get(params, 'event.event.id')}`,
 				{ headers: { Authorization: `Bearer ${token.access_token}` } }
 			);
 
