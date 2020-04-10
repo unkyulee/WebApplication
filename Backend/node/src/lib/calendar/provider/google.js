@@ -31,7 +31,9 @@ module.exports = {
 			// create an event to the calendar
 			let data = {
 				start: { dateTime: moment(obj.get(params, 'event.appointment_date')).format('YYYY-MM-DDTHH:mm:ssZZ') },
-				end: { dateTime: moment(obj.get(params, 'event.appointment_end_date')).format('YYYY-MM-DDTHH:mm:ssZZ') },
+				end: {
+					dateTime: moment(obj.get(params, 'event.appointment_end_date')).format('YYYY-MM-DDTHH:mm:ssZZ'),
+				},
 				summary: obj.get(params, 'event.title'),
 				description: obj.get(params, 'event.note'),
 			};
@@ -52,18 +54,65 @@ module.exports = {
 			let response = await axios.post(
 				`https://www.googleapis.com/calendar/v3/calendars/${obj.get(params, 'config.calendar')}/events`,
 				data,
-				{
-					headers: { Authorization: `Bearer ${token.access_token}` },
-				}
+				{ headers: { Authorization: `Bearer ${token.access_token}` } }
 			);
 
 			return response.data;
 		}
 	},
 
-	updateEvent: async function (db, res, req, params) {},
+	updateEvent: async function (db, res, req, params) {
+		// get access token
+		let token = await this.getToken(db, res, req, params);
+		// see if the calendar is specified
+		if (obj.get(params, 'config.calendar') && obj.get(params, 'event') && obj.get(params, 'event.event.id')) {
 
-	deleteEvent: async function (db, res, req, params) {},
+			// create an event to the calendar
+			let data = {
+				start: { dateTime: moment(obj.get(params, 'event.appointment_date')).format('YYYY-MM-DDTHH:mm:ssZZ') },
+				end: {
+					dateTime: moment(obj.get(params, 'event.appointment_end_date')).format('YYYY-MM-DDTHH:mm:ssZZ'),
+				},
+				summary: obj.get(params, 'event.title'),
+				description: obj.get(params, 'event.note'),
+			};
+
+			if (obj.get(params, 'event.assignees', []).length > 0) {
+				let assignees = obj.get(params, 'event.assignees', []);
+				data.attendees = [];
+				for (let assignee of assignees) {
+					if (assignee.email) {
+						data.attendees.push({
+							displayName: assignee.name,
+							email: assignee.email,
+						});
+					}
+				}
+			}
+
+			let response = await axios.put(
+				`https://www.googleapis.com/calendar/v3/calendars/${obj.get(params, 'config.calendar')}/events/${obj.get(params, 'event.event.id')}`,
+				data,
+				{ headers: { Authorization: `Bearer ${token.access_token}` } }
+			);
+
+			return response.data;
+		}
+	},
+
+	deleteEvent: async function (db, res, req, params) {
+		// get access token
+		let token = await this.getToken(db, res, req, params);
+		// see if the calendar is specified
+		if (obj.get(params, 'config.calendar') && obj.get(params, 'event') && obj.get(params, 'event.event.id')) {
+			let response = await axios.delete(
+				`https://www.googleapis.com/calendar/v3/calendars/${obj.get(params, 'config.calendar')}/events/${obj.get(params, 'event.event.id')}`,
+				{ headers: { Authorization: `Bearer ${token.access_token}` } }
+			);
+
+			return response.data;
+		}
+	},
 
 	getToken: async function (db, res, req, params) {
 		// retrieve server and get client secrets
