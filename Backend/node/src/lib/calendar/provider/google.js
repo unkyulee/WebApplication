@@ -24,6 +24,15 @@ module.exports = {
 	},
 
 	createEvent: async function (db, res, req, params) {
+		// error check
+		if (
+			!obj.get(params, 'config.calendar') ||
+			!obj.get(params, 'event.appointment_date') ||
+			!obj.get(params, 'event.appointment_end_date')
+		) {
+			return;
+		}
+
 		// get access token
 		let token = await this.getToken(db, res, req, params);
 		// see if the calendar is specified
@@ -61,6 +70,16 @@ module.exports = {
 	},
 
 	updateEvent: async function (db, res, req, params) {
+		// error check
+		if (
+			!obj.get(params, 'config.calendar') ||
+			!obj.get(params, 'event.appointment_date') ||
+			!obj.get(params, 'event.appointment_end_date') ||
+			!obj.get(params, 'event.event.id')
+		) {
+			return;
+		}
+
 		// get access token
 		let token = await this.getToken(db, res, req, params);
 		// see if the calendar is specified
