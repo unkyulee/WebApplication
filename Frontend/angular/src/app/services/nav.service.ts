@@ -30,7 +30,7 @@ export class NavService {
 		this.config.clear(); // clear ui cache
 
 		this.rest
-			.request(`${this.config.get('host')}${this.config.get('url')}/navigation.config`, null, 'get', {}, true)
+			.request(`${this.config.get('host')}${this.config.get('url')}/navigation.config?${this.config.get('_id')}`, null, 'get', {}, true)
 			.subscribe(r => {
 				// save theme
 				this.config.set('theme', r.theme);
