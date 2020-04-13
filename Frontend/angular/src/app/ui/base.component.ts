@@ -15,7 +15,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { CordovaService } from "../services/cordova.service";
 import { ExportService } from "../services/export.service";
 import { AuthService } from "../services/auth/auth.service";
-import { SoundService } from "../services/sound.service";
+import { UtilService } from "../services/util.service";
 import { UIService } from "../services/ui.service";
 import { PermissionService } from "../services/permission.service";
 
@@ -25,7 +25,7 @@ import { PermissionService } from "../services/permission.service";
 export class BaseComponent {
   constructor() {
     // dependency injection
-    this.sound = AppInjector.get(SoundService);
+    this.util = AppInjector.get(UtilService);
     this.event = AppInjector.get(EventService);
     this.rest = AppInjector.get(RestService);
     this.nav = AppInjector.get(NavService);
@@ -47,7 +47,7 @@ export class BaseComponent {
   @Input() data: any;
 
   // global services
-  public sound: SoundService;
+  public util: UtilService;
   public event: EventService;
   public rest: RestService;
   public nav: NavService;

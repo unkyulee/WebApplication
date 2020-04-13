@@ -29,7 +29,7 @@ import { UIModule } from "./ui/ui.module";
 // app component
 import { AppComponent } from "./app.component";
 import { LayoutComponent } from "./layout/layout.component";
-import { SoundService } from "./services/sound.service";
+import { UtilService } from "./services/util.service";
 import { UIService } from "./services/ui.service";
 
 // catch-all routes
@@ -66,7 +66,7 @@ registerLocaleData(it);
     CordovaService,
     DBService,
     ExportService,
-    SoundService,
+    UtilService,
     PermissionService
   ],
   bootstrap: [AppComponent]

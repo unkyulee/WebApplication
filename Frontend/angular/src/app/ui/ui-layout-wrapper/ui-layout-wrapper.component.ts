@@ -11,7 +11,7 @@ import { NavService } from 'src/app/services/nav.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { DBService } from 'src/app/services/db/db.service';
-import { SoundService } from 'src/app/services/sound.service';
+import { UtilService } from 'src/app/services/util.service';
 import { CordovaService } from 'src/app/services/cordova.service';
 import { ExportService } from 'src/app/services/export.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -68,7 +68,7 @@ export class UILayoutWrapperComponent {
 		this.auth = AppInjector.get(AuthService);
 		this.ui = AppInjector.get(UIService);
 		this.permission = AppInjector.get(PermissionService);
-		this.sound = AppInjector.get(SoundService);
+		this.util = AppInjector.get(UtilService);
 	}
 
 	// global services
@@ -85,7 +85,7 @@ export class UILayoutWrapperComponent {
 	public auth: AuthService;
 	public ui: UIService;
 	public permission: PermissionService;
-	public sound: SoundService;
+	public util: UtilService;
 
 	componentRef: any;
 
