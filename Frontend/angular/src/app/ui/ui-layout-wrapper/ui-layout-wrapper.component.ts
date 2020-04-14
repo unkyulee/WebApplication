@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ViewContainerRef, Renderer2, Input } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewContainerRef, Renderer2, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppInjector } from 'src/app/app.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -93,15 +93,15 @@ export class UILayoutWrapperComponent {
 	@Input() uiElement: any;
 	@Input() data: any;
 
-	async ngOnChanges() {
+	async ngOnChanges(changes: SimpleChanges) {
 		// create component
-		if (!this.componentRef && this.uiElement && this.condition(this.uiElement)) {
+		if (!this.componentRef && this.uiElement && this.condition(this.uiElement) && !changes.data.previousValue) {
 			// if type is ui-element-id then load from the uiElement first
 			if (this.uiElement.type == 'ui-element-id') {
 				let element = await this.ui.get(this.uiElement.uiElementId);
 				if (element) {
 					element = JSON.parse(JSON.stringify(element));
-					this.uiElement = Object.assign({}, this.uiElement, element);
+					this.uiElement = Object.assign({ _processed: true }, this.uiElement, element);
 					// run init script
 					if (this.uiElement.uiElementInit) {
 						try {
