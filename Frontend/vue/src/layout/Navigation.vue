@@ -1,6 +1,9 @@
 <template>
   <md-list>
-    <md-list-item v-for="(nav, index) of navigations" :key="index" :to="nav.url" @click="click()">{{nav.name}}</md-list-item>
+    <div v-for="(nav, index) of navigations" :key="index">
+      <md-list-item :to="nav.url" @click="click()">{{nav.name}}</md-list-item>
+      <md-divider></md-divider>
+    </div>
   </md-list>
 </template>
 

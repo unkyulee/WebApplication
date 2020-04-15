@@ -109,16 +109,15 @@ export default Vue.component("UiElement", {
     Select
   },
   mounted: function() {
-    if (
-      this.uiElement &&
-      this.uiElement.type == 'layout' &&
-      this.uiElement.init
-    ) {
-      try {
-        eval(this.uiElement.init);
-      } catch (ex) {
-        console.error(ex);
+    if (this.uiElement && this.uiElement.type == "layout") {
+      if (this.uiElement.init) {
+        try {
+          eval(this.uiElement.init);
+        } catch (ex) {
+          console.error(ex);
+        }
       }
+      this.$set(this, 'uiElement', this.filterUiElement(this.uiElement, this.data));
     }
   },
   methods: {

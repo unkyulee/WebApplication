@@ -8,6 +8,7 @@ const moment = require('moment-timezone');
 const util = require('../lib/utility');
 const email = require('../lib/email');
 const calendar = require('../lib/calendar/calendar');
+const storage = require("../lib/storage/storage");
 
 module.exports.requiresAuthentication = async function requiresAuthentication(db, req, res) {
 	let paths = req.path.split('/');

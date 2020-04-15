@@ -9,7 +9,7 @@
       @click="click($event)"
       :id="uiElement.key"
     >
-      <md-icon v-if="uiElement.icon">{{uiElement.icon}}</md-icon>
+      <md-icon v-if="uiElement.icon" :style="uiElement.iconStyle">{{uiElement.icon}}</md-icon>
       {{uiElement.label}}
     </md-button>
   </div>
