@@ -96,7 +96,7 @@ import Select from "./Select";
 
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],
-  inject: ["config", "event", "rest", "ui"],
+  inject: ["config", "event", "rest", "ui", "auth"],
   components: {
     Typography,
     Input,

@@ -31,9 +31,9 @@ export default {
     return {
       title: "",
       logo: "",
+      buttonStyle: {},
       screens: [],
-      showDrawer: false,
-      buttonStyle: {}
+      showDrawer: false
     };
   },
   mounted: function() {

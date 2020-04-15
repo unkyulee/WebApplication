@@ -1,18 +1,18 @@
 <template>
   <md-app>
     <md-app-toolbar :style="toolbarStyle">
-      <Toolbar />
+      <Toolbar :data="data" />
     </md-app-toolbar>
     <md-app-drawer :md-active.sync="showDrawer">
-      <Navigation />
+      <Navigation :data="data" />
     </md-app-drawer>
     <md-app-content :style="style">
-      <div v-bind:class="uiElement.layoutClass" v-bind:style="uiElement.layoutStyle">
+      <div :class="uiElement.layoutClass" :style="uiElement.layoutStyle">
         <UiElement
           v-for="(ui, index) in uiElement.screens"
-          v-bind:key="index"
-          v-bind:uiElement="ui"
-          v-bind:data="data"
+          :key="index"
+          :uiElement="ui"
+          :data="data"
         />
       </div>
     </md-app-content>
@@ -37,7 +37,7 @@ export default {
     UiElement,
     Splash
   },
-  inject: ["config", "rest", "event", "ui"],
+  inject: ["config", "rest", "event", "ui", "auth"],
   data: function() {
     return {
       showDrawer: false,
@@ -64,6 +64,10 @@ export default {
     this.event.subscribe("composer", "drawer", event => {
       this.showDrawer = event.data;
     });
+
+    // load client
+    this.auth.isAuthenticated();
+    this.data.client = this.auth.client;
 
     // load the first navigation
     if (

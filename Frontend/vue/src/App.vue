@@ -12,6 +12,7 @@ import event from "./services/event.service";
 import rest from "./services/rest.service";
 import config from "./services/config.service";
 import ui from "./services/ui.service";
+import auth from "./services/auth.service";
 
 // layout
 import Composer from "./layout/Composer.vue";
@@ -28,7 +29,8 @@ export default {
       event,
       rest,
       config,
-      ui
+      ui,
+      auth
     };
   },
   mounted: function() {

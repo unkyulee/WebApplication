@@ -9,7 +9,7 @@ const moment = require("moment");
 
 export default {
   props: ["uiElement", "data"],
-  inject: ["config", "event", "rest", "ui"],
+  inject: ["config", "event", "rest", "ui", "auth"],
   mounted: function() {
     if (this.uiElement && this.uiElement.init) {
       try {
