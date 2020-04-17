@@ -1,8 +1,10 @@
 <template>
   <div style="width: 100%; height: 100%;">
-    <div style="display: flex; justify-content: center; align-items: center; height: 56px;">
-      <span class="md-title" v-if="!logo">{{title}}</span>
-      <img class="md-title" v-if="logo" :src="logo" />
+    <div :style="headerStyle">
+      <div style="display: flex; justify-content: center; align-items: center; min-height: 56px;">
+        <span class="md-title" v-if="!logo">{{title}}</span>
+        <img class="md-title" v-if="logo" :src="logo" />
+      </div>
     </div>
     <div v-if="data.client" :style="user.layoutStyle">
       <UiElement
@@ -14,8 +16,10 @@
     </div>
     <md-list>
       <div v-for="(nav, index) of navigations" :key="index">
-        <md-list-item :to="nav.url" @click="click()">{{nav.name}}</md-list-item>
-        <md-divider></md-divider>
+        <div v-if="nav.type != 'hidden' && nav.type != 'sub'">
+          <md-list-item :to="nav.url" @click="click()">{{nav.name}}</md-list-item>
+          <md-divider></md-divider>
+        </div>
       </div>
     </md-list>
     <div v-if="footer" :style="footer.layoutStyle">
@@ -44,6 +48,7 @@ export default {
       title: "",
       logo: "",
       buttonStyle: {},
+      headerStyle: {},
       user: {},
       footer: {}
     };
@@ -60,6 +65,7 @@ export default {
     this.title = this.config.get("name", " - ");
     let logo = this.config.get("config.logo_toolbar.0.url", "");
     if (logo) this.logo = `${this.config.get("host")}${logo}`;
+    this.headerStyle = this.config.get("config.toolbar");
 
     // button Style
     this.$set(

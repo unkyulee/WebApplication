@@ -1,7 +1,10 @@
 <template>
-  <div class="md-toolbar-row">
-    <md-button class="md-icon-button" @click="click()" v-if="showDrawer">
+  <div class="md-toolbar-row" style="min-height: fit-content">
+    <md-button class="md-icon-button" @click="click()" v-if="showDrawer && type != 'sub'">
       <md-icon :style="buttonStyle">menu</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" @click="back()" v-if="type == 'sub'">
+      <md-icon :style="buttonStyle">arrow_back</md-icon>
     </md-button>
 
     <span class="md-title" v-if="!logo">{{title}}</span>
@@ -31,6 +34,7 @@ export default {
     return {
       title: "",
       logo: "",
+      type: "",
       buttonStyle: {},
       screens: [],
       showDrawer: false
@@ -61,6 +65,19 @@ export default {
   methods: {
     click() {
       this.event.send({ name: "drawer", data: true });
+    },
+    back() {
+      this.$router.go(-1);
+    }
+  },
+  watch: {
+    // react to route changes...
+    async $route(to, from) {
+      // find matching nav
+      let nav = this.config.get("navigations", []).find(x => x.url == to.path);
+      if (nav) {
+        this.type = nav.type;
+      }
     }
   }
 };

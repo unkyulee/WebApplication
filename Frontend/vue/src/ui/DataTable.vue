@@ -19,12 +19,30 @@
         v-bind:data="filterData(column, row)"
       />
     </div>
+    <paginate
+      v-if="pageCount > 1"
+      :page-count="pageCount"
+      :click-handler="changePage"
+      :prev-text="'<<'"
+      :next-text="'>>'"
+      :container-class="'pagination'"
+      :page-class="'page-item'"
+      :page-link-class="'page-link-item'"
+      :prev-class="'prev-item'"
+      :prev-link-class="'prev-link-item'"
+      :next-class="'next-item'"
+      :next-link-class="'next-link-item'"
+      :break-view-class="'break-view'"
+      :break-view-link-class="'break-view-link'"
+    ></paginate>
   </div>
 </template>
 
 <script>
-import Vuew from "vue";
+import Vue from "vue";
 import Base from "./Base";
+import Paginate from "vuejs-paginate";
+Vue.component("paginate", Paginate);
 
 //
 const obj = require("object-path");
@@ -33,6 +51,13 @@ const moment = require("moment");
 export default {
   extends: Base,
   props: ["uiElement", "data"],
+  data: function() {
+    return {
+      size: 0,
+      page: 0,
+      total: 0
+    };
+  },
   mounted: function() {
     // subscribe to refresh
     if (this.uiElement.key) {
@@ -60,21 +85,43 @@ export default {
           //
           console.error(ex);
         }
+
+        // pagination
+        this.size = obj.get(this.uiElement, "size", 10);
+        if (!this.page) {
+          this.page = obj.get(this.uiElement, "page", 1);
+        }
+        let data = {
+          size: this.size,
+          page: this.page
+        };
+
+        //
         this.event.send({ name: "splash-show" });
-        let response = await this.rest.request(src);
+        let response = await this.rest.request(src, data);
         this.event.send({ name: "splash-hide" });
         response = response.data;
         if (this.uiElement.transform) {
           try {
-            response = eval(this.uiElement.transform);
+            this.rows = eval(this.uiElement.transform);
           } catch (ex) {
             console.error(ex);
           }
         }
 
-        this.rows = response;
+        // get total records
+        let transformTotal = this.uiElement.transformTotal || "response.total";
+        try {
+          this.total = parseInt(eval(transformTotal));
+        } catch (e) {}
+        if (this.total != 0 && !this.total) this.total = obj.get(this, 'rows', []).length;
+
         this.event.send({ name: "data", data: this.data });
       }
+    },
+    async changePage(pageNum) {
+      this.page = pageNum;
+      await this.requestDownload();
     },
     filterUiElement(uiElement, data) {
       if (uiElement.filterUiElement) {
@@ -114,6 +161,11 @@ export default {
         if (this.data && this.uiElement.key) {
           obj.set(this.data, this.uiElement.key, v);
         }
+      }
+    },
+    pageCount: {
+      get: function() {
+        return (this.total == 0 ? 1 : this.total)/(this.size == 0 ? 1 : this.size)
       }
     }
   }

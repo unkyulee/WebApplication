@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="position: relative">
     <md-badge v-if="uiElement.badge" :md-content="uiElement.badge" md-dense></md-badge>
     <md-button
       v-if="condition(uiElement)"

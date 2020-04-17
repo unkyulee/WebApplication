@@ -2,7 +2,7 @@ import axios from 'axios';
 import config from './config.service.js';
 
 export default {
-	async request(url, data, method, options) {
+	async request(url, data = {}, method, options) {
 		// pass if url is not specified
 		if (!url) return null;
 
@@ -20,8 +20,15 @@ export default {
 				return await axios.put(url, data, options);
 			case 'delete':
 				return await axios.delete(url);
-			default:
-				return await axios.get(url);
+			default: {
+				let queryString = Object.keys(data)
+					.map((key) => key + '=' + data[key])
+					.join('&');
+				let queryUrl = url;
+				if (queryUrl.includes('?') == false) queryUrl = `${url}?${queryString}`;
+				else queryUrl = `${url}&${queryString}`;
+				return await axios.get(queryUrl);
+			}
 		}
 	},
 };

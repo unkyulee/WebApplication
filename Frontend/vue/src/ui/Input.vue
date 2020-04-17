@@ -8,13 +8,13 @@
         uiElement.inputType == 'number' ||
         uiElement.inputType == 'email' ||
         uiElement.inputType == 'password'"
+      :class="uiElement.class"
+      :style="uiElement.style"
     >
-      <label>{{uiElement.label}}</label>
+      <label :style="uiElement.labelStyle">{{uiElement.label}}</label>
       <md-input
         v-model="value"
         :type="uiElement.inputType"
-        :class="uiElement.class"
-        :style="uiElement.style"
         @keyup="keyup"
         :id="uiElement.key"
       ></md-input>
@@ -155,9 +155,6 @@ export default {
           // if number
           if (v && this.uiElement.inputType == "number")
             obj.set(this.data, this.uiElement.key, parseFloat(v));
-
-          // update
-          this.event.send({ name: "data", data: this.data });
         }
 
         // changed

@@ -15,8 +15,9 @@
           :data="data"
         />
       </div>
+      <Dialog />
+      <Splash />
     </md-app-content>
-    <Splash />
   </md-app>
 </template>
 
@@ -25,6 +26,7 @@ import Toolbar from "./Toolbar";
 import Navigation from "./Navigation";
 import UiElement from "../ui/UiElement";
 import Splash from "./Splash.vue";
+import Dialog from "./Dialog.vue";
 
 //
 const obj = require("object-path");
@@ -35,7 +37,8 @@ export default {
     Toolbar,
     Navigation,
     UiElement,
-    Splash
+    Splash,
+    Dialog
   },
   inject: ["config", "rest", "event", "ui", "auth"],
   data: function() {
@@ -44,16 +47,16 @@ export default {
       style: {},
       toolbarStyle: {},
       uiElement: {},
-      data: {}
+      data: {},
+      dialog: {}
     };
   },
   mounted: async function() {
     // background color
-    this.$set(this.style, 'background', this.config.get("config.background"));
+    this.$set(this.style, "background", this.config.get("config.background"));
 
     // toolbar
-    this.toolbarStyle.background = this.config.get("config.toolbar.background");
-    this.toolbarStyle.color = this.config.get("config.toolbar.color");
+    this.toolbarStyle = this.config.get("config.toolbar");
 
     // subscribe to data-change event
     this.event.subscribe("composer", "data", event => {
@@ -94,11 +97,21 @@ export default {
     load: async function(url) {
       // find matching nav
       let nav = this.config.get("navigations", []).find(x => x.url == url);
-      // when navigation changes load the ui element
 
+      // when navigation changes load the ui element
       if (nav) {
+        // check if the nav requires login
+        if (nav.login) {
+          // check if login
+          if (!this.auth.isAuthenticated()) {
+            // go to login screen
+            this.$router.push({ path: "login", query: { next: url } });
+            return;
+          }
+        }
+        // load the screen
         this.event.send({ name: "splash-show" });
-        this.uiElement = {}
+        this.uiElement = {};
         this.uiElement = await this.ui.get(obj.get(nav, "uiElementIds.0"));
         this.uiElement = this.filterUiElement(this.uiElement, this.data);
         this.event.send({ name: "splash-hide" });

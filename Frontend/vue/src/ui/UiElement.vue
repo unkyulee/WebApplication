@@ -61,13 +61,6 @@
       :class="uiElement.layoutClass"
       :style="uiElement.layoutStyle"
     />
-    <Dialog
-      v-if="uiElement.type == 'dialog' && condition(uiElement)"
-      :uiElement="filterUiElement(uiElement, data)"
-      :data="filterData(uiElement, data)"
-      :class="uiElement.layoutClass"
-      :style="uiElement.layoutStyle"
-    />
     <Select
       v-if="uiElement.type == 'selection' && condition(uiElement)"
       :uiElement="filterUiElement(uiElement, data)"
@@ -91,7 +84,6 @@ import DataTable from "./DataTable";
 import Stepper from "./Stepper";
 import Divider from "./Divider";
 import Chips from "./Chips";
-import Dialog from "./Dialog";
 import Select from "./Select";
 
 export default Vue.component("UiElement", {
@@ -105,7 +97,6 @@ export default Vue.component("UiElement", {
     Stepper,
     Divider,
     Chips,
-    Dialog,
     Select
   },
   mounted: function() {
