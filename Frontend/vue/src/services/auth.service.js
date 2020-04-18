@@ -43,13 +43,14 @@ export default {
 			return false;
 		}
 
-		return response.status == 200;
+		return response;
 	},
 
 	logout() {
 		for (let key of Object.keys(this.client)) delete this.client[key];
 		localStorage.clear();
+		location.reload();
 		//
-		event.send({ name: 'data', data: {} });
+		event.send({ name: 'data', data: {client: this.client} });
 	},
 };

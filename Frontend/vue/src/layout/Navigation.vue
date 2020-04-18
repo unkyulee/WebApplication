@@ -16,7 +16,7 @@
     </div>
     <md-list>
       <div v-for="(nav, index) of navigations" :key="index">
-        <div v-if="nav.type != 'hidden' && nav.type != 'sub'">
+        <div v-if="nav.type != 'hidden' && nav.type != 'sub' && condition(nav)">
           <md-list-item :to="nav.url" @click="click()">{{nav.name}}</md-list-item>
           <md-divider></md-divider>
         </div>
@@ -56,6 +56,13 @@ export default {
   mounted: async function() {
     // load navigation
     this.navigations = this.config.get("navigations");
+    for(let nav of this.navigations) {
+      try {
+         eval(nav.init)
+      } catch(ex) {
+        console.error(ex)
+      }
+    }
 
     // load user screens
     this.user = this.config.get("user", {});

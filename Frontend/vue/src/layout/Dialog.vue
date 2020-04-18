@@ -6,14 +6,6 @@
       v-bind:uiElement="ui"
       v-bind:data="data"
     />
-    <div v-if="uiElement.actions" style="display: flex; flex-flow: row wrap;">
-      <UiElement
-        v-for="(ui, index) in uiElement.actions"
-        v-bind:key="index"
-        v-bind:uiElement="ui"
-        v-bind:data="data"
-      />
-    </div>
   </md-dialog>
 </template>
 

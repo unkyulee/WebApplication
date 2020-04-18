@@ -1,7 +1,7 @@
 <template>
   <md-field :class="uiElement.class" :style="uiElement.style">
     <label :style="uiElement.labelStyle">{{uiElement.label}}</label>
-    <md-select v-model="value">
+    <md-select v-model="value" :multiple="uiElement.multiple" :md-dense="uiElement.dense">
       <md-option
         v-for="(option, index) in uiElement.options"
         :key="index"
@@ -68,18 +68,15 @@ export default {
           // if number
           if (v && this.uiElement.inputType == "number")
             obj.set(this.data, this.uiElement.key, parseFloat(v));
-
-          // update
-          this.event.send({ name: "data", data: this.data });
         }
 
         // changed
-        this.changed();
+        this.changed(v);
       }
     }
   },
   methods: {
-    changed(e) {
+    changed(value) {
       if (this.uiElement.changed) {
         try {
           eval(this.uiElement.changed);
