@@ -18,3 +18,12 @@ body {
 	background-color: darkgrey;
 	outline: 1px solid slategrey;
 }
+
+pre {
+	margin: 0;
+	padding: 0;
+	white-space: pre-line;
+	font-family: auto;
+	background: unset;
+	border-style: none;
+}

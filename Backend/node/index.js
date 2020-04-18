@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const rp = require('request-promise-native');
+const axios = require('axios');
 const obj = require('object-path');
 
 // retrieve secret
@@ -39,7 +39,9 @@ const router = require('./src/services/router');
 const auth = require('./src/services/auth');
 const MongoDB = require('./src/db/mongodb');
 
-app.all('*', async (req, res) => {
+app.all('*', async (req, res) => {handler(req, res)});
+
+async function handler(req, res) {
 	let db = null;
 	try {
 		// connect to mongodb
@@ -72,11 +74,12 @@ app.all('*', async (req, res) => {
 			res.end();
 		}
 	} catch (e) {
-		console.error(e)
+		console.error(e);
 		res.status(500);
 	} finally {
 		// Close MongoDB
 		if (db) await db.close();
+		res.end();
 	}
 
 	// send analytics
@@ -87,20 +90,16 @@ app.all('*', async (req, res) => {
 			client_id = params.client_id;
 		}
 
-		await rp({
-			method: 'POST',
-			uri: 'http://www.google-analytics.com/collect',
-			form: {
-				v: 1,
-				tid: process.env.TID,
-				cid: client_id,
-				t: 'pageview',
-				dh: req.get('host'),
-				dp: req.url,
-			},
+		await axios.post('http://www.google-analytics.com/collect', {
+			v: 1,
+			tid: process.env.TID,
+			cid: client_id,
+			t: 'pageview',
+			dh: req.get('host'),
+			dp: req.url,
 		});
 	}
-});
+}
 
 // start the task
 if (process.env.TASK) {

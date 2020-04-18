@@ -1,30 +1,22 @@
 const obj = require('object-path');
-import rest from "./rest.service";
-import config from "./config.service";
+import rest from './rest.service';
+import config from './config.service';
 
 export default {
-  async get(uiElementId) {
-    // load initial configuration
-    let url = `${config.get('host')}${config.get('url')}/ui.element?uiElementId=${uiElementId}`;
-    let response = await rest.request(url);
-    // save the uiElement
-    let uiElement = response.data;
-    // resolve ui-element-id
-    if(uiElement.screens)
-      this.resolveUiElementId(uiElement)
+	storage: {},
+	async get(uiElementId) {
+    let uiElement = obj.get(this.storage, uiElementId);
+
+		// return if stored uiElement exists
+		if (!uiElement) {
+			// if storage doesn't have it then load it
+			let url = `${config.get('url')}/ui.element?uiElementId=${uiElementId}`;
+			let response = await rest.request(url);
+			// save the uiElement
+      this.storage[uiElementId] = response.data;
+      uiElement = response.data;
+		}
 
     return uiElement;
-  },
-  async resolveUiElementId(uiElement) {
-    for(let screen of uiElement.screens) {
-      if(screen.type == 'ui-element-id') {
-        let element = await this.get(screen.uiElementId);
-        screen = Object.assign(screen, element);
-      }
-
-      if(screen.screens) {
-        await this.resolveUiElementId(screen);
-      }
-    }
-  }
+	}
 };

@@ -61,13 +61,6 @@
       :class="uiElement.layoutClass"
       :style="uiElement.layoutStyle"
     />
-    <Dialog
-      v-if="uiElement.type == 'dialog' && condition(uiElement)"
-      :uiElement="filterUiElement(uiElement, data)"
-      :data="filterData(uiElement, data)"
-      :class="uiElement.layoutClass"
-      :style="uiElement.layoutStyle"
-    />
     <Select
       v-if="uiElement.type == 'selection' && condition(uiElement)"
       :uiElement="filterUiElement(uiElement, data)"
@@ -91,12 +84,11 @@ import DataTable from "./DataTable";
 import Stepper from "./Stepper";
 import Divider from "./Divider";
 import Chips from "./Chips";
-import Dialog from "./Dialog";
 import Select from "./Select";
 
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],
-  inject: ["config", "event", "rest", "ui"],
+  inject: ["config", "event", "rest", "ui", "auth"],
   components: {
     Typography,
     Input,
@@ -105,20 +97,18 @@ export default Vue.component("UiElement", {
     Stepper,
     Divider,
     Chips,
-    Dialog,
     Select
   },
   mounted: function() {
-    if (
-      this.uiElement &&
-      this.uiElement.type == 'layout' &&
-      this.uiElement.init
-    ) {
-      try {
-        eval(this.uiElement.init);
-      } catch (ex) {
-        console.error(ex);
+    if (this.uiElement && this.uiElement.type == "layout") {
+      if (this.uiElement.init) {
+        try {
+          eval(this.uiElement.init);
+        } catch (ex) {
+          console.error(ex);
+        }
       }
+      this.$set(this, 'uiElement', this.filterUiElement(this.uiElement, this.data));
     }
   },
   methods: {

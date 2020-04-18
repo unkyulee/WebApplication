@@ -9,18 +9,11 @@ class MongoDB {
 	}
 
 	async connect() {
-		let that = this;
-		return new Promise(function(resolve, reject) {
-			MongoClient.connect(that.url, { useNewUrlParser: true, useUnifiedTopology: true }, function(err, client) {
-				if (err == null && client != null) {
-					that.client = client;
-					that.db = client.db(that.dbName);
-					resolve(that.db);
-				} else {
-					reject(err);
-				}
-			});
+		this.client = await MongoClient.connect(this.url, {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
 		});
+		this.db = this.client.db(this.dbName);
 	}
 
 	async close() {
@@ -30,101 +23,96 @@ class MongoDB {
 	}
 
 	async count(collection, query) {
-		let that = this;
-		return new Promise(function(resolve, reject) {
-			if (!that.db) reject('db not initialized');
-			that.db
-				.collection(collection)
-				.find(query)
-				.count((err, count) => {
-					if (err) reject(err);
-					resolve(count);
-				});
-		});
+		if (!this.db) {
+			console.error('mongodb::count::db not initialized', collection, query);
+			console.log(new Error().stack);
+			return;
+		}
+		return await this.db.collection(collection).find(query).count();
 	}
 
 	async find(collection, query) {
-		let that = this;
+		if (!this.db) {
+			console.error('mongodb::find::db not initialized', collection, query);
+			console.log(new Error().stack);
+			return;
+		}
+
 		if (!query.size) query.size = 10;
 		if (!query.query) query.query = {};
-		return new Promise(function(resolve, reject) {
-			try {
-				if (!that.db) reject('db not initialized');
-				let q = that.db.collection(collection);
-				if (query.query && !query.aggregate) q = q.find(query.query);
-				if (query.aggregate) {
-					if (query.query) query.aggregate.unshift({ $match: query.query });
-					q = q.aggregate(query.aggregate);
-				}
-				if (query.project) q = q.project(query.project);
-				if (query.sort) q = q.sort(query.sort);
-				if (query.size) q = q.limit(query.size);
-				if (query.skip) q = q.skip(query.skip);
-				q.toArray(function(err, results) {
-					if (err) resolve(err);
-					resolve(results);
-				});
-			} catch (ex) {
-				console.error(ex, collection, query);
-				resolve({ ex, collection, query });
+
+		try {
+			let q = this.db.collection(collection);
+
+			// create query
+			if (query.query && !query.aggregate) q = q.find(query.query);
+			if (query.aggregate) {
+				if (query.query) query.aggregate.unshift({ $match: query.query });
+				q = q.aggregate(query.aggregate);
 			}
-		});
+			if (query.project) q = q.project(query.project);
+			if (query.sort) q = q.sort(query.sort);
+			if (query.size) q = q.limit(query.size);
+			if (query.skip) q = q.skip(query.skip);
+
+			// convert to array
+			return await q.toArray();
+		} catch (ex) {
+			console.error('query failed', ex, collection, query);
+			return;
+		}
 	}
 
 	async update(collection, data) {
-		let that = this;
-		return new Promise(function(resolve, reject) {
-			if (!that.db) reject('db not initialized');
+		if (!this.db) {
+			console.error('mongodb::update::db not initialized', collection, data);
+			console.log(new Error().stack);
+			return;
+		}
 
-			// check if it has _id - UPDATE
-			if (data._id) {
-				let id = data._id;
-				// remove _id in the update set
-				delete data._id;
-				// update document
-				that.db.collection(collection).updateOne({ _id: ObjectID(`${id}`) }, { $set: data }, (err, res) => {
-					if (err) reject(err);
-					// restore id
-					data._id = id;
-					resolve(id);
-				});
-			}
+		// check if it has _id - UPDATE
+		if (data._id) {
+			let id = data._id;
+			// remove _id in the update set
+			delete data._id;
+			// update document
+			await this.db.collection(collection).updateOne({ _id: ObjectID(`${id}`) }, { $set: data });
+			return id;
+		}
 
-			// INSERT
-			else {
-				// insert the document
-				that.db.collection(collection).insertOne(data, (err, res) => {
-					if (err) reject(err);
-					resolve(data._id);
-				});
-			}
-		});
+		// INSERT
+		else {
+			// insert the document
+			await this.db.collection(collection).insertOne(data);
+			return data._id;
+		}
 	}
 
 	async insert(collection, data) {
-		let that = this;
-		return new Promise(function(resolve, reject) {
-			if (!that.db) reject('db not initialized');
+		if (!this.db) {
+			console.error('mongodb::insert::db not initialized', collection, data);
+			console.log(new Error().stack);
+			return;
+		}
 
-			// INSERT
-			if (data._id) data._id = ObjectID(`${data._id}`);
-			that.db.collection(collection).insertOne(data, (err, res) => {
-				if (err) reject(err);
-				resolve(data._id);
-			});
-		});
+		// INSERT
+		if (data._id) data._id = ObjectID(`${data._id}`);
+		await this.db.collection(collection).insertOne(data);
+		return data._id;
 	}
 
 	async delete(collection, query) {
-		let that = this;
-		return new Promise(function(resolve, reject) {
-			if (!that.db) reject('db not initialized');
-			if (!query) reject('delete filter not specified');
-			that.db.collection(collection).deleteMany(query, (err, obj) => {
-				if (err) reject(err);
-				resolve(obj.result.n > 0);
-			});
-		});
+		if (!this.db) {
+			console.error('mongodb::delete::db not initialized', collection, query);
+			console.log(new Error().stack);
+			return;
+		}
+		if (!query) {
+			console.error('mongodb::delete::delete filter not specified', collection, query);
+			console.log(new Error().stack);
+			return;
+		}
+		await this.db.collection(collection).deleteMany(query);
 	}
 }
 

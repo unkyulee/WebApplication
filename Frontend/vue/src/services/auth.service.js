@@ -1,67 +1,56 @@
-import axios from "axios";
-import RestService from "./rest.service.js";
-import ConfigService from "./config.service";
+import rest from './rest.service.js';
+import config from './config.service';
+import event from './event.service';
 
 export default {
-  isAuthenticated() {
-    let isValidAuth = false;
+	client: {},
+	isAuthenticated() {
+		let isValidAuth = false;
 
-    // check if the token is valid
-    let token = localStorage.getItem("token");
-    if (token) {
-      isValidAuth = true;
-    }
+		// check if the token is valid
+		this.client = localStorage.getItem('client');
+		if (this.client) {
+			try {
+				this.client = JSON.parse(this.client);
+				if (this.client.id && this.client.name) {
+					isValidAuth = true;
+				}
+			} catch (ex) {
+				console.error(ex);
+			}
+		}
 
-    // if not valid auth then clear localstorage
-    if (!isValidAuth) localStorage.clear();
-    return isValidAuth;
-  },
+		// if not valid auth then clear localstorage
+		if (!isValidAuth) localStorage.clear();
+		return isValidAuth;
+	},
 
-  async authenticate(data) {
-    let response = {};
-    try {
-      response = await RestService.request(
-        ConfigService.get("auth"),
-        data,
-        "post"
-      );
-    } catch (e) {
-      return false;
-    }
+	async authenticate(data) {
+		let response = {};
+		try {
+			response = await rest.request(
+				`${config.get('host')}/api/public/login?company_id=${config.get('_id')}`,
+				data,
+				'post'
+			);
 
-    return response.status == 200;
-  },
+			// authenticate
+			localStorage.setItem('client', JSON.stringify(response.data))
+			event.send({name: data, data: {client: response.data}});
 
-  logout() {
-    localStorage.clear();
-  }
+		} catch (e) {
+			console.error(e);
+			return false;
+		}
+
+		return response;
+	},
+
+	logout() {
+		for (let key of Object.keys(this.client)) delete this.client[key];
+		localStorage.clear();
+		location.reload();
+		//
+		event.send({ name: 'data', data: {client: this.client} });
+	},
 };
-
-///
-
-// Add a request interceptor
-axios.interceptors.request.use(
-  function(config) {
-    let beforeRequest = ConfigService.get("beforeRequest");
-    if (beforeRequest) beforeRequest(config);
-    return config;
-  },
-  function(error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
-
-// Add a response interceptor
-axios.interceptors.response.use(
-  function(response) {
-    // Do something with response data
-    let afterResponse = ConfigService.get("afterResponse");
-    if (afterResponse) afterResponse(response);
-    return response;
-  },
-  function(error) {
-    // Do something with response error
-    return Promise.reject(error);
-  }
-);

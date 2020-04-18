@@ -1,15 +1,18 @@
 <template>
-  <md-button
-    v-if="condition(uiElement)"
-    :class="uiElement.class"
-    :style="uiElement.style"
-    :disabled="uiElement.disabled?safeEval(uiElement.disabled):false"
-    @click="click($event)"
-    :id="uiElement.key"
-  >
-    <md-icon v-if="uiElement.icon">{{uiElement.icon}}</md-icon>
-    {{uiElement.label}}
-  </md-button>
+  <div>
+    <md-badge v-if="uiElement.badge" :md-content="uiElement.badge" md-dense></md-badge>
+    <md-button
+      v-if="condition(uiElement)"
+      :class="uiElement.class"
+      :style="uiElement.style"
+      :disabled="uiElement.disabled?safeEval(uiElement.disabled):false"
+      @click="click($event)"
+      :id="uiElement.key"
+    >
+      <md-icon v-if="uiElement.icon" :style="uiElement.iconStyle">{{uiElement.icon}}</md-icon>
+      {{uiElement.label}}
+    </md-button>
+  </div>
 </template>
 
 <script>
