@@ -2,7 +2,7 @@ Vue.component('WebView', {
 	template: `
   <webview
     :useragent="uiElement.useragent"
-    :partition="uiElement.partition"
+    :partition="uiElement.partition?uiElement.partition:'default'"
     :src="uiElement.src?uiElement.src: '_blank'"
     :id="uiElement.id"
     :style="uiElement.style"
