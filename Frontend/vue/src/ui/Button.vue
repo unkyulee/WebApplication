@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-badge v-if="uiElement.badge" :md-content="uiElement.badge" md-dense></md-badge>
+    <md-badge v-if="uiElement.badge" :md-content="uiElement.badge"></md-badge>
     <md-button
       v-if="condition(uiElement)"
       :class="uiElement.class"
