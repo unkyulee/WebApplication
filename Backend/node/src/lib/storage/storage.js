@@ -3,11 +3,17 @@ const obj = require('object-path');
 
 module.exports = {
 	provider: async function (db, res, req, params = {}) {
-		// retrieve email configuration
+		let company_id = params.company_id;
+		if(!company_id) company_id = obj.get(res, 'locals.token.sub');
+		if(!company_id) {
+			throw 'storage provider failed: company_id does not exist';
+		}
+
+		// retrieve storage configuration
 		params.config = await db.find('config', {
 			query: {
 				type: 'storage',
-				company_id: ObjectID(obj.get(res, 'locals.token.sub', params.company_id)),
+				company_id: ObjectID(company_id),
 			},
 		});
 		if (params.config && params.config.length > 0) {

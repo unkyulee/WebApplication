@@ -1,7 +1,7 @@
 ﻿async function run() {
   // get navigation id
-  let company_id = req.cookies["company_id"];
-  if (!company_id) company_id = req.query.company_id;
+  let company_id = req.query.company_id;
+  if (!company_id) company_id = req.cookies["company_id"];
   if (!company_id) return "No company_id specified";
 
   // retrieve data service

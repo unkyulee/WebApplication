@@ -71,9 +71,12 @@ module.exports = {
 
 	download: async function (db, res, req, params) {
 		// get dropbox access token
+		let company_id = params.company_id;
+		if(!company_id) company_id = obj.get(res, 'locals.token.sub');
+
 		let [config] = await db.find('config', {
 			query: {
-				company_id: ObjectID(obj.get(res, 'locals.token.sub', params.company_id)),
+				company_id: ObjectID(company_id),
 				type: 'dropbox',
 			},
 		});
