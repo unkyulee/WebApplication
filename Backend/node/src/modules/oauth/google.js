@@ -1,6 +1,6 @@
 const rp = require('request-promise-native');
 const ObjectID = require('mongodb').ObjectID;
-const util = require('../lib/utility');
+const util = require('../../lib/utility');
 const obj = require('object-path');
 
 module.exports.requiresAuthentication = async function requiresAuthentication(db, req, res) {
