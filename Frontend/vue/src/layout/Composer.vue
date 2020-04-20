@@ -52,6 +52,17 @@ export default {
     };
   },
   mounted: async function() {
+    // check company_id
+    let company_id = localStorage.getItem("_id");
+    if (company_id != this.config.get("_id")) {
+      localStorage.removeItem("_id");
+    }
+
+    // save company_id
+    setTimeout(() => {
+      localStorage.setItem("_id", this.config.get("_id"));
+    });
+
     // background color
     this.$set(this.style, "background", this.config.get("config.background"));
 

@@ -21,7 +21,8 @@ export default {
 		}
 
 		// if not valid auth then clear localstorage
-		if (!isValidAuth) localStorage.clear();
+		if (!isValidAuth) localStorage.removeItem("client");
+
 		return isValidAuth;
 	},
 

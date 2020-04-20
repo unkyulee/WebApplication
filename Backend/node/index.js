@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const axios = require('axios');
+const rp = require('request-promise-native');
 const obj = require('object-path');
 
 // retrieve secret
@@ -90,13 +90,17 @@ async function handler(req, res) {
 			client_id = params.client_id;
 		}
 
-		await axios.post('http://www.google-analytics.com/collect', {
-			v: 1,
-			tid: process.env.TID,
-			cid: client_id,
-			t: 'pageview',
-			dh: req.get('host'),
-			dp: req.url,
+		await rp({
+			method: 'POST',
+			uri: 'http://www.google-analytics.com/collect',
+			form: {
+				v: 1,
+				tid: process.env.TID,
+				cid: client_id,
+				t: 'pageview',
+				dh: req.get('host'),
+				dp: req.url,
+			},
 		});
 	}
 }
