@@ -99,7 +99,26 @@ export default Vue.component("UiElement", {
     Chips,
     Select
   },
-  mounted: function() {
+  mounted: async function() {
+    // resolve ui-element-id
+    if (this.uiElement && this.uiElement.type == "ui-element-id") {
+      let element = await this.ui.get(this.uiElement.uiElementId);
+      if (element) {
+        this.uiElement = Object.assign(this.uiElement, element);
+        // run init script
+        if (this.uiElement.uiElementInit) {
+          try {
+            eval(this.uiElement.uiElementInit);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      } else {
+        console.error(`uiElement missing ${this.uiElement.uiElementId}`);
+      }
+    }
+
+    // exception for layout
     if (this.uiElement && this.uiElement.type == "layout") {
       if (this.uiElement.init) {
         try {
@@ -108,7 +127,11 @@ export default Vue.component("UiElement", {
           console.error(ex);
         }
       }
-      this.$set(this, 'uiElement', this.filterUiElement(this.uiElement, this.data));
+      this.$set(
+        this,
+        "uiElement",
+        this.filterUiElement(this.uiElement, this.data)
+      );
     }
   },
   methods: {

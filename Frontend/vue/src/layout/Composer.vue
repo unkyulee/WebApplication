@@ -56,6 +56,7 @@ export default {
     let company_id = localStorage.getItem("_id");
     if (company_id != this.config.get("_id")) {
       localStorage.removeItem("_id");
+      localStorage.removeItem("client");
     }
 
     // save company_id
