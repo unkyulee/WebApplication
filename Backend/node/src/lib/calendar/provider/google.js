@@ -125,6 +125,7 @@ module.exports = {
 	deleteEvent: async function (db, res, req, params) {
 		// get access token
 		let token = await this.getToken(db, res, req, params);
+
 		// see if the calendar is specified
 		if (obj.get(params, 'config.calendar') && obj.get(params, 'event') && obj.get(params, 'event.event.id')) {
 			let response = await axios.delete(
@@ -134,7 +135,6 @@ module.exports = {
 				)}/events/${obj.get(params, 'event.event.id')}`,
 				{ headers: { Authorization: `Bearer ${token.access_token}` } }
 			);
-
 			return response.data;
 		}
 	},
@@ -142,7 +142,7 @@ module.exports = {
 	getToken: async function (db, res, req, params) {
 		// retrieve server and get client secrets
 		let server = await db.find('server', {});
-		if (server.length == 0) {
+		if (server && server.length == 0) {
 			throw 'send failed: server config does not found';
 		}
 		server = server[0];

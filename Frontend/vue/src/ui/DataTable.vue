@@ -86,6 +86,8 @@ export default {
           console.error(ex);
         }
 
+        let method = obj.get(this.uiElement, 'method', 'get');
+
         // pagination
         this.size = obj.get(this.uiElement, "size", 10);
         if (!this.page) {
@@ -98,7 +100,7 @@ export default {
 
         //
         this.event.send({ name: "splash-show" });
-        let response = await this.rest.request(src, data);
+        let response = await this.rest.request(src, data, method);
         this.event.send({ name: "splash-hide" });
         response = response.data;
         if (this.uiElement.transform) {

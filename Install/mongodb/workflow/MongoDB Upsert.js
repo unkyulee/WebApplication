@@ -80,13 +80,13 @@ async function initialize() {
 ////
 async function getPrevData() {
 	// retrieve current data
-	let [row] = await context.ds.find(context.config.collection, {
+	let row = await context.ds.find(context.config.collection, {
 		query: {
 			_id: ObjectID(context.data._id),
 		},
 	});
-	if (row) {
-		context.prev = row;
+	if (row && row.length > 0) {
+		context.prev = row[0];
 	}
 }
 

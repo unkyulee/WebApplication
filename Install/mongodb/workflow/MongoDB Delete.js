@@ -21,7 +21,7 @@
 	let filter = { $and: [{ _id: ObjectID(`${data._id}`) }] };
 
 	// retrieve the data
-  let rows = await ds.find(collection, {query:filter});
+	let rows = await ds.find(collection, { query: filter });
 	if (rows.length > 0) {
 		// make a copy in the 'deleted'
 		await ds.insert('deleted', {
@@ -31,7 +31,19 @@
 			records: rows,
 		});
 		// then delete
-		return await ds.delete(collection, filter);
+		let result = await ds.delete(collection, filter);
+
+		if (config.postProcess) {
+			for (let process of config.postProcess) {
+				try {
+					await eval(process);
+				} catch (ex) {
+					console.error(ex);
+				}
+			}
+		}
+
+		return result;
 	}
 }
 

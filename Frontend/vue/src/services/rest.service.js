@@ -13,22 +13,27 @@ export default {
 		}
 
 		////////////////////////////////////
-		switch (method) {
-			case 'post':
-				return await axios.post(url, data, options);
-			case 'put':
-				return await axios.put(url, data, options);
-			case 'delete':
-				return await axios.delete(url);
-			default: {
-				let queryString = Object.keys(data)
-					.map((key) => key + '=' + data[key])
-					.join('&');
-				let queryUrl = url;
-				if (queryUrl.includes('?') == false) queryUrl = `${url}?${queryString}`;
-				else queryUrl = `${url}&${queryString}`;
-				return await axios.get(queryUrl);
+		try {
+			switch (method) {
+				case 'post':
+					return await axios.post(url, data, options);
+				case 'put':
+					return await axios.put(url, data, options);
+				case 'delete':
+					return await axios.delete(url);
+				default: {
+					let queryString = Object.keys(data)
+						.map((key) => key + '=' + data[key])
+						.join('&');
+					let queryUrl = url;
+					if (queryUrl.includes('?') == false) queryUrl = `${url}?${queryString}`;
+					else queryUrl = `${url}&${queryString}`;
+					return await axios.get(queryUrl);
+				}
 			}
+		} catch(ex) {
+			return ex.response;
 		}
+
 	},
 };
