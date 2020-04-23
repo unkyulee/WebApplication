@@ -44,7 +44,7 @@ module.exports = {
 					dateTime: moment(obj.get(params, 'event.appointment_end_date')).format('YYYY-MM-DDTHH:mm:ssZZ'),
 				},
 				summary: obj.get(params, 'event.title'),
-				description: obj.get(params, 'event.note'),
+				description: obj.get(params, 'event.client_note'),
 			};
 
 			if (obj.get(params, 'event.assignees', []).length > 0) {
@@ -91,7 +91,7 @@ module.exports = {
 					dateTime: moment(obj.get(params, 'event.appointment_end_date')).format('YYYY-MM-DDTHH:mm:ssZZ'),
 				},
 				summary: obj.get(params, 'event.title'),
-				description: obj.get(params, 'event.note'),
+				description: obj.get(params, 'event.client_note'),
 			};
 
 			if (obj.get(params, 'event.assignees', []).length > 0) {
