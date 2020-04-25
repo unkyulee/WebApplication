@@ -1,6 +1,6 @@
 {
   "name": "electron-shell",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Desktop shell to host angular app",
   "main": "app.js",
   "scripts": {
