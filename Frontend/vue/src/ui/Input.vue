@@ -12,12 +12,7 @@
       :style="uiElement.style"
     >
       <label :style="uiElement.labelStyle">{{uiElement.label}}</label>
-      <md-input
-        v-model="value"
-        :type="uiElement.inputType"
-        @keyup="keyup"
-        :id="uiElement.key"
-      ></md-input>
+      <md-input v-model="value" :type="uiElement.inputType" @keyup="keyup" :id="uiElement.key"></md-input>
     </md-field>
 
     <!-- Textarea -->
@@ -42,13 +37,16 @@
       :isDateDisabled="isDateDisabled"
     ></date-pick>
 
-    <!-- Date Inline -->
-    <date-pick
-      v-if="uiElement.inputType == 'date'"
+    <!-- Date -->
+    <datetime
+      v-if="uiElement.inputType == 'datetime'"
+      type="datetime"
       v-model="value"
-      :weekdays="weekdays"
-      :months="months"
-    ></date-pick>
+      :class="uiElement.class"
+      :input-style="uiElement.style"
+      :placeholder="uiElement.label"
+    >
+    </datetime >
   </keep-alive>
 </template>
 
@@ -58,6 +56,11 @@ import { MdField } from "vue-material/dist/components";
 // date picker
 import DatePick from "vue-date-pick";
 import "vue-date-pick/dist/vueDatePick.css";
+
+// date time picker
+import { Datetime } from 'vue-datetime'
+import 'vue-datetime/dist/vue-datetime.css'
+Vue.use(Datetime)
 
 // utilities
 import { debounce } from "debounce";
@@ -72,7 +75,7 @@ Vue.use(MdField);
 
 export default {
   extends: Base,
-  components: { DatePick },
+  components: { DatePick, Datetime },
   mounted: function() {
     // changed
     this.changed = debounce(this.changed, 200);
@@ -185,11 +188,11 @@ export default {
       }
     },
     keyup(e) {
-      if(this.uiElement.keyup) {
+      if (this.uiElement.keyup) {
         try {
-          eval(this.uiElement.keyup)
-        } catch(e) {
-          console.error(e)
+          eval(this.uiElement.keyup);
+        } catch (e) {
+          console.error(e);
         }
       }
     }

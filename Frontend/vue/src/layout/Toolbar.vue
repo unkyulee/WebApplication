@@ -1,5 +1,5 @@
 <template>
-  <div class="md-toolbar-row" style="min-height: fit-content">
+  <div class="md-toolbar-row">
     <md-button class="md-icon-button" @click="click()" v-if="showDrawer && type != 'sub'">
       <md-icon :style="buttonStyle">menu</md-icon>
     </md-button>
