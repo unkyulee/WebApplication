@@ -1,15 +1,16 @@
-<div #container (window:resize)="beResponsive()">
-    <signature-pad  [options]="options"
-                    (onBeginEvent)="drawStart()"
-                    (onEndEvent)="drawComplete()">
-    </signature-pad>
-</div>
+<signature-pad
+	(window:resize)="beResponsive()"
+	[options]="options"
+	(onBeginEvent)="drawStart()"
+	(onEndEvent)="drawComplete()"
+>
+</signature-pad>
 <div [ngStyle]="uiElement.buttonLayoutStyle">
-    <button mat-raised-button class="mb-4" (click)="save()" color="warn">
-        {{uiElement.saveLabel?uiElement.saveLabel:'Save'}}
-    </button>
-    <div fxFlex></div>
-    <button mat-raised-button class="mb-4" (click)="clear()">
-        {{uiElement.clearLabel?uiElement.clearLabel:'Clear'}}
-    </button>
+	<button mat-raised-button class="mb-4" (click)="save()" color="warn">
+		{{ uiElement.saveLabel ? uiElement.saveLabel : 'Save' }}
+	</button>
+	<div fxFlex></div>
+	<button mat-raised-button class="mb-4" (click)="clear()">
+		{{ uiElement.clearLabel ? uiElement.clearLabel : 'Clear' }}
+	</button>
 </div>

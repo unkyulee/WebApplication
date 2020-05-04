@@ -97,7 +97,13 @@ class MongoDB {
 
 		// INSERT
 		if (data._id) data._id = ObjectID(`${data._id}`);
-		await this.db.collection(collection).insertOne(data);
+		try {
+			await this.db.collection(collection).insertOne(data);
+		} catch(ex) {
+			console.error(data);
+			throw ex;
+		}
+
 		return data._id;
 	}
 

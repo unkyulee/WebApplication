@@ -87,12 +87,16 @@ export class DefaultAuthStrategy {
     let isValid = false;
 
     /// parse jwt token
-    let base64Url = token.split(".")[1];
-    let base64 = base64Url.replace("-", "+").replace("_", "/");
-    let tokenObj = JSON.parse(window.atob(base64));
-    if (tokenObj) {
-      let exp = new Date(tokenObj.exp * 1000);
-      if (exp > new Date()) isValid = true;
+    try {
+      let base64Url = token.split(".")[1];
+      let base64 = base64Url.replace("-", "+").replace("_", "/");
+      let tokenObj = JSON.parse(window.atob(base64));
+      if (tokenObj) {
+        let exp = new Date(tokenObj.exp * 1000);
+        if (exp > new Date()) isValid = true;
+      }
+    } catch(ex) {
+      console.error(ex)
     }
 
     return isValid;

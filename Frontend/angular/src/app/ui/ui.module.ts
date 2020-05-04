@@ -4,7 +4,6 @@ import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MaterialModule } from "../core/material.module";
 import { SignaturePadModule } from "angular2-signaturepad";
-import { Ng2ImgMaxModule } from "ng2-img-max";
 import { FileUploadModule } from "ng2-file-upload";
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from "../../../ext/ng-pick-datetime";
 import { ScrollingModule } from "@angular/cdk/scrolling";
@@ -170,7 +169,6 @@ export function momentAdapterFactory() { return adapterFactory(moment); }
     FormsModule,
     ReactiveFormsModule,
     SignaturePadModule,
-    Ng2ImgMaxModule,
     FileUploadModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,

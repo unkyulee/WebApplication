@@ -114,7 +114,7 @@ if (process.env.TASK) {
 }
 
 // Initiate the server
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, process.env.BIND_IP, () => {
 	console.log(`PORT: ${process.env.PORT}, IP: ${process.env.BIND_IP}`);
 	console.log(`DATABASE_URI: ${process.env.DATABASE_URI}, DB: ${process.env.DB}`);
 });

@@ -45,8 +45,14 @@
       :class="uiElement.class"
       :input-style="uiElement.style"
       :placeholder="uiElement.label"
-    >
-    </datetime >
+    ></datetime>
+
+    <!-- Checkbox -->
+    <md-checkbox
+      v-model="value"
+      :class="uiElement.class"
+      :input-style="uiElement.style"
+    >{{uiElement.label}}</md-checkbox>
   </keep-alive>
 </template>
 
@@ -58,9 +64,9 @@ import DatePick from "vue-date-pick";
 import "vue-date-pick/dist/vueDatePick.css";
 
 // date time picker
-import { Datetime } from 'vue-datetime'
-import 'vue-datetime/dist/vue-datetime.css'
-Vue.use(Datetime)
+import { Datetime } from "vue-datetime";
+import "vue-datetime/dist/vue-datetime.css";
+Vue.use(Datetime);
 
 // utilities
 import { debounce } from "debounce";
@@ -125,12 +131,14 @@ export default {
           // if null then assign default
           if (typeof obj.get(this.data, this.uiElement.key) == "undefined") {
             let def = this.uiElement.default;
-            try {
-              def = eval(this.uiElement.default);
-            } catch (e) {
-              //
+            if (def) {
+              try {
+                def = eval(this.uiElement.default);
+              } catch (e) {
+                //
+              }
+              obj.set(this.data, this.uiElement.key, def);
             }
-            obj.set(this.data, this.uiElement.key, def);
           }
 
           // set value

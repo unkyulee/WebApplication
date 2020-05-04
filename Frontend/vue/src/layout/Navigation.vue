@@ -55,7 +55,7 @@ export default {
   },
   mounted: async function() {
     // load navigation
-    this.navigations = this.config.get("navigations");
+    this.navigations = this.config.get("navigations", []);
     for(let nav of this.navigations) {
       try {
          eval(nav.init)
