@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # swap index.html with index.html.prod
-cp /y ../../Frontend/angular/src/index.prod.html ../../Frontend/angular/src/index.html
+cp ../../Frontend/angular/src/index.prod.html ../../Frontend/angular/src/index.html
 
 # clear wwwroot
 rm -rf wwwroot
-md wwwroot
+mkdir wwwroot
 
 
 # -------------------------------------------------------------
@@ -15,11 +15,11 @@ pushd ../../Frontend/angular
 ./build.sh
 popd
 
-cp -R ../../Frontend/angular/dist ./wwwroot
+cp -R ../../Frontend/angular/dist/ ./wwwroot
 
 # #ove index.js
 rm ./wwwroot/index.js
-mv ./wwwroot/index.html angular.html
+mv ./wwwroot/index.html ./wwwroot/angular.html
 
 
 # -------------------------------------------------------------
@@ -33,4 +33,4 @@ cp -R ../../Frontend/vue/dist/ ./wwwroot
 
 # #ove index.js
 rm ./wwwroot/index.js
-mv ./wwwroot/index.html vue.html
+mv ./wwwroot/index.html ./wwwroot/vue.html
