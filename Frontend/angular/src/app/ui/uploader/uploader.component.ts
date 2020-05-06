@@ -44,9 +44,6 @@ export class UploaderComponent extends BaseComponent {
 	ngOnInit() {
 		super.ngOnInit();
 
-		// set uploader
-		this.setUploader();
-
 		// onresume - cordova requires constant montoring on the change detection
 		// otherwise it doesn't update its screen .. this happens when coming from camera
 		this.onResume = this.cordova.resume.subscribe((event) => {
@@ -109,6 +106,9 @@ export class UploaderComponent extends BaseComponent {
 	}
 
 	async uploadFile(file) {
+		// set uploader
+		this.setUploader();
+
 		if (this.uiElement.image) {
 			// process the image if image options exists
 			file = await this.processImage(file);
@@ -170,9 +170,9 @@ export class UploaderComponent extends BaseComponent {
 					let ratio = ratioHeight > ratioWidth ? ratioWidth : ratioHeight;
 					if (ratio > 1) ratio = 1;
 
-					this.imageCompress.compressFile(image, null, ratio*100, 75).then(
+					this.imageCompress.compressFile(image, null, ratio * 100, 75).then(
 						(result) => {
-              let content = this.dataURItoFile(result, file.name);
+							let content = this.dataURItoFile(result, file.name);
 							resolve(content);
 						},
 						(error) => {
@@ -200,18 +200,27 @@ export class UploaderComponent extends BaseComponent {
 			url = eval(url);
 		} catch (e) {}
 		let method = this.uiElement.method;
-		this.uploader = new FileUploader({
+
+		// option
+		let options = {
 			url: url,
 			method: method,
 			authToken: eval(this.uiElement.upload.authToken),
 			authTokenHeader: eval(this.uiElement.upload.authTokenHeader),
 			headers: eval(this.uiElement.upload.headers),
 			autoUpload: this.uiElement.autoUpload ? this.uiElement.autoUpload : true,
-		});
+		};
 
-		// when upload is finished
-		this.uploader.onSuccessItem = (item: any, response: any, status: any, headers: any) =>
-			this.onSuccessUpload(item, response, status, headers);
+		// set uploader
+		if (!this.uploader) {
+			this.uploader = new FileUploader(options);
+			// when upload is finished
+			this.uploader.onSuccessItem = (item: any, response: any, status: any, headers: any) =>
+				this.onSuccessUpload(item, response, status, headers);
+		} else {
+			//
+			this.uploader.setOptions(options);
+		}
 	}
 
 	onSuccessUpload(item: any, response: any, status: any, headers: any): any {
