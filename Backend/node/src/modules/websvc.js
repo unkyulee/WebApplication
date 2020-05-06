@@ -6,7 +6,7 @@ const path = require('path');
 const obj = require('object-path');
 const moment = require('moment-timezone');
 const util = require('../lib/utility');
-const email = require('../lib/email');
+const email = require('../lib/email/email');
 const calendar = require('../lib/calendar/calendar');
 const storage = require("../lib/storage/storage");
 
