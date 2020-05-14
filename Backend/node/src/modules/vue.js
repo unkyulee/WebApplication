@@ -27,32 +27,35 @@ module.exports.process = async function process(db, req, res) {
 };
 
 async function IndexHtml(db, req, res) {
-	return new Promise(function (resolve, reject) {
-		// base_href must contain company name
-		let paths = req.url.split('?')[0].split('/');
-		if (paths.length >= 2) {
+	let paths = req.url.split('?')[0].split('/');
+	// company name must be passed on the URL
+	if (paths.length >= 2) {
+		// cover for the root url
+		if (!paths[2]) paths[2] = '';
+		if (paths[2] == 'index.js') {
+			paths[2] = '';
+			paths.push('index.js');
+		}
+		// load config of the module from company configuration of the module
+		let [company] = await db.find('core.company', { query: { url: `/${paths[2]}` } });
+		if (company) {
 			// cover to root url cases
 			if (paths[2]) paths[2] = `/${paths[2]}`;
-			else if(!paths[2]) paths[2] = '';
+			else if (!paths[2]) paths[2] = '';
 
 			// read "index.tmpl" from static folder
 			let filepath = path.join(req.app.locals.wwwroot, '/vue.html');
-			fs.readFile(filepath, 'utf8', function (err, contents) {
-				if (err != null) reject(err);
-				else {
-					let base_href = `${res.locals.nav.url == '/' ? '' : res.locals.nav.url}${paths[2]}`;
-					let result = contents
-						.replace('@title', res.locals.nav.name)
-						.replace('@base_href', `<base href='${base_href}'>`)
-						.replace('@path', base_href);
+			let contents = fs.readFileSync(filepath, 'utf8');
 
-					resolve(result);
-				}
-			});
-		} else {
-			reject();
+			let base_href = `${res.locals.nav.url == '/' ? '' : res.locals.nav.url}${paths[2]}`;
+			let result = contents
+				.replace('@title', company.name)
+				.replace('@base_href', `<base href='${base_href}'>`)
+				.replace('@path', base_href);
+
+			return result
 		}
-	});
+	}
 }
 
 // return app configuration js
@@ -63,9 +66,9 @@ async function IndexJS(db, req, res) {
 	if (paths.length >= 2) {
 		// cover for the root url
 		if (!paths[2]) paths[2] = '';
-		if(paths[2] == 'index.js') {
+		if (paths[2] == 'index.js') {
 			paths[2] = '';
-			paths.push('index.js')
+			paths.push('index.js');
 		}
 		// load config of the module from company configuration of the module
 		let [company] = await db.find('core.company', { query: { url: `/${paths[2]}` } });
