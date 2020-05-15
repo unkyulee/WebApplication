@@ -19,6 +19,13 @@
       :class="uiElement.layoutClass"
       :style="uiElement.layoutStyle"
     />
+    <Icon
+      v-if="uiElement.type == 'icon' && condition(uiElement)"
+      :uiElement="filterUiElement(uiElement, data)"
+      :data="filterData(uiElement, data)"
+      :class="uiElement.layoutClass"
+      :style="uiElement.layoutStyle"
+    />
     <Input
       v-if="uiElement.type == 'input' && condition(uiElement)"
       :uiElement="filterUiElement(uiElement, data)"
@@ -85,6 +92,7 @@ import Stepper from "./Stepper";
 import Divider from "./Divider";
 import Chips from "./Chips";
 import Select from "./Select";
+import Icon from "./Icon";
 
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],
@@ -97,7 +105,8 @@ export default Vue.component("UiElement", {
     Stepper,
     Divider,
     Chips,
-    Select
+    Select,
+    Icon
   },
   mounted: async function() {
     // resolve ui-element-id
