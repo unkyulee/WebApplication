@@ -6,6 +6,12 @@
 	"script" : "var Mustache = require(\"mustache\");\r\nvar pdf = require(\"html-pdf\");\r\nvar moment = require(\"moment-timezone\");\r\n\r\n(async function() {\r\n  // form values\r\n  let data = Object.assign({}, req.query, req.body);\r\n\r\n  // load from the database\r\n  await res.locals.ds.connect();\r\n  data = await res.locals.ds.find(data.collection, {\r\n    _id: ObjectID(data._id)\r\n  });\r\n\r\n  // take the first row\r\n  data = data[0]\r\n\r\n  // transform\r\n  eval(res.locals.configuration.transform)\r\n\r\n  // prepare html\r\n  var html = Mustache.render(res.locals.configuration.template, data);\r\n\r\n  // convert html to pdf\r\n  await new Promise(function(resolve, reject) {\r\n    pdf\r\n      .create(html, res.locals.configuration.options)\r\n      .toBuffer(function(err, buffer) {\r\n        res.setHeader(\r\n          \"Content-disposition\",\r\n          `inline; filename=${new Date().getTime()}.pdf`\r\n        );\r\n        res.end(buffer, \"binary\");\r\n        resolve(true);\r\n      });\r\n  });\r\n\r\n})();\r\n"
 },
 
+{
+  "_id": "000000000000000000000210",
+  "name": "EXCEL",
+  "script": "const excel = require('node-excel-export');\r\n\r\n(async function () {\r\n\t// form values\r\n\tlet params = Object.assign({}, req.query, req.body);\r\n\r\n\t// load config\r\n\tawait res.locals.ds.connect();\r\n\r\n\tlet config;\r\n\tif (params.template) {\r\n\t\t// load from template\r\n\t\tconfig = await res.locals.ds.find('core.ui', {\r\n\t\t\tquery: {\r\n\t\t\t\t_id: ObjectID(params.template),\r\n\t\t\t},\r\n\t\t});\r\n\t\tconfig = config[0];\r\n\t} else {\r\n\t\t// load from custom config\r\n\t\tconfig = await res.locals.ds.find('config', {\r\n\t\t\tquery: {\r\n\t\t\t\tcompany_id: ObjectID(req.cookies['company_id']),\r\n\t\t\t\ttype: 'excel',\r\n\t\t\t\tpdf: params.excel,\r\n\t\t\t},\r\n\t\t});\r\n\t\tconfig = config[0];\r\n\t}\r\n\r\n\tif (!config) {\r\n\t\tres.status(500);\r\n\t\tres.send(`configuration does not exist for ${req.cookies['company_id']} of pdf ${params.pdf}`);\r\n\t\treturn;\r\n\t}\r\n\r\n\t// transform\r\n\tlet options = await eval(config.data);\r\n\r\n\t// prepare excel\r\n\tconst report = excel.buildExport(options);\r\n\r\n\t// send file\r\n\tres.setHeader('Content-disposition', `inline; filename=${new Date().getTime()}.xlsx`);\r\n\tres.end(report, 'binary');\r\n})();\r\n"
+}
+
 /* 2 createdAt:1970. 1. 1. 오전 1:00:00*/
 {
 	"_id" : ObjectId("000000000000000000000190"),
