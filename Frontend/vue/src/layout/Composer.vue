@@ -113,7 +113,11 @@ export default {
       // when navigation changes load the ui element
       if (nav) {
         // check if the nav requires login
-        if (nav.login) {
+        let requiredLogin = nav.login;
+        try {
+          requiredLogin = eval(nav.login);
+        } catch {}
+        if (requiredLogin) {
           // check if login
           if (!this.auth.isAuthenticated()) {
             // go to login screen

@@ -7,7 +7,7 @@
       <md-icon :style="buttonStyle">arrow_back</md-icon>
     </md-button>
 
-    <span v-if="!logo">{{title}}</span>
+    <span v-if="!logo" style="font-size: initial">{{title}}</span>
 
     <img v-if="logo" :src="logo" />
     <div style="flex-grow: 1"></div>
