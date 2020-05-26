@@ -5,20 +5,27 @@
     :style="uiElement.contentLayoutStyle"
     :class="uiElement.contentLayoutStyle"
   >
-    <RecycleScroller
+    <DynamicScroller
       class="scroller"
       :items="rows ? rows : []"
-      :item-size="rows ? rows.length : 0"
-      key-field="_id"
-      v-slot={item}
+      :min-item-size="uiElement.minItemSize?uiElement.minItemSize: 150"
+      :item-size="null"
+      :key-field="uiElement.keyField?uiElement.keyField:'_id'"
+      v-slot="{item}"
     >
-       <UiElement
-        v-for="(column, index) in uiElement.columns"
-        v-bind:key="index"
-        v-bind:uiElement="filterUiElement(column, item)"
-        v-bind:data="filterData(column, item)"
-      />
-    </RecycleScroller>
+      <div
+        :style="uiElement.itemBoxStyle"
+        :class="uiElement.itemBoxClass"
+        @click="click($event, uiElement, item)"
+      >
+        <UiElement
+          v-for="(column, index) in uiElement.columns"
+          v-bind:key="index"
+          v-bind:uiElement="filterUiElement(column, item)"
+          v-bind:data="filterData(column, item)"
+        />
+      </div>
+    </DynamicScroller>
     <paginate
       v-if="pageCount > 1"
       :page-count="pageCount"
