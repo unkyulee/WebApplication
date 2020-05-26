@@ -7,6 +7,10 @@ import Vue from "vue";
 import VueMaterial from 'vue-material'
 Vue.use(VueMaterial);
 
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import VueVirtualScroller from 'vue-virtual-scroller'
+Vue.use(VueVirtualScroller)
+
 // services
 import event from "./services/event.service";
 import rest from "./services/rest.service";

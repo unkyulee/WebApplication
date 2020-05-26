@@ -2,23 +2,23 @@
   <!-- Simple List -->
   <div
     v-if="uiElement.tableType == 'list'"
-    v-bind:style="uiElement.contentLayoutStyle"
-    v-bind:class="uiElement.contentLayoutStyle"
+    :style="uiElement.contentLayoutStyle"
+    :class="uiElement.contentLayoutStyle"
   >
-    <div
-      v-for="(row, index) of rows"
-      v-bind:key="index"
-      v-bind:style="uiElement.itemBoxStyle"
-      v-bind:class="uiElement.itemBoxClass"
-      @click="click($event, uiElement, row)"
+    <RecycleScroller
+      class="scroller"
+      :items="rows ? rows : []"
+      :item-size="rows ? rows.length : 0"
+      key-field="_id"
+      v-slot={item}
     >
-      <UiElement
+       <UiElement
         v-for="(column, index) in uiElement.columns"
         v-bind:key="index"
-        v-bind:uiElement="filterUiElement(column, row)"
-        v-bind:data="filterData(column, row)"
+        v-bind:uiElement="filterUiElement(column, item)"
+        v-bind:data="filterData(column, item)"
       />
-    </div>
+    </RecycleScroller>
     <paginate
       v-if="pageCount > 1"
       :page-count="pageCount"
@@ -86,7 +86,7 @@ export default {
           console.error(ex);
         }
 
-        let method = obj.get(this.uiElement, 'method', 'get');
+        let method = obj.get(this.uiElement, "method", "get");
 
         // pagination
         this.size = obj.get(this.uiElement, "size", 10);
@@ -116,7 +116,8 @@ export default {
         try {
           this.total = parseInt(eval(transformTotal));
         } catch (e) {}
-        if (this.total != 0 && !this.total) this.total = obj.get(this, 'rows', []).length;
+        if (this.total != 0 && !this.total)
+          this.total = obj.get(this, "rows", []).length;
 
         this.event.send({ name: "data", data: this.data });
       }
@@ -167,7 +168,9 @@ export default {
     },
     pageCount: {
       get: function() {
-        return (this.total == 0 ? 1 : this.total)/(this.size == 0 ? 1 : this.size)
+        return (
+          (this.total == 0 ? 1 : this.total) / (this.size == 0 ? 1 : this.size)
+        );
       }
     }
   }
