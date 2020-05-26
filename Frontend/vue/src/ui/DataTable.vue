@@ -9,7 +9,6 @@
       class="scroller"
       :items="rows ? rows : []"
       :min-item-size="uiElement.minItemSize?uiElement.minItemSize: 150"
-      :item-size="null"
       :key-field="uiElement.keyField?uiElement.keyField:'_id'"
       v-slot="{item}"
     >
