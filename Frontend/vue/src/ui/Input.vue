@@ -5,7 +5,6 @@
       v-if="
         !uiElement.inputType ||
         uiElement.inputType == 'text' ||
-        uiElement.inputType == 'number' ||
         uiElement.inputType == 'email' ||
         uiElement.inputType == 'password'"
       :class="uiElement.class"
@@ -14,6 +13,17 @@
       <label :style="uiElement.labelStyle">{{uiElement.label}}</label>
       <md-input v-model="value" :type="uiElement.inputType" @keyup="keyup" :id="uiElement.key"></md-input>
     </md-field>
+
+    <!-- Quantity -->
+    <number-input
+      controls
+      center
+      v-if="uiElement.inputType == 'number'"
+      v-model="value"
+      :placeholder="uiElement.label"
+      :class="uiElement.class"
+      :style="uiElement.style"
+    ></number-input>
 
     <!-- Textarea -->
     <md-field v-if="uiElement.inputType == 'textarea'" v-model="value">
@@ -49,6 +59,7 @@
 
     <!-- Checkbox -->
     <md-checkbox
+      v-if="uiElement.inputType == 'checkbox'"
       v-model="value"
       :class="uiElement.class"
       :input-style="uiElement.style"
@@ -207,4 +218,3 @@ export default {
   }
 };
 </script>
-

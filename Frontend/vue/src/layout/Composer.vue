@@ -129,6 +129,14 @@ export default {
         this.event.send({ name: "splash-show" });
         this.uiElement = {};
         this.uiElement = await this.ui.get(obj.get(nav, "uiElementIds.0"));
+        // run init script
+        try {
+          if (obj.get(this.uiElement, "init")) {
+            await eval(this.uiElement.init);
+          }
+        } catch (ex) {
+          console.error(ex);
+        }
         this.uiElement = this.filterUiElement(this.uiElement, this.data);
         this.event.send({ name: "splash-hide" });
       }

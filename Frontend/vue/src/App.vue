@@ -11,6 +11,9 @@ import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import VueVirtualScroller from 'vue-virtual-scroller'
 Vue.use(VueVirtualScroller)
 
+import VueNumberInput from '@chenfengyuan/vue-number-input';
+Vue.use(VueNumberInput);
+
 // services
 import event from "./services/event.service";
 import rest from "./services/rest.service";

@@ -76,7 +76,7 @@ export default {
       // find matching nav
       let nav = this.config.get("navigations", []).find(x => x.url == to.path);
       if (nav) {
-        this.type = nav.type;
+        this.$set(this, 'type', nav.type);
       }
     }
   }

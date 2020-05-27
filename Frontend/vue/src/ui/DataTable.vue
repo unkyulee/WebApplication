@@ -6,7 +6,7 @@
     :class="uiElement.contentLayoutStyle"
   >
     <DynamicScroller
-      class="scroller"
+      v-if="uiElement.virtualScroll"
       :items="rows ? rows : []"
       :min-item-size="uiElement.minItemSize?uiElement.minItemSize: 150"
       :key-field="uiElement.keyField?uiElement.keyField:'_id'"
@@ -25,6 +25,24 @@
         />
       </div>
     </DynamicScroller>
+
+    <div v-if="!uiElement.virtualScroll">
+      <div
+        v-for="(row, index) of rows"
+        v-bind:key="index"
+        v-bind:style="uiElement.itemBoxStyle"
+        v-bind:class="uiElement.itemBoxClass"
+        @click="click($event, uiElement, row)"
+      >
+        <UiElement
+          v-for="(column, index) in uiElement.columns"
+          v-bind:key="index"
+          v-bind:uiElement="filterUiElement(column, row)"
+          v-bind:data="filterData(column, row)"
+        />
+      </div>
+    </div>
+
     <paginate
       v-if="pageCount > 1"
       :page-count="pageCount"
