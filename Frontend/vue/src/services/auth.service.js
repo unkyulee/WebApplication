@@ -36,9 +36,10 @@ export default {
 			);
 
 			// authenticate
-			localStorage.setItem('client', JSON.stringify(response.data))
-			event.send({name: data, data: {client: response.data}});
-
+			if(response.status == 200) {
+				localStorage.setItem('client', JSON.stringify(response.data))
+				event.send({name: data, data: {client: response.data}});
+			}
 		} catch (e) {
 			console.error(e);
 			return false;

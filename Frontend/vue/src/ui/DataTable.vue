@@ -125,7 +125,6 @@ export default {
         //
         this.event.send({ name: "splash-show" });
         let response = await this.rest.request(src, data, method);
-        this.event.send({ name: "splash-hide" });
         response = response.data;
         if (this.uiElement.transform) {
           try {
@@ -133,6 +132,8 @@ export default {
           } catch (ex) {
             console.error(ex);
           }
+        } else {
+          this.rows = response;
         }
 
         // get total records
@@ -143,6 +144,7 @@ export default {
         if (this.total != 0 && !this.total)
           this.total = obj.get(this, "rows", []).length;
 
+        this.event.send({ name: "splash-hide" });
         this.event.send({ name: "data", data: this.data });
       }
     },
