@@ -71,7 +71,7 @@ Vue.component('Composer', {
 			}
 
 			// select the first menu
-			this.click(this.navs[0]);
+			if(obj.get(this, 'navs', []).length > 0) this.click(this.navs[0]);
 		});
 
 		// listen to nav-selected

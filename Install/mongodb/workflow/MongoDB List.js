@@ -133,10 +133,7 @@ function processFilterFields() {
 
 	// see if _project parameter exists
 	if (obj.get(context.data, '_project')) {
-		let projects = obj
-			.get(context.data, '_project', '')
-			.trim()
-			.split(',');
+		let projects = obj.get(context.data, '_project', '').trim().split(',');
 		if (projects) {
 			context.project = {};
 			for (let project of projects) context.project[project] = true;
@@ -144,10 +141,7 @@ function processFilterFields() {
 		// remove _search from the data
 		obj.del(context.data, '_project');
 	} else if (obj.get(context.data, '_project_ne')) {
-		let projects = obj
-			.get(context.data, '_project_ne', '')
-			.trim()
-			.split(',');
+		let projects = obj.get(context.data, '_project_ne', '').trim().split(',');
 		if (projects) {
 			context.project = {};
 			for (let project of projects) context.project[project] = false;
@@ -229,7 +223,12 @@ function processFilter() {
 		// expression
 		else if (key.endsWith('$')) {
 			let f = {};
-			f[key.substring(0, key.length - 1)] = eval(context.data[key]);
+			f[key.substring(0, key.length - 1)] = context.data[key];
+
+			try {
+				f[key.substring(0, key.length - 1)] = eval(context.data[key]);
+			} catch {}
+
 			context.filter.$and.push(f);
 		}
 		// otherwise, string filter
@@ -267,8 +266,8 @@ async function preProcess() {
 		try {
 			await eval(process);
 		} catch (ex) {
-			res.send(ex)
-			throw ex
+			res.send(ex);
+			throw ex;
 		}
 	}
 }
@@ -280,8 +279,8 @@ async function postProcess() {
 		try {
 			await eval(process);
 		} catch (ex) {
-			res.send(ex)
-			throw ex
+			res.send(ex);
+			throw ex;
 		}
 	}
 }
