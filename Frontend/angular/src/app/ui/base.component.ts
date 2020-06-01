@@ -13,7 +13,6 @@ import { DBService } from "../services/db/db.service";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CordovaService } from "../services/cordova.service";
-import { ExportService } from "../services/export.service";
 import { AuthService } from "../services/auth/auth.service";
 import { UtilService } from "../services/util.service";
 import { UIService } from "../services/ui.service";
@@ -36,7 +35,6 @@ export class BaseComponent {
     this.router = AppInjector.get(Router);
     this.snackBar = AppInjector.get(MatSnackBar);
     this.cordova = AppInjector.get(CordovaService);
-    this.exp = AppInjector.get(ExportService);
     this.auth = AppInjector.get(AuthService);
     this.zone = AppInjector.get(NgZone);
     this.permission = AppInjector.get(PermissionService);
@@ -58,7 +56,6 @@ export class BaseComponent {
   public router: Router;
   public snackBar: MatSnackBar;
   public cordova: CordovaService;
-  public exp: ExportService;
   public auth: AuthService;
   public zone: NgZone;
   public permission: PermissionService;

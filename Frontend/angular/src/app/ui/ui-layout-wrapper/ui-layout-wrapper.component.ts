@@ -13,7 +13,6 @@ import { UserService } from 'src/app/services/user/user.service';
 import { DBService } from 'src/app/services/db/db.service';
 import { UtilService } from 'src/app/services/util.service';
 import { CordovaService } from 'src/app/services/cordova.service';
-import { ExportService } from 'src/app/services/export.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { UIService } from 'src/app/services/ui.service';
 import { PermissionService } from 'src/app/services/permission.service';
@@ -64,7 +63,6 @@ export class UILayoutWrapperComponent {
 		this.router = AppInjector.get(Router);
 		this.snackBar = AppInjector.get(MatSnackBar);
 		this.cordova = AppInjector.get(CordovaService);
-		this.exp = AppInjector.get(ExportService);
 		this.auth = AppInjector.get(AuthService);
 		this.ui = AppInjector.get(UIService);
 		this.permission = AppInjector.get(PermissionService);
@@ -81,7 +79,6 @@ export class UILayoutWrapperComponent {
 	public router: Router;
 	public snackBar: MatSnackBar;
 	public cordova: CordovaService;
-	public exp: ExportService;
 	public auth: AuthService;
 	public ui: UIService;
 	public permission: PermissionService;

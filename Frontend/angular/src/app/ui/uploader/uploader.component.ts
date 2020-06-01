@@ -154,7 +154,9 @@ export class UploaderComponent extends BaseComponent {
 			dw.setUint8(i, byteString.charCodeAt(i));
 		}
 		// write the ArrayBuffer to a blob, and you're done
-		return new File([ab], filename, { type: mimeString });
+		let b: any = new Blob([ab], { type: mimeString });
+		b.name = filename;
+		return b
 	}
 
 	image_progress = false;

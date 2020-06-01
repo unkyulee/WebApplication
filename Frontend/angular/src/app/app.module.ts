@@ -15,7 +15,6 @@ import { RestService } from './services/rest.service';
 import { AuthService } from './services/auth/auth.service';
 import { CordovaService } from './services/cordova.service';
 import { DBService } from './services/db/db.service';
-import { ExportService } from './services/export.service';
 import { PermissionService } from './services/permission.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
 
@@ -62,7 +61,6 @@ registerLocaleData(it);
 		RestService,
 		CordovaService,
 		DBService,
-		ExportService,
 		UtilService,
     PermissionService,
     NgxImageCompressService
