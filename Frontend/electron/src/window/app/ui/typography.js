@@ -1,4 +1,6 @@
 const obj = require('object-path');
+// services
+const config = require('../../../service/config');
 
 Vue.component('Typography', {
 	template: `
@@ -12,7 +14,9 @@ Vue.component('Typography', {
 	`,
 	props: ['uiElement', 'data'],
 	data: function() {
-		return {};
+		return {
+			config
+		};
 	},
 	methods: {
 		condition: function(uiElement) {

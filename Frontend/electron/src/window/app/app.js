@@ -19,7 +19,31 @@ ipcRenderer.on('channel', (sender, $event) => {
 		event.send($event.channel, $event.data);
 	} else {
 		let webView = document.getElementById($event.to);
-		if (webView) webView.send($event.channel, $event.data);
+		if (webView) {
+			switch ($event.name) {
+				case 'src':
+					webView.src = $event.src;
+					break;
+
+				case 'print':
+					{
+						(async () => {
+							let webContentsId = webView.getWebContentsId();
+							const { webContents } = require('electron').remote;
+							let content = webContents.fromId(webContentsId);
+							await content.print($event.option, (success, reason) => {
+								console.log(success, reason);
+							});
+						})();
+					}
+
+					break;
+
+				default:
+					webView.send($event.channel, $event.data);
+					break;
+			}
+		}
 	}
 });
 
@@ -38,7 +62,7 @@ new Vue({
     </template>
 	</div>
   `,
-	mounted: async function() {
+	mounted: async function () {
 		// check registration
 		this.registered = this.checkRegistered();
 
@@ -63,11 +87,11 @@ new Vue({
 			this.authenticated = await auth.isAuthenticated();
 		}
 	},
-	destroyed: function() {
+	destroyed: function () {
 		// stop listen to drawer-toggle event
 		event.unsubscribe_all('index');
 	},
-	data: function() {
+	data: function () {
 		return {
 			style: {
 				width: '100%',
@@ -86,7 +110,15 @@ new Vue({
 			this.menuVisible = !this.menuVisible;
 		},
 		checkRegistered() {
-			return !!config.get('service_url');
+			let registered = false;
+
+			// check if service url exists
+			// check if the token exists
+			if (config.get('service_url')) {
+				registered = true;
+			}
+
+			return registered;
 		},
 		async downloadIndexJS() {
 			let service_url = config.get('service_url');

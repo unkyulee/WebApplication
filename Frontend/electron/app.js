@@ -61,6 +61,7 @@ if (!singleInstanceLock) {
 			showCopyImage: true,
 			showSaveImageAs: true,
 		});
+
 		// Check for a webview
 		if (c.getType() == 'webview') {
 			// Listen for any new window events

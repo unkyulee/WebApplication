@@ -7,8 +7,8 @@ const config = require('../service/config');
 
 module.exports = {
 	window: null,
-	create: async function() {
-		return new Promise(resolve => {
+	create: async function () {
+		return new Promise((resolve) => {
 			// Building main menu from template
 			const mainMenu = Menu.buildFromTemplate(this.createMenuTemplate());
 			Menu.setApplicationMenu(mainMenu);
@@ -80,11 +80,11 @@ module.exports = {
 		});
 	},
 
-	send: function(name, event) {
+	send: function (name, event) {
 		this.window.webContents.send(name, event);
 	},
 
-	createMenuTemplate: function() {
+	createMenuTemplate: function () {
 		let fileMenuTemplate;
 		fileMenuTemplate = [
 			{
@@ -125,7 +125,7 @@ module.exports = {
 						buttons: ['OK', 'Cancel'],
 						message: 'Are you sure to reset the app?',
 					};
-					dialog.showMessageBox(dialogOptions).then(result => {
+					dialog.showMessageBox(dialogOptions).then((result) => {
 						if (result.response == 0) {
 							// reset config
 							config.clear();

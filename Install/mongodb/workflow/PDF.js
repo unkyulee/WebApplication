@@ -1,7 +1,7 @@
 var Mustache = require('mustache');
 var pdf = require('html-pdf');
 
-(async function() {
+(async function () {
 	// form values
 	let params = Object.assign({}, req.query, req.body);
 
@@ -9,11 +9,11 @@ var pdf = require('html-pdf');
 	await res.locals.ds.connect();
 
 	let config;
-	if(params.template) {
+	if (params.template) {
 		// load from template
 		config = await res.locals.ds.find('core.ui', {
 			query: {
-				_id: ObjectID(params.template)
+				_id: ObjectID(params.template),
 			},
 		});
 		config = config[0];
@@ -41,12 +41,16 @@ var pdf = require('html-pdf');
 	// prepare html
 	var html = Mustache.render(config.template, data);
 
-	// convert html to pdf
-	await new Promise(function(resolve, reject) {
-		pdf.create(html, config.options).toBuffer(function(err, buffer) {
-			res.setHeader('Content-disposition', `inline; filename=${new Date().getTime()}.pdf`);
-			res.end(buffer, 'binary');
-			resolve(true);
+	if (params.format == 'html') {
+		return html;
+	} else {
+		// convert html to pdf
+		await new Promise(function (resolve, reject) {
+			pdf.create(html, config.options).toBuffer(function (err, buffer) {
+				res.setHeader('Content-disposition', `inline; filename=${new Date().getTime()}.pdf`);
+				res.end(buffer, 'binary');
+				resolve(true);
+			});
 		});
-	});
+	}
 })();
