@@ -44,7 +44,7 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 		obj.set(window, '__CONFIG__.event', this.event);
 
 		// event handler
-		this.onEvent = this.event.onEvent.subscribe(async event => {
+		this.onEvent = this.event.onEvent.subscribe(async (event) => {
 			switch (event.name) {
 				case 'drawer-toggle':
 					this.drawer.toggle();
@@ -145,6 +145,18 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 		let currDialog = this.dialog.open(UIComposerDialogComponent, event.option);
 		currDialog.componentInstance.data = event.data ? event.data : {};
 		currDialog.componentInstance.uiElement = uiElement;
+
+		// push history state when a dialog is opened
+		currDialog.afterOpen().subscribe(() => {
+			console.log(currDialog.id)
+			window.history.pushState(currDialog.id, '');
+			// pop from history if dialog has not been closed with back button, and gurrent state is still ref.id
+			currDialog.afterClosed().subscribe(() => {
+				if (history.state === currDialog.id) {
+					window.history.go(-1);
+				}
+			});
+		});
 
 		// apply layout style
 		if (uiElement.layoutStyle) {
