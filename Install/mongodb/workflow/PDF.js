@@ -41,7 +41,7 @@ var pdf = require('html-pdf');
 	// prepare html
 	var html = Mustache.render(config.template, data);
 
-	if (params.format == 'html') {
+	if (params.format == 'html' || config.format == 'html') {
 		return html;
 	} else {
 		// convert html to pdf
