@@ -69,14 +69,17 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 					break;
 				case 'close-dialog':
 					// close dialog
-					if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
+					if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0) {
+						obj.set(this.dialog.openDialogs[this.dialog.openDialogs.length - 1], 'componentInstance.data.closing', true)
 						this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
+					}
 					this.event.send({ name: 'changed' });
 					break;
 				case 'close-all-dialog':
 					// close all dialog
 					if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
 						for (let dialog of this.dialog.openDialogs) {
+							obj.set(dialog, 'componentInstance.data.closing', true)
 							dialog.close();
 						}
 					this.event.send({ name: 'changed' });
@@ -148,11 +151,10 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 
 		// push history state when a dialog is opened
 		currDialog.afterOpen().subscribe(() => {
-			console.log(currDialog.id)
 			window.history.pushState(currDialog.id, '');
 			// pop from history if dialog has not been closed with back button, and gurrent state is still ref.id
 			currDialog.afterClosed().subscribe(() => {
-				if (history.state === currDialog.id) {
+				if (history.state === currDialog.id && obj.get(currDialog, 'componentInstance.data.closing') != true) {
 					window.history.go(-1);
 				}
 			});
