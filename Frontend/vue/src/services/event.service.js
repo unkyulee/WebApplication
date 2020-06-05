@@ -24,7 +24,12 @@ export default {
 		for (let sub of Object.keys(subscribers)) {
 			if (subscribers[sub]) {
 				setTimeout(() => {
-					subscribers[sub](event)
+					try {
+						subscribers[sub](event)
+					} catch(ex) {
+						//console.error(subscribers[sub])
+						//console.error(ex)
+					}
 				});
 			}
 		}

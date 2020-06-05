@@ -12,7 +12,7 @@ export default {
 		if (this.client) {
 			try {
 				this.client = JSON.parse(this.client);
-				if (this.client.id && this.client.name) {
+				if (this.client.id) {
 					isValidAuth = true;
 				}
 			} catch (ex) {
