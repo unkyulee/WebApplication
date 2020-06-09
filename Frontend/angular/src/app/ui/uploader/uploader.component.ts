@@ -61,7 +61,7 @@ export class UploaderComponent extends BaseComponent {
 
 		// subscript to event
 		this.onEvent = this.event.onEvent.subscribe(async (event) => {
-			if (event && event.key == this.uiElement.key) {
+			if (event && (event.key == this.uiElement.key || event.key == this.uiElement.name)) {
 				if (event.name == 'upload-file') {
 					// in case of uploading files open file selection dialog
 					// in android open gallery
@@ -156,7 +156,7 @@ export class UploaderComponent extends BaseComponent {
 		// write the ArrayBuffer to a blob, and you're done
 		let b: any = new Blob([ab], { type: mimeString });
 		b.name = filename;
-		return b
+		return b;
 	}
 
 	image_progress = false;

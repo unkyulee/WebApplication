@@ -4,7 +4,7 @@
   type="file"
   #fileInput
   (change)="fileSelected($event)"
-  multiple
+  [multiple]="safeGet(uiElement, 'multiple', true)"
   [accept]="uiElement.accept ? uiElement.accept : '*'"
 />
 <input
@@ -12,7 +12,7 @@
   type="file"
   #cameraInput
   (change)="fileSelected($event)"
-  multiple
+  [multiple]="safeGet(uiElement, 'multiple', true)"
   capture="camera"
   [accept]="uiElement.accept ? uiElement.accept : '*'"
 />
