@@ -82,7 +82,8 @@ Vue.component('Navigation', {
 			// find the matching nav
 			let selectedNav = this.navs.find((x) => x.id == nav.id);
 			if (selectedNav) {
-				this.$set(selectedNav, 'badge', nav.badge);
+				if(!nav.badge) nav.badge = 0;
+				this.$set(selectedNav, 'badge', nav.badge);				
 				app.setBadgeCount(nav.badge)
 			}
 		});
