@@ -1,5 +1,6 @@
 const config = require('../../../service/config');
 const event = require('../../../service/event');
+const { app } = require('electron').remote;
 
 Vue.component('Navigation', {
 	template: `
@@ -82,6 +83,7 @@ Vue.component('Navigation', {
 			let selectedNav = this.navs.find((x) => x.id == nav.id);
 			if (selectedNav) {
 				this.$set(selectedNav, 'badge', nav.badge);
+				app.setBadgeCount(nav.badge)
 			}
 		});
 	},
