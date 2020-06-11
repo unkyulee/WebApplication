@@ -25,7 +25,7 @@ Vue.component('Navigation', {
 		</md-list-item>
 	</md-list>
 	`,
-	mounted: async function() {
+	mounted: async function () {
 		// listen to login-success and logout event
 		event.subscribe('navigation', 'navigation-updated', async () => {
 			// copy nav
@@ -60,7 +60,7 @@ Vue.component('Navigation', {
 		});
 
 		// listen to login-success and logout event
-		event.subscribe('navigation', 'nav-selected', selectedNav => {
+		event.subscribe('navigation', 'nav-selected', (selectedNav) => {
 			for (let nav of this.navs) {
 				// set menu item inactive
 				this.$set(nav, 'style', this.inactive);
@@ -69,7 +69,7 @@ Vue.component('Navigation', {
 				let selected = false;
 
 				if (nav.id == selectedNav.id) selected = true;
-				else if (nav.children && nav.children.find(x => x.id == selectedNav.id)) selected = true;
+				else if (nav.children && nav.children.find((x) => x.id == selectedNav.id)) selected = true;
 
 				// set active
 				if (selected) this.$set(nav, 'style', this.active);
@@ -77,19 +77,19 @@ Vue.component('Navigation', {
 		});
 
 		// listen to badge-update
-		event.subscribe('navigation', 'nav-badge', nav => {
+		event.subscribe('navigation', 'nav-badge', (nav) => {
 			// find the matching nav
-			let selectedNav = this.navs.find(x => (x.id == nav.id));
+			let selectedNav = this.navs.find((x) => x.id == nav.id);
 			if (selectedNav) {
 				this.$set(selectedNav, 'badge', nav.badge);
 			}
 		});
 	},
-	destroyed: function() {
+	destroyed: function () {
 		// stop listen to drawer-toggle event
 		event.unsubscribe_all('navigation');
 	},
-	data: function() {
+	data: function () {
 		return {
 			style: {
 				width: '60px',
@@ -105,20 +105,29 @@ Vue.component('Navigation', {
 				color: 'darkgray',
 			},
 			navs: [],
+			selectedNav: null,
 		};
 	},
 	methods: {
-		click: function(selectedNav) {
+		click: function (selectedNav) {
 			if (selectedNav.type != 'collapse') {
 				// send menu selected
 				event.send('nav-selected', selectedNav);
 			} else {
-				// open popup
-				this.$set(selectedNav, 'active', false);
-				setTimeout(() => {
-					this.$set(selectedNav, 'active', true);
-				})
+				// if same navigation clicked again then toggle
+				if (this.selectedNav == selectedNav && selectedNav.active == true) {
+					this.$set(selectedNav, 'active', false);
+				} else {
+					// open popup
+					this.$set(selectedNav, 'active', false);
+					setTimeout(() => {
+						this.$set(selectedNav, 'active', true);
+					});
+				}
 			}
+
+			// save selectedNav
+			this.selectedNav = selectedNav;
 		},
 	},
 });
