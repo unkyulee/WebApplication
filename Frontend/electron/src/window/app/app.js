@@ -11,6 +11,7 @@ require('./app/layout/login.js');
 require('./app/layout/navigation');
 require('./app/layout/composer');
 require('./app/layout/auto-update');
+require('./app/layout/offline');
 
 // channel redirects the message to the webviews
 ipcRenderer.on('channel', (sender, $event) => {
@@ -51,18 +52,27 @@ new Vue({
 	el: '#app',
 	template: `
 	<div v-bind:style="style">
-		<auto-update />
-    <template v-if="!registered">
-      <service-url />
-    </template>
-    <template v-if="registered">
-      <login v-if="authenticated == false"></login>
-			<navigation v-if="authenticated == true" />
-			<composer v-if="authenticated == true" />
-    </template>
+		<template v-if="!online">
+			<offline />
+		</template>
+		<template v-if="online">
+			<auto-update />
+			<template v-if="!registered">
+				<service-url />
+			</template>
+			<template v-if="registered">
+				<login v-if="authenticated == false"></login>
+				<navigation v-if="authenticated == true" />
+				<composer v-if="authenticated == true" />
+			</template>
+		</template>
+
 	</div>
   `,
 	mounted: async function () {
+		// check online
+		this.online = navigator.onLine;
+
 		// check registration
 		this.registered = this.checkRegistered();
 
@@ -103,6 +113,7 @@ new Vue({
 			registered: false,
 			authenticated: null,
 			menuVisible: false,
+			online: true
 		};
 	},
 	methods: {
