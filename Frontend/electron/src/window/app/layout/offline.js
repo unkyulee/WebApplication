@@ -8,7 +8,7 @@ const rest = require('../../../service/rest');
 Vue.component('Offline', {
 	template: `
   <div v-bind:style="style">
-    <h1>Network is not connected. Please connect with the network.</h1>
+    <h1>Network is not connected. <br>Please connect with the network.</h1>
   </div>`,
 	data: function () {
 		return {
@@ -24,8 +24,11 @@ Vue.component('Offline', {
 	},
 	mounted: async function () {
 		window.addEventListener('online', () => {
-      // force reload the page
-      location.reload();
+			// force reload the page
+			setTimeout(() => {
+				location.reload();
+			}, 5000)
+
     });
 	},
 });

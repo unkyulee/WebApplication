@@ -22,6 +22,17 @@ ipcRenderer.on('channel', (sender, $event) => {
 		let webView = document.getElementById($event.to);
 		if (webView) {
 			switch ($event.name) {
+				case 'script':
+					console.log($event)
+					{
+						try {
+							eval($event.script);
+						} catch(ex) {
+							console.error(ex)
+						}
+					}
+					break;
+
 				case 'src':
 					webView.src = $event.src;
 					break;
@@ -113,7 +124,7 @@ new Vue({
 			registered: false,
 			authenticated: null,
 			menuVisible: false,
-			online: true
+			online: true,
 		};
 	},
 	methods: {
