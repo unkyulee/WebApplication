@@ -20,15 +20,18 @@ ipcRenderer.on('channel', (sender, $event) => {
 		event.send($event.channel, $event.data);
 	} else {
 		let webView = document.getElementById($event.to);
+		let webContentsId = webView.getWebContentsId();
+		const { webContents } = require('electron').remote;
+		let content = webContents.fromId(webContentsId);
+
 		if (webView) {
 			switch ($event.name) {
 				case 'script':
-					console.log($event)
 					{
 						try {
 							eval($event.script);
-						} catch(ex) {
-							console.error(ex)
+						} catch (ex) {
+							console.error(ex);
 						}
 					}
 					break;
@@ -40,9 +43,6 @@ ipcRenderer.on('channel', (sender, $event) => {
 				case 'print':
 					{
 						(async () => {
-							let webContentsId = webView.getWebContentsId();
-							const { webContents } = require('electron').remote;
-							let content = webContents.fromId(webContentsId);
 							await content.print($event.option, (success, reason) => {
 								console.log(success, reason);
 							});
