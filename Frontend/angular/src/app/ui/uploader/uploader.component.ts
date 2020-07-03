@@ -248,6 +248,7 @@ export class UploaderComponent extends BaseComponent {
 		currentValue.push({
 			id: id,
 			url: downloadPath,
+			type: item.file.type,
 			filename: item.file.name,
 			size: item.file.size,
 			_created: new Date(),
