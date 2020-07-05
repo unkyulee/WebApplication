@@ -83,6 +83,10 @@ new Vue({
 	mounted: async function () {
 		// check online
 		this.online = navigator.onLine;
+		window.addEventListener('offline', () => {
+			// force reload the page
+			this.online = navigator.online;
+    });
 
 		// check registration
 		this.registered = this.checkRegistered();
