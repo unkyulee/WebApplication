@@ -207,7 +207,7 @@ export class FormGeneratorComponent extends BaseComponent {
 		delete data._params_;
 		if (obj.has(this.uiElement, 'save.transform')) {
 			try {
-				eval(this.uiElement.save.transform);
+				await eval(this.uiElement.save.transform);
 			} catch (e) {
 				console.error(e);
 			}

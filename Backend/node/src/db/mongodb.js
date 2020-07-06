@@ -88,6 +88,22 @@ class MongoDB {
 		}
 	}
 
+	async updateMany(collection, filter, data) {
+		if (!this.db) {
+			console.error('mongodb::updateAll::db not initialized', collection, data);
+			console.log(new Error().stack);
+			return;
+		}
+		// update document
+		if(Object.keys(filter).length > 0) {
+			await this.db.collection(collection).updateMany(
+				filter,
+				{ $set: data }
+			);
+		}
+
+	}
+
 	async insert(collection, data) {
 		if (!this.db) {
 			console.error('mongodb::insert::db not initialized', collection, data);
@@ -99,7 +115,7 @@ class MongoDB {
 		if (data._id) data._id = ObjectID(`${data._id}`);
 		try {
 			await this.db.collection(collection).insertOne(data);
-		} catch(ex) {
+		} catch (ex) {
 			console.error(data);
 			throw ex;
 		}
