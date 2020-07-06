@@ -45,6 +45,15 @@
 <!-- hidden -->
 <input *ngIf="uiElement.inputType == 'hidden'" type="hidden" [value]="value" />
 
+<!-- simple -->
+<input
+	*ngIf="uiElement.inputType == 'simple'"
+	[type]="uiElement.type"
+	[ngStyle]="uiElement.style"
+	[ngClass]="uiElement.class"
+	[placeholder]="uiElement.placeholder"
+	[(ngModel)]="value" />
+
 <!-- date picker input -->
 <mat-form-field
 	*ngIf="uiElement.inputType == 'datepicker'"
