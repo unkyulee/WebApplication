@@ -9,6 +9,7 @@ const util = require('../lib/utility');
 const email = require('../lib/email/email');
 const calendar = require('../lib/calendar/calendar');
 const storage = require("../lib/storage/storage");
+const contact = require("../lib/contact/contact");
 
 module.exports.requiresAuthentication = async function requiresAuthentication(db, req, res) {
 	let paths = req.path.split('/');

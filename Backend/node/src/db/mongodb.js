@@ -76,7 +76,13 @@ class MongoDB {
 			// remove _id in the update set
 			delete data._id;
 			// update document
-			await this.db.collection(collection).updateOne({ _id: ObjectID(`${id}`) }, { $set: data });
+			try {
+				await this.db.collection(collection).updateOne({ _id: ObjectID(`${id}`) }, { $set: data });
+			} catch(ex) {
+				console.error(ex);
+				console.error(collection, id, data)
+			}
+
 			return id;
 		}
 
