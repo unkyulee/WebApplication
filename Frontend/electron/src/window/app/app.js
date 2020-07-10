@@ -31,6 +31,7 @@ ipcRenderer.on('channel', (sender, $event) => {
 						try {
 							eval($event.script);
 						} catch (ex) {
+							console.error($event.script)
 							console.error(ex);
 						}
 					}
@@ -86,7 +87,7 @@ new Vue({
 		window.addEventListener('offline', () => {
 			// force reload the page
 			this.online = navigator.online;
-    });
+		});
 
 		// check registration
 		this.registered = this.checkRegistered();
@@ -106,8 +107,11 @@ new Vue({
 			this.authenticated = false;
 		});
 		if (this.registered) {
-			// download index.js
-			await this.downloadIndexJS();
+			setTimeout(async () => {
+				// download index.js
+				await this.downloadIndexJS();
+			});
+
 			// check if authenticated
 			this.authenticated = await auth.isAuthenticated();
 		}
@@ -149,51 +153,63 @@ new Vue({
 		async downloadIndexJS() {
 			let service_url = config.get('service_url');
 			if (service_url) {
-				let response = await rest.request(`${config.get('service_url')}/index.js`);
-				eval(response.data);
-				config.set(window.__CONFIG__);
+				try {
+					let response = await rest.request(`${config.get('service_url')}/index.js`);
+					eval(response.data);
+					config.set(window.__CONFIG__);
+				} catch {
+					setTimeout(async () => {
+						await this.downloadIndexJS();
+					}, 10000);
+				}
 			}
 		},
 		async downloadConfig() {
-			// download electron configuration
-			let r = await rest.request(`${config.get('service_url')}/navigation.config`);
-			r = r.data;
+			try {
+				// download electron configuration
+				let r = await rest.request(`${config.get('service_url')}/navigation.config`);
+				r = r.data;
 
-			// save theme
-			config.set('theme', r.theme);
+				// save theme
+				config.set('theme', r.theme);
 
-			// save permission
-			config.set('permissions', r.permissions);
+				// save permission
+				config.set('permissions', r.permissions);
 
-			// save module config
-			config.set('module', r.module);
+				// save module config
+				config.set('module', r.module);
 
-			// save navigation
-			for (let nav of r.nav) {
-				// assign default viewport
-				if (!nav.viewport) nav.viewport = 'default';
-				// add http...
-				if (nav.url && !nav.url.startsWith('http')) {
-					nav.url = `${config.get('service_url')}${nav.url}`;
-				}
+				// save navigation
+				for (let nav of r.nav) {
+					// assign default viewport
+					if (!nav.viewport) nav.viewport = 'default';
+					// add http...
+					if (nav.url && !nav.url.startsWith('http')) {
+						nav.url = `${config.get('service_url')}${nav.url}`;
+					}
 
-				if (nav.children) {
-					for (let child of nav.children) {
-						// add http...
-						if (child.url && !child.url.startsWith('http')) {
-							child.url = `${config.get('service_url')}${child.url}`;
+					if (nav.children) {
+						for (let child of nav.children) {
+							// add http...
+							if (child.url && !child.url.startsWith('http')) {
+								child.url = `${config.get('service_url')}${child.url}`;
+							}
 						}
 					}
 				}
-			}
-			config.set('nav', r.nav);
+				config.set('nav', r.nav);
 
-			// check desktop permission exists
-			if (!permission.permitted(['desktop.enabled'])) {
-				auth.logout();
-			} else {
-				// update navigation
-				event.send('navigation-updated');
+				// check desktop permission exists
+				if (!permission.permitted(['desktop.enabled'])) {
+					auth.logout();
+				} else {
+					// update navigation
+					event.send('navigation-updated');
+				}
+			} catch {
+				setTimeout(async () => {
+					await this.downloadConfig();
+				}, 10000);
 			}
 		},
 	},

@@ -58,6 +58,10 @@ module.exports = {
 				this.window.webContents.send('channel', msg);
 			});
 
+			ipcMain.on('focus', (e, msg) => {
+				this.window.focus();
+			});
+
 			// Main Window Closed Event
 			this.window.on('close', () => {
 				app.quit();
@@ -117,7 +121,7 @@ module.exports = {
 					autoUpdater.checkForUpdatesAndNotify();
 				},
 			},
-			
+
 			{ type: "separator" },
 			{ label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
             { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
