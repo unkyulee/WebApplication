@@ -3,18 +3,111 @@
   "url": "user/users",
   "description": "user",
   "get_description": "Get",
-  "get_configuration": "{\r\n    \"collection\": \"user\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"groups\"\r\n        }\r\n    ],\r\n    \"aggregate\": [\r\n        {\r\n            \"$lookup\": {\r\n                \"from\": \"group\",\r\n                \"localField\": \"groups\",\r\n                \"foreignField\": \"_id\",\r\n                \"as\": \"_params_.groups\"\r\n            }\r\n        }\r\n    ],\r\n    \"excludeFields\": [\r\n        \"password\"\r\n    ]\r\n}",
+  "get_configuration": {
+    "collection": "user",
+    "filterFields": [
+      {
+        "type": "header",
+        "key": "company_id",
+        "column": "company_id"
+      },
+      {
+        "type": "ObjectID",
+        "column": "company_id"
+      },
+      {
+        "type": "ObjectID",
+        "column": "groups"
+      }
+    ],
+    "aggregate": [
+      {
+        "$lookup": {
+          "from": "group",
+          "localField": "groups",
+          "foreignField": "_id",
+          "as": "_params_.groups"
+        }
+      }
+    ],
+    "excludeFields": [
+      "password"
+    ]
+  },
   "get_datasource": "000000000000000000000000",
   "get_workflow": "000000000000000000000010",
   "post_description": "Upsert",
-  "post_configuration": "{\r\n    \"collection\": \"user\",\r\n    \"defaultFields\": [\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"groups\"\r\n        },\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"tokenIfNew\",\r\n            \"column\": \"_createdBy\",\r\n            \"key\": \"unique_name\"\r\n        },\r\n        {\r\n            \"type\": \"NowIfNew\",\r\n            \"column\": \"_created\"\r\n        },\r\n        {\r\n            \"type\": \"Now\",\r\n            \"column\": \"_updated\"\r\n        }\r\n    ]\r\n}",
+  "post_configuration": {
+    "collection": "user",
+    "defaultFields": [
+      {
+        "type": "ObjectID",
+        "column": "company_id"
+      },
+      {
+        "type": "ObjectID",
+        "column": "groups"
+      },
+      {
+        "type": "header",
+        "key": "company_id",
+        "column": "company_id"
+      },
+      {
+        "type": "tokenIfNew",
+        "column": "_createdBy",
+        "key": "unique_name"
+      },
+      {
+        "type": "NowIfNew",
+        "column": "_created"
+      },
+      {
+        "type": "Now",
+        "column": "_updated"
+      }
+    ]
+  },
   "post_datasource": "000000000000000000000000",
   "post_workflow": "000000000000000000000020",
   "delete_description": "Delete",
   "delete_configuration": "{collection: 'user'}",
   "delete_datasource": "000000000000000000000000",
   "delete_workflow": "000000000000000000000030",
-  "put_configuration": "{\r\n    \"collection\": \"user\",\r\n    \"defaultFields\": [\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"ObjectID\",\r\n            \"column\": \"groups\"\r\n        },\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        },\r\n        {\r\n            \"type\": \"NowIfNew\",\r\n            \"column\": \"_created\"\r\n        },\r\n        {\r\n            \"type\": \"Now\",\r\n            \"column\": \"_updated\"\r\n        },\r\n        {\r\n            \"type\": \"hash\",\r\n            \"column\": \"password\"\r\n        }\r\n    ],\r\n    \"excludeFields\": [\r\n        \"password_old\",\r\n        \"password_confirm\"\r\n    ]\r\n}",
+  "put_configuration": {
+    "collection": "user",
+    "defaultFields": [
+      {
+        "type": "ObjectID",
+        "column": "company_id"
+      },
+      {
+        "type": "ObjectID",
+        "column": "groups"
+      },
+      {
+        "type": "header",
+        "key": "company_id",
+        "column": "company_id"
+      },
+      {
+        "type": "NowIfNew",
+        "column": "_created"
+      },
+      {
+        "type": "Now",
+        "column": "_updated"
+      },
+      {
+        "type": "hash",
+        "column": "password"
+      }
+    ],
+    "excludeFields": [
+      "password_old",
+      "password_confirm"
+    ]
+  },
   "put_datasource": "000000000000000000000000",
   "put_description": "Reset Password",
   "put_workflow": "000000000000000000000020"
