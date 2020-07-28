@@ -52,7 +52,7 @@ export class SelectionComponent extends BaseComponent {
 		// whereas option can be an object, it requires formatting
 		if (this.uiElement.inputValueTransform) {
 			try {
-				this._value = eval(this.uiElement.inputValueTransform);
+				return eval(this.uiElement.inputValueTransform);
 			} catch (e) {
 				console.error(e);
 			}
