@@ -191,7 +191,15 @@ function processFilterFields() {
 				{
 					// convert to ObjectID in the provided data
 					if (obj.get(context.data, field.column)) {
-						obj.set(context.data, field.column, ObjectID(context.data[field.column]));
+
+						if (Array.isArray(obj.get(context.data, field.column))) {
+							let a = obj.get(context.data, field.column);
+							for(let i = 0; i < a.length; i++) {
+								a[i] = ObjectID(a[i])
+							}
+						} else {
+							obj.set(context.data, field.column, ObjectID(context.data[field.column]));
+						}
 					}
 				}
 				break;
