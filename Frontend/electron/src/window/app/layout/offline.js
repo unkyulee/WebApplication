@@ -26,7 +26,8 @@ Vue.component('Offline', {
 		window.addEventListener('online', () => {
 			// force reload the page
 			setTimeout(() => {
-				location.reload();
+				let window = remote.BrowserWindow.getFocusedWindow();
+				window.webContents.reload();
 			}, 5000)
 
     });

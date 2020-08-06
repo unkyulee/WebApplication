@@ -4,7 +4,7 @@ const store = new Store();
 module.exports = {
 	get: function(name, def_value) {
 		let value = store.get(name);
-		if (!value) value = def_value;
+		if (typeof value == 'undefined') value = def_value;
 		return value;
 	},
 	set: function(name, value) {
