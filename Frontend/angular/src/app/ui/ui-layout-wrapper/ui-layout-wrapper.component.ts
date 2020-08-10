@@ -42,6 +42,7 @@ import { GanttComponent } from '../gantt/gantt.component';
 import { TabsComponent } from '../tabs/tabs.component';
 import { EditorComponent } from '../editor/editor.component';
 import { IconComponent } from '../icon/icon.component';
+import { ImageComponent } from '../image/image.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -162,6 +163,9 @@ export class UILayoutWrapperComponent {
 	findComponentFactory(type) {
 		let componentFactory = null;
 		switch (type) {
+			case 'image':
+				componentFactory = this.cfr.resolveComponentFactory(ImageComponent);
+				break;
 			case 'icon':
 				componentFactory = this.cfr.resolveComponentFactory(IconComponent);
 				break;
