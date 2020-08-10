@@ -131,10 +131,11 @@ export default {
         this.uiElement = await this.ui.get(obj.get(nav, "uiElementIds.0"));
         // run init script
         try {
-          if (obj.get(this.uiElement, "init")) {
+          if (obj.get(this, "uiElement.init")) {
             await eval(this.uiElement.init);
           }
         } catch (ex) {
+          console.error(this.uiElement.init)
           console.error(ex);
         }
         this.uiElement = this.filterUiElement(this.uiElement, this.data);
