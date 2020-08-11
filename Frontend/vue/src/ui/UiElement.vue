@@ -75,6 +75,13 @@
       :class="uiElement.layoutClass"
       :style="uiElement.layoutStyle"
     />
+    <Picture
+      v-if="uiElement.type == 'image' && condition(uiElement)"
+      :uiElement="filterUiElement(uiElement, data)"
+      :data="filterData(uiElement, data)"
+      :class="uiElement.layoutClass"
+      :style="uiElement.layoutStyle"
+    />
   </keep-alive>
 </template>
 
@@ -93,6 +100,7 @@ import Divider from "./Divider";
 import Chips from "./Chips";
 import Select from "./Select";
 import Icon from "./Icon";
+import Picture from "./Picture";
 
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],
@@ -106,7 +114,8 @@ export default Vue.component("UiElement", {
     Divider,
     Chips,
     Select,
-    Icon
+    Icon,
+    Picture
   },
   mounted: async function() {
     // resolve ui-element-id

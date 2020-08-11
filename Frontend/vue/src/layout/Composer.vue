@@ -102,6 +102,7 @@ export default {
   watch: {
     // react to route changes...
     async $route(to, from) {
+      document.getElementsByClassName("md-app-container")[0].scrollTo(0,0)
       await this.load(to.path);
     }
   },

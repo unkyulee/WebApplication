@@ -10,7 +10,7 @@ const moment = require("moment");
 export default {
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui", "auth"],
-  mounted: function() {
+  mounted: function () {
     if (this.uiElement && this.uiElement.init) {
       try {
         eval(this.uiElement.init);
@@ -19,7 +19,7 @@ export default {
       }
     }
   },
-  destroyed: function() {
+  destroyed: function () {
     if (this.uiElement && this.uiElement.destroy) {
       try {
         eval(this.uiElement.destroy);
@@ -29,14 +29,14 @@ export default {
     }
   },
   methods: {
-    condition: function(uiElement) {
+    condition: function (uiElement) {
       let passed = true;
       if (uiElement.condition) {
         passed = eval(uiElement.condition);
       }
       return passed;
     },
-    click: function($event, uiElement, item) {
+    click: function ($event, uiElement, item) {
       if (this.uiElement.click) {
         try {
           eval(this.uiElement.click);
@@ -51,7 +51,7 @@ export default {
       } catch (ex) {
         console.error(script, ex);
       }
-    }
-  }
+    },
+  },
 };
 </script>

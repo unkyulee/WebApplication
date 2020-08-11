@@ -26,7 +26,11 @@
       </div>
     </DynamicScroller>
 
-    <div v-if="!uiElement.virtualScroll">
+    <div
+      v-if="!uiElement.virtualScroll"
+      :style="uiElement.contentLayoutStyle"
+      :class="uiElement.contentLayoutStyle"
+    >
       <div
         v-for="(row, index) of rows"
         v-bind:key="index"
@@ -75,14 +79,14 @@ const moment = require("moment");
 export default {
   extends: Base,
   props: ["uiElement", "data"],
-  data: function() {
+  data: function () {
     return {
       size: 0,
       page: 0,
-      total: 0
+      total: 0,
     };
   },
-  mounted: function() {
+  mounted: function () {
     // subscribe to refresh
     if (this.uiElement.key) {
       this.event.subscribe(this.uiElement.key, "refresh", () => {
@@ -93,7 +97,7 @@ export default {
     // download request
     this.requestDownload();
   },
-  destroyed: function() {
+  destroyed: function () {
     if (this.uiElement.key) {
       this.event.unsubscribe_all(this.uiElement.key);
     }
@@ -119,7 +123,7 @@ export default {
         }
         let data = {
           size: this.size,
-          page: this.page
+          page: this.page,
         };
 
         //
@@ -171,11 +175,11 @@ export default {
         }
       }
       return data;
-    }
+    },
   },
   computed: {
     rows: {
-      get: function() {
+      get: function () {
         let rows = [];
         if (this.data && this.uiElement.key) {
           rows = obj.get(this.data, this.uiElement.key);
@@ -186,19 +190,19 @@ export default {
 
         return rows;
       },
-      set: function(v) {
+      set: function (v) {
         if (this.data && this.uiElement.key) {
           obj.set(this.data, this.uiElement.key, v);
         }
-      }
+      },
     },
     pageCount: {
-      get: function() {
+      get: function () {
         return (
           (this.total == 0 ? 1 : this.total) / (this.size == 0 ? 1 : this.size)
         );
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
