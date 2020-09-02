@@ -7,7 +7,7 @@ import {
   CalendarDayViewBeforeRenderEvent
 } from "angular-calendar";
 import * as moment from "moment";
-var obj = require('object-path');
+import obj from 'object-path';
 
 // user Imports
 import { BaseComponent } from "../base.component";

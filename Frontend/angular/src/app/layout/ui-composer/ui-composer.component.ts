@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-var obj = require("object-path");
+import obj from 'object-path';
 
 // user imports
 import { BaseComponent } from "src/app/ui/base.component";

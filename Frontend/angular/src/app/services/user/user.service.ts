@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-var obj = require("object-path");
+import obj from 'object-path';
 import { ConfigService } from "../config.service";
 import { DefaultUserStrategy } from "./service/default";
 

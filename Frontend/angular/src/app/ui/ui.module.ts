@@ -5,19 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../core/material.module';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { FileUploadModule } from 'ng2-file-upload';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from '../../../ext/ng-pick-datetime';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
-import { TagInputModule } from 'ngx-chips';
-import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { NgxPrintModule } from 'ngx-print';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { QuillModule } from 'ngx-quill'
-
-// jqx
-import { jqxDataTableModule } from 'jqwidgets-ng/jqxdatatable';
-import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
 
 // validators
 import { EvalValidator } from '../core/eval.validator';
@@ -39,7 +31,6 @@ import { FormGeneratorComponent } from './form-generator/form-generator.componen
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { UILayoutComponent } from './ui-layout/ui-layout.component';
 import { DividerComponent } from './divider/divider.component';
-import { DataSheetComponent } from './data-sheet/data-sheet.component';
 import { BaseComponent } from './base.component';
 import { PopupMenuComponent } from './popup-menu/popup-menu.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
@@ -87,7 +78,6 @@ export function momentAdapterFactory() {
 		TypographyComponent,
 		ProgressBarComponent,
 		DividerComponent,
-		DataSheetComponent,
 		BaseComponent,
 		PopupMenuComponent,
 		CodeEditorComponent,
@@ -115,7 +105,6 @@ export function momentAdapterFactory() {
 		TypographyComponent,
 		ProgressBarComponent,
 		DividerComponent,
-		DataSheetComponent,
 		BaseComponent,
 		PopupMenuComponent,
 		CodeEditorComponent,
@@ -144,7 +133,6 @@ export function momentAdapterFactory() {
 		ProgressBarComponent,
 		UILayoutComponent,
 		DividerComponent,
-		DataSheetComponent,
 		BaseComponent,
 		PopupMenuComponent,
 		CodeEditorComponent,
@@ -166,10 +154,7 @@ export function momentAdapterFactory() {
 		ReactiveFormsModule,
 		SignaturePadModule,
 		FileUploadModule,
-		OwlDateTimeModule,
-		OwlNativeDateTimeModule,
 		ScrollingModule,
-		ScrollDispatchModule,
 		MonacoEditorModule,
 		CalendarModule.forRoot(
 			{
@@ -183,13 +168,9 @@ export function momentAdapterFactory() {
 				},
 			}
 		),
-		TagInputModule,
-		ColorPickerModule,
 		NgxBarcodeModule,
 		NgxPrintModule,
 		DragDropModule,
-		jqxDataTableModule,
-		jqxGridModule,
 		QuillModule.forRoot()
 	],
 	providers: [

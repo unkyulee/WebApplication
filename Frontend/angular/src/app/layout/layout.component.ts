@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit, ViewChild, ElementRef, ChangeDetectorRef,
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
-var obj = require('object-path');
+import obj from 'object-path';
 
 // user component
 import { BaseComponent } from '../ui/base.component';
@@ -149,16 +149,6 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 		currDialog.componentInstance.data = event.data ? event.data : {};
 		currDialog.componentInstance.uiElement = uiElement;
 
-		// push history state when a dialog is opened
-		currDialog.afterOpen().subscribe(() => {
-			window.history.pushState(currDialog.id, '');
-			// pop from history if dialog has not been closed with back button, and gurrent state is still ref.id
-			currDialog.afterClosed().subscribe(() => {
-				if (history.state === currDialog.id && obj.get(currDialog, 'componentInstance.data.closing') != true) {
-					window.history.go(-1);
-				}
-			});
-		});
 
 		// apply layout style
 		if (uiElement.layoutStyle) {

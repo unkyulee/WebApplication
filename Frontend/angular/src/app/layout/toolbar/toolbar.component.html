@@ -1,49 +1,27 @@
-<mat-toolbar
-  [ngClass]="config.get('theme.toolbar.class')"
-  [ngStyle]="config.get('theme.toolbar.style')"
-  *ngIf="show"
->
-  <mat-progress-bar
-    *ngIf="showLoadingBar"
-    class="loading-bar"
-    color="accent"
-    mode="indeterminate"
-  ></mat-progress-bar>
+<mat-toolbar [ngClass]="config.get('theme.toolbar.class')" [ngStyle]="config.get('theme.toolbar.style')" *ngIf="show">
+	<mat-progress-bar *ngIf="showLoadingBar" class="loading-bar" color="accent" mode="indeterminate"></mat-progress-bar>
 
-  <button
-    type="button"
-    mat-icon-button
-    (click)="isTopNav ? event.send({ name: 'drawer-toggle' }) : nav.back()"
-    tabIndex="-1"
-  >
-    <mat-icon *ngIf="isTopNav">menu</mat-icon>
-    <mat-icon *ngIf="!isTopNav">arrow_back</mat-icon>
-  </button>
-  <span
-    class="title"
-    [matTooltip]="title"
-    [ngStyle]="config.get('theme.toolbar.titleStyle')"
-    >{{ title }}</span
-  >
-  <div class="flex-spacer"></div>
+	<button
+		type="button"
+		mat-icon-button
+		(click)="isTopNav ? event.send({ name: 'drawer-toggle' }) : nav.back()"
+		tabIndex="-1"
+	>
+		<mat-icon *ngIf="isTopNav">menu</mat-icon>
+		<mat-icon *ngIf="!isTopNav">arrow_back</mat-icon>
+	</button>
+	<span class="title" [matTooltip]="title" [ngStyle]="config.get('theme.toolbar.titleStyle')">{{ title }}</span>
+	<div class="flex-spacer"></div>
 
-  <ng-container *ngFor="let action of actions">
-    <ng-container *ngIf="condition(action)">
-      <ng-container
-        ui-layout-wrapper
-        [uiElement]="action"
-        [data]="data"
-      ></ng-container>
-    </ng-container>
-  </ng-container>
+	<ng-container *ngIf="condition(action)">
+		<ng-container *ngFor="let action of actions">
+			<ng-container ui-layout-wrapper [uiElement]="action" [data]="data"></ng-container>
+		</ng-container>
+	</ng-container>
 
-  <ng-container *ngFor="let action of config.get('theme.toolbar.actions')">
-    <ng-container *ngIf="condition(action)">
-      <ng-container
-        ui-layout-wrapper
-        [uiElement]="action"
-        [data]="data"
-      ></ng-container>
-    </ng-container>
-  </ng-container>
+	<ng-container *ngFor="let action of config.get('theme.toolbar.actions')">
+		<ng-container *ngIf="condition(action)">
+			<ng-container ui-layout-wrapper [uiElement]="action" [data]="data"></ng-container>
+		</ng-container>
+	</ng-container>
 </mat-toolbar>

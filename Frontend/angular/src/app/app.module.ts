@@ -1,4 +1,3 @@
-import 'hammerjs'; // to support touch gestures
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClientJsonpModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';

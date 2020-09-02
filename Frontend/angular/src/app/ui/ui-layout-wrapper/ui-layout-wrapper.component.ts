@@ -2,7 +2,7 @@ import { Component, ComponentFactoryResolver, ViewContainerRef, Renderer2, Input
 import { Router } from '@angular/router';
 import { AppInjector } from 'src/app/app.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-var obj = require('object-path');
+import obj from 'object-path';
 
 // services
 import { EventService } from 'src/app/services/event.service';
@@ -29,7 +29,6 @@ import { FormGeneratorComponent } from '../form-generator/form-generator.compone
 import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 import { UILayoutComponent } from '../ui-layout/ui-layout.component';
 import { DividerComponent } from '../divider/divider.component';
-import { DataSheetComponent } from '../data-sheet/data-sheet.component';
 import { PopupMenuComponent } from '../popup-menu/popup-menu.component';
 import { CodeEditorComponent } from '../code-editor/code-editor.component';
 import { TreeComponent } from '../tree/tree.component';
@@ -193,9 +192,6 @@ export class UILayoutWrapperComponent {
 				break;
 			case 'popup-menu':
 				componentFactory = this.cfr.resolveComponentFactory(PopupMenuComponent);
-				break;
-			case 'data-sheet':
-				componentFactory = this.cfr.resolveComponentFactory(DataSheetComponent);
 				break;
 			case 'div':
 			case 'layout':

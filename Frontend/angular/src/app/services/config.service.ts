@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { EventService } from './event.service';
-var obj = require('object-path');
+import obj from 'object-path';
 
 // get config from index.html
 declare var window: any;

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-var obj = require('object-path');
+import obj from 'object-path';
 
 import { BaseComponent } from '../base.component';
 

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-const { Howl } = require("howler");
+import { Howl } from "howler"
 
 @Injectable()
 export class UtilService {

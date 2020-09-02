@@ -3,18 +3,13 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable, EMPTY } from "rxjs";
 
 import { ConfigService } from "./config.service";
-import { ConnectionService } from "ng-connection-service";
 
 @Injectable()
 export class RestService {
   constructor(
     private http: HttpClient,
-    private config: ConfigService,
-    private connection: ConnectionService
+    private config: ConfigService
   ) {
-    this.connection.monitor().subscribe(isConnected => {
-      this._isConnected = isConnected;
-    })
   }
 
   _isConnected = true;

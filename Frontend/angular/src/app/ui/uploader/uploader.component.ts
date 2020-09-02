@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FileUploader } from 'ng2-file-upload';
 import { NgxImageCompressService } from 'ngx-image-compress';
-var obj = require('object-path');
+import obj from 'object-path';
 
 // user imports
 import { BaseComponent } from '../base.component';

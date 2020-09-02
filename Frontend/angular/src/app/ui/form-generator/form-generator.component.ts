@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-var obj = require('object-path');
+import obj from 'object-path';
 
 // user imports
 import { BaseComponent } from '../base.component';
