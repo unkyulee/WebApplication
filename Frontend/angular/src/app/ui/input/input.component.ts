@@ -16,7 +16,7 @@ export class InputComponent extends BaseComponent {
     super();
   }
 
-  @ViewChild("input", {static: false}) input: ElementRef;
+  @ViewChild("input") input: ElementRef;
 
   typeAheadEventEmitter = new Subject<string>();
 
@@ -41,7 +41,7 @@ export class InputComponent extends BaseComponent {
     );
   }
 
-  @ViewChild("datetimepicker_target", {static: false}) datetimepicker: ElementRef;
+  @ViewChild("datetimepicker_target") datetimepicker: ElementRef;
   eventHandler(event) {
     if (
       event &&

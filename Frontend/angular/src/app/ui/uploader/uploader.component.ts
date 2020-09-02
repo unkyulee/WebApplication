@@ -16,8 +16,8 @@ export class UploaderComponent extends BaseComponent {
 		super();
 	}
 
-	@ViewChild('fileInput', { static: false }) fileInput: ElementRef;
-	@ViewChild('cameraInput', { static: false }) cameraInput: ElementRef;
+	@ViewChild('fileInput') fileInput: ElementRef;
+	@ViewChild('cameraInput') cameraInput: ElementRef;
 
 	get value() {
 		if (obj.has(this.data, this.uiElement.key) && obj.get(this.data, this.uiElement.key).constructor === Array)

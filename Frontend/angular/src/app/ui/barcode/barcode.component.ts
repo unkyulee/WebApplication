@@ -11,7 +11,7 @@ export class BarcodeComponent extends BaseComponent {
     super();
   }
 
-  @ViewChild("print", {static: false}) print: ElementRef;
+  @ViewChild("print") print: ElementRef;
 
   @HostListener("click", ['$event']) onClick(event) {
     if (obj.has(this.uiElement, "click")) {

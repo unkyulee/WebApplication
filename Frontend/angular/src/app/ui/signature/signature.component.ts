@@ -25,7 +25,7 @@ export class SignatureComponent extends BaseComponent {
 		}
 	}
 
-	@ViewChild(SignaturePad, { static: false }) signaturePad: SignaturePad;
+	@ViewChild(SignaturePad) signaturePad: SignaturePad;
 
 	options: Object = {};
 

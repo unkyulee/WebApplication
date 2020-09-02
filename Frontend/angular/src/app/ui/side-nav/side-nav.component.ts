@@ -17,8 +17,8 @@ export class SideNavComponent extends BaseComponent {
   }
 
   // drawer
-  @ViewChild("sidenav", {static: false}) sidenav: MatSidenav;
-  @ViewChild("content", {static: false}) content: ElementRef;
+  @ViewChild("sidenav") sidenav: MatSidenav;
+  @ViewChild("content") content: ElementRef;
 
   ngOnInit() {
     // event handler

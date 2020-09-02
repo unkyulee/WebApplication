@@ -26,7 +26,7 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 	}
 
 	// drawer
-	@ViewChild('drawer', { static: false }) drawer: MatSidenav;
+	@ViewChild('drawer') drawer: MatSidenav;
 
 	ngOnInit() {
 		super.ngOnInit();

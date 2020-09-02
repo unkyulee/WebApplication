@@ -12,8 +12,8 @@ import { BaseComponent } from '../base.component';
 	templateUrl: './selection.component.html',
 })
 export class SelectionComponent extends BaseComponent {
-	@ViewChild('select', { static: false }) select: MatSelect;
-	@ViewChild('autocomplete', { static: false }) autocomplete: ElementRef;
+	@ViewChild('select') select: MatSelect;
+	@ViewChild('autocomplete') autocomplete: ElementRef;
 
 	ngOnInit() {
 		super.ngOnInit();

@@ -9,7 +9,7 @@ import { BaseComponent } from '../base.component';
   templateUrl: "./popup-menu.component.html"
 })
 export class PopupMenuComponent extends BaseComponent {
-  @ViewChild(MatMenuTrigger, {static: false}) trigger: MatMenuTrigger;
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 
   ngOnInit() {
     super.ngOnInit();

@@ -11,8 +11,8 @@ import { jqxGridComponent } from 'jqwidgets-ng/jqxgrid';
 	templateUrl: './data-sheet.component.html',
 })
 export class DataSheetComponent extends BaseComponent {
-	@ViewChild('dataTableReference', { static: false }) table: jqxDataTableComponent;
-	@ViewChild('dataGridReference', { static: false }) grid: jqxGridComponent;
+	@ViewChild('dataTableReference') table: jqxDataTableComponent;
+	@ViewChild('dataGridReference') grid: jqxGridComponent;
 
 	constructor(private renderer: Renderer2) {
 		super();
