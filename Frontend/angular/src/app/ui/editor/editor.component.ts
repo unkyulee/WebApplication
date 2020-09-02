@@ -2,7 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 var obj = require('object-path');
 
 import { BaseComponent } from '../base.component';
-import { jqxEditorComponent } from 'jqwidgets-ng/jqxeditor';
+
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill'
+import Quill from 'quill'
 
 @Component({
 	selector: 'editor',
@@ -12,8 +14,6 @@ export class EditorComponent extends BaseComponent {
 	constructor() {
 		super();
 	}
-
-	@ViewChild('editorReference', { static: false }) editorReference: jqxEditorComponent;
 
 	_data;
 	get data() {
@@ -31,38 +31,34 @@ export class EditorComponent extends BaseComponent {
 				} catch (e) {}
 				obj.set(this.data, this.uiElement.key, def);
 			}
-
-      // set value
-      if(this.editorReference) {
-        this.editorReference.val(obj.get(this.data, this.uiElement.key));
-      }
 		}
 	}
 
-	ngAfterViewInit() {
-		super.ngAfterViewInit();
+	blurred = false
+  focused = false
 
-		// retrieve value
-		if (this.data && this.uiElement.key) {
-			// if null then assign default
-			if (typeof obj.get(this.data, this.uiElement.key) == 'undefined') {
-				let def = this.uiElement.default;
-				try {
-					def = eval(this.uiElement.default);
-				} catch (e) {}
-				obj.set(this.data, this.uiElement.key, def);
-			}
+	created(event: Quill) {
+    // tslint:disable-next-line:no-console
+    console.log('editor-created', event)
+  }
 
-      // set value
-      if(this.editorReference) {
-        this.editorReference.val(obj.get(this.data, this.uiElement.key));
-      }
-		}
-	}
+  changedEditor(event: EditorChangeContent | EditorChangeSelection) {
+    // tslint:disable-next-line:no-console
+    console.log('editor-change', event)
+  }
 
-	onChanged() {
-		if (this.uiElement.key) {
-			obj.set(this.data, this.uiElement.key, this.editorReference.val());
-		}
-	}
+  focus($event) {
+    // tslint:disable-next-line:no-console
+    console.log('focus', $event)
+    this.focused = true
+    this.blurred = false
+  }
+
+  blur($event) {
+    // tslint:disable-next-line:no-console
+    console.log('blur', $event)
+    this.focused = false
+    this.blurred = true
+  }
+
 }

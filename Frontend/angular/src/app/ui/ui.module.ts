@@ -13,12 +13,11 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { NgxPrintModule } from 'ngx-print';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { QuillModule } from 'ngx-quill'
 
 // jqx
 import { jqxDataTableModule } from 'jqwidgets-ng/jqxdatatable';
 import { jqxGridModule } from 'jqwidgets-ng/jqxgrid';
-import { jqxSplitterModule } from 'jqwidgets-ng/jqxsplitter';
-import { jqxEditorModule } from 'jqwidgets-ng/jqxeditor';
 
 // validators
 import { EvalValidator } from '../core/eval.validator';
@@ -50,8 +49,6 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { StepperComponent } from './stepper/stepper.component';
 import { BarcodeComponent } from './barcode/barcode.component';
-import { SplitterComponent } from './splitter/splitter.component';
-import { GanttComponent } from './gantt/gantt.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { EditorComponent } from './editor/editor.component';
 import { ImageComponent } from './image/image.component';
@@ -99,8 +96,6 @@ export function momentAdapterFactory() {
 		SideNavComponent,
 		StepperComponent,
 		BarcodeComponent,
-		SplitterComponent,
-		GanttComponent,
 		TabsComponent,
 		EditorComponent,
     IconComponent,
@@ -129,8 +124,6 @@ export function momentAdapterFactory() {
 		SideNavComponent,
 		StepperComponent,
 		BarcodeComponent,
-		SplitterComponent,
-		GanttComponent,
 		TabsComponent,
 		EditorComponent,
     IconComponent,
@@ -160,8 +153,6 @@ export function momentAdapterFactory() {
 		SideNavComponent,
 		StepperComponent,
 		BarcodeComponent,
-		SplitterComponent,
-		GanttComponent,
 		TabsComponent,
 		EditorComponent,
     IconComponent,
@@ -199,8 +190,7 @@ export function momentAdapterFactory() {
 		DragDropModule,
 		jqxDataTableModule,
 		jqxGridModule,
-		jqxSplitterModule,
-		jqxEditorModule,
+		QuillModule.forRoot()
 	],
 	providers: [
 		{

@@ -1,9 +1,7 @@
-<!-- editor -->
-<jqxEditor
-  #editorReference
-  [width]="safeGet(uiElement, 'width', '100%')"
-  [height]="safeGet(uiElement, 'height', '300')"
-  [tools]="safeGet(uiElement, 'tools')"
-  (onChange)="onChanged()"
->
-</jqxEditor>
+<quill-editor
+	[styles]="{ height: '200px' }"
+	(onFocus)="focus($event)"
+	(onEditorChanged)="changedEditor($event)"
+	(onBlur)="blur($event)"
+	(onEditorCreated)="created($event)"
+></quill-editor>

@@ -37,8 +37,6 @@ import { CalendarComponent } from '../calendar/calendar.component';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { StepperComponent } from '../stepper/stepper.component';
 import { BarcodeComponent } from '../barcode/barcode.component';
-import { SplitterComponent } from '../splitter/splitter.component';
-import { GanttComponent } from '../gantt/gantt.component';
 import { TabsComponent } from '../tabs/tabs.component';
 import { EditorComponent } from '../editor/editor.component';
 import { IconComponent } from '../icon/icon.component';
@@ -174,12 +172,6 @@ export class UILayoutWrapperComponent {
 				break;
 			case 'tabs':
 				componentFactory = this.cfr.resolveComponentFactory(TabsComponent);
-				break;
-			case 'gantt':
-				componentFactory = this.cfr.resolveComponentFactory(GanttComponent);
-				break;
-			case 'splitter':
-				componentFactory = this.cfr.resolveComponentFactory(SplitterComponent);
 				break;
 			case 'barcode':
 				componentFactory = this.cfr.resolveComponentFactory(BarcodeComponent);
