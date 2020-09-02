@@ -15,13 +15,13 @@
 
 	<ng-container *ngIf="condition(action)">
 		<ng-container *ngFor="let action of actions">
-			<ng-container ui-layout-wrapper [uiElement]="action" [data]="data"></ng-container>
+			<div [uiElement]="action" [data]="data"></div>
 		</ng-container>
 	</ng-container>
 
-	<ng-container *ngFor="let action of config.get('theme.toolbar.actions')">
-		<ng-container *ngIf="condition(action)">
-			<ng-container ui-layout-wrapper [uiElement]="action" [data]="data"></ng-container>
+	<ng-container *ngIf="condition(action)">
+		<ng-container *ngFor="let action of config.get('theme.toolbar.actions')">
+			<div ui-layout-wrapper [uiElement]="action" [data]="data"></div>
 		</ng-container>
 	</ng-container>
 </mat-toolbar>

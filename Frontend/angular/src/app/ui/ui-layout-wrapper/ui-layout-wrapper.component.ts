@@ -2,7 +2,7 @@ import { Component, ComponentFactoryResolver, ViewContainerRef, Renderer2, Input
 import { Router } from '@angular/router';
 import { AppInjector } from 'src/app/app.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import obj from 'object-path';
+import * as obj from "object-path"
 
 // services
 import { EventService } from 'src/app/services/event.service';

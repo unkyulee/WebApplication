@@ -4,11 +4,11 @@
   <mat-step *ngFor="let step of uiElement.steps" [label]="step.label">
     <ng-container *ngFor="let ui of step.screens">
       <ng-container *ngIf="condition(ui)">
-        <ng-container
+        <div
           ui-layout-wrapper
           [uiElement]="ui"
           [data]="data"
-        ></ng-container>
+        ></div>
       </ng-container>
     </ng-container>
   </mat-step>
@@ -24,11 +24,11 @@
     <mat-step *ngIf="condition(step)" [label]="step.label">
       <ng-container *ngFor="let ui of step.screens">
         <ng-container *ngIf="condition(ui)">
-          <ng-container
+          <div
             ui-layout-wrapper
             [uiElement]="ui"
             [data]="data"
-          ></ng-container>
+          ></div>
         </ng-container>
       </ng-container>
     </mat-step>

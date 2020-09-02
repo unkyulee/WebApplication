@@ -1,5 +1,4 @@
 import { Component, ViewChild, ElementRef } from "@angular/core";
-import { DateTimeAdapter } from "../../../../ext/ng-pick-datetime";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import obj from 'object-path';
@@ -12,7 +11,7 @@ import { BaseComponent } from "../base.component";
   styleUrls: ["./input.component.scss"]
 })
 export class InputComponent extends BaseComponent {
-  constructor(private dateTimeAdapter: DateTimeAdapter<any>) {
+  constructor() {
     super();
   }
 
@@ -28,12 +27,6 @@ export class InputComponent extends BaseComponent {
     this.typeAheadEventEmitter
       .pipe(distinctUntilChanged(), debounceTime(300))
       .subscribe(v => this.inputChanged(v));
-
-    this.dateTimeAdapter.setLocale(
-      this.uiElement.locale
-        ? this.uiElement.locale
-        : this.config.get("locale")
-    );
 
     // subscript to event
     this.onEvent = this.event.onEvent.subscribe(event =>

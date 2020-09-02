@@ -6,7 +6,7 @@
 	<div style="width: 1px; flex-grow: 1;"></div>
 	<ng-container *ngFor="let action of uiElement.actions">
 		<ng-container *ngIf="condition(action) && action.global != false">
-			<ng-container ui-layout-wrapper [uiElement]="action" [data]="data"></ng-container>
+			<div ui-layout-wrapper [uiElement]="action" [data]="data"></div>
 		</ng-container>
 	</ng-container>
 	<mat-progress-bar *ngIf="showLoadingBar" class="loading-bar" color="accent" mode="indeterminate"></mat-progress-bar>
@@ -14,7 +14,7 @@
 <div class="dialog-content" [ngStyle]="uiElement.contentStyle" [ngClass]="uiElement.contentClass">
 	<ng-container *ngFor="let ui of uiElement.screens">
 		<ng-container *ngIf="condition(ui)">
-			<ng-container ui-layout-wrapper [uiElement]="ui" [data]="data"></ng-container>
+			<div ui-layout-wrapper [uiElement]="ui" [data]="data"></div>
 		</ng-container>
 	</ng-container>
 </div>

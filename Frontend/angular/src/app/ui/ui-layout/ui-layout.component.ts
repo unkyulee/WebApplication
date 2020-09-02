@@ -9,7 +9,7 @@ import { BaseComponent } from '../base.component';
 	template: `
 		<ng-container *ngFor="let ui of uiElement.screens">
 			<ng-container *ngIf="condition(ui)">
-				<ng-container ui-layout-wrapper [uiElement]="ui" [data]="data"></ng-container>
+				<div ui-layout-wrapper [uiElement]="ui" [data]="data"></div>
 			</ng-container>
 		</ng-container>
 	`,

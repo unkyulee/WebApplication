@@ -9,11 +9,11 @@
   >
     <ng-container *ngFor="let ui of uiElement.screens">
       <ng-container *ngIf="condition(ui)">
-        <ng-container
+        <div
           ui-layout-wrapper
           [uiElement]="ui"
           [data]="data"
-        ></ng-container>
+        ></div>
       </ng-container>
     </ng-container>
   </mat-sidenav-content>
@@ -28,11 +28,11 @@
   >
     <ng-container *ngFor="let ui of uiElement.sideScreens">
       <ng-container *ngIf="condition(ui)">
-        <ng-container
+        <div
           ui-layout-wrapper
           [uiElement]="ui"
           [data]="data"
-        ></ng-container>
+        ></div>
       </ng-container>
     </ng-container>
   </mat-sidenav>

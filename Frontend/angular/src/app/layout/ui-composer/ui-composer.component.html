@@ -1,9 +1,9 @@
 <ng-container *ngFor="let ui of uiElements">
   <ng-container *ngIf="condition(ui)">
-    <ng-container
+    <div
       ui-layout-wrapper
       [uiElement]="ui"
       [data]="data"
-    ></ng-container>
+    ></div>
   </ng-container>
 </ng-container>

@@ -3,11 +3,11 @@
   [ngClass]="config.get('theme.user.class')"
 >
   <ng-container *ngFor="let ui of config.get('theme.user.screens')">
-    <ng-container
+    <div
       ui-layout-wrapper
       *ngIf="condition(ui)"
       [uiElement]="ui"
       [data]="data"
-    ></ng-container>
+    ></div>
   </ng-container>
 </div>

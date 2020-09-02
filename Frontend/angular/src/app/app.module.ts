@@ -33,6 +33,7 @@ const appRoutes: Routes = [{ path: '**', component: LayoutComponent }];
 // locale registration
 import { registerLocaleData } from '@angular/common';
 import it from '@angular/common/locales/it';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 registerLocaleData(it);
 
 @NgModule({
@@ -48,6 +49,7 @@ registerLocaleData(it);
 		),
 		LayoutModule,
 		UIModule,
+		BrowserAnimationsModule,
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

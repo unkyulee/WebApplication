@@ -28,11 +28,12 @@
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
-
-
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
 
 // dragular
 (window as any).global = window;
+
+import * as obj from "object-path"
+(window as any).obj = obj

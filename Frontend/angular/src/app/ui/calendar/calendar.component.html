@@ -4,11 +4,11 @@
       *ngFor="let ui of safeGet(uiElement, 'eventTitleTemplate', [])"
     >
       <ng-container *ngIf="condition(ui)">
-        <ng-container
+        <div
           ui-layout-wrapper
           [uiElement]="ui"
           [data]="event"
-        ></ng-container>
+        ></div>
       </ng-container>
     </ng-container>
   </ng-template>

@@ -9,7 +9,7 @@
 	<ng-container *ngFor="let ui of uiElement.screens">
 		<mat-tab [label]="ui.label" *ngIf="condition(ui)">
 			<ng-template matTabContent>
-				<ng-container ui-layout-wrapper [uiElement]="ui" [data]="safeGet(data, ui.key, data)"></ng-container>
+				<div ui-layout-wrapper [uiElement]="ui" [data]="safeGet(data, ui.key, data)"></div>
 			</ng-template>
 		</mat-tab>
 	</ng-container>

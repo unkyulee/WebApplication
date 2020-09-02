@@ -29,12 +29,12 @@
           }}</mat-icon>
         </button>
         <ng-container *ngFor="let header of ui?.header?.screens">
-          <ng-container
+          <div
             ui-layout-wrapper
             *ngIf="condition(header)"
             [uiElement]="header"
             [data]="data"
-          ></ng-container>
+          ></div>
         </ng-container>
       </div>
       <!-- Form Items -->
@@ -52,12 +52,12 @@
         "
       >
         <ng-container *ngFor="let screen of ui?.screens">
-          <ng-container
+          <div
             ui-layout-wrapper
             *ngIf="condition(screen)"
             [uiElement]="screen"
             [data]="data"
-          ></ng-container>
+          ></div>
         </ng-container>
       </div>
     </ng-container>
