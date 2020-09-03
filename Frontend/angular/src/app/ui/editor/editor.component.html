@@ -1,3 +1,1 @@
-<h3 id="focusBlur">Default editor with height of 200px</h3>
-<p>focused: {{ focused }}, blurred: {{ blurred }}</p>
-<quill-editor [styles]="{height: '200px'}" (onFocus)="focus($event)" (onEditorChanged)="changedEditor($event)" (onBlur)="blur($event)" (onEditorCreated)="created($event)"></quill-editor>
+<p-editor [(ngModel)]="value" [ngStyle]="uiElement.style"></p-editor>

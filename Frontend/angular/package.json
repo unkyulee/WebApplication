@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod --aot --build-optimizer",
-    "bundle-report": "webpack-bundle-analyzer dist/stats.json"
+    "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -16,6 +16,7 @@
     "@angular/core": "^10.0.14",
     "@angular/forms": "^10.0.14",
     "@angular/material": "^10.1.3",
+    "@angular/material-moment-adapter": "^10.2.0",
     "@angular/platform-browser": "^10.0.14",
     "@angular/platform-browser-dynamic": "^10.0.14",
     "@angular/router": "^10.0.14",
@@ -33,7 +34,6 @@
     "ngx-image-compress": "^8.0.4",
     "ngx-monaco-editor": "^8.1.1",
     "ngx-print": "^1.2.0-beta.4",
-    "ngx-quill": "^12.0.1",
     "object-path": "^0.11.4",
     "primeicons": "^4.0.0",
     "primeng": "^10.0.0-rc.4",

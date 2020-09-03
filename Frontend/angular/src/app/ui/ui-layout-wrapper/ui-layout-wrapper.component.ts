@@ -229,7 +229,6 @@ export class UILayoutWrapperComponent {
 			default:
 				componentFactory = this.cfr.resolveComponentFactory(InputComponent);
 		}
-
 		return componentFactory;
 	}
 

@@ -13,15 +13,11 @@
 	<span class="title" [matTooltip]="title" [ngStyle]="config.get('theme.toolbar.titleStyle')">{{ title }}</span>
 	<div class="flex-spacer"></div>
 
-	<ng-container *ngIf="condition(action)">
-		<ng-container *ngFor="let action of actions">
-			<div [uiElement]="action" [data]="data"></div>
-		</ng-container>
+	<ng-container *ngFor="let action of actions">
+		<div ui-layout-wrapper *ngIf="condition(action)" [uiElement]="action" [data]="data"></div>
 	</ng-container>
 
-	<ng-container *ngIf="condition(action)">
-		<ng-container *ngFor="let action of config.get('theme.toolbar.actions')">
-			<div ui-layout-wrapper [uiElement]="action" [data]="data"></div>
-		</ng-container>
+	<ng-container *ngFor="let action of config.get('theme.toolbar.actions')">
+		<div ui-layout-wrapper *ngIf="condition(action)" [uiElement]="action" [data]="data"></div>
 	</ng-container>
 </mat-toolbar>

@@ -30,7 +30,7 @@ export class ToolbarComponent extends BaseComponent {
 
 	ngOnInit() {
 		// handle events
-		this.onEvent = this.event.onEvent.subscribe(event => {
+		this.onEvent = this.event.onEvent.subscribe((event) => {
 			if (event.name == 'navigation-changed') {
 				this.show = true;
 				this.handleNavigationChanged();
@@ -49,7 +49,6 @@ export class ToolbarComponent extends BaseComponent {
 	handleNavigationChanged() {
 		// reset actions
 		this.actions = [];
-
 		//
 		if (this.nav.currNav) {
 			this.title = this.nav.currNav.name;

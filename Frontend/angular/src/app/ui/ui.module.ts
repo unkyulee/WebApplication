@@ -9,7 +9,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { NgxPrintModule } from 'ngx-print';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { QuillModule } from 'ngx-quill'
+import { EditorModule } from 'primeng/editor';
+import { ColorPickerModule } from 'primeng/colorpicker';
 
 // validators
 import { EvalValidator } from '../core/eval.validator';
@@ -47,7 +48,7 @@ import { ImageComponent } from './image/image.component';
 // calendar modules
 import * as moment from 'moment';
 import {
-	CalendarModule,
+	CalendarModule as AngularCalendarModule,
 	DateAdapter,
 	CalendarDateFormatter,
 	CalendarMomentDateFormatter,
@@ -58,7 +59,6 @@ import { IconComponent } from './icon/icon.component';
 export function momentAdapterFactory() {
 	return adapterFactory(moment);
 }
-
 
 @NgModule({
 	declarations: [
@@ -89,8 +89,8 @@ export function momentAdapterFactory() {
 		BarcodeComponent,
 		TabsComponent,
 		EditorComponent,
-    IconComponent,
-		ImageComponent
+		IconComponent,
+		ImageComponent,
 	],
 	entryComponents: [
 		UILayoutWrapperComponent,
@@ -116,8 +116,8 @@ export function momentAdapterFactory() {
 		BarcodeComponent,
 		TabsComponent,
 		EditorComponent,
-    IconComponent,
-		ImageComponent
+		IconComponent,
+		ImageComponent,
 	],
 	exports: [
 		UILayoutWrapperComponent,
@@ -144,8 +144,8 @@ export function momentAdapterFactory() {
 		BarcodeComponent,
 		TabsComponent,
 		EditorComponent,
-    IconComponent,
-		ImageComponent
+		IconComponent,
+		ImageComponent,
 	],
 	imports: [
 		CommonModule,
@@ -157,7 +157,7 @@ export function momentAdapterFactory() {
 		FileUploadModule,
 		ScrollingModule,
 		MonacoEditorModule,
-		CalendarModule.forRoot(
+		AngularCalendarModule.forRoot(
 			{
 				provide: DateAdapter,
 				useFactory: momentAdapterFactory,
@@ -172,7 +172,8 @@ export function momentAdapterFactory() {
 		NgxBarcodeModule,
 		NgxPrintModule,
 		DragDropModule,
-		QuillModule.forRoot()
+		EditorModule,
+		ColorPickerModule,
 	],
 	providers: [
 		{

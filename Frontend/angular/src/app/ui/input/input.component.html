@@ -52,11 +52,12 @@
 	[ngStyle]="uiElement.style"
 	[ngClass]="uiElement.class"
 	[placeholder]="uiElement.placeholder"
-	[(ngModel)]="value" />
+	[(ngModel)]="value"
+/>
 
 <!-- date picker input -->
 <mat-form-field
-	*ngIf="uiElement.inputType == 'datepicker'"
+	*ngIf="uiElement.inputType == 'datepicker' || uiElement.inputType == 'date'"
 	[appearance]="uiElement.appearance"
 	[ngStyle]="uiElement.style"
 	[ngClass]="uiElement.class"
@@ -65,7 +66,6 @@
 	<mat-label>{{ uiElement.label }}</mat-label>
 	<input
 		matInput
-		[matDatepicker]="dp"
 		[evalValidate]="uiElement.errorCondition"
 		[placeholder]="uiElement.placeholder"
 		[(ngModel)]="value"
@@ -74,9 +74,8 @@
 		(keyup.enter)="keyupEnter()"
 		(input)="typeAheadEventEmitter.next($event)"
 		(focus)="focus($event)"
+		type="datetime-local"
 	/>
-	<mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-	<mat-datepicker #dp></mat-datepicker>
 </mat-form-field>
 
 <!-- textarea -->
@@ -102,71 +101,6 @@
 		(focus)="focus($event)"
 	></textarea>
 </mat-form-field>
-
-<!-- datetime  -->
-<mat-form-field
-	*ngIf="uiElement.inputType == 'date'"
-	[appearance]="uiElement.appearance"
-	[ngStyle]="uiElement.style"
-	[ngClass]="uiElement.class"
-	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
->
-	<mat-label>{{ uiElement.label }}</mat-label>
-	<input
-		#datetimepicker_target
-		matInput
-		[(ngModel)]="value"
-		[placeholder]="uiElement.placeholder"
-		onfocus="blur()"
-		(focus)="focus($event)"
-		[evalValidate]="uiElement.errorCondition"
-		[required]="uiElement.required"
-		[owlDateTime]="datetimepicker"
-		[owlDateTimeTrigger]="datetimepicker"
-		(dateTimeChange)="inputChanged($event)"
-		[selectMode]="uiElement.selectMode ? uiElement.selectMode : 'single'"
-	/>
-	<button
-		type="button"
-		matSuffix
-		mat-icon-button
-		*ngIf="uiElement.icon"
-		(click)="click($event)"
-		[owlDateTimeTrigger]="uiElement.click ? false : datetimepicker"
-	>
-		<mat-icon [style.color]="uiElement.iconColor || 'green'">{{ uiElement.icon }}</mat-icon>
-	</button>
-	<owl-date-time
-		#datetimepicker
-		[disabled]="uiElement.readonly == true ? true : false"
-		[startAt]="safeEval(safeGet(this.uiElement, 'startAt', ''))"
-		[pickerType]="uiElement.pickerType ? uiElement.pickerType : 'both'"
-		[pickerMode]="uiElement.pickerMode ? uiElement.pickerMode : 'dialog'"
-		[startView]="uiElement.startView ? uiElement.startView : 'month'"
-		[stepMinute]="uiElement.stepMinute ? uiElement.stepMinute : 1"
-		[firstDayOfWeek]="safeGet(uiElement, 'firstDayOfWeek', 1)"
-		(yearSelected)="yearSelected($event, datetimepicker)"
-		(monthSelected)="monthSelected($event, datetimepicker)"
-	></owl-date-time>
-	<mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>
-	<mat-error>{{ uiElement.errorMessage }}</mat-error>
-</mat-form-field>
-
-<!-- date-inline -->
-<ng-container *ngIf="uiElement.inputType == 'date-inline'">
-	<owl-date-time-inline
-		[(ngModel)]="value"
-		[disabled]="uiElement.readonly == true ? true : false"
-		[pickerType]="uiElement.pickerType ? uiElement.pickerType : 'both'"
-		[selectMode]="uiElement.selectMode ? uiElement.selectMode : 'single'"
-		[startView]="uiElement.startView ? uiElement.startView : 'month'"
-		[stepMinute]="uiElement.stepMinute ? uiElement.stepMinute : 1"
-		[firstDayOfWeek]="safeGet(uiElement, 'firstDayOfWeek', 1)"
-		(yearSelected)="yearSelected($event, datetimepicker)"
-		(monthSelected)="monthSelected($event, datetimepicker)"
-		(dateTimeChange)="inputChanged($event)"
-	></owl-date-time-inline>
-</ng-container>
 
 <!-- checkbox -->
 <ng-container *ngIf="uiElement.inputType == 'checkbox'">
@@ -198,22 +132,28 @@
 	<input
 		matInput
 		#input
-		[(colorPicker)]="value"
-		[cpPosition]="safeGet(uiElement, 'cpPosition', 'auto')"
-		[cpPresetColors]="
-			safeGet(uiElement, 'cpPresetColors', ['#fff', '#FAE3E3', '#D1E8FF', '#FDF1BA', '#90EE90', '#D3D3D3'])
-		"
-		[style.background]="value"
 		[evalValidate]="uiElement.errorCondition"
+		[type]="uiElement.inputType ? uiElement.inputType : 'text'"
 		[placeholder]="uiElement.placeholder"
 		[(ngModel)]="value"
 		[required]="uiElement.required"
-		[readonly]="true"
+		[readonly]="uiElement.readonly"
 		(keyup.enter)="keyupEnter()"
 		(input)="typeAheadEventEmitter.next($event)"
 		(focus)="focus($event)"
 	/>
+	<button
+		type="button"
+		matSuffix
+		mat-icon-button
+		(click)="click($event)"
+		*ngIf="uiElement.icon"
+		[ngStyle]="uiElement.iconStyle"
+	>
+		<mat-icon>{{ uiElement.icon }}</mat-icon>
+	</button>
 
 	<mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>
 	<mat-error>{{ uiElement.errorMessage }}</mat-error>
+	<p-colorPicker [(ngModel)]="value" style="position: absolute; right: 0; top: -12px"></p-colorPicker>
 </mat-form-field>
