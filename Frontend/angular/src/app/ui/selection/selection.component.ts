@@ -6,6 +6,7 @@ import obj from 'object-path';
 
 // user imports
 import { BaseComponent } from '../base.component';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
 	selector: 'selection',

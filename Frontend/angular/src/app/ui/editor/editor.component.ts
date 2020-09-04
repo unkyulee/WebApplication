@@ -31,9 +31,6 @@ export class EditorComponent extends BaseComponent {
 
 	_value: any;
   get value() {
-    // do not set value if it is password
-    if (this.uiElement.inputType == "password") return;
-
     if (this.data && this.uiElement.key) {
       // if null then assign default
       if (typeof obj.get(this.data, this.uiElement.key) == "undefined") {
@@ -54,10 +51,6 @@ export class EditorComponent extends BaseComponent {
         this._value = eval(this.uiElement.transform);
       } catch (e) {}
     }
-
-    // if number
-    if (this._value && this.uiElement.inputType == "number")
-      this._value = parseFloat(this._value);
 
     return this._value;
   }

@@ -1,1 +1,4 @@
-<p-editor [(ngModel)]="value" [ngStyle]="uiElement.style"></p-editor>
+<div>
+  <mat-label>{{uiElement.label}}</mat-label>
+	<p-editor [(ngModel)]="value" [style]="uiElement.style" [class]="uiElement.class"> </p-editor>
+</div>

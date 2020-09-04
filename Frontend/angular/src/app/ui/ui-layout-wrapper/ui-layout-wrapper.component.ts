@@ -2,7 +2,7 @@ import { Component, ComponentFactoryResolver, ViewContainerRef, Renderer2, Input
 import { Router } from '@angular/router';
 import { AppInjector } from 'src/app/app.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import * as obj from "object-path"
+import * as obj from 'object-path';
 
 // services
 import { EventService } from 'src/app/services/event.service';
@@ -40,6 +40,7 @@ import { TabsComponent } from '../tabs/tabs.component';
 import { EditorComponent } from '../editor/editor.component';
 import { IconComponent } from '../icon/icon.component';
 import { ImageComponent } from '../image/image.component';
+import { DateComponent } from '../date/date.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -224,6 +225,9 @@ export class UILayoutWrapperComponent {
 				break;
 			case 'selection':
 				componentFactory = this.cfr.resolveComponentFactory(SelectionComponent);
+				break;
+			case 'date':
+				componentFactory = this.cfr.resolveComponentFactory(DateComponent);
 				break;
 			case 'input':
 			default:

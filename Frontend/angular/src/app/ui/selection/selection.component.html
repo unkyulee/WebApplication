@@ -18,7 +18,7 @@
 		>
 			<mat-option *ngIf="uiElement.multiple != true"> </mat-option>
 			<mat-option disabled *ngIf="!uiElement.options">
-				<div style="display: flex; align-items: center;">
+				<div style="display: flex; align-items: center">
 					<span style="flex: 1">Loading...</span>
 					<mat-spinner class="spinner" diameter="20"></mat-spinner>
 				</div>
@@ -85,15 +85,14 @@
 
 <!-- TAGS -->
 <ng-container *ngIf="uiElement.selectionType == 'tag'">
-	<!-- tag-input
+	<p-chips
 		[(ngModel)]="value"
+		[style]="uiElement.class"
+		[class]="uiElement.class"
 		[placeholder]="uiElement.placeholder"
-		[secondaryPlaceholder]="uiElement.secondaryPlaceholder"
-		[separatorKeyCodes]="safeGet(uiElement, 'separatorKeyCodes', [13])"
-		[separatorKeys]="safeGet(uiElement, 'separatorKeys', [''])"
-		[addOnBlur]="safeGet(uiElement, 'addOnBlur', true)"
-		[modelAsStrings]="safeGet(uiElement, 'modelAsStrings', false)"
-		[ngStyle]="uiElement.style"
-		[ngClass]="uiElement.class"
-	></tag-input -->
+	>
+		<ng-template let-item pTemplate="item">
+			{{ format(item) }}
+		</ng-template>
+	</p-chips>
 </ng-container>

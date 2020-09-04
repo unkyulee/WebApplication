@@ -11,6 +11,7 @@ import { NgxPrintModule } from 'ngx-print';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { EditorModule } from 'primeng/editor';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { ChipsModule } from 'primeng/chips';
 
 // validators
 import { EvalValidator } from '../core/eval.validator';
@@ -21,6 +22,7 @@ import { AutofocusDirective } from '../core/autofocus';
 import { UILayoutWrapperComponent } from './ui-layout-wrapper/ui-layout-wrapper.component';
 import { DataTableComponent } from './data-table/data-table.component';
 import { InputComponent } from './input/input.component';
+import { DateComponent } from './date/date.component';
 import { SelectionComponent } from './selection/selection.component';
 import { ButtonComponent } from './button/button.component';
 import { SignatureComponent } from './signature/signature.component';
@@ -71,6 +73,7 @@ export function momentAdapterFactory() {
 		DataTableComponent,
 		FormGeneratorComponent,
 		InputComponent,
+		DateComponent,
 		SelectionComponent,
 		UploaderComponent,
 		ButtonComponent,
@@ -98,6 +101,7 @@ export function momentAdapterFactory() {
 		DataTableComponent,
 		FormGeneratorComponent,
 		InputComponent,
+		DateComponent,
 		SelectionComponent,
 		UploaderComponent,
 		ButtonComponent,
@@ -125,6 +129,7 @@ export function momentAdapterFactory() {
 		DataTableComponent,
 		FormGeneratorComponent,
 		InputComponent,
+		DateComponent,
 		SelectionComponent,
 		ButtonComponent,
 		SignatureComponent,
@@ -174,6 +179,7 @@ export function momentAdapterFactory() {
 		DragDropModule,
 		EditorModule,
 		ColorPickerModule,
+		ChipsModule
 	],
 	providers: [
 		{

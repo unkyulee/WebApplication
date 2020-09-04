@@ -4,29 +4,19 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import obj from 'object-path';
 
 import { BaseComponent } from '../base.component';
-import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 
 @Component({
 	selector: 'input-component',
 	templateUrl: './input.component.html',
 	styleUrls: ['./input.component.scss'],
-	providers: [
-    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
-    // `MatMomentDateModule` in your applications root module. We provide it at the component level
-    // here, due to limitations of our example generation script.
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ],
 })
 export class InputComponent extends BaseComponent {
-	constructor(private dateAdapter: DateAdapter<Date>) {
+	constructor() {
 		super();
 	}
 
 	//
 	typeAheadEventEmitter = new Subject<string>();
-	@ViewChild('datetimepicker_target') datetimepicker: ElementRef;
 
 	ngOnInit() {
 		super.ngOnInit();
@@ -36,23 +26,11 @@ export class InputComponent extends BaseComponent {
 		this.typeAheadEventEmitter
 			.pipe(distinctUntilChanged(), debounceTime(300))
 			.subscribe((v) => this.inputChanged(v));
-
-		// subscript to event
-		this.onEvent = this.event.onEvent.subscribe((event) => this.eventHandler(event));
-
-		// set locate
-		this.dateAdapter.setLocale(this.uiElement.locale ? this.uiElement.locale : this.config.get('locale'));
 	}
 
 	ngOnDestroy() {
 		super.ngOnDestroy();
 		this.typeAheadEventEmitter.unsubscribe();
-	}
-
-	eventHandler(event) {
-		if (event && event.name == 'datepicker-trigger' && event.key == this.uiElement.key && this.datetimepicker) {
-			this.datetimepicker.nativeElement.click();
-		}
 	}
 
 	inputChanged(v) {

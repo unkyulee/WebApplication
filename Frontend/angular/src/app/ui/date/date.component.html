@@ -1,0 +1,74 @@
+
+<!-- date input -->
+<mat-form-field
+	*ngIf="uiElement.dateType == 'date'"
+	[appearance]="uiElement.appearance"
+	[ngStyle]="uiElement.style"
+	[ngClass]="uiElement.class"
+	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
+>
+	<mat-label>{{ uiElement.label }}</mat-label>
+	<input
+    matInput
+    [matDatepicker]="picker"
+		[evalValidate]="uiElement.errorCondition"
+		[placeholder]="uiElement.placeholder"
+		[(ngModel)]="value"
+		[required]="uiElement.required"
+		[readonly]="uiElement.readonly"
+		(keyup.enter)="keyupEnter()"
+		(input)="typeAheadEventEmitter.next($event)"
+		(focus)="focus($event)"
+		type="datetime-local"
+  />
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+
+<!-- datetime input -->
+<mat-form-field
+	*ngIf="uiElement.dateType == 'datetime'"
+	[appearance]="uiElement.appearance"
+	[ngStyle]="uiElement.style"
+	[ngClass]="uiElement.class"
+	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
+>
+	<mat-label>{{ uiElement.label }}</mat-label>
+	<input
+		matInput
+		[evalValidate]="uiElement.errorCondition"
+		[placeholder]="uiElement.placeholder"
+		[(ngModel)]="value"
+		[required]="uiElement.required"
+		[readonly]="uiElement.readonly"
+		(keyup.enter)="keyupEnter()"
+		(input)="typeAheadEventEmitter.next($event)"
+		(focus)="focus($event)"
+		type="datetime-local"
+	/>
+</mat-form-field>
+
+
+<!-- time input -->
+<mat-form-field
+	*ngIf="uiElement.dateType == 'time'"
+	[appearance]="uiElement.appearance"
+	[ngStyle]="uiElement.style"
+	[ngClass]="uiElement.class"
+	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
+>
+	<mat-label>{{ uiElement.label }}</mat-label>
+	<input
+		matInput
+		[evalValidate]="uiElement.errorCondition"
+		[placeholder]="uiElement.placeholder"
+		[(ngModel)]="value"
+		[required]="uiElement.required"
+		[readonly]="uiElement.readonly"
+		(keyup.enter)="keyupEnter()"
+		(input)="typeAheadEventEmitter.next($event)"
+		(focus)="focus($event)"
+		type="time"
+	/>
+</mat-form-field>
