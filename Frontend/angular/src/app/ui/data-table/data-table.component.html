@@ -1,3 +1,45 @@
+<!-- Table -->
+<ng-container *ngIf="uiElement.tableType == 'table'">
+	<p-table
+		[columns]="uiElement.tableColumns"
+		[value]="rows"
+		styleClass="p-datatable-sm p-datatable-striped"
+		[rowHover]="safeGet(uiElement, 'rowHover', true)"
+		[filterDelay]="safeGet(uiElement, 'filterDelay', 250)"
+		(sortFunction)="customSort($event)"
+		[customSort]="true"
+	>
+		<ng-template pTemplate="colgroup" let-columns>
+			<colgroup>
+				<ng-container *ngFor="let column of columns">
+					<col *ngIf="condition(column)" [style]="column.columnStyle" />
+				</ng-container>
+			</colgroup>
+		</ng-template>
+		<ng-template pTemplate="header" let-columns>
+			<tr>
+				<ng-container *ngFor="let column of columns">
+					<th *ngIf="condition(column)" [pSortableColumn]="column.key">
+						<div ui-layout-wrapper *ngIf="column.header" [uiElement]="column.header" [data]="data"></div>
+						<span *ngIf="!column.header">{{ column.label }}</span>
+
+						<p-sortIcon [field]="column.key"></p-sortIcon>
+						<!-- div ui-layout-wrapper *ngIf="column.filter" [uiElement]="column.filter" [data]="data"></div -->
+					</th>
+				</ng-container>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="body" let-row let-columns="columns">
+			<tr>
+				<td *ngFor="let column of columns">
+					<div ui-layout-wrapper *ngIf="condition(column)" [uiElement]="column" [data]="row"></div>
+				</td>
+			</tr>
+		</ng-template>
+	</p-table>
+	<pagination [key]="uiElement.key" [total]="total" [page]="page" [size]="size" style="position: sticky; bottom: 0; width: 100%"></pagination>
+</ng-container>
+
 <!-- Card List -->
 <ng-container *ngIf="uiElement.tableType == 'card'">
 	<cdk-virtual-scroll-viewport
@@ -18,7 +60,7 @@
 			[ngClass]="uiElement.itemBoxClass"
 		>
 			<ng-container *ngFor="let column of uiElement.columns">
-				<div ui-layout-wrapper [uiElement]="column" [data]="row"> </div>
+				<div ui-layout-wrapper [uiElement]="column" [data]="row"></div>
 			</ng-container>
 		</mat-card>
 	</cdk-virtual-scroll-viewport>

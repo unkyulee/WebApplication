@@ -3,15 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../core/material.module';
+import { PrimeNGModule } from '../core/primeng.module';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { NgxPrintModule } from 'ngx-print';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { EditorModule } from 'primeng/editor';
-import { ColorPickerModule } from 'primeng/colorpicker';
-import { ChipsModule } from 'primeng/chips';
 
 // validators
 import { EvalValidator } from '../core/eval.validator';
@@ -177,9 +175,7 @@ export function momentAdapterFactory() {
 		NgxBarcodeModule,
 		NgxPrintModule,
 		DragDropModule,
-		EditorModule,
-		ColorPickerModule,
-		ChipsModule
+		PrimeNGModule
 	],
 	providers: [
 		{

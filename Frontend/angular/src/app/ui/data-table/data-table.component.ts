@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Subject } from 'rxjs';
+import { skip } from 'rxjs/operators';
 import obj from 'object-path';
 
 // user imports
 import { BaseComponent } from '../base.component';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
 	selector: 'data-table',
 	templateUrl: './data-table.component.html',
+	styleUrls: ['./data-table.component.scss'],
 })
 export class DataTableComponent extends BaseComponent {
 	///
@@ -53,7 +56,7 @@ export class DataTableComponent extends BaseComponent {
 		this.requestDownload();
 
 		// event handler
-		this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+		this.onEvent = this.event.onEvent.subscribe((event) => this.eventHandler(event));
 	}
 
 	eventHandler(event) {
@@ -79,6 +82,32 @@ export class DataTableComponent extends BaseComponent {
 	ngOnDestroy() {
 		super.ngOnDestroy();
 		this.onEvent.unsubscribe();
+	}
+
+	//
+	onGoingSort = false;
+	customSort(event) {
+		if (this.onGoingSort) return;
+
+		//
+		obj.set(this.uiElement, 'sort', []);
+
+		// add sort filter
+		if (event.order == 1) {
+			this.uiElement.sort.push({
+				dir: 'asc',
+				prop: event.field,
+			});
+		} else if (event.order == -1) {
+			this.uiElement.sort.push({
+				dir: 'desc',
+				prop: event.field,
+			});
+		}
+
+		//
+		this.onGoingSort = true;
+		setTimeout(() => this.requestDownload(), 0);
 	}
 
 	// Get Pagination information
@@ -132,7 +161,7 @@ export class DataTableComponent extends BaseComponent {
 
 		// download data through rest web services
 		let src = this.uiElement.src;
-		if(src) {
+		if (src) {
 			try {
 				src = eval(src);
 			} catch (e) {
@@ -157,8 +186,10 @@ export class DataTableComponent extends BaseComponent {
 
 			// sorting options
 			if (this.uiElement.sort) {
-				if (this.sort.dir == 'asc') data['_sort'] = this.sort.prop;
-				else if (this.sort.dir == 'desc') data['_sort_desc'] = this.sort.prop;
+				for (let sort of this.uiElement.sort) {
+					if (sort.dir == 'asc') data['_sort'] = sort.prop;
+					else if (sort.dir == 'desc') data['_sort_desc'] = sort.prop;
+				}
 			}
 
 			let options = {};
@@ -181,7 +212,7 @@ export class DataTableComponent extends BaseComponent {
 			this.event.send({ name: 'splash-show' }); // show splash
 			this.rest
 				.request(src, data, this.uiElement.method, options, this.uiElement.cached)
-				.subscribe(response => this.responseDownload(response));
+				.subscribe((response) => this.responseDownload(response));
 		} else {
 			this.total = this.rows ? this.rows.length : 0;
 			this.size = this.total;
@@ -204,6 +235,11 @@ export class DataTableComponent extends BaseComponent {
 			this.total = parseInt(eval(transformTotal));
 		} catch (e) {}
 		if (this.total != 0 && !this.total) this.total = this.rows.length;
+
+		//
+		setTimeout(() => {
+			this.onGoingSort = false;
+		});
 	}
 
 	sort: any;
