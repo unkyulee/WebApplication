@@ -19,25 +19,39 @@
 		<ng-template pTemplate="header" let-columns>
 			<tr>
 				<ng-container *ngFor="let column of columns">
-					<th *ngIf="condition(column)" [pSortableColumn]="column.key">
+					<th *ngIf="condition(column)">
 						<div ui-layout-wrapper *ngIf="column.header" [uiElement]="column.header" [data]="data"></div>
 						<span *ngIf="!column.header">{{ column.label }}</span>
 
-						<p-sortIcon [field]="column.key"></p-sortIcon>
-						<!-- div ui-layout-wrapper *ngIf="column.filter" [uiElement]="column.filter" [data]="data"></div -->
+						<p-sortIcon [field]="column.key" [pSortableColumn]="column.key"></p-sortIcon>
+						<div ui-layout-wrapper *ngIf="column.filter" [uiElement]="column.filter" [data]="data"></div>
 					</th>
 				</ng-container>
 			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-row let-columns="columns">
 			<tr>
-				<td *ngFor="let column of columns">
-					<div ui-layout-wrapper *ngIf="condition(column)" [uiElement]="column" [data]="row"></div>
-				</td>
+				<ng-container *ngFor="let column of columns">
+					<td *ngIf="condition(column)" style="overflow: hidden;">
+						<div
+							ui-layout-wrapper
+							*ngIf="condition(column)"
+							[uiElement]="column"
+							[data]="row"
+							[copy]="true"
+						></div>
+					</td>
+				</ng-container>
 			</tr>
 		</ng-template>
 	</p-table>
-	<pagination [key]="uiElement.key" [total]="total" [page]="page" [size]="size" style="position: sticky; bottom: 0; width: 100%"></pagination>
+	<pagination
+		[key]="uiElement.key"
+		[total]="total"
+		[page]="page"
+		[size]="size"
+		style="position: sticky; bottom: 0; left: 0; width: 100%"
+	></pagination>
 </ng-container>
 
 <!-- Card List -->

@@ -88,6 +88,7 @@ export class UILayoutWrapperComponent {
 	// configuration of the ui element
 	@Input() uiElement: any;
 	@Input() data: any;
+	@Input() copy: any;
 
 	async ngOnChanges(changes: SimpleChanges) {
 		// create component
@@ -113,8 +114,13 @@ export class UILayoutWrapperComponent {
 
 			// init
 			if (obj.has(this, 'uiElement.init')) {
+				if(this.copy) {
+					let element = JSON.parse(JSON.stringify(obj.has(this, 'uiElement.init')));
+					this.uiElement = Object.assign({}, this.uiElement, element);
+				}
+
 				try {
-					await eval(this.uiElement.init);
+					eval(this.uiElement.init);
 				} catch (e) {
 					console.error(e);
 				}

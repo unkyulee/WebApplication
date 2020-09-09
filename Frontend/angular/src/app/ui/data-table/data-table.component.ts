@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Subject } from 'rxjs';
-import { skip } from 'rxjs/operators';
 import obj from 'object-path';
 
 // user imports
@@ -63,6 +61,8 @@ export class DataTableComponent extends BaseComponent {
 		if (event && (!event.key || event.key == this.uiElement.key)) {
 			if (event.name == 'refresh' && (!event.key || event.key == this.uiElement.key)) {
 				// run refresh script
+				this.page = event.page;
+				this.size = event.size;
 				if (this.uiElement.refresh) {
 					try {
 						eval(this.uiElement.refresh);

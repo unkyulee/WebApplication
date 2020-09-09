@@ -43,6 +43,7 @@ export class BaseComponent {
   // configuration of the ui element
   @Input() uiElement: any;
   @Input() data: any;
+  @Input() copy: any;
 
   // global services
   public util: UtilService;
@@ -242,7 +243,7 @@ export class BaseComponent {
     return obj.get(data, path, def_value);
   }
 
-  copy(obj) {
+  deepCopy(obj) {
     //return obj
     if(Array.isArray(obj))
       return [...obj]

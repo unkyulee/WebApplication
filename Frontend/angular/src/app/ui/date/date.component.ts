@@ -60,10 +60,18 @@ export class DateComponent extends BaseComponent {
 
 	set value(v: any) {
 		this._value = v;
-
 		if (this.data && this.uiElement.key) {
 			obj.set(this.data, this.uiElement.key, v);
 		}
 
+		// see if there are any input change handlers
+		if (this.uiElement.changed) {
+			try {
+				eval(this.uiElement.changed);
+			} catch (ex) {
+				console.error(ex);
+			}
+		}
 	}
+
 }
