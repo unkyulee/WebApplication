@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import obj from 'object-path';
+import * as moment from 'moment'
 
 import { BaseComponent } from '../base.component';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -45,7 +46,7 @@ export class DateComponent extends BaseComponent {
 			}
 
 			// set value
-			this._value = obj.get(this.data, this.uiElement.key);
+			this._value = moment(obj.get(this.data, this.uiElement.key)).format('YYYY-MM-DDTHH:MM')
 		}
 
 		// Transform
