@@ -40,6 +40,19 @@ export class DataTableComponent extends BaseComponent {
 		}
 	}
 
+	_selection;
+	get selection() {
+		return this._selection;
+	}
+	set selection(item: any) {
+		this._selection = item;
+		if(obj.get(this.uiElement, 'click')) {
+			try {
+				eval(this.uiElement.click)
+			} catch {}
+		}
+	}
+
 	// pagination information
 	total: number = 0;
 	page: number = 0;

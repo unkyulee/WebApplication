@@ -8,6 +8,8 @@
 		[filterDelay]="safeGet(uiElement, 'filterDelay', 250)"
 		(sortFunction)="customSort($event)"
 		[customSort]="true"
+		[selectionMode]="safeGet(uiElement, 'selectionMode', 'single')"
+		[(selection)]="selection"
 	>
 		<ng-template pTemplate="colgroup" let-columns>
 			<colgroup>
@@ -30,7 +32,7 @@
 			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-row let-columns="columns">
-			<tr>
+			<tr [pSelectableRow]="row">
 				<ng-container *ngFor="let column of columns">
 					<td *ngIf="condition(column)" style="overflow: hidden;">
 						<div
