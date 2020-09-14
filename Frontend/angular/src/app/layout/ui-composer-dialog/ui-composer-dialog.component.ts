@@ -2,7 +2,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 // user imports
-import { BaseComponent } from 'src/app/ui/base.component';
+import { BaseComponent } from '../../ui/base.component';
 
 @Component({
 	selector: '[ui-composer-dialog]',

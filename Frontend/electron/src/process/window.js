@@ -76,7 +76,7 @@ module.exports = {
 			// Load the main window HTML file
 			this.window.loadURL(
 				url.format({
-					pathname: path.join(__dirname, '../', 'window', 'index.html'),
+					pathname: path.join(__dirname, '../../dist', 'index.html'),
 					protocol: 'file:',
 					slashes: true,
 				})

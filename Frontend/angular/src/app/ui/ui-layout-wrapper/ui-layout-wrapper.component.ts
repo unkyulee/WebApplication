@@ -1,21 +1,21 @@
 import { Component, ComponentFactoryResolver, ViewContainerRef, Renderer2, Input, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppInjector } from 'src/app/app.component';
+import { AppInjector } from '../../app.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as obj from 'object-path';
 
 // services
-import { EventService } from 'src/app/services/event.service';
-import { RestService } from 'src/app/services/rest.service';
-import { NavService } from 'src/app/services/nav.service';
-import { ConfigService } from 'src/app/services/config.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { DBService } from 'src/app/services/db/db.service';
-import { UtilService } from 'src/app/services/util.service';
-import { CordovaService } from 'src/app/services/cordova.service';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { UIService } from 'src/app/services/ui.service';
-import { PermissionService } from 'src/app/services/permission.service';
+import { EventService } from '../../services/event.service';
+import { RestService } from '../../services/rest.service';
+import { NavService } from '../../services/nav.service';
+import { ConfigService } from '../../services/config.service';
+import { UserService } from '../../services/user/user.service';
+import { DBService } from '../../services/db/db.service';
+import { UtilService } from '../../services/util.service';
+import { CordovaService } from '../../services/cordova.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { UIService } from '../../services/ui.service';
+import { PermissionService } from '../../services/permission.service';
 
 // UI components
 import { InputComponent } from '../input/input.component';

@@ -1,9 +1,8 @@
 import { Component, Inject, ChangeDetectorRef } from "@angular/core";
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from "@angular/material/bottom-sheet";
-import { Subscription } from "rxjs";
 
 // user imports
-import { BaseComponent } from 'src/app/ui/base.component';
+import { BaseComponent } from '../../ui/base.component';
 
 @Component({
   selector: "ui-composer-actions",

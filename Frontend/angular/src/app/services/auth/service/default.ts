@@ -3,9 +3,9 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { EMPTY } from "rxjs";
 
 // services
-import { RestService } from "src/app/services/rest.service";
-import { ConfigService } from "src/app/services/config.service";
-import { EventService } from "src/app/services/event.service";
+import { RestService } from "../../rest.service";
+import { ConfigService } from "../../config.service";
+import { EventService } from "../../event.service";
 import { UserService } from "../../user/user.service";
 import { NavService } from '../../nav.service';
 import { UIService } from '../../ui.service';

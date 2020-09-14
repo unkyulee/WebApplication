@@ -1,11 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { EventService } from '../../services/event.service';
-import { Subscription } from 'rxjs';
+import { Component } from '@angular/core';
 
 // user services
-import { ConfigService } from '../../services/config.service';
-import { NavService } from '../../services/nav.service';
-import { BaseComponent } from 'src/app/ui/base.component';
+import { BaseComponent } from '../../ui/base.component';
 
 @Component({
 	selector: 'toolbar',
