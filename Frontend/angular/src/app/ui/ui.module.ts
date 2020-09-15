@@ -2,22 +2,27 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
+//
 import { MaterialModule } from '../core/material.module';
 import { PrimeNGModule } from '../core/primeng.module';
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { FileUploadModule } from 'ng2-file-upload';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { NgxPrintModule } from 'ngx-print';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 // validators
 import { EvalValidator } from '../core/eval.validator';
 import { JsonValidator } from '../core/json.validator';
 import { AutofocusDirective } from '../core/autofocus';
+import { SafePipe } from '../core/safe.pipe';
 
 // user component
 import { UILayoutWrapperComponent } from './ui-layout-wrapper/ui-layout-wrapper.component';
+import { UILayoutComponent } from './ui-layout/ui-layout.component';
 import { DataTableComponent } from './data-table/data-table.component';
 import { InputComponent } from './input/input.component';
 import { DateComponent } from './date/date.component';
@@ -27,16 +32,12 @@ import { SignatureComponent } from './signature/signature.component';
 import { UploaderComponent } from './uploader/uploader.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { TypographyComponent } from './typography/typography.component';
-import { SafePipe } from '../core/safe.pipe';
 import { FormGeneratorComponent } from './form-generator/form-generator.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
-import { UILayoutComponent } from './ui-layout/ui-layout.component';
 import { DividerComponent } from './divider/divider.component';
 import { BaseComponent } from './base.component';
 import { PopupMenuComponent } from './popup-menu/popup-menu.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
-import { TreeComponent } from './tree/tree.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { StepperComponent } from './stepper/stepper.component';
@@ -44,6 +45,11 @@ import { BarcodeComponent } from './barcode/barcode.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { EditorComponent } from './editor/editor.component';
 import { ImageComponent } from './image/image.component';
+
+// overlay
+import { UIComposerComponent } from './ui-composer/ui-composer.component'
+import { UIComposerActionsComponent } from './ui-composer-actions/ui-composer-actions.component'
+import { UIComposerDialogComponent } from './ui-composer-dialog/ui-composer-dialog.component'
 
 // calendar modules
 import * as moment from 'moment';
@@ -83,7 +89,6 @@ export function momentAdapterFactory() {
 		BaseComponent,
 		PopupMenuComponent,
 		CodeEditorComponent,
-		TreeComponent,
 		CalendarComponent,
 		SideNavComponent,
 		StepperComponent,
@@ -92,6 +97,9 @@ export function momentAdapterFactory() {
 		EditorComponent,
 		IconComponent,
 		ImageComponent,
+		UIComposerComponent,
+		UIComposerActionsComponent,
+		UIComposerDialogComponent,
 	],
 	entryComponents: [
 		UILayoutWrapperComponent,
@@ -111,7 +119,6 @@ export function momentAdapterFactory() {
 		BaseComponent,
 		PopupMenuComponent,
 		CodeEditorComponent,
-		TreeComponent,
 		CalendarComponent,
 		SideNavComponent,
 		StepperComponent,
@@ -120,6 +127,9 @@ export function momentAdapterFactory() {
 		EditorComponent,
 		IconComponent,
 		ImageComponent,
+		UIComposerComponent,
+		UIComposerActionsComponent,
+		UIComposerDialogComponent,
 	],
 	exports: [
 		UILayoutWrapperComponent,
@@ -140,7 +150,6 @@ export function momentAdapterFactory() {
 		BaseComponent,
 		PopupMenuComponent,
 		CodeEditorComponent,
-		TreeComponent,
 		CalendarComponent,
 		SideNavComponent,
 		StepperComponent,
@@ -149,6 +158,9 @@ export function momentAdapterFactory() {
 		EditorComponent,
 		IconComponent,
 		ImageComponent,
+		UIComposerComponent,
+		UIComposerActionsComponent,
+		UIComposerDialogComponent,
 	],
 	imports: [
 		CommonModule,
@@ -182,6 +194,6 @@ export function momentAdapterFactory() {
 			provide: MOMENT,
 			useValue: moment,
 		},
-	],
+	]
 })
 export class UIModule {}

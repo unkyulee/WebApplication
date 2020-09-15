@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClientJsonpModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
-import { MaterialModule } from './core/material.module';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // services
 import { AuthInterceptor } from './services/auth/auth.interceptor';
@@ -16,40 +14,29 @@ import { CordovaService } from './services/cordova.service';
 import { DBService } from './services/db/db.service';
 import { PermissionService } from './services/permission.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { UtilService } from './services/util.service';
+import { UIService } from './services/ui.service';
 
 // modules
-import { LayoutModule } from './layout/layout.module';
 import { UIModule } from './ui/ui.module';
 
 // app component
 import { AppComponent } from './app.component';
-import { LayoutComponent } from './layout/layout.component';
-import { UtilService } from './services/util.service';
-import { UIService } from './services/ui.service';
-
-// catch-all routes
-const appRoutes: Routes = [{ path: '**', component: LayoutComponent }];
+import { AppRoutingModule } from './app.routing';
 
 // locale registration
 import { registerLocaleData } from '@angular/common';
 import it from '@angular/common/locales/it';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 registerLocaleData(it);
 
 @NgModule({
 	declarations: [AppComponent],
 	imports: [
+		BrowserAnimationsModule,
 		HttpClientModule,
 		HttpClientJsonpModule,
-		MaterialModule,
-		MonacoEditorModule.forRoot(),
-		RouterModule.forRoot(
-			appRoutes
-			//, {enableTracing: true}
-		),
-		LayoutModule,
+		AppRoutingModule,
 		UIModule,
-		BrowserAnimationsModule,
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

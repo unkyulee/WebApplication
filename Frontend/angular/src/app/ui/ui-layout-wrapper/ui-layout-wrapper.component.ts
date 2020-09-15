@@ -31,7 +31,6 @@ import { UILayoutComponent } from '../ui-layout/ui-layout.component';
 import { DividerComponent } from '../divider/divider.component';
 import { PopupMenuComponent } from '../popup-menu/popup-menu.component';
 import { CodeEditorComponent } from '../code-editor/code-editor.component';
-import { TreeComponent } from '../tree/tree.component';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { StepperComponent } from '../stepper/stepper.component';
@@ -190,9 +189,6 @@ export class UILayoutWrapperComponent {
 				break;
 			case 'calendar':
 				componentFactory = this.cfr.resolveComponentFactory(CalendarComponent);
-				break;
-			case 'tree':
-				componentFactory = this.cfr.resolveComponentFactory(TreeComponent);
 				break;
 			case 'code-editor':
 				componentFactory = this.cfr.resolveComponentFactory(CodeEditorComponent);

@@ -5,7 +5,10 @@
   To learn more about this file see: https://angular.io/config/solution-tsconfig.
 */
 {
-  "files": ["src/main.ts", "src/polyfills.ts"],
+  "files": [
+		"src/app/app.ts",
+		"src/polyfills.ts"
+	],
   "references": [
     {
       "path": "./tsconfig.json"

@@ -7,7 +7,6 @@ import { NavService } from "./services/nav.service";
 import { EventService } from "./services/event.service";
 import { ConfigService } from "./services/config.service";
 import { CordovaService } from "./services/cordova.service";
-import { AuthService } from "./services/auth/auth.service";
 
 // Global Injector
 export let AppInjector: Injector;
@@ -22,7 +21,6 @@ export class AppComponent {
     public event: EventService,
     private config: ConfigService,
     private cordova: CordovaService,
-    private auth: AuthService,
     private injector: Injector
   ) {
     AppInjector = this.injector;
