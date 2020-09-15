@@ -11,15 +11,6 @@ import { BaseComponent } from '../base.component';
 	templateUrl: './form-generator.component.html',
 })
 export class FormGeneratorComponent extends BaseComponent {
-	_data: any;
-	@Input()
-	get data() {
-		return this._data;
-	}
-	set data(v: any) {
-		this._data = v;
-	}
-
 	// event subscription
 	ngOnInit() {
 		super.ngOnInit();

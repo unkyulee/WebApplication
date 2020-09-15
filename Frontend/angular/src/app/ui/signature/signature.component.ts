@@ -13,18 +13,6 @@ export class SignatureComponent extends BaseComponent {
 		super();
 	}
 
-	_data;
-	@Input() get data() {
-		return this._data;
-	}
-
-	set data(v) {
-		this._data = v;
-		if (this._data && this.uiElement.key && this.signaturePad) {
-			this.signaturePad.fromDataURL(this._data[this.uiElement.key]);
-		}
-	}
-
 	@ViewChild(SignaturePad) signaturePad: SignaturePad;
 
 	options: Object = {};
@@ -48,8 +36,8 @@ export class SignatureComponent extends BaseComponent {
 		this.signaturePad.clear();
 
 		// load signature
-		if (this._data && this.uiElement.key) {
-			this.signaturePad.fromDataURL(this._data[this.uiElement.key]);
+		if (this.data && this.uiElement.key) {
+			this.signaturePad.fromDataURL(this.data[this.uiElement.key]);
 		}
 	}
 
@@ -70,8 +58,8 @@ export class SignatureComponent extends BaseComponent {
 			}
 		}
 		// save signature
-		else if (this._data && this.uiElement.key) {
-			this._data[this.uiElement.key] = this.signaturePad.toDataURL();
+		else if (this.data && this.uiElement.key) {
+			this.data[this.uiElement.key] = this.signaturePad.toDataURL();
 			this.event.send({ name: 'save' });
 		}
 	}

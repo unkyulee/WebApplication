@@ -6,14 +6,9 @@
 */
 {
   "files": [
-		"src/main.ts",
+		"src/electron/app.ts",
 		"../angular/src/polyfills.ts"
 	],
-  "references": [
-    {
-      "path": "./tsconfig.json"
-    }
-  ],
   "compileOnSave": false,
 	"compilerOptions": {
 		"baseUrl": "./",

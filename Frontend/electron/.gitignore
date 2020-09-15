@@ -7,3 +7,5 @@ package-lock.json
 /dist
 /tmp
 /out-tsc
+/.vscode
+/src/angular

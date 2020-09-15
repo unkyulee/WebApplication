@@ -1,0 +1,20 @@
+<mat-toolbar [ngStyle]="uiElement.toolbar?.style ? uiElement.toolbar?.style : config.get('theme.toolbar.style')">
+	<button type="button" mat-icon-button (click)="event.send({ name: 'close-dialog' })" tabIndex="-1">
+		<mat-icon>close</mat-icon>
+	</button>
+	<span>{{ uiElement.name }}</span>
+	<div style="width: 1px; flex-grow: 1;"></div>
+	<ng-container *ngFor="let action of uiElement.actions">
+		<ng-container *ngIf="condition(action) && action.global != false">
+			<div ui-layout-wrapper [uiElement]="action" [data]="data"></div>
+		</ng-container>
+	</ng-container>
+	<mat-progress-bar *ngIf="showLoadingBar" class="loading-bar" color="accent" mode="indeterminate"></mat-progress-bar>
+</mat-toolbar>
+<div class="dialog-content" [ngStyle]="uiElement.contentStyle" [ngClass]="uiElement.contentClass">
+	<ng-container *ngFor="let ui of uiElement.screens">
+		<ng-container *ngIf="condition(ui)">
+			<div ui-layout-wrapper [uiElement]="ui" [data]="data"></div>
+		</ng-container>
+	</ng-container>
+</div>
