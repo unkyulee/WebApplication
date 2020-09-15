@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { BaseComponent } from '../../../angular/ui/base.component';
+import { BaseComponent } from '../../ui/base.component';
 
 @Component({
   selector: "user",

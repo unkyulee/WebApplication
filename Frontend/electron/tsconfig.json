@@ -6,7 +6,7 @@
 */
 {
   "files": [
-		"src/electron/app.ts",
+		"src/app/app.ts",
 		"../angular/src/polyfills.ts"
 	],
   "compileOnSave": false,

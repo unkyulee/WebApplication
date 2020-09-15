@@ -8,4 +8,6 @@ package-lock.json
 /tmp
 /out-tsc
 /.vscode
-/src/angular
+/src/app/core
+/src/app/services
+/src/app/ui

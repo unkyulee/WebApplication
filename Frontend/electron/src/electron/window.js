@@ -3,7 +3,7 @@ const windowStateKeeper = require('electron-window-state');
 const url = require('url');
 const path = require('path');
 // services
-const config = require('../service/config');
+const config = require('./config');
 
 module.exports = {
 	window: null,
@@ -76,7 +76,7 @@ module.exports = {
 			// Load the main window HTML file
 			this.window.loadURL(
 				url.format({
-					pathname: path.join(__dirname, '../../dist', 'index.html'),
+					pathname: 'http://localhost:4200', //path.join(__dirname, '../../dist', 'index.html'),
 					protocol: 'file:',
 					slashes: true,
 				})

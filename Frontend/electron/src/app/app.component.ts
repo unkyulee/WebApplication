@@ -5,7 +5,7 @@ export let AppInjector: Injector;
 
 @Component({
   selector: 'app-root',
-  template: 'hi'
+  template: '<router-outlet></router-outlet>'
 })
 export class AppComponent {
   constructor(

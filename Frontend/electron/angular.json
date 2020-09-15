@@ -17,7 +17,7 @@
 						"aot": true,
 						"outputPath": "dist",
 						"index": "src/index.html",
-						"main": "src/electron/app.ts",
+						"main": "src/app/app.ts",
 						"polyfills": "../angular/src/polyfills.ts",
 						"tsConfig": "tsconfig.json",
 						"assets": [
