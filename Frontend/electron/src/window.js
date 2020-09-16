@@ -9,9 +9,6 @@ module.exports = {
 	window: null,
 	create: async function () {
 		return new Promise((resolve) => {
-			// Building main menu from template
-			const mainMenu = Menu.buildFromTemplate(this.createMenuTemplate());
-			Menu.setApplicationMenu(mainMenu);
 
 			// Load the previous state with fallback to defaults
 			let mainWindowState = windowStateKeeper({
@@ -85,9 +82,10 @@ module.exports = {
 				this.window.webContents.openDevTools();
 				this.window.loadURL('http://localhost:4200');
 			} else {
+				this.window.webContents.openDevTools();
 				this.window.loadURL(
 					url.format({
-						pathname: path.join(__dirname, '../../dist', 'index.html'),
+						pathname: path.join(__dirname, '../dist', 'index.html'),
 						protocol: 'file:',
 						slashes: true,
 					})
@@ -100,84 +98,4 @@ module.exports = {
 		this.window.webContents.send(name, event);
 	},
 
-	createMenuTemplate: function () {
-		let fileMenuTemplate;
-		fileMenuTemplate = [
-			{
-				label: 'Force Reload',
-				accelerator: 'CmdOrCtrl+Shift+R',
-				click() {
-					var window = BrowserWindow.getFocusedWindow();
-					window.webContents.reload();
-				},
-			},
-
-			{
-				label: 'Open DevTools',
-				accelerator: 'CmdOrCtrl+Shift+I',
-				click() {
-					var window = BrowserWindow.getFocusedWindow();
-					window.webContents.openDevTools();
-				},
-			},
-
-			{
-				type: 'separator',
-			},
-			{
-				label: 'Check for updates',
-				accelerator: 'CmdOrCtrl+Shift+U',
-				click() {
-					// check update
-					const { autoUpdater } = require('electron-updater');
-					autoUpdater.checkForUpdatesAndNotify();
-				},
-			},
-
-			{ type: 'separator' },
-			{ label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-			{ label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
-			{ type: 'separator' },
-			{ label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-			{ label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-			{ label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-			{ label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' },
-			{ type: 'separator' },
-			{
-				label: 'Reset App',
-				click() {
-					const dialogOptions = {
-						type: 'info',
-						buttons: ['OK', 'Cancel'],
-						message: 'Are you sure to reset the app?',
-					};
-					dialog.showMessageBox(dialogOptions).then((result) => {
-						if (result.response == 0) {
-							// reset config
-							config.clear();
-
-							// restart the app
-							app.relaunch();
-							app.exit(0);
-						}
-					});
-				},
-			},
-			{
-				label: 'Quit',
-				accelerator: 'CmdOrCtrl+Q',
-				click() {
-					app.quit();
-				},
-			},
-		];
-
-		// Create the main menu template
-		return [
-			{
-				label: 'Menu',
-				submenu: fileMenuTemplate,
-			},
-		];
-	},
 };

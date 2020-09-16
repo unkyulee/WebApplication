@@ -40,9 +40,6 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 		// back button handler
 		this.elementRef.nativeElement.ownerDocument.addEventListener('backbutton', this.onBackButton.bind(this));
 
-		// expose event service to window.__CONFIG__
-		obj.set(window, '__CONFIG__.event', this.event);
-
 		// event handler
 		this.onEvent = this.event.onEvent.subscribe(async (event) => {
 			switch (event.name) {
@@ -148,7 +145,6 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 		let currDialog = this.dialog.open(UIComposerDialogComponent, event.option);
 		currDialog.componentInstance.data = event.data ? event.data : {};
 		currDialog.componentInstance.uiElement = uiElement;
-
 
 		// apply layout style
 		if (uiElement.layoutStyle) {
