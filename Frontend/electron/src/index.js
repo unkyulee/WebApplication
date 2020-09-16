@@ -1,1 +1,31 @@
-window.__CONFIG__ = {"host":"https://unkyulee.me","_id":"5b0dc0000000000000000000","url":"/yesbut","module":"angular","description":"YesBut Administration","locale":"it","name":"YesBut","features":["whatsapp","task","schedule","appointment","sales","document","marketing","client","accounting","project","user","admin","booking","notification","email","gdpr"],"_created":"2020-03-30T10:53:33.242Z","_updated":"2020-06-15T15:21:54.063Z","_createdBy":"unkyulee"}
+window.__CONFIG__ = {
+	host: 'https://unkyulee.me',
+	_id: '5b0dc0000000000000000000',
+	url: '/yesbut',
+	module: 'angular',
+	description: 'YesBut Administration',
+	locale: 'it',
+	name: 'YesBut',
+	features: [
+		'whatsapp',
+		'task',
+		'schedule',
+		'appointment',
+		'sales',
+		'document',
+		'marketing',
+		'client',
+		'accounting',
+		'project',
+		'user',
+		'admin',
+		'booking',
+		'notification',
+		'email',
+		'gdpr',
+	],
+	_created: '2020-03-30T10:53:33.242Z',
+	_updated: '2020-06-15T15:21:54.063Z',
+	_createdBy: 'unkyulee',
+};
+

@@ -29,13 +29,13 @@ module.exports = {
 				// Set main window title
 				title: config.get('name', 'Loading ...'),
 				// Enable frame if on macOS or if custom titlebar setting is disabled
-				frame: process.platform !== 'darwin' ? false : true,
+				// frame: process.platform !== 'darwin' ? false : true,
 				// Show default title bar on macOS and hide it on others
-				titleBarStyle: process.platform !== 'darwin' ? 'hidden' : 'default',
+				//titleBarStyle: process.platform !== 'darwin' ? 'hidden' : 'default',
 				// Set main window icon
 				icon,
 				webPreferences: {
-					// Enable <webview> tag for embedding WhatsApp
+					// Enable <webview> tag for embedding
 					webviewTag: true,
 					// Enable nodeIntegration so window can use node functions
 					nodeIntegration: true,
@@ -74,13 +74,37 @@ module.exports = {
 			});
 
 			// Load the main window HTML file
-			this.window.loadURL(
-				url.format({
-					pathname: 'http://localhost:4200', //path.join(__dirname, '../../dist', 'index.html'),
-					protocol: 'file:',
-					slashes: true,
-				})
-			);
+			var args = process.argv.slice(1),
+				serve = args.some(function (val) {
+					return val === '--serve';
+				});
+			if (serve) {
+				this.window.webContents.openDevTools();
+				require('electron-reload')(__dirname, {
+					electron: require(__dirname + '/../../node_modules/electron'),
+				});
+				this.window.loadURL('http://localhost:4200');
+
+					/*
+				const { process } = require('electron');
+				if (process.platform != 'darwin') {
+
+
+					// Setting title explicitly
+					//mainTitlebar.updateTitle(config.get('module.desktop.title'));
+
+					//document.getElementsByClassName('container-after-titlebar')[0].style.overflowY = 'hidden';
+				}
+				*/
+			} else {
+				this.window.loadURL(
+					url.format({
+						pathname: path.join(__dirname, '../../dist', 'index.html'),
+						protocol: 'file:',
+						slashes: true,
+					})
+				);
+			}
 		});
 	},
 
@@ -122,15 +146,15 @@ module.exports = {
 				},
 			},
 
-			{ type: "separator" },
-			{ label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-            { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-            { type: "separator" },
-            { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-            { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
-			{ label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" },
-			{ type: "separator" },
+			{ type: 'separator' },
+			{ label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
+			{ label: 'Redo', accelerator: 'Shift+CmdOrCtrl+Z', selector: 'redo:' },
+			{ type: 'separator' },
+			{ label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+			{ label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+			{ label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+			{ label: 'Select All', accelerator: 'CmdOrCtrl+A', selector: 'selectAll:' },
+			{ type: 'separator' },
 			{
 				label: 'Reset App',
 				click() {

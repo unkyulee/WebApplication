@@ -15,7 +15,7 @@
 		"downlevelIteration": true,
 		"importHelpers": true,
 		"module": "es2020",
-		"outDir": "./dist/out-tsc",
+		"outDir": "./dist",
 		"sourceMap": true,
 		"declaration": false,
 		"moduleResolution": "node",
