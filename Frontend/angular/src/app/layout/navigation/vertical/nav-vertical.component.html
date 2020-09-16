@@ -29,7 +29,7 @@
 
 	<mat-expansion-panel
 		*ngIf="item.type == 'collapse' && permission.check(item)"
-		[expanded]="isUrlInChildren(item, currUrl)"
+		[expanded]="nav.isUrlInChildren(item, currUrl)"
 		class="navigation"
 	>
 		<mat-expansion-panel-header>

@@ -6,11 +6,12 @@
 	<mat-sidenav-container fullscreen>
 		<mat-sidenav
 			#drawer
+			*ngIf="config.isHandset"
 			fixedInViewport="true"
 			class="mat-elevation-z2 no-print"
 			[ngStyle]="config.get('theme.navigation.style')"
-			[attr.role]="config.isHandset ? 'dialog' : 'navigation'"
-			[mode]="config.isHandset ? 'over' : 'side'"
+			[attr.role]="'dialog'"
+			[mode]="'over'"
 		>
 			<nav-vertical></nav-vertical>
 		</mat-sidenav>
@@ -18,8 +19,9 @@
 		<mat-sidenav-content [ngStyle]="config.get('theme.content.layoutStyle')">
 			<toolbar
 				[ngStyle]="config.get('theme.toolbar.layoutStyle')"
-				*ngIf="config.get('theme.toolbar.show', true)"
+				*ngIf="config.isHandset && config.get('theme.toolbar.show', true)"
 			></toolbar>
+			<nav-horizontal *ngIf="!config.isHandset"></nav-horizontal>
 			<ui-composer [ngStyle]="config.get('theme.content.style')"></ui-composer>
 		</mat-sidenav-content>
 	</mat-sidenav-container>

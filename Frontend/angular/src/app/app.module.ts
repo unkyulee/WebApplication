@@ -17,9 +17,6 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { UtilService } from './services/util.service';
 import { UIService } from './services/ui.service';
 
-// modules
-import { UIModule } from './ui/ui.module';
-
 // app component
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
@@ -36,7 +33,6 @@ registerLocaleData(it);
 		HttpClientModule,
 		HttpClientJsonpModule,
 		AppRoutingModule,
-		UIModule,
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

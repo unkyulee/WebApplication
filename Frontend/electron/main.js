@@ -1,15 +1,19 @@
 // Base Electron modules
 const { app, shell } = require('electron');
-const window = require('./window');
-const config = require('./config');
+const window = require('./src/window');
+const config = require('./src/config');
 
 // on mac hw acceleration flickers the angular screen
 if (process.platform == 'darwin') app.disableHardwareAcceleration();
 
 // Using singleInstanceLock for making app single instance
+var args = process.argv.slice(1),
+	serve = args.some(function (val) {
+		return val === '--serve';
+	});
 let singleInstanceLock = app.requestSingleInstanceLock();
 // Checks for single instance lock
-if (!singleInstanceLock) {
+if (!singleInstanceLock && !serve) {
 	console.log('App already running');
 	// Quits the second instance
 	app.exit(0);
@@ -59,23 +63,6 @@ if (!singleInstanceLock) {
 }
 
 /*
-
-
-
-
-
-}
-
-// start up setting
-app.setLoginItemSettings({ openAtLogin: false });
-if (app.isPackaged) {
-    app.setLoginItemSettings({
-        openAtLogin: config.get('module.desktop.openAtLogin', true),
-    });
-}
-
-
 // auto update
 require('./app/electron/update');
-
 */

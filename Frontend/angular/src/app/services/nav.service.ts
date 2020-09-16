@@ -269,4 +269,31 @@ export class NavService {
 			this.router.navigateByUrl(this.currNav.parent_url ? this.currNav.parent_url : this.currNav.url);
 		}
 	}
+
+	/**
+   * Check if the given url can be found
+   * in one of the given parent's children
+   *
+   * @param parent
+   * @param url
+   * @returns {any}
+   */
+  isUrlInChildren(parent, url) {
+    if (url) {
+      if (!parent.children) return false;
+
+      for (let i = 0; i < parent.children.length; i++) {
+        if (parent.children[i].children)
+          if (this.isUrlInChildren(parent.children[i], url)) return true;
+
+        if (
+          parent.children[i].url === url ||
+          url.includes(parent.children[i].url)
+        )
+          return true;
+      }
+    }
+
+    return false;
+  }
 }

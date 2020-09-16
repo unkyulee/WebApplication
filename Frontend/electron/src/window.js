@@ -48,6 +48,9 @@ module.exports = {
 				height: mainWindowState.height,
 			});
 
+			// remove menu
+			this.window.removeMenu()
+
 			// Let us register listeners on the window, so we can update the state
 			// automatically (the listeners will be removed when the window is closed)
 			// and restore the maximized or full screen state
@@ -80,22 +83,7 @@ module.exports = {
 				});
 			if (serve) {
 				this.window.webContents.openDevTools();
-				require('electron-reload')(__dirname, {
-					electron: require(__dirname + '/../../node_modules/electron'),
-				});
 				this.window.loadURL('http://localhost:4200');
-
-					/*
-				const { process } = require('electron');
-				if (process.platform != 'darwin') {
-
-
-					// Setting title explicitly
-					//mainTitlebar.updateTitle(config.get('module.desktop.title'));
-
-					//document.getElementsByClassName('container-after-titlebar')[0].style.overflowY = 'hidden';
-				}
-				*/
 			} else {
 				this.window.loadURL(
 					url.format({

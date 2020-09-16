@@ -1,8 +1,5 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms";
-import { MaterialModule } from "../core/material.module";
 
 // user module
 import { UIModule } from "../ui/ui.module";
@@ -12,6 +9,7 @@ import { LayoutComponent } from "./layout.component";
 
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { NavVerticalComponent } from "./navigation/vertical/nav-vertical.component";
+import { NavHorizontalComponent } from "./navigation/horizontal/nav-horizontal.component";
 import { SplashComponent } from "./splash/splash.component";
 import { LoginComponent } from "./login/login.component";
 import { UserComponent } from "./user/user.component";
@@ -21,11 +19,12 @@ import { UserComponent } from "./user/user.component";
     LayoutComponent,
     ToolbarComponent,
     NavVerticalComponent,
+    NavHorizontalComponent,
     SplashComponent,
     LoginComponent,
     UserComponent
   ],
   exports: [],
-  imports: [CommonModule, RouterModule, FormsModule, MaterialModule, UIModule]
+  imports: [CommonModule, UIModule]
 })
 export class LayoutModule {}

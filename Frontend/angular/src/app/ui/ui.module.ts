@@ -161,6 +161,8 @@ export function momentAdapterFactory() {
 		UIComposerComponent,
 		UIComposerActionsComponent,
 		UIComposerDialogComponent,
+		MaterialModule,
+		PrimeNGModule
 	],
 	imports: [
 		CommonModule,
