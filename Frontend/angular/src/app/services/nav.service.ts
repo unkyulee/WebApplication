@@ -7,6 +7,7 @@ import { EventService } from './event.service';
 import { ConfigService } from './config.service';
 import { RestService } from './rest.service';
 import { PermissionService } from './permission.service';
+import { UtilService } from './util.service';
 
 @Injectable()
 export class NavService {
@@ -16,13 +17,14 @@ export class NavService {
 		private event: EventService,
 		private config: ConfigService,
 		private rest: RestService,
-		private permission: PermissionService
+		private permission: PermissionService,
+		private util: UtilService
 	) {
 		// monitor navigation changes
-		router.events.subscribe(e => this.routerEventHandler(e));
+		router.events.subscribe((e) => this.routerEventHandler(e));
 
 		// event handler
-		this.event.onEvent.subscribe(e => this.eventHandler(e));
+		this.event.onEvent.subscribe((e) => this.eventHandler(e));
 	}
 
 	loadNavigation() {
@@ -30,8 +32,14 @@ export class NavService {
 		this.config.clear(); // clear ui cache
 
 		this.rest
-			.request(`${this.config.get('host')}${this.config.get('url')}/navigation.config?${this.config.get('_id')}`, null, 'get', {}, true)
-			.subscribe(r => {
+			.request(
+				`${this.config.get('host')}${this.config.get('url')}/navigation.config?${this.config.get('_id')}`,
+				null,
+				'get',
+				{},
+				true
+			)
+			.subscribe((r) => {
 				// save theme
 				this.config.set('theme', r.theme);
 
@@ -61,7 +69,7 @@ export class NavService {
 			this.navigate(e.url);
 
 			// split if #
-			e.url = e.url.split("#")[0]
+			e.url = e.url.split('#')[0];
 
 			// save current url
 			this.currUrl = e.url;
@@ -138,8 +146,11 @@ export class NavService {
 		for (const navItem of navigation) {
 			if (this.permission.check(navItem)) {
 				// save first navigation item
-				if (firstNavItem == null && navItem.type == 'item') {
-					firstNavItem = navItem;
+				if (firstNavItem == null && !navItem.children) {
+					if (navItem.type == 'desktop' && !this.util.isElectron()) {
+					} else {
+						firstNavItem = navItem;
+					}
 				}
 
 				// if has children then loop through children
@@ -147,8 +158,11 @@ export class NavService {
 					for (const child of navItem.children) {
 						if (this.permission.check(child)) {
 							// save first navigation item
-							if (firstNavItem == null && child.type == 'item') {
-								firstNavItem = child;
+							if (firstNavItem == null && !child.children) {
+								if (navItem.type == 'desktop' && !this.util.isElectron()) {
+								} else {
+									firstNavItem = child;
+								}
 							}
 
 							if (child.url && url == child.url && this.permission.check(navItem)) return child;
@@ -271,29 +285,24 @@ export class NavService {
 	}
 
 	/**
-   * Check if the given url can be found
-   * in one of the given parent's children
-   *
-   * @param parent
-   * @param url
-   * @returns {any}
-   */
-  isUrlInChildren(parent, url) {
-    if (url) {
-      if (!parent.children) return false;
+	 * Check if the given url can be found
+	 * in one of the given parent's children
+	 *
+	 * @param parent
+	 * @param url
+	 * @returns {any}
+	 */
+	isUrlInChildren(parent, url) {
+		if (url) {
+			if (!parent.children) return false;
 
-      for (let i = 0; i < parent.children.length; i++) {
-        if (parent.children[i].children)
-          if (this.isUrlInChildren(parent.children[i], url)) return true;
+			for (let i = 0; i < parent.children.length; i++) {
+				if (parent.children[i].children) if (this.isUrlInChildren(parent.children[i], url)) return true;
 
-        if (
-          parent.children[i].url === url ||
-          url.includes(parent.children[i].url)
-        )
-          return true;
-      }
-    }
+				if (parent.children[i].url === url || url.includes(parent.children[i].url)) return true;
+			}
+		}
 
-    return false;
-  }
+		return false;
+	}
 }
