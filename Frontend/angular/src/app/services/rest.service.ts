@@ -23,9 +23,6 @@ export class RestService {
 
   // request REST service
   request(url: string, data?, method?, options?, cached?) {
-    // pass if not online
-    if(this.isOnline() == false) return EMPTY;
-
     // pass if url is not specified
     if (!url) return EMPTY;
 

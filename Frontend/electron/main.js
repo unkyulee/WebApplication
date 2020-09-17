@@ -5,7 +5,9 @@ const config = require('./src/config');
 
 // on mac hw acceleration flickers the angular screen
 if (process.platform == 'darwin') app.disableHardwareAcceleration();
-
+process.on('exit', () => {
+  app.quit();
+});
 // Using singleInstanceLock for making app single instance
 var args = process.argv.slice(1),
 	serve = args.some(function (val) {

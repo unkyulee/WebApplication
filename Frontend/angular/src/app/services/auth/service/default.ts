@@ -51,7 +51,7 @@ export class DefaultAuthStrategy {
     // clear
     this.nav.clear();
     this.ui.clear();
-    localStorage.clear();
+    localStorage.removeItem('token');
 
     // reset flag
     isAuthenticated$.next(false);
@@ -75,7 +75,7 @@ export class DefaultAuthStrategy {
     }
 
     // if not valid auth then clear localstorage
-    if (!isValidAuth) localStorage.clear();
+    if (!isValidAuth) localStorage.removeItem('token');
 
     // return auth result
     isAuthenticated$.next(isValidAuth);

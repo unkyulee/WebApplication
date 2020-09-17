@@ -54,7 +54,6 @@ export class ConfigService {
 
 		// also clear the localStorage
 		let token = localStorage.getItem('token');
-		localStorage.clear();
 		localStorage.setItem('token', token);
 	}
 }
