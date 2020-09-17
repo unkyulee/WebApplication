@@ -45,6 +45,8 @@ import { BarcodeComponent } from './barcode/barcode.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { EditorComponent } from './editor/editor.component';
 import { ImageComponent } from './image/image.component';
+import { WebViewComponent } from './webview/webview.component';
+import { WebViewDirective } from './webview/webview.directive';
 
 // overlay
 import { UIComposerComponent } from './ui-composer/ui-composer.component'
@@ -100,6 +102,8 @@ export function momentAdapterFactory() {
 		UIComposerComponent,
 		UIComposerActionsComponent,
 		UIComposerDialogComponent,
+		WebViewComponent,
+		WebViewDirective
 	],
 	entryComponents: [
 		UILayoutWrapperComponent,
@@ -130,8 +134,12 @@ export function momentAdapterFactory() {
 		UIComposerComponent,
 		UIComposerActionsComponent,
 		UIComposerDialogComponent,
+		WebViewComponent,
 	],
 	exports: [
+		MaterialModule,
+		PrimeNGModule,
+		FormsModule,
 		UILayoutWrapperComponent,
 		UILayoutComponent,
 		DataTableComponent,
@@ -161,9 +169,7 @@ export function momentAdapterFactory() {
 		UIComposerComponent,
 		UIComposerActionsComponent,
 		UIComposerDialogComponent,
-		MaterialModule,
-		PrimeNGModule,
-		FormsModule
+		WebViewComponent,
 	],
 	imports: [
 		CommonModule,

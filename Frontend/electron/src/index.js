@@ -23,6 +23,13 @@ if (window.process && window.process.type) {
 
 		// retrieve the __CONFIG__
 		if (service_url) {
+			/*
+			window.__CONFIG__ = Object.assign(
+				window.__CONFIG__,
+				window.store.get()
+			)
+			window.__CONFIG__.event.send({ name: 'load' });
+			*/
 			window.loadConfig(service_url);
 		}
 	})();
@@ -57,11 +64,5 @@ window.loadConfig = (service_url) => {
 			delete __CONFIG__.requires_service_url;
 		})
 		.catch(() => {
-			alert('REGISTRATION FAILED');
-
-			// set market on the global
-			window.__CONFIG__.requires_service_url = true;
-			// send refresh
-			window.__CONFIG__.event.send({ name: 'changed' });
 		});
 };

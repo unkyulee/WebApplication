@@ -40,6 +40,7 @@ import { EditorComponent } from '../editor/editor.component';
 import { IconComponent } from '../icon/icon.component';
 import { ImageComponent } from '../image/image.component';
 import { DateComponent } from '../date/date.component';
+import { WebViewComponent } from '../webview/webview.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -113,7 +114,7 @@ export class UILayoutWrapperComponent {
 
 			// init
 			if (obj.has(this, 'uiElement.init')) {
-				if(this.copy) {
+				if (this.copy) {
 					let element = JSON.parse(JSON.stringify(obj.has(this, 'uiElement.init')));
 					this.uiElement = Object.assign({}, this.uiElement, element);
 				}
@@ -230,6 +231,9 @@ export class UILayoutWrapperComponent {
 				break;
 			case 'date':
 				componentFactory = this.cfr.resolveComponentFactory(DateComponent);
+				break;
+			case 'webview':
+				componentFactory = this.cfr.resolveComponentFactory(WebViewComponent);
 				break;
 			case 'input':
 			default:
