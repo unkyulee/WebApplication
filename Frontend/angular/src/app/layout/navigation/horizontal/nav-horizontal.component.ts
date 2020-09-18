@@ -54,9 +54,14 @@ export class NavHorizontalComponent extends BaseComponent {
 					label: nav.name,
 					routerLink: [nav.url],
 					icon: '',
+					styleClass: ''
 				};
-				//
-				if (this.nav.currNav.url == nav.url) menuItem.icon = 'pi pi-circle-on';
+
+				// active item
+				if (this.nav.currNav.url == nav.url) {
+					menuItem.styleClass = 'active';
+				}
+
 				menu.push(menuItem);
 			}
 
@@ -66,6 +71,7 @@ export class NavHorizontalComponent extends BaseComponent {
 					label: nav.name,
 					icon: '',
 					items: [],
+					styleClass: ''
 				};
 				// populate child item
 				for (let child of nav.children) {
@@ -74,7 +80,9 @@ export class NavHorizontalComponent extends BaseComponent {
 						routerLink: [child.url],
 					});
 					//
-					if (this.nav.currNav.url == child.url) menuItem.icon = 'pi pi-circle-on';
+					if (this.nav.currNav.url == child.url) {
+						menuItem.styleClass = 'active';
+					}
 				}
 
 				menu.push(menuItem);
@@ -88,21 +96,56 @@ export class NavHorizontalComponent extends BaseComponent {
 	updateActionMenu(actions) {
 		obj.ensureExists(actions, '', []);
 
-		// append theme actions to the actions
-		for (let action of this.config.get('theme.toolbar.actions', [])) {
-			actions.push(action);
-		}
-
 		//
 		let menuItems = [];
+
+		// custom actions
 		for (let action of actions) {
 			let menuItem = {
-				label: action.name,
-				routerLink: [action.url],
+				label: action.label,
+				command: () => { this.safeEval(action.click) },
 			};
 			//
 			menuItems.push(menuItem);
 		}
+
+		// theme actions
+		if(this.config.get('theme.toolbar.actions', []).length > 0) {
+			//
+			menuItems.push({separator: true});
+		}
+		for (let action of this.config.get('theme.toolbar.actions', [])) {
+			let menuItem = {
+				label: action.label,
+				command: () => { this.safeEval(action.click) },
+			};
+			//
+			menuItems.push(menuItem);
+		}
+
+		// electron menu
+		if(this.util.isElectron()) {
+			menuItems.push({separator: true});
+			menuItems.push({
+				label: 'Force Reload Screen',
+				command: () => { (<any>window).reload(); },
+			});
+			menuItems.push({
+				label: 'Reset Service URL',
+				command: () => { (<any>window).store.clear(); (<any>window).reload(); },
+			});
+		}
+
+		// user actions - profile
+		menuItems.push({separator: true});
+		menuItems.push({
+			label: this.user.name(),
+			command: () => { this.nav.navigateByUrl(`/profile`); },
+		});
+		menuItems.push({
+			label: 'Logout',
+			command: () => { this.event.send('logout') },
+		});
 
 		this.actions = menuItems;
 	}

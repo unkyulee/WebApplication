@@ -18,4 +18,10 @@ import { BaseComponent } from '../base.component';
 	`,
 })
 export class WebViewComponent extends BaseComponent {
+  ngOnInit() {
+    super.ngOnInit()
+  }
+  ngOnDestroy() {
+    super.ngOnDestroy()
+  }
 }

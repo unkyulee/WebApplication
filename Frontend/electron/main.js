@@ -1,7 +1,6 @@
 // Base Electron modules
 const { app, shell } = require('electron');
 const window = require('./src/window');
-const config = require('./src/config');
 
 // on mac hw acceleration flickers the angular screen
 if (process.platform == 'darwin') app.disableHardwareAcceleration();

@@ -3,7 +3,7 @@ copy /y ..\angular\src\index.electron.html ..\angular\src\index.html
 copy /y .\src\index.js ..\angular\src\index.js
 
 REM clear wwwroot
-RD /Q /S .\dist
+RD /Q /S .\wwwroot
 
 
 
@@ -14,5 +14,5 @@ pushd ..\angular
 call ng build --prod --aot --build-optimizer
 popd
 
-MD .\dist
-xcopy /s /y ..\angular\dist .\dist\
+MD .\wwwroot
+xcopy /s /y ..\angular\dist .\wwwroot\

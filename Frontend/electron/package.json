@@ -4,11 +4,24 @@
 	"description": "Desktop shell to host angular app",
 	"main": "main.js",
 	"scripts": {
-		"start": "wait-on tcp:4200 && npx electron . --serve"
+		"start": "wait-on tcp:4200 && npx electron . --serve",
+		"build": "electron-builder build --win --publish never",
+		"build-mac": "electron-builder build",
+		"deploy": "electron-builder build --win --publish always",
+		"deploy-mac": "electron-builder build --publish always"
 	},
 	"private": true,
-	"dependencies": {
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/unkyulee/YesBut-CRM.git"
 	},
+	"author": "YesBut",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unkyulee/YesBut-CRM.git"
+  },
+  "homepage": "https://github.com/unkyulee/electron",
+	"dependencies": {},
 	"devDependencies": {
 		"electron": "^10.1.2",
 		"electron-builder": "^22.8.0",
@@ -19,8 +32,8 @@
 		"electron-updater": "^4.3.4",
 		"electron-window-state": "^5.0.3",
 		"moment": "^2.26.0",
-		"object-path": "^0.11.4",
 		"npm-run-all": "^4.1.5",
+		"object-path": "^0.11.4",
 		"wait-on": "^5.2.0"
 	}
 }

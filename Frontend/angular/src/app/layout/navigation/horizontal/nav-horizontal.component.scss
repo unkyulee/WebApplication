@@ -22,3 +22,11 @@
 :host ::ng-deep .p-submenu-list {
   z-index: 10000 !important;
 }
+
+:host ::ng-deep .active {
+  font-weight: bold;
+}
+
+:host ::ng-deep .p-menuitem-link {
+  padding: 8px;
+}

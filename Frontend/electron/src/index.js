@@ -1,29 +1,29 @@
 if (window.process && window.process.type) {
-	console.log('start')
+	console.log('start');
 	const Store = require('electron-store');
 	window.store = new Store();
 
 	// load global config
-	window.__CONFIG__ = window.store.get('config')
+	window.__CONFIG__ = window.store.get('config');
 
 	// replace localStorage
 	localStorage.getItem = (key) => {
-		key = key.replace(/\./g, "_");
-		return window.store.get(`local.${key}`)
-	}
+		key = key.replace(/\./g, '_');
+		return window.store.get(`local.${key}`);
+	};
 	localStorage.setItem = (key, value) => {
-		key = key.replace(/\./g, "_");
-		window.store.set(`local.${key}`, value)
-	}
-	localStorage.removeItem = (key)  => {
-		key = key.replace(/\./g, "_");
+		key = key.replace(/\./g, '_');
+		window.store.set(`local.${key}`, value);
+	};
+	localStorage.removeItem = (key) => {
+		key = key.replace(/\./g, '_');
 		window.store.delete(`local.${key}`);
-	}
+	};
 	localStorage.clear = () => {
 		// clear the previous config
 		window.store.delete('local');
-	}
-	console.log('localStorage')
+	};
+	console.log('localStorage');
 
 	let timeout = (ms) => new Promise((res) => setTimeout(res, ms));
 	(async () => {
@@ -77,9 +77,17 @@ window.loadConfig = (service_url) => {
 			// if electron
 			// save to the persist config
 			window.store.set('config', window.__CONFIG__NEW__);
+			window.store.delete('local');
+
 			// delete temp variable
 			delete window.__CONFIG__NEW__;
 			delete __CONFIG__.requires_service_url;
 		})
 		.catch(() => {});
+};
+
+window.reload = () => {
+	const { app } = require('electron').remote;
+	app.relaunch();
+	app.quit();
 };

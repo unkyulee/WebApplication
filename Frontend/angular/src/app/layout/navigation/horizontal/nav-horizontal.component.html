@@ -1,2 +1,12 @@
 <mat-progress-bar *ngIf="showLoadingBar" class="loading-bar" color="accent" mode="indeterminate"></mat-progress-bar>
-<p-menubar [model]="items"> </p-menubar>
+<p-menubar [model]="items">
+	<button
+		pButton
+		pRipple
+		type="button"
+		icon="pi pi-ellipsis-v"
+		class="p-button-rounded p-button-text p-button-sm"
+		(click)="menu.toggle($event)"
+	></button>
+	<p-menu #menu [popup]="true" [model]="actions"></p-menu>
+</p-menubar>

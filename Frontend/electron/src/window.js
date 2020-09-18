@@ -82,10 +82,9 @@ module.exports = {
 				this.window.webContents.openDevTools();
 				this.window.loadURL('http://localhost:4200');
 			} else {
-				this.window.webContents.openDevTools();
 				this.window.loadURL(
 					url.format({
-						pathname: path.join(__dirname, '../dist', 'index.html'),
+						pathname: path.join(__dirname, '../wwwroot', 'index.html'),
 						protocol: 'file:',
 						slashes: true,
 					})
