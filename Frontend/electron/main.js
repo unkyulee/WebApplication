@@ -63,7 +63,6 @@ if (!singleInstanceLock && !serve) {
 	});
 }
 
-/*
 // auto update
-require('./app/electron/update');
-*/
+require('./src/update');
+

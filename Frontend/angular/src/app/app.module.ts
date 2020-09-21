@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClientJsonpModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 
 // services
 import { AuthInterceptor } from './services/auth/auth.interceptor';
@@ -28,6 +28,12 @@ import { registerLocaleData } from '@angular/common';
 import it from '@angular/common/locales/it';
 registerLocaleData(it);
 
+//
+const monacoConfig: NgxMonacoEditorConfig = {
+  baseUrl: '/assets',
+};
+
+
 @NgModule({
 	declarations: [AppComponent],
 	imports: [
@@ -36,7 +42,7 @@ registerLocaleData(it);
 		HttpClientJsonpModule,
 		AppRoutingModule,
 		FormsModule,
-		MonacoEditorModule.forRoot() // use forRoot() in main app module only.
+		MonacoEditorModule.forRoot(monacoConfig)
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

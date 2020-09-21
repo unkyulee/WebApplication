@@ -80,6 +80,7 @@ module.exports = {
 				});
 			if (serve) {
 				this.window.webContents.openDevTools();
+				//this.window.loadURL('http://localhost:4200');
 			}
 			this.window.loadURL(
 				url.format({
