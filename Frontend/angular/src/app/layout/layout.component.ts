@@ -13,6 +13,7 @@ import { UIComposerActionsComponent } from '../ui/ui-composer-actions/ui-compose
 @Component({
 	selector: 'layout',
 	templateUrl: './layout.component.html',
+	styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy {
 	constructor(

@@ -123,6 +123,16 @@ export class NavService {
 					data: this.currNav,
 				});
 			}
+		} else if(e.name == 'nav-badge') {
+			// find navigation fits the url
+			let navigation = this.config.get('nav');
+			for(let nav of navigation) {
+				if(nav.url == e.url) {
+					nav.badge = e.badge;
+				}
+			}
+			// send navigation updated
+			this.event.send({name: 'navigation-updated'})
 		}
 	}
 

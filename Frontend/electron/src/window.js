@@ -9,7 +9,6 @@ module.exports = {
 	window: null,
 	create: async function () {
 		return new Promise((resolve) => {
-
 			// Load the previous state with fallback to defaults
 			let mainWindowState = windowStateKeeper({
 				defaultWidth: 800,
@@ -36,7 +35,7 @@ module.exports = {
 					webviewTag: true,
 					// Enable nodeIntegration so window can use node functions
 					nodeIntegration: true,
-					enableRemoteModule: true
+					enableRemoteModule: true,
 				},
 				// Hides main window until it is ready to show
 				show: false,
@@ -47,7 +46,7 @@ module.exports = {
 			});
 
 			// remove menu
-			this.window.removeMenu()
+			this.window.removeMenu();
 
 			// Let us register listeners on the window, so we can update the state
 			// automatically (the listeners will be removed when the window is closed)
@@ -81,21 +80,18 @@ module.exports = {
 				});
 			if (serve) {
 				this.window.webContents.openDevTools();
-				this.window.loadURL('http://localhost:4200');
-			} else {
-				this.window.loadURL(
-					url.format({
-						pathname: path.join(__dirname, '../wwwroot', 'index.html'),
-						protocol: 'file:',
-						slashes: true,
-					})
-				);
 			}
+			this.window.loadURL(
+				url.format({
+					pathname: path.join(__dirname, '../wwwroot', 'index.html'),
+					protocol: 'file:',
+					slashes: true,
+				})
+			);
 		});
 	},
 
 	send: function (name, event) {
 		this.window.webContents.send(name, event);
 	},
-
 };

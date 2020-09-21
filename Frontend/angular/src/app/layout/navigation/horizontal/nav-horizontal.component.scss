@@ -1,5 +1,5 @@
 :host {
-  z-index: 10000;
+  z-index: 10;
 }
 
 .loading-bar {
@@ -20,7 +20,7 @@
 }
 
 :host ::ng-deep .p-submenu-list {
-  z-index: 10000 !important;
+  z-index: 10 !important;
 }
 
 :host ::ng-deep .active {

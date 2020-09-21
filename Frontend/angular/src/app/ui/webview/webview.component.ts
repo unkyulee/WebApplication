@@ -7,19 +7,30 @@ import { BaseComponent } from '../base.component';
 	selector: 'webview-component',
 	template: `
   <webview
-    attr.useragent="{{uiElement.useragent}}"
-    attr.partition="{{uiElement.partition?uiElement.partition:'persist:default'}}"
-    attr.src="{{uiElement.src?uiElement.src: '_blank'}}"
-    attr.id="{{uiElement.id}}"
+    *ngIf="isLoaded"
     [ngStyle]="uiElement.style"
     [ngClass]="uiElement.class"
-    attr.preload="../src/preload.js"
+    useragent="{{uiElement.useragent}}"
+    partition="{{uiElement.partition?uiElement.partition:'persist:default'}}"
+    src="{{uiElement.src?uiElement.src: '_blank'}}"
+    id="{{uiElement.id}}"
+    preload="../src/preload.js"
   ></webview>
 	`,
 })
 export class WebViewComponent extends BaseComponent {
+  isLoaded: boolean = false;
   ngOnInit() {
-    super.ngOnInit()
+    super.ngOnInit();
+
+    if (this.uiElement.preload) {
+			// #preload_element_id
+      this.uiElement.src = `${this.uiElement.src}#${this.uiElement.preload}`;
+      // download the uiElement
+      this.ui.get(this.uiElement.preload).then(r => {
+        this.isLoaded = true;
+      })
+		}
   }
   ngOnDestroy() {
     super.ngOnDestroy()

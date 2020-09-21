@@ -54,12 +54,18 @@ export class NavHorizontalComponent extends BaseComponent {
 					label: nav.name,
 					routerLink: [nav.url],
 					icon: '',
-					styleClass: ''
+					styleClass: '',
+					badge: nav.badge
 				};
 
 				// active item
 				if (this.nav.currNav.url == nav.url) {
 					menuItem.styleClass = 'active';
+				}
+
+				// if badge
+				if(menuItem.badge) {
+					menuItem.icon = 'pi pi-circle-on'
 				}
 
 				menu.push(menuItem);
@@ -71,8 +77,14 @@ export class NavHorizontalComponent extends BaseComponent {
 					label: nav.name,
 					icon: '',
 					items: [],
-					styleClass: ''
+					styleClass: '',
+					badge: nav.badge
 				};
+				// if badge
+				if(menuItem.badge) {
+					menuItem.icon = 'pi pi-circle-on'
+				}
+
 				// populate child item
 				for (let child of nav.children) {
 					menuItem.items.push({
