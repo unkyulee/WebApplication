@@ -36,6 +36,7 @@ module.exports = {
 					webviewTag: true,
 					// Enable nodeIntegration so window can use node functions
 					nodeIntegration: true,
+					enableRemoteModule: true
 				},
 				// Hides main window until it is ready to show
 				show: false,
