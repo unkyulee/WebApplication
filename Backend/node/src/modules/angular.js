@@ -101,7 +101,7 @@ async function Navigation(db, req, res) {
 	// merge settings at the end
 	if (set.length > 0) {
 		nav.push({
-			name: 'Impostazioni',
+			name: 'Imp.',
 			type: 'collapse',
 			permissions: ['config.view'],
 			children: set,

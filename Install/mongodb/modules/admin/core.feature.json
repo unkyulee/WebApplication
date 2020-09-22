@@ -5,7 +5,7 @@
   "description": "Top level admin features",
   "navigations": [
     {
-      "name": "Development",
+      "name": "Dev",
       "id": "development",
       "permissions": [
         "development.view"

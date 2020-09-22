@@ -2,12 +2,19 @@
 const { autoUpdater } = require('electron-updater');
 
 // check update
-try {
-	console.log('initiate update check')
-	autoUpdater.checkForUpdatesAndNotify();
-} catch(ex) {
-	console.error(ex)
+const checkUpdate = () => {
+	try {
+		console.log('initiate update check')
+		autoUpdater.checkForUpdatesAndNotify();
+	} catch(ex) {
+		console.error(ex)
+	}
 }
+checkUpdate();
+setInterval(() => {
+	checkUpdate()
+}, 8 * 60 * 60 * 1000);
+
 
 //
 autoUpdater.on('checking-for-update', () => {
