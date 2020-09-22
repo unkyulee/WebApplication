@@ -33,7 +33,6 @@ const monacoConfig: NgxMonacoEditorConfig = {
   baseUrl: '/assets',
 };
 
-
 @NgModule({
 	declarations: [AppComponent],
 	imports: [
