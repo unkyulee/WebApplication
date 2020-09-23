@@ -29,10 +29,10 @@ if (!singleInstanceLock && !serve) {
 	if(features && features.find(x => x == 'sync')) {
 		console.log('scheduler starting')
 		const cron = require('node-cron');
-		const task = require('../../Task/node/task');
+		const task = require('./src/task');
 
 		cron.schedule('* * * * *', async () => {
-			await task.run(store.get('host'), store.get('_id'), store.get('local.token'));
+			await task.run(store.get('config.host'), store.get('config._id'), store.get('local.token'));
 		});
 	}
 

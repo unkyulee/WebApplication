@@ -5,8 +5,6 @@ copy /y .\src\index.js ..\angular\src\index.js
 REM clear wwwroot
 RD /Q /S .\wwwroot
 
-
-
 REM -------------------------------------------------------------
 REM Build angular app
 REM -------------------------------------------------------------
