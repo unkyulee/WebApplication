@@ -38,6 +38,7 @@ import { DividerComponent } from './divider/divider.component';
 import { BaseComponent } from './base.component';
 import { PopupMenuComponent } from './popup-menu/popup-menu.component';
 import { CodeEditorComponent } from './code-editor/code-editor.component';
+import { MonacoEditorWrapperComponent } from './code-editor/wrapper/monaco-editor-wrapper.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { StepperComponent } from './stepper/stepper.component';
@@ -91,6 +92,7 @@ export function momentAdapterFactory() {
 		BaseComponent,
 		PopupMenuComponent,
 		CodeEditorComponent,
+		MonacoEditorWrapperComponent,
 		CalendarComponent,
 		SideNavComponent,
 		StepperComponent,

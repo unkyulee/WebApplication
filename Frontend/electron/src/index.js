@@ -67,6 +67,7 @@ window.loadConfig = (service_url) => {
 			// load new config
 			r.data = r.data.replace('window.__CONFIG__', 'window.__CONFIG__NEW__');
 			eval(r.data);
+			delete window.__CONFIG__NEW__.module;
 
 			// restore old config
 			window.__CONFIG__ = Object.assign({}, window.__CONFIG__, window.__CONFIG__NEW__);

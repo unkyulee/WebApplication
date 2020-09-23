@@ -155,7 +155,7 @@ export class CodeEditorComponent extends BaseComponent {
     if (typeof data == "undefined") {
       // property doesn't exist
       this.error = "JSON property does not exist.";
-    } else if (data.constructor != "".constructor) {
+    } else if (data && data.constructor != "".constructor) {
       this.type = "object";
       this._value = JSON.stringify(data, null, 2);
     } else {
