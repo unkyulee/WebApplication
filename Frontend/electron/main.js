@@ -7,7 +7,7 @@ const store = new Store();
 // on mac hw acceleration flickers the angular screen
 if (process.platform == 'darwin') app.disableHardwareAcceleration();
 process.on('exit', () => {
-  app.quit();
+	app.quit();
 });
 // Using singleInstanceLock for making app single instance
 var args = process.argv.slice(1),
@@ -21,6 +21,21 @@ if (!singleInstanceLock && !serve) {
 	// Quits the second instance
 	app.exit(0);
 } else {
+	// auto update
+	require('./src/update');
+
+	// task runner
+	let features = store.get('config.features');
+	if(features && features.find(x => x == 'sync')) {
+		console.log('scheduler starting')
+		const cron = require('node-cron');
+		const task = require('../../Task/node/task');
+
+		cron.schedule('* * * * *', async () => {
+			await task.run(store.get('host'), store.get('_id'), store.get('local.token'));
+		});
+	}
+
 	// Focus current instance
 	app.on('second-instance', () => {
 		// Checks if mainWindow object exists
@@ -64,15 +79,3 @@ if (!singleInstanceLock && !serve) {
 		}
 	});
 }
-
-// auto update
-require('./src/update');
-
-// task runner
-const cron = require("node-cron");
-const task = require("../../Task/node/task");
-
-cron.schedule('* * * * *', async () => {
-  await task.run(store.get('host'), store.get('_id'), store.get('local.token'))
-})
-

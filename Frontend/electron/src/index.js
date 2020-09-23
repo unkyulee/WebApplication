@@ -48,7 +48,7 @@ if (window.process && window.process.type) {
 			// send refresh
 			window.__CONFIG__.event.send({ name: 'changed' });
 		} else {
-			//window.loadConfig(service_url);
+			window.loadConfig(service_url);
 		}
 	})();
 }
