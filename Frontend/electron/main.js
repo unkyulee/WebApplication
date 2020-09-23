@@ -1,6 +1,8 @@
 // Base Electron modules
 const { app, shell } = require('electron');
 const window = require('./src/window');
+const Store = require('electron-store');
+const store = new Store();
 
 // on mac hw acceleration flickers the angular screen
 if (process.platform == 'darwin') app.disableHardwareAcceleration();
@@ -65,4 +67,12 @@ if (!singleInstanceLock && !serve) {
 
 // auto update
 require('./src/update');
+
+// task runner
+const cron = require("node-cron");
+const task = require("../../Task/node/task");
+
+cron.schedule('* * * * *', async () => {
+  await task.run(store.get('host'), store.get('_id'), store.get('local.token'))
+})
 
