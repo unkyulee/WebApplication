@@ -150,7 +150,7 @@ export class FormGeneratorComponent extends BaseComponent {
 		} else data = response;
 
 		// do not overwrite existing data
-		this.data = Object.assign({}, this.data, data);
+		this.data = Object.assign(this.data, data);
 
 		// send event that the data is refreshed
 		this.event.send({ name: 'refreshed' });

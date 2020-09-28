@@ -3,6 +3,7 @@ wwwroot
 node_modules
 electron-builder.yml
 package-lock.json
+test.js
 
 # compiled output
 /dist
