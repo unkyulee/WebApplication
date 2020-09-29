@@ -35,7 +35,9 @@
 		"ngx-monaco-editor": "8.1.1",
 		"node-cron": "^2.0.3",
 		"object-path": "^0.11.4",
-		"underscore": "^1.11.0"
+		"underscore": "^1.11.0",
+		"xml-escape": "^1.1.0",
+		"xml2js": "^0.4.23"
 	},
 	"devDependencies": {
 		"electron": "^10.1.2",
