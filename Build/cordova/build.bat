@@ -12,8 +12,6 @@ copy /y package.original.json package.json
 
 REM Remove cordova build folders
 RD /Q /S .\www
-RD /Q /S .\plugins
-RD /Q /S .\platforms
 
 REM Build Angular
 ECHO build angular app
@@ -28,6 +26,8 @@ REM replace script tag
 ..\script\fart.exe ".\www\index.html" "<script" "<script type='text/javascript'"
 
 REM Reset angular platform
+RD /Q /S .\plugins
+RD /Q /S .\platforms
 call cordova platform remove android
 call cordova platform add android
 
@@ -38,7 +38,6 @@ REM common plugin
 call cordova plugin add cordova-plugin-whitelist@latest
 call cordova plugin add cordova-plugin-device@latest
 call cordova plugin add cordova-plugin-camera@latest
-call cordova plugin add phonegap-plugin-barcodescanner@latest
 
 REM code push plugin
 call cordova plugin add cordova-plugin-code-push

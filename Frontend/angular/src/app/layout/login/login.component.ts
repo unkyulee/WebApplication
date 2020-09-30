@@ -10,10 +10,9 @@ declare var window: any;
 @Component({
 	selector: 'login',
 	templateUrl: './login.component.html',
-	styleUrls: ['./login.component.scss']
+	styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent extends BaseComponent {
-
 	async ngOnInit() {
 		obj.ensureExists(this, 'data', {});
 		obj.ensureExists(this, 'uiElement', {});
@@ -26,8 +25,8 @@ export class LoginComponent extends BaseComponent {
 			if (event.name == 'login') {
 				if (event.data) this.data = Object.assign(this.data, event.data);
 				await this.authenticate();
-			} else if(event.name == 'load') {
-				this.load()
+			} else if (event.name == 'load') {
+				this.load();
 			}
 		});
 	}
@@ -41,17 +40,15 @@ export class LoginComponent extends BaseComponent {
 		if (this.config.get('url')) {
 			this.rest.request(`${this.config.get('url')}/login.config`, null, 'get', {}, true).subscribe((r) => {
 				this.uiElement = r;
-				this.event.send({name: 'changed'})
+				this.event.send({ name: 'changed' });
 			});
 		}
 	}
 
 	service_url;
 	register() {
-		if(this.util.isElectron()) {
-			window.registerService(this.service_url);
-			window.loadConfig(this.service_url);
-		}
+		window.registerService(this.service_url);
+		window.loadConfig(this.service_url);
 	}
 
 	// login

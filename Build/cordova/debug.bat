@@ -14,6 +14,9 @@ RD /Q /S .\www
 MD .\www
 xcopy /s /y %AngularPath%\dist .\www
 
-call cordova platform remove android
-call cordova platform add android
+REM replace script tag
+..\script\fart.exe ".\www\index.html" "<script" "<script type='text/javascript'"
+
+REM call cordova platform remove android
+REM call cordova platform add android
 call cordova run android
