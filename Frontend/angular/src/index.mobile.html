@@ -9,22 +9,13 @@
 		<meta name="msapplication-tap-highlight" content="no" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet" />
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<script src="cordova.js"></script>
 		<script src="index.js"></script>
-		<style>
-			.mat-icon-button .mat-icon,
-			.mat-icon-button i {
-				line-height: 18px !important;
-			}
-
-			.material-icons {
-				font-size: 21px !important;
-			}
-		</style>
 	</head>
 
 	<body>
 		<app-root></app-root>
-		<script src="cordova.js"></script>
 		<script>
 			document.addEventListener('deviceready', onDeviceReady, false);
 			document.addEventListener('resume', onResume, false);

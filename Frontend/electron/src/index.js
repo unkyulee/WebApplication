@@ -72,9 +72,6 @@ window.loadConfig = (service_url) => {
 			// restore old config
 			window.__CONFIG__ = Object.assign({}, window.__CONFIG__, window.__CONFIG__NEW__);
 
-			// if event exists load the login screen
-			window.__CONFIG__.event.send({ name: 'load' });
-
 			// if electron
 			// save to the persist config
 			window.store.set('config', window.__CONFIG__NEW__);
@@ -83,6 +80,9 @@ window.loadConfig = (service_url) => {
 			// delete temp variable
 			delete window.__CONFIG__NEW__;
 			delete __CONFIG__.requires_service_url;
+
+			// if event exists load the login screen
+			window.__CONFIG__.event.send({ name: 'load' });
 		})
 		.catch(() => {});
 };

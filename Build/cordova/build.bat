@@ -20,7 +20,6 @@ call ng build --prod --aot --build-optimizer
 popd
 MD .\www
 xcopy /s /y %AngularPath%\dist .\www
-xcopy /s /y /i .\app\assets\* .\www\assets
 
 REM replace script tag
 ..\script\fart.exe ".\www\index.html" "<script" "<script type='text/javascript'"
@@ -30,9 +29,6 @@ RD /Q /S .\plugins
 RD /Q /S .\platforms
 call cordova platform remove android
 call cordova platform add android
-
-REM Copy config files to the platform
-xcopy /s /y /i .\app\* .\platforms\android\
 
 REM common plugin
 call cordova plugin add cordova-plugin-whitelist@latest
@@ -52,8 +48,10 @@ IF EXIST ".\app\google-services.json" (
 REM apply patch
 xcopy /s /y .\patch\* .\node_modules
 
-REM Start the build
-call cordova build --release android
+REM copy signing keys
+copy /y .\key\app.keystore .\platforms\android\app.keystore
+copy /y .\key\release-signing.properties .\platforms\android\release-signing.properties
+copy /y .\key\release-signing.properties .\platforms\android\debug-signing.properties
 
-REM remove trash files
-del 1
+REM Start the build
+call cordova build --release android %*
