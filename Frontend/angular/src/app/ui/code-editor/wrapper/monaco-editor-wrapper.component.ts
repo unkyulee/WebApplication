@@ -273,8 +273,7 @@ export class MonacoEditorWrapperComponent implements ControlValueAccessor {
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
                 <link rel="stylesheet" data-name="vs/editor/editor.main"
-                    href="file://${this._appPath}/node_modules/monaco-editor/min/vs/editor/editor.main.css">
-                <link rel="stylesheet" href="file://${this._appPath}/dist/assets/monaco/decorations.css">
+                    href="https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs/editor/editor.main.css">
             </head>
             <body style="height:100%;width: 100%;margin: 0;padding: 0;overflow: hidden;">
             <div id="${this._editorInnerContainer}" style="width:100%;height:100%;${this._editorStyle}"></div>
@@ -282,7 +281,7 @@ export class MonacoEditorWrapperComponent implements ControlValueAccessor {
                 // Get the ipcRenderer of electron for communication
                 const {ipcRenderer} = require('electron');
             </script>
-            <script src="file://${this._appPath}/node_modules/monaco-editor/min/vs/loader.js"></script>
+            <script src="https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs/loader.js"></script>
             <script>
                 var editor;
                 var theme = '${this._theme}';

@@ -35,6 +35,7 @@ module.exports = {
 					webviewTag: true,
 					// Enable nodeIntegration so window can use node functions
 					nodeIntegration: true,
+					webSecurity: false,
 					enableRemoteModule: true,
 				},
 				// Hides main window until it is ready to show
@@ -80,11 +81,11 @@ module.exports = {
 				});
 			if (serve) {
 				this.window.webContents.openDevTools();
-
 			}
 
 			//
 			let debug = false;
+			//this.window.webContents.openDevTools();
 			if(debug) {
 				this.window.loadURL('http://localhost:4200');
 			} else {
