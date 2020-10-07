@@ -8,6 +8,7 @@ import obj from 'object-path';
     <mat-icon
       [ngStyle]="uiElement.style"
       [ngClass]="uiElement.class"
+      [inline]="true"
     >{{uiElement.icon}}</mat-icon>
   `
 })
