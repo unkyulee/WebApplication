@@ -122,7 +122,7 @@ export class BaseComponent {
       try {
         eval(this.uiElement.eventHandler);
       } catch (e) {
-        console.error(e);
+        console.error(e, this.uiElement.eventHandler);
       }
     }
   }

@@ -46,7 +46,9 @@ export class DateComponent extends BaseComponent {
 			}
 
 			// set value
-			this._value = moment(obj.get(this.data, this.uiElement.key)).format('YYYY-MM-DDTHH:MM')
+			if(obj.get(this.data, this.uiElement.key)) {
+				this._value = moment(obj.get(this.data, this.uiElement.key)).format('YYYY-MM-DDTHH:MM')
+			}
 		}
 
 		// Transform

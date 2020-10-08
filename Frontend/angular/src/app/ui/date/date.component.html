@@ -19,7 +19,7 @@
 		(input)="typeAheadEventEmitter.next($event)"
 		(focus)="focus($event)"
 	/>
-	<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+	<mat-datepicker-toggle matPrefix [for]="picker" [ngStyle]="uiElement.iconStyle"></mat-datepicker-toggle>
 	<mat-datepicker #picker></mat-datepicker>
 </mat-form-field>
 

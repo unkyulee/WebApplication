@@ -1,10 +1,7 @@
 import { Component, ElementRef, ViewEncapsulation } from "@angular/core";
 import {
   CalendarEvent,
-  CalendarEventTimesChangedEvent,
-  CalendarMonthViewBeforeRenderEvent,
-  CalendarWeekViewBeforeRenderEvent,
-  CalendarDayViewBeforeRenderEvent
+  CalendarEventTimesChangedEvent
 } from "angular-calendar";
 import * as moment from "moment";
 import obj from 'object-path';
