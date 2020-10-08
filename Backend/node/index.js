@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const rp = require('request-promise-native');
-const obj = require('object-path');
 
 // retrieve secret
 app.locals.secret = process.env.SECRET;
@@ -38,8 +36,11 @@ if (process.env.TZ) {
 const router = require('./src/services/router');
 const auth = require('./src/services/auth');
 const MongoDB = require('./src/db/mongodb');
+const utility = require('./src/lib/utility');
 
-app.all('*', async (req, res) => {handler(req, res)});
+app.all('*', async (req, res) => {
+	handler(req, res);
+});
 
 async function handler(req, res) {
 	let db = null;
@@ -74,8 +75,17 @@ async function handler(req, res) {
 			res.end();
 		}
 	} catch (e) {
-		console.error(e);
+		// Hanlding Error
+
+		// Respond with 500
 		res.status(500);
+
+		// Write to the console
+		console.error(e);
+
+		// Write to online logger
+
+
 	} finally {
 		// Close MongoDB
 		if (db) await db.close();
@@ -83,34 +93,7 @@ async function handler(req, res) {
 	}
 
 	// send analytics
-	if (process.env.TID) {
-		let client_id = obj.get(res, 'locals.token.unique_name');
-		if (!client_id) {
-			let params = Object.assign({}, req.query, req.body);
-			client_id = params.client_id;
-		}
-
-		await rp({
-			method: 'POST',
-			uri: 'http://www.google-analytics.com/collect',
-			form: {
-				v: 1,
-				tid: process.env.TID,
-				cid: client_id,
-				t: 'pageview',
-				dh: req.get('host'),
-				dp: req.url,
-			},
-		});
-	}
-}
-
-// start the task
-if (process.env.TASK) {
-	let interval = parseInt(process.env.TASK);
-	const task = require('./src/services/task');
-	console.log(`start task with ${interval}s`);
-	task.run(interval, process.env.DATABASE_URI, process.env.DB);
+	if (process.env.TID) await utility.sendAnalytics(req, res);
 }
 
 // Initiate the server

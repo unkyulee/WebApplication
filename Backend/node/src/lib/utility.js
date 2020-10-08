@@ -1,3 +1,6 @@
+const axios = require("axios");
+const obj = require("object-path");
+
 module.exports = {
 	match: function (str, rule) {
 		// "."  => Find a single character, except newline or line terminator
@@ -30,4 +33,20 @@ module.exports = {
 	timeout(ms) {
 		return new Promise((res) => setTimeout(res, ms));
 	},
+
+	async sendAnalytics(req, res) {
+		// Retrieve Client ID
+		let client_id = obj.get(res, 'locals.token.unique_name');
+		// for Tracking data
+		const data = {
+			v: 1,
+			tid: process.env.TID,
+			cid: client_id,
+			t: 'pageview',
+			dh: req.get('host'),
+			dp: req.url,
+		}
+		// send request to Google Analytics
+		await axios.get('http://www.google-analytics.com/collect', { params: data });
+	}
 };
