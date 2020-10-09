@@ -2,6 +2,7 @@ if (window.process && window.process.type) {
 	console.log('start');
 	const Store = require('electron-store');
 	window.store = new Store();
+	console.log(window.store);
 
 	// load global config
 	window.__CONFIG__ = window.store.get('config');
@@ -61,6 +62,8 @@ window.registerService = (service_url) => {
 };
 
 window.loadConfig = (service_url) => {
+	const axios = require('axios');
+
 	axios
 		.get(`${service_url}/index.js`)
 		.then((r) => {
@@ -84,7 +87,11 @@ window.loadConfig = (service_url) => {
 			// if event exists load the login screen
 			window.__CONFIG__.event.send({ name: 'load' });
 		})
-		.catch(() => {});
+		.catch(() => {
+			// if event exists load the login screen
+			window.__CONFIG__.event.send({ name: 'login-success' });
+			window.__CONFIG__.event.send({ name: 'changed' });
+		});
 };
 
 window.reload = () => {
@@ -96,8 +103,8 @@ window.reload = () => {
 // handle events
 const { ipcRenderer } = require('electron');
 ipcRenderer.on('channel', (sender, $event) => {
-	if($event.data) {
-		window.__CONFIG__.event.send($event.data)
-		window.__CONFIG__.event.send({name: 'changed'})
+	if ($event.data) {
+		window.__CONFIG__.event.send($event.data);
+		window.__CONFIG__.event.send({ name: 'changed' });
 	}
-})
+});

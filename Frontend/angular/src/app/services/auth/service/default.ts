@@ -66,11 +66,17 @@ export class DefaultAuthStrategy {
       // check if the config navigation_id and the stored navigation_id matches
       if (this.user.get("sub") == this.config.get("_id")) {
         // when authentication is proven to be valid locally
-        // verify with the server
-        try {
-          await this.login(null, isAuthenticated$);
+        // verify with the server when online
+        if(navigator.onLine) {
+          try {
+            await this.login(null, isAuthenticated$);
+            isValidAuth = true;
+          } catch {}
+        } else {
+          console.log('offline authentication')
           isValidAuth = true;
-        } catch {}
+        }
+
       }
     }
 
