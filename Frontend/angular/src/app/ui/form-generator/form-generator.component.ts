@@ -18,7 +18,7 @@ export class FormGeneratorComponent extends BaseComponent {
 		this.requestDownload(this.uiElement.cached != false);
 
 		// subscript to event
-		this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+		this.onEvent = this.event.onEvent.subscribe((event) => this.eventHandler(event));
 	}
 
 	ngOnDestroy() {
@@ -46,8 +46,8 @@ export class FormGeneratorComponent extends BaseComponent {
 
 			if (data.indexOf(event.data) > -1) {
 				// if exists then do nothing - it's already there
-			} else if (event.datakey && data.find(item => item[event.datakey] == event.data[event.datakey])) {
-				let found = data.find(item => item[event.datakey] == event.data[event.datakey]);
+			} else if (event.datakey && data.find((item) => item[event.datakey] == event.data[event.datakey])) {
+				let found = data.find((item) => item[event.datakey] == event.data[event.datakey]);
 				if (found) {
 					// item found - replace it
 					let index = data.indexOf(found);
@@ -64,8 +64,8 @@ export class FormGeneratorComponent extends BaseComponent {
 				if (data.indexOf(event.data) > -1) {
 					// delete data
 					data.splice(data.indexOf(event.data), 1);
-				} else if (event.datakey && data.find(item => item[event.datakey] == event.data[event.datakey])) {
-					let found = data.find(item => item[event.datakey] == event.data[event.datakey]);
+				} else if (event.datakey && data.find((item) => item[event.datakey] == event.data[event.datakey])) {
+					let found = data.find((item) => item[event.datakey] == event.data[event.datakey]);
 					if (found) {
 						// item found - delete it
 						data.splice(data.indexOf(found), 1);
@@ -77,19 +77,19 @@ export class FormGeneratorComponent extends BaseComponent {
 		} else if (event && event.name == 'delete' && (!event.key || event.key == this.uiElement.key)) {
 			this.delete();
 		} else if (event && event.name == 'open-section') {
-			let section = this.uiElement.screens.find(x => x.key == event.key);
+			let section = this.uiElement.screens.find((x) => x.key == event.key);
 			if (section) section.expanded = true;
 		} else if (event && event.name == 'open-all-section') {
-      for(let section of this.uiElement.screens) {
-        section.expanded = true;
-      }
+			for (let section of this.uiElement.screens) {
+				section.expanded = true;
+			}
 		} else if (event && event.name == 'close-section') {
-			let section = this.uiElement.screens.find(x => x.key == event.key);
+			let section = this.uiElement.screens.find((x) => x.key == event.key);
 			if (section) section.expanded = false;
 		} else if (event && event.name == 'close-all-section') {
-			for(let section of this.uiElement.screens) {
-        section.expanded = false;
-      }
+			for (let section of this.uiElement.screens) {
+				section.expanded = false;
+			}
 		}
 	}
 
@@ -113,7 +113,7 @@ export class FormGeneratorComponent extends BaseComponent {
 			this.rest
 				.request(src, data, method, {}, cached)
 				.pipe(
-					catchError(err => {
+					catchError((err) => {
 						// hide the splash
 						this.event.send({ name: 'splash-hide' });
 						//
@@ -130,7 +130,7 @@ export class FormGeneratorComponent extends BaseComponent {
 						return EMPTY;
 					})
 				)
-				.subscribe(response => this.responseDownload(response));
+				.subscribe((response) => this.responseDownload(response));
 		}
 	}
 
@@ -174,11 +174,11 @@ export class FormGeneratorComponent extends BaseComponent {
 		}
 
 		// beforeSave
-		if(obj.get(this.uiElement, 'beforeSave')) {
+		if (obj.get(this.uiElement, 'beforeSave')) {
 			try {
-				await eval(obj.get(this.uiElement, 'beforeSave'))
-			} catch(e) {
-				console.error(e)
+				await eval(obj.get(this.uiElement, 'beforeSave'));
+			} catch (e) {
+				console.error(e);
 			}
 		}
 
@@ -209,30 +209,22 @@ export class FormGeneratorComponent extends BaseComponent {
 			// hide the splash
 			this.event.send({ name: 'splash-show' });
 
-			this.rest
-				.request(src, data, method)
-				.pipe(
-					catchError(err => {
-						// hide the splash
-						this.event.send({ name: 'splash-hide' });
-
-						// save failed
-						let errorAction = obj.get(this.uiElement, 'save.errorAction');
-						if (errorAction) {
-							try {
-								eval(errorAction);
-							} catch (e) {
-								console.error(e);
-							}
-						} else {
-							console.error(err);
-						}
-
-						return EMPTY;
-					})
-				)
-				.subscribe(response => this.saveAction(response));
-		} else {
+			try {
+				let response = await this.rest.requestAsync(src, data, method);
+				this.saveAction(response);
+			} catch (err) {
+				// save failed
+				let errorAction = obj.get(this.uiElement, 'save.errorAction');
+				if (errorAction) {
+					try {
+						eval(errorAction);
+					} catch (e) {
+						console.error(e);
+					}
+				} else {
+					console.error(err);
+				}
+			}
 			// hide splash
 			this.event.send({ name: 'splash-hide' });
 		}
@@ -269,7 +261,7 @@ export class FormGeneratorComponent extends BaseComponent {
 			let method = this.uiElement.delete.method;
 
 			// download data through rest web services
-			this.rest.request(src, null, method).subscribe(response => this.deleteAction());
+			this.rest.request(src, null, method).subscribe((response) => this.deleteAction());
 		}
 	}
 
