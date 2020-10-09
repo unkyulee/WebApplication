@@ -61,6 +61,7 @@ module.exports = {
 				strict_conflict: false,
 			})
 				.then(function (response) {
+					console.log(response)
 					resolve(encodeURIComponent(saveTo));
 				})
 				.catch(function (err) {
@@ -93,6 +94,6 @@ module.exports = {
 		for (let header of obj.get(params, 'headers', [])) {
 			res.setHeader(header.key, header.value);
 		}
-		res.end(file.fileBinary, 'binary');
+		res.end(file.result.fileBinary, 'binary');
 	},
 };
