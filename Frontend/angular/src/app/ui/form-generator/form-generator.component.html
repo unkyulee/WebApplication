@@ -21,9 +21,8 @@
             ? ui?.header?.class
             : safeGet(uiElement, 'header.class')
         "
-        (click)="ui.expanded = !ui.expanded"
       >
-        <button type="button" mat-icon-button>
+        <button type="button" mat-icon-button (click)="ui.expanded = !ui.expanded">
           <mat-icon>{{
             ui.expanded == false ? "chevron_right" : "expand_more"
           }}</mat-icon>
