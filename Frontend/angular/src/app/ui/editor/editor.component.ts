@@ -1,16 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { BaseComponent } from '../base.component';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import obj from 'object-path';
+import { Editor } from 'primeng/editor';
 
 @Component({
 	selector: 'editor',
 	templateUrl: './editor.component.html',
 })
 export class EditorComponent extends BaseComponent {
+  @ViewChild('editor') editor: Editor;
 
-	typeAheadEventEmitter = new Subject<string>();
+  typeAheadEventEmitter = new Subject<string>();
 
 	ngOnInit() {
     super.ngOnInit();
@@ -20,8 +22,14 @@ export class EditorComponent extends BaseComponent {
     this.typeAheadEventEmitter
       .pipe(distinctUntilChanged(), debounceTime(300))
       .subscribe(v => this.inputChanged(v));
+  }
 
-	}
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
+    // eliminate the bug that adds new line after a list
+    this.editor.getQuill().options.modules.clipboard.matchVisual = false
+
+  }
 
 
   ngOnDestroy() {

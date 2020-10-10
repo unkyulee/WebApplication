@@ -3,11 +3,9 @@ import {
 	Input,
 	Output,
 	EventEmitter,
-	OnInit,
 	ViewChild,
 	ElementRef,
-	forwardRef,
-	NgZone,
+	forwardRef
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
@@ -295,9 +293,7 @@ export class MonacoEditorWrapperComponent implements ControlValueAccessor {
                 self.process.browser = true;
 
                 require(['vs/editor/editor.main'], function() {
-                    editor = monaco.editor.create(document.getElementById('${
-						this._editorInnerContainer
-					}'), Object.assign({
+                    editor = monaco.editor.create(document.getElementById('${this._editorInnerContainer}'), Object.assign({
                         value: value,
                         language: '${this.language}',
                         theme: '${this._theme}',
@@ -315,8 +311,8 @@ export class MonacoEditorWrapperComponent implements ControlValueAccessor {
 
                 // set the value of the editor from what was sent from the mainview
                 ipcRenderer.on('setEditorContent', function(event, data){
-                    value = data;
-                    editor.setValue(data);
+										value = data;
+										if(editor) editor.setValue(data);
                 });
 
                 // set the style of the editor container div
@@ -325,13 +321,13 @@ export class MonacoEditorWrapperComponent implements ControlValueAccessor {
                     editorDiv.style = data.style;
                     var currentValue = editor.getValue();
                     editor.dispose();
-                    editor = monaco.editor.create(document.getElementById('${
-						this._editorInnerContainer
-					}'), Object.assign({
+                    editor = monaco.editor.create(
+											document.getElementById('${this._editorInnerContainer}'),
+											Object.assign({
                         value: currentValue,
                         language: data.language,
                         theme: data.theme,
-                    }, ${JSON.stringify(this.editorOptions)}));
+                    	}, ${JSON.stringify(this.editorOptions)}));
                 });
 
                 // set the options of the editor from what was sent from the mainview
@@ -344,9 +340,9 @@ export class MonacoEditorWrapperComponent implements ControlValueAccessor {
                 ipcRenderer.on('setLanguage', function(event, data){
                     var currentValue = editor.getValue();
                     editor.dispose();
-                    editor = monaco.editor.create(document.getElementById('${
-						this._editorInnerContainer
-					}'), Object.assign({
+                    editor = monaco.editor.create(
+											document.getElementById('${this._editorInnerContainer}'),
+											Object.assign({
                         value: currentValue,
                         language: data,
                         theme: theme,
