@@ -16,4 +16,4 @@ popd
 MD .\wwwroot
 xcopy /s /y ..\angular\dist .\wwwroot\
 
-call npm run-script build
+REM call npm run-script build
