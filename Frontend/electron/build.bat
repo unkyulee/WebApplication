@@ -9,8 +9,8 @@ REM -------------------------------------------------------------
 REM Build angular app
 REM -------------------------------------------------------------
 pushd ..\angular
-REM call ng build --prod --aot --build-optimizer
-call ng build
+call ng build --prod --aot --build-optimizer
+REM call ng build
 popd
 
 MD .\wwwroot
