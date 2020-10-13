@@ -15,6 +15,7 @@ ng build --prod --aot --build-optimizer
 popd
 
 mkdir ./wwwroot
-cp ../angular/dist ./wwwroot/
+cp -R ../angular/dist/* ./wwwroot/
 
-#call npm run-script build
+npm install
+npm run-script build-mac

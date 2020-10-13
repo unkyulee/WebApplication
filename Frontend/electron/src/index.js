@@ -43,12 +43,13 @@ if (window.process && window.process.type) {
 
 		// check if the service_url is registered
 		let service_url = window.store.get('service_url');
+		console.log(`service url: ${service_url}`)
 		if (!service_url) {
 			// set market on the global
 			window.__CONFIG__.requires_service_url = true;
 			// send refresh
 			window.__CONFIG__.event.send({ name: 'changed' });
-		} else {
+		} else {			
 			window.loadConfig(service_url);
 		}
 	})();
@@ -62,11 +63,13 @@ window.registerService = (service_url) => {
 };
 
 window.loadConfig = (service_url) => {
+	console.log(`loadConfig ${service_url}`)
 	const axios = require('axios');
 
 	axios
 		.get(`${service_url}/index.js`)
 		.then((r) => {
+			console.log(`config loaded`, r)
 			// load new config
 			r.data = r.data.replace('window.__CONFIG__', 'window.__CONFIG__NEW__');
 			eval(r.data);
