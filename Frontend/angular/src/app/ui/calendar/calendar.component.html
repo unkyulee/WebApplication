@@ -57,6 +57,8 @@
     (eventClicked)="eventClicked($event.event)"
     (hourSegmentClicked)="hourSegmentClicked($event.date)"
     (eventTimesChanged)="eventTimesChanged($event)"
+    [dayStartHour]="uiElement.dayStartHour ? uiElement.dayStartHour : 0"
+    [dayEndHour]="uiElement.dayEndHour ? uiElement.dayEndHour : 24"
   >
   </mwl-calendar-day-view>
 </div>
