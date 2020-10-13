@@ -39,6 +39,7 @@ async function run() {
 		params: context.data,
 		websvc: res.locals.websvcurl,
 		data: context.result,
+		date: moment().toDate()
 	};
 }
 
