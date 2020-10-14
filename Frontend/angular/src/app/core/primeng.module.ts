@@ -8,7 +8,6 @@ import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { GMapModule } from 'primeng/gmap';
 
 @NgModule({
 	imports: [
@@ -21,7 +20,6 @@ import { GMapModule } from 'primeng/gmap';
 		MenubarModule,
 		InputTextModule,
 		ButtonModule,
-		GMapModule,
 	],
 	exports: [
 		EditorModule,
@@ -33,7 +31,6 @@ import { GMapModule } from 'primeng/gmap';
 		MenubarModule,
 		InputTextModule,
 		ButtonModule,
-		GMapModule,
 	],
 })
 export class PrimeNGModule {}

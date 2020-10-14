@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { GoogleMapsModule } from '@angular/google-maps'
 
 //
 import { MaterialModule } from '../core/material.module';
@@ -48,6 +49,7 @@ import { EditorComponent } from './editor/editor.component';
 import { ImageComponent } from './image/image.component';
 import { WebViewComponent } from './webview/webview.component';
 import { WebViewDirective } from './webview/webview.directive';
+import { MapsComponent } from './maps/maps.component';
 
 // overlay
 import { UIComposerComponent } from './ui-composer/ui-composer.component'
@@ -105,7 +107,8 @@ export function momentAdapterFactory() {
 		UIComposerActionsComponent,
 		UIComposerDialogComponent,
 		WebViewComponent,
-		WebViewDirective
+		WebViewDirective,
+		MapsComponent
 	],
 	entryComponents: [
 		UILayoutWrapperComponent,
@@ -137,6 +140,7 @@ export function momentAdapterFactory() {
 		UIComposerActionsComponent,
 		UIComposerDialogComponent,
 		WebViewComponent,
+		MapsComponent
 	],
 	exports: [
 		MaterialModule,
@@ -172,6 +176,7 @@ export function momentAdapterFactory() {
 		UIComposerActionsComponent,
 		UIComposerDialogComponent,
 		WebViewComponent,
+		MapsComponent
 	],
 	imports: [
 		CommonModule,
@@ -198,7 +203,8 @@ export function momentAdapterFactory() {
 		NgxBarcodeModule,
 		NgxPrintModule,
 		DragDropModule,
-		PrimeNGModule
+		PrimeNGModule,
+		GoogleMapsModule
 	],
 	providers: [
 		{
