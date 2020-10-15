@@ -49,18 +49,11 @@ if (window.process && window.process.type) {
 			window.__CONFIG__.requires_service_url = true;
 			// send refresh
 			window.__CONFIG__.event.send({ name: 'changed' });
-		} else {			
+		} else {
 			window.loadConfig(service_url);
 		}
 	})();
 }
-
-window.registerService = (service_url) => {
-	if (service_url) {
-		window.store.clear({});
-		window.store.set('service_url', service_url);
-	}
-};
 
 window.loadConfig = (service_url) => {
 	console.log(`loadConfig ${service_url}`)
@@ -95,6 +88,13 @@ window.loadConfig = (service_url) => {
 			window.__CONFIG__.event.send({ name: 'login-success' });
 			window.__CONFIG__.event.send({ name: 'changed' });
 		});
+};
+
+window.registerService = (service_url) => {
+	if (service_url) {
+		window.store.clear({});
+		window.store.set('service_url', service_url);
+	}
 };
 
 window.reload = () => {
