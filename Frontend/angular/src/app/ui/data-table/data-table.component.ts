@@ -46,9 +46,22 @@ export class DataTableComponent extends BaseComponent {
 	}
 	set selection(item: any) {
 		this._selection = item;
-		if(obj.get(this.uiElement, 'click')) {
+	}
+
+	onRowSelect(event) {
+		let item = event.data;
+		if (obj.get(this.uiElement, 'click')) {
 			try {
-				eval(this.uiElement.click)
+				eval(this.uiElement.click);
+			} catch {}
+		}
+	}
+
+	onRowUnselect(event) {
+		let item = event.data;
+		if (obj.get(this.uiElement, 'click')) {
+			try {
+				eval(this.uiElement.click);
 			} catch {}
 		}
 	}

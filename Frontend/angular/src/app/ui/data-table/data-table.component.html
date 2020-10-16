@@ -10,6 +10,8 @@
 		[customSort]="true"
 		[selectionMode]="safeGet(uiElement, 'selectionMode', 'single')"
 		[(selection)]="selection"
+		(onRowSelect)="onRowSelect($event)"
+		(onRowUnselect)="onRowUnselect($event)"
 	>
 		<ng-template pTemplate="colgroup" let-columns>
 			<colgroup>
