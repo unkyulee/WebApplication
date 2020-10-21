@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Globalization;
 
 namespace FirebirdEx
 {
@@ -7,13 +7,15 @@ namespace FirebirdEx
     {
         static void Main(string[] args)
         {
-            if(args.Length < 2)
-            {
-                Console.WriteLine("Config filepath is missing");
-                return;
-            }
+            // load config
+            String filepath = "default.json";
+            if (args.Length > 1) filepath = args[1];
             Config config = new Config();
-            config.LoadConfig(args[1]);
+            config.LoadConfig(filepath);
+
+            // process
+            FireBirdTools tools = new FireBirdTools();
+            tools.Execute(config);
 		}
     }
 }

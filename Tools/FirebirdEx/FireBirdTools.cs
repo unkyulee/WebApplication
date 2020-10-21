@@ -1,98 +1,75 @@
-﻿using System;
+﻿using FirebirdSql.Data.FirebirdClient;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Text;
-using FirebirdSql.Data.FirebirdClient;
+using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace FirebirdEx
 {
     class FireBirdTools
     {
-        public void testc()
-        {
-			var connectionString = new FbConnectionStringBuilder
-			{
-				Database = @"C:\Users\unkyulee\Documents\Danea Easyfatt\Arredo Ufficio (esempio 1).eft",
-				ServerType = FbServerType.Embedded,
-				UserID = "SYSDBA",
-				Password = "masterkey",
-				ClientLibrary = @"C:\Program Files (x86)\Danea Easyfatt\FirebirdEmbedded\fbembed.dll"
-			}.ToString();
+		public void Execute(Config config)
+		{
+			// connect
+			var connectionString = ConnectString(config);
 			using (var connection = new FbConnection(connectionString))
 			{
 				connection.Open();
 				using (var transaction = connection.BeginTransaction())
 				{
 					using (var command = new FbCommand(
-@"
-SELECT 
-	""IDArticolo""
-	, ""CodArticolo""
-	, ""Desc""
-	, ""Tipologia""
-	, ""NomeCategoria""
-	, ""NomeCategoria_Sott""
-	, ""NomeSottocategoria""
-	, ""CodIva""
-	, ""Udm""	
-	, ""CodBarre""
-	, ""NumAltriCodBarre""
-	, ""IDFornitore""
-	, ""CodArticoloForn""
-	, ""PrezzoNettoForn""
-	, ""PrezzoIvatoForn""
-	, ""NoteForn""
-	, ""NumAltriForn""
-	, ""Url""
-	, ""Produttore""
-	, ""UdmDim""
-	, ""DimNettaX""
-	, ""DimNettaY""
-	, ""DimNettaZ""
-	, ""DimImballoX""
-	, ""DimImballoY""
-	, ""DimImballoZ""
-	, ""UdmPeso""
-	, ""PesoNetto""
-	, ""PesoLordo""
-	, ""GestMagazzino""
-	, ""NumComponenti""
-	, ""NextLottoProdotto""
-	, ""GgOrdine""
-	, ""OrdinaAMultipliDi""
-	, ""QtaGiacenza_Import""
-	, ""PrezzoMedioCarico""
-	, ""PrezzoMedioScarico""
-	, ""PrezzoUltimoCarico""
-	, ""Extra1""
-	, ""Extra2""
-	, ""Extra3""
-	, ""Extra4""
-	, ""Note""
-	, ""PubblicaSuWeb""
-	, ""PubblicaSuWeb2""
-	, ""PubblicaSuWeb3""
-	, ""DescHtml""
-	, ""Taglie""
-	, ""Tmp_Colori""
-	, ""PathImmagine_Import""
-	, ""MostraInTouch""
-FROM ""TArticoli""
-",
+						config.Query,
 						connection,
 						transaction))
 					{
-						using (var reader = command.ExecuteReader())
-						{
-							while (reader.Read())
-							{
-								var values = new object[reader.FieldCount];
-								reader.GetValues(values);
-								Console.WriteLine(string.Join("|", values));
-							}
-						}
+						if (config.Type == "SELECT") Select(command, config);
+						
 					}
 				}
 			}
 		}
+
+		public void Select(FbCommand command, Config config)
+        {
+			var table = new List<IDictionary<string, object>>();
+			using (var reader = command.ExecuteReader())
+			{
+				while (reader.Read())
+				{
+					// extract values
+					var values = new object[reader.FieldCount];
+					reader.GetValues(values);
+
+					// convert it to dictionary
+					var row = new Dictionary<string, object>();
+					for (var i = 0; i < reader.FieldCount; i++)
+						row[reader.GetName(i)] = values[i];
+
+					// add to table
+					table.Add(row);
+				}
+			}
+
+			// make a json output
+			var json = JToken.FromObject(table);
+			File.WriteAllText(config.OutputFile, json.ToString());
+
+		}
+
+		public string ConnectString(Config config)
+        {
+			var connectionString = new FbConnectionStringBuilder
+			{
+				Database = config.Database,
+				ServerType = config.ServerType,
+				UserID = config.UserID,
+				Password = config.Password,
+				ClientLibrary = config.ClientLibrary
+			}.ToString();
+
+			return connectionString;
+		}
+
     }
 }

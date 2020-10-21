@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using FirebirdSql.Data.FirebirdClient;
+using Microsoft.VisualBasic.CompilerServices;
+using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
 
 namespace FirebirdEx
@@ -7,7 +10,7 @@ namespace FirebirdEx
     {
         // connection
         public string Database;
-        public string ServerType;
+        public FbServerType ServerType;
         public string UserID;
         public string Password;
         public string ClientLibrary;
@@ -15,6 +18,7 @@ namespace FirebirdEx
         // process
         public string Type;
         public string Query;
+        public string OutputFile;
 
         public void LoadConfig(string filepath)
         {
@@ -28,7 +32,12 @@ namespace FirebirdEx
             // ServerType
             value = null;
             config.TryGetValue("ServerType", out value);
-            if (value != null) this.ServerType = value.ToString();
+            if (value != null)
+            {
+                var v = value.ToString();
+                if (v == "Embedded") this.ServerType = FbServerType.Embedded;
+                else this.ServerType = FbServerType.Default;
+            }
 
             // UserID
             value = null;
@@ -48,14 +57,17 @@ namespace FirebirdEx
             // Type
             value = null;
             config.TryGetValue("Type", out value);
-            if (value != null) this.ClientLibrary = value.ToString();
+            if (value != null) this.Type = value.ToString();
 
             // Query
             value = null;
             config.TryGetValue("Query", out value);
-            if (value != null) this.ClientLibrary = value.ToString();
+            if (value != null) this.Query = value.ToString();
 
-
+            // OutputFile
+            value = null;
+            config.TryGetValue("OutputFile", out value);
+            if (value != null) this.OutputFile = value.ToString();
         }
     }
 }
