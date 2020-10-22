@@ -1,6 +1,6 @@
 <mat-toolbar [ngStyle]="uiElement.toolbar?.style ? uiElement.toolbar?.style : config.get('theme.toolbar.style')">
 	<button type="button" mat-icon-button (click)="event.send({ name: 'close-dialog' })" tabIndex="-1">
-		<mat-icon>close</mat-icon>
+		<mat-icon [inline]="true">close</mat-icon>
 	</button>
 	<span>{{ uiElement.name }}</span>
 	<div style="width: 1px; flex-grow: 1;"></div>

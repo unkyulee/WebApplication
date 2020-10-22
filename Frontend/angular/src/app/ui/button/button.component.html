@@ -11,7 +11,7 @@
   [ngStyle]="uiElement.style"
   [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1"
 >
-  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle" [inline]="true">{{
     uiElement.icon
   }}</mat-icon>
   {{ uiElement.label }}
@@ -27,7 +27,7 @@
   [ngStyle]="uiElement.style"
   [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1"
 >
-  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle" [inline]="true">{{
     uiElement.icon
   }}</mat-icon>
   {{ uiElement.label }}
@@ -49,6 +49,7 @@
     [matBadge]="safeGet(uiElement, 'matBadge', '')"
     [matBadgePosition]="safeGet(uiElement, 'matBadgePosition', '')"
     [matBadgeColor]="safeGet(uiElement, 'matBadgeColor', '')"
+    [inline]="true"
     >{{ eval(uiElement.icon) }}</mat-icon
   >
 </button>
@@ -63,7 +64,7 @@
   [ngStyle]="uiElement.style"
   [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1"
 >
-  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle" [inline]="true">{{
     eval(uiElement.icon)
   }}</mat-icon>
   {{ uiElement.label }}
@@ -79,7 +80,7 @@
   [ngStyle]="uiElement.style"
   [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1"
 >
-  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle">{{
+  <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle" [inline]="true">{{
     eval(uiElement.icon)
   }}</mat-icon>
   {{ uiElement.label }}

@@ -13,7 +13,7 @@
 				[ngClass]="ui.header?.class ? ui?.header?.class : safeGet(uiElement, 'header.class')"
 			>
 				<button type="button" mat-icon-button (click)="ui.expanded = !ui.expanded">
-					<mat-icon>{{ ui.expanded == false ? 'chevron_right' : 'expand_more' }}</mat-icon>
+					<mat-icon [inline]="true">{{ ui.expanded == false ? 'chevron_right' : 'expand_more' }}</mat-icon>
 				</button>
 				<ng-container *ngFor="let header of ui?.header?.screens">
 					<div ui-layout-wrapper *ngIf="condition(header)" [uiElement]="header" [data]="data"></div>
