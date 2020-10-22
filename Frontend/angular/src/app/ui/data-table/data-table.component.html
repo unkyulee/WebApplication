@@ -21,14 +21,30 @@
 			</colgroup>
 		</ng-template>
 		<ng-template pTemplate="header" let-columns>
-			<tr>
+			<tr style="font-size: small">
 				<ng-container *ngFor="let column of columns">
-					<th *ngIf="condition(column)">
-						<div ui-layout-wrapper *ngIf="column.header" [uiElement]="column.header" [data]="data"></div>
-						<span *ngIf="!column.header">{{ column.label }}</span>
+					<th *ngIf="condition(column)" style="background: #EBEBEB;">
+						<div style="display: flex; flex-flow: row wrap; position: relative">
+							<!-- Header -->
+							<div
+								ui-layout-wrapper
+								*ngIf="column.header"
+								[uiElement]="column.header"
+								[data]="data"
+							></div>
+							<span *ngIf="!column.header">{{ column.label }}</span>
 
-						<p-sortIcon [field]="column.key" [pSortableColumn]="column.key"></p-sortIcon>
-						<div ui-layout-wrapper *ngIf="column.filter" [uiElement]="column.filter" [data]="data"></div>
+							<!-- Sort Icon -->
+							<p-sortIcon *ngIf="column.sort != false" [field]="column.key" [pSortableColumn]="column.key" style="position: absolute; right: 0;"></p-sortIcon>
+
+							<!-- Filter -->
+							<div
+								ui-layout-wrapper
+								*ngIf="column.filter"
+								[uiElement]="column.filter"
+								[data]="data"
+							></div>
+						</div>
 					</th>
 				</ng-container>
 			</tr>
@@ -36,7 +52,7 @@
 		<ng-template pTemplate="body" let-row let-columns="columns">
 			<tr [pSelectableRow]="row">
 				<ng-container *ngFor="let column of columns">
-					<td *ngIf="condition(column)" style="overflow: hidden;">
+					<td *ngIf="condition(column)" style="overflow: hidden">
 						<div
 							ui-layout-wrapper
 							*ngIf="condition(column)"
