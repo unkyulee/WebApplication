@@ -61,7 +61,6 @@ module.exports = {
 				strict_conflict: false,
 			})
 				.then(function (response) {
-					console.log(response)
 					resolve(encodeURIComponent(saveTo));
 				})
 				.catch(function (err) {
