@@ -16,7 +16,6 @@
 		[required]="uiElement.required"
 		[readonly]="uiElement.readonly"
 		(keyup.enter)="keyupEnter()"
-		(input)="typeAheadEventEmitter.next($event)"
 		(focus)="focus($event)"
 	/>
 	<mat-datepicker-toggle matPrefix [for]="picker" [ngStyle]="uiElement.iconStyle"></mat-datepicker-toggle>
@@ -40,7 +39,6 @@
 		[required]="uiElement.required"
 		[readonly]="uiElement.readonly"
 		(keyup.enter)="keyupEnter()"
-		(input)="typeAheadEventEmitter.next($event)"
 		(focus)="focus($event)"
 		type="datetime-local"
 	/>
@@ -63,7 +61,6 @@
 		[required]="uiElement.required"
 		[readonly]="uiElement.readonly"
 		(keyup.enter)="keyupEnter()"
-		(input)="typeAheadEventEmitter.next($event)"
 		(focus)="focus($event)"
 		type="time"
 	/>
