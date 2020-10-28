@@ -1,9 +1,0 @@
-{
-  "_id": "000000000000000000000003",
-  "url": "common/changelog",
-  "description": "changelog",
-  "get_description": "Get",
-  "get_configuration": "{\r\n    \"collection\": \"changelog\",\r\n    \"filterFields\": [\r\n        {\r\n            \"type\": \"header\",\r\n            \"key\": \"company_id\",\r\n            \"column\": \"company_id\"\r\n        }\r\n    ],\r\n    \"excludeFields\": [\r\n        \"dropbox_api_key\",\r\n        \"smtp_password\"\r\n    ]\r\n}",
-  "get_datasource": "000000000000000000000000",
-  "get_workflow": "000000000000000000000010"
-}

@@ -1,7 +1,0 @@
-{
-	"_id" : ObjectId("000000000000000000000000"),
-	"company_id" : ObjectId("000000000000000000000000"),
-	"id" : "admin",
-	"name" : "Administrator",
-	"groups": [ObjectId("000000000000000000000000")]
-}
