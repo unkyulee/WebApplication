@@ -13,7 +13,7 @@ export class SignatureComponent extends BaseComponent {
 		super();
 	}
 
-	@ViewChild(SignaturePad) signaturePad: SignaturePad;
+	@ViewChild("SignaturePad") signaturePad: SignaturePad;
 
 	options: Object = {};
 
