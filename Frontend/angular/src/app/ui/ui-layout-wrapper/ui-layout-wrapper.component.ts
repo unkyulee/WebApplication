@@ -42,6 +42,7 @@ import { ImageComponent } from '../image/image.component';
 import { DateComponent } from '../date/date.component';
 import { WebViewComponent } from '../webview/webview.component';
 import { MapsComponent } from '../maps/maps.component';
+import { CameraComponent } from '../camera/camera.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -168,6 +169,9 @@ export class UILayoutWrapperComponent {
 	findComponentFactory(type) {
 		let componentFactory = null;
 		switch (type) {
+			case 'camera':
+				componentFactory = this.cfr.resolveComponentFactory(CameraComponent);
+				break;
 			case 'maps':
 				componentFactory = this.cfr.resolveComponentFactory(MapsComponent);
 				break;

@@ -34,6 +34,7 @@ REM common plugin
 call cordova plugin add cordova-plugin-whitelist@latest
 call cordova plugin add cordova-plugin-device@latest
 call cordova plugin add cordova-plugin-camera@latest
+call cordova plugin add cordova-plugin-android-permissions
 
 REM code push plugin
 call cordova plugin add cordova-plugin-code-push

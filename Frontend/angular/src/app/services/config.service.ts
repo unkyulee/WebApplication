@@ -51,10 +51,5 @@ export class ConfigService {
 	clear() {
 		// this will reset the ui in the configuration
 		window.__CONFIG__.ui = {};
-
-		// also clear the localStorage
-		let token = localStorage.getItem('token');
-		localStorage.clear();
-		localStorage.setItem('token', token);
 	}
 }
