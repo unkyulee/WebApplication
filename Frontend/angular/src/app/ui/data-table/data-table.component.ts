@@ -284,4 +284,23 @@ export class DataTableComponent extends BaseComponent {
 			}
 		}
 	}
+
+	filterClick(column) {
+		this.event.send({
+			name: 'open-dialog',
+			data: this.data,
+			uiElement: {
+				name: column.label,
+				toolbar: {
+					style: {
+						display: "none"
+					}
+				},
+				contentStyle: {
+					padding: "24px"
+				},
+				screens: [column.filter]
+			}
+		})
+	}
 }

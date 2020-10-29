@@ -50,6 +50,9 @@ export class AppComponent {
 				this.lastResumed = new Date();
 			}
 		});
+
+		// if online then clear local storage
+		if(window.navigator.onLine) this.config.clear()
 	}
 
 	ngOnDestroy() {

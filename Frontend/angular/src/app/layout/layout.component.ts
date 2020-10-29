@@ -131,7 +131,8 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 
 	async openDialog(event) {
 		// get ui elements
-		let uiElement = await this.ui.get(event.uiElementId);
+		let uiElement = event.uiElement;
+		if(event.uiElementId) uiElement = await this.ui.get(event.uiElementId);
 		uiElement = { ...uiElement };
 		if (event.uiElement) uiElement = Object.assign(uiElement, event.uiElement);
 		if (event.uiElementInit) {

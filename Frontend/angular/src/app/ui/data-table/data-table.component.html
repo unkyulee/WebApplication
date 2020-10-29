@@ -23,28 +23,26 @@
 		<ng-template pTemplate="header" let-columns>
 			<tr style="font-size: small">
 				<ng-container *ngFor="let column of columns">
-					<th *ngIf="condition(column)" style="background: #EBEBEB;">
-						<div style="display: flex; flex-flow: row wrap; position: relative">
-							<!-- Header -->
-							<div
-								ui-layout-wrapper
-								*ngIf="column.header"
-								[uiElement]="column.header"
-								[data]="data"
-							></div>
-							<span *ngIf="!column.header">{{ column.label }}</span>
+					<th *ngIf="condition(column)">
+						<!-- Filter -->
+						<ng-container *ngIf="column.filter">
+							<i
+								class="pi pi-filter filter-icon"
+								(click)="filterClick(column)"
+							></i>
+						</ng-container>
 
-							<!-- Sort Icon -->
-							<p-sortIcon *ngIf="column.sort != false" [field]="column.key" [pSortableColumn]="column.key" style="position: absolute; right: 0;"></p-sortIcon>
+						<!-- Header -->
+						<div ui-layout-wrapper *ngIf="column.header" [uiElement]="column.header" [data]="data"></div>
+						<span *ngIf="!column.header">{{ column.label }}</span>
 
-							<!-- Filter -->
-							<div
-								ui-layout-wrapper
-								*ngIf="column.filter"
-								[uiElement]="column.filter"
-								[data]="data"
-							></div>
-						</div>
+						<!-- Sort Icon -->
+						<p-sortIcon
+							*ngIf="column.sort != false"
+							[field]="column.key"
+							[pSortableColumn]="column.key"
+							style="position: absolute; right: 2px"
+						></p-sortIcon>
 					</th>
 				</ng-container>
 			</tr>
