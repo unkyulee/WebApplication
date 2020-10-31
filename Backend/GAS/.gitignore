@@ -22,4 +22,4 @@ yarn-error.log*
 
 # clasp files
 .clasp.json
-frontend/*
+wwwroot/*
