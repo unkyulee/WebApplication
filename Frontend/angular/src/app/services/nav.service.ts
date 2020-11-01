@@ -33,7 +33,7 @@ export class NavService {
 
 		this.rest
 			.request(
-				`${this.config.get('host')}${this.config.get('url')}/navigation.config?${this.config.get('_id')}`,
+				`${this.config.get('url')}/navigation.config?${this.config.get('_id')}`,
 				null,
 				'get',
 				{},

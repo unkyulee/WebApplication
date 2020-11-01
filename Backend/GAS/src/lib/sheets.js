@@ -52,8 +52,7 @@ function createDB(name) {
 ////////////////////////////////////////////////
 // READ
 ////////////////////////////////////////////////
-function sheetData(sheet_name, filter) {
-	var db = connectDB('DB');
+function sheetData(db, sheet_name, filter) {
 	var sheet = db.getSheetByName(sheet_name);
 	var data = sheet.getDataRange().getValues();
 

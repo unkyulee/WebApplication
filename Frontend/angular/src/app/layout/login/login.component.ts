@@ -37,12 +37,10 @@ export class LoginComponent extends BaseComponent {
 
 	load() {
 		// retreive login screen
-		if (this.config.get('url')) {
-			this.rest.request(`${this.config.get('url')}/login.config`, null, 'get', {}, true).subscribe((r) => {
-				this.uiElement = r;
-				this.event.send({ name: 'changed' });
-			});
-		}
+		this.rest.request(`${this.config.get('url')}/login.config`, null, 'get', {}, true).subscribe((r) => {
+			this.uiElement = r;
+			this.event.send({ name: 'changed' });
+		});
 	}
 
 	service_url;

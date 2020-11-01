@@ -28,7 +28,12 @@ export class RestService {
 
     // convert url to full qualified name
     if (url.startsWith("http") == false) {
+      //
       if (url.startsWith("/") == false) url = `/${url}`;
+
+      // if host includes ? then replace ? in url to &
+      if(this.host().includes("?")) url = url.replace('?', '&')
+
       url = `${this.host()}${url}`;
     }
 

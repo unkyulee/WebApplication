@@ -24,10 +24,10 @@ export class AuthService {
     public ui: UIService
   ) {
     // setup authentication strategy
-    let strategy = this.config.get("authentication.authStrategy");
+    let strategy = this.config.get("auth");
     switch (strategy) {
       case "NoAuth":
-        this.authStrategy = new NoAuthStrategy();
+        this.authStrategy = new NoAuthStrategy(event);
         break;
       default:
         this.authStrategy = new DefaultAuthStrategy(rest, config, event, user, nav, ui);
