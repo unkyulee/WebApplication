@@ -3,28 +3,6 @@
 </ng-container>
 
 <ng-container *ngIf="(auth.isAuthenticated$ | async) == true">
-	<ng-container *ngIf="util.isElectron()">
-		<nav-horizontal></nav-horizontal>
-		<ui-composer [ngStyle]="config.get('theme.content.style')"></ui-composer>
-	</ng-container>
-	<mat-sidenav-container fullscreen *ngIf="!util.isElectron()">
-		<mat-sidenav
-			#drawer
-			fixedInViewport="true"
-			class="mat-elevation-z2 no-print"
-			[ngStyle]="config.get('theme.navigation.style')"
-			[attr.role]="'dialog'"
-			[mode]="'over'"
-		>
-			<nav-vertical></nav-vertical>
-		</mat-sidenav>
-
-		<mat-sidenav-content [ngStyle]="config.get('theme.content.layoutStyle')">
-			<toolbar
-				[ngStyle]="config.get('theme.toolbar.layoutStyle')"
-				*ngIf="config.get('theme.toolbar.show', true)"
-			></toolbar>
-			<ui-composer [ngStyle]="config.get('theme.content.style')"></ui-composer>
-		</mat-sidenav-content>
-	</mat-sidenav-container>
+	<nav-horizontal></nav-horizontal>
+	<ui-composer [ngStyle]="config.get('theme.content.style')"></ui-composer>
 </ng-container>
