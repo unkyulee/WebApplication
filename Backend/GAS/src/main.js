@@ -1,11 +1,20 @@
 function doGet(e) {
-	// open db
-	if(!e) e = {};
-	e.DB = connectDB("DB");
-
-	//
-	e.method = 'get';
-
 	// route navigation
-	return route(e);
+	return HtmlService.createHtmlOutputFromFile('src/index').setXFrameOptionsMode(
+		HtmlService.XFrameOptionsMode.ALLOWALL
+	);
+}
+
+function loadComponents() {
+	let db = connectDB("DB");
+	let data = sheetData(db, "component");
+
+	return data;
+}
+
+function loadNavigation() {
+	let db = connectDB("DB");
+	let data = sheetData(db, "navigation");
+
+	return data;
 }

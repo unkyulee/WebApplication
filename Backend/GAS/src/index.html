@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
+		/>
+	</head>
+	<body>
+		<div id="app" class="app hidden">
+			<v-app class="app">
+				<v-tabs v-model="tab" background-color="primary" dark>
+					<v-tab v-for="(item, index) in navigations" :key="item.id">{{item.name}}</v-tab>
+				</v-tabs>
+				<v-tabs-items v-model="tab" class="main">
+					<v-tab-item v-for="(item, index) in navigations" :key="item.id" class="content">
+						<component :is="item.type" :data="data" class="content"></component>
+					</v-tab-item>
+				</v-tabs-items>
+			</v-app>
+		</div>
+		<style>
+			html,
+			body,
+			.app {
+				overflow: hidden;
+				width: 100vw;
+				height: 100vh;
+			}
+
+			.hidden {
+				visibility: hidden;
+			}
+
+			.main {
+				overflow: hidden;
+			}
+
+			.v-window-item,
+			.v-window__container {
+				display: flex;
+				overflow: auto;
+				flex-grow: 1;
+				height: 100%;
+				width: 100%;
+			}
+
+			.content {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+		<script>
+			async function init() {
+				// load components
+				let components = await runScript('loadComponents');
+
+				// register component
+				for (let component of components) {
+					Vue.component(component.type, {
+						...eval(`${component.script}`),
+						template: component.template,
+					});
+
+					console.log({
+						...eval(`${component.script}`),
+						template: component.template,
+					})
+				}
+
+				// Initialize Vue
+				new Vue({
+					el: '#app',
+					vuetify: new Vuetify(),
+					data: {
+						tab: null,
+						navigations: [],
+						data: {},
+					},
+					mounted: async function () {
+						// initialize navigation
+						this.navigations = await runScript("loadNavigation");
+						// display the app
+						document.getElementById("app").classList.remove("hidden");
+					},
+				});
+			}
+
+			function runScript(fn) {
+				return new Promise((res) => google.script.run.withSuccessHandler((data) => res(data))[fn]());
+			}
+
+			// initialize the page
+			init();
+		</script>
+	</body>
+</html>
