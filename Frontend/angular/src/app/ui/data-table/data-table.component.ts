@@ -193,9 +193,7 @@ export class DataTableComponent extends BaseComponent {
 			} catch (e) {
 				console.error(e);
 			}
-		}
 
-		if (src) {
 			// look at query params and pass it on to the request
 			let data = this.uiElement.data;
 			// apply nav parameters if necessary

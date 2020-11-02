@@ -8,6 +8,7 @@ import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import {TreeModule} from 'primeng/tree';
 
 @NgModule({
 	imports: [
@@ -20,6 +21,7 @@ import { ButtonModule } from 'primeng/button';
 		MenubarModule,
 		InputTextModule,
 		ButtonModule,
+		TreeModule
 	],
 	exports: [
 		EditorModule,
@@ -31,6 +33,7 @@ import { ButtonModule } from 'primeng/button';
 		MenubarModule,
 		InputTextModule,
 		ButtonModule,
+		TreeModule
 	],
 })
 export class PrimeNGModule {}

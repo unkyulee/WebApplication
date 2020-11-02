@@ -51,6 +51,7 @@ import { WebViewComponent } from './webview/webview.component';
 import { WebViewDirective } from './webview/webview.directive';
 import { MapsComponent } from './maps/maps.component';
 import { CameraComponent } from './camera/camera.component';
+import { TreeComponent } from './tree/tree.component';
 
 // overlay
 import { UIComposerComponent } from './ui-composer/ui-composer.component'
@@ -110,7 +111,8 @@ export function momentAdapterFactory() {
 		WebViewComponent,
 		WebViewDirective,
 		MapsComponent,
-		CameraComponent
+		CameraComponent,
+		TreeComponent
 	],
 	entryComponents: [
 		UILayoutWrapperComponent,
@@ -143,7 +145,8 @@ export function momentAdapterFactory() {
 		UIComposerDialogComponent,
 		WebViewComponent,
 		MapsComponent,
-		CameraComponent
+		CameraComponent,
+		TreeComponent
 	],
 	exports: [
 		MaterialModule,
