@@ -298,7 +298,8 @@ export class DataTableComponent extends BaseComponent {
 					padding: "24px"
 				},
 				screens: [column.filter]
-			}
+			},
+			option: column.option
 		})
 	}
 }
