@@ -33,10 +33,8 @@ export class UIService {
 		let uiElement = this.config.get(`ui.${uiElementId}`);
 		if (!uiElement) {
 			// use cache when offline
-			let cache = !navigator.onLine;
-
 			let url = `${this.config.get('host')}${this.config.get('url')}/ui.element`;
-			uiElement = await this.rest.requestAsync(url, { uiElementId }, 'get', {}, cache);
+			uiElement = await this.rest.requestAsync(url, { uiElementId }, 'get', {}, !navigator.onLine);
 			this.config.set(`ui.${uiElementId}`, uiElement);
 		}
 

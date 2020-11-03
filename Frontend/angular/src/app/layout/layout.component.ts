@@ -88,7 +88,7 @@ export class LayoutComponent extends BaseComponent implements OnInit, OnDestroy 
 					break;
 				case 'navigation-changed':
 					// close drawer and scroll back to top when page changes
-					if (this.drawer) this.drawer.close();
+					if (this.drawer && this.config.isHandset) this.drawer.close();
 					try {
 						document.getElementById('layout_main_content').scrollTop = 0;
 					} catch {}

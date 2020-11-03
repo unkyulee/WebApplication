@@ -1,0 +1,8 @@
+<div [ngStyle]="config.get('theme.navigation.header.style')">
+	<ng-container *ngFor="let ui of config.get('theme.navigation.header.screens')">
+		<div ui-layout-wrapper [uiElement]="ui" [data]="data"></div>
+	</ng-container>
+</div>
+
+<user></user>
+<p-panelMenu [model]="items" [multiple]="false"></p-panelMenu>

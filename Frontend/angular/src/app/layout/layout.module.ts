@@ -8,8 +8,7 @@ import { UIModule } from "../ui/ui.module";
 import { LayoutComponent } from "./layout.component";
 
 import { ToolbarComponent } from "./toolbar/toolbar.component";
-import { NavVerticalComponent } from "./navigation/vertical/nav-vertical.component";
-import { NavHorizontalComponent } from "./navigation/horizontal/nav-horizontal.component";
+import { NavComponent } from "./navigation/nav.component";
 import { SplashComponent } from "./splash/splash.component";
 import { LoginComponent } from "./login/login.component";
 import { UserComponent } from "./user/user.component";
@@ -18,8 +17,7 @@ import { UserComponent } from "./user/user.component";
   declarations: [
     LayoutComponent,
     ToolbarComponent,
-    NavVerticalComponent,
-    NavHorizontalComponent,
+    NavComponent,
     SplashComponent,
     LoginComponent,
     UserComponent

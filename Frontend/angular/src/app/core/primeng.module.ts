@@ -4,11 +4,10 @@ import { ColorPickerModule } from 'primeng/colorpicker';
 import { ChipsModule } from 'primeng/chips';
 import { TableModule } from 'primeng/table';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
-import { MenuModule } from 'primeng/menu';
-import { MenubarModule } from 'primeng/menubar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import {TreeModule} from 'primeng/tree';
+import { TreeModule } from 'primeng/tree';
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 @NgModule({
 	imports: [
@@ -17,11 +16,10 @@ import {TreeModule} from 'primeng/tree';
 		ChipsModule,
 		TableModule,
 		VirtualScrollerModule,
-		MenuModule,
-		MenubarModule,
 		InputTextModule,
 		ButtonModule,
-		TreeModule
+		TreeModule,
+		PanelMenuModule,
 	],
 	exports: [
 		EditorModule,
@@ -29,11 +27,10 @@ import {TreeModule} from 'primeng/tree';
 		ChipsModule,
 		TableModule,
 		VirtualScrollerModule,
-		MenuModule,
-		MenubarModule,
 		InputTextModule,
 		ButtonModule,
-		TreeModule
+		TreeModule,
+		PanelMenuModule,
 	],
 })
 export class PrimeNGModule {}

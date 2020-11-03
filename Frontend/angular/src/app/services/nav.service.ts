@@ -37,7 +37,7 @@ export class NavService {
 				null,
 				'get',
 				{},
-				true
+				!navigator.onLine
 			)
 			.subscribe((r) => {
 				// save theme

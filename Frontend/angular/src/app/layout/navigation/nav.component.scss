@@ -1,0 +1,12 @@
+:host ::ng-deep .p-panelmenu .p-panelmenu-header > a {
+  padding: 12px;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content {
+  font-size: small;
+  color: slategray;
+}
+
+:host ::ng-deep .p-menuitem-link-active {
+  background-color: #EAF0F8 !important;
+}
