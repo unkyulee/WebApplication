@@ -12,15 +12,15 @@ window.store = new Store();
 let url = `${window.store.get('service_url')}/ui.element?uiElementId=${script_id}`;
 url = url.replace(/\./g, '_');
 let script = window.store.get(`local.${url}`);
-script = JSON.parse(script);
-script = script.script;
+try {
+	script = JSON.parse(script);
+	script = script.script;
 
-if (script) {
-	console.log(`Loading ...`);
-	try {
+	if (script) {
+		console.log(`Loading ...`);
 		eval(script);
-	} catch (ex) {
-		console.error(ex);
-		console.log(script)
 	}
+} catch(ex) {
+	console.error(ex);
+	console.log(url, script)
 }
