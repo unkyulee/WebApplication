@@ -20,8 +20,9 @@ export class NavComponent extends BaseComponent {
     // detect configuration changes
     // detect configuration changes
 		this.onEvent = this.event.onEvent.subscribe((event) => {
-			if (event.name == 'navigation-updated') {
+			if (event.name == 'navigation-updated' || event.name == 'navigation-chnaged') {
 				this.updateMenuModel();
+				this.event.send({name: 'changed'})
 			}
 		});
   }
@@ -33,6 +34,7 @@ export class NavComponent extends BaseComponent {
   updateMenuModel() {
 		// form nav model
 		let menu = [];
+
 		for (let nav of this.config.get('nav', [])) {
 			if (!this.permission.check(nav)) continue;
 			if (!this.util.isElectron() && nav.type == 'desktop') continue;

@@ -20,7 +20,7 @@ export class UIService {
 
 	async get(uiElementId) {
 		// check if loadedAt is within 6 hour
-		if (moment().add(-6, 'hours') > this.loadedAt || window.dev == true) {
+		if (moment().add(-6, 'hours') > this.loadedAt) {
 			this.loadedAt = moment();
 
 			// reset configuration
@@ -31,7 +31,7 @@ export class UIService {
 		}
 
 		let uiElement = this.config.get(`ui.${uiElementId}`);
-		if (!uiElement) {
+		if (!uiElement || window.dev == true) {
 			// use cache when offline
 			let url = `${this.config.get('host')}${this.config.get('url')}/ui.element`;
 			uiElement = await this.rest.requestAsync(url, { uiElementId }, 'get', {}, !navigator.onLine);

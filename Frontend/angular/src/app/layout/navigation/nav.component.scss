@@ -4,9 +4,22 @@
 
 :host ::ng-deep .p-panelmenu .p-panelmenu-content {
   font-size: small;
-  color: slategray;
+
+  .p-menuitem-link-active {
+    color: white !important;
+  }
 }
 
 :host ::ng-deep .p-menuitem-link-active {
-  background-color: #EAF0F8 !important;
+  background-color: #039be5 !important;
+  color: white !important;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link .p-menuitem-text {
+  color: inherit;
+}
+
+:host ::ng-deep .p-menuitem-icon {
+  font-size: xx-small;
+  color: crimson;
 }
