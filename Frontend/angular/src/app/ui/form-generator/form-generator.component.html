@@ -4,11 +4,11 @@
 		<div
 			*ngIf="condition(ui)"
 			[ngStyle]="ui.style ? ui.style : safeGet(uiElement, 'section.style')"
-			[ngClass]="ui.style ? ui.style : safeGet(uiElement, 'section.class')"
+			[ngClass]="ui.class ? ui.class : safeGet(uiElement, 'section.class')"
 		>
 			<!-- Form Group Header -->
 			<div
-				*ngIf="ui.header.display != false"
+				*ngIf="safeGet(ui, 'header.display') != false"
 				[ngStyle]="ui.header?.style ? ui?.header?.style : safeGet(uiElement, 'header.style')"
 				[ngClass]="ui.header?.class ? ui?.header?.class : safeGet(uiElement, 'header.class')"
 			>
