@@ -19,9 +19,6 @@
 
 <script>
 import Vue from "vue";
-import { MdChips } from "vue-material/dist/components";
-Vue.use(MdChips);
-
 import Base from "./Base";
 
 //

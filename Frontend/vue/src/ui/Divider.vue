@@ -1,16 +1,12 @@
 <template>
-  <md-divider :class="uiElement.class" :style="uiElement.style" />
+  <v-divider :class="uiElement.class" :style="uiElement.style"></v-divider>
 </template>
 
 <script>
 import Vue from "vue";
-import { MdDivider } from "vue-material/dist/components";
-
 import Base from "./Base";
 
-Vue.use(MdDivider);
-
-export default {
-  extends: Base
-};
+export default Vue.component("divider", {
+  extends: Base,
+});
 </script>

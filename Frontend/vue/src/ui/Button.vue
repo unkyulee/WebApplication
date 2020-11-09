@@ -1,32 +1,26 @@
 <template>
-  <div>
-    <md-badge v-if="uiElement.badge" :md-content="uiElement.badge"></md-badge>
-    <md-button
-      v-if="condition(uiElement)"
-      :class="uiElement.class"
+  <v-badge content="" value="" color="green" overlap>
+    <v-btn
       :style="uiElement.style"
-      :disabled="uiElement.disabled?safeEval(uiElement.disabled):false"
-      @click="click($event)"
-      :id="uiElement.key"
-    >
-      <md-icon v-if="uiElement.icon" :style="uiElement.iconStyle">{{uiElement.icon}}</md-icon>
-      {{uiElement.label}}
-    </md-button>
-  </div>
+      :class="uiElement.class"
+      :color="uiElement.color"
+      :depressed="uiElement.depressed"
+      :icon="uiElement.buttonType == 'icon'"
+      @click="click($event, uiElement, data)"
+      >
+      <v-icon v-if="uiElement.icon">{{uiElement.icon}}</v-icon>
+      {{ uiElement.label }}
+    </v-btn>
+  </v-badge>
 </template>
 
 <script>
 import Vue from "vue";
-import { MdButton } from "vue-material/dist/components";
-Vue.use(MdButton);
-
 import Base from "./Base";
-
-//
 const obj = require("object-path");
 const moment = require("moment");
 
-export default {
-  extends: Base
-};
+export default Vue.component("button-component", {
+  extends: Base,
+});
 </script>

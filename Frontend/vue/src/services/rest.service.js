@@ -31,9 +31,19 @@ export default {
 					return await axios.get(queryUrl);
 				}
 			}
-		} catch(ex) {
+		} catch (ex) {
 			return ex.response;
 		}
-
 	},
 };
+
+
+// Add a request interceptor
+axios.interceptors.request.use(function(req) {
+	try {
+		req.headers['company_id'] = config.get('_id');
+	} catch(ex) {
+		console.error(ex)
+	}
+	return req;
+});

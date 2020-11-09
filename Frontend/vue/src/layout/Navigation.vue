@@ -1,36 +1,29 @@
 <template>
-  <div style="width: 100%; height: 100%;">
-    <div :style="headerStyle">
-      <div style="display: flex; justify-content: center; align-items: center; min-height: 56px;">
-        <span class="md-title" v-if="!logo">{{title}}</span>
-        <img class="md-title" v-if="logo" :src="logo" />
-      </div>
-    </div>
-    <div v-if="data.client" :style="user.layoutStyle">
-      <UiElement
-        v-for="(ui, index) in user.screens"
-        v-bind:key="index"
-        v-bind:uiElement="ui"
-        v-bind:data="data"
-      />
-    </div>
-    <md-list>
-      <div v-for="(nav, index) of navigations" :key="index">
-        <div v-if="nav.type != 'hidden' && nav.type != 'sub' && condition(nav)">
-          <md-list-item :to="nav.url" @click="click()">{{nav.name}}</md-list-item>
-          <md-divider></md-divider>
-        </div>
-      </div>
-    </md-list>
-    <div v-if="footer" :style="footer.layoutStyle">
-      <UiElement
-        v-for="(ui, index) in footer.screens"
-        v-bind:key="index"
-        v-bind:uiElement="ui"
-        v-bind:data="data"
-      />
-    </div>
-  </div>
+  <v-navigation-drawer app v-model="drawer">
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title class="title"> {{ title }} </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-divider></v-divider>
+
+    <v-list dense nav>
+      <v-list-item-group
+        v-model="selected"
+        active-class="deep-purple--text text--accent-4"
+      >
+        <v-list-item v-for="(nav, index) in navigations" :key="index" link :to="nav.url">
+          <v-list-item-icon>
+            <v-icon>{{ nav.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ nav.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -42,59 +35,35 @@ const moment = require("moment");
 
 export default {
   extends: Base,
-  data: function() {
+  data: function () {
     return {
-      navigations: [],
+      drawer: false,
       title: "",
-      logo: "",
-      buttonStyle: {},
-      headerStyle: {},
-      user: {},
-      footer: {}
+      navigations: [],
+      selected: [],
     };
   },
-  mounted: async function() {
-    // load navigation
-    this.navigations = this.config.get("navigations", []);
-    for(let nav of this.navigations) {
-      try {
-         eval(nav.init)
-      } catch(ex) {
-        console.error(ex)
-      }
-    }
-
-    // load user screens
-    this.user = this.config.get("user", {});
-    this.footer = this.config.get("footer", {});
+  mounted: async function () {
+    // subscribe to data-change event
+    this.event.subscribe("Navigation", "toggle-drawer", (event) => {
+      this.drawer = !this.drawer;
+    });
 
     // load title
-    this.title = this.config.get("name", " - ");
-    let logo = this.config.get("config.logo_toolbar.0.url", "");
-    if (logo) this.logo = `${this.config.get("host")}${logo}`;
-    this.headerStyle = this.config.get("config.toolbar");
-
-    // button Style
-    this.$set(
-      this.buttonStyle,
-      "color",
-      this.config.get("config.toolbar.color")
-    );
+    this.title = this.config.get("name", "");
+    this.navigations = this.config.get("nav", []);
   },
-  methods: {
-    click() {
-      this.event.send({ name: "drawer", data: false });
-    }
-  }
+  destroyed: function () {
+    this.event.unsubscribe_all("Navigation");
+  },
+  watch: {
+    selected(value) {
+      // do not close the drawer when window is big
+      if (this.$vuetify.breakpoint.name in { lg: 1, xl: 1 }) return;
+      setTimeout(() => {
+        this.drawer = false;
+      }, 300);
+    },
+  },
 };
 </script>
-
-<style scoped>
-.md-list {
-  width: 320px;
-  max-width: 100%;
-  display: inline-block;
-  vertical-align: top;
-  border: 1px solid rgba(#000, 0.12);
-}
-</style>

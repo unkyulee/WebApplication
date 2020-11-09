@@ -52,6 +52,9 @@ export default {
         console.error(script, ex);
       }
     },
+    safeGet(data, path, def) {
+      return obj.get(data, path, def);
+    }
   },
 };
 </script>

@@ -1,38 +1,39 @@
 <template>
-  <div :style="style" v-if="show">
-    <md-progress-spinner md-mode="indeterminate"></md-progress-spinner>
-  </div>
+  <v-overlay :absolute="absolute" :opacity="opacity" :value="overlay">
+    <v-progress-circular
+      indeterminate
+      color="primary"
+    ></v-progress-circular>
+  </v-overlay>
 </template>
 
 <script>
 import Vue from "vue";
-import { MdProgress } from "vue-material/dist/components";
-Vue.use(MdProgress);
 
 export default {
   inject: ["event"],
-  data: function() {
+  data: function () {
     return {
-      show: false,
-      style: {
-        position: "absolute",
-        zIndex: 1000,
-        background: "rgba(0,0,0,0.4)",
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
-      }
+      absolute: true,
+      opacity: 0.5,
+      overlay: false,
     };
   },
-  mounted: async function() {
+  mounted: async function () {
     // subscribe to splash event
-    this.event.subscribe("splash", "splash-show", event => (this.show = true));
-    this.event.subscribe("splash", "splash-hide", event => (this.show = false));
+    this.event.subscribe(
+      "Splash",
+      "splash-show",
+      (event) => (this.overlay = true)
+    );
+    this.event.subscribe(
+      "Splash",
+      "splash-hide",
+      (event) => (this.overlay = false)
+    );
   },
-  destroyed: function() {
-    this.event.unsubscribe_all("splash");
-  }
+  destroyed: function () {
+    this.event.unsubscribe_all("Splash");
+  },
 };
 </script>

@@ -23,8 +23,6 @@
 
 <script>
 import Vue from "vue";
-import { MdSteppers } from "vue-material/dist/components";
-Vue.use(MdSteppers);
 
 import Base from "./Base";
 

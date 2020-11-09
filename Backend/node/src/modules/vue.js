@@ -11,23 +11,10 @@ module.exports.requiresAuthentication = async function requiresAuthentication(db
 
 module.exports.process = async function process(db, req, res) {
 	// get the filename
-	let paths = req.path.split('/');
+	let paths = req.url.split('?')[0].split('/');
 	let filename = paths[paths.length - 1];
 
-	// process index.js
-	if (filename == 'index.js') {
-		return await IndexJS(db, req, res);
-	}
-	// process ui element request
-	else if (filename == 'ui.element') {
-		return await UIElement(db, req, res);
-	}
-	// otherwise return index.html
-	return IndexHtml(db, req, res);
-};
-
-async function IndexHtml(db, req, res) {
-	let paths = req.url.split('?')[0].split('/');
+	// get company config
 	// company name must be passed on the URL
 	if (paths.length >= 2) {
 		// cover for the root url
@@ -36,73 +23,91 @@ async function IndexHtml(db, req, res) {
 			paths[2] = '';
 			paths.push('index.js');
 		}
+
 		// load config of the module from company configuration of the module
 		let [company] = await db.find('core.company', { query: { url: `/${paths[2]}` } });
-		if (company) {
-			// cover to root url cases
-			if (paths[2]) paths[2] = `/${paths[2]}`;
-			else if (!paths[2]) paths[2] = '';
+		res.locals.company = company;
 
-			// read "index.tmpl" from static folder
-			let filepath = path.join(req.app.locals.wwwroot, '/vue.html');
-			let contents = fs.readFileSync(filepath, 'utf8');
-
-			let base_href = `${res.locals.nav.url == '/' ? '' : res.locals.nav.url}${paths[2]}`;
-			let result = contents
-				.replace('@title', company.name)
-				.replace('@base_href', `<base href='${base_href}'>`)
-				.replace('@path', base_href);
-
-			return result
+		// process index.js
+		if (filename == 'index.js') {
+			return await IndexJS(db, req, res);
 		}
+		// process ui element request
+		else if (filename == 'ui.element') {
+			return await UIElement(db, req, res);
+		}
+		// otherwise return index.html
+		return IndexHtml(db, req, res);
 	}
+};
+
+// return vue application
+async function IndexHtml(db, req, res) {
+	// read "index.tmpl" from static folder
+	let filepath = path.join(req.app.locals.wwwroot, '/vue.html');
+	let contents = fs.readFileSync(filepath, 'utf8');
+
+	let base_href = `${res.locals.company.url == '/' ? '' : res.locals.company.url}${res.locals.company.url}`;
+	let result = contents
+		.replace('@title', res.locals.company.name)
+		.replace('@base_href', `<base href='${base_href}'>`)
+		.replace('@path', base_href);
+
+	return result;
 }
 
 // return app configuration js
 // URL must be compose of /[feature]/[company]
 async function IndexJS(db, req, res) {
-	let paths = req.url.split('?')[0].split('/');
-	// company name must be passed on the URL
-	if (paths.length >= 2) {
-		// cover for the root url
-		if (!paths[2]) paths[2] = '';
-		if (paths[2] == 'index.js') {
-			paths[2] = '';
-			paths.push('index.js');
-		}
-		// load config of the module from company configuration of the module
-		let [company] = await db.find('core.company', { query: { url: `/${paths[2]}` } });
-		if (company) {
-			// load feature configuration
-			let featureKey = obj.get(res.locals.nav, 'features.0', []);
-			if (featureKey) {
-				// load feature configuration to get nav
-				let [feature] = await db.find('core.feature', { query: { key: featureKey } });
-				if (feature) {
-					// load the configuration of the module
-					let [configuration] = await db.find('config', {
-						query: { company_id: company._id, type: featureKey },
-					});
-					if (configuration) {
-						// check if the app is enabled
-						if (configuration.enabled) {
-							let config = {
-								...obj.get(feature, 'public', {}),
-								config: obj.get(configuration, 'public', {}),
-								_id: company._id,
-								name: company.name,
-								host: `${util.getProtocol(req)}://${req.get('host')}${req.baseUrl}`,
-								url: `${util.getProtocol(req)}://${req.get('host')}${req.baseUrl}${res.locals.nav.url}${
-									company.url
-								}`,
-							};
-							return `window.__CONFIG__ = ${JSON.stringify(config)}`;
-						}
-					}
-				}
+	// retrieve public config
+	let [theme] = await db.find('config', {
+		query: { company_id: res.locals.company._id, type: 'public' },
+	});
+	delete theme.company_id;
+	delete theme._id;
+
+	// retrieve features and load navigation
+	let nav = [];
+	let module = {};
+	let features = obj.get(res.locals.company, 'public_features', []);
+	for (let key of features) {
+		let [feature] = await db.find('core.feature', { query: { key } });
+		if (feature) {
+			// check if the feature is enabled
+			[feature_config] = await db.find('config', {
+				query: { company_id: res.locals.company._id, type: key },
+			});
+			if(!feature_config) feature_config = {};
+			if (feature_config && feature_config.enabled != false) {
+				// get navigation
+				let navigations = obj.get(feature, 'public_navigations');
+				if (navigations) nav = [...nav, ...navigations];
+				// add module config
+				module[key] = feature_config.public;
 			}
 		}
 	}
+
+	//
+	let config = {
+		host: `${util.getProtocol(req)}://${req.get('host')}${req.baseUrl}`,
+		url: `${res.locals.nav.url}${res.locals.company.url}`,
+		theme,
+		nav,
+		module,
+	};
+
+	// remove unnecessaries
+	delete res.locals.company.module;
+	delete res.locals.company._createdBy;
+	delete res.locals.company._created;
+	delete res.locals.company._updated;
+	res.locals.company.features = res.locals.company.public_features;
+	delete res.locals.company.public_features;
+
+	// create index.js
+	config = { ...res.locals.company, ...config };
+	return `window.__CONFIG__ = ${JSON.stringify(config)}`;
 }
 
 async function UIElement(db, req, res) {

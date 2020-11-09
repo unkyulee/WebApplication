@@ -1,17 +1,13 @@
 <template>
-  <!-- Simple List -->
-  <div
-    v-if="uiElement.tableType == 'list'"
-    :style="uiElement.contentLayoutStyle"
-    :class="uiElement.contentLayoutStyle"
+  <v-virtual-scroll
+    :items="rows"
+    :item-height="safeGet(uiElement, 'itemHeight', 50)"
+    :style="uiElement.style"
+    :class="uiElement.class"
+    :height="height"
+    width="100%"
   >
-    <DynamicScroller
-      v-if="uiElement.virtualScroll"
-      :items="rows ? rows : []"
-      :min-item-size="uiElement.minItemSize?uiElement.minItemSize: 150"
-      :key-field="uiElement.keyField?uiElement.keyField:'_id'"
-      v-slot="{item}"
-    >
+    <template v-slot:default="{ item }">
       <div
         :style="uiElement.itemBoxStyle"
         :class="uiElement.itemBoxClass"
@@ -20,77 +16,34 @@
         <UiElement
           v-for="(column, index) in uiElement.columns"
           v-bind:key="index"
-          v-bind:uiElement="filterUiElement(column, item)"
-          v-bind:data="filterData(column, item)"
+          v-bind:uiElement="column"
+          v-bind:data="item"
         />
       </div>
-    </DynamicScroller>
-
-    <div
-      v-if="!uiElement.virtualScroll"
-      :style="uiElement.contentLayoutStyle"
-      :class="uiElement.contentLayoutStyle"
-    >
-      <div
-        v-for="(row, index) of rows"
-        v-bind:key="index"
-        v-bind:style="uiElement.itemBoxStyle"
-        v-bind:class="uiElement.itemBoxClass"
-        @click="click($event, uiElement, row)"
-      >
-        <UiElement
-          v-for="(column, index) in uiElement.columns"
-          v-bind:key="index"
-          v-bind:uiElement="filterUiElement(column, row)"
-          v-bind:data="filterData(column, row)"
-        />
-      </div>
-    </div>
-
-    <paginate
-      v-if="pageCount > 1"
-      :page-count="pageCount"
-      :click-handler="changePage"
-      :prev-text="'<<'"
-      :next-text="'>>'"
-      :container-class="'pagination'"
-      :page-class="'page-item'"
-      :page-link-class="'page-link-item'"
-      :prev-class="'prev-item'"
-      :prev-link-class="'prev-link-item'"
-      :next-class="'next-item'"
-      :next-link-class="'next-link-item'"
-      :break-view-class="'break-view'"
-      :break-view-link-class="'break-view-link'"
-    ></paginate>
-  </div>
+    </template>
+  </v-virtual-scroll>
 </template>
 
 <script>
 import Vue from "vue";
 import Base from "./Base";
-import Paginate from "vuejs-paginate";
-Vue.component("paginate", Paginate);
-
-//
 const obj = require("object-path");
 const moment = require("moment");
 
-export default {
+export default Vue.component("data-table", {
   extends: Base,
   props: ["uiElement", "data"],
   data: function () {
     return {
-      size: 0,
-      page: 0,
-      total: 0,
+      rows: [],
+      height: 1000,
     };
   },
   mounted: function () {
     // subscribe to refresh
     if (this.uiElement.key) {
-      this.event.subscribe(this.uiElement.key, "refresh", () => {
-        this.requestDownload();
+      this.event.subscribe(this.uiElement.key, "refresh", (event) => {
+        if (event.key == this.uiElement.key) this.requestDownload();
       });
     }
 
@@ -126,8 +79,6 @@ export default {
           page: this.page,
         };
 
-        //
-        this.event.send({ name: "splash-show" });
         let response = await this.rest.request(src, data, method);
         response = response.data;
         if (this.uiElement.transform) {
@@ -139,70 +90,15 @@ export default {
         } else {
           this.rows = response;
         }
-
-        // get total records
-        let transformTotal = this.uiElement.transformTotal || "response.total";
-        try {
-          this.total = parseInt(eval(transformTotal));
-        } catch (e) {}
-        if (this.total != 0 && !this.total)
-          this.total = obj.get(this, "rows", []).length;
-
-        this.event.send({ name: "splash-hide" });
-        this.event.send({ name: "data", data: this.data });
       }
-    },
-    async changePage(pageNum) {
-      this.page = pageNum;
-      await this.requestDownload();
-    },
-    filterUiElement(uiElement, data) {
-      if (uiElement.filterUiElement) {
-        try {
-          eval(uiElement.filterUiElement);
-        } catch (ex) {
-          console.error(ex);
-        }
-      }
-      return uiElement;
-    },
-    filterData(uiElement, data) {
-      if (uiElement.filterData) {
-        try {
-          eval(uiElement.filterData);
-        } catch (ex) {
-          console.error(ex);
-        }
-      }
-      return data;
     },
   },
-  computed: {
-    rows: {
-      get: function () {
-        let rows = [];
-        if (this.data && this.uiElement.key) {
-          rows = obj.get(this.data, this.uiElement.key);
-        }
-
-        if (typeof this._rows != "undefined" && !Array.isArray(this._rows))
-          rows = [rows];
-
-        return rows;
-      },
-      set: function (v) {
-        if (this.data && this.uiElement.key) {
-          obj.set(this.data, this.uiElement.key, v);
-        }
-      },
-    },
-    pageCount: {
-      get: function () {
-        return (
-          (this.total == 0 ? 1 : this.total) / (this.size == 0 ? 1 : this.size)
-        );
-      },
+  watch: {
+    rows: function (newRows, oldRows) {
+      if (this.data && this.uiElement.key)
+        obj.set(this.data, this.uiElement.key, newRows);
+      this.$set(this, "data", this.data);
     },
   },
-};
+});
 </script>

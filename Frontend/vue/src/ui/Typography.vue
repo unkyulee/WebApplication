@@ -8,11 +8,12 @@
 </template>
 
 <script>
+import Vue from "vue";
 import Base from "./Base";
 const obj = require("object-path");
 const moment = require("moment");
 
-export default {
+export default Vue.component('typography', {
   extends: Base,
   methods: {
     value: function() {
@@ -55,5 +56,5 @@ export default {
       return text;
     }
   }
-};
+});
 </script>
