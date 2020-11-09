@@ -1,6 +1,6 @@
 <template>
   <div
-    v-html="value()"
+    v-html="value"
     @click="click($event)"
     :class="uiElement.class"
     :style="uiElement.style"
@@ -13,10 +13,21 @@ import Base from "./Base";
 const obj = require("object-path");
 const moment = require("moment");
 
-export default Vue.component('typography', {
+export default Vue.component("typography", {
   extends: Base,
+  data: function () {
+    return {
+      value: null,
+    };
+  },
+  mounted: function () {
+    this.$set(this, "value", this.update());
+  },
+  updated: function () {
+    this.$set(this, "value", this.update());
+  },
   methods: {
-    value: function() {
+    update: function () {
       let text = null;
 
       // fixed text
@@ -53,8 +64,9 @@ export default Vue.component('typography', {
         }
       }
 
+      if (this.uiElement.key == "order_qty") console.log(text);
       return text;
-    }
-  }
+    },
+  },
 });
 </script>

@@ -5,10 +5,13 @@
       :class="uiElement.class"
       :color="uiElement.color"
       :depressed="uiElement.depressed"
+      :fab="uiElement.fab"
+      :dark="uiElement.dark"
+      :small="uiElement.small"
       :icon="uiElement.buttonType == 'icon'"
       @click="click($event, uiElement, data)"
       >
-      <v-icon v-if="uiElement.icon">{{uiElement.icon}}</v-icon>
+      <v-icon v-if="uiElement.icon" :dark="uiElement.dark">{{uiElement.icon}}</v-icon>
       {{ uiElement.label }}
     </v-btn>
   </v-badge>

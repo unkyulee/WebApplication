@@ -1,7 +1,11 @@
 <template>
   <v-dialog
     v-model="showDialog"
-    :fullscreen="uiElement.fullscreen ? uiElement.fullscreen : true"
+    :fullscreen="uiElement.fullscreen ? uiElement.fullscreen : false"
+    :width="option.width"
+    :max-width="option.maxWidth"
+    :height="option.height"
+    :max-height="option.maxHeight"
   >
     <div :style="uiElement.layoutStyle">
       <UiElement
@@ -33,6 +37,7 @@ export default {
       showDialog: false,
       uiElement: {},
       data: {},
+      option: {}
     };
   },
   mounted: async function () {
@@ -43,17 +48,31 @@ export default {
       // download the uiElement
       this.uiElement = await this.ui.get(event.uiElementId);
       this.data = event.data;
+      this.option = obj.get(event, 'option', {});
 
       // open dialog
       this.showDialog = true;
+
+      this.scrollTop();
     });
 
     this.event.subscribe("dialog", "close-dialog", (event) => {
       this.showDialog = false;
     });
   },
-  destroyed: function () {
-    this.event.unsubscribe_all("dialog");
+  destroyed: function () {},
+  methods: {
+    scrollTop() {
+      let container = document.getElementsByClassName("v-dialog")[0];
+      if (container) {
+        let event = new CustomEvent("scroll", {});
+        container.pageYOffset = 0;
+        setTimeout(() => {
+          container.scrollTop = 0;
+        }, 200);
+        container.dispatchEvent(event);
+      }
+    },
   },
 };
 </script>

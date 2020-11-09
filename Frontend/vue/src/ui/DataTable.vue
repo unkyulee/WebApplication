@@ -97,7 +97,7 @@ export default Vue.component("data-table", {
     rows: function (newRows, oldRows) {
       if (this.data && this.uiElement.key)
         obj.set(this.data, this.uiElement.key, newRows);
-      this.$set(this, "data", this.data);
+      this.event.send({name: 'data'})
     },
   },
 });

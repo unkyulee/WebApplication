@@ -18,6 +18,11 @@ export default {
         console.error(ex);
       }
     }
+
+    // data refresh
+    this.event.subscribe(this._uid, "data", (event) => {
+      this.$forceUpdate()
+    });
   },
   destroyed: function () {
     if (this.uiElement && this.uiElement.destroy) {
@@ -27,6 +32,8 @@ export default {
         console.error(ex);
       }
     }
+
+    this.event.unsubscribe_all(this._uid)
   },
   methods: {
     condition: function (uiElement) {

@@ -59,8 +59,13 @@ export default {
     // init moment locale
     if (config.get("locale")) moment.locale(config.get("locale"));
 
+
+
     // load first navigation
     this.init();
+  },
+  destroyed: function () {
+    event.unsubscribe_all('App');
   },
   watch: {
     // react to route changes...
