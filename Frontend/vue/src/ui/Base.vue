@@ -21,10 +21,13 @@ export default {
 
     // data refresh
     this.event.subscribe(this._uid, "data", (event) => {
-      this.$forceUpdate()
+      this.$forceUpdate();
     });
   },
   destroyed: function () {
+    //
+    this.event.unsubscribe_all(this._uid);
+    //
     if (this.uiElement && this.uiElement.destroy) {
       try {
         eval(this.uiElement.destroy);
@@ -33,7 +36,7 @@ export default {
       }
     }
 
-    this.event.unsubscribe_all(this._uid)
+    this.event.unsubscribe_all(this._uid);
   },
   methods: {
     condition: function (uiElement) {
@@ -61,7 +64,7 @@ export default {
     },
     safeGet(data, path, def) {
       return obj.get(data, path, def);
-    }
+    },
   },
 };
 </script>

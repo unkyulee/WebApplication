@@ -23,7 +23,7 @@ pre {
 	margin: 0;
 	padding: 0;
 	white-space: pre-line;
-	font-family: auto;
+	font-family: auto !important;
 	background: unset;
 	border-style: none;
 }

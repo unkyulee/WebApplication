@@ -1,14 +1,13 @@
 <template>
-  <v-virtual-scroll
-    :items="rows"
-    :item-height="safeGet(uiElement, 'itemHeight', 50)"
-    :style="uiElement.style"
-    :class="uiElement.class"
-    :height="height"
-    width="100%"
-  >
-    <template v-slot:default="{ item }">
+  <keep-alive>
+    <div
+      v-if="uiElement.tableType == 'list'"
+      :style="uiElement.style"
+      :class="uiElement.class"
+    >
       <div
+        v-for="(item, index) of rows"
+        :key="index"
         :style="uiElement.itemBoxStyle"
         :class="uiElement.itemBoxClass"
         @click="click($event, uiElement, item)"
@@ -20,8 +19,33 @@
           v-bind:data="item"
         />
       </div>
-    </template>
-  </v-virtual-scroll>
+    </div>
+
+    <v-virtual-scroll
+      v-if="!uiElement.tableType || uiElement.tableType == 'virtual'"
+      :items="rows"
+      :item-height="safeGet(uiElement, 'itemHeight', 50)"
+      :style="uiElement.style"
+      :class="uiElement.class"
+      :height="height"
+      width="100%"
+    >
+      <template v-slot:default="{ item }">
+        <div
+          :style="uiElement.itemBoxStyle"
+          :class="uiElement.itemBoxClass"
+          @click="click($event, uiElement, item)"
+        >
+          <UiElement
+            v-for="(column, index) in uiElement.columns"
+            v-bind:key="index"
+            v-bind:uiElement="column"
+            v-bind:data="item"
+          />
+        </div>
+      </template>
+    </v-virtual-scroll>
+  </keep-alive>
 </template>
 
 <script>
@@ -90,6 +114,11 @@ export default Vue.component("data-table", {
         } else {
           this.rows = response;
         }
+      } else {
+        // retrieve rows from the key
+        if(this.uiElement.key) {
+          this.rows = obj.get(this.data, this.uiElement.key, [])
+        }
       }
     },
   },
@@ -97,7 +126,7 @@ export default Vue.component("data-table", {
     rows: function (newRows, oldRows) {
       if (this.data && this.uiElement.key)
         obj.set(this.data, this.uiElement.key, newRows);
-      this.event.send({name: 'data'})
+      this.event.send({ name: "data" });
     },
   },
 });

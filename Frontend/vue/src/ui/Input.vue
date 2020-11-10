@@ -8,10 +8,13 @@
         condition(uiElement)
       "
       v-model="value"
+      :rows="uiElement.rows"
+      :placeholder="uiElement.placeholder"
       :class="uiElement.class"
       :style="uiElement.style"
       :filled="uiElement.appearance == 'fill'"
       :solo="uiElement.appearance == 'solo'"
+      :outlined="uiElement.appearance == 'outline'"
       :dense="uiElement.dense"
       :append-icon="uiElement.appendIcon"
       :append-outer-icon="uiElement.appendOuterIcon"
@@ -20,6 +23,7 @@
       :clearable="uiElement.clearable"
       :label="uiElement.label"
       :type="uiElement.inputType"
+      :auto-grow="uiElement.autoGrow ? uiElement.autoGrow : true"
       @click:append="safeEval(uiElement.clickAppend)"
       @click:append-outer="safeEval(uiElement.clickAppendOuter)"
       @click:prepend="safeEval(uiElement.clickPrepend)"
@@ -37,6 +41,7 @@
       :style="uiElement.style"
       :filled="uiElement.appearance == 'fill'"
       :solo="uiElement.appearance == 'solo'"
+      :outlined="uiElement.appearance == 'outline'"
       :dense="uiElement.dense"
       :append-icon="uiElement.appendIcon"
       :append-outer-icon="uiElement.appendOuterIcon"
@@ -87,7 +92,6 @@ export default Vue.component("input-component", {
   },
   watch: {
     value: function (curr, old) {
-      console.log(curr);
       if (this.data && this.uiElement.key) {
         obj.set(this.data, this.uiElement.key, curr);
         this.$set(this.data, this.uiElement.key, curr);

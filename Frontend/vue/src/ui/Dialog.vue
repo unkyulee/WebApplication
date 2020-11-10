@@ -60,7 +60,9 @@ export default {
       this.showDialog = false;
     });
   },
-  destroyed: function () {},
+  destroyed: function () {
+    this.event.unsubscribe_all("dialog");
+  },
   methods: {
     scrollTop() {
       let container = document.getElementsByClassName("v-dialog")[0];
@@ -76,3 +78,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/deep/ .v-dialog {
+  display: flex;
+  flex-flow: column;
+}
+</style>

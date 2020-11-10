@@ -1,17 +1,31 @@
 <template>
-  <v-badge content="" value="" color="green" overlap>
+  <v-badge
+    :style="uiElement.style"
+    :class="uiElement.class"
+    :content="uiElement.badge ? uiElement.badge : null"
+    :value="uiElement.badge ? uiElement.badge : null"
+    :overlap="uiElement.overlap"
+    :left="uiElement.left"
+    :bottom="uiElement.bottom"
+    :dot="uiElement.dot"
+    :icon="uiElement.badgeIcon"
+    :color="uiElement.color"
+  >
     <v-btn
-      :style="uiElement.style"
-      :class="uiElement.class"
+      :style="uiElement.buttonStyle"
+      :class="uiElement.buttonClass"
       :color="uiElement.color"
       :depressed="uiElement.depressed"
       :fab="uiElement.fab"
       :dark="uiElement.dark"
       :small="uiElement.small"
+      :text="uiElement.text"
       :icon="uiElement.buttonType == 'icon'"
       @click="click($event, uiElement, data)"
-      >
-      <v-icon v-if="uiElement.icon" :dark="uiElement.dark">{{uiElement.icon}}</v-icon>
+    >
+      <v-icon v-if="uiElement.icon" :dark="uiElement.dark">{{
+        uiElement.icon
+      }}</v-icon>
       {{ uiElement.label }}
     </v-btn>
   </v-badge>

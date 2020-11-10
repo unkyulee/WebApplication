@@ -8,6 +8,7 @@
       <UiElement :uiElement="uiElement" :data="data" />
       <Dialog />
       <Splash />
+      <ActionSheet />
     </v-main>
   </v-app>
 </template>
@@ -31,6 +32,7 @@ import Toolbar from "./layout/Toolbar";
 import UiElement from "./ui/UiElement";
 import Dialog from "./ui/Dialog";
 import Splash from "./layout/Splash";
+import ActionSheet from "./ui/ActionSheet";
 
 export default {
   components: {
@@ -39,6 +41,7 @@ export default {
     Splash,
     UiElement,
     Dialog,
+    ActionSheet
   },
   provide: function () {
     return {
