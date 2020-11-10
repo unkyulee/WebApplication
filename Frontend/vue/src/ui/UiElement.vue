@@ -42,7 +42,15 @@ export default Vue.component("UiElement", {
     if (this.uiElement && this.uiElement.type == "ui-element-id") {
       let element = await this.ui.get(this.uiElement.uiElementId);
       if (element) {
-        this.$set(this, "uiElement", Object.assign(this.uiElement, element));
+        delete this.uiElement.type;
+        delete this.uiElement.uiElementId;
+        this.$set(this, "uiElement", Object.assign(
+          this.uiElement,
+          {
+            ...element,
+            ...this.uiElement
+          }
+        ));
 
         // run init script
         if (this.uiElement.uiElementInit) {

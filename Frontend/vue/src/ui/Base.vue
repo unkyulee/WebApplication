@@ -16,6 +16,7 @@ export default {
         eval(this.uiElement.init);
       } catch (ex) {
         console.error(ex);
+        console.error(JSON.stringify(this.uiElement))
       }
     }
 

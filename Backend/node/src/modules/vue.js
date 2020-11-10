@@ -47,7 +47,7 @@ async function IndexHtml(db, req, res) {
 	let filepath = path.join(req.app.locals.wwwroot, '/vue.html');
 	let contents = fs.readFileSync(filepath, 'utf8');
 
-	let base_href = `${res.locals.company.url == '/' ? '' : res.locals.company.url}${res.locals.company.url}`;
+	let base_href = `${res.locals.nav.url}${res.locals.company.url}`;
 	let result = contents
 		.replace('@title', res.locals.company.name)
 		.replace('@base_href', `<base href='${base_href}'>`)
