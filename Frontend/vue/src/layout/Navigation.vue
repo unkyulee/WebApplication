@@ -12,7 +12,12 @@
         v-model="selected"
         active-class="deep-purple--text text--accent-4"
       >
-        <v-list-item v-for="(nav, index) in navigations" :key="index" link :to="nav.url">
+        <v-list-item
+          v-for="(nav, index) in navigations"
+          :key="index"
+          link
+          :to="nav.url"
+        >
           <v-list-item-icon>
             <v-icon>{{ nav.icon }}</v-icon>
           </v-list-item-icon>
@@ -51,7 +56,9 @@ export default {
 
     // load title
     this.title = this.config.get("name", "");
-    this.navigations = this.config.get("nav", []);
+    this.navigations = this.config
+      .get("nav", [])
+      .filter((x) => x.type != "hidden");
   },
   destroyed: function () {
     this.event.unsubscribe_all("Navigation");

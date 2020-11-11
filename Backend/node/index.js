@@ -69,8 +69,9 @@ async function handler(req, res) {
 
 		// authenticate
 		if (await auth.canModuleProcess(db, req, res)) {
+			let content = await res.locals.module.process(db, req, res);
 			// process the page
-			res.send(await res.locals.module.process(db, req, res));
+			if (!res.finished) res.send(content);
 		} else {
 			res.end();
 		}
@@ -84,8 +85,6 @@ async function handler(req, res) {
 		console.error(e);
 
 		// Write to online logger
-
-
 	} finally {
 		// Close MongoDB
 		if (db) await db.close();

@@ -55,6 +55,18 @@
       @click:prepend="safeEval(uiElement.clickPrepend)"
       @click:clear="safeEval(uiElement.clickClear)"
     ></v-text-field>
+
+    <v-checkbox
+      v-if="
+        this.uiElement.inputType == 'checkbox' &&
+        condition(uiElement)
+      "
+      :class="uiElement.class"
+      :style="uiElement.style"
+      v-model="value"
+      :label="uiElement.label"
+    ></v-checkbox>
+
   </keep-alive>
 </template>
 
@@ -101,7 +113,6 @@ export default Vue.component("input-component", {
   },
   methods: {
     changed(e) {
-      this.data.__timestamp__ = new Date();
       this.event.send({ name: "data" });
       //this.$set(this, 'data', this.data);
       this.$forceUpdate();

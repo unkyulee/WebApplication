@@ -8,14 +8,16 @@ export default {
 		let isValidAuth = false;
 
 		// check if the token is valid
-		this.client = localStorage.getItem('client');
-		if (this.client) {
+		let client = localStorage.getItem('client');
+		if(client) {
 			try {
-				this.client = JSON.parse(this.client);
-				if (this.client.id) {
+				client = JSON.parse(client);
+				if (client && client.id) {
 					isValidAuth = true;
+					this.client = client;
 				}
 			} catch (ex) {
+				localStorage.removeItem("client")
 				console.error(ex);
 			}
 		}
@@ -30,16 +32,19 @@ export default {
 		let response = {};
 		try {
 			response = await rest.request(
-				`${config.get('host')}/api/public/login?company_id=${config.get('_id')}`,
+				`${config.get('host')}/api/public/client`,
 				data,
-				'post'
+				'get'
 			);
 
 			// authenticate
 			if(response.status == 200) {
-				localStorage.setItem('client', JSON.stringify(response.data))
-				event.send({name: data, data: {client: response.data}});
+				this.client = response.data.data[0];
+				localStorage.setItem('client', JSON.stringify(this.client))
+
+				event.send({name: data});
 			}
+
 		} catch (e) {
 			console.error(e);
 			return false;

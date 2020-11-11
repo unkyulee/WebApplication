@@ -50,6 +50,15 @@ export default {
       this.data = event.data;
       this.option = obj.get(event, 'option', {});
 
+      // process init
+      if(this.uiElement.init) {
+        try {
+          eval(this.uiElement.init)
+        } catch(ex) {
+          console.error(this.uiElement.init, ex)
+        }
+      }
+
       // open dialog
       this.showDialog = true;
 

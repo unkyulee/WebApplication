@@ -1,27 +1,32 @@
 <template>
-  <v-app-bar app dense flat :dark="toolbar.dark" :color="toolbar.color" >
+  <v-app-bar app dense flat :dark="toolbar.dark" :color="toolbar.color">
     <!-- -->
     <v-app-bar-nav-icon @click.stop="toggleDrawer()"></v-app-bar-nav-icon>
     <v-toolbar-title>{{ title }}</v-toolbar-title>
     <v-spacer></v-spacer>
+    <User :data="data" />
   </v-app-bar>
 </template>
 
 <script>
 import Base from "../ui/Base";
+import User from "./User";
 //
 const obj = require("object-path");
 const moment = require("moment");
 
 export default {
   extends: Base,
+  components: {
+    User,
+  },
   data: function () {
     return {
       title: "",
       toolbar: {
         color: null,
-        dark: false
-      }
+        dark: false,
+      },
     };
   },
   mounted: function () {
@@ -33,7 +38,7 @@ export default {
   methods: {
     toggleDrawer() {
       this.event.send({ name: "toggle-drawer" });
-    }
-  }
+    },
+  },
 };
 </script>
