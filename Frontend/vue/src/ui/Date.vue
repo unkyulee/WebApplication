@@ -3,8 +3,7 @@
     <!-- date -->
     <v-menu
       v-if="uiElement.dateType == 'date'"
-      v-model="menu2"
-      :close-on-content-click="false"
+      :close-on-content-click="true"
       :nudge-right="40"
       transition="scale-transition"
       offset-y
@@ -12,15 +11,21 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
-          v-model="date"
-          label="Picker without buttons"
+          v-model="value"
+          :label="uiElement.label"
+          :class="uiElement.class"
+          :style="uiElement.style"
+          :filled="uiElement.appearance == 'fill'"
+          :solo="uiElement.appearance == 'solo'"
+          :outlined="uiElement.appearance == 'outline'"
+          :dense="uiElement.dense"
           prepend-icon="mdi-calendar"
           readonly
           v-bind="attrs"
           v-on="on"
         ></v-text-field>
       </template>
-      <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+      <v-date-picker v-model="value"></v-date-picker>
     </v-menu>
 
     <!-- date-inline -->
@@ -32,12 +37,12 @@
 
     <!-- time picker -->
     <v-menu
+      ref="timepickermenu"
+      v-model="timepickermenu"
       v-if="uiElement.dateType == 'time'"
-      ref="menu"
-      v-model="menu2"
       :close-on-content-click="false"
       :nudge-right="40"
-      :return-value.sync="time"
+      :return-value.sync="value"
       transition="scale-transition"
       offset-y
       max-width="290px"
@@ -45,8 +50,14 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
-          v-model="time"
-          label="Picker in menu"
+          v-model="value"
+          :label="uiElement.label"
+          :class="uiElement.class"
+          :style="uiElement.style"
+          :filled="uiElement.appearance == 'fill'"
+          :solo="uiElement.appearance == 'solo'"
+          :outlined="uiElement.appearance == 'outline'"
+          :dense="uiElement.dense"
           prepend-icon="mdi-clock-time-four-outline"
           readonly
           v-bind="attrs"
@@ -54,10 +65,11 @@
         ></v-text-field>
       </template>
       <v-time-picker
-        v-if="time_picker"
-        v-model="time"
+        v-if="timepickermenu"
+        v-model="value"
+        :format="uiElement.format"
         full-width
-        @click:minute="$refs.menu.save(time)"
+        @click:minute="$refs.timepickermenu.save(value)"
       ></v-time-picker>
     </v-menu>
   </keep-alive>
@@ -78,8 +90,8 @@ export default Vue.component("date", {
   extends: Base,
   data: function () {
     return {
-      time_picker: false,
       value: null,
+      timepickermenu: null,
     };
   },
   mounted: function () {
@@ -89,6 +101,7 @@ export default Vue.component("date", {
     // set value
     if (this.data && this.uiElement.key)
       this.value = this.format(obj.get(this.data, this.uiElement.key));
+
   },
   updated: function () {
     // set value
@@ -99,14 +112,16 @@ export default Vue.component("date", {
     value: function (curr, old) {
       console.log(curr, old);
       if (this.data && this.uiElement.key && curr) {
+        // retrieve current data
         let oldDate = new Date(obj.get(this.data, this.uiElement.key));
-        let newDate = new Date(curr);
 
         // set YYYY-MM-DD part of the date
         if (
           this.uiElement.dateType == "date-inline" ||
           this.uiElement.dateType == "date"
         ) {
+          let newDate = new Date(curr);
+
           oldDate.setFullYear(
             newDate.getFullYear(),
             newDate.getMonth(),
@@ -115,16 +130,31 @@ export default Vue.component("date", {
         }
 
         // set HH:mm part of the date
+        else if (this.uiElement.dateType == "time") {
+          let newDate = moment(curr, 'HH:mm a').toDate();
 
+          oldDate.setHours(newDate.getHours());
+          oldDate.setMinutes(newDate.getMinutes());
+        }
+
+        // update data
         obj.set(this.data, this.uiElement.key, oldDate);
-        this.$set(this.data, this.uiElement.key, oldDate);
       }
       this.changed();
     },
   },
   methods: {
     format(v) {
-      if (v) return moment(v).format("YYYY-MM-DD");
+      if (v) {
+        if (
+          this.uiElement.dateType == "date-inline" ||
+          this.uiElement.dateType == "date"
+        ) {
+          return moment(v).format("YYYY-MM-DD");
+        } else if (this.uiElement.dateType == "time") {
+          return moment(v).format("HH:mm");
+        }
+      }
       return null;
     },
     changed(e) {

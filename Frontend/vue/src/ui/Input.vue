@@ -105,7 +105,6 @@ export default Vue.component("input-component", {
     value: function (curr, old) {
       if (this.data && this.uiElement.key) {
         obj.set(this.data, this.uiElement.key, curr);
-        this.$set(this.data, this.uiElement.key, curr);
       }
       this.changed();
     },
