@@ -1,6 +1,7 @@
 import rest from './rest.service.js';
 import config from './config.service';
 import event from './event.service';
+const obj = require('object-path');
 
 export default {
 	client: {},
@@ -33,7 +34,10 @@ export default {
 		try {
 			response = await rest.request(
 				`${config.get('host')}/api/public/client`,
-				data,
+				{
+					id: obj.get(data, 'id', ''),
+					email: obj.get(data, 'email', '')
+				},
 				'get'
 			);
 

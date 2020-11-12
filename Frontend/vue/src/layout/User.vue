@@ -24,8 +24,13 @@ export default {
       this.style.opacity = 0.7;
 
       // initialize this.data.client
-      this.auth.isAuthenticated()
+      this.auth.isAuthenticated();
+
+      this.event.subscribe("User", "profile", (event) => (this.click()));
     }
+  },
+  destroyed: function () {
+    this.event.unsubscribe_all("User");
   },
   methods: {
     click: function () {
@@ -48,8 +53,8 @@ export default {
           uiElementId,
           data: this.auth.client,
           option: {
-            maxWidth: '800px'
-          }
+            maxWidth: "800px",
+          },
         });
       }
     },

@@ -11,7 +11,7 @@ module.exports = {
       res.status(500)
 			throw 'send failed: server config does not found';
     }
-    
+
 		// retrieve google config
 		let [google] = await db.find('config', {
 			query: {
@@ -34,8 +34,8 @@ module.exports = {
 		if (!config) {
       res.status(500);
 			throw 'send failed: email Config does not exists';
-		} 
-    
+		}
+
 		// retrieve access token
 		let token = await axios.post('https://oauth2.googleapis.com/token', {
 			grant_type: 'refresh_token',
@@ -47,7 +47,7 @@ module.exports = {
 
 		// send email
 		let message = [
-			'Content-Type: text/html; charset="UTF-8"\n',
+			`Content-Type: ${obj.get(params, 'type', 'text/html')}; charset="UTF-8"\n`,
 			'MIME-Version: 1.0\n',
 			'Content-Transfer-Encoding: 7bit\n',
 			'to: ', params.to, '\n',
@@ -60,7 +60,7 @@ module.exports = {
     //
     let response =  await axios.post(
       'https://www.googleapis.com/gmail/v1/users/me/messages/send?alt=json',  
-      {raw: message}, 
+      {raw: message},
       { headers: { Authorization: `Bearer ${token.access_token}` } }
     );
 

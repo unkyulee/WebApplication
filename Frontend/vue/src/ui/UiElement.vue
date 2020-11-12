@@ -25,6 +25,7 @@ import "./Input";
 import "./Button";
 import "./DataTable";
 import "./Icon";
+import "./Date";
 
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],

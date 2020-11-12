@@ -85,7 +85,6 @@ export default Vue.component("input-component", {
   extends: Base,
   data: function () {
     return {
-      ready: false,
       value: null,
     };
   },
