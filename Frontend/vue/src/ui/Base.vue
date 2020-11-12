@@ -6,6 +6,7 @@
 //
 const obj = require("object-path");
 const moment = require("moment");
+const Mustache = require('mustache');
 
 export default {
   props: ["uiElement", "data"],

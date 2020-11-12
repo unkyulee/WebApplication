@@ -110,7 +110,6 @@ export default Vue.component("date", {
   },
   watch: {
     value: function (curr, old) {
-      console.log(curr, old);
       if (this.data && this.uiElement.key && curr) {
         // retrieve current data
         let oldDate = new Date(obj.get(this.data, this.uiElement.key));

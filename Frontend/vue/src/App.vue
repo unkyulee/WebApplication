@@ -4,7 +4,7 @@
     <Toolbar />
 
     <!-- Sizes your content based upon application components -->
-    <v-main style="display: flex; flex-flow: column" id="scrollable">
+    <v-main :style="style" id="scrollable">
       <UiElement :uiElement="uiElement" :data="data" />
       <Dialog />
       <Splash />
@@ -41,7 +41,7 @@ export default {
     Splash,
     UiElement,
     Dialog,
-    ActionSheet
+    ActionSheet,
   },
   provide: function () {
     return {
@@ -56,19 +56,24 @@ export default {
     return {
       data: {},
       uiElement: {},
+      style: {
+        display: "flex",
+        flexFlow: "column",
+      },
     };
   },
   mounted: async function () {
     // init moment locale
     if (config.get("locale")) moment.locale(config.get("locale"));
 
-
+    // set background
+    this.style.background = config.get("theme.desktop.background");
 
     // load first navigation
     this.init();
   },
   destroyed: function () {
-    event.unsubscribe_all('App');
+    event.unsubscribe_all("App");
   },
   watch: {
     // react to route changes...
@@ -118,5 +123,9 @@ export default {
 /deep/ .v-main__wrap {
   display: flex;
   flex-flow: column;
+}
+
+/deep/ p {
+  margin-bottom: 0 !important;
 }
 </style>
