@@ -8,6 +8,18 @@ export default {
 	isAuthenticated() {
 		let isValidAuth = false;
 
+		// check company_id exists
+		let company_id = localStorage.getItem("company_id");
+		if(!company_id) {
+			localStorage.removeItem('client');
+		}
+		else if(config.get('_id') != company_id) {
+			localStorage.removeItem('client');
+		}
+
+		// save company_id
+		localStorage.setItem('company_id', config.get('_id'));
+
 		// check if the token is valid
 		let client = localStorage.getItem('client');
 		if(client) {

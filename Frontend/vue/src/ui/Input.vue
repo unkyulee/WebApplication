@@ -54,12 +54,11 @@
       :label="uiElement.label"
       :type="uiElement.inputType"
       :readonly="uiElement.readonly"
-      @click:append="safeEval(uiElement.clickAppend)"
-      @click:append-outer="safeEval(uiElement.clickAppendOuter)"
-      @click:prepend="safeEval(uiElement.clickPrepend)"
-      @click:prepend-inner="safeEval(uiElement.clickPrependInner)"
-      @click:clear="safeEval(uiElement.clickClear)"
-      @click="safeEval(uiElement.click)"
+      @click:append="safeEval(uiElement.appendIconClick)"
+      @click:append-outer="safeEval(uiElement.appendOuterIconClick)"
+      @click:prepend="safeEval(uiElement.prependIconClick)"
+      @click:prepend-inner="safeEval(uiElement.prependInnerIconClick)"
+      @click:clear="safeEval(uiElement.clearIconClick)"
     ></v-text-field>
 
     <v-checkbox

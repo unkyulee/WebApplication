@@ -12,18 +12,17 @@ module.exports.requiresAuthentication = async function requiresAuthentication(db
 module.exports.process = async function process(db, req, res) {
 	// get the filename
 	let paths = req.url.split('?')[0].split('/');
+	// cover for the root url
+	if (!paths[2]) paths[2] = '';
+	if (paths[2] == 'index.js') {
+		paths[2] = '';
+		paths.push('index.js');
+	}
 	let filename = paths[paths.length - 1];
 
 	// get company config
 	// company name must be passed on the URL
 	if (paths.length >= 2) {
-		// cover for the root url
-		if (!paths[2]) paths[2] = '';
-		if (paths[2] == 'index.js') {
-			paths[2] = '';
-			paths.push('index.js');
-		}
-
 		// load config of the module from company configuration of the module
 		let [company] = await db.find('core.company', { query: { url: `/${paths[2]}` } });
 		res.locals.company = company;
@@ -63,8 +62,11 @@ async function IndexJS(db, req, res) {
 	let [theme] = await db.find('config', {
 		query: { company_id: res.locals.company._id, type: 'public' },
 	});
-	delete theme.company_id;
-	delete theme._id;
+	if(theme) {
+		delete theme.company_id;
+		delete theme._id;
+	}
+
 
 	// retrieve features and load navigation
 	let nav = [];
