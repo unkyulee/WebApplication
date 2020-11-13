@@ -12,15 +12,6 @@ export default {
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui", "auth"],
   mounted: function () {
-    if (this.uiElement && this.uiElement.init) {
-      try {
-        eval(this.uiElement.init);
-      } catch (ex) {
-        console.error(ex);
-        console.error(JSON.stringify(this.uiElement))
-      }
-    }
-
     // data refresh
     this.event.subscribe(this._uid, "data", (event) => {
       this.$forceUpdate();

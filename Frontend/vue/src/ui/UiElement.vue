@@ -30,10 +30,10 @@ import "./Date";
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui", "auth"],
-  data: function() {
+  data: function () {
     return {
-      ready: false
-    }
+      ready: false,
+    };
   },
   mounted: async function () {
     // prepare uielement
@@ -45,13 +45,14 @@ export default Vue.component("UiElement", {
       if (element) {
         delete this.uiElement.type;
         delete this.uiElement.uiElementId;
-        this.$set(this, "uiElement", Object.assign(
-          this.uiElement,
-          {
+        this.$set(
+          this,
+          "uiElement",
+          Object.assign(this.uiElement, {
             ...element,
-            ...this.uiElement
-          }
-        ));
+            ...this.uiElement,
+          })
+        );
 
         // run init script
         if (this.uiElement.uiElementInit) {
@@ -66,11 +67,22 @@ export default Vue.component("UiElement", {
       }
     }
 
-    // convert to component
-    if (this.uiElement && this.uiElement.type == "image") this.uiElement.type = "image-loader";
-    else if (this.uiElement && this.uiElement.type == "input") this.uiElement.type = "input-component";
-    else if (this.uiElement && this.uiElement.type == "button") this.uiElement.type = "button-component";
+    if (this.uiElement && this.uiElement.init) {
+      try {
+        eval(this.uiElement.init);
+      } catch (ex) {
+        console.error(ex);
+        console.error(JSON.stringify(this.uiElement));
+      }
+    }
 
+    // convert to component
+    if (this.uiElement && this.uiElement.type == "image")
+      this.uiElement.type = "image-loader";
+    else if (this.uiElement && this.uiElement.type == "input")
+      this.uiElement.type = "input-component";
+    else if (this.uiElement && this.uiElement.type == "button")
+      this.uiElement.type = "button-component";
 
     // uiElement ready
     this.ready = true;
