@@ -2,7 +2,7 @@
 process.env.VUE_APP_BUILD_TIMESTAMP = new Date().toISOString()
 
 module.exports = {
-  outputDir: '../dist',
+  outputDir: './dist',
   chainWebpack: (config) => {
     // disable prefetch and preload
     config.plugins.delete('prefetch')
@@ -56,7 +56,7 @@ module.exports = {
             style: 'dist/vuetify.min.css',
           },
         ],
-        pathToNodeModules: process.cwd() + '/..',
+        publicPath: '/node_modules'
       },
     ])
 

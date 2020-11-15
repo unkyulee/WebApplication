@@ -7,7 +7,7 @@
     </v-app-bar>
     <v-main>
       <v-container fluid>
-        <router-view />
+        hello
       </v-container>
     </v-main>
     <v-footer color="blue" dark class="app-footer">
@@ -18,12 +18,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import NavigationDrawer from './components/NavigationDrawer.vue'
 
 export default Vue.extend({
   name: 'app',
   components: {
-    NavigationDrawer,
+
   },
   data() {
     return {
