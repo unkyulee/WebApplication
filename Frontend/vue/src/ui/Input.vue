@@ -34,7 +34,11 @@
     <!-- text field -->
     <v-text-field
       v-if="
-        (!this.uiElement.inputType || this.uiElement.inputType == 'text') &&
+        (
+          !this.uiElement.inputType ||
+          this.uiElement.inputType == 'text' ||
+          this.uiElement.inputType == 'number'
+        ) &&
         condition(uiElement)
       "
       v-model="value"
