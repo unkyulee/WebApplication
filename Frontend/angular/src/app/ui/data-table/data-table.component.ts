@@ -299,7 +299,7 @@ export class DataTableComponent extends BaseComponent {
 				},
 				screens: [column.filter]
 			},
-			option: column.option
+			option: obj.get(column.filter, 'option')
 		})
 	}
 }
