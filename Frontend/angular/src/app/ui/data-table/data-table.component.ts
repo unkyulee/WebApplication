@@ -244,8 +244,6 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	responseDownload(response) {
-		// hide splash
-		this.event.send({ name: 'splash-hide' });
 
 		// map data from response
 		let transform = this.uiElement.transform || 'response.data';
@@ -259,6 +257,10 @@ export class DataTableComponent extends BaseComponent {
 			this.total = parseInt(eval(transformTotal));
 		} catch (e) {}
 		if (this.total != 0 && !this.total) this.total = this.rows.length;
+
+		// hide splash
+		this.event.send({ name: 'splash-hide' });
+		this.event.send({ name: 'changed' })
 
 		//
 		setTimeout(() => {
