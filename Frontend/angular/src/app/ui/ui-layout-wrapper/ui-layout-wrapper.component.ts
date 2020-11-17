@@ -44,6 +44,7 @@ import { WebViewComponent } from '../webview/webview.component';
 import { MapsComponent } from '../maps/maps.component';
 import { CameraComponent } from '../camera/camera.component';
 import { TreeComponent } from '../tree/tree.component';
+import { SliderComponent } from '../slider/slider.component';
 
 @Component({
 	selector: '[ui-layout-wrapper]',
@@ -170,6 +171,9 @@ export class UILayoutWrapperComponent {
 	findComponentFactory(type) {
 		let componentFactory = null;
 		switch (type) {
+			case 'slider':
+				componentFactory = this.cfr.resolveComponentFactory(SliderComponent);
+				break;
 			case 'tree':
 				componentFactory = this.cfr.resolveComponentFactory(TreeComponent);
 				break;

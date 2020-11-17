@@ -1,20 +1,28 @@
 import { Component } from '@angular/core';
+import { BaseComponent } from '../base.component';
+import obj from 'object-path';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import obj from 'object-path';
-
-import { BaseComponent } from '../base.component';
 
 @Component({
-	selector: 'input-component',
-	templateUrl: './input.component.html',
-	styleUrls: ['./input.component.scss'],
+	selector: 'slider',
+	template: `
+		<p-slider
+			[(ngModel)]="value"
+			[disabled]="uiElement.disabled"
+			[max]="uiElement.max"
+			[min]="uiElement.min"
+			[step]="uiElement.step"
+			[style]="uiElement.style"
+			[class]="uiElement.class"
+      [range]="uiElement.range">
+		</p-slider>`,
 })
-export class InputComponent extends BaseComponent {
-	//
-	typeAheadEventEmitter = new Subject<string>();
+export class SliderComponent extends BaseComponent {
 
-	ngOnInit() {
+  //
+  typeAheadEventEmitter = new Subject<string>();
+  ngOnInit() {
 		super.ngOnInit();
 
 		// not all the input will be sent as an event / rest
@@ -22,14 +30,9 @@ export class InputComponent extends BaseComponent {
 		this.typeAheadEventEmitter
 			.pipe(distinctUntilChanged(), debounceTime(300))
 			.subscribe((v) => this.inputChanged(v));
-	}
+  }
 
-	ngOnDestroy() {
-		super.ngOnDestroy();
-		this.typeAheadEventEmitter.unsubscribe();
-	}
-
-	inputChanged(v) {
+  inputChanged(v) {
 		// see if there are any input change handlers
 		if (this.uiElement.changed) {
 			try {
@@ -40,11 +43,14 @@ export class InputComponent extends BaseComponent {
 		}
 	}
 
-	_value: any;
-	get value() {
-		// do not set value if it is password
-		if (this.uiElement.inputType == 'password') return;
+	ngOnDestroy() {
+		super.ngOnDestroy();
+		this.typeAheadEventEmitter.unsubscribe();
+	}
 
+  //
+  _value: any;
+	get value() {
 		if (this.data && this.uiElement.key) {
 			// if null then assign default
 			if (typeof obj.get(this.data, this.uiElement.key) == 'undefined') {
@@ -66,9 +72,6 @@ export class InputComponent extends BaseComponent {
 			} catch (e) {}
 		}
 
-		// if number
-		if (this._value && this.uiElement.inputType == 'number') this._value = parseFloat(this._value);
-
 		return this._value;
 	}
 
@@ -77,8 +80,6 @@ export class InputComponent extends BaseComponent {
 
 		if (this.data && this.uiElement.key) {
 			obj.set(this.data, this.uiElement.key, v);
-			// if number
-			if (v && this.uiElement.inputType == 'number') obj.set(this.data, this.uiElement.key, parseFloat(v));
 		}
 
 		this.typeAheadEventEmitter.next(v);
