@@ -195,7 +195,7 @@ export class DataTableComponent extends BaseComponent {
 			}
 
 			// look at query params and pass it on to the request
-			let data = this.uiElement.data;
+			let data = obj.get(this.uiElement, 'data', {});
 			// apply nav parameters if necessary
 			if (this.uiElement.useNavParams != false) {
 				let params = this.nav.getParams();
