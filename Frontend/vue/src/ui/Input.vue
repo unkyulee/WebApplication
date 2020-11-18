@@ -133,7 +133,6 @@ export default Vue.component("input-component", {
         }
       }
     },
-
     minus() {
       if (!this.value) this.value = 0;
       this.value = this.value - 1;
