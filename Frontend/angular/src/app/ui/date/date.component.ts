@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import obj from 'object-path';
-import * as moment from 'moment'
+import * as moment from 'moment';
 
 import { BaseComponent } from '../base.component';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -46,8 +46,12 @@ export class DateComponent extends BaseComponent {
 			}
 
 			// set value
-			if(obj.get(this.data, this.uiElement.key)) {
-				this._value = moment(obj.get(this.data, this.uiElement.key)).format('YYYY-MM-DDTHH:mm')
+			if (obj.get(this.data, this.uiElement.key)) {
+				if (this.uiElement.dateType == 'time') {
+					this._value = moment(obj.get(this.data, this.uiElement.key)).format('HH:mm');
+				} else {
+					this._value = moment(obj.get(this.data, this.uiElement.key)).format('YYYY-MM-DDTHH:mm');
+				}
 			}
 		}
 
@@ -64,6 +68,19 @@ export class DateComponent extends BaseComponent {
 	set value(v: any) {
 		this._value = v;
 		if (this.data && this.uiElement.key) {
+
+			if (this.uiElement.dateType == 'time') {
+				// HH:mm format will be given and should be converted
+				let d = obj.get(this.data, this.uiElement.key);
+				d = new Date(obj.get(this.data, this.uiElement.dateKey, null));
+				let newDate = moment(v, 'HH:mm a').toDate();
+
+				d.setHours(newDate.getHours());
+				d.setMinutes(newDate.getMinutes());
+
+				v = d;
+			}
+
 			obj.set(this.data, this.uiElement.key, v);
 		}
 
@@ -76,5 +93,4 @@ export class DateComponent extends BaseComponent {
 			}
 		}
 	}
-
 }
