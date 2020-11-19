@@ -32,7 +32,9 @@
     <v-date-picker
       v-if="uiElement.dateType == 'date-inline'"
       v-model="value"
-      :no-title="uiElement.noTitle ? uiElement.noTitle : true"
+      :full-width="uiElement.fullWidth"
+      :no-title="uiElement.noTitle"
+      :allowed-dates="allowedDates"
     ></v-date-picker>
 
     <!-- time picker -->
@@ -158,8 +160,6 @@ export default Vue.component("date", {
     },
     changed(e) {
       this.event.send({ name: "data" });
-      //this.$set(this, 'data', this.data);
-      this.$forceUpdate();
 
       // trigger custom event
       if (this.uiElement.changed) {
@@ -170,6 +170,12 @@ export default Vue.component("date", {
         }
       }
     },
+    allowedDates(v) {
+      if(this.uiElement.allowedDates) {
+        return this.uiElement.allowedDates.indexOf(v) > -1
+      }
+      return true;
+    }
   },
 });
 </script>

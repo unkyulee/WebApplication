@@ -1,5 +1,5 @@
 <template>
-  <v-overlay :absolute="absolute" :opacity="opacity" :value="overlay">
+  <v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" z-index=1000>
     <v-progress-circular
       indeterminate
       color="primary"

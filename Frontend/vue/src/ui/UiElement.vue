@@ -27,6 +27,7 @@ import "./DataTable";
 import "./Icon";
 import "./Date";
 import "./Selection"
+import "./Progress"
 
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],
@@ -84,6 +85,8 @@ export default Vue.component("UiElement", {
       this.uiElement.type = "input-component";
     else if (this.uiElement && this.uiElement.type == "button")
       this.uiElement.type = "button-component";
+    else if (this.uiElement && this.uiElement.type == "progress")
+      this.uiElement.type = "progress-component";
 
     // uiElement ready
     this.ready = true;
