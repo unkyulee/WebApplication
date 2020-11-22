@@ -33,6 +33,7 @@
       :solo="uiElement.appearance == 'solo'"
       :outlined="uiElement.appearance == 'outline'"
       :dense="uiElement.dense"
+      :reverse="uiElement.reverse"
       :rounded="uiElement.rounded"
       :segmented="uiElement.segmented"
       :dark="uiElement.dark"
