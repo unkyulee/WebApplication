@@ -1,44 +1,58 @@
 <template>
-  <v-app id="app-root">
-    <navigation-drawer v-model="drawer" />
-    <v-app-bar color="blue" dark clipped-left fixed app>
-      <v-app-bar-nav-icon @click.stop="toggleDrawer" />
-      <v-toolbar-title>GAS built by Vue CLI v3</v-toolbar-title>
-    </v-app-bar>
-    <v-main>
-      <v-container fluid>
-        hello
-      </v-container>
-    </v-main>
-    <v-footer color="blue" dark class="app-footer">
-      <span>gas-vue-ts</span>
-    </v-footer>
+  <v-app>
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
+//
+import obj from "object-path";
+import moment from "moment";
+
+// services
+import data from "./services/data.service";
+//import event from "./services/event.service";
+//import config from "./services/config.service";
+//import ui from "./services/ui.service";
+//import auth from "./services/auth.service";
 
 export default Vue.extend({
-  name: 'app',
-  components: {
-
+  name: "app",
+  components: {},
+  provide: function () {
+    return {
+      data,
+      //event,
+      //config,
+      //ui,
+      //auth,
+    };
   },
   data() {
     return {
       drawer: null as boolean | null,
-    }
+    };
+  },
+  mounted: async function() {
+    // load app config and setup the title
+    const app = await data.get('App');
+    document.title = obj.get(app, '0.title', '');
   },
   methods: {
     toggleDrawer() {
-      this.drawer = !this.drawer
+      this.drawer = !this.drawer;
     },
   },
-})
+});
 </script>
 
 <style scoped>
-.app-footer {
-  justify-content: center;
+/deep/ .v-main__wrap {
+  display: flex;
+  flex-flow: column;
+}
+
+/deep/ p {
+  margin-bottom: 0 !important;
 }
 </style>
