@@ -2,6 +2,7 @@
 process.env.VUE_APP_BUILD_TIMESTAMP = new Date().toISOString()
 
 module.exports = {
+  lintOnSave: false,
   outputDir: './dist',
   chainWebpack: (config) => {
     // disable prefetch and preload
@@ -42,7 +43,7 @@ module.exports = {
           {
             name: 'vue',
             var: 'Vue',
-            path: 'dist/vue.runtime.min.js',
+            path: 'dist/vue.min.js',
           },
           {
             name: 'vue-router',
@@ -78,5 +79,5 @@ module.exports = {
   css: {
     sourceMap: true,
   },
-  productionSourceMap: true,
+  productionSourceMap: true
 }

@@ -19,7 +19,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "../types/**/*.ts", "src/services/data.service.ts"
+    "../types/**/*.ts",
   ],
   "exclude": ["node_modules"]
 }

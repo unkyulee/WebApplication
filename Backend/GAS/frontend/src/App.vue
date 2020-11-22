@@ -1,5 +1,8 @@
 <template>
   <v-app>
+    <v-main>
+      <home-component></home-component>
+    </v-main>
   </v-app>
 </template>
 
@@ -11,48 +14,30 @@ import moment from "moment";
 
 // services
 import data from "./services/data.service";
-//import event from "./services/event.service";
-//import config from "./services/config.service";
-//import ui from "./services/ui.service";
-//import auth from "./services/auth.service";
 
 export default Vue.extend({
   name: "app",
-  components: {},
   provide: function () {
     return {
       data,
-      //event,
-      //config,
-      //ui,
-      //auth,
     };
   },
   data() {
     return {
-      drawer: null as boolean | null,
+      uiElementId: null,
     };
   },
-  mounted: async function() {
+  mounted: async function () {
     // load app config and setup the title
-    const app = await data.get('App');
-    document.title = obj.get(app, '0.title', '');
-  },
-  methods: {
-    toggleDrawer() {
-      this.drawer = !this.drawer;
-    },
-  },
+    const app = await data.get("App");
+    document.title = obj.get(app, "0.title", "");
+
+    // load navigation
+    const nav = await data.get("Navigation");
+
+    // load the screen
+    this.uiElementId = obj.get(nav, '0.uiElementIds.0');
+  }
 });
 </script>
 
-<style scoped>
-/deep/ .v-main__wrap {
-  display: flex;
-  flex-flow: column;
-}
-
-/deep/ p {
-  margin-bottom: 0 !important;
-}
-</style>
