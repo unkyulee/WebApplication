@@ -113,7 +113,21 @@ export class DataTableComponent extends BaseComponent {
 	//
 	onGoingSort = false;
 	customSort(event) {
-		if (this.onGoingSort) return;
+		// check if the sort option already exists
+		let already = obj.get(this.uiElement, 'sort', []).find(x => {
+			let exists = false;
+			if(event.field == x.prop) {
+				if(event.order == -1 && x.dir == 'desc')
+					exists = true;
+				if(event.order == 1 && x.dir == 'asc')
+					exists = true;
+			}
+
+			return exists;
+		})
+		// do not sort again when already sorted
+		if(already) return;
+
 
 		//
 		obj.set(this.uiElement, 'sort', []);
@@ -132,8 +146,7 @@ export class DataTableComponent extends BaseComponent {
 		}
 
 		//
-		this.onGoingSort = true;
-		setTimeout(() => this.requestDownload(), 0);
+		setTimeout(() => this.requestDownload())
 	}
 
 	// Get Pagination information
@@ -233,7 +246,6 @@ export class DataTableComponent extends BaseComponent {
 			}
 
 			// send REST request
-			this.event.send({ name: 'splash-show' }); // show splash
 			this.rest
 				.request(src, data, this.uiElement.method, options, this.uiElement.cached)
 				.subscribe((response) => this.responseDownload(response));
@@ -244,7 +256,6 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	responseDownload(response) {
-
 		// map data from response
 		let transform = this.uiElement.transform || 'response.data';
 		try {
@@ -259,13 +270,7 @@ export class DataTableComponent extends BaseComponent {
 		if (this.total != 0 && !this.total) this.total = this.rows.length;
 
 		// hide splash
-		this.event.send({ name: 'splash-hide' });
-		this.event.send({ name: 'changed' })
-
-		//
-		setTimeout(() => {
-			this.onGoingSort = false;
-		});
+		this.event.send({ name: 'changed' });
 	}
 
 	sort: any;
@@ -293,15 +298,15 @@ export class DataTableComponent extends BaseComponent {
 				name: column.label,
 				toolbar: {
 					style: {
-						display: "none"
-					}
+						display: 'none',
+					},
 				},
 				contentStyle: {
-					padding: "24px"
+					padding: '24px',
 				},
-				screens: [column.filter]
+				screens: [column.filter],
 			},
-			option: obj.get(column.filter, 'option')
-		})
+			option: obj.get(column.filter, 'option'),
+		});
 	}
 }

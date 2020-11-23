@@ -107,7 +107,7 @@ export class SelectionComponent extends BaseComponent {
 				data = eval(data);
 			} catch (e) {}
 
-			this.event.send({ name: 'splash-show' });
+
 			this.isLoading = true;
 			this.rest
 				.request(src, data, this.uiElement.method, {}, this.uiElement.cached)
@@ -119,7 +119,6 @@ export class SelectionComponent extends BaseComponent {
 
 	loadOptionHandler(response) {
 		this.isLoading = false;
-		this.event.send({ name: 'splash-hide' });
 
 		if (this.uiElement.transform) this.uiElement.options = eval(this.uiElement.transform);
 	}
