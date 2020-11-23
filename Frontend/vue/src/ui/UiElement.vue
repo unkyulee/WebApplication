@@ -28,6 +28,7 @@ import "./Icon";
 import "./Date";
 import "./Selection"
 import "./Progress"
+import "./ExpansionPanel"
 
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],
