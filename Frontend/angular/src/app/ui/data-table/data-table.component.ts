@@ -114,20 +114,17 @@ export class DataTableComponent extends BaseComponent {
 	onGoingSort = false;
 	customSort(event) {
 		// check if the sort option already exists
-		let already = obj.get(this.uiElement, 'sort', []).find(x => {
+		let already = obj.get(this.uiElement, 'sort', []).find((x) => {
 			let exists = false;
-			if(event.field == x.prop) {
-				if(event.order == -1 && x.dir == 'desc')
-					exists = true;
-				if(event.order == 1 && x.dir == 'asc')
-					exists = true;
+			if (event.field == x.prop) {
+				if (event.order == -1 && x.dir == 'desc') exists = true;
+				if (event.order == 1 && x.dir == 'asc') exists = true;
 			}
 
 			return exists;
-		})
+		});
 		// do not sort again when already sorted
-		if(already) return;
-
+		if (already) return;
 
 		//
 		obj.set(this.uiElement, 'sort', []);
@@ -146,7 +143,7 @@ export class DataTableComponent extends BaseComponent {
 		}
 
 		//
-		setTimeout(() => this.requestDownload())
+		setTimeout(() => this.requestDownload());
 	}
 
 	// Get Pagination information
@@ -180,7 +177,7 @@ export class DataTableComponent extends BaseComponent {
 
 		// parameters
 		// do not set pagination when card or list
-		if (this.uiElement.tableType != 'card' && this.uiElement.tableType != 'list') {
+		if (this.uiElement.tableType != 'card' && this.uiElement.tableType != 'list' && this.uiElement.useNavParams != false) {
 			if (this.uiElement._id) {
 				this.nav.setParam('page', this.page);
 				this.nav.setParam('size', this.size);
@@ -215,6 +212,7 @@ export class DataTableComponent extends BaseComponent {
 				delete params['_id'];
 				data = Object.assign({}, data, params);
 			}
+
 			// apply pagination
 			data = Object.assign(data, {
 				page: this.page,
