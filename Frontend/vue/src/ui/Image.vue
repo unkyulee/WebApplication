@@ -1,10 +1,13 @@
 <template>
-  <img
+  <v-img
     :class="uiElement.class"
     :style="uiElement.style"
-    :src="safeEval(uiElement.src)"
-    @click="click($event)"
-  />
+    :height="uiElement.height"
+    :width="uiElement.width"
+    :contain="uiElement.contain"
+    :src="safeEval(uiElement.src)"    
+    @click="click($event)"    
+  ></v-img>
 </template>
 
 <script>
