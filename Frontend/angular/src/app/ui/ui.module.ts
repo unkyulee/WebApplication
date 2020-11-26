@@ -9,7 +9,6 @@ import { GoogleMapsModule } from '@angular/google-maps'
 //
 import { MaterialModule } from '../core/material.module';
 import { PrimeNGModule } from '../core/primeng.module';
-import { SignaturePadModule } from 'angular2-signaturepad';
 import { FileUploadModule } from 'ng2-file-upload';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { NgxPrintModule } from 'ngx-print';
@@ -195,7 +194,7 @@ export function momentAdapterFactory() {
 		MaterialModule,
 		FormsModule,
 		ReactiveFormsModule,
-		SignaturePadModule,
+		
 		FileUploadModule,
 		ScrollingModule,
 		MonacoEditorModule,

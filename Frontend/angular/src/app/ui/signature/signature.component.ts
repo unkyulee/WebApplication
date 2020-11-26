@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { SignaturePad } from 'angular2-signaturepad/signature-pad';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import SignaturePad from 'signature_pad';
 
 // user imports
 import { BaseComponent } from '../base.component';
@@ -13,24 +13,37 @@ export class SignatureComponent extends BaseComponent {
 		super();
 	}
 
-	@ViewChild("SignaturePad") signaturePad: SignaturePad;
+	@ViewChild("signaturePadElement") signaturePadElement;
 
+	signaturePad;
 	options: Object = {};
 
 	// this.signaturePad is now available
 	ngAfterViewInit() {
 		super.ngAfterViewInit();
 
-		this.signaturePad.set('canvasWidth', this.container.nativeElement.clientWidth);
-		this.signaturePad.set('canvasHeight', this.container.nativeElement.clientHeight);
+		//		
+		this.signaturePad = new SignaturePad(this.signaturePadElement.nativeElement);
+
+		this.config.set('signaturePad', this.signaturePad)
+		
+		this.resize();
 
 		// set background color
-		if (this.uiElement.backgroundColor) this.signaturePad.set('backgroundColor', this.uiElement.backgroundColor);
-		else this.signaturePad.set('backgroundColor', '#E2E2E2');
+		if (this.uiElement.backgroundColor) {
+			this.signaturePad.canvas.backgroundColor = this.uiElement.backgroundColor;
+		}
+		else {
+			this.signaturePad.canvas.backgroundColor = '#E2E2E2';
+		} 
 
 		// set pen color
-		if (this.uiElement.penColor) this.signaturePad.set('penColor', this.uiElement.penColor);
-		else this.signaturePad.set('penColor', 'rgb(0, 0, 255)');
+		if (this.uiElement.penColor) {
+			this.signaturePad.canvas.penColor = this.uiElement.penColor;
+		}
+		else {
+			this.signaturePad.canvas.penColor = 'rgb(0, 0, 255)';
+		}
 
 		// clear to apply the background color
 		this.signaturePad.clear();
@@ -83,12 +96,8 @@ export class SignatureComponent extends BaseComponent {
 	}
 
 	// set the dimensions of the signature pad canvas
-	beResponsive() {
-		this.size();
-	}
-
-	size() {
-		this.signaturePad.set('canvasWidth', this.container.nativeElement.clientWidth);
-		this.ngAfterViewInit();
+	resize() {
+		this.signaturePad.canvas.width = this.container.nativeElement.clientWidth;
+		this.signaturePad.canvas.height = this.container.nativeElement.clientHeight;		
 	}
 }

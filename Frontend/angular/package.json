@@ -18,7 +18,8 @@
     "ngx-barcode": "^0.3.0",
     "ngx-image-compress": "^8.0.4",
     "ngx-monaco-editor": "8.1.1",
-    "ngx-print": "^1.2.0-beta.5"
+    "ngx-print": "^1.2.0-beta.5",
+    "signature_pad": "^3.0.0-beta.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1001.6",

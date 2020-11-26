@@ -29,7 +29,7 @@
     "moment-timezone": "^0.5.31",
     "mongodb": "^3.6.2",
     "mssql": "^6.2.3",
-    "mustache": "^4.0.1",    
+    "mustache": "^4.0.1",
     "node-excel-export": "^1.4.4",
     "object-path": "^0.11.4",
     "sqlite": "^4.0.15",
