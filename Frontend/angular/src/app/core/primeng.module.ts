@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { EditorModule } from 'primeng/editor';
 import { ColorPickerModule } from 'primeng/colorpicker';
-import { ChipsModule } from 'primeng/chips';
 import { TableModule } from 'primeng/table';
 import { VirtualScrollerModule } from 'primeng/virtualscroller';
 import { InputTextModule } from 'primeng/inputtext';
@@ -14,7 +13,6 @@ import { SliderModule } from 'primeng/slider';
 	imports: [
 		EditorModule,
 		ColorPickerModule,
-		ChipsModule,
 		TableModule,
 		VirtualScrollerModule,
 		InputTextModule,
@@ -26,7 +24,6 @@ import { SliderModule } from 'primeng/slider';
 	exports: [
 		EditorModule,
 		ColorPickerModule,
-		ChipsModule,
 		TableModule,
 		VirtualScrollerModule,
 		InputTextModule,

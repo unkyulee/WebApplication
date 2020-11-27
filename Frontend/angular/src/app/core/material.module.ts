@@ -30,6 +30,7 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatChipsModule } from "@angular/material/chips";
 
 @NgModule({
   imports: [
@@ -64,7 +65,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatTooltipModule,
     BrowserAnimationsModule,
     MatBottomSheetModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatChipsModule,
   ],
   exports: [
     MatAutocompleteModule,
@@ -96,7 +98,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
     MatToolbarModule,
     MatTooltipModule,
     MatBottomSheetModule,
-    MatBadgeModule
-  ]
+    MatBadgeModule,
+    MatChipsModule,
+  ],
 })
 export class MaterialModule {}
