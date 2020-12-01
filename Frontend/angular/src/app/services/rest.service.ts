@@ -106,7 +106,7 @@ export class RestService {
 
   async requestAsync(url: string, data?, method?, options?, cached?) {
     return new Promise((resolve, reject) => {
-      this.request(url, data, method, options, cached).subscribe(response => {
+      this.request(url, data, method, options, false).subscribe(response => {
         resolve(response);
       });
     });
