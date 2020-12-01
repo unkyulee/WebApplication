@@ -38,7 +38,10 @@ export class DefaultInterceptorStrategy {
           let token = authorization.split(" ")[1];
           try {
             if (token) localStorage.setItem("token", token);
-          } catch {}
+          } catch {
+            // clear localStorage
+            this.config.clear();
+          }
         } else {
           // if the token is not present then it means unauthenticated
           // make sure that the application has unauthenticated status

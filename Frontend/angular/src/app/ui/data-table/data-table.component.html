@@ -74,19 +74,17 @@
 
 <!-- Card List -->
 <ng-container *ngIf="uiElement.tableType == 'card'">
-	<cdk-virtual-scroll-viewport
+	<div
 		cdkDropList
 		[cdkDropListData]="rows"
 		(cdkDropListDropped)="drop($event)"
 		[ngStyle]="uiElement.contentLayoutStyle"
 		[ngClass]="uiElement.contentLayoutClass"
-		[itemSize]="total < size ? total : size"
-		maxBufferPx="40000"
 	>
 		<mat-card
 			cdkDrag
 			[cdkDragDisabled]="uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true"
-			*cdkVirtualFor="let row of rows"
+			*ngFor="let row of rows"
 			(click)="click($event, row, uiElement.click)"
 			[ngStyle]="uiElement.itemBoxStyle"
 			[ngClass]="uiElement.itemBoxClass"
@@ -95,7 +93,7 @@
 				<div ui-layout-wrapper [uiElement]="column" [data]="row"></div>
 			</ng-container>
 		</mat-card>
-	</cdk-virtual-scroll-viewport>
+	</div>
 	<pagination [key]="uiElement.key" [total]="total" [page]="page" [size]="size"></pagination>
 </ng-container>
 

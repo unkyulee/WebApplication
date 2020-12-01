@@ -51,5 +51,11 @@ export class ConfigService {
 	clear() {
 		// this will reset the ui in the configuration
 		window.__CONFIG__.ui = {};
+		// clear ui cache in the localStorage
+		for (var i = 0; i < localStorage.length; i++){
+			if(localStorage.key(i).startsWith('http')) {
+				localStorage.removeItem(localStorage.key(i))
+			}
+		}
 	}
 }
