@@ -86,10 +86,10 @@ module.exports = {
 
 		// download
 		const dbx = new Dropbox({ accessToken: config.access_token, fetch: fetch });
-		let file = await dbx.filesDownload({ path: obj.get(params, 'filepath') });
+		let file = await dbx.filesDownload({ path: obj.get(params, 'filepath') });		
 
 		// put some header
-		res.setHeader('Content-disposition', `inline; filename=${encodeURIComponent(file.name)}`);
+		res.setHeader('Content-disposition', `inline; filename=${encodeURIComponent(file.result.name)}`);
 		for (let header of obj.get(params, 'headers', [])) {
 			res.setHeader(header.key, header.value);
 		}

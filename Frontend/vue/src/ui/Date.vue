@@ -114,8 +114,8 @@ export default Vue.component("date", {
     value: function (curr, old) {
       if (this.data && this.uiElement.key && curr) {
         // retrieve current data
-        let oldDate = new Date(obj.get(this.data, this.uiElement.key));
-
+        let oldDate = moment(obj.get(this.data, this.uiElement.key)).toDate();
+        
         // set YYYY-MM-DD part of the date
         if (
           this.uiElement.dateType == "date-inline" ||
@@ -133,6 +133,7 @@ export default Vue.component("date", {
         // set HH:mm part of the date
         else if (this.uiElement.dateType == "time") {
           let newDate = moment(curr, 'HH:mm a').toDate();
+          console.log(newDate, oldDate)
 
           oldDate.setHours(newDate.getHours());
           oldDate.setMinutes(newDate.getMinutes());

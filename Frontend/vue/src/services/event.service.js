@@ -3,11 +3,11 @@ const obj = require('object-path');
 export default {
 	_event: {},
 	// subscribe to an event that corresponds to the name
-	subscribe: function(subscriber, event, callback) {
+	subscribe: function(subscriber, event, callback) {		
 		obj.ensureExists(this._event, event, {});
 		this._event[event][subscriber] = callback;
 	},
-	unsubscribe: function(subscriber, event) {
+	unsubscribe: function(subscriber, event) {		
 		// remove subscriber from the event
 		if (this._event[event] && this._event[event][subscriber]) {
 			delete this._event[event][subscriber];

@@ -62,8 +62,7 @@ export default Vue.component("selection", {
 
     // set value
     if (this.data && this.uiElement.key) {
-      this.value = obj.get(this.data, this.uiElement.key);
-      console.log(this.value)
+      this.value = obj.get(this.data, this.uiElement.key);      
     }
 
   },
