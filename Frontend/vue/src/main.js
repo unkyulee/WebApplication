@@ -16,6 +16,6 @@ const router = new VueRouter({ routes });
 // init app
 new Vue({
   render: h => h(App),
-  vuetify ,
+  vuetify,
   router
 }).$mount("#app");

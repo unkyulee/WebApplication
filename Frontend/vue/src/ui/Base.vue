@@ -28,8 +28,6 @@ export default {
         console.error(ex);
       }
     }
-
-    this.event.unsubscribe_all(this._uid);
   },
   methods: {
     condition: function (uiElement) {

@@ -4,7 +4,7 @@
     <Toolbar />
 
     <!-- Sizes your content based upon application components -->
-    <v-main :style="style" id="scrollable">
+    <v-main :style="style">
       <UiElement :uiElement="uiElement" :data="data" />
       <Dialog />
       <Splash />
