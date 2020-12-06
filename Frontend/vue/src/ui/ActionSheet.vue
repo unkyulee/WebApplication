@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-sheet v-model="showSheet">
+  <v-bottom-sheet v-model="showSheet" inset>
     <v-sheet :class="uiElement.layoutClass" :style="uiElement.layoutStyle">
       <UiElement
         v-for="(ui, index) in uiElement.screens"

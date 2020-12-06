@@ -9,6 +9,7 @@
       <Dialog />
       <Splash />
       <ActionSheet />
+      <Snackbar />
     </v-main>
   </v-app>
 </template>
@@ -33,6 +34,7 @@ import UiElement from "./ui/UiElement";
 import Dialog from "./ui/Dialog";
 import Splash from "./layout/Splash";
 import ActionSheet from "./ui/ActionSheet";
+import Snackbar from "./ui/Snackbar";
 
 export default {
   components: {
@@ -42,6 +44,7 @@ export default {
     UiElement,
     Dialog,
     ActionSheet,
+    Snackbar
   },
   provide: function () {
     return {
