@@ -41,6 +41,7 @@ class Auth {
 			let results = await db.find('user', {
 				query: {
 					id: req.body.id,
+					inactive: {$ne: true},
 					company_id: ObjectID(req.headers['company_id']),
 				},
 			});
