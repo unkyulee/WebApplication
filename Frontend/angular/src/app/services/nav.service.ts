@@ -289,8 +289,12 @@ export class NavService {
 		// go to last element
 		if (this.navigationStack.length > 0)
 			this.router.navigateByUrl(this.navigationStack[this.navigationStack.length - 1]);
-		else {
-			this.router.navigateByUrl(this.currNav.parent_url ? this.currNav.parent_url : this.currNav.url);
+		else if(this.currNav.parent_url) {
+			// when stack is empty and parent_url exists then go to parent url
+			this.router.navigateByUrl(this.currNav.parent_url);
+		} else {
+			// go back one url
+			history.go(-1);
 		}
 	}
 
