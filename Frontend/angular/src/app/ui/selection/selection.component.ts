@@ -110,7 +110,7 @@ export class SelectionComponent extends BaseComponent {
     if (this.data && this.uiElement.key) {
       if ((value || "").trim()) {
         obj.ensureExists(this.data, this.uiElement.key, []);
-        this.data[this.uiElement.key].push(value.trim());
+        obj.get(this.data, this.uiElement.key, []).push(value.trim());
       }
     }
 
