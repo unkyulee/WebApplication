@@ -121,13 +121,13 @@ export class SelectionComponent extends BaseComponent {
   }
 
   remove(v): void {
-	if (this.data && this.uiElement.key) {
-		obj.ensureExists(this.data, this.uiElement.key, []);
-		const index = this.data[this.uiElement.key].indexOf(v);
-		if (index >= 0) {
-    		this.data[this.uiElement.key].splice(index, 1);
-    	}
-	}
+    if (this.data && this.uiElement.key) {
+      obj.ensureExists(this.data, this.uiElement.key, []);
+      const index = obj.get(this.data, this.uiElement.key, []).indexOf(v);
+      if (index >= 0) {
+        obj.get(this.data, this.uiElement.key, []).splice(index, 1);
+      }
+    }
   }
 
   loadOption() {
