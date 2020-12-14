@@ -4,3 +4,23 @@
   width: 100%;
   height: 100%;
 }
+
+.initialize {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;  
+
+  .message {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .log {
+    display: flex;
+    flex-flow: column;
+    margin-top: 12px;
+    width: 100%;
+  }
+}

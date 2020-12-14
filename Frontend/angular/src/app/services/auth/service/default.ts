@@ -7,8 +7,8 @@ import { RestService } from "../../rest.service";
 import { ConfigService } from "../../config.service";
 import { EventService } from "../../event.service";
 import { UserService } from "../../user/user.service";
-import { NavService } from '../../nav.service';
-import { UIService } from '../../ui.service';
+import { NavService } from "../../nav.service";
+import { UIService } from "../../ui.service";
 
 export class DefaultAuthStrategy {
   constructor(
@@ -20,7 +20,7 @@ export class DefaultAuthStrategy {
     private ui: UIService
   ) {}
 
-  async login(data, isAuthenticated$) {
+  async login(data) {
     return new Promise((resolve, reject) => {
       // get auth url
       let authUrl = `${this.config.get("host")}${this.config.get("url")}`;
@@ -39,25 +39,19 @@ export class DefaultAuthStrategy {
         )
         // when response is sucessful
         .subscribe(() => {
-          // login success
-          isAuthenticated$.next(true);
-          this.event.sendAsync({ name: "login-success" });
-          resolve();
+          resolve(true);
         });
     });
   }
 
-  async logout(isAuthenticated$) {
+  async logout() {
     // clear
     this.nav.clear();
     this.ui.clear();
-    localStorage.removeItem('token');
-
-    // reset flag
-    isAuthenticated$.next(false);
+    localStorage.removeItem("token");
   }
 
-  async isAuthenticated(isAuthenticated$) {
+  async isAuthenticated() {
     let isValidAuth = false;
 
     // check if the token is valid
@@ -67,24 +61,21 @@ export class DefaultAuthStrategy {
       if (this.user.get("sub") == this.config.get("_id")) {
         // when authentication is proven to be valid locally
         // verify with the server when online
-        if(navigator.onLine) {
+        if (navigator.onLine) {
           try {
-            await this.login(null, isAuthenticated$);
+            await this.login(null);
             isValidAuth = true;
           } catch {}
         } else {
-          console.log('offline authentication')
+          console.log("offline authentication");
           isValidAuth = true;
         }
-
       }
     }
 
     // if not valid auth then clear localstorage
-    if (!isValidAuth) localStorage.removeItem('token');
+    if (!isValidAuth) localStorage.removeItem("token");
 
-    // return auth result
-    isAuthenticated$.next(isValidAuth);
     return isValidAuth;
   }
 
@@ -101,8 +92,8 @@ export class DefaultAuthStrategy {
         let exp = new Date(tokenObj.exp * 1000);
         if (exp > new Date()) isValid = true;
       }
-    } catch(ex) {
-      console.error(ex)
+    } catch (ex) {
+      console.error(ex);
     }
 
     return isValid;

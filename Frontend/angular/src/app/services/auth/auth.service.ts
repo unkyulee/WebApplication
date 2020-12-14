@@ -46,14 +46,15 @@ export class AuthService {
   isAuthenticated$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   async login(data) {
-    return this.authStrategy.login(data, this.isAuthenticated$);
+    return this.authStrategy.login(data);
   }
 
   async isAuthenticated() {
-    return this.authStrategy.isAuthenticated(this.isAuthenticated$);
+    return this.authStrategy.isAuthenticated();
   }
 
   async logout() {
-    return this.authStrategy.logout(this.isAuthenticated$);
+    this.authStrategy.logout();
+    this.event.send({name: 'initialize'});    
   }
 }

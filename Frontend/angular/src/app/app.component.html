@@ -1,0 +1,13 @@
+<div *ngIf="!initialized" class="initialize">
+  <div *ngIf="!view" style="padding: 24px;">
+    <div class="message">{{ message }}</div>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <div class="log">
+      <div *ngFor="let log of logs">- {{ log }}</div>
+    </div>
+  </div>
+  <service-url *ngIf="view == 'service-url'"></service-url>
+  <login *ngIf="view == 'login'"></login>
+</div>
+
+<router-outlet *ngIf="initialized"></router-outlet>

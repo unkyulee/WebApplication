@@ -1,23 +1,19 @@
-import { EventService } from '../../event.service';
+import { EventService } from "../../event.service";
 
 export class NoAuthStrategy {
-	constructor(private event: EventService) {}
+  constructor(private event: EventService) {}
 
-	async login(data) {
-		return;
-	}
+  async login(data) {
+    return;
+  }
 
-	async logout() {}
+  async logout() {}
 
-	async isAuthenticated(isAuthenticated$) {
-		// return auth result
-    isAuthenticated$.next(true);
-    this.event.send({name: 'login-success'})
+  async isAuthenticated() {    
+    return true;
+  }
 
-		return true;
-	}
-
-	async refreshAuthentication() {
-		return;
-	}
+  async refreshAuthentication() {
+    return;
+  }
 }

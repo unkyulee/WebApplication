@@ -1,0 +1,16 @@
+<div [ngStyle]="uiElement.layoutStyle">
+  <div [ngStyle]="uiElement.style" [ngClass]="uiElement.class">    
+    <ng-container *ngFor="let ui of uiElement.screens">
+      <div
+        ui-layout-wrapper
+        *ngIf="condition(ui)"
+        [uiElement]="ui"
+        [data]="data"
+      ></div>
+    </ng-container>
+  </div>
+</div>
+
+<div class="splash" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>

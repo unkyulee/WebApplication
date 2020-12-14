@@ -18,7 +18,7 @@ export class RestService {
   }
 
   host() {
-    return this.config.get("host");
+    return this.config.get("host", '');
   }
 
   // request REST service

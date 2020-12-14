@@ -1,0 +1,12 @@
+<div class="service-url">
+  <div style="width: 80%">
+    <span style="color: black">REGISTER SERVICE URL</span>
+    <mat-form-field appearance="fill" style="width: 100%">
+      <mat-label>Service URL</mat-label>
+      <input matInput #input type="text" [(ngModel)]="service_url" />
+    </mat-form-field>
+    <button mat-raised-button (click)="register()" color="primary">
+      REGISTER
+    </button>
+  </div>
+</div>

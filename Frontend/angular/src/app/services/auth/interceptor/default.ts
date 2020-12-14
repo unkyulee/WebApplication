@@ -15,7 +15,7 @@ export class DefaultInterceptorStrategy {
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
       // add navigation_id to the request
-      headers["company_id"] = this.config.get("_id");
+      headers["company_id"] = this.config.get("_id", '');
 
       // copy headers
       for (let header of req.headers.keys())

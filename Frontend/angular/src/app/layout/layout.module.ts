@@ -9,17 +9,13 @@ import { LayoutComponent } from "./layout.component";
 
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { NavComponent } from "./navigation/nav.component";
-import { SplashComponent } from "./splash/splash.component";
-import { LoginComponent } from "./login/login.component";
 import { UserComponent } from "./user/user.component";
 
 @NgModule({
   declarations: [
     LayoutComponent,
     ToolbarComponent,
-    NavComponent,
-    SplashComponent,
-    LoginComponent,
+    NavComponent,    
     UserComponent
   ],
   exports: [],

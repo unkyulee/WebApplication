@@ -56,7 +56,7 @@ export class CordovaService {
         },
         errorMessage => {
           alert(errorMessage);
-          resolve();
+          resolve(true);
         },
         {
           quality: 50,

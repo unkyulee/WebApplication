@@ -1,322 +1,306 @@
-import { Injectable } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { Location } from '@angular/common';
+import { Injectable } from "@angular/core";
+import { Router, NavigationEnd } from "@angular/router";
+import { Location } from "@angular/common";
 
 // user imports
-import { EventService } from './event.service';
-import { ConfigService } from './config.service';
-import { RestService } from './rest.service';
-import { PermissionService } from './permission.service';
-import { UtilService } from './util.service';
+import { EventService } from "./event.service";
+import { ConfigService } from "./config.service";
+import { PermissionService } from "./permission.service";
+import { UtilService } from "./util.service";
 
 @Injectable()
 export class NavService {
-	constructor(
-		private router: Router,
-		private location: Location,
-		private event: EventService,
-		private config: ConfigService,
-		private rest: RestService,
-		private permission: PermissionService,
-		private util: UtilService
-	) {
-		// monitor navigation changes
-		router.events.subscribe((e) => this.routerEventHandler(e));
+  constructor(
+    private router: Router,
+    private location: Location,
+    private event: EventService,
+    private config: ConfigService,
+    private permission: PermissionService,
+    private util: UtilService
+  ) {
+    // monitor navigation changes
+    router.events.subscribe((e) => this.routerEventHandler(e));
 
-		// event handler
-		this.event.onEvent.subscribe((e) => this.eventHandler(e));
-	}
+    // event handler
+    this.event.onEvent.subscribe((e) => this.eventHandler(e));
+  }
 
-	loadNavigation() {
-		// reset configuration
-		this.config.clear(); // clear ui cache
+  clear() {
+    this.config.set("nav", null);
+    this.config.set("theme", null);
+  }
 
-		this.rest
-			.request(
-				`${this.config.get('url')}/navigation.config?${this.config.get('_id')}`,
-				null,
-				'get',
-				{},
-				!navigator.onLine
-			)
-			.subscribe((r) => {
-				// save theme
-				this.config.set('theme', r.theme);
+  routerEventHandler(e) {
+    if (e instanceof NavigationEnd) {
+      // add to navigation stack
+      this.navigate(e.url);
 
-				// save permission
-				this.config.set('permissions', r.permissions);
+      // split if #
+      e.url = e.url.split("#")[0];
 
-				// save module config
-				this.config.set('module', r.module);
+      // save current url
+      this.currUrl = e.url;
+      this.currNav = this.find(e.url);
+      if (this.currNav) {
+        // check if the current url and found url has the same
+        if (this.currNav && this.currUrl.includes(this.currNav.url) == false) {
+          this.router.navigateByUrl("/");
+        }
 
-				// save navigations
-				let nav = this.config.get('nav');
-				if (JSON.stringify(nav) != JSON.stringify(r.nav)) {
-					this.config.set('nav', r.nav);
-					this.event.send({ name: 'navigation-updated' });
-				}
-			});
-	}
+        // see if there is a navigation filter
+        if (this.config.get("navigation.filter")) {
+          try {
+            eval(this.config.get("navigation.filter"));
+          } catch (e) {
+            console.error(e);
+          }
+        }
 
-	clear() {
-		this.config.set('nav', null);
-		this.config.set('theme', null);
-	}
+        // if it is at the root with no navigation assigned
+        // then navigate to the first item
+        if (e.url == "/") {
+          let first = this.find(e.url);
+          if (first && first.url != e.url) this.router.navigateByUrl(first.url);
+        }
 
-	routerEventHandler(e) {
-		if (e instanceof NavigationEnd) {
-			// add to navigation stack
-			this.navigate(e.url);
+        // send out events
+        this.event.send({
+          name: "navigation-changed",
+          data: this.currNav,
+        });
+      }
+    }
+  }
 
-			// split if #
-			e.url = e.url.split('#')[0];
+  eventHandler(e) {
+    if (e.name == "navigation-updated") {
+      // set initial navigation
+      this.currNav = this.find(this.currUrl);
+      if (this.currNav) {
+        // keep the current query string before changing the nav
+        let url = this.currNav.url;
+        let queryStrings = this.location.path().split("?");
+        if (queryStrings.length > 1) url += `?${queryStrings[1]}`;
 
-			// save current url
-			this.currUrl = e.url;
-			this.currNav = this.find(e.url);
-			if (this.currNav) {
-				// check if the current url and found url has the same
-				if (this.currNav && this.currUrl.includes(this.currNav.url) == false) {
-					this.router.navigateByUrl('/');
-				}
+        this.router.navigateByUrl(url);
 
-				// see if there is a navigation filter
-				if (this.config.get('navigation.filter')) {
-					try {
-						eval(this.config.get('navigation.filter'));
-					} catch (e) {
-						console.error(e);
-					}
-				}
+        // send out events - trying to force reload the page
+        this.event.send({
+          name: "navigation-changed",
+          data: this.currNav,
+        });
+      }
+    } else if (e.name == "nav-badge") {
+      // find navigation fits the url
+      let navigation = this.config.get("nav");
+      for (let nav of navigation) {
+        if (nav.url == e.url) {
+          nav.badge = e.badge;
+        }
+      }
+      // send navigation updated
+      this.event.send({ name: "navigation-changed" });
+    }
+  }
 
-				// if it is at the root with no navigation assigned
-				// then navigate to the first item
-				if (e.url == '/') {
-					let first = this.find(e.url);
-					if (first && first.url != e.url) this.router.navigateByUrl(first.url);
-				}
+  // current navigation settings
+  currUrl: string;
+  currNav: any;
 
-				// send out events
-				this.event.send({
-					name: 'navigation-changed',
-					data: this.currNav,
-				});
-			}
-		}
-	}
+  find(url: string) {
+    let navigation = this.config.get("nav");
+    if (!navigation) return null;
 
-	eventHandler(e) {
-		if (e.name == 'login-success' || e.name == 'navigation-updated') {
-			// set initial navigation
-			this.currNav = this.find(this.currUrl);
-			if (this.currNav) {
-				// keep the current query string before changing the nav
-				let url = this.currNav.url;
-				let queryStrings = this.location.path().split('?');
-				if (queryStrings.length > 1) url += `?${queryStrings[1]}`;
+    // split by ?
+    url = url.split("?")[0];
+    // remove trailing slash
+    if (url.substr(-1) === "/") {
+      url = url.substr(0, url.length - 1);
+    }
 
-				this.router.navigateByUrl(url);
+    // find item
+    let firstNavItem = null;
+    for (const navItem of navigation) {
+      if (this.permission.check(navItem)) {
+        // save first navigation item
+        if (firstNavItem == null && !navItem.children) {
+          if (navItem.type == "desktop" && !this.util.isElectron()) {
+          } else {
+            firstNavItem = navItem;
+          }
+        }
 
-				// send out events - trying to force reload the page
-				this.event.send({
-					name: 'navigation-changed',
-					data: this.currNav,
-				});
-			}
-		} else if(e.name == 'nav-badge') {
-			// find navigation fits the url
-			let navigation = this.config.get('nav');
-			for(let nav of navigation) {
-				if(nav.url == e.url) {
-					nav.badge = e.badge;
-				}
-			}
-			// send navigation updated
-			this.event.send({name: 'navigation-updated'})
-		}
-	}
+        // if has children then loop through children
+        if (navItem.children) {
+          for (const child of navItem.children) {
+            if (this.permission.check(child)) {
+              // save first navigation item
+              if (firstNavItem == null && !child.children) {
+                if (navItem.type == "desktop" && !this.util.isElectron()) {
+                } else {
+                  firstNavItem = child;
+                }
+              }
 
-	// current navigation settings
-	currUrl: string;
-	currNav: any;
+              if (
+                child.url &&
+                url == child.url &&
+                this.permission.check(navItem)
+              )
+                return child;
+            }
+          }
+        }
 
-	find(url: string) {
-		let navigation = this.config.get('nav');
-		if (!navigation) return null;
+        // return found item
+        if (url == navItem.url) return navItem;
+      }
+    }
 
-		// split by ?
-		url = url.split('?')[0];
-		// remove trailing slash
-		if (url.substr(-1) === '/') {
-			url = url.substr(0, url.length - 1);
-		}
+    return firstNavItem;
+  }
 
-		// find item
-		let firstNavItem = null;
-		for (const navItem of navigation) {
-			if (this.permission.check(navItem)) {
-				// save first navigation item
-				if (firstNavItem == null && !navItem.children) {
-					if (navItem.type == 'desktop' && !this.util.isElectron()) {
-					} else {
-						firstNavItem = navItem;
-					}
-				}
+  // get/set parameter on the URL without reloading the page
+  getParams() {
+    let tempUrl = this.location.path().split("?");
+    if (tempUrl.length > 1) {
+      let url = "?" + this.location.path().split("?")[1];
+      let params = {},
+        queryString = url.substring(1),
+        regex = /([^&=]+)=([^&]*)/g,
+        m;
 
-				// if has children then loop through children
-				if (navItem.children) {
-					for (const child of navItem.children) {
-						if (this.permission.check(child)) {
-							// save first navigation item
-							if (firstNavItem == null && !child.children) {
-								if (navItem.type == 'desktop' && !this.util.isElectron()) {
-								} else {
-									firstNavItem = child;
-								}
-							}
+      while ((m = regex.exec(queryString))) {
+        if (params[decodeURIComponent(m[1])]) {
+          // if it already exists then convert to array
+          params[decodeURIComponent(m[1])] = [params[decodeURIComponent(m[1])]];
+          params[decodeURIComponent(m[1])].push(
+            decodeURIComponent(m[2]).replace(/\+/g, " ")
+          );
+        } else {
+          params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]).replace(
+            /\+/g,
+            " "
+          );
+        }
+      }
 
-							if (child.url && url == child.url && this.permission.check(navItem)) return child;
-						}
-					}
-				}
+      return params;
+    }
 
-				// return found item
-				if (url == navItem.url) return navItem;
-			}
-		}
+    return {};
+  }
 
-		return firstNavItem;
-	}
+  setParam(name, value, navigate = false) {
+    let param = this.getParams();
 
-	// get/set parameter on the URL without reloading the page
-	getParams() {
-		let tempUrl = this.location.path().split('?');
-		if (tempUrl.length > 1) {
-			let url = '?' + this.location.path().split('?')[1];
-			let params = {},
-				queryString = url.substring(1),
-				regex = /([^&=]+)=([^&]*)/g,
-				m;
+    // set param
+    param[name] = value;
 
-			while ((m = regex.exec(queryString))) {
-				if (params[decodeURIComponent(m[1])]) {
-					// if it already exists then convert to array
-					params[decodeURIComponent(m[1])] = [params[decodeURIComponent(m[1])]];
-					params[decodeURIComponent(m[1])].push(decodeURIComponent(m[2]).replace(/\+/g, ' '));
-				} else {
-					params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]).replace(/\+/g, ' ');
-				}
-			}
+    // remove param if empty
+    if (typeof value == "undefined" || value == null) delete param[name];
 
-			return params;
-		}
+    // form query string
+    let queryString = new URLSearchParams();
+    for (let key in param) {
+      if (typeof param[key] !== "undefined" && param[key] != null) {
+        if (Array.isArray(param[key])) {
+          for (let v of param[key]) queryString.append(key, v);
+        } else {
+          queryString.set(key, param[key]);
+        }
+      }
+    }
 
-		return {};
-	}
+    // refresh the page
+    if (this.currUrl) {
+      let url = this.currUrl.split("?")[0];
+      if (navigate == true) {
+        // navigate to link
+        this.router.navigateByUrl(`${url}?${queryString.toString()}`);
+      } else {
+        // update url - without renavigating to the page
+        this.location.replaceState(url, queryString.toString());
+        // leave only last stack of the navigation history of the same page
+        let lastNav = this.navigationStack[this.navigationStack.length - 1];
+        if (lastNav && lastNav.startsWith(url)) this.navigationStack.pop();
+        // update navigation statck
+        this.navigate(`${url}?${queryString.toString()}`);
+      }
+    }
+  }
 
-	setParam(name, value, navigate = false) {
-		let param = this.getParams();
+  // navigate back
+  navigationStack = [];
 
-		// set param
-		param[name] = value;
+  navigate(url) {
+    // add to navigation stack
+    // if last entry is the same then don't add to the queu
+    if (this.navigationStack[this.navigationStack.length - 1] != url) {
+      this.navigationStack.push(url);
+    }
 
-		// remove param if empty
-		if (typeof value == 'undefined' || value == null) delete param[name];
+    // if navigation stack is bigger than 10 then pop oldest
+    if (this.navigationStack.length > 10) this.navigationStack.shift();
+  }
 
-		// form query string
-		let queryString = new URLSearchParams();
-		for (let key in param) {
-			if (typeof param[key] !== 'undefined' && param[key] != null) {
-				if (Array.isArray(param[key])) {
-					for (let v of param[key]) queryString.append(key, v);
-				} else {
-					queryString.set(key, param[key]);
-				}
-			}
-		}
+  navigateByUrl(url) {
+    this.router.navigateByUrl(url);
+  }
 
-		// refresh the page
-		if (this.currUrl) {
-			let url = this.currUrl.split('?')[0];
-			if (navigate == true) {
-				// navigate to link
-				this.router.navigateByUrl(`${url}?${queryString.toString()}`);
-			} else {
-				// update url - without renavigating to the page
-				this.location.replaceState(url, queryString.toString());
-				// leave only last stack of the navigation history of the same page
-				let lastNav = this.navigationStack[this.navigationStack.length - 1];
-				if (lastNav && lastNav.startsWith(url)) this.navigationStack.pop();
-				// update navigation statck
-				this.navigate(`${url}?${queryString.toString()}`);
-			}
-		}
-	}
+  navPopStack(match?) {
+    if (match && this.navigationStack.length) {
+      let url = this.navigationStack[this.navigationStack.length - 1];
+      if (url.startsWith(match)) {
+        this.navigationStack.pop();
+      }
+    } else {
+      this.navigationStack.pop();
+    }
+  }
 
-	// navigate back
-	navigationStack = [];
+  back() {
+    // pop stack
+    this.navPopStack();
 
-	navigate(url) {
-		// add to navigation stack
-		// if last entry is the same then don't add to the queu
-		if (this.navigationStack[this.navigationStack.length - 1] != url) {
-			this.navigationStack.push(url);
-		}
+    // go to last element
+    if (this.navigationStack.length > 0)
+      this.router.navigateByUrl(
+        this.navigationStack[this.navigationStack.length - 1]
+      );
+    else if (this.currNav.parent_url) {
+      // when stack is empty and parent_url exists then go to parent url
+      this.router.navigateByUrl(this.currNav.parent_url);
+    } else {
+      // go back one url
+      history.go(-1);
+    }
+  }
 
-		// if navigation stack is bigger than 10 then pop oldest
-		if (this.navigationStack.length > 10) this.navigationStack.shift();
-	}
+  /**
+   * Check if the given url can be found
+   * in one of the given parent's children
+   *
+   * @param parent
+   * @param url
+   * @returns {any}
+   */
+  isUrlInChildren(parent, url) {
+    if (url) {
+      if (!parent.children) return false;
 
-	navigateByUrl(url) {
-		this.router.navigateByUrl(url);
-	}
+      for (let i = 0; i < parent.children.length; i++) {
+        if (parent.children[i].children)
+          if (this.isUrlInChildren(parent.children[i], url)) return true;
 
-	navPopStack(match?) {
-		if (match && this.navigationStack.length) {
-			let url = this.navigationStack[this.navigationStack.length - 1];
-			if (url.startsWith(match)) {
-				this.navigationStack.pop();
-			}
-		} else {
-			this.navigationStack.pop();
-		}
-	}
+        if (
+          parent.children[i].url === url ||
+          url.includes(parent.children[i].url)
+        )
+          return true;
+      }
+    }
 
-	back() {
-		// pop stack
-		this.navPopStack();
-
-		// go to last element
-		if (this.navigationStack.length > 0)
-			this.router.navigateByUrl(this.navigationStack[this.navigationStack.length - 1]);
-		else if(this.currNav.parent_url) {
-			// when stack is empty and parent_url exists then go to parent url
-			this.router.navigateByUrl(this.currNav.parent_url);
-		} else {
-			// go back one url
-			history.go(-1);
-		}
-	}
-
-	/**
-	 * Check if the given url can be found
-	 * in one of the given parent's children
-	 *
-	 * @param parent
-	 * @param url
-	 * @returns {any}
-	 */
-	isUrlInChildren(parent, url) {
-		if (url) {
-			if (!parent.children) return false;
-
-			for (let i = 0; i < parent.children.length; i++) {
-				if (parent.children[i].children) if (this.isUrlInChildren(parent.children[i], url)) return true;
-
-				if (parent.children[i].url === url || url.includes(parent.children[i].url)) return true;
-			}
-		}
-
-		return false;
-	}
+    return false;
+  }
 }
