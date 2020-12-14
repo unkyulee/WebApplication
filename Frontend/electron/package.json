@@ -4,7 +4,7 @@
 	"description": "Desktop shell to host angular app",
 	"main": "main.js",
 	"scripts": {
-		"start": "wait-on tcp:4200 && npx electron . --serve",
+		"start": "npx electron . --serve",
 		"build": "electron-builder build --win --x64 --ia32 --publish never",
 		"build-mac": "electron-builder build",
 		"deploy": "electron-builder build --win --x64 --ia32 --publish always",

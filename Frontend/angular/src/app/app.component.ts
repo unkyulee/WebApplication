@@ -77,6 +77,7 @@ export class AppComponent {
   context: any = {};
 
   async initialize() {
+    this.message = '';
     this.initialized = false;
     this.view = null;
     this.logs = [];
@@ -86,7 +87,7 @@ export class AppComponent {
     this.logs.push(`Platform detected: ${this.context.platform}`);
 
     // step 2. check onilne connection
-    await this.checkOnline();
+    if(!await this.checkOnline()) return;
     this.logs.push(`Network connected`);
 
     // step 3. check service url
@@ -118,6 +119,7 @@ export class AppComponent {
 
   // retrieve platformat information
   checkPlatform() {
+    this.message = 'Checking platform';
     // check is it cordova?
     if (this.util.isCordova()) {
       this.context.platform = "mobile";
@@ -129,18 +131,21 @@ export class AppComponent {
   }
 
   async checkOnline() {
+    this.message = 'Checking online';
     // check if online
     this.context.online = window.navigator.onLine;
     // if not online then wait 30 seconds
-    while (true) {
+    while(true) {
       this.message = `Please check your network connection.`;
-      await this.util.timeout(1000);
       // when network comes online then move on
       if (window.navigator.onLine) {
         this.context.online = window.navigator.onLine;
         break;
       }
+      await this.util.timeout(10000);
     }
+
+   return this.context.online;
   }
 
   async checkServiceURL() {

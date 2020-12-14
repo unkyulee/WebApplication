@@ -20,6 +20,6 @@ export class UtilService {
   }
 
   timeout(ms) {
-    new Promise((res) => setTimeout(res, ms));
+    return new Promise((res) => setTimeout(res, ms));
   }
 }
