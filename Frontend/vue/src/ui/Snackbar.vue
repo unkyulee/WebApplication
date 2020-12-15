@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="show">
+  <v-snackbar v-model="show" :timeout="timeout">
     {{ text }}
     <template v-slot:action="{ attrs }">
       <v-btn color="pink" text v-if="action" v-bind="attrs" @click="click()">
@@ -20,6 +20,7 @@ export default Vue.component("snackbar", {
     return {
       show: false,
       text: "",
+      timeout: 3000,
       action: null,
     };
   },
@@ -28,6 +29,7 @@ export default Vue.component("snackbar", {
     this.event.subscribe(this._uid, "snackbar", (event) => {
       this.text = event.text;
       this.action = event.action;
+      this.timeout = obj.get(event, 'timeout', 3000);
       this.show = true;
     });
   },
