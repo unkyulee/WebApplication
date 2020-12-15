@@ -15,7 +15,7 @@ export class DefaultInterceptorStrategy {
       if (token) headers["Authorization"] = `Bearer ${token}`;
 
       // add navigation_id to the request
-      headers["company_id"] = this.config.get("_id", '');
+      headers["company_id"] = this.config.get("_id", "");
 
       // copy headers
       for (let header of req.headers.keys())
@@ -36,16 +36,7 @@ export class DefaultInterceptorStrategy {
         // if the authorization header has value
         if (authorization) {
           let token = authorization.split(" ")[1];
-          try {
-            if (token) localStorage.setItem("token", token);
-          } catch {
-            // clear localStorage
-            this.config.clear();
-          }
-        } else {
-          // if the token is not present then it means unauthenticated
-          // make sure that the application has unauthenticated status
-          localStorage.removeItem("token");
+          localStorage.setItem("token", token);
         }
       }
     } catch (e) {
@@ -60,16 +51,6 @@ export class DefaultInterceptorStrategy {
       // when there is an error then logout
       this.event.send("logout");
     }
-
-    if(this.config.get("authentication") &&
-      this.config.get("authentication.error")) {
-      try {
-        eval(this.config.get("authentication.error"))
-      } catch(e) {
-        console.error(e)
-      }
-    }
-
     return error;
   }
 }

@@ -6,19 +6,10 @@ import { ConfigService } from "./config.service";
 
 @Injectable()
 export class RestService {
-  constructor(
-    private http: HttpClient,
-    private config: ConfigService
-  ) {
-  }
-
-  _isConnected = true;
-  isOnline() {
-    return this._isConnected;
-  }
+  constructor(private http: HttpClient, private config: ConfigService) {}
 
   host() {
-    return this.config.get("host", '');
+    return this.config.get("host", "");
   }
 
   // request REST service
@@ -32,20 +23,19 @@ export class RestService {
       if (url.startsWith("/") == false) url = `/${url}`;
 
       // if host includes ? then replace ? in url to &
-      if(this.host().includes("?")) url = url.replace('?', '&')
+      if (this.host().includes("?")) url = url.replace("?", "&");
 
       url = `${this.host()}${url}`;
     }
 
-    if(method == "jsonp") {
+    if (method == "jsonp") {
       const queryParams = new HttpParams({ fromObject: data });
       if (data) {
         if (url.includes("?") == false) url = `${url}?${queryParams}`;
         else url = `${url}&${queryParams}`;
       }
-      return this.http.jsonp(url, options)
-    }
-    else if (method == "post") {
+      return this.http.jsonp(url, options);
+    } else if (method == "post") {
       return this.http.post(url, data, options);
     } else if (method == "put") {
       return this.http.put(url, data, options);
@@ -66,7 +56,7 @@ export class RestService {
         else url = `${url}&${queryParams}`;
       }
 
-      return Observable.create(observer => {
+      return Observable.create((observer) => {
         let response = {};
 
         // check if cache exists
@@ -84,7 +74,7 @@ export class RestService {
         }
 
         // Ask for online result
-        this.http.get(url, options).subscribe(res => {
+        this.http.get(url, options).subscribe((res) => {
           // save to cache
           try {
             localStorage.setItem(url, JSON.stringify(res));
@@ -92,7 +82,7 @@ export class RestService {
             // clear localStorage
             this.config.clear();
           }
-          
+
           if (cached == true) {
             // check if differs from cached
             if (JSON.stringify(response) != JSON.stringify(res)) {
@@ -111,7 +101,7 @@ export class RestService {
 
   async requestAsync(url: string, data?, method?, options?, cached?) {
     return new Promise((resolve, reject) => {
-      this.request(url, data, method, options, false).subscribe(response => {
+      this.request(url, data, method, options, false).subscribe((response) => {
         resolve(response);
       });
     });

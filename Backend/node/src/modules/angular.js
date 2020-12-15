@@ -47,6 +47,11 @@ async function IndexJS(db, req, res) {
     host: `${util.getProtocol(req)}://${req.get("host")}${req.baseUrl}`,
   };
   config = Object.assign(config, res.locals.nav);
+
+  // remove authorization header and cookie
+  res.header("Authorization", "");
+  res.cookie("authorization", "");
+  
   return `window.__CONFIG__ = ${JSON.stringify(config)}`;
 }
 
@@ -59,8 +64,8 @@ async function IndexJSON(db, req, res) {
   config = Object.assign(config, res.locals.nav);
 
   // remove authorization header and cookie
-  res.header("Authorization", null);
-  res.cookie("authorization", null);
+  res.header("Authorization", "");
+  res.cookie("authorization", "");
 
   return config;
 }

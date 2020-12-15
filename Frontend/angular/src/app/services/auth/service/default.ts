@@ -24,14 +24,14 @@ export class DefaultAuthStrategy {
     return new Promise((resolve, reject) => {
       // get auth url
       let authUrl = `${this.config.get("host")}${this.config.get("url")}`;
-
+      
       // request through REST
       this.rest
         .request(authUrl, data, "post", { responseType: "text" })
         .pipe(
           catchError(
             // when response is not 200
-            (err: HttpErrorResponse) => {
+            (err: HttpErrorResponse) => {              
               reject(err);
               return EMPTY;
             }
