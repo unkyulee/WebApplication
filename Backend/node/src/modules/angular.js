@@ -51,7 +51,7 @@ async function IndexJS(db, req, res) {
   // remove authorization header and cookie
   res.header("Authorization", "");
   res.cookie("authorization", "");
-  
+
   return `window.__CONFIG__ = ${JSON.stringify(config)}`;
 }
 
@@ -114,17 +114,27 @@ async function Navigation(db, req, res) {
   let nav = [];
   let set = [];
   let features = obj.get(res.locals, "nav.features", []);
-  for (let feature of features) {
-    let results = await db.find("core.feature", { query: { key: feature } });
-    if (results && results.length > 0) {
-      // get navigation
-      let navigations = obj.get(results[0], "navigations");
-      if (navigations) nav = [...nav, ...navigations];
-      // get settings
-      let settings = obj.get(results[0], "settings");
-      if (settings) set = [...set, ...settings];
+
+  // retrieve core.features all at once
+  let core_features = await db.find("core.feature", {
+    query: { key: { $in: features } },
+  });
+
+  if (core_features && core_features.length > 0) {
+    for (let feature of features) {
+      // find the feature from the db result
+      let core_feature = core_features.find((x) => x.key == feature);
+      if (core_feature) {
+        // get navigation
+        let navigations = obj.get(core_feature, "navigations");
+        if (navigations) nav = [...nav, ...navigations];
+        // get settings
+        let settings = obj.get(core_feature, "settings");
+        if (settings) set = [...set, ...settings];
+      }
     }
   }
+
   // merge settings at the end
   if (set.length > 0) {
     nav.push({
@@ -135,13 +145,20 @@ async function Navigation(db, req, res) {
     });
   }
 
-  // retrieve module configuration
+  // retrieve module configuration all at once
+  let core_configs = await db.find("config", {
+    query: {
+      company_id: obj.get(res.locals, "nav._id"),
+      type: { $in: features },
+    },
+  });
   let module = {};
-  for (let feature of features) {
-    let results = await db.find("config", {
-      query: { company_id: obj.get(res.locals, "nav._id"), type: feature },
-    });
-    if (results && results.length > 0) module[feature] = results[0];
+
+  if (core_configs) {
+    for (let feature of features) {
+      let core_config = core_configs.find((x) => x.type == feature);
+      if (core_config) module[feature] = core_config;
+    }
   }
 
   return { theme, permissions: Array.from(permission), nav, module };

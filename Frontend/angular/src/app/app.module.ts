@@ -1,9 +1,5 @@
 import { NgModule } from "@angular/core";
-import {
-  HttpClientModule,
-  HttpClientJsonpModule,
-  HTTP_INTERCEPTORS,
-} from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FormsModule } from "@angular/forms";
 import { MonacoEditorModule, NgxMonacoEditorConfig } from "ngx-monaco-editor";
@@ -18,7 +14,6 @@ import { UserService } from "./services/user/user.service";
 import { RestService } from "./services/rest.service";
 import { AuthService } from "./services/auth/auth.service";
 import { CordovaService } from "./services/cordova.service";
-import { DBService } from "./services/db/db.service";
 import { PermissionService } from "./services/permission.service";
 import { NgxImageCompressService } from "ngx-image-compress";
 import { UtilService } from "./services/util.service";
@@ -41,15 +36,10 @@ const monacoConfig: NgxMonacoEditorConfig = {
 };
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ServiceUrlComponent,
-    LoginComponent
-  ],
+  declarations: [AppComponent, ServiceUrlComponent, LoginComponent],
   imports: [
     BrowserAnimationsModule,
-    HttpClientModule,
-    HttpClientJsonpModule,
+    HttpClientModule,    
     AppRoutingModule,
     FormsModule,
     MonacoEditorModule.forRoot(monacoConfig),
@@ -64,8 +54,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
     NavService,
     UIService,
     RestService,
-    CordovaService,
-    DBService,
+    CordovaService,    
     UtilService,
     PermissionService,
     NgxImageCompressService,

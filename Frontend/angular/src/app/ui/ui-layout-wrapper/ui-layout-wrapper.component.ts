@@ -10,7 +10,6 @@ import { RestService } from '../../services/rest.service';
 import { NavService } from '../../services/nav.service';
 import { ConfigService } from '../../services/config.service';
 import { UserService } from '../../services/user/user.service';
-import { DBService } from '../../services/db/db.service';
 import { UtilService } from '../../services/util.service';
 import { CordovaService } from '../../services/cordova.service';
 import { AuthService } from '../../services/auth/auth.service';
@@ -61,8 +60,7 @@ export class UILayoutWrapperComponent {
 		this.rest = AppInjector.get(RestService);
 		this.nav = AppInjector.get(NavService);
 		this.config = AppInjector.get(ConfigService);
-		this.user = AppInjector.get(UserService);
-		this.db = AppInjector.get(DBService);
+		this.user = AppInjector.get(UserService);		
 		this.router = AppInjector.get(Router);
 		this.snackBar = AppInjector.get(MatSnackBar);
 		this.cordova = AppInjector.get(CordovaService);
@@ -77,8 +75,7 @@ export class UILayoutWrapperComponent {
 	public rest: RestService;
 	public nav: NavService;
 	public config: ConfigService;
-	public user: UserService;
-	public db: DBService;
+	public user: UserService;	
 	public router: Router;
 	public snackBar: MatSnackBar;
 	public cordova: CordovaService;

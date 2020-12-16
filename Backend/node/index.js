@@ -45,12 +45,12 @@ app.all('*', async (req, res) => {
 async function handler(req, res) {
 	let db = null;
 	try {
+    // check pre process
+    if ((await router.preProcess(db, req, res)) == false) return;
+    
 		// connect to mongodb
 		db = new MongoDB(process.env.DATABASE_URI, process.env.DB);
 		await db.connect();
-
-		// check pre process
-		if ((await router.preProcess(db, req, res)) == false) return;
 
 		// process routing and get navigation
 		res.locals.nav = await router.resolveNavigation(db, req, res);
