@@ -34,7 +34,6 @@ export class ToolbarComponent extends BaseComponent {
 				this.actions = event.data;
 			} else if (event.name == 'splash-show') {
 				this.showLoadingBar = true;
-				setTimeout(() => {this.showLoadingBar = false}, 5000)
 			} else if (event.name == 'splash-hide') {
 				this.showLoadingBar = false;
 			} else if (event.name == 'hide-toolbar') {
