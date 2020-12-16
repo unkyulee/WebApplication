@@ -118,6 +118,7 @@ async function Navigation(db, req, res) {
   // retrieve core.features all at once
   let core_features = await db.find("core.feature", {
     query: { key: { $in: features } },
+    size: 10000
   });
 
   if (core_features && core_features.length > 0) {
@@ -151,6 +152,7 @@ async function Navigation(db, req, res) {
       company_id: obj.get(res.locals, "nav._id"),
       type: { $in: features },
     },
+    size: 10000
   });
   let module = {};
 
