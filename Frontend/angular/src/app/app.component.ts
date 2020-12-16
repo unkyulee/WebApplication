@@ -150,7 +150,7 @@ export class AppComponent {
 
   async checkServiceURL() {
     this.context.service_url = localStorage.getItem("service_url");
-    if (this.context.service_url) {
+    if (this.context.service_url != null) {
       this.message = "Service URL discovered";
       return true;
     } else {
