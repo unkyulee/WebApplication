@@ -26,23 +26,17 @@ export class UIService {
     if (moment().add(-6, "hours") > this.loadedAt) {
       this.loadedAt = moment();
 
-      // request the app
+      // clear UI cache
       this.clear();
     }
 
     let uiElement = this.config.get(`ui.${uiElementId}`);
-    if (!uiElement || window.dev == true) {
+    if (!uiElement) {
       // use cache when offline
       let url = `${this.config.get("host")}${this.config.get(
         "url"
       )}/ui.element`;
-      uiElement = await this.rest.requestAsync(
-        url,
-        { uiElementId },
-        "get",
-        {},
-        !navigator.onLine
-      );
+      uiElement = await this.rest.requestAsync(url, { uiElementId });      
       this.config.set(`ui.${uiElementId}`, uiElement);
     }
 
