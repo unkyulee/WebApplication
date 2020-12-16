@@ -23,7 +23,7 @@ export class UIComposerComponent extends BaseComponent {
   }
 
   async eventHandler(event) {
-    if (event.name == "navigation-changed") {
+    if (event.name == "navigation-changed") {      
       // hide all screen
       for (let context of this.context) {
         if (context.key) {
@@ -45,7 +45,7 @@ export class UIComposerComponent extends BaseComponent {
       if (obj.get(this.nav, "currNav.persist")) {
         currentContext = this.context.find(
           (x) => x.key == this.nav.currNav.url
-		);
+        );
         if (!currentContext) {
           // create a new context
           currentContext = {

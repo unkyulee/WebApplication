@@ -72,9 +72,6 @@ export class CalendarComponent extends BaseComponent {
         console.error(e);
       }
 
-      // show splash
-      this.event.send({name: "splash-show"});
-
       this.rest
         .request(
           src,
@@ -89,10 +86,7 @@ export class CalendarComponent extends BaseComponent {
     }
   }
 
-  async responseDownload(response) {
-    // stop the loading indicator
-    this.event.send({name: "splash-hide"});
-
+  async responseDownload(response) {    
     // map data from response
     if (this.uiElement.transform) {
       try {

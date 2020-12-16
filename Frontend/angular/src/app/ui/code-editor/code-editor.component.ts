@@ -87,16 +87,10 @@ export class CodeEditorComponent extends BaseComponent {
 
     // update data through rest web services
     if (src) {
-      // hide the splash
-      this.event.send({name: "splash-show"});
-
       this.rest
         .request(src, data, method)
         .pipe(
           catchError(err => {
-            // hide the splash
-            this.event.send({name: "splash-hide"});
-
             // save failed
             let errorAction = obj.get(this.uiElement, "save.errorAction");
             if (errorAction) {
@@ -113,16 +107,10 @@ export class CodeEditorComponent extends BaseComponent {
           })
         )
         .subscribe(response => this.saveAction(response));
-    } else {
-      // hide splash
-      this.event.send({name: "splash-hide"});
-    }
+    } 
   }
 
   saveAction(response) {
-    // hide the splash
-    this.event.send({name: "splash-hide"});
-
     let saveAction = obj.get(this.uiElement, "save.saveAction");
     if (saveAction)
       try {

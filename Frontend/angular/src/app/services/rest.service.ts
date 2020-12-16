@@ -1,13 +1,19 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable, EMPTY } from "rxjs";
-import { delay, takeWhile } from 'rxjs/operators';
+import { share, delay, takeWhile } from "rxjs/operators";
+
+//
 import { ConfigService } from "./config.service";
-import { share } from "rxjs/operators";
+import { EventService } from "./event.service";
 
 @Injectable()
 export class RestService {
-  constructor(private http: HttpClient, private config: ConfigService) {}
+  constructor(
+    private http: HttpClient,
+    private config: ConfigService,
+    private event: EventService
+  ) {}
 
   // Oberservable Based Request - Caches GET
   request(url, data?, method?, options?, cached?) {
@@ -43,11 +49,12 @@ export class RestService {
     let cacheKey = `${method}_${url}_${JSON.stringify(data)}`;
 
     // check if the observable is not yet completed
-    if (this.schedule_queue[cacheKey]) {      
+    if (this.schedule_queue[cacheKey]) {
       return this.schedule_queue[cacheKey];
     }
 
     // add to the schedule queue
+    this.event.send({name: "splash-show"})
     this.schedule_queue[cacheKey] = this.req(
       cacheKey,
       url,
@@ -63,18 +70,19 @@ export class RestService {
   /////////////////////////////
   // Observables
   req(cacheKey, url_passed, data?, method?, options?, cached?) {
-    
     //
     let completed = false;
     const removeSchedule = (cacheKey) => {
-      delete this.schedule_queue[cacheKey]
-    }
+      delete this.schedule_queue[cacheKey];
+      if(Object.keys(this.schedule_queue).length == 0)
+        this.event.send({name: "splash-hide"})
+    };
 
     let observable = new Observable<any>((observer) => {
       // copy value to the observable instance
-      let url = `${url_passed}`;    
+      let url = `${url_passed}`;
       let cache = `${cacheKey}`;
-      
+
       switch (method) {
         case "post":
         case "POST":
@@ -83,7 +91,7 @@ export class RestService {
               observer.next(res);
               observer.complete();
               completed = true;
-              removeSchedule(cache)
+              removeSchedule(cache);
             });
           }
 
@@ -98,7 +106,7 @@ export class RestService {
               observer.next(res);
               observer.complete();
               completed = true;
-              removeSchedule(cache)
+              removeSchedule(cache);
             });
           }
           break;
@@ -110,7 +118,7 @@ export class RestService {
               observer.next(res);
               observer.complete();
               completed = true;
-              removeSchedule(cache)
+              removeSchedule(cache);
             });
           }
           break;
@@ -160,17 +168,17 @@ export class RestService {
             // complete the subscription
             observer.complete();
             completed = true;
-            removeSchedule(cache)
+            removeSchedule(cache);
           });
         }
       }
     });
 
     // make it multicast
-    return observable.pipe(      
-      takeWhile(x => !completed),
+    return observable.pipe(
+      takeWhile((x) => !completed),
       delay(300),
-      share()      
+      share()
     );
   }
   /////////////////////////////

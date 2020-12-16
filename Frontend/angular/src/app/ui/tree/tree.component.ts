@@ -76,8 +76,7 @@ export class TreeComponent extends BaseComponent {
 				}
 			}
 
-			// send REST request
-			this.event.send({ name: 'splash-show' }); // show splash
+			// send REST request			
 			this.rest
 				.request(src, data, this.uiElement.method, options, this.uiElement.cached)
 				.subscribe((response) => this.responseDownload(response));
@@ -85,9 +84,6 @@ export class TreeComponent extends BaseComponent {
 	}
 
 	responseDownload(response) {
-		// hide splash
-		this.event.send({ name: 'splash-hide' });
-
 		// map data from response
 		let transform = this.uiElement.transform || 'response.data';
 		try {

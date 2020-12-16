@@ -256,9 +256,6 @@ export class UploaderComponent extends BaseComponent {
 		});
 		this.value = currentValue;
 
-		// hide splash
-		this.event.send({ name: 'splash-hide' });
-
 		// save if there are no others in the queue
 		let index = this.uploader.queue.indexOf(item);
 		if (index == this.uploader.queue.length - 1) {
