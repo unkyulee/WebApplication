@@ -54,7 +54,7 @@ export class RestService {
     }
 
     // add to the schedule queue
-    this.event.send({name: "splash-show"})
+    this.event.send({ name: "splash-show" });
     this.schedule_queue[cacheKey] = this.req(
       cacheKey,
       url,
@@ -72,10 +72,19 @@ export class RestService {
   req(cacheKey, url_passed, data?, method?, options?, cached?) {
     //
     let completed = false;
-    const removeSchedule = (cacheKey) => {
+    const removeSchedule = (cacheKey, observer) => {
+      // complete the observable
+      observer.complete();
+
+      // mark flag for completion
+      completed = true;
+
+      // remove from the schedule queue
       delete this.schedule_queue[cacheKey];
-      if(Object.keys(this.schedule_queue).length == 0)
-        this.event.send({name: "splash-hide"})
+
+      // hide splash when last request has completed
+      if (Object.keys(this.schedule_queue).length == 0)
+        this.event.send({ name: "splash-hide" });
     };
 
     let observable = new Observable<any>((observer) => {
@@ -87,12 +96,16 @@ export class RestService {
         case "post":
         case "POST":
           {
-            this.http.post(url, data, options).subscribe((res) => {
-              observer.next(res);
-              observer.complete();
-              completed = true;
-              removeSchedule(cache);
-            });
+            this.http.post(url, data, options).subscribe(
+              (res) => {
+                observer.next(res);
+                removeSchedule(cache, observer);
+              },
+              (err) => {
+                observer.error(err);
+                removeSchedule(cache, observer);
+              }
+            );
           }
 
           break;
@@ -102,24 +115,32 @@ export class RestService {
           {
             // if data is given when method is get then convert it to query string
             url = this.toQueryString(url, data);
-            this.http.delete(url, options).subscribe((res) => {
-              observer.next(res);
-              observer.complete();
-              completed = true;
-              removeSchedule(cache);
-            });
+            this.http.delete(url, options).subscribe(
+              (res) => {
+                observer.next(res);
+                removeSchedule(cache, observer);
+              },
+              (err) => {
+                observer.error(err);
+                removeSchedule(cache, observer);
+              }
+            );
           }
           break;
 
         case "put":
         case "PUT":
           {
-            this.http.put(url, data, options).subscribe((res) => {
-              observer.next(res);
-              observer.complete();
-              completed = true;
-              removeSchedule(cache);
-            });
+            this.http.put(url, data, options).subscribe(
+              (res) => {
+                observer.next(res);
+                removeSchedule(cache, observer);
+              },
+              (err) => {
+                observer.error(err);
+                removeSchedule(cache, observer);
+              }
+            );
           }
           break;
 
@@ -146,30 +167,34 @@ export class RestService {
           }
 
           // then returns online result later
-          this.http.get(url, options).subscribe((res) => {
-            // save to cache
-            if (cached != false) {
-              try {
-                //
-                localStorage.setItem(url, JSON.stringify(res));
-              } catch {
-                // local storage can fail due to storage full
-                // then clear the cache
-                this.clearCache();
+          this.http.get(url, options).subscribe(
+            (res) => {
+              // save to cache
+              if (cached != false) {
+                try {
+                  //
+                  localStorage.setItem(url, JSON.stringify(res));
+                } catch {
+                  // local storage can fail due to storage full
+                  // then clear the cache
+                  this.clearCache();
+                }
               }
-            }
 
-            // check if differs from cached
-            if (JSON.stringify(response) != JSON.stringify(res)) {
-              // cache miss
-              observer.next(res);
-            }
+              // check if differs from cached
+              if (JSON.stringify(response) != JSON.stringify(res)) {
+                // cache miss
+                observer.next(res);
+              }
 
-            // complete the subscription
-            observer.complete();
-            completed = true;
-            removeSchedule(cache);
-          });
+              // complete the subscription
+              removeSchedule(cache, observer);
+            },
+            (err) => {
+              observer.error(err);
+              removeSchedule(cache, observer);
+            }
+          );
         }
       }
     });

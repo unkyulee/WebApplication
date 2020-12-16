@@ -49,7 +49,8 @@ export class DefaultInterceptorStrategy {
   handleError(error, caught) {
     if (error.status == 403 || error.status == 401) {
       // when there is an error then logout
-      this.event.send("logout");
+      if(localStorage.getItem("token") != null)
+        this.event.send("logout");
     }
     return error;
   }
