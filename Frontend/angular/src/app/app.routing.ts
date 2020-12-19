@@ -9,7 +9,7 @@ const appRoutes: Routes = [{ path: '**', component: LayoutComponent }];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' }),
     LayoutModule
   ],
   exports: [RouterModule]
