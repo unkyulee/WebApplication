@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { GoogleMapsModule } from '@angular/google-maps'
 
 //
 import { MaterialModule } from '../core/material.module';
@@ -48,7 +47,6 @@ import { EditorComponent } from './editor/editor.component';
 import { ImageComponent } from './image/image.component';
 import { WebViewComponent } from './webview/webview.component';
 import { WebViewDirective } from './webview/webview.directive';
-import { MapsComponent } from './maps/maps.component';
 import { CameraComponent } from './camera/camera.component';
 import { TreeComponent } from './tree/tree.component';
 import { SliderComponent } from './slider/slider.component';
@@ -110,7 +108,6 @@ export function momentAdapterFactory() {
 		UIComposerDialogComponent,
 		WebViewComponent,
 		WebViewDirective,
-		MapsComponent,
 		CameraComponent,
 		TreeComponent,
 		SliderComponent
@@ -145,7 +142,6 @@ export function momentAdapterFactory() {
 		UIComposerActionsComponent,
 		UIComposerDialogComponent,
 		WebViewComponent,
-		MapsComponent,
 		CameraComponent,
 		TreeComponent,
 		SliderComponent
@@ -184,7 +180,6 @@ export function momentAdapterFactory() {
 		UIComposerActionsComponent,
 		UIComposerDialogComponent,
 		WebViewComponent,
-		MapsComponent,
 		CameraComponent,
 		SliderComponent
 	],
@@ -213,8 +208,7 @@ export function momentAdapterFactory() {
 		NgxBarcodeModule,
 		NgxPrintModule,
 		DragDropModule,
-		PrimeNGModule,
-		GoogleMapsModule
+		PrimeNGModule
 	],
 	providers: [
 		{

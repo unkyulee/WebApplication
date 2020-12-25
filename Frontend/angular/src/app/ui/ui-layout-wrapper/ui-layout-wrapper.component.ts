@@ -40,7 +40,6 @@ import { IconComponent } from '../icon/icon.component';
 import { ImageComponent } from '../image/image.component';
 import { DateComponent } from '../date/date.component';
 import { WebViewComponent } from '../webview/webview.component';
-import { MapsComponent } from '../maps/maps.component';
 import { CameraComponent } from '../camera/camera.component';
 import { TreeComponent } from '../tree/tree.component';
 import { SliderComponent } from '../slider/slider.component';
@@ -176,9 +175,6 @@ export class UILayoutWrapperComponent {
 				break;
 			case 'camera':
 				componentFactory = this.cfr.resolveComponentFactory(CameraComponent);
-				break;
-			case 'maps':
-				componentFactory = this.cfr.resolveComponentFactory(MapsComponent);
 				break;
 			case 'image':
 				componentFactory = this.cfr.resolveComponentFactory(ImageComponent);
