@@ -33,6 +33,7 @@
 				} catch (e) {}
 			}
 
+      let lastResume = new Date().getTime();
 			function onResume() {
 				try {
 					setTimeout(() => {
@@ -40,8 +41,12 @@
 						codePush.sync(null, { installMode: InstallMode.ON_NEXT_RESUME });
 					}, 10000);
 
-					// refresh
-					window.__CONFIG__.event.sendAsync({ name: 'refresh' });
+          // refresh
+          if(new Date().getTime() - lastResume > 3600000) {
+            window.__CONFIG__.event.sendAsync({ name: 'refresh' });
+          }
+          lastResume = new Date().getTime();
+					
 				} catch (e) {}
 			}
 		</script>
