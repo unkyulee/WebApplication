@@ -1,9 +1,10 @@
 <canvas
-  #signaturePadElement  
-  (window:resize)="resize()"  
+  #signaturePadElement
+  (window:resize)="resize()"
   [ngStyle]="uiElement.style"
   [ngClass]="uiElement.class"
-></canvas>
+>
+</canvas>
 
 <div [ngStyle]="uiElement.buttonLayoutStyle">
   <button mat-raised-button class="mb-4" (click)="save()" color="warn">

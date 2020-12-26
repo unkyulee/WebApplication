@@ -1,103 +1,93 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import SignaturePad from 'signature_pad';
+import { Component, ViewChild, ElementRef } from "@angular/core";
+import SignaturePad from "signature_pad";
 
 // user imports
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
+import obj from "object-path";
 
 @Component({
-	selector: 'signature',
-	templateUrl: './signature.component.html',
+  selector: "signature",
+  templateUrl: "./signature.component.html",
 })
 export class SignatureComponent extends BaseComponent {
-	constructor(private container: ElementRef) {
-		super();
-	}
+  constructor(private container: ElementRef) {
+    super();
+  }
 
-	@ViewChild("signaturePadElement") signaturePadElement;
+  @ViewChild("signaturePadElement") signaturePadElement;
 
-	signaturePad;
-	options: Object = {};
+  signaturePad;
+  options: Object = {};
 
-	// this.signaturePad is now available
-	ngAfterViewInit() {
-		super.ngAfterViewInit();
+  // this.signaturePad is now available
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
 
-		//		
-		this.signaturePad = new SignaturePad(this.signaturePadElement.nativeElement);
+    //
+    this.signaturePad = new SignaturePad(
+      this.signaturePadElement.nativeElement,
+      {
+        backgroundColor: obj.get(this.uiElement, "style.background", "#ebebeb"),
+        penColor: obj.get(this.uiElement, "style.color", "rgb(0,0,255)") 
+      }
+    );
 
-		this.config.set('signaturePad', this.signaturePad)
-		
-		this.resize();
+    //
+    this.resize();
 
-		// set background color
-		if (this.uiElement.backgroundColor) {
-			this.signaturePad.canvas.backgroundColor = this.uiElement.backgroundColor;
-		}
-		else {
-			this.signaturePad.canvas.backgroundColor = '#E2E2E2';
-		} 
+    // clear to apply the background color
+    this.signaturePad.clear();
 
-		// set pen color
-		if (this.uiElement.penColor) {
-			this.signaturePad.canvas.penColor = this.uiElement.penColor;
-		}
-		else {
-			this.signaturePad.canvas.penColor = 'rgb(0, 0, 255)';
-		}
+    // load signature
+    if (this.data && this.uiElement.key) {
+      this.signaturePad.fromDataURL(this.data[this.uiElement.key]);
+    }
+  }
 
-		// clear to apply the background color
-		this.signaturePad.clear();
+  drawStart() {}
+  drawComplete() {}
 
-		// load signature
-		if (this.data && this.uiElement.key) {
-			this.signaturePad.fromDataURL(this.data[this.uiElement.key]);
-		}
-	}
+  clear() {
+    this.signaturePad.clear();
+  }
 
-	drawStart() {}
-	drawComplete() {}
+  save() {
+    //
+    if (this.uiElement.save) {
+      try {
+        eval(this.uiElement.save);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    // save signature
+    else if (this.data && this.uiElement.key) {
+      this.data[this.uiElement.key] = this.signaturePad.toDataURL();
+      this.event.send({ name: "save" });
+    }
+  }
 
-	clear() {
-		this.signaturePad.clear();
-	}
+  toFile(filename) {
+    let data = this.signaturePad.toDataURL();
+    data = data.split(",")[1];
 
-	save() {
-		//
-		if (this.uiElement.save) {
-			try {
-				eval(this.uiElement.save);
-			} catch (e) {
-				console.error(e);
-			}
-		}
-		// save signature
-		else if (this.data && this.uiElement.key) {
-			this.data[this.uiElement.key] = this.signaturePad.toDataURL();
-			this.event.send({ name: 'save' });
-		}
-	}
+    var byteCharacters = atob(data);
+    var byteNumbers = new Array(byteCharacters.length);
+    for (var i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    var byteArray = new Uint8Array(byteNumbers);
 
-	toFile(filename) {
-		let data = this.signaturePad.toDataURL();
-		data = data.split(',')[1];
+    let blob: any = new Blob([byteArray], { type: "image/png" });
+    blob.name = filename;
+    blob.lastModified = Date.now();
 
-		var byteCharacters = atob(data);
-		var byteNumbers = new Array(byteCharacters.length);
-		for (var i = 0; i < byteCharacters.length; i++) {
-			byteNumbers[i] = byteCharacters.charCodeAt(i);
-		}
-		var byteArray = new Uint8Array(byteNumbers);
+    return blob;
+  }
 
-		let blob: any = new Blob([byteArray], { type: 'image/png' });
-		blob.name = filename;
-		blob.lastModified = Date.now();
-
-		return blob;
-	}
-
-	// set the dimensions of the signature pad canvas
-	resize() {
-		this.signaturePad.canvas.width = this.container.nativeElement.clientWidth;
-		this.signaturePad.canvas.height = this.container.nativeElement.clientHeight;		
-	}
+  // set the dimensions of the signature pad canvas
+  resize() {
+    this.signaturePad.canvas.width = this.container.nativeElement.clientWidth;
+    this.signaturePad.canvas.height = this.container.nativeElement.clientHeight;
+  }
 }

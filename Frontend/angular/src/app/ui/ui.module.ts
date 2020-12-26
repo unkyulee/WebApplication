@@ -50,6 +50,7 @@ import { WebViewDirective } from './webview/webview.directive';
 import { CameraComponent } from './camera/camera.component';
 import { TreeComponent } from './tree/tree.component';
 import { SliderComponent } from './slider/slider.component';
+import { IconComponent } from './icon/icon.component';
 
 // overlay
 import { UIComposerComponent } from './ui-composer/ui-composer.component'
@@ -59,14 +60,13 @@ import { UIComposerDialogComponent } from './ui-composer-dialog/ui-composer-dial
 // calendar modules
 import * as moment from 'moment';
 import {
-	CalendarModule as AngularCalendarModule,
-	DateAdapter,
-	CalendarDateFormatter,
-	CalendarMomentDateFormatter,
-	MOMENT,
+  CalendarDateFormatter,
+  CalendarModule,
+  CalendarMomentDateFormatter,
+  DateAdapter,
+  MOMENT,
 } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/moment';
-import { IconComponent } from './icon/icon.component';
 export function momentAdapterFactory() {
 	return adapterFactory(moment);
 }
@@ -188,12 +188,11 @@ export function momentAdapterFactory() {
 		RouterModule,
 		MaterialModule,
 		FormsModule,
-		ReactiveFormsModule,
-		
+		ReactiveFormsModule,		
 		FileUploadModule,
 		ScrollingModule,
 		MonacoEditorModule,
-		AngularCalendarModule.forRoot(
+		CalendarModule.forRoot(
 			{
 				provide: DateAdapter,
 				useFactory: momentAdapterFactory,

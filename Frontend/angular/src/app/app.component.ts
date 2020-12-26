@@ -42,7 +42,9 @@ export class AppComponent {
 
   ngOnInit() {
     // init moment locale
-    if (this.config.get("locale")) moment.locale(this.config.get("locale"));
+    if (this.config.get("locale")) {
+      moment.locale(this.config.get("locale"));
+    }
 
     // onresume - fire validate every 6 hours
     this.onResume = this.cordova.resume.subscribe((event) => {
@@ -77,7 +79,7 @@ export class AppComponent {
   context: any = {};
 
   async initialize() {
-    this.message = '';
+    this.message = "";
     this.initialized = false;
     this.view = null;
     this.logs = [];
@@ -87,7 +89,7 @@ export class AppComponent {
     this.logs.push(`Platform detected: ${this.context.platform}`);
 
     // step 2. check onilne connection
-    if(!await this.checkOnline()) return;
+    if (!(await this.checkOnline())) return;
     this.logs.push(`Network connected`);
 
     // step 3. check service url
@@ -119,7 +121,7 @@ export class AppComponent {
 
   // retrieve platformat information
   checkPlatform() {
-    this.message = 'Checking platform';
+    this.message = "Checking platform";
     // check is it cordova?
     if (this.util.isCordova()) {
       this.context.platform = "mobile";
@@ -131,11 +133,11 @@ export class AppComponent {
   }
 
   async checkOnline() {
-    this.message = 'Checking online';
+    this.message = "Checking online";
     // check if online
     this.context.online = window.navigator.onLine;
     // if not online then wait 30 seconds
-    while(true) {
+    while (true) {
       this.message = `Please check your network connection.`;
       // when network comes online then move on
       if (window.navigator.onLine) {
@@ -145,7 +147,7 @@ export class AppComponent {
       await this.util.timeout(10000);
     }
 
-   return this.context.online;
+    return this.context.online;
   }
 
   async checkServiceURL() {

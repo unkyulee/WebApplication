@@ -1,10 +1,11 @@
 import { Component, ElementRef, ViewEncapsulation } from "@angular/core";
 import {
   CalendarEvent,
-  CalendarEventTimesChangedEvent
+  CalendarEventTimesChangedEvent,
+  DAYS_OF_WEEK,
 } from "angular-calendar";
 import * as moment from "moment";
-import obj from 'object-path';
+import obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";
@@ -13,13 +14,11 @@ import { BaseComponent } from "../base.component";
   selector: "calendar",
   templateUrl: "calendar.component.html",
   encapsulation: ViewEncapsulation.None,
-  styleUrls: ["calendar.component.scss"]
+  styleUrls: ["calendar.component.scss"],
 })
 export class CalendarComponent extends BaseComponent {
-  constructor(
-    public elRef:ElementRef
-  ) {
-    super()
+  constructor(public elRef: ElementRef) {
+    super();
   }
 
   viewDate: Date = new Date();
@@ -32,9 +31,16 @@ export class CalendarComponent extends BaseComponent {
     super.ngOnInit();
 
     this.locale = this.config.get("locale");
+    // weekStartsOn option is ignored when using moment, as it needs to be configured globally for the moment locale
+    moment.updateLocale("locale", {
+      week: {
+        dow: DAYS_OF_WEEK.MONDAY,
+        doy: 0,
+      },
+    });
 
     // subscript to event
-    this.onEvent = this.event.onEvent.subscribe(event => {
+    this.onEvent = this.event.onEvent.subscribe((event) => {
       if (
         event &&
         event.name == "refresh" &&
@@ -43,7 +49,7 @@ export class CalendarComponent extends BaseComponent {
         setTimeout(() => this.requestDownload(), 0);
       } else if (event && event.name == "viewDate") {
         this.viewDate = moment(event.date).toDate();
-      } else if (event && event.name == 'events') {
+      } else if (event && event.name == "events") {
         this.events = event.events;
       }
     });
@@ -82,16 +88,16 @@ export class CalendarComponent extends BaseComponent {
             ? true
             : this.uiElement.cache
         )
-        .subscribe(response => this.responseDownload(response));
+        .subscribe((response) => this.responseDownload(response));
     }
   }
 
-  async responseDownload(response) {    
+  async responseDownload(response) {
     // map data from response
     if (this.uiElement.transform) {
       try {
         let value = await eval(this.uiElement.transform);
-        obj.set(this.data, this.uiElement.key, value)
+        obj.set(this.data, this.uiElement.key, value);
       } catch (e) {
         console.error(e);
       }
@@ -125,7 +131,7 @@ export class CalendarComponent extends BaseComponent {
   eventTimesChanged({
     event,
     newStart,
-    newEnd
+    newEnd,
   }: CalendarEventTimesChangedEvent): void {
     if (`${event.start}` != `${newStart}` || `${event.end}` != `${newEnd}`) {
       // update event
@@ -137,16 +143,15 @@ export class CalendarComponent extends BaseComponent {
     }
 
     // move the item
-    this.events = this.events.map(iEvent => {
+    this.events = this.events.map((iEvent) => {
       if (iEvent === event) {
         return {
           ...event,
           start: newStart,
-          end: newEnd
+          end: newEnd,
         };
       }
       return iEvent;
     });
   }
-
 }

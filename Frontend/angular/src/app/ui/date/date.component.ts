@@ -81,7 +81,7 @@ export class DateComponent extends BaseComponent {
 				v = d;
 			}
 
-			obj.set(this.data, this.uiElement.key, v);
+			obj.set(this.data, this.uiElement.key, moment(v));
 		}
 
 		// see if there are any input change handlers
