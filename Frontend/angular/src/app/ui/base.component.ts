@@ -16,7 +16,6 @@ import { AuthService } from "../services/auth/auth.service";
 import { UtilService } from "../services/util.service";
 import { UIService } from "../services/ui.service";
 import { PermissionService } from "../services/permission.service";
-import { LogService } from "../services/log.service";
 
 @Component({
   template: ""
@@ -37,7 +36,6 @@ export class BaseComponent {
     this.auth = AppInjector.get(AuthService);
     this.zone = AppInjector.get(NgZone);
     this.permission = AppInjector.get(PermissionService);
-    this.log = AppInjector.get(LogService);
   }
 
   // configuration of the ui element
@@ -59,7 +57,6 @@ export class BaseComponent {
   public auth: AuthService;
   public zone: NgZone;
   public permission: PermissionService;
-  public log: LogService;
 
   // event subscription
   onEvent: Subscription;

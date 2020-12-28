@@ -1,0 +1,38 @@
+<div style="display: flex; flex-flow: column; padding: 16px; height: 100%;">
+  <h3 style="color: crimson">ERROR</h3>
+  <div style="height: 0; flex-grow: 1; overflow: auto">
+    <div *ngIf="type == 'Object'">
+      {{ error | json }}
+    </div>
+    <div *ngIf="type == 'HttpErrorResponse'">
+      <table>
+        <tr>
+          <td style="background: lightgray">Message</td>
+          <td>{{error.message}}</td>
+        </tr>
+        <tr>
+          <td style="background: lightgray">Status</td>
+          <td>{{error.status}}</td>
+        </tr>
+        <tr>
+          <td style="background: lightgray">Status Text</td>
+          <td>{{error.statusText}}</td>
+        </tr>
+        <tr>
+          <td style="background: lightgray">URL</td>
+          <td>{{error.url}}</td>
+        </tr>
+        <tr *ngFor="let header of error.headers.keys()">
+          <td style="background: lightgray">{{header}}</td>
+          <td>{{error.headers.get(header)}}</td>
+        </tr>
+        <tr>
+          <td style="background: lightgray">stack</td>
+          <td>{{error.stack}}</td>
+        </tr>
+      </table>
+    </div>
+    
+  </div>
+  <button mat-raised-button (click)="close()" color="primary">CLOSE</button>
+</div>

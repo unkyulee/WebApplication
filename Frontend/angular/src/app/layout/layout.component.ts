@@ -17,7 +17,6 @@ import obj from "object-path";
 import { BaseComponent } from "../ui/base.component";
 import { UIComposerDialogComponent } from "../ui/ui-composer-dialog/ui-composer-dialog.component";
 import { UIComposerActionsComponent } from "../ui/ui-composer-actions/ui-composer-actions.component";
-import { LogDialogComponent } from "./error_log/log.component";
 
 @Component({
   selector: "layout",
@@ -110,12 +109,6 @@ export class LayoutComponent
           try {
             document.getElementById("layout_main_content").scrollTop = 0;
           } catch {}
-          break;
-
-        case "show-log":
-          this.zone.run(() => {
-            this.dialog.open(LogDialogComponent, {width: '100vw', height: '80vh'});
-          });
           break;
       }
     });

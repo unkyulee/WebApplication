@@ -52,6 +52,7 @@ export class DefaultInterceptorStrategy {
       if(localStorage.getItem("token") != null)
         this.event.send("logout");
     }
+    this.event.send({name: "error", error})
     return error;
   }
 }

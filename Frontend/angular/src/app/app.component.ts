@@ -1,4 +1,5 @@
-import { Component, Injector } from "@angular/core";
+import { Component, Injector, NgZone } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 import * as moment from "moment";
 import obj from "object-path";
@@ -11,7 +12,7 @@ import { CordovaService } from "./services/cordova.service";
 import { UtilService } from "./services/util.service";
 import { RestService } from "./services/rest.service";
 import { AuthService } from "./services/auth/auth.service";
-import { LogService } from "./services/log.service";
+import { ErrorComponent } from "./loading/error/error.component";
 
 // Global Injector
 export let AppInjector: Injector;
@@ -31,9 +32,12 @@ export class AppComponent {
     private util: UtilService,
     private rest: RestService,
     private auth: AuthService,
-    public log: LogService
+    private dialog: MatDialog
   ) {
     AppInjector = this.injector;
+
+    obj.set(window, "__CONFIG__", {});
+    obj.set(window, "__CONFIG__.event", this.event);
   }
 
   // receive events
@@ -61,7 +65,15 @@ export class AppComponent {
 
     // event handler
     this.onEvent = this.event.onEvent.subscribe((event) => {
-      if (event.name == "initialize") this.initialize();
+      if (event.name == "initialize") {
+        this.initialize();
+      } else if (event.name == "error") {
+        let dlg = this.dialog.open(ErrorComponent, {
+          width: "100vw",
+          height: "80vh",
+        });
+        dlg.componentInstance.error = event.error;
+      }
     });
 
     // initialize the app
@@ -169,6 +181,7 @@ export class AppComponent {
 
   async downloadAppConfig() {
     this.message = "Downloading App Configuration";
+
     let response = await this.rest.requestAsync(
       `${this.context.service_url}/index.json`
     );

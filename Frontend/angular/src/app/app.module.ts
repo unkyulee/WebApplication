@@ -18,18 +18,18 @@ import { PermissionService } from "./services/permission.service";
 import { NgxImageCompressService } from "ngx-image-compress";
 import { UtilService } from "./services/util.service";
 import { UIService } from "./services/ui.service";
-import { LogService } from "./services/log.service";
-
-// app component
-import { AppComponent } from "./app.component";
-import { ServiceUrlComponent } from "./loading/service-url/service-url.component";
-import { LoginComponent } from "./loading/login/login.component";
-import { AppRoutingModule } from "./app.routing";
 
 // locale registration
 import { registerLocaleData } from "@angular/common";
 import it from "@angular/common/locales/it";
 registerLocaleData(it);
+
+// app component
+import { AppComponent } from "./app.component";
+import { ServiceUrlComponent } from "./loading/service-url/service-url.component";
+import { LoginComponent } from "./loading/login/login.component";
+import { ErrorComponent } from "./loading/error/error.component";
+import { AppRoutingModule } from "./app.routing";
 
 //
 const monacoConfig: NgxMonacoEditorConfig = {
@@ -37,10 +37,15 @@ const monacoConfig: NgxMonacoEditorConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, ServiceUrlComponent, LoginComponent],
+  declarations: [
+    AppComponent,
+    ServiceUrlComponent,
+    LoginComponent,
+    ErrorComponent,
+  ],
   imports: [
     BrowserAnimationsModule,
-    HttpClientModule,    
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
     MonacoEditorModule.forRoot(monacoConfig),
@@ -55,11 +60,10 @@ const monacoConfig: NgxMonacoEditorConfig = {
     NavService,
     UIService,
     RestService,
-    CordovaService,    
+    CordovaService,
     UtilService,
     PermissionService,
     NgxImageCompressService,
-    LogService
   ],
   bootstrap: [AppComponent],
 })
