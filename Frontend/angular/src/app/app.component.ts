@@ -11,6 +11,7 @@ import { CordovaService } from "./services/cordova.service";
 import { UtilService } from "./services/util.service";
 import { RestService } from "./services/rest.service";
 import { AuthService } from "./services/auth/auth.service";
+import { LogService } from "./services/log.service";
 
 // Global Injector
 export let AppInjector: Injector;
@@ -29,7 +30,8 @@ export class AppComponent {
     private cordova: CordovaService,
     private util: UtilService,
     private rest: RestService,
-    private auth: AuthService
+    private auth: AuthService,
+    public log: LogService
   ) {
     AppInjector = this.injector;
   }

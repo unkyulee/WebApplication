@@ -17,6 +17,7 @@ import obj from "object-path";
 import { BaseComponent } from "../ui/base.component";
 import { UIComposerDialogComponent } from "../ui/ui-composer-dialog/ui-composer-dialog.component";
 import { UIComposerActionsComponent } from "../ui/ui-composer-actions/ui-composer-actions.component";
+import { LogDialogComponent } from "./error_log/log.component";
 
 @Component({
   selector: "layout",
@@ -73,8 +74,9 @@ export class LayoutComponent
           }, 100);
           break;
         case "open-dialog":
-          await this.openDialog(event);
-          this.event.send({ name: "changed" });
+          this.zone.run(() => {
+            this.openDialog(event);
+          });
           break;
         case "close-dialog":
           // close dialog
@@ -98,8 +100,9 @@ export class LayoutComponent
           this.event.send({ name: "changed" });
           break;
         case "open-sheet":
-          this.openSheet(event);
-          this.event.send({ name: "changed" });
+          this.zone.run(() => {
+            this.openSheet(event);
+          });
           break;
         case "navigation-changed":
           // close drawer and scroll back to top when page changes
@@ -107,6 +110,12 @@ export class LayoutComponent
           try {
             document.getElementById("layout_main_content").scrollTop = 0;
           } catch {}
+          break;
+
+        case "show-log":
+          this.zone.run(() => {
+            this.dialog.open(LogDialogComponent, {width: '100vw', height: '80vh'});
+          });
           break;
       }
     });

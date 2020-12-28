@@ -1,0 +1,8 @@
+<div style="display: flex; flex-flow: column; padding: 16px; height: 100%;">
+  <div style="height: 0; flex-grow: 1; overflow: auto">
+    <div *ngFor="let log of logService.logs">
+      {{log.msg}}
+    </div>
+  </div>
+  <button mat-raised-button (click)="close()" color="primary">CLOSE</button>
+</div>

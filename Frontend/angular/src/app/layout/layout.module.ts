@@ -10,13 +10,15 @@ import { LayoutComponent } from "./layout.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { NavComponent } from "./navigation/nav.component";
 import { UserComponent } from "./user/user.component";
+import { LogDialogComponent } from "./error_log/log.component";
 
 @NgModule({
   declarations: [
     LayoutComponent,
     ToolbarComponent,
     NavComponent,    
-    UserComponent
+    UserComponent,
+    LogDialogComponent
   ],
   exports: [],
   imports: [CommonModule, UIModule]
