@@ -130,7 +130,7 @@ export class BaseComponent {
       try {
         await eval(clickScript);
       } catch (e) {
-        console.error(e);
+        this.event.send({name: "error", error: e})
       }
     }
   }

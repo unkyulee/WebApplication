@@ -32,7 +32,8 @@ export class AppComponent {
     private util: UtilService,
     private rest: RestService,
     private auth: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private zone: NgZone
   ) {
     AppInjector = this.injector;
 
@@ -68,11 +69,13 @@ export class AppComponent {
       if (event.name == "initialize") {
         this.initialize();
       } else if (event.name == "error") {
-        let dlg = this.dialog.open(ErrorComponent, {
-          width: "100vw",
-          height: "80vh",
+        this.zone.run(() => {
+          let dlg = this.dialog.open(ErrorComponent, {
+            width: "100vw",
+            height: "80vh",
+          });
+          dlg.componentInstance.error = event.error;
         });
-        dlg.componentInstance.error = event.error;
       }
     });
 
