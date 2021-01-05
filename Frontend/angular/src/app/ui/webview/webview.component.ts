@@ -3,6 +3,8 @@ import { Component } from "@angular/core";
 // user Imports
 import { BaseComponent } from "../base.component";
 
+declare var window: any;
+
 @Component({
   selector: "webview-component",
   template: `
@@ -32,10 +34,10 @@ export class WebViewComponent extends BaseComponent {
       this.ui.get(this.uiElement.preload).then((r) => {
         try {
           // save preload script in electron store
-          const Store = require("electron-store");
-          let store = new Store();
-          store.set(`http://${this.uiElement.preload}`, r);
-        } catch {}
+          window.store.set(`http://${this.uiElement.preload}`, r.script);
+        } catch(ex) {
+          this.event.send({name: 'error', error: ex})
+        }
 
         // load the webview when preload script is download
         this.isLoaded = true;

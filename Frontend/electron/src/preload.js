@@ -9,9 +9,6 @@ const Store = require('electron-store');
 let store = new Store();
 let script = store.get(`http://${script_id}`);
 try {
-	script = JSON.parse(script);
-	script = script.script;
-
 	if (script) {
 		console.log(`Loading ...`);
 		eval(script);

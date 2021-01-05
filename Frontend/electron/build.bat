@@ -9,7 +9,7 @@ REM -------------------------------------------------------------
 REM Build angular app
 REM -------------------------------------------------------------
 pushd ..\angular
-call ng build --prod --aot --build-optimizer
+call node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --prod --aot
 REM call ng build
 popd
 
