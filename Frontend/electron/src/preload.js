@@ -6,12 +6,8 @@ console.log(`Preload Script ID: ${script_id}`);
 
 // load the script
 const Store = require('electron-store');
-window.store = new Store();
-
-// Find the script
-let url = `${window.store.get('service_url')}/ui.element?uiElementId=${script_id}`;
-url = url.replace(/\./g, '_');
-let script = window.store.get(`local.${url}`);
+let store = new Store();
+let script = store.get(`http://${script_id}`);
 try {
 	script = JSON.parse(script);
 	script = script.script;
@@ -22,5 +18,5 @@ try {
 	}
 } catch(ex) {
 	console.error(ex);
-	console.log(url, script)
+	console.log(script_id, script)
 }
