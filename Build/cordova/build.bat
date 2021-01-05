@@ -16,7 +16,7 @@ RD /Q /S .\www
 REM Build Angular
 ECHO build angular app
 pushd %AngularPath%
-call ng build --prod --aot --build-optimizer
+call node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --prod --aot
 popd
 MD .\www
 xcopy /s /y %AngularPath%\dist .\www
