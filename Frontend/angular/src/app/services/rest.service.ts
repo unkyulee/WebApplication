@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable, EMPTY } from "rxjs";
-import { share, delay, takeWhile } from "rxjs/operators";
+import { share, debounceTime, takeWhile } from "rxjs/operators";
 
 //
 import { ConfigService } from "./config.service";
@@ -16,7 +16,7 @@ export class RestService {
   ) {}
 
   // Oberservable Based Request - Caches GET
-  request(url, data?, method?, options?, cached?) {
+  request(url, data?, method?, options?, cached?, wait?) {
     // pass if url is not specified
     if (!url) return EMPTY;
 
@@ -24,13 +24,13 @@ export class RestService {
     url = this.processUrl(url);
 
     // schedule the request
-    return this.schedule(url, data, method, options, cached);
+    return this.schedule(url, data, method, options, cached, wait);
   }
 
   // Promise Based Request - Never cached
-  async requestAsync(url, data?, method?, options?, cached?) {
+  async requestAsync(url, data?, method?, options?, cached?, wait?) {
     return new Promise((resolve) => {
-      this.request(url, data, method, options, false).subscribe((response) => {
+      this.request(url, data, method, options, false, wait).subscribe((response) => {
         resolve(response);
       });
     });
@@ -42,11 +42,20 @@ export class RestService {
   //  - put in the queue
   //  - wait 300 ms before actual request
   schedule_queue = {};
-  schedule(url, data?, method?, options?, cached?) {
-    // clear cache, remove completed observables
+  hash(value) {
+    var hash = 0, i, chr;
+    for (i = 0; i < value.length; i++) {
+      chr   = value.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
+    }
+    return `${hash}`;
+  }
 
+  schedule(url, data?, method?, options?, cached?, wait?) {    
+    
     // check if existing request
-    let cacheKey = `${method}_${url}_${JSON.stringify(data)}`;
+    let cacheKey = this.hash(`${method}_${url}_${JSON.stringify(data)}`);
 
     // check if the observable is not yet completed
     if (this.schedule_queue[cacheKey]) {
@@ -61,7 +70,8 @@ export class RestService {
       data,
       method,
       options,
-      cached
+      cached,
+      wait
     );
 
     return this.schedule_queue[cacheKey];
@@ -69,7 +79,8 @@ export class RestService {
 
   /////////////////////////////
   // Observables
-  req(cacheKey, url_passed, data?, method?, options?, cached?) {
+  req(cacheKey, url_passed, data?, method?, options?, cached?, wait?) {
+    
     //
     let completed = false;
     const removeSchedule = (cacheKey, observer) => {
@@ -87,7 +98,7 @@ export class RestService {
         this.event.send({ name: "splash-hide" });
     };
 
-    let observable = new Observable<any>((observer) => {
+    let observable = new Observable<any>((observer) => {      
       // copy value to the observable instance
       let url = `${url_passed}`;
       let cache = `${cacheKey}`;
@@ -199,11 +210,11 @@ export class RestService {
       }
     });
 
-    // make it multicast
-    return observable.pipe(
-      takeWhile((x) => !completed),
-      delay(300),
-      share()
+    // make it multicast        
+    return observable.pipe(      
+      debounceTime(wait ?? 300),
+      takeWhile((x) => !completed),      
+      share(),      
     );
   }
   /////////////////////////////
