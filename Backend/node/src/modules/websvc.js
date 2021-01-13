@@ -38,7 +38,7 @@ module.exports.process = async function process(db, req, res) {
 
     let dataservices;
 
-    // check cache 15 minutes
+    // check cache 15 minutes    
     let cacheKey = `core.dataservice_${websvc[`${method}_datasource`]}`;
     if (!cache.has(cacheKey) || cache.isExpired(cacheKey, 900)) {
       // cache miss, request database
@@ -55,7 +55,7 @@ module.exports.process = async function process(db, req, res) {
       // cache hit
       dataservices = cache.get(cacheKey);              
     }
-
+    
     // return with result
 		if (dataservices.length > 0) {
 			let ds = dataservices[0];
@@ -89,8 +89,12 @@ module.exports.process = async function process(db, req, res) {
     // return with result		
 		if (workflows.length > 0) {
 			let workflow = workflows[0];
-			// run script
-			result = await eval(workflow.script);
+      // run script
+      try {
+        result = await eval(workflow.script);
+      } catch(ex) {
+        console.error(ex)
+      }			
 		}
 	}
 

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable, EMPTY } from "rxjs";
-import { share, debounceTime, takeWhile } from "rxjs/operators";
+import { share, delay, takeWhile } from "rxjs/operators";
 
 //
 import { ConfigService } from "./config.service";
@@ -212,9 +212,9 @@ export class RestService {
 
     // make it multicast        
     return observable.pipe(      
-      debounceTime(wait ?? 300),
-      takeWhile((x) => !completed),      
-      share(),      
+      takeWhile((x) => !completed),
+      delay(300),
+      share()      
     );
   }
   /////////////////////////////
