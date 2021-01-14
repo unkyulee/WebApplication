@@ -18,7 +18,7 @@
     "cookie-parser": "^1.4.5",
     "cron-parser": "^2.16.3",
     "dropbox": "^7.0.0",
-    "express": "^4.16.3",
+    "express": "^4.17.1",
     "googleapis": "^61.0.0",
     "html-pdf": "^2.2.0",
     "isomorphic-fetch": "^3.0.0",

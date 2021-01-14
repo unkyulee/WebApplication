@@ -58,8 +58,8 @@ class MongoDB {
       // convert to array
       return await q.toArray();
     } catch (ex) {
-      console.error("query failed", ex, collection, query, req);
-      return;
+      console.error("query failed", ex, collection, query);
+      throw ex;
     }
   }
 
@@ -83,6 +83,7 @@ class MongoDB {
       } catch (ex) {
         console.error(ex);
         console.error(collection, id, data);
+        throw ex;
       }
 
       return id;
@@ -97,6 +98,7 @@ class MongoDB {
       } catch (ex) {
         console.error(ex);
         console.error(collection, data);
+        throw ex;
       }
     }
   }
