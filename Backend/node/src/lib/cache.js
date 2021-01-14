@@ -7,7 +7,7 @@ module.exports = {
   },
 
   set(key, value) {
-    return cache.set(key, [value, Date.now()])
+    //return cache.set(key, [value, Date.now()])
   },
 
   get(key) {

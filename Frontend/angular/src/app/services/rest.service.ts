@@ -213,7 +213,7 @@ export class RestService {
     // make it multicast        
     return observable.pipe(      
       takeWhile((x) => !completed),
-      delay(300),
+      //delay(300),
       share()      
     );
   }
