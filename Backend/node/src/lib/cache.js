@@ -11,7 +11,7 @@ module.exports = {
   },
 
   get(key) {
-    return cache.get(key)[0]
+    return JSON.parse(JSON.stringify(cache.get(key)[0]));
   },
 
   delete(key) {

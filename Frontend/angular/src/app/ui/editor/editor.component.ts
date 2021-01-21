@@ -28,7 +28,6 @@ export class EditorComponent extends BaseComponent {
     super.ngAfterViewInit();
     // eliminate the bug that adds new line after a list
     this.editor.getQuill().options.modules.clipboard.matchVisual = false
-
   }
 
 

@@ -83,6 +83,7 @@ class MongoDB {
       } catch (ex) {
         console.error(ex);
         console.error(collection, id, data);
+        console.error(new Error().stack);
         throw ex;
       }
 
@@ -98,6 +99,7 @@ class MongoDB {
       } catch (ex) {
         console.error(ex);
         console.error(collection, data);
+        console.error(new Error().stack);
         throw ex;
       }
     }
