@@ -1,0 +1,14 @@
+{
+  "name": "task_scheduler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "service.js",
+  "scripts": {
+    "start": "node service.js"
+  },
+  "author": "Unkyu Lee",
+  "license": "MIT",
+  "dependencies": {
+    
+  }
+}
