@@ -125,6 +125,7 @@ export class NavService {
         // save first navigation item
         if (firstNavItem == null && !navItem.children) {
           if (navItem.type == "desktop" && !this.util.isElectron()) {
+          } else if (navItem.type == "sub") {
           } else {
             firstNavItem = navItem;
           }
@@ -137,6 +138,7 @@ export class NavService {
               // save first navigation item
               if (firstNavItem == null && !child.children) {
                 if (navItem.type == "desktop" && !this.util.isElectron()) {
+                } else if (navItem.type == "sub") {
                 } else {
                   firstNavItem = child;
                 }
