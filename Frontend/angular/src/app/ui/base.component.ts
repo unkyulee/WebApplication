@@ -79,7 +79,7 @@ export class BaseComponent {
       try {
         eval(this.uiElement.afterInit);
       } catch (e) {
-        console.error(e);
+        console.error(e, this.uiElement);
       }
     }
   }
