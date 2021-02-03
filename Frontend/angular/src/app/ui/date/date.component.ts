@@ -58,8 +58,10 @@ export class DateComponent extends BaseComponent {
 		// Transform
 		if (this.uiElement.transform) {
 			try {
-				this._value = eval(this.uiElement.transform);
-			} catch (e) {}
+        this._value = eval(this.uiElement.transform);                
+			} catch (e) {
+        console.error(e, this.uiElement)
+      }
 		}
 
 		return this._value;

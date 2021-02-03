@@ -18,6 +18,7 @@
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
+    [locale]="locale"
     [ngStyle]="uiElement.calendarStyle"
     [ngClass]="uiElement.calendarClass"
     [activeDayIsOpen]="
@@ -26,7 +27,7 @@
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="eventClicked($event.event)"
     (dayClicked)="dayClicked($event.day.date)"
-    (eventTimesChanged)="eventTimesChanged($event)"
+    (eventTimesChanged)="eventTimesChanged($event)"    
   >
   </mwl-calendar-month-view>
   <mwl-calendar-week-view

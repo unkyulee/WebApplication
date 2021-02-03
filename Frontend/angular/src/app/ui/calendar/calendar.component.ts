@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewEncapsulation } from "@angular/core";
 import {
   CalendarEvent,
-  CalendarEventTimesChangedEvent,
+  CalendarEventTimesChangedEvent,  
   DAYS_OF_WEEK,
 } from "angular-calendar";
 import * as moment from "moment";
