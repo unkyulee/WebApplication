@@ -1,8 +1,14 @@
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  ViewEncapsulation,
+} from "@angular/core";
 import {
   CalendarEvent,
-  CalendarEventTimesChangedEvent,  
-  CalendarView,  
+  CalendarEventTimesChangedEvent,
+  CalendarMonthViewDay,
+  CalendarView,
   DAYS_OF_WEEK,
 } from "angular-calendar";
 import * as moment from "moment";
@@ -52,6 +58,7 @@ export class CalendarComponent extends BaseComponent {
         this.viewDate = moment(event.date).toDate();
       } else if (event && event.name == "events") {
         this.events = event.events;
+        this.event.sendAsync({ name: "events-loaded" }, 1000);
       }
     });
 
@@ -154,5 +161,16 @@ export class CalendarComponent extends BaseComponent {
       }
       return iEvent;
     });
+  }
+
+
+  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+    if(this.uiElement.beforeMonthViewRender) {
+      try {
+        eval(this.uiElement.beforeMonthViewRender);
+      } catch(ex) {
+        console.error(ex, this.uiElement.beforeMonthViewRender, this.uiElement)
+      }
+    }
   }
 }

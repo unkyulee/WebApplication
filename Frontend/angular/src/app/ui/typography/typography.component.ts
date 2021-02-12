@@ -8,7 +8,7 @@ import { BaseComponent } from '../base.component';
 	selector: 'typography',
 	template: `
 		<div
-			*ngIf="condition(uiElement) && value"
+			*ngIf="value"
 			[ngStyle]="uiElement.style"
 			[ngClass]="uiElement.class"
 			[innerHtml]="value | safe: 'html'"

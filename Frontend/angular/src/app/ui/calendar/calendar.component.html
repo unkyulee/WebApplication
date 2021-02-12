@@ -4,11 +4,17 @@
       *ngFor="let ui of safeGet(uiElement, 'eventTitleTemplate', [])"
     >
       <ng-container *ngIf="condition(ui)">
-        <div
-          ui-layout-wrapper
-          [uiElement]="ui"
-          [data]="event"
-        ></div>
+        <div ui-layout-wrapper [uiElement]="ui" [data]="event"></div>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #customCellTemplate let-day="day">
+    <ng-container
+      *ngFor="let ui of safeGet(uiElement, 'customCellTemplate', [])"
+    >
+      <ng-container *ngIf="condition(ui)">
+        <div ui-layout-wrapper [uiElement]="ui" [data]="day"></div>
       </ng-container>
     </ng-container>
   </ng-template>
@@ -27,7 +33,9 @@
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="eventClicked($event.event)"
     (dayClicked)="dayClicked($event.day.date)"
-    (eventTimesChanged)="eventTimesChanged($event)"    
+    (eventTimesChanged)="eventTimesChanged($event)"
+    [cellTemplate]="customCellTemplate"
+    (beforeViewRender)="beforeMonthViewRender($event)"
   >
   </mwl-calendar-month-view>
   <mwl-calendar-week-view

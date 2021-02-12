@@ -97,6 +97,16 @@ export class BaseComponent {
     if (this.onCustomEvent) this.onCustomEvent.unsubscribe();
   }
 
+  ngOnChanges() {
+    if (this.uiElement && this.uiElement.onChanges) {
+      try {
+        eval(this.uiElement.onChanges);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
   default() {
     if (obj.has(this.data) && obj.has(this.uiElement)) {
       if (typeof obj.get(this.data, this.uiElement.key) == "undefined") {

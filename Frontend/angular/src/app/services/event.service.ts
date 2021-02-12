@@ -10,7 +10,7 @@ export class EventService {
         this.onEvent.next(event)
     }
 
-    sendAsync(event) {
-        setTimeout(() => this.onEvent.next(event))
+    sendAsync(event, delay = 0) {
+        setTimeout(() => this.onEvent.next(event), delay)
     }
 }
