@@ -120,7 +120,7 @@ export class CalendarComponent extends BaseComponent {
     }
   }
 
-  dayClicked(date): void {
+  dayClicked(day): void {
     try {
       eval(this.uiElement.dayClicked);
     } catch (e) {

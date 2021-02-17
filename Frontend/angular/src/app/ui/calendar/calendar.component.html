@@ -31,8 +31,7 @@
       uiElement.activeDayIsOpen ? uiElement.activeDayIsOpen : true
     "
     (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="eventClicked($event.event)"
-    (dayClicked)="dayClicked($event.day.date)"
+    (eventClicked)="eventClicked($event.event)"    
     (eventTimesChanged)="eventTimesChanged($event)"
     [cellTemplate]="customCellTemplate"
     (beforeViewRender)="beforeMonthViewRender($event)"
