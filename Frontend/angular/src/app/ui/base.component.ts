@@ -191,7 +191,7 @@ export class BaseComponent {
     try {
       return eval(script);
     } catch (e) {
-      console.error(e);
+      console.error(e, script, data);
     }
 
     return script;
