@@ -18,7 +18,14 @@ export class DataTableComponent extends BaseComponent {
 			this._rows = obj.get(this.data, this.uiElement.key);
 		}
 
-		if (typeof this._rows != 'undefined' && !Array.isArray(this._rows)) this._rows = [this._rows];
+    // 
+		if (typeof this._rows != 'undefined' && !Array.isArray(this._rows)) {
+      let rows = [];
+      for(let key of Object.keys(this._rows)) {
+        rows.push(this._rows[key]);
+      }
+      this._rows = rows;
+    }
 
 		return this._rows;
 	}
