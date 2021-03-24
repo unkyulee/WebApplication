@@ -24,6 +24,7 @@ export class PermissionService {
       // if permission is not specified then allow
       allowed = true;
     }
+    
     return allowed;
   }
 

@@ -81,10 +81,13 @@ export class NavComponent extends BaseComponent {
 
         // populate child item
         for (let child of nav.children) {
-          menuItem.items.push({
-            label: child.name,
-            routerLink: [child.url],
-          });
+          if (this.permission.check(child)) {
+            menuItem.items.push({
+              label: child.name,
+              routerLink: [child.url],
+            });            
+          }
+
           //
           if (this.nav.currNav.url == child.url) {
             menuItem.expanded = true;
