@@ -81,7 +81,7 @@ export class NavComponent extends BaseComponent {
 
         // populate child item
         for (let child of nav.children) {
-          if (this.permission.check(child)) {
+          if (this.permission.check(child) && child.type == 'item') {
             menuItem.items.push({
               label: child.name,
               routerLink: [child.url],
