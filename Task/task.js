@@ -85,7 +85,7 @@ async function resetDeadTask() {
     // is running for more than 1 hour than consider it as a dead task
     {
       _updated: {
-        $lte: new Date(new Date().getTime() - 60 * 60 * 1000),
+        $lte: new Date(new Date().getTime() - obj.get(config, 'timeout', 3600) * 1000),
       },
     },
     { status: "Running" },
