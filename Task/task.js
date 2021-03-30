@@ -313,16 +313,14 @@ async function executeActions(task) {
       try {
         
         // perform the task
-        (await eval(action.script)).catch(async (e) => {
-          await log(task, action, `${e.stack}`);
-        });
+        await eval(action.script);
                 
         if (context.stop == true) {
           await log(task, action, `== Stop Processing ==`);
           break;
         }
       } catch (e) {
-        await log(task, action, e);
+        await log(task, action, `${e.stack}`);
       }      
       await log(task, action, `finish ${action.name}`);
     }
