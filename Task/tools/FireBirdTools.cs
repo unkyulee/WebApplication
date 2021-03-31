@@ -1,5 +1,6 @@
 ﻿using FirebirdSql.Data.FirebirdClient;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -41,9 +42,10 @@ namespace FirebirdEx
 						{
 							if (operation.GetValue("Type").ToString() == "SELECT")
 							{
-								Select(command, operation.GetValue("OutputFile").ToString());
-							}
-						
+								var outputfile = operation.GetValue("OutputFile").ToString();
+								Select(command, outputfile);
+								Console.WriteLine($"SELECT completed - {outputfile}");
+							}						
 						}					
 					}
 					

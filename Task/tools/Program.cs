@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace FirebirdEx
 {
@@ -8,11 +7,12 @@ namespace FirebirdEx
         static void Main(string[] args)
         {
             // load config
-            String filepath = "default.json";
-            if (args.Length > 1) filepath = args[1];
-            
+            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var directory = System.IO.Path.GetDirectoryName(path);
+            var filename = "firebird.json";
+                        
             // process
-            FireBirdTools tools = new FireBirdTools(filepath);
+            FireBirdTools tools = new FireBirdTools($"{directory}\\{filename}");
             tools.Execute();
 		}
     }
