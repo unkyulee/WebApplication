@@ -1,0 +1,10 @@
+{
+  "Database": "C:\\Users\\Un Kyu Lee\\Documents\\Danea Easyfatt\\Arredo Ufficio (esempio 1).eft",
+  "ServerType": "Embedded",
+  "UserID": "SYSDBA",
+  "Password": "masterkey",
+  "ClientLibrary": "C:\\Program Files (x86)\\Danea Easyfatt\\FirebirdEmbedded\\fbembed.dll",
+  "OutputFile": "TArticoli.json",
+  "Type": "SELECT",
+  "Query": "SELECT \r\n\t\"IDArticolo\"\r\n\t, \"CodArticolo\"\r\n\t, \"Desc\"\r\n\t, \"Tipologia\"\r\n\t, \"NomeCategoria\"\r\n\t, \"NomeCategoria_Sott\"\r\n\t, \"NomeSottocategoria\"\r\n\t, \"CodIva\"\r\n\t, \"Udm\"\t\r\n\t, \"CodBarre\"\r\n\t, \"NumAltriCodBarre\"\r\n\t, \"IDFornitore\"\r\n\t, \"CodArticoloForn\"\r\n\t, \"PrezzoNettoForn\"\r\n\t, \"PrezzoIvatoForn\"\r\n\t, \"NoteForn\"\r\n\t, \"NumAltriForn\"\r\n\t, \"Url\"\r\n\t, \"Produttore\"\r\n\t, \"UdmDim\"\r\n\t, \"DimNettaX\"\r\n\t, \"DimNettaY\"\r\n\t, \"DimNettaZ\"\r\n\t, \"DimImballoX\"\r\n\t, \"DimImballoY\"\r\n\t, \"DimImballoZ\"\r\n\t, \"UdmPeso\"\r\n\t, \"PesoNetto\"\r\n\t, \"PesoLordo\"\r\n\t, \"GestMagazzino\"\r\n\t, \"NumComponenti\"\r\n\t, \"NextLottoProdotto\"\r\n\t, \"GgOrdine\"\r\n\t, \"OrdinaAMultipliDi\"\r\n\t, \"QtaGiacenza_Import\"\r\n\t, \"PrezzoMedioCarico\"\r\n\t, \"PrezzoMedioScarico\"\r\n\t, \"PrezzoUltimoCarico\"\r\n\t, \"Extra1\"\r\n\t, \"Extra2\"\r\n\t, \"Extra3\"\r\n\t, \"Extra4\"\r\n\t, \"Note\"\r\n\t, \"PubblicaSuWeb\"\r\n\t, \"PubblicaSuWeb2\"\r\n\t, \"PubblicaSuWeb3\"\r\n\t, \"DescHtml\"\r\n\t, \"Taglie\"\r\n\t, \"Tmp_Colori\"\r\n\t, \"PathImmagine_Import\"\r\n\t, \"MostraInTouch\"\r\nFROM \"TArticoli\";"
+}
