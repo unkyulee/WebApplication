@@ -1,36 +1,59 @@
 ﻿using FirebirdSql.Data.FirebirdClient;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace FirebirdEx
 {
     class FireBirdTools
     {
-		public void Execute(Config config)
+		JObject config;
+
+		public FireBirdTools(string filepath)
+        {
+			config = JObject.Parse(File.ReadAllText(filepath));
+		}
+
+		public void Execute()
 		{
+			// prepare the database file - make copy 
+			File.Delete(config.GetValue("InputFile").ToString());
+			File.Copy(
+				config.GetValue("Database").ToString(), 
+				config.GetValue("InputFile").ToString()
+			);
+
 			// connect
-			var connectionString = ConnectString(config);
+			var connectionString = ConnectString();
 			using (var connection = new FbConnection(connectionString))
 			{				
 				connection.Open();
-				using (var transaction = connection.BeginTransaction())
-				{
-					using (var command = new FbCommand(
-						config.Query,
-						connection,
-						transaction))
-					{
-						if (config.Type == "SELECT") Select(command, config);
+
+				JArray Operations = (JArray)config.GetValue("Operations");
+				foreach(JObject operation in Operations)
+                {	
+					using (var transaction = connection.BeginTransaction())
+					{					
+						using (var command = new FbCommand(
+							operation.GetValue("Query").ToString(),
+							connection,
+							transaction))
+						{
+							if (operation.GetValue("Type").ToString() == "SELECT")
+							{
+								Select(command, operation.GetValue("OutputFile").ToString());
+							}
 						
+						}					
 					}
+					
 				}
+
+				connection.Close();
 			}
 		}
 
-		public void Select(FbCommand command, Config config)
+		public void Select(FbCommand command, string outputfile)
         {
 			var table = new List<IDictionary<string, object>>();
 			using (var reader = command.ExecuteReader())
@@ -53,19 +76,19 @@ namespace FirebirdEx
 
 			// make a json output
 			var json = JToken.FromObject(table);
-			File.WriteAllText(config.OutputFile, json.ToString());
+			File.WriteAllText(outputfile, json.ToString());
 
 		}
 
-		public string ConnectString(Config config)
+		public string ConnectString()
         {
 			var connectionString = new FbConnectionStringBuilder
 			{
-				Database = config.Database,
-				ServerType = config.ServerType,
-				UserID = config.UserID,
-				Password = config.Password,
-				ClientLibrary = config.ClientLibrary
+				Database = config.GetValue("InputFile").ToString(),
+				ServerType = config.GetValue("ServerType").ToString() == "Embedded" ? FbServerType.Embedded : FbServerType.Default,
+				UserID = config.GetValue("UserID").ToString(),
+				Password = config.GetValue("Password").ToString(),
+				ClientLibrary = config.GetValue("ClientLibrary").ToString()
 			}.ToString();
 
 			return connectionString;
