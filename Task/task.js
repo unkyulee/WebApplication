@@ -290,6 +290,9 @@ async function execute() {
 
       //
       await log(task, "", e);
+
+      // 
+      break;
     }
   }
 }
@@ -321,6 +324,7 @@ async function executeActions(task) {
         }
       } catch (e) {
         await log(task, action, `${e.stack}`);
+        throw e;
       }      
       await log(task, action, `finish ${action.name}`);
     }
