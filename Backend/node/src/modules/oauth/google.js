@@ -101,7 +101,8 @@ async function go(db, req, res) {
 		'profile',
 		'https://www.googleapis.com/auth/calendar',
 		'https://mail.google.com/',
-    'https://www.googleapis.com/auth/contacts'
+    'https://www.googleapis.com/auth/contacts',
+    'https://www.googleapis.com/auth/drive'
 	];
 	if(!client_id) {
 		res.send('google client_id not found');

@@ -10,7 +10,7 @@ const Encryption = require("./src/lib/encryption");
 app.locals.encryption = new Encryption(app.locals.secret);
 
 // Process the static files
-app.locals.wwwroot = path.join(__dirname, "wwwroot");
+app.locals.wwwroot = path.join(__dirname, "/wwwroot");
 console.log(app.locals.wwwroot)
 app.use(express.static(app.locals.wwwroot));
 
