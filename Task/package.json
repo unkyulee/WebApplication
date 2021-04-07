@@ -19,6 +19,7 @@
     "object-path": "^0.11.5",
     "sqlite": "^4.0.19",
     "sqlite3": "^5.0.2",
-    "sqlstring-sqlite": "^0.1.1"
+    "sqlstring-sqlite": "^0.1.1",
+    "xlsx": "^0.16.9"
   }
 }
