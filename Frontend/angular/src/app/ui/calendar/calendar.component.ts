@@ -55,7 +55,7 @@ export class CalendarComponent extends BaseComponent {
       ) {
         setTimeout(() => this.requestDownload(), 0);
       } else if (event && event.name == "viewDate") {
-        this.viewDate = moment(event.date).toDate();
+        if (event.date) this.viewDate = moment(event.date).toDate();
       } else if (event && event.name == "events") {
         this.events = event.events;
         this.event.sendAsync({ name: "events-loaded" }, 1000);
@@ -163,13 +163,12 @@ export class CalendarComponent extends BaseComponent {
     });
   }
 
-
   beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
-    if(this.uiElement.beforeMonthViewRender) {
+    if (this.uiElement.beforeMonthViewRender) {
       try {
         eval(this.uiElement.beforeMonthViewRender);
-      } catch(ex) {
-        console.error(ex, this.uiElement.beforeMonthViewRender, this.uiElement)
+      } catch (ex) {
+        console.error(ex, this.uiElement.beforeMonthViewRender, this.uiElement);
       }
     }
   }
