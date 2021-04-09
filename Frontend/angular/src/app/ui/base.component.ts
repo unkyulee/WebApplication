@@ -140,7 +140,7 @@ export class BaseComponent {
       try {
         await eval(clickScript);
       } catch (e) {
-        this.event.send({name: "error", error: e})
+        this.event.send({name: "error", error: `${e} ${e.stack}`})
       }
     }
   }

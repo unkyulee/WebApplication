@@ -106,7 +106,7 @@
         [selectable]="safeGet(uiElement, 'selectable', true)"
         [removable]="safeGet(uiElement, 'removable', true)"
         (removed)="remove(v)"
-        >{{ v }}
+        >{{ format(v) }}
         <mat-icon matChipRemove *ngIf="safeGet(uiElement, 'removable', true)"
           >cancel</mat-icon
         ></mat-chip
