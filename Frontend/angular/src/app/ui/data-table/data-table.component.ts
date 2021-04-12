@@ -265,13 +265,17 @@ export class DataTableComponent extends BaseComponent {
 		let transform = this.uiElement.transform || 'response.data';
 		try {
 			this.rows = eval(transform);
-		} catch (e) {}
+		} catch (e) {
+      console.error(e)
+    }
 
 		// get total records
 		let transformTotal = this.uiElement.transformTotal || 'response.total';
 		try {
 			this.total = parseInt(eval(transformTotal));
-		} catch (e) {}
+		} catch (e) {
+      console.error(e)
+    }
 		if (this.total != 0 && !this.total) this.total = this.rows.length;
 
 		// hide splash
