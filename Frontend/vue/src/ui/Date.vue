@@ -35,6 +35,7 @@
       :full-width="uiElement.fullWidth"
       :no-title="uiElement.noTitle"
       :allowed-dates="allowedDates"
+      :range="uiElement.range"
     ></v-date-picker>
 
     <!-- time picker -->
