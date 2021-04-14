@@ -36,6 +36,8 @@
       :no-title="uiElement.noTitle"
       :allowed-dates="allowedDates"
       :range="uiElement.range"
+      :locale="uiElement.locale"
+      :first-day-of-week="uiElement.firstDayOfWeek"
     ></v-date-picker>
 
     <!-- time picker -->
@@ -94,7 +96,7 @@ export default Vue.component("date", {
   data: function () {
     return {
       value: null,
-      timepickermenu: null,
+      timepickermenu: null
     };
   },
   mounted: function () {
@@ -172,7 +174,8 @@ export default Vue.component("date", {
         }
       }
     },
-    allowedDates(v) {
+    allowedDates(v) {      
+      // v == 2021-04-30
       if(this.uiElement.allowedDates) {
         return this.uiElement.allowedDates.indexOf(v) > -1
       }

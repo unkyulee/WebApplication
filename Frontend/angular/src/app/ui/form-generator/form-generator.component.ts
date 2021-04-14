@@ -33,7 +33,7 @@ export class FormGeneratorComponent extends BaseComponent {
 
   ngOnDestroy() {
     // check if the data is changed
-    if(this.changed && this.uiElement.dirty) {
+    if (this.changed && this.uiElement.dirty) {
       try {
         eval(this.uiElement.dirty);
       } catch {}
@@ -225,7 +225,6 @@ export class FormGeneratorComponent extends BaseComponent {
   }
 
   async save() {
-
     // check if there are not error
     let errorMessage = "";
     for (let screen of this.uiElement.screens) {
@@ -293,8 +292,10 @@ export class FormGeneratorComponent extends BaseComponent {
       }
     }
 
-    // reset changed flag
-    this.changed = false;
+    setTimeout(() => {
+      // reset changed flag
+      this.changed = false;
+    }, 3000);
   }
 
   saveAction(response) {
