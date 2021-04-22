@@ -61,6 +61,7 @@ export default Vue.component("data-table", {
     return {
       rows: [],
       height: 1000,
+      requestTimeout: null,
     };
   },
   mounted: function () {
@@ -81,45 +82,48 @@ export default Vue.component("data-table", {
   },
   methods: {
     async requestDownload() {
-      // load initial configuration
-      if (this.uiElement.src) {
-        let src = this.uiElement.src;
-        try {
-          src = eval(src);
-        } catch (ex) {
-          //
-          console.error(ex);
-        }
-
-        let method = obj.get(this.uiElement, "method", "get");
-
-        // pagination
-        this.size = obj.get(this.uiElement, "size", 10);
-        if (!this.page) {
-          this.page = obj.get(this.uiElement, "page", 1);
-        }
-        let data = {
-          size: this.size,
-          page: this.page,
-        };
-
-        let response = await this.rest.request(src, data, method);
-        response = response.data;
-        if (this.uiElement.transform) {
+      clearTimeout(this.requestTimeout);
+      this.requestTimeout = setTimeout(async () => {
+        // load initial configuration
+        if (this.uiElement.src) {
+          let src = this.uiElement.src;
           try {
-            this.rows = eval(this.uiElement.transform);
+            src = eval(src);
           } catch (ex) {
+            //
             console.error(ex);
           }
+
+          let method = obj.get(this.uiElement, "method", "get");
+
+          // pagination
+          this.size = obj.get(this.uiElement, "size", 10);
+          if (!this.page) {
+            this.page = obj.get(this.uiElement, "page", 1);
+          }
+          let data = {
+            size: this.size,
+            page: this.page,
+          };
+
+          let response = await this.rest.request(src, data, method);
+          response = response.data;
+          if (this.uiElement.transform) {
+            try {
+              this.rows = eval(this.uiElement.transform);
+            } catch (ex) {
+              console.error(ex);
+            }
+          } else {
+            this.rows = response;
+          }
         } else {
-          this.rows = response;
+          // retrieve rows from the key
+          if (this.uiElement.key) {
+            this.rows = obj.get(this.data, this.uiElement.key, []);
+          }
         }
-      } else {
-        // retrieve rows from the key
-        if(this.uiElement.key) {
-          this.rows = obj.get(this.data, this.uiElement.key, [])
-        }
-      }
+      }, 1000);
     },
   },
   watch: {
