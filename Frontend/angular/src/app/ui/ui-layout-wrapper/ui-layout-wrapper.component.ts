@@ -122,7 +122,7 @@ export class UILayoutWrapperComponent {
 				try {
 					eval(this.uiElement.init);
 				} catch (e) {
-					console.error(e);
+					console.error(e, this.uiElement);
 				}
 			}
 
