@@ -84,7 +84,18 @@
         [value]="uiElement.optionKey ? option[uiElement.optionKey] : option"
         [ngStyle]="safeGet(option, 'style', uiElement.optionStyle)"
       >
-        {{ format(option) }}
+        <div
+          *ngIf="uiElement.optionTemplate"
+          ui-layout-wrapper
+          [uiElement]="uiElement.optionTemplate"
+          [data]="option"
+          [copy]="true"
+        ></div>
+
+        <ng-container *ngIf="!uiElement.optionTemplate">
+          {{ format(option) }}
+        </ng-container>
+        
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
@@ -117,7 +128,7 @@
       [matChipInputFor]="chipList"
       [matChipInputAddOnBlur]="safeGet(uiElement, 'addOnBlur', true)"
       [placeholder]="uiElement.placeholder"
-      [evalValidate]="uiElement.errorCondition"            
+      [evalValidate]="uiElement.errorCondition"
       [required]="uiElement.required"
       [autofocus]="uiElement.autofocus ? uiElement.autofocus : false"
       (matChipInputTokenEnd)="add($event)"
