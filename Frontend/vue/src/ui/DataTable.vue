@@ -64,7 +64,7 @@ export default Vue.component("data-table", {
       rows: [],
       height: 1000,
       requestTimeout: null,
-      loading: true,
+      loading: false,
     };
   },
   mounted: function () {    

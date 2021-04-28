@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
+    "bluebird": "^3.7.2",
     "cron-parser": "^3.3.0",
     "moment": "^2.29.1",
     "mongodb": "^3.6.5",

@@ -1,6 +1,9 @@
-{
-  "company_id": "000000000000000000000000",
+{ 
+  "host": "http://unkyulee.herokuapp.com",
   "url": "",
+  "company_id": "",
+  "id": "",  
+  "password": "",
   "cron": "* * * * *",
-  "timeout": 86400
+  "timeout": 3600
 }
