@@ -41,7 +41,7 @@ export class DataTableComponent extends BaseComponent {
 			try {
 				defaultValue = eval(this.uiElement.default);
 			} catch (e) {
-				console.error(e);
+				console.error(e, this.uiElement);
 			}
 			obj.set(this.data, this.uiElement.key, defaultValue);
 		}
@@ -100,7 +100,7 @@ export class DataTableComponent extends BaseComponent {
 					try {
 						eval(this.uiElement.refresh);
 					} catch (e) {
-						console.error(e);
+						console.error(e, this.uiElement);
 					}
 				}
 				setTimeout(() => this.requestDownload(), 0);
@@ -208,7 +208,7 @@ export class DataTableComponent extends BaseComponent {
 			try {
 				src = eval(src);
 			} catch (e) {
-				console.error(e);
+				console.error(e, this.uiElement);
 			}
 
 			// look at query params and pass it on to the request
@@ -246,7 +246,7 @@ export class DataTableComponent extends BaseComponent {
 				try {
 					eval(this.uiElement.preProcess);
 				} catch (e) {
-					console.error(e);
+					console.error(e, this.uiElement);
 				}
 			}
 
@@ -266,7 +266,7 @@ export class DataTableComponent extends BaseComponent {
 		try {
 			this.rows = eval(transform);
 		} catch (e) {
-      console.error(e)
+      console.error(e, this.uiElement);
     }
 
 		// get total records
@@ -274,7 +274,7 @@ export class DataTableComponent extends BaseComponent {
 		try {
 			this.total = parseInt(eval(transformTotal));
 		} catch (e) {
-      console.error(e)
+      console.error(e, this.uiElement);
     }
 		if (this.total != 0 && !this.total) this.total = this.rows.length;
 
@@ -294,7 +294,7 @@ export class DataTableComponent extends BaseComponent {
 			try {
 				eval(this.uiElement.drop);
 			} catch (e) {
-				console.error(e);
+				console.error(e, this.uiElement);
 			}
 		}
 	}
