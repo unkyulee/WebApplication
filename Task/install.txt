@@ -1,2 +1,2 @@
 npm install -g node-windows
-"C:\Project\WebApplication\Task\tools\printer\print.exe" -silent -exit-when-done -print-to  "Microsoft Print to PDF" "C:\Users\Un Kyu Lee\Downloads\sample.pdf"
+"C:\Project\WebApplication\Task\tools\printer\print.exe" -silent -exit-when-done -print-to  "Microsoft Print to PDF" "C:\Users\Un Kyu Lee\Downloads\test.txt"
