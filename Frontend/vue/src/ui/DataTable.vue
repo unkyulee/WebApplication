@@ -5,6 +5,7 @@
       :style="uiElement.style"
       :class="uiElement.class"
     >
+      <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
       <div
         v-for="(item, index) of rows"
         :key="index"
@@ -30,6 +31,7 @@
       :height="height"
       width="100%"
     >
+      <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
       <template v-slot:default="{ item }">
         <div
           :style="uiElement.itemBoxStyle"
@@ -62,9 +64,10 @@ export default Vue.component("data-table", {
       rows: [],
       height: 1000,
       requestTimeout: null,
+      loading: true,
     };
   },
-  mounted: function () {
+  mounted: function () {    
     // subscribe to refresh
     if (this.uiElement.key) {
       this.event.subscribe(this.uiElement.key, "refresh", (event) => {
@@ -106,8 +109,15 @@ export default Vue.component("data-table", {
             page: this.page,
           };
 
+          // start loading
+          this.loading = true;
+
           let response = await this.rest.request(src, data, method);
           response = response.data;
+
+          // stop loading
+          this.loading = false;
+
           if (this.uiElement.transform) {
             try {
               this.rows = eval(this.uiElement.transform);
