@@ -125,8 +125,8 @@
       uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
     "
     *ngFor="let row of rows"
-    [ngStyle]="uiElement.itemBoxStyle"
-    [ngClass]="uiElement.itemBoxClass"
+    [ngStyle]="row.itemBoxStyle ? row.itemBoxStyle : uiElement.itemBoxStyle"
+    [ngClass]="row.itemBoxClass? row.itemBoxClass : uiElement.itemBoxClass"
     (click)="click($event, row, uiElement.click)"
   >
     <ng-container *ngFor="let column of uiElement.columns">
