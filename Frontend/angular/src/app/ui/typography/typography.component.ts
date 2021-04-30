@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import obj from 'object-path';
 
 // user Imports
@@ -11,13 +11,17 @@ import { BaseComponent } from '../base.component';
 			*ngIf="value"
 			[ngStyle]="uiElement.style"
 			[ngClass]="uiElement.class"
-			[innerHtml]="value | safe: 'html'"
-			(click)="click($event)"
+			[innerHtml]="value | safe: 'html'"			
 		></div>
 	`,
 })
 export class TypographyComponent extends BaseComponent {
-
+  @HostListener('click', [`$event`]) onClick(event) {
+		if (obj.has(this.uiElement, 'click')) {
+			this.click(event, this.data, this.uiElement.click);
+		}
+	}
+  
   _value;
 	get value() {
 		// fixed text
