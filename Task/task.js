@@ -159,7 +159,7 @@ async function schedule() {
           }
         );
         //
-        await log(
+        console.log(
           task,
           "",
           `scheduled task: ${task.name} - ${moment(task.next_run_date).format("L LT")}`
@@ -201,7 +201,7 @@ async function execute() {
         }
       );
       //
-      await log(
+      console.log(
         task,
         "",
         `initiate task: ${task.name} - ${moment(task.next_run_date).format('L LT')}`
@@ -233,7 +233,7 @@ async function execute() {
       );
 
       //
-      await log(
+      console.log(
         task,
         "",
         `starting task: ${task.name} - ${moment(task.next_run_date).format('L LT')}`
@@ -263,7 +263,7 @@ async function execute() {
         }
       );
       //
-      await log(
+      console.log(
         task,
         "",
         `finishing task: ${task.name} - ${moment(task.next_run_date).format('L LT')}`
@@ -312,7 +312,7 @@ async function executeActions(task) {
   let context = {};
   for (let action of obj.get(actions, "data", [])) {
     if (action.enabled != false) {
-      await log(task, action, `start ${action.name}`);
+      console.log(task, action, `start ${action.name}`);
       try {
         
         // perform the task
@@ -326,7 +326,7 @@ async function executeActions(task) {
         await log(task, action, `${e.stack}`);
         throw e;
       }      
-      await log(task, action, `finish ${action.name}`);
+      console.log(task, action, `finish ${action.name}`);
     }
   }
 }
