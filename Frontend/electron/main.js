@@ -65,34 +65,6 @@ if (!singleInstanceLock && !serve) {
   });
   // Listen for web contents being created
   app.on("web-contents-created", (e, c) => {
-    
-    // resolve input focus loss in windows
-    if (process.platform === "win32" && window.window) {
-      let needsFocusFix = false;
-      let triggeringProgrammaticBlur = false;
-
-      window.window.on("blur", (event) => {
-        if (!triggeringProgrammaticBlur) {
-          needsFocusFix = true;          
-        }
-      });
-
-      window.window.on("focus", (event) => {
-        if (needsFocusFix) {
-          needsFocusFix = false;
-          triggeringProgrammaticBlur = true;
-          setTimeout(function () {
-            window.window.blur();
-            window.window.focus();
-            
-            setTimeout(function () {
-              triggeringProgrammaticBlur = false;
-            }, 100);
-          }, 100);
-        }
-      });    
-    }
-
     // Import electron context menu library
     // Initialize the context menu
     require("electron-context-menu")({
