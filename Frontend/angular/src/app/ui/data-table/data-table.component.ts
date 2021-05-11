@@ -260,11 +260,11 @@ export class DataTableComponent extends BaseComponent {
 		}
 	}
 
-	responseDownload(response) {
+	async responseDownload(response) {
 		// map data from response
 		let transform = this.uiElement.transform || 'response.data';
 		try {
-			this.rows = eval(transform);
+			this.rows = await eval(transform);
 		} catch (e) {
       console.error(e, this.uiElement);
     }
@@ -272,7 +272,7 @@ export class DataTableComponent extends BaseComponent {
 		// get total records
 		let transformTotal = this.uiElement.transformTotal || 'response.total';
 		try {
-			this.total = parseInt(eval(transformTotal));
+			this.total = parseInt(await eval(transformTotal));
 		} catch (e) {
       console.error(e, this.uiElement);
     }
