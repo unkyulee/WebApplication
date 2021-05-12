@@ -31,13 +31,14 @@
       @click:clear="safeEval(uiElement.clickClear)"
     ></v-textarea>
 
-    <!-- text field -->
+    <!-- input field -->
     <v-text-field
       v-if="
         (
           !this.uiElement.inputType ||
           this.uiElement.inputType == 'text' ||
-          this.uiElement.inputType == 'number'
+          this.uiElement.inputType == 'number' ||
+          this.uiElement.inputType == 'password' 
         ) &&
         condition(uiElement)
       "
