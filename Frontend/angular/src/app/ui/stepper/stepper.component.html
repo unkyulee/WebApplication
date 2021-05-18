@@ -1,5 +1,8 @@
 <mat-horizontal-stepper
   *ngIf="!uiElement.stepperType || uiElement.stepperType == 'horizontal'"
+  (selectionChange)="selectionChanged($event)"
+  [ngStyle]="uiElement.style"
+  [ngClass]="uiElement.class"
 >
   <ng-container *ngFor="let step of uiElement.steps">
     <mat-step *ngIf="condition(step)" [label]="step.label">
