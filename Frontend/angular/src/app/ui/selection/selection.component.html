@@ -27,7 +27,7 @@
       </mat-option>
       <mat-option
         *ngFor="let option of uiElement.options"
-        [value]="uiElement.optionKey ? option[uiElement.optionKey] : option"
+        [value]="uiElement.optionKey ? safeGet(option, uiElement.optionKey, option) : option"
         [ngStyle]="safeGet(option, 'style', uiElement.optionStyle)"
       >
         {{ format(option) }}
@@ -81,7 +81,7 @@
     >
       <mat-option
         *ngFor="let option of uiElement.options"
-        [value]="uiElement.optionKey ? option[uiElement.optionKey] : option"
+        [value]="uiElement.optionKey ? safeGet(option, uiElement.optionKey, option): option"
         [ngStyle]="safeGet(option, 'style', uiElement.optionStyle)"
       >
         <div
