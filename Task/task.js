@@ -5,6 +5,15 @@ const axios = require("axios");
 const obj = require("object-path");
 const moment = require("moment");
 
+process
+  .on('unhandledRejection', (reason, p) => {
+    console.error(reason, 'Unhandled Rejection at Promise', p);
+  })
+  .on('uncaughtException', err => {
+    console.error(err, 'Uncaught Exception thrown');
+    process.exit(1);
+  });
+
 //
 // load JSON config file
 let config = JSON.parse(fs.readFileSync(`${__dirname}\\config.json`));
