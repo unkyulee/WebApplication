@@ -278,7 +278,7 @@ export class DataTableComponent extends BaseComponent {
 		} catch (e) {
       console.error(e, this.uiElement);
     }
-		if (this.total != 0 && !this.total) this.total = this.rows.length;
+		if (this.total != 0 && !this.total) this.total = obj.get(this, 'rows', []).length;
 
 		// hide splash
 		this.event.send({ name: 'changed' });
