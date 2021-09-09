@@ -21,24 +21,15 @@
       </colgroup>
     </ng-template>
     <ng-template pTemplate="header" let-columns>
-      <tr style="font-size: small">
+      <tr>
         <ng-container *ngFor="let column of columns">
-          <th *ngIf="condition(column)">
-            <!-- Filter -->
-            <ng-container *ngIf="column.filter">
-              <i
-                class="pi pi-filter filter-icon"
-                (click)="filterClick(column)"
-                style="cursor: pointer"
-              ></i>
-            </ng-container>
-
+          <th *ngIf="condition(column)" style="padding-left: 8px">
             <!-- Header -->
             <div
               ui-layout-wrapper
               *ngIf="column.header"
               [uiElement]="column.header"
-              [data]="data"
+              [data]="data"              
             ></div>
             <span *ngIf="!column.header">{{ column.label }}</span>
 
@@ -47,8 +38,16 @@
               *ngIf="column.sort != false"
               [field]="column.key"
               [pSortableColumn]="column.key"
-              style="position: absolute; right: 2px"
             ></p-sortIcon>
+
+            <!-- Filter -->
+            <ng-container *ngIf="column.filter">
+              <i
+                class="pi pi-filter filter-icon"
+                (click)="filterClick(column)"
+                style="cursor: pointer; position: absolute; left: -8px;"
+              ></i>
+            </ng-container>
           </th>
         </ng-container>
       </tr>
@@ -126,7 +125,7 @@
     "
     *ngFor="let row of rows"
     [ngStyle]="row.itemBoxStyle ? row.itemBoxStyle : uiElement.itemBoxStyle"
-    [ngClass]="row.itemBoxClass? row.itemBoxClass : uiElement.itemBoxClass"
+    [ngClass]="row.itemBoxClass ? row.itemBoxClass : uiElement.itemBoxClass"
     (click)="click($event, row, uiElement.click)"
   >
     <ng-container *ngFor="let column of uiElement.columns">

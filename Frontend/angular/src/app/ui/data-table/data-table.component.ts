@@ -313,7 +313,10 @@ export class DataTableComponent extends BaseComponent {
 					},
 				},
 				contentStyle: {
-					padding: '24px',
+					padding: '12px',
+          display: "flex",
+          width: "100%",
+          height: "100%"
 				},
 				screens: [column.filter],
 			},
