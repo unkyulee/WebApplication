@@ -8,6 +8,7 @@ import { Editor } from 'primeng/editor';
 @Component({
 	selector: 'editor',
 	templateUrl: './editor.component.html',
+  styleUrls: ['./editor.component.scss'],
 })
 export class EditorComponent extends BaseComponent {
   @ViewChild('editor') editor: Editor;
