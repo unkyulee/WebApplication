@@ -4,6 +4,7 @@ import { Subscription, ReplaySubject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { AppInjector } from "../app.component";
 import obj from 'object-path';
+import Swal from 'sweetalert2/dist/sweetalert2.js';  
 
 import { EventService } from "../services/event.service";
 import { RestService } from "../services/rest.service";

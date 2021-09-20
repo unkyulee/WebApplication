@@ -295,7 +295,7 @@ export class FormGeneratorComponent extends BaseComponent {
     setTimeout(() => {
       // reset changed flag
       this.changed = false;
-    }, 3000);
+    });
   }
 
   saveAction(response) {

@@ -3,7 +3,7 @@
   <p-table
     [columns]="uiElement.tableColumns"
     [value]="rows"
-    styleClass="p-datatable-sm p-datatable-striped"
+    styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines"
     [rowHover]="safeGet(uiElement, 'rowHover', true)"
     [filterDelay]="safeGet(uiElement, 'filterDelay', 250)"
     (sortFunction)="customSort($event)"
@@ -23,31 +23,31 @@
     <ng-template pTemplate="header" let-columns>
       <tr>
         <ng-container *ngFor="let column of columns">
-          <th *ngIf="condition(column)" style="padding-left: 8px">
+          <th *ngIf="condition(column)">
             <!-- Header -->
             <div
               ui-layout-wrapper
               *ngIf="column.header"
               [uiElement]="column.header"
-              [data]="data"              
+              [data]="data"
             ></div>
-            <span *ngIf="!column.header">{{ column.label }}</span>
+            <span *ngIf="!column.header">{{ column.label }} </span>
 
             <!-- Sort Icon -->
             <p-sortIcon
               *ngIf="column.sort != false"
               [field]="column.key"
-              [pSortableColumn]="column.key"
+              [pSortableColumn]="column.key"              
             ></p-sortIcon>
 
             <!-- Filter -->
-            <ng-container *ngIf="column.filter">
-              <i
-                class="pi pi-filter filter-icon"
-                (click)="filterClick(column)"
-                style="cursor: pointer; position: absolute; left: -8px;"
-              ></i>
-            </ng-container>
+            <i
+              *ngIf="column.filter"
+              class="pi pi-filter filter-icon"
+              (click)="filterClick(column)"
+              style="margin-left: 8px;"
+            ></i>
+            
           </th>
         </ng-container>
       </tr>
