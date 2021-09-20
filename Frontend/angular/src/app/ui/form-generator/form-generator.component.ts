@@ -222,6 +222,9 @@ export class FormGeneratorComponent extends BaseComponent {
 
     // do not overwrite existing data
     this.data = Object.assign(this.data, data);
+
+    // detect changes on this.data
+    this.dataDiffer = this.differs.find(this.data).create();
   }
 
   async save() {
