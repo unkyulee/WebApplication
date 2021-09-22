@@ -41,7 +41,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
     AppComponent,
     ServiceUrlComponent,
     LoginComponent,
-    ErrorComponent,
+    ErrorComponent    
   ],
   imports: [
     BrowserAnimationsModule,

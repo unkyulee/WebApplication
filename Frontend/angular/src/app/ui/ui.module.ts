@@ -18,6 +18,7 @@ import { EvalValidator } from '../core/eval.validator';
 import { JsonValidator } from '../core/json.validator';
 import { AutofocusDirective } from '../core/autofocus';
 import { SafePipe } from '../core/safe.pipe';
+import { ObserveVisibilityDirective } from "../core/observeVisibility";
 
 // user component
 import { UILayoutWrapperComponent } from './ui-layout-wrapper/ui-layout-wrapper.component';
@@ -74,6 +75,7 @@ export function momentAdapterFactory() {
 @NgModule({
 	declarations: [
 		SafePipe,
+    ObserveVisibilityDirective,
 		UILayoutWrapperComponent,
 		UILayoutComponent,
 		EvalValidator,
