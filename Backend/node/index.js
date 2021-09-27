@@ -1,6 +1,8 @@
-const express = require("express");
-const app = express();
 const path = require("path");
+const express = require("express");
+
+// Express Instance
+const app = express();
 
 // retrieve secret
 app.locals.secret = process.env.SECRET;
@@ -11,7 +13,7 @@ app.locals.encryption = new Encryption(app.locals.secret);
 
 // Process the static files
 app.locals.wwwroot = path.join(__dirname, "/wwwroot");
-console.log(app.locals.wwwroot)
+console.log(app.locals.wwwroot);
 app.use(express.static(app.locals.wwwroot));
 
 // process cookies
@@ -23,9 +25,8 @@ var busboy = require("connect-busboy");
 app.use(busboy());
 
 // process forms
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // default TZ setup
 if (process.env.TZ) {
@@ -97,9 +98,23 @@ async function handler(req, res) {
 }
 
 // Initiate the server
-app.listen(process.env.PORT, process.env.BIND_IP, () => {
+const http = require("http");
+const server = http.createServer(app);
+
+// listen for connections
+server.listen(process.env.PORT, process.env.BIND_IP, () => {
   console.log(`PORT: ${process.env.PORT}, IP: ${process.env.BIND_IP}`);
   console.log(
     `DATABASE_URI: ${process.env.DATABASE_URI}, DB: ${process.env.DB}`
   );
+
+  // initialize the WebSocket server instance
+  if (process.env.WS == 1) {
+    console.log(`WEBSOCKET ON`);
+
+    const WebSocket = require("ws");
+    const wss = new WebSocket.Server({ server });
+    const WebSocketService = require("./src/services/websocket");
+    WebSocketService.run(wss);
+  }
 });
