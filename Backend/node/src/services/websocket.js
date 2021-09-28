@@ -1,10 +1,10 @@
 const MongoDB = require("../db/mongodb");
+const ObjectID = require("mongodb").ObjectID;
 const obj = require("object-path");
 const moment = require("moment-timezone");
 
 class WebSocketService {
-  routers = [];
-  handler = {};
+  router = {};
   db = null;
 
   async run(wss) {
@@ -12,7 +12,7 @@ class WebSocketService {
     await this.init();
 
     // listen to connections
-    this.listen(wss, this.routers, this.handler);
+    this.listen(wss, this.routers);
   }
 
   async init() {
@@ -24,15 +24,16 @@ class WebSocketService {
       await db.connect();
 
       // load routers from the database
-      this.routers = await db.find("protocol_router", {
+      let routers = await db.find("protocol_router", {
         size: 1000,
         sort: { priority: -1 },
       });
-      if (this.routers && this.routers.length > 0) {
+      if (routers && routers.length > 0) {
         console.log("Loading routers ...");
-        for (let router of this.routers) {
+        for (let router of routers) {
           //
           console.log(router.id);
+          this.router[router.id.toLowerCase()] = router;
 
           // load handlers
           let handlers = await db.find("protocol_handler", {
@@ -40,9 +41,12 @@ class WebSocketService {
             query: { protocol: router.id },
           });
           if (handlers && handlers.length > 0) {
+            // index handlers to the router
+            router.handler = {};
+
             for (let handler of handlers) {
               console.log(` - ${handler.handler}`);
-              this.handler[`${router.id}-${handler.handler}`] = handler;
+              router.handler[handler.handler] = handler;
             }
           }
         }
@@ -58,37 +62,55 @@ class WebSocketService {
   listen(wss, routers, handler) {
     const log = this.log;
 
-    wss.on("connection", (ws) => {
+    // wait connection
+    wss.on("connection", async (ws, req) => {
+      // assign unique id
+      ws.id = req.headers["sec-websocket-key"];
+
+      // save the request object
+      ws.req = req;
+
+      // parse out router from the url
+      let urls = req.url.split("/");
+
+      // if the router name is not passed then close the connection
+      if (urls.length <= 1) {
+        console.log(`router missing ${req.url}`);
+        ws.close();
+        return;
+      }
+
+      // find the router
+      if (!this.router[urls[1].toLowerCase()]) {
+        console.log(`router doesn't exists ${req.url}`);
+        ws.close();
+        return;
+      }
+
+      ws.router = this.router[urls[1].toLowerCase()];
+
+      // listen to connection
       ws.on("message", async (msg) => {
-        // find the matching router and handler
-        let handled = false;
-        for (let router of routers) {
-          let result = eval(router.router);
-          if (
-            result &&
-            result.handler &&
-            handler[`${router.id}-${result.handler}`]
-          ) {
-            //
-            handled = true;
+        // find the matching handler
+        let handler = eval(ws.router.router);
+        if (handler) {
+          // register the transaction
+          await log(ws.id, ws.router.id, handler.handler, `${msg}`);
 
-            // register the transaction
-            await log(router.id, result.handler, `${msg}`);
-
-            // process the request
-            await eval(handler[`${router.id}-${result.handler}`].process);
-
-            break;
-          }
+          // process the request
+          await eval(handler.process);
+        } else {
+          // handler not found
+          await log(ws.id, ws.router.id, "NOT HANDLED", `${msg}`);
         }
-
-        // handler not found
-        if (handled == false) console.error(`Handler not found`, `${msg}`);
       });
+
+      // register the connection
+      await log(ws.id, ws.router.id, "connection", req.url);
     });
   }
 
-  async log(protocol, handler, message, incoming = true) {
+  async log(id, protocol, handler, message, incoming = true) {
     let db = null;
     try {
       // connect to mongodb
@@ -97,11 +119,12 @@ class WebSocketService {
 
       // load routers from the database
       await db.insert("protocol_log", {
+        id,
         incoming,
         protocol,
         handler,
         message,
-        _created: new Date()
+        _created: new Date(),
       });
     } catch (e) {
       console.error(e);
