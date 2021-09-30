@@ -86,7 +86,10 @@ class MongoDB {
         console.error(new Error().stack);
         throw ex;
       }
+      // restore _id
+      data._id = ObjectID(`${id}`);
 
+      //
       return id;
     }
 
