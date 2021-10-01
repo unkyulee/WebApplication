@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const cron = require("node-cron");
 const cronParser = require("cron-parser");
 const axios = require("axios");
@@ -16,7 +17,7 @@ process
 
 //
 // load JSON config file
-let config = JSON.parse(fs.readFileSync(`${__dirname}\\config.json`));
+let config = JSON.parse(fs.readFileSync(path.join(__dirname, "config.json")));
 
 // interval in seconds
 function run() {
