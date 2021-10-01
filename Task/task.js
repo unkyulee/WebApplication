@@ -20,46 +20,35 @@ process
 let config = JSON.parse(fs.readFileSync(path.join(__dirname, "config.json")));
 
 // interval in seconds
-function run() {
-  console.log("Scheduling starts");
-
-  // take time stamps so that no duplicate execution
-  // also give reference for the force termination
-  let is_running = false;
-
+function run() {  
   //
-  cron.schedule(config.cron, async () => {
-    if (is_running) {
-      console.log("Previous function is still running");
-      return;
-    } else {
-      console.log(`${moment().format("L LT")} - check task`);
-    }
+  if(config.runOnce) {
+    console.log("run once");
+    runOnce();
+  } else {
+    console.log("Scheduling starts");
+    cron.schedule(config.cron, runOnce);
+  }  
+}
 
-    //
-    is_running = true;
+async function runOnce() {
+  try {
+    ///////////////////////////////////
+    // step 1. login to get auth token
+    await login();
 
-    try {
-      ///////////////////////////////////
-      // step 1. login to get auth token
-      await login();
+    // step 2. reset dead tasks
+    await resetDeadTask();
 
-      // step 2. reset dead tasks
-      await resetDeadTask();
+    // step 3. perform scheduling
+    await schedule();
 
-      // step 3. perform scheduling
-      await schedule();
-
-      // step 4. execute task
-      await execute();
-      ///////////////////////////////////
-    } catch (ex) {
-      console.log(ex);
-    }
-
-    //
-    is_running = false;
-  });
+    // step 4. execute task
+    await execute();
+    ///////////////////////////////////
+  } catch (ex) {
+    console.log(ex);
+  }
 }
 
 /////////////////////////////////////////////
@@ -168,12 +157,13 @@ async function schedule() {
             },
           }
         );
-        //
+        /*
         console.log(
           task,
           "",
           `scheduled task: ${task.name} - ${moment(task.next_run_date).format("L LT")}`
         );
+        */
       } catch (e) {
         console.log(e);
       }
@@ -210,12 +200,13 @@ async function execute() {
           },
         }
       );
-      //
+      /*
       console.log(
         task,
         "",
         `initiate task: ${task.name} - ${moment(task.next_run_date).format('L LT')}`
       );
+      */
     } catch (e) {
       console.log(e);
     }
@@ -242,12 +233,13 @@ async function execute() {
         }
       );
 
-      //
+      /*
       console.log(
         task,
         "",
         `starting task: ${task.name} - ${moment(task.next_run_date).format('L LT')}`
       );
+      */
 
       ////////////////////////////////////////////////
       // run task
@@ -272,12 +264,13 @@ async function execute() {
           },
         }
       );
-      //
+      /*
       console.log(
         task,
         "",
         `finishing task: ${task.name} - ${moment(task.next_run_date).format('L LT')}`
       );
+      */
     } catch (e) {
       ////////////////////////////////////////////////
       // task error
@@ -322,7 +315,9 @@ async function executeActions(task) {
   let context = {};
   for (let action of obj.get(actions, "data", [])) {
     if (action.enabled != false) {
-      console.log(task, action, `start ${action.name}`);
+      
+      //console.log(task, action, `start ${action.name}`);
+
       try {
         
         // perform the task
@@ -336,7 +331,7 @@ async function executeActions(task) {
         await log(task, action, `${e.stack}`);
         throw e;
       }      
-      console.log(task, action, `finish ${action.name}`);
+      //console.log(task, action, `finish ${action.name}`);
     }
   }
 }
