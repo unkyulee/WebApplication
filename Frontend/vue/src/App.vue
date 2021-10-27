@@ -1,7 +1,7 @@
 <template>
   <v-app id="scrollable">
-    <Navigation />
-    <Toolbar />
+    <Navigation v-if="showNav" />
+    <Toolbar v-if="showNav" />
 
     <!-- Sizes your content based upon application components -->
     <v-main :style="style">
@@ -44,7 +44,7 @@ export default {
     UiElement,
     Dialog,
     ActionSheet,
-    Snackbar
+    Snackbar,
   },
   provide: function () {
     return {
@@ -59,6 +59,7 @@ export default {
     return {
       data: {},
       uiElement: {},
+      showNav: true,
       style: {
         display: "flex",
         flexFlow: "column",
@@ -94,8 +95,27 @@ export default {
   },
   methods: {
     init: async function () {
+      // check if embed is passed
+      if (obj.get(this.$route, "query.embed")) {
+        // hide the navigation
+        this.showNav = false;
+        
+        // get ui
+        let uiElementId = obj.get(this.$route, "query.ui");
+        if (uiElementId) {
+          event.send({ name: "splash-show" });
+
+          // load the screen
+          this.uiElement = {}; // reset the screen before loading
+          this.uiElement = await ui.get(uiElementId);
+
+          //
+          event.send({ name: "splash-hide" });
+        }
+      }
+
       // load the first navigation
-      if (this.$route.path == "/" && config.get("nav", []).length > 0) {
+      else if (this.$route.path == "/" && config.get("nav", []).length > 0) {
         this.$router.push(config.get("nav.0.url"));
       }
       // other-wise load the selected navigation

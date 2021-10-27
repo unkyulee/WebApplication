@@ -101,20 +101,20 @@ async function handler(req, res) {
 const http = require("http");
 const server = http.createServer(app);
 
+// initialize the WebSocket server instance
+if (process.env.WS == 1) {
+  console.log(`WEBSOCKET ON`);
+
+  const WebSocket = require("ws");
+  const wss = new WebSocket.Server({ server });
+  const WebSocketService = require("./src/services/websocket");
+  WebSocketService.run(wss);
+}
+
 // listen for connections
 server.listen(process.env.PORT, process.env.BIND_IP, () => {
   console.log(`PORT: ${process.env.PORT}, IP: ${process.env.BIND_IP}`);
   console.log(
     `DATABASE_URI: ${process.env.DATABASE_URI}, DB: ${process.env.DB}`
   );
-
-  // initialize the WebSocket server instance
-  if (process.env.WS == 1) {
-    console.log(`WEBSOCKET ON`);
-
-    const WebSocket = require("ws");
-    const wss = new WebSocket.Server({ server });
-    const WebSocketService = require("./src/services/websocket");
-    WebSocketService.run(wss);
-  }
 });

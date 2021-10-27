@@ -89,6 +89,13 @@ class WebSocketService {
 
       ws.router = this.router[urls[1].toLowerCase()];
 
+      ws.on('error', (err) => {
+        console.error(err);
+        ws.close();
+        console.log("connection closed");
+        return;
+      });
+
       // listen to connection
       ws.on("message", async (msg) => {
         // find the matching handler
