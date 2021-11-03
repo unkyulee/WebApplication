@@ -4,7 +4,7 @@
     <Toolbar v-if="showNav" />
 
     <!-- Sizes your content based upon application components -->
-    <v-main :style="style">
+    <v-main :style="style">      
       <UiElement :uiElement="uiElement" :data="data" />
       <Dialog />
       <Splash />

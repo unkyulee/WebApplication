@@ -16,6 +16,7 @@
       :class="uiElement.buttonClass"
       :color="uiElement.color"
       :depressed="uiElement.depressed"
+      :plain="uiElement.plain"
       :fab="uiElement.fab"
       :dark="uiElement.dark"
       :small="uiElement.small"
