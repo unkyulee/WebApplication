@@ -1,12 +1,8 @@
 <template>
   <keep-alive>
-
     <!-- text area -->
     <v-textarea
-      v-if="
-        this.uiElement.inputType == 'textarea' &&
-        condition(uiElement)
-      "
+      v-if="this.uiElement.inputType == 'textarea' && condition(uiElement)"
       v-model="value"
       :rows="uiElement.rows"
       :placeholder="uiElement.placeholder"
@@ -34,12 +30,10 @@
     <!-- input field -->
     <v-text-field
       v-if="
-        (
-          !this.uiElement.inputType ||
+        (!this.uiElement.inputType ||
           this.uiElement.inputType == 'text' ||
           this.uiElement.inputType == 'number' ||
-          this.uiElement.inputType == 'password' 
-        ) &&
+          this.uiElement.inputType == 'password') &&
         condition(uiElement)
       "
       v-model="value"
@@ -67,16 +61,14 @@
     ></v-text-field>
 
     <v-checkbox
-      v-if="
-        this.uiElement.inputType == 'checkbox' &&
-        condition(uiElement)
-      "
+      v-if="this.uiElement.inputType == 'checkbox' && condition(uiElement)"
+      v-model="value"
       :class="uiElement.class"
       :style="uiElement.style"
-      v-model="value"
       :label="uiElement.label"
+      :color="uiElement.color"
+      :hide-details="safeGet(uiElement, 'hideDetails', true)"
     ></v-checkbox>
-
   </keep-alive>
 </template>
 

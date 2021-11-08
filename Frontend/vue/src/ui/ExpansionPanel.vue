@@ -2,11 +2,12 @@
   <v-expansion-panels
     :focusable="uiElement.focusable"
     :popout="uiElement.popout"
+    :multiple="uiElement.multiple"
     v-model="panel"
   >
     <v-expansion-panel v-for="(panel, i) in uiElement.panels" :key="i">
       <v-expansion-panel-header :style="uiElement.headerStyle">
-        {{ panel.header.label }}
+        <div v-html='panel.header.label'></div>        
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <UiElement

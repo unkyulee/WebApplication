@@ -50,8 +50,9 @@ export default {
       try {
         return eval(script);
       } catch (ex) {
-        console.error(script, ex);
+        //console.error(script, ex);
       }
+      return script;
     },
     safeGet(data, path, def) {
       return obj.get(data, path, def);
