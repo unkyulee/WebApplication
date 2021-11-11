@@ -26,10 +26,11 @@ import "./Button";
 import "./DataTable";
 import "./Icon";
 import "./Date";
-import "./Selection"
-import "./Progress"
-import "./ExpansionPanel"
-import "./Carousel"
+import "./Selection";
+import "./Progress";
+import "./ExpansionPanel";
+import "./Carousel";
+import "./Iframe"
 
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],
@@ -42,7 +43,7 @@ export default Vue.component("UiElement", {
   mounted: async function () {
     // prepare uielement
     this.ready = false;
-
+    
     // resolve ui-element-id
     if (this.uiElement && this.uiElement.type == "ui-element-id") {
       let element = await this.ui.get(this.uiElement.uiElementId);
@@ -57,26 +58,8 @@ export default Vue.component("UiElement", {
             ...this.uiElement,
           })
         );
-
-        // run init script
-        if (this.uiElement.uiElementInit) {
-          try {
-            eval(this.uiElement.uiElementInit);
-          } catch (e) {
-            console.error(e);
-          }
-        }
       } else {
         console.error(`uiElement missing ${this.uiElement.uiElementId}`);
-      }
-    }
-
-    if (this.uiElement && this.uiElement.init) {
-      try {
-        eval(this.uiElement.init);
-      } catch (ex) {
-        console.error(ex);
-        console.error(JSON.stringify(this.uiElement));
       }
     }
 
@@ -89,6 +72,18 @@ export default Vue.component("UiElement", {
       this.uiElement.type = "button-component";
     else if (this.uiElement && this.uiElement.type == "progress")
       this.uiElement.type = "progress-component";
+      else if (this.uiElement && this.uiElement.type == "iframe")
+      this.uiElement.type = "iframe-view";
+
+    // run init
+    if (this.uiElement && this.uiElement.init) {      
+      try {
+        await eval(this.uiElement.init);
+      } catch (ex) {
+        console.error(ex);
+        console.error(JSON.stringify(this.uiElement));
+      }
+    }
 
     // uiElement ready
     this.ready = true;

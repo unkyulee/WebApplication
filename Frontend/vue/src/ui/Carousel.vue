@@ -26,6 +26,6 @@ import Vue from "vue";
 import Base from "./Base";
 
 export default Vue.component("carousel", {
-  extends: Base,
+  extends: Base,  
 });
 </script>

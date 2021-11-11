@@ -13,7 +13,7 @@ export default {
   inject: ["config", "event", "rest", "ui", "auth"],
   mounted: function () {
     // data refresh
-    this.event.subscribe(this._uid, "data", (event) => {
+    this.event.subscribe(this._uid, "data", (event) => {      
       this.$forceUpdate();
     });
   },
@@ -50,7 +50,7 @@ export default {
       try {
         return eval(script);
       } catch (ex) {
-        //console.error(script, ex);
+        console.error(script, ex);
       }
       return script;
     },

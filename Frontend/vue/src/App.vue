@@ -4,7 +4,7 @@
     <Toolbar v-if="showNav" />
 
     <!-- Sizes your content based upon application components -->
-    <v-main :style="style">      
+    <v-main :style="style">
       <UiElement :uiElement="uiElement" :data="data" />
       <Dialog />
       <Splash />
@@ -67,14 +67,26 @@ export default {
     };
   },
   mounted: async function () {
+    // set services to app
+    this.event = event;
+    this.rest = rest;
+    this.config = config;
+    this.ui = ui;
+    this.auth = auth;
+
     // init moment locale
     if (config.get("locale")) moment.locale(config.get("locale"));
 
     // set background
     this.style.background = config.get("theme.desktop.background");
 
+    // event handler
+    this.event.subscribe("App", "data", (event) => {
+      if (event.data) this.data = event.data;
+    });
+
     // load first navigation
-    this.init();
+    await this.init();
   },
   destroyed: function () {
     event.unsubscribe_all("App");
@@ -99,7 +111,7 @@ export default {
       if (obj.get(this.$route, "query.embed")) {
         // hide the navigation
         this.showNav = false;
-        
+
         // get ui
         let uiElementId = obj.get(this.$route, "query.ui");
         if (uiElementId) {
