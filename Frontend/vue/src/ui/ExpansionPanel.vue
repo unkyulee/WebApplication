@@ -1,5 +1,6 @@
 <template>
   <v-expansion-panels
+    v-if="condition(uiElement)"
     :focusable="uiElement.focusable"
     :popout="uiElement.popout"
     :multiple="uiElement.multiple"
@@ -7,7 +8,7 @@
   >
     <v-expansion-panel v-for="(panel, i) in uiElement.panels" :key="i">
       <v-expansion-panel-header :style="uiElement.headerStyle">
-        <div v-html='panel.header.label'></div>        
+        <div v-html="panel.header.label"></div>
       </v-expansion-panel-header>
       <v-expansion-panel-content>
         <UiElement
@@ -32,7 +33,7 @@ export default Vue.component("expansion-panel", {
   }),
   mounted: function () {
     // data refresh
-    this.event.subscribe(this._uid, "panel", (event) => {      
+    this.event.subscribe(this._uid, "panel", (event) => {
       this.panel = event.panel;
     });
   },
@@ -41,15 +42,15 @@ export default Vue.component("expansion-panel", {
     this.event.unsubscribe_all(this._uid);
   },
   watch: {
-    panel: function(curr, old) {
-      if(this.uiElement.panelChanged) {
+    panel: function (curr, old) {
+      if (this.uiElement.panelChanged) {
         try {
-          eval(this.uiElement.panelChanged)
-        } catch(ex) {
-          console.error(ex, this.uiElement)
+          eval(this.uiElement.panelChanged);
+        } catch (ex) {
+          console.error(ex, this.uiElement);
         }
       }
-    }
-  }
+    },
+  },
 });
 </script>

@@ -1,5 +1,6 @@
 <template>
   <v-img
+    v-if="condition(uiElement)"
     :class="uiElement.class"
     :style="uiElement.style"
     :height="uiElement.height"
@@ -13,10 +14,7 @@
   >
     <template v-slot:placeholder>
       <v-row class="fill-height ma-0" align="center" justify="center">
-        <v-progress-circular
-          indeterminate
-          color="error"
-        ></v-progress-circular>
+        <v-progress-circular indeterminate color="error"></v-progress-circular>
       </v-row> </template
   ></v-img>
 </template>

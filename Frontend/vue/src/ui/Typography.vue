@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="condition(uiElement)"
     v-html="value"
     @click="click($event)"
     :class="uiElement.class"

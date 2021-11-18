@@ -1,5 +1,6 @@
 <template>
   <v-carousel
+    v-if="condition(uiElement)"
     :style="uiElement.style"
     :class="uiElement.class"
     :height="uiElement.height"

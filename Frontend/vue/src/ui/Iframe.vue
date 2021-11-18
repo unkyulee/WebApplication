@@ -1,5 +1,6 @@
 <template>
   <iframe
+    v-if="condition(uiElement)"
     :src="safeEval(uiElement.src)"
     :style="uiElement.style"
     :class="uiElement.class"

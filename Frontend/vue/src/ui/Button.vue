@@ -1,5 +1,6 @@
 <template>
   <v-badge
+    v-if="condition(uiElement)"
     :style="uiElement.style"
     :class="uiElement.class"
     :content="uiElement.badge ? uiElement.badge : null"

@@ -1,6 +1,6 @@
 <template>
   <component
-    v-if="ready && condition(uiElement)"
+    v-if="ready"
     :is="uiElement.type"
     :data="data"
     :uiElement="uiElement"

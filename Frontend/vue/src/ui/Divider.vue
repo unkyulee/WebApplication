@@ -1,5 +1,5 @@
 <template>
-  <v-divider :class="uiElement.class" :style="uiElement.style"></v-divider>
+  <v-divider v-if="condition(uiElement)" :class="uiElement.class" :style="uiElement.style"></v-divider>
 </template>
 
 <script>

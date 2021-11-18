@@ -1,11 +1,13 @@
 <template>
-  <v-icon 
+  <v-icon
+    v-if="condition(uiElement)"
     :large="uiElement.large"
     :small="uiElement.small"
-    :class="uiElement.class" 
-    :style="uiElement.style" 
-    @click="click($event)">
-    {{uiElement.icon}}
+    :class="uiElement.class"
+    :style="uiElement.style"
+    @click="click($event)"
+  >
+    {{ uiElement.icon }}
   </v-icon>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <keep-alive>
     <div
-      v-if="uiElement.tableType == 'list'"
+      v-if="condition(uiElement) && uiElement.tableType == 'list'"
       :style="uiElement.style"
       :class="uiElement.class"
     >
@@ -23,7 +23,7 @@
     </div>
 
     <v-virtual-scroll
-      v-if="!uiElement.tableType || uiElement.tableType == 'virtual'"
+      v-if="condition(uiElement) &&  (!uiElement.tableType || uiElement.tableType == 'virtual')"
       :items="rows"
       :item-height="safeGet(uiElement, 'itemHeight', 50)"
       :style="uiElement.style"

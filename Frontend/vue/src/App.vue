@@ -82,7 +82,9 @@ export default {
 
     // event handler
     this.event.subscribe("App", "data", (event) => {
-      if (event.data) this.data = event.data;
+      if (event.data) {
+        this.$set(this, "data", event.data);        
+      }
     });
 
     // load first navigation

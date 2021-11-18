@@ -1,5 +1,5 @@
 <template>
-  <v-dialog
+  <v-dialog  
     v-model="showDialog"
     :fullscreen="uiElement.fullscreen ? uiElement.fullscreen : false"
     :width="option.width"

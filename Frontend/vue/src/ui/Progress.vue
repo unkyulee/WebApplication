@@ -1,13 +1,11 @@
 <template>
-  <keep-alive>
-    <v-progress-circular
-      v-if="uiElement.progressType == 'circular'"
-      :class="uiElement.class"
-      :style="uiElement.style"
-      :indeterminate="uiElement.indeterminate"
-      :color="uiElement.color"
-    ></v-progress-circular>
-  </keep-alive>
+  <v-progress-circular
+    v-if="condition(uiElement) && uiElement.progressType == 'circular'"
+    :class="uiElement.class"
+    :style="uiElement.style"
+    :indeterminate="uiElement.indeterminate"
+    :color="uiElement.color"
+  ></v-progress-circular>
 </template>
 
 <script>

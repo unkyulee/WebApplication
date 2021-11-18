@@ -2,6 +2,7 @@ import rest from "./rest.service.js";
 import config from "./config.service";
 import event from "./event.service";
 const obj = require("object-path");
+import Vue from "vue";
 
 export default {
   client: {},
@@ -55,10 +56,10 @@ export default {
 
       // authenticate
       if (!obj.get(response, 'data.error')) {        
-        this.client = response.data;
+        Vue.set(this, 'client', response.data);        
         localStorage.setItem("client", JSON.stringify(this.client));
 
-        event.send({ name: data });
+        event.send({ name: "login-success", data: this.data });
       }
     } catch (e) {
       console.error(e);
