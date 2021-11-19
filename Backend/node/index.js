@@ -106,9 +106,9 @@ if (process.env.WS == 1) {
   console.log(`WEBSOCKET ON`);
 
   const WebSocket = require("ws");
-  const wss = new WebSocket.Server({ server });
+  app.wss = new WebSocket.Server({ server });
   const WebSocketService = require("./src/services/websocket");
-  WebSocketService.run(wss);
+  WebSocketService.run(app.wss);
 }
 
 // listen for connections
