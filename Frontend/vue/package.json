@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.21.4",
     "debounce": "^1.2.0",
+    "html5-qrcode": "^2.1.2",
     "moment": "^2.24.0",
     "mustache": "^4.0.1",
     "object-path": "^0.11.4"

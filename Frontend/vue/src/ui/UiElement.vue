@@ -31,6 +31,7 @@ import "./Progress";
 import "./ExpansionPanel";
 import "./Carousel";
 import "./Iframe"
+import "./QRScanner"
 
 export default Vue.component("UiElement", {
   props: ["uiElement", "data"],
