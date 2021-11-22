@@ -2,6 +2,7 @@ const MongoDB = require("../db/mongodb");
 const ObjectID = require("mongodb").ObjectID;
 const obj = require("object-path");
 const moment = require("moment-timezone");
+const util = require('../lib/utility');
 
 class WebSocketService {
   router = {};
@@ -61,7 +62,7 @@ class WebSocketService {
 
   listen(wss, routers, handler) {
     const log = this.log;
-
+    
     // wait connection
     wss.on("connection", async (ws, req) => {
       // assign unique id
@@ -90,14 +91,30 @@ class WebSocketService {
       ws.router = this.router[urls[1].toLowerCase()];
 
       ws.on('error', (err) => {
-        console.error(err);
+        console.error(ws.router.id, err);
         ws.close();
         console.log("connection closed");
         return;
       });
 
+      ws.on("close", async () => {
+        // handler not found        
+        await log(ws.id, '', "connection close", ``);
+      });
+
       // listen to connection
       ws.on("message", async (msg) => {
+        // see if there is a hook
+        if(ws.hook) {
+          try {
+            if(ws.hook(msg)) {
+              return;
+            }
+          } catch(ex) {
+            console.error(ex);
+          }
+        }
+
         // find the matching handler
         let handler = eval(ws.router.router);
         if (handler) {
