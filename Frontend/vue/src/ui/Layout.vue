@@ -3,6 +3,7 @@
     v-if="condition(uiElement)"
     :class="uiElement.layoutClass"
     :style="uiElement.layoutStyle"
+    :id="uiElement.id"
   >
     <UiElement
       v-for="(ui, index) in uiElement.screens"

@@ -36,6 +36,7 @@
     "sqlite": "^4.0.15",
     "sqlstring": "^2.3.2",
     "sqlstring-sqlite": "^0.1.1",
+    "stripe": "^8.193.0",
     "ws": "^8.2.2"
   }
 }

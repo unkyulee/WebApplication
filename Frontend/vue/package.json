@@ -13,7 +13,8 @@
     "html5-qrcode": "^2.1.2",
     "moment": "^2.24.0",
     "mustache": "^4.0.1",
-    "object-path": "^0.11.4"
+    "object-path": "^0.11.4",
+    "stripe": "^8.191.0"
   },
   "devDependencies": {
     "@mdi/js": "^5.8.55",
