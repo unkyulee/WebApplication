@@ -123,6 +123,14 @@ export default {
           this.uiElement = {}; // reset the screen before loading
           this.uiElement = await ui.get(uiElementId);
 
+          if(obj.get(this, 'uiElement.init')) {
+            try {
+              eval(obj.get(this, 'uiElement.init'))
+            } catch(e) {
+              console.error(e)
+            }
+          }
+
           //
           event.send({ name: "splash-hide" });
         }
