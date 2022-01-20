@@ -10,7 +10,8 @@
       <Splash />
       <ActionSheet />
       <Snackbar />
-    </v-main>
+      <Timer :data="data" />
+    </v-main>    
   </v-app>
 </template>
 
@@ -35,6 +36,7 @@ import Dialog from "./ui/Dialog";
 import Splash from "./layout/Splash";
 import ActionSheet from "./ui/ActionSheet";
 import Snackbar from "./ui/Snackbar";
+import Timer from "./ui/Timer";
 
 export default {
   components: {
@@ -45,6 +47,7 @@ export default {
     Dialog,
     ActionSheet,
     Snackbar,
+    Timer
   },
   provide: function () {
     return {
