@@ -37,7 +37,7 @@
       :rounded="uiElement.rounded"
       :segmented="uiElement.segmented"
       :dark="uiElement.dark"
-      :label="uiElement.label"
+      :label="uiElement.label"      
     ></v-overflow-btn>
   </keep-alive>
 </template>
