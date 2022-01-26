@@ -108,7 +108,7 @@ class WebSocketService {
         // see if there is a hook
         if(ws.hook) {
           try {
-            if(ws.hook(msg)) {
+            if(await ws.hook(msg)) {
               return;
             }
           } catch(ex) {
