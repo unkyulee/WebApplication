@@ -38,6 +38,8 @@ import ActionSheet from "./ui/ActionSheet";
 import Snackbar from "./ui/Snackbar";
 import Timer from "./ui/Timer";
 
+const Mustache = require('mustache');
+
 export default {
   components: {
     Toolbar,
