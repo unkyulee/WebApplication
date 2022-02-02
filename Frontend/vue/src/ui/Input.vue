@@ -21,7 +21,7 @@
       :label="uiElement.label"
       :type="uiElement.inputType"
       :auto-grow="uiElement.autoGrow ? uiElement.autoGrow : true"
-      :hide-details="safeGet(uiElement, 'hideDetails', true)"
+      :hide-details="safeGet(uiElement, 'hideDetails', false)"
       @click:append="safeEval(uiElement.clickAppend)"
       @click:append-outer="safeEval(uiElement.clickAppendOuter)"
       @click:prepend="safeEval(uiElement.clickPrepend)"
@@ -54,7 +54,7 @@
       :label="uiElement.label"
       :type="uiElement.inputType"
       :readonly="uiElement.readonly"
-      :hide-details="safeGet(uiElement, 'hideDetails', true)"
+      :hide-details="safeGet(uiElement, 'hideDetails', false)"
       @click:append="safeEval(uiElement.appendIconClick)"
       @click:append-outer="safeEval(uiElement.appendOuterIconClick)"
       @click:prepend="safeEval(uiElement.prependIconClick)"
@@ -69,7 +69,7 @@
       :style="uiElement.style"
       :label="uiElement.label"
       :color="uiElement.color"
-      :hide-details="safeGet(uiElement, 'hideDetails', true)"
+      :hide-details="safeGet(uiElement, 'hideDetails', false)"
     ></v-checkbox>
   </keep-alive>
 </template>
