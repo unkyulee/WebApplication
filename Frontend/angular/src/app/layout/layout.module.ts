@@ -10,15 +10,17 @@ import { LayoutComponent } from "./layout.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { NavComponent } from "./navigation/nav.component";
 import { UserComponent } from "./user/user.component";
+import { PingComponent } from "./ping/ping.component";
 
 @NgModule({
   declarations: [
     LayoutComponent,
     ToolbarComponent,
-    NavComponent,    
-    UserComponent
+    NavComponent,
+    UserComponent,
+    PingComponent,
   ],
   exports: [],
-  imports: [CommonModule, UIModule]
+  imports: [CommonModule, UIModule],
 })
 export class LayoutModule {}

@@ -14,6 +14,7 @@ export class ToolbarComponent extends BaseComponent {
 
 	// isTopNavigation
 	isTopNav: boolean = true;
+  isOffline: boolean;
 
 	// show
 	show: boolean = true;
@@ -38,6 +39,10 @@ export class ToolbarComponent extends BaseComponent {
 				this.showLoadingBar = false;
 			} else if (event.name == 'hide-toolbar') {
 				this.show = false;
+			} else if (event.name == 'online') {
+				this.isOffline = false;
+			} else if (event.name == 'offline') {
+				this.isOffline = true;
 			}
 		});
 	}

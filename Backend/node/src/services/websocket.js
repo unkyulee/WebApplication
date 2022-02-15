@@ -73,7 +73,7 @@ class WebSocketService {
       ws.req = req;
 
       // parse out router from the url
-      let urls = req.url.split("/");
+      let urls = req.url.split("/");        
 
       // if the router name is not passed then close the connection
       if (urls.length <= 1) {

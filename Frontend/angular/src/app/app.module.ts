@@ -18,6 +18,7 @@ import { PermissionService } from "./services/permission.service";
 import { NgxImageCompressService } from "ngx-image-compress";
 import { UtilService } from "./services/util.service";
 import { UIService } from "./services/ui.service";
+import { WebSocketService } from "./services/websocket.service";
 
 // locale registration
 import { registerLocaleData } from "@angular/common";
@@ -64,6 +65,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
     UtilService,
     PermissionService,
     NgxImageCompressService,
+    WebSocketService,
   ],
   bootstrap: [AppComponent],
 })

@@ -9,6 +9,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content [ngStyle]="config.get('theme.content.layoutStyle')">
+    <ping *ngIf="config.get('ping')"></ping>
     <toolbar
       [ngStyle]="config.get('theme.toolbar.layoutStyle')"
       *ngIf="config.get('theme.toolbar.show', true)"
