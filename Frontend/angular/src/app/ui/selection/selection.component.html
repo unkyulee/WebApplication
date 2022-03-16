@@ -27,7 +27,11 @@
       </mat-option>
       <mat-option
         *ngFor="let option of uiElement.options"
-        [value]="uiElement.optionKey ? safeGet(option, uiElement.optionKey, option) : option"
+        [value]="
+          uiElement.optionKey
+            ? safeGet(option, uiElement.optionKey, option)
+            : option
+        "
         [ngStyle]="safeGet(option, 'style', uiElement.optionStyle)"
       >
         {{ format(option) }}
@@ -81,7 +85,11 @@
     >
       <mat-option
         *ngFor="let option of uiElement.options"
-        [value]="uiElement.optionKey ? safeGet(option, uiElement.optionKey, option): option"
+        [value]="
+          uiElement.optionKey
+            ? safeGet(option, uiElement.optionKey, option)
+            : option
+        "
         [ngStyle]="safeGet(option, 'style', uiElement.optionStyle)"
       >
         <div
@@ -95,7 +103,6 @@
         <ng-container *ngIf="!uiElement.optionTemplate">
           {{ format(option) }}
         </ng-container>
-        
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
@@ -111,18 +118,26 @@
     [appearance]="uiElement.appearance"
   >
     <mat-label>{{ uiElement.label }}</mat-label>
-    <mat-chip-list #chipList>
-      <mat-chip
-        *ngFor="let v of safeGet(value, [])"
-        [selectable]="safeGet(uiElement, 'selectable', true)"
-        [removable]="safeGet(uiElement, 'removable', true)"
-        (removed)="remove(v)"
-        >{{ format(v) }}
-        <mat-icon matChipRemove *ngIf="safeGet(uiElement, 'removable', true)"
-          >cancel</mat-icon
-        ></mat-chip
+    <mat-select-trigger>
+      <mat-chip-list
+        #chipList
+        cdkDropList
+        cdkDropListOrientation="uiElement.cdkDropListOrientation"
+        (cdkDropListDropped)="drop($event)"
       >
-    </mat-chip-list>
+        <mat-chip
+          *ngFor="let v of safeGet(value, [])"
+          cdkDrag
+          [selectable]="safeGet(uiElement, 'selectable', true)"
+          [removable]="safeGet(uiElement, 'removable', true)"
+          (removed)="remove(v)"
+          >{{ format(v) }}
+          <mat-icon matChipRemove *ngIf="safeGet(uiElement, 'removable', true)"
+            >cancel</mat-icon
+          ></mat-chip
+        >
+      </mat-chip-list>
+    </mat-select-trigger>
     <input
       matInput
       [matChipInputFor]="chipList"
