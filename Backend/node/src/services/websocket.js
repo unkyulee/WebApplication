@@ -67,7 +67,7 @@ class WebSocketService {
     // wait connection
     wss.on("connection", async (ws, req) => {
       // assign unique id
-      ws.id = new Date().getTime();
+      ws.id = `${new Date().getTime()}`;
 
       // save the request object
       ws.req = req;
