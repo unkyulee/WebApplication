@@ -123,7 +123,12 @@ class WebSocketService {
           await log(ws.id, ws.router.id, handler.handler, `${msg}`);
 
           // process the request
-          await eval(handler.process);
+          try {
+            await eval(handler.process);
+          } catch(ex) {
+            await log(ws.id, ws.router.id, handler.handler, `${ex.stack}`);
+          }
+          
         } else {
           // handler not found
           await log(ws.id, ws.router.id, "NOT HANDLED", `${msg}`);
