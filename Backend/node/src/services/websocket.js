@@ -124,7 +124,6 @@ class WebSocketService {
 
           // process the request
           try {
-            console.log(handler.handler);
             await eval(handler.process);
           } catch(ex) {
             await log(ws.id, ws.router.id, handler.handler, `${ex.stack}`);
