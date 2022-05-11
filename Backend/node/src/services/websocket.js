@@ -119,7 +119,7 @@ class WebSocketService {
         // find the matching handler
         let handler = eval(ws.router.router);
         if (handler) {
-          if (!obj.get(ws.router, "skiplog", []).indexOf(handler.handler)) {
+          if (obj.get(ws.router, "skiplog", []).indexOf(handler.handler) > -1) {
             // register the transaction
             await log(ws.id, ws.router.id, handler.handler, `${msg}`);
           }
