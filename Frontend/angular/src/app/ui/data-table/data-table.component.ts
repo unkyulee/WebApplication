@@ -194,7 +194,7 @@ export class DataTableComponent extends BaseComponent {
 		}
 	}
 
-	requestDownload(pageInfo?) {
+	async requestDownload(pageInfo?) {
 		// get page
 		this.getPage();
 
@@ -208,7 +208,7 @@ export class DataTableComponent extends BaseComponent {
 		let src = this.uiElement.src;
 		if (src) {
 			try {
-				src = eval(src);
+				src = await eval(src);
 			} catch (e) {
 				console.error(e, this.uiElement);
 			}
