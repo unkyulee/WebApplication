@@ -33,6 +33,7 @@
       v-if="
         (!this.uiElement.inputType ||
           this.uiElement.inputType == 'text' ||
+          this.uiElement.inputType == 'email' ||
           this.uiElement.inputType == 'number' ||
           this.uiElement.inputType == 'password') &&
         condition(uiElement)
