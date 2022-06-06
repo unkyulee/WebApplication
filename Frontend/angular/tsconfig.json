@@ -1,28 +1,20 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "files": [
-		"src/app/app.ts",
-		"src/polyfills.ts"
-	],
-  "references": [
-    {
-      "path": "./tsconfig.json"
-    }
-  ],
   "compileOnSave": false,
-	"compilerOptions": {
-		"baseUrl": "./",
+  "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "typeRoots": ["node_modules/@types"],
+    "sourceMap": true,
+    "declaration": false,
     "downlevelIteration": true,
-		"importHelpers": true,
-		"sourceMap": true,
-		"declaration": false,
-		"moduleResolution": "node",
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-    "module": "es2015",
-    "target": "es2020",    
-    "lib": ["es2015", "dom"]
-	},
-	"include": ["src/**/*.d.ts"]
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom"
+    ]
+  }
 }

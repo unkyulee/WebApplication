@@ -7,9 +7,6 @@
     "build": "ng build --prod --aot --build-optimizer",
     "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/stats.json"
   },
-  "tobedone": {
-    "ngx-barcode": "^0.3.0"
-  },
   "private": true,
   "dependencies": {
     "angular-calendar": "^0.28.22",
