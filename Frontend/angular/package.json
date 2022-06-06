@@ -10,19 +10,19 @@
   "private": true,
   "toberestored": {
     "ngx-image-compress": "^8.0.4",
-    "ngx-barcode": "^0.3.0"
+    "ngx-barcode": "^0.3.0",
+    "angular2-signaturepad": "^2.11.0",
+    "primeng": "^11.4.2"
   },
   "dependencies": {
-    "angular-calendar": "^0.28.22",
-    "angular2-signaturepad": "^2.11.0",
+    "angular-calendar": "^0.28.22",    
     "dexie": "^3.0.2",
     "file-saver": "^2.0.2",
     "howler": "^2.2.0",
     "ng2-file-upload": "^1.4.0",
     "ngx-monaco-editor": "8.1.1",
     "ngx-print": "^1.2.0-beta.5",
-    "primeicons": "^4.1.0",
-    "primeng": "^11.4.2",
+    "primeicons": "^4.1.0",    
     "signature_pad": "^3.0.0-beta.4",
     "sweetalert2": "^11.1.6"
   },
