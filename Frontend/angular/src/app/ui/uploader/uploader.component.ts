@@ -165,7 +165,7 @@ export class UploaderComponent extends BaseComponent {
 			this.image_progress = true; // show splash
 			return new Promise(async (resolve) => {
 				try {
-					let image = await this.toBase64(file);
+					let image: string = await this.toBase64(file) as string;
 					let dimension: any = await this.getImageDimensions(image);
 					let ratioHeight = this.uiElement.image.resizeMaxHeight / dimension.h;
 					let ratioWidth = this.uiElement.image.resizeMaxWidth / dimension.w;
