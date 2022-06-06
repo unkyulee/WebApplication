@@ -7,6 +7,9 @@
     "build": "ng build --prod --aot --build-optimizer",
     "bundle-report": "ng build --prod --stats-json && webpack-bundle-analyzer dist/stats.json"
   },
+  "tobedone": {
+    "ngx-barcode": "^0.3.0"
+  },
   "private": true,  
   "dependencies": {
     "angular-calendar": "^0.28.22",
@@ -15,7 +18,7 @@
     "file-saver": "^2.0.2",
     "howler": "^2.2.0",
     "ng2-file-upload": "^1.4.0",
-    "ngx-barcode": "^0.3.0",
+    
     "ngx-image-compress": "^13.1.13",
     "ngx-monaco-editor": "8.1.1",
     "ngx-print": "^1.2.0-beta.5",
