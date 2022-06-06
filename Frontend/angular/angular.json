@@ -1,7 +1,6 @@
 {
   "version": 1,
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "defaultProject": "angular",
   "newProjectRoot": "projects",
   "projects": {
     "angular": {
