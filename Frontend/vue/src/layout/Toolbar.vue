@@ -4,7 +4,7 @@
     <v-app-bar-nav-icon v-if="showMenu" @click.stop="toggleDrawer()"></v-app-bar-nav-icon>
     <v-toolbar-title>{{ title }}</v-toolbar-title>
     <v-spacer></v-spacer>
-    <User :data="data" />
+    <User v-if="toolbar.user" :data="data" />
   </v-app-bar>
 </template>
 
@@ -27,6 +27,7 @@ export default {
       toolbar: {
         color: null,
         dark: false,
+        user: true
       },
     };
   },
@@ -42,6 +43,7 @@ export default {
       this.title = obj.get(event, 'title', this.title);
       this.toolbar.dark = obj.get(event, 'toolbar.dark', this.toolbar.dark);
       this.toolbar.color = obj.get(event, 'toolbar.color', this.toolbar.color);
+      this.toolbar.user = obj.get(event, 'toolbar.user', false);
       if(event.showMenu != 'undefined') this.showMenu = event.showMenu;      
     });
   },

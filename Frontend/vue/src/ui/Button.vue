@@ -29,7 +29,7 @@
       <v-icon v-if="uiElement.icon" :dark="uiElement.dark">{{
         uiElement.icon
       }}</v-icon>
-      {{ uiElement.label }}
+      {{ label() }}
     </v-btn>
   </v-badge>
 </template>
@@ -42,5 +42,26 @@ const moment = require("moment");
 
 export default Vue.component("button-component", {
   extends: Base,
+  methods: {
+    label: function () {
+      let text = null;
+
+      // fixed text
+      if (this.uiElement.label) {
+        // set value
+        text = this.uiElement.label;
+        // check if lang option exists
+        if(
+          this.uiElement.lang && 
+          this.config.get("locale") &&
+          this.uiElement.lang[this.config.get("locale")]
+        ) {
+          text = this.uiElement.lang[this.config.get("locale")]
+        }
+      }
+
+      return text;
+    },
+  },
 });
 </script>

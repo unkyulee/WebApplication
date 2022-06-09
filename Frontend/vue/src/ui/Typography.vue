@@ -35,6 +35,14 @@ export default Vue.component("typography", {
       if (this.uiElement.text) {
         // set value
         text = this.uiElement.text;
+        // check if lang option exists
+        if(
+          this.uiElement.lang && 
+          this.config.get("locale") &&
+          this.uiElement.lang[this.config.get("locale")]
+        ) {
+          text = this.uiElement.lang[this.config.get("locale")]
+        }
       }
 
       // key exists
