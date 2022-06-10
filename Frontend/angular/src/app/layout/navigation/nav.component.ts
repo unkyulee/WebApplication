@@ -37,6 +37,7 @@ export class NavComponent extends BaseComponent {
     let menu = [];
 
     for (let nav of this.config.get("nav", [])) {
+      if(!this.condition(nav)) continue;
       if (!this.permission.check(nav)) continue;
       if (!this.util.isElectron() && nav.type == "desktop") continue;
       if (nav.type == "hidden" || nav.type == "sub") continue;
@@ -81,7 +82,10 @@ export class NavComponent extends BaseComponent {
 
         // populate child item
         for (let child of nav.children) {
-          if (this.permission.check(child) && child.type == 'item') {
+          if(!this.condition(child)) continue;
+          if(!this.permission.check(child)) continue;
+          
+          if (child.type == 'item') {
             menuItem.items.push({
               label: child.name,
               routerLink: [child.url],
