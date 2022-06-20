@@ -18,7 +18,7 @@
       :prepend-icon="uiElement.prependIcon"
       :clear-icon="uiElement.clearIcon"
       :clearable="uiElement.clearable"
-      :label="uiElement.label"
+      :label="label()"
       :type="uiElement.inputType"
       :auto-grow="uiElement.autoGrow ? uiElement.autoGrow : true"
       :hide-details="safeGet(uiElement, 'hideDetails', false)"
@@ -52,7 +52,7 @@
       :prepend-inner-icon="uiElement.prependInnerIcon"
       :clear-icon="uiElement.clearIcon"
       :clearable="uiElement.clearable"
-      :label="uiElement.label"
+      :label="label()"
       :type="uiElement.inputType"
       :readonly="uiElement.readonly"
       :hide-details="safeGet(uiElement, 'hideDetails', false)"
@@ -68,7 +68,7 @@
       v-model="value"
       :class="uiElement.class"
       :style="uiElement.style"
-      :label="uiElement.label"
+      :label="label()"
       :color="uiElement.color"
       :hide-details="safeGet(uiElement, 'hideDetails', false)"
     ></v-checkbox>
@@ -136,7 +136,7 @@ export default Vue.component("input-component", {
     plus() {
       if (!this.value) this.value = 0;
       this.value = this.value + 1;
-    },
+    },    
   },
 });
 </script>

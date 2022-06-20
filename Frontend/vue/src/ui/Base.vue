@@ -57,6 +57,25 @@ export default {
     safeGet(data, path, def) {
       return obj.get(data, path, def);
     },
+    label() {
+      let text = null;
+
+      // fixed text
+      if (this.uiElement.label) {
+        // set value
+        text = this.uiElement.label;
+        // check if lang option exists
+        if(
+          this.uiElement.lang && 
+          this.config.get("locale") &&
+          this.uiElement.lang[this.config.get("locale")]
+        ) {
+          text = this.uiElement.lang[this.config.get("locale")]
+        }
+      }
+
+      return text;
+    },
   },
 };
 </script>
