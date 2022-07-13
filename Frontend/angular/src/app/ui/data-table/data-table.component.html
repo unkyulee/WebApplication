@@ -4,6 +4,7 @@
     [columns]="uiElement.tableColumns"
     [value]="rows"
     styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines"
+    [responsiveLayout]="safeGet(uiElement, 'responsiveLayout', 'scroll')"
     [rowHover]="safeGet(uiElement, 'rowHover', true)"
     [filterDelay]="safeGet(uiElement, 'filterDelay', 250)"
     (sortFunction)="customSort($event)"
