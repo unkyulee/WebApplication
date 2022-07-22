@@ -48,7 +48,7 @@ export default {
     });
   },
   destroyed: function () {
-    event.unsubscribe_all("Toolbar");
+    this.event.unsubscribe_all("Toolbar");
   },
   methods: {
     toggleDrawer() {
