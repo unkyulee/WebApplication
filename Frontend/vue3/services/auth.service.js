@@ -2,6 +2,7 @@ import rest from "./rest.service.js";
 import config from "./config.service";
 import event from "./event.service";
 const obj = require("object-path");
+import Vue from "vue";
 
 export default {
   client: {},
