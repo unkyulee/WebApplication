@@ -20,13 +20,13 @@ app.use(express.static(app.locals.wwwroot));
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-// process multiparts
-var busboy = require("connect-busboy");
-app.use(busboy());
-
 // process forms
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// process multiparts
+var busboy = require("connect-busboy");
+app.use(busboy());
 
 // default TZ setup
 if (process.env.TZ) {
