@@ -6,7 +6,6 @@
 /out-tsc
 src/index.html
 src/index.js
-src/package-lock.json
 
 # dependencies
 /node_modules

@@ -23,23 +23,7 @@ if (!singleInstanceLock && !serve) {
 } else {
   // auto update
   require("./src/update");
-
-  // task runner
-  let features = store.get("config.features");
-  if (features && features.find((x) => x == "sync")) {
-    console.log("scheduler starting");
-    const cron = require("node-cron");
-    const task = require("./src/task");
-
-    cron.schedule("* * * * *", async () => {
-      await task.run(
-        store.get("config.host"),
-        store.get("config._id"),
-        store.get("local.token")
-      );
-    });
-  }
-
+  
   // Focus current instance
   app.on("second-instance", () => {
     // Checks if mainWindow object exists

@@ -22,27 +22,25 @@
 	},
 	"homepage": "https://github.com/unkyulee/electron",
 	"dependencies": {
-		"axios": "^0.21.1",
-		"cron-parser": "^2.16.3",
-		"electron-context-menu": "^2.3.0",
-		"electron-reload": "^1.5.0",
-		"electron-store": "^6.0.1",
+		"axios": "^0.27.2",		
+		"electron-context-menu": "^3.5.0",
+		"electron-reload": "^2.0.0-alpha.1",
+		"electron-store": "^8.1.0",
 		"electron-titlebar": "0.0.3",
-		"electron-updater": "^4.3.4",
+		"electron-updater": "^5.2.1",
 		"electron-window-state": "^5.0.3",
 		"moment": "^2.26.0",
-		"monaco-editor": "^0.21.0",
-		"ngx-monaco-editor": "8.1.1",
-		"node-cron": "^2.0.3",
+		"monaco-editor": "^0.34.0",
+		"ngx-monaco-editor": "^12.0.0",		
 		"object-path": "^0.11.4",
 		"underscore": "^1.11.0",
 		"xml-escape": "^1.1.0",
-		"xml2js": "^0.4.23"
+		"xml2js": "^0.4.23"		
 	},
 	"devDependencies": {
 		"electron": "^10.1.2",
 		"electron-builder": "^22.8.0",
 		"npm-run-all": "^4.1.5",
-		"wait-on": "^5.2.0"
+		"wait-on": "^6.0.1"
 	}
 }
