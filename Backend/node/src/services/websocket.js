@@ -8,16 +8,16 @@ const axios = require("axios");
 class WebSocketService {
   router = {};
   db = null;
+  wss = null;
 
-  async run(wss) {
-    // init
-    await this.init();
+  async init(server) {
+    const WebSocket = require("ws");
+    this.wss = new WebSocket.Server({ server });
 
     // listen to connections
-    this.listen(wss, this.routers);
-  }
+    this.listen(this.wss, this.routers);
 
-  async init() {
+    // initialize db and load server configuration
     let db = null;
 
     try {
@@ -31,10 +31,11 @@ class WebSocketService {
         sort: { priority: -1 },
       });
       if (routers && routers.length > 0) {
-        console.log("Loading routers ...");
+        console.log("----------------------------------");
+        console.log("WSS Loading routers ...");
         for (let router of routers) {
           //
-          console.log(router.id);
+          console.log(`ROUTER: ${router.id}`);
           this.router[router.id.toLowerCase()] = router;
 
           // load handlers
@@ -56,9 +57,12 @@ class WebSocketService {
     } catch (e) {
       console.error(e);
     } finally {
+      console.log("----------------------------------");
       // Close MongoDB
       if (db) await db.close();
     }
+
+    return this.wss;
   }
 
   listen(wss, routers, handler) {

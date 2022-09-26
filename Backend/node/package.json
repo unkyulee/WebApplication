@@ -10,6 +10,7 @@
   "author": "Unkyu Lee",
   "license": "MIT",
   "dependencies": {
+    "aedes": "^0.48.0",
     "atob": "^2.1.2",
     "availability-schedule": "^1.0.2",
     "axios": "^0.21.1",
@@ -27,6 +28,7 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "mongodb": "^3.6.2",
+    "mqtt": "^4.3.7",
     "mssql": "^6.2.3",
     "mustache": "^4.0.1",
     "node-excel-export": "^1.4.4",

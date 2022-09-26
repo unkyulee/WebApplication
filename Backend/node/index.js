@@ -97,24 +97,28 @@ async function handler(req, res) {
   if (process.env.TID) await utility.sendAnalytics(req, res);
 }
 
-// Initiate the server
+// Initiate the web server
 const http = require("http");
 const server = http.createServer(app);
-
-// initialize the WebSocket server instance
-if (process.env.WS == 1) {
-  console.log(`WEBSOCKET ON`);
-
-  const WebSocket = require("ws");
-  app.wss = new WebSocket.Server({ server });
-  const WebSocketService = require("./src/services/websocket");
-  WebSocketService.run(app.wss);
-}
-
-// listen for connections
 server.listen(process.env.PORT, process.env.BIND_IP, () => {
   console.log(`PORT: ${process.env.PORT}, IP: ${process.env.BIND_IP}`);
   console.log(
     `DATABASE_URI: ${process.env.DATABASE_URI}, DB: ${process.env.DB}`
   );
 });
+
+// initialize the WebSocket server
+if (process.env.WS == 1) {
+  console.log(`WEBSOCKET ON`);
+  const webSocketService = require("./src/services/websocket");
+  app.wss = webSocketService.init(server);
+}
+
+// initialize the MQTT Broker
+if (process.env.MQTT == 1 && process.env.MQTT_PORT) {
+  console.log(`MQTT BROKER ON`);
+  const mqttBrokerService = require("./src/services/mqtt");
+  app.mqtt = mqttBrokerService.init({
+    port: process.env.MQTT_PORT
+  });
+}
