@@ -8,7 +8,6 @@ run.bat
 *.user
 *.userosscache
 *.sln.docstates
-package-lock.json
 Integration/node/index.json
 
 # User-specific files (MonoDevelop/Xamarin Studio)
