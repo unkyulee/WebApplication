@@ -98,10 +98,12 @@ class MQTTBrokerService {
     async authorizeSubscribe(client, sub, callback) {
 
         // hook code here
-        for (let router of Object.keys(this.router)) {
-            if (obj.get(this.router, `${router}.handler.Subscribe.process`)) {
+        for (let routerId of Object.keys(this.router)) {
+            if (obj.get(this.router, `${routerId}.handler.Subscribe.process`)) {
                 try {
-                    eval(obj.get(this.router, `${router}.handler.Subscribe.process`))
+                    // current router to be referenced in the business logic
+                    let router = obj.get(this.router, routerId);
+                    eval(obj.get(this.router, `${routerId}.handler.Subscribe.process`))
                 } catch (ex) {
                     console.error(ex.stack)
                 }
@@ -112,6 +114,30 @@ class MQTTBrokerService {
         // always call back in order to flow through
         callback(null, sub);
     }
+
+    async log(id, protocol, handler, message, incoming = true) {
+        let db = null;
+        try {
+          // connect to mongodb
+          db = new MongoDB(process.env.DATABASE_URI, process.env.DB);
+          await db.connect();
+    
+          // load routers from the database
+          await db.insert("protocol_log", {
+            id,
+            incoming,
+            protocol,
+            handler,
+            message,
+            _created: new Date(),
+          });
+        } catch (e) {
+          console.error(e);
+        } finally {
+          // Close MongoDB
+          if (db) await db.close();
+        }
+      }
 }
 
 module.exports = new MQTTBrokerService();
