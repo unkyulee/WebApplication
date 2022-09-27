@@ -75,15 +75,17 @@ class MQTTBrokerService {
 
     // hook into Publish Messages
     async authorizePublish(client, packet, callback) {
-        
-        // hook code here        
-        for(let router of Object.keys(this.router)) {            
-            if(obj.get(this.router, `${router}.handler.Publish.process`)) {
+
+        // hook code here
+        for (let routerId of Object.keys(this.router)) {
+            if (obj.get(this.router, `${routerId}.handler.Publish.process`)) {
                 try {
-                    eval(obj.get(this.router, `${router}.handler.Publish.process`))
-                } catch(ex) {
+                    // current router to be referenced in the business logic
+                    let router = obj.get(this.router, routerId);
+                    eval(obj.get(this.router, `${routerId}.handler.Publish.process`))
+                } catch (ex) {
                     console.error(ex.stack)
-                }                
+                }
             }
         }
         // hook code end
@@ -94,15 +96,15 @@ class MQTTBrokerService {
 
     // hook into Subscribe Messages
     async authorizeSubscribe(client, sub, callback) {
-        
-        // hook code here        
-        for(let router of Object.keys(this.router)) {            
-            if(obj.get(this.router, `${router}.handler.Subscribe.process`)) {
+
+        // hook code here
+        for (let router of Object.keys(this.router)) {
+            if (obj.get(this.router, `${router}.handler.Subscribe.process`)) {
                 try {
                     eval(obj.get(this.router, `${router}.handler.Subscribe.process`))
-                } catch(ex) {
+                } catch (ex) {
                     console.error(ex.stack)
-                }                
+                }
             }
         }
         // hook code end
