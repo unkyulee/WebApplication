@@ -48,5 +48,10 @@ module.exports = {
 		}
 		// send request to Google Analytics
 		await axios.get('http://www.google-analytics.com/collect', { params: data });
+	},
+
+	replace(value, pattern, replacement) {
+		if(!value) return;
+		return value.replace(new RegExp(pattern, 'g'), replacement)
 	}
 };

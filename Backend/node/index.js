@@ -1,5 +1,6 @@
 const path = require("path");
 const express = require("express");
+const util = require("./src/lib/utility");
 
 // Express Instance
 const app = express();
@@ -107,18 +108,29 @@ server.listen(process.env.PORT, process.env.BIND_IP, () => {
   );
 });
 
+
+
 // initialize the WebSocket server
 if (process.env.WS == 1) {
-  console.log(`WEBSOCKET ON`);
-  const webSocketService = require("./src/services/websocket");
-  app.wss = webSocketService.init(server);
+  (async () => {
+    await util.timeout(1000);
+    console.log();
+    console.log(`WEBSOCKET ON`);
+    const webSocketService = require("./src/services/websocket");
+    app.wss = webSocketService.init(server);
+  })();
 }
 
 // initialize the MQTT Broker
 if (process.env.MQTT == 1 && process.env.MQTT_PORT) {
-  console.log(`MQTT BROKER ON`);
-  const mqttBrokerService = require("./src/services/mqtt");
-  app.mqtt = mqttBrokerService.init({
-    port: process.env.MQTT_PORT
-  });
+  (async () => {
+    await util.timeout(2000);
+    console.log();
+    console.log(`MQTT BROKER ON`);
+    const mqttBrokerService = require("./src/services/mqtt");
+    app.mqtt = mqttBrokerService.init({
+      port: process.env.MQTT_PORT
+    });
+  })();
+
 }

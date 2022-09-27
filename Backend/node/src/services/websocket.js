@@ -6,18 +6,22 @@ const util = require("../lib/utility");
 const axios = require("axios");
 
 class WebSocketService {
-  router = {};
-  db = null;
-  wss = null;
+  router = {};    
 
   async init(server) {
     const WebSocket = require("ws");
-    this.wss = new WebSocket.Server({ server });
-
-    // listen to connections
-    this.listen(this.wss, this.routers);
+    const wss = new WebSocket.Server({ server });
 
     // initialize db and load server configuration
+    await this.init_routers();
+
+    // listen to connections
+    this.listen(wss, this.routers);    
+
+    return wss;
+  }
+
+  async init_routers() {
     let db = null;
 
     try {
@@ -29,10 +33,13 @@ class WebSocketService {
       let routers = await db.find("protocol_router", {
         size: 1000,
         sort: { priority: -1 },
+        query: {
+          type: "WS"
+        }
       });
       if (routers && routers.length > 0) {
         console.log("----------------------------------");
-        console.log("WSS Loading routers ...");
+        console.log("WS Loading routers ...");
         for (let router of routers) {
           //
           console.log(`ROUTER: ${router.id}`);
@@ -56,13 +63,10 @@ class WebSocketService {
       }
     } catch (e) {
       console.error(e);
-    } finally {
-      console.log("----------------------------------");
+    } finally {      
       // Close MongoDB
       if (db) await db.close();
     }
-
-    return this.wss;
   }
 
   listen(wss, routers, handler) {
@@ -143,6 +147,8 @@ class WebSocketService {
       // register the connection
       await log(ws.id, ws.router.id, "connection", req.url);
     });
+
+    console.log("Web Socket server started listening")
   }
 
   async log(id, protocol, handler, message, incoming = true) {
