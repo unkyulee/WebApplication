@@ -125,44 +125,45 @@ class MQTTBrokerService {
         callback(null, sub);
     }
 
-    async authenticate(client, username, password, callback) {
-        let valid = false;
-        if(
-            obj.get(this.config, 'username', '') == username && 
+    async authenticate(client, username, password, callback) {        
+        if (
+            obj.get(this.config, 'username', '') == username &&
             obj.get(this.config, 'password', '') == password
-        ) {
-            valid = true;
-            await this.log("login", "mqtt", "authenticate", `login success: ${username}`)
+        ) {            
+            await this.log("login", "mqtt", "authenticate", `login success: ${username}`)            
+            callback(null, true);
         } else {
             await this.log("login", "mqtt", "authenticate", `login failed: ${username}`)
-        }
-
-        callback(null, valid);
+            var error = new Error('Auth error')
+            error.returnCode = 4
+            callback(error, null)
+            client.close();
+        }        
     }
 
     async log(id, protocol, handler, message, incoming = true) {
         let db = null;
         try {
-          // connect to mongodb
-          db = new MongoDB(process.env.DATABASE_URI, process.env.DB);
-          await db.connect();
-    
-          // load routers from the database
-          await db.insert("protocol_log", {
-            id,
-            incoming,
-            protocol,
-            handler,
-            message,
-            _created: new Date(),
-          });
+            // connect to mongodb
+            db = new MongoDB(process.env.DATABASE_URI, process.env.DB);
+            await db.connect();
+
+            // load routers from the database
+            await db.insert("protocol_log", {
+                id,
+                incoming,
+                protocol,
+                handler,
+                message,
+                _created: new Date(),
+            });
         } catch (e) {
-          console.error(e);
+            console.error(e);
         } finally {
-          // Close MongoDB
-          if (db) await db.close();
+            // Close MongoDB
+            if (db) await db.close();
         }
-      }
+    }
 }
 
 module.exports = new MQTTBrokerService();
