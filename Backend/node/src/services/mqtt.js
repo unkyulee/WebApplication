@@ -132,8 +132,7 @@ class MQTTBrokerService {
         ) {            
             await this.log("login", "mqtt", "authenticate", `login success: ${username}`)            
             callback(null, true);
-        } else {
-            await this.log("login", "mqtt", "authenticate", `login failed: ${username}`)
+        } else {            
             var error = new Error('Auth error')
             error.returnCode = 4
             callback(error, null)
