@@ -4,6 +4,7 @@ const util = require("../lib/utility");
 
 class MQTTBrokerService {
     router = {};
+    config = {};
     data = {};
 
     async init({ port }) {
@@ -15,7 +16,8 @@ class MQTTBrokerService {
         // setup MQTT
         const aedes = require('aedes')({
             authorizePublish: (client, packet, callback) => this.authorizePublish(client, packet, callback),
-            authorizeSubscribe: (client, sub, callback) => this.authorizeSubscribe(client, sub, callback)
+            authorizeSubscribe: (client, sub, callback) => this.authorizeSubscribe(client, sub, callback),
+            authenticate: (client, username, password, callback) => this.authenticate(client, username, password, callback)
         })
         const server = require('net').createServer(aedes.handle)
 
@@ -32,6 +34,14 @@ class MQTTBrokerService {
             // connect to mongodb
             db = new MongoDB(process.env.DATABASE_URI, process.env.DB);
             await db.connect();
+
+            // load config 
+            let serverConfig = await db.find("server");
+            if (!serverConfig && serverConfig.length > 1) {
+                console.log("server config load failed");
+                return;
+            }
+            this.config = obj.get(serverConfig, '0.mqtt', {});
 
             // load routers from the database
             let routers = await db.find("protocol_router", {
@@ -113,6 +123,21 @@ class MQTTBrokerService {
 
         // always call back in order to flow through
         callback(null, sub);
+    }
+
+    async authenticate(client, username, password, callback) {
+        let valid = false;
+        if(
+            obj.get(this.config, 'username', '') == username && 
+            obj.get(this.config, 'password', '') == password
+        ) {
+            valid = true;
+            await this.log("login", "mqtt", "authenticate", `login success: ${username}`)
+        } else {
+            await this.log("login", "mqtt", "authenticate", `login failed: ${username}`)
+        }
+
+        callback(null, valid);
     }
 
     async log(id, protocol, handler, message, incoming = true) {

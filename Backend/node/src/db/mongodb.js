@@ -1,3 +1,5 @@
+const objectPath = require("object-path");
+
 const MongoClient = require("mongodb").MongoClient;
 const ObjectID = require("mongodb").ObjectID;
 
@@ -38,6 +40,7 @@ class MongoDB {
       return;
     }
 
+    if(!query) query = {};
     if (!query.size) query.size = 10;
     if (!query.query) query.query = {};
 
