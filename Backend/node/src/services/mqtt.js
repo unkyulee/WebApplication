@@ -137,6 +137,7 @@ class MQTTBrokerService {
             error.returnCode = 4
             callback(error, null)
             client.close();
+            console.error(`login failed: ${username}`)
         }        
     }
 
