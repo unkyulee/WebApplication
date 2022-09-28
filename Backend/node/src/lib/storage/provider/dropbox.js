@@ -26,6 +26,7 @@ module.exports = {
 		// get uploaded filestream
 		let file = await this.fileContent(req);
 		if (req.query.filename) file.filename = req.query.filename;
+		if (obj.get(file.filename, 'filename')) file.filename = file.filename.filename;
 
 		// upload to dropbox
 		let result = await this.uploadDropbox(config.access_token, `/${folder}/${file.filename}`, file.contents);
@@ -54,16 +55,23 @@ module.exports = {
 
 	async uploadDropbox(access_token, saveTo, contents) {
 		return new Promise(function (resolve, reject) {
-			var dbx = new Dropbox({ accessToken: access_token, fetch: fetch });
+			var dbx = new Dropbox({ accessToken: access_token });
+			console.log({
+				path: saveTo,
+				contents: contents,
+				strict_conflict: false,
+			})
 			dbx.filesUpload({
 				path: saveTo,
 				contents: contents,
 				strict_conflict: false,
 			})
 				.then(function (response) {
+					console.log(response)
 					resolve(encodeURIComponent(saveTo));
 				})
 				.catch(function (err) {
+					console.error(err);
 					reject(JSON.stringify(err));
 				});
 		});
@@ -72,7 +80,7 @@ module.exports = {
 	download: async function (db, res, req, params) {
 		// get dropbox access token
 		let company_id = params.company_id;
-		if(!company_id) company_id = obj.get(res, 'locals.token.sub');
+		if (!company_id) company_id = obj.get(res, 'locals.token.sub');
 
 		let [config] = await db.find('config', {
 			query: {
@@ -86,7 +94,7 @@ module.exports = {
 
 		// download
 		const dbx = new Dropbox({ accessToken: config.access_token, fetch: fetch });
-		let file = await dbx.filesDownload({ path: obj.get(params, 'filepath') });		
+		let file = await dbx.filesDownload({ path: obj.get(params, 'filepath') });
 
 		// put some header
 		res.setHeader('Content-disposition', `inline; filename=${encodeURIComponent(file.result.name)}`);
