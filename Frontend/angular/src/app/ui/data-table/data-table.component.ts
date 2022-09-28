@@ -18,14 +18,14 @@ export class DataTableComponent extends BaseComponent {
 			this._rows = obj.get(this.data, this.uiElement.key);
 		}
 
-    // 
+		// 
 		if (typeof this._rows != 'undefined' && !Array.isArray(this._rows)) {
-      let rows = [];
-      for(let key of Object.keys(this._rows)) {
-        rows.push(this._rows[key]);
-      }
-      this._rows = rows;
-    }
+			let rows = [];
+			for (let key of Object.keys(this._rows)) {
+				rows.push(this._rows[key]);
+			}
+			this._rows = rows;
+		}
 
 		return this._rows;
 	}
@@ -60,7 +60,7 @@ export class DataTableComponent extends BaseComponent {
 		if (obj.get(this.uiElement, 'click')) {
 			try {
 				eval(this.uiElement.click);
-			} catch {}
+			} catch { }
 		}
 	}
 
@@ -69,7 +69,7 @@ export class DataTableComponent extends BaseComponent {
 		if (obj.get(this.uiElement, 'click')) {
 			try {
 				eval(this.uiElement.click);
-			} catch {}
+			} catch { }
 		}
 	}
 
@@ -94,10 +94,10 @@ export class DataTableComponent extends BaseComponent {
 		if (event && (!event.key || event.key == this.uiElement.key)) {
 			if (event.name == 'refresh' && (!event.key || event.key == this.uiElement.key)) {
 				// run refresh script
-        if(event.page) this.page = event.page;
-        else this.page = 1;
-				if(event.size) this.size = event.size;
-        
+				if (event.page) this.page = event.page;
+				else this.page = 1;
+				if (event.size) this.size = event.size;
+
 				if (this.uiElement.refresh) {
 					try {
 						eval(this.uiElement.refresh);
@@ -241,7 +241,7 @@ export class DataTableComponent extends BaseComponent {
 				options = this.uiElement.options;
 				try {
 					options = eval(`${options}`);
-				} catch {}
+				} catch { }
 			}
 
 			if (this.uiElement.preProcess) {
@@ -268,16 +268,16 @@ export class DataTableComponent extends BaseComponent {
 		try {
 			this.rows = await eval(transform);
 		} catch (e) {
-      console.error(e, this.uiElement);
-    }
+			console.error(e, this.uiElement);
+		}
 
 		// get total records
 		let transformTotal = this.uiElement.transformTotal || 'response.total';
 		try {
 			this.total = parseInt(await eval(transformTotal));
 		} catch (e) {
-      console.error(e, this.uiElement);
-    }
+			console.error(e, this.uiElement);
+		}
 		if (this.total != 0 && !this.total) this.total = obj.get(this, 'rows', []).length;
 
 		// hide splash
@@ -314,9 +314,9 @@ export class DataTableComponent extends BaseComponent {
 				},
 				contentStyle: {
 					padding: '12px',
-          display: "flex",
-          width: "100%",
-          height: "100%"
+					display: "flex",
+					width: "100%",
+					height: "100%"
 				},
 				screens: [column.filter],
 			},

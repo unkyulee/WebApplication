@@ -45,15 +45,15 @@ export class InputComponent extends BaseComponent {
 		// do not set value if it is password
 		if (this.uiElement.inputType == 'password') return;
 
-		if (this.data && this.uiElement.key) {      
+		if (this.data && this.uiElement.key) {
 			// if null then assign default      
 			if (typeof obj.get(this.data, this.uiElement.key) == 'undefined' && this.uiElement.default) {
-				let def = this.uiElement.default;        
+				let def = this.uiElement.default;
 				try {
 					def = eval(this.uiElement.default);
 				} catch (e) {
-          console.error(e, this.uiElement)
-        }
+					console.error(e, this.uiElement)
+				}
 				obj.set(this.data, this.uiElement.key, def);
 			}
 
@@ -65,7 +65,7 @@ export class InputComponent extends BaseComponent {
 		if (this.uiElement.transform) {
 			try {
 				this._value = eval(this.uiElement.transform);
-			} catch (e) {}
+			} catch (e) { }
 		}
 
 		// if number
