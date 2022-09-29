@@ -55,19 +55,13 @@ module.exports = {
 
 	async uploadDropbox(access_token, saveTo, contents) {
 		return new Promise(function (resolve, reject) {
-			var dbx = new Dropbox({ accessToken: access_token });
-			console.log({
-				path: saveTo,
-				contents: contents,
-				strict_conflict: false,
-			})
+			var dbx = new Dropbox({ accessToken: access_token });			
 			dbx.filesUpload({
 				path: saveTo,
 				contents: contents,
 				strict_conflict: false,
 			})
-				.then(function (response) {
-					console.log(response)
+				.then(function (response) {					
 					resolve(encodeURIComponent(saveTo));
 				})
 				.catch(function (err) {
