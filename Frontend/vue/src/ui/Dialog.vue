@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .v-dialog {
+:deep() .v-dialog {
   display: flex;
   flex-flow: column;
 }

@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .v-bottom-sheet {
+:deep() .v-bottom-sheet {
   display: flex;
   flex-flow: column;
   overflow: auto;

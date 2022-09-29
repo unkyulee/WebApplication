@@ -170,12 +170,12 @@ export default {
 </script>
 
 <style scoped>
-/deep/ .v-main__wrap {
+:deep() .v-main__wrap {
   display: flex;
   flex-flow: column;
 }
 
-/deep/ p {
+:deep() p {
   margin-bottom: 0 !important;
 }
 </style>
