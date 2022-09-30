@@ -118,6 +118,7 @@ if (process.env.WS == 1) {
     console.log(`WEBSOCKET ON`);
     const webSocketService = require("./src/services/websocket");
     app.wss = webSocketService.init(server);
+    console.log(app.wss)
   })();
 }
 

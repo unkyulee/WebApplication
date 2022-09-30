@@ -6,19 +6,20 @@ const util = require("../lib/utility");
 const axios = require("axios");
 
 class WebSocketService {
-  router = {};    
+  router = {};   
+  wss = null; 
 
   async init(server) {
     const WebSocket = require("ws");
-    const wss = new WebSocket.Server({ server });
+    this.wss = new WebSocket.Server({ server });
 
     // initialize db and load server configuration
     await this.init_routers();
 
     // listen to connections
-    this.listen(wss, this.routers);    
+    this.listen(this.wss, this.routers);    
 
-    return wss;
+    return this.wss;
   }
 
   async init_routers() {
