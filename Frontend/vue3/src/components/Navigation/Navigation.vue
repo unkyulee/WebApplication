@@ -1,8 +1,6 @@
 <template>
-    <v-app>
-        <Toolbar />
-        <Drawer />
-    </v-app>
+    <Toolbar />
+    <Drawer />
 </template>
   
 <script lang="ts">
