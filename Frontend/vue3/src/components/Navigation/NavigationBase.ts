@@ -4,6 +4,7 @@ export default {
     data: function () {
         return {
             title: "",
+            sub_title: "",
             navigations: [],
             selected: [],
         };
