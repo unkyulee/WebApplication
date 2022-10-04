@@ -1,19 +1,7 @@
 <template>
-  <v-navigation-drawer v-model="drawer">
-    <v-list-item>
-      <v-list-item-title>
-        {{ title }}
-      </v-list-item-title>
-
-      <v-list-item-subtitle>
-        {{ sub_title }}
-      </v-list-item-subtitle>
-    </v-list-item>
-
-    <v-divider></v-divider>
-
+  <v-navigation-drawer v-model="drawer" v-if="menu">
     <v-list dense nav>
-      <v-list-item v-for="(nav, index) in navigations" :key="index" link :to="nav.url" :prepend-icon="nav.icon"
+      <v-list-item v-for="(nav, index) in menu.navigations" :key="index" link :to="nav.url" :prepend-icon="nav.icon"
         :title="nav.name">
       </v-list-item>
     </v-list>
@@ -23,19 +11,19 @@
 <script lang='ts'>
 // @ts-nocheck
 import { defineComponent } from 'vue';
-import NavigationBase from "../NavigationBase"
 
 export default defineComponent({
-  extends: NavigationBase,
+  inject: ['event', 'config', 'ui'],
+
+  props: ["menu"],
 
   data: function () {
     return {
-      drawer: true,
-      selected: [],
+      drawer: false      
     };
   },
 
-  mounted: async function () {
+  mounted: async function () {    
     // subscribe to data-change event
     this.event.subscribe("NavigationDrawer", "toggle-drawer", (event) => {
       this.drawer = !this.drawer;

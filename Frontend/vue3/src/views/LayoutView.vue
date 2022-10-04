@@ -1,8 +1,11 @@
 <template>
-  <v-app>    
+  <v-app>
     <Navigation />
-    <Content />
-  </v-app>  
+
+    <v-main>
+      <Content />
+    </v-main>
+  </v-app>
 </template>
 
 <script lang="ts">

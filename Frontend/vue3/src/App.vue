@@ -14,20 +14,22 @@ import * as moment from "moment"
 // services
 import event from "./services/event.service";
 import config from "./services/config.service";
+import ui from "./services/ui.service";
 
 export default defineComponent({
   provide: {
     event,
-    config
+    config,
+    ui
   },
 
   // Global Initialization
-  mounted: async function () {
+  mounted: async function () {    
     // init moment locale
     if (config.get("locale")) {
       moment.locale(config.get("locale"));
-      console.log(`setting locale to ${config.get("locale")}`)
+      console.log(`set locale to ${config.get("locale")}`)
     }
-  },
+  },  
 })
 </script>
