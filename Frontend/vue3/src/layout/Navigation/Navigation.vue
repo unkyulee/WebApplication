@@ -47,11 +47,11 @@ export default defineComponent({
             .filter((x) => x.type != "hidden");
 
         // selected navigations        
-        if (this.$route.path == "/" && config.get("nav", []).length > 0) {
+        if (this.$route.path == "/" && this.config.get("nav", []).length > 0) {
             // select the first navigation
-            this.$router.push(config.get("nav.0.url"));
+            this.$router.push(this.config.get("nav.0.url"));
             // update selected navigation
-            this.menu.selected = config.get("nav.0");
+            this.menu.selected = this.config.get("nav.0");
         }
         else {
             // find matching nav

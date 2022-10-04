@@ -15,12 +15,16 @@ import * as moment from "moment"
 import event from "./services/event.service";
 import config from "./services/config.service";
 import ui from "./services/ui.service";
+import auth from "./services/ui.service";
+import rest from "./services/ui.service";
 
 export default defineComponent({
   provide: {
     event,
     config,
-    ui
+    ui,
+    auth,
+    rest
   },
 
   // Global Initialization

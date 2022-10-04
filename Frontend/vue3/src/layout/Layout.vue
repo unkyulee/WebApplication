@@ -12,8 +12,8 @@
 import { defineComponent } from 'vue';
 
 // Components
-import Navigation from '../components/Navigation/Navigation.vue';
-import Content from '../components/Content/Content.vue';
+import Navigation from './Navigation/Navigation.vue';
+import Content from './Content/Content.vue';
 
 export default defineComponent({
   components: {

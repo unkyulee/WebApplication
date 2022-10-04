@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LayoutView from '../views/LayoutView.vue'
+import Layout from '../layout/Layout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/:catchAll(.*)',
       name: 'Layout Engine',
-      component: LayoutView
+      component: Layout
     }
   ]
 })

@@ -14,6 +14,7 @@
     "@vue/cli": "^5.0.8",
     "axios": "^0.27.2",
     "moment": "^2.29.4",
+    "mustache": "^4.2.0",
     "object-path": "^0.11.8",
     "roboto-fontface": "*",
     "vue": "^3.2.38",
