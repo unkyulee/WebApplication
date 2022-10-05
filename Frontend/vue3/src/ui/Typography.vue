@@ -1,10 +1,12 @@
 <template>
-  <div
-    v-html="value"
-    @click="click($event)"
-    :class="uiElement.class"
-    :style="uiElement.style"
-  ></div>
+  <div :class="uiElement.layoutClass" :style="uiElement.layoutStyle">
+    <div
+      v-html="value"
+      @click="click($event)"
+      :class="uiElement.class"
+      :style="uiElement.style"
+    ></div>
+  </div>
 </template>
 
 <script lang="ts">

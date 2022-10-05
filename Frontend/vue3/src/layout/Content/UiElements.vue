@@ -12,8 +12,6 @@
       :is="ui.type"
       :data="data"
       :uiElement="ui"
-      :class="ui.layoutClass"
-      :style="ui.layoutStyle"
     >
     </ui-element>
   </div>
@@ -40,11 +38,17 @@ export default defineComponent({
       // translate type
       this.ui.translate_type(ui);
 
-      if (
-        ui.type == "typography" ||
-        ui.type == "ui-elements" ||
-        ui.type == "image-loader"
-      ) {
+      let test = [
+        "typography",
+        "ui-elements",
+        "image-loader",
+        "button-component",
+        "input-component",
+        "data-table",
+        "selection",
+      ];
+
+      if (test.indexOf(ui.type) != -1) {
         continue;
       }
       console.log(ui.type);

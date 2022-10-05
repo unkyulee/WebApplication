@@ -8,15 +8,15 @@
 
 <script lang="ts">
 // @ts-nocheck
-import { defineComponent } from 'vue'
-import * as moment from "moment"
+import { defineComponent } from "vue";
+import * as moment from "moment";
 
 // services
 import event from "./services/event.service";
 import config from "./services/config.service";
 import ui from "./services/ui.service";
-import auth from "./services/ui.service";
-import rest from "./services/ui.service";
+import auth from "./services/auth.service";
+import rest from "./services/rest.service";
 
 export default defineComponent({
   provide: {
@@ -24,16 +24,16 @@ export default defineComponent({
     config,
     ui,
     auth,
-    rest
+    rest,
   },
 
   // Global Initialization
-  mounted: async function () {    
+  mounted: async function () {
     // init moment locale
     if (config.get("locale")) {
       moment.locale(config.get("locale"));
-      console.log(`set locale to ${config.get("locale")}`)
+      console.log(`set locale to ${config.get("locale")}`);
     }
-  },  
-})
+  },
+});
 </script>

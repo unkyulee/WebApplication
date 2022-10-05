@@ -4,8 +4,6 @@
     :is="uiElement.type"
     :data="data"
     :uiElement="uiElement"
-    :class="uiElement.layoutClass"
-    :style="uiElement.layoutStyle"
   >
   </component>
 </template>
@@ -22,6 +20,11 @@ import Base from "../../ui/Base";
 import UiElements from "./UiElements.vue";
 import Typography from "../../ui/Typography.vue";
 import ImageLoader from "../../ui/Image.vue";
+import ButtonComponent from "../../ui/Button.vue";
+import InputComponent from "../../ui/Input.vue";
+import Selection from "../../ui/Selection.vue";
+import DataTable from "../../ui/DataTable.vue";
+import Divider from "../../ui/Divider.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -32,6 +35,11 @@ export default defineComponent({
     UiElements,
     Typography,
     ImageLoader,
+    ButtonComponent,
+    Selection,
+    DataTable,
+    InputComponent,
+    Divider,
   },
   data: function () {
     return {
@@ -42,11 +50,11 @@ export default defineComponent({
     // prepare uielement
     this.ready = false;
 
-    // translate type
-    this.ui.translate_type(this.uiElement);
-
     // compile ui
     await this.ui.compile(this.uiElement);
+
+    // translate type
+    this.ui.translate_type(this.uiElement);
 
     // uiElement ready
     this.ready = true;
