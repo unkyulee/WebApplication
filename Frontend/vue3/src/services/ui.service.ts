@@ -21,4 +21,33 @@ export default {
 
 		return uiElement;
 	},
+	translate_type(uiElement) {
+		switch (obj.get(uiElement, 'type')) {
+			case 'layout':
+				uiElement.type = "ui-elements";
+				break;
+			case 'image':
+				uiElement.type = "image-loader";
+				break;
+		}
+	},
+	async compile(uiElement) {
+		// if type is ui-element-id
+		if (obj.get(uiElement, 'type') == "ui-element-id") {
+			let element = await this.get(uiElement.uiElementId);
+			if (element) {
+				// delete ui-element-id props
+				delete uiElement.type;
+				delete uiElement.uiElementId;
+
+				// replace with new elements
+				Object.assign(uiElement, {
+					...element,
+					...uiElement,
+				})
+			} else {
+				console.error(`uiElement missing ${this.uiElement.uiElementId}`);
+			}
+		}
+	}
 };

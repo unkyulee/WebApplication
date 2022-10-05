@@ -2,15 +2,19 @@
 import * as obj from "object-path";
 import * as moment from "moment";
 import * as mustache from "mustache";
-
+//
 export default {
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui", "auth"],
-  mounted: function () {
-    // data refresh
-    this.event.subscribe(this._uid, "data", (event) => {      
-      this.$forceUpdate();
-    });
+  created: function () {
+    // run init if defined
+    if (obj.get(this, "uiElement.init")) {
+      try {
+        eval(this.uiElement.init);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
   },
   destroyed: function () {
     //
@@ -25,14 +29,18 @@ export default {
     }
   },
   methods: {
-    condition: function (uiElement) {
+    // defense code from vue2
+    $set(data, path, value) {
+      obj.set(data, path, value);
+    },
+    condition(uiElement) {
       let passed = true;
       if (uiElement.condition) {
         passed = eval(uiElement.condition);
       }
       return passed;
     },
-    click: function ($event, uiElement, item) {
+    click($event, uiElement, item) {
       if (this.uiElement.click) {
         try {
           eval(this.uiElement.click);
@@ -60,12 +68,12 @@ export default {
         // set value
         text = this.uiElement.label;
         // check if lang option exists
-        if(
-          this.uiElement.lang && 
+        if (
+          this.uiElement.lang &&
           this.config.get("locale") &&
           this.uiElement.lang[this.config.get("locale")]
         ) {
-          text = this.uiElement.lang[this.config.get("locale")]
+          text = this.uiElement.lang[this.config.get("locale")];
         }
       }
 

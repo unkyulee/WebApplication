@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="condition(uiElement)"
     v-html="value"
     @click="click($event)"
     :class="uiElement.class"
@@ -8,27 +7,17 @@
   ></div>
 </template>
 
-<script>
-import Vue from "vue";
-import Base from "./Base";
-const obj = require("object-path");
-const moment = require("moment");
+<script lang="ts">
+// @ts-nocheck
+import * as obj from "object-path";
+import * as moment from "moment";
 
-export default Vue.component("typography", {
+import Base from "./Base";
+import { defineComponent } from "vue";
+export default defineComponent({
   extends: Base,
-  data: function () {
-    return {
-      value: null,
-    };
-  },
-  mounted: function () {
-    this.$set(this, "value", this.update());
-  },
-  updated: function () {
-    this.$set(this, "value", this.update());
-  },
-  methods: {
-    update: function () {
+  computed: {
+    value() {
       let text = null;
 
       // fixed text
@@ -36,12 +25,12 @@ export default Vue.component("typography", {
         // set value
         text = this.uiElement.text;
         // check if lang option exists
-        if(
-          this.uiElement.lang && 
+        if (
+          this.uiElement.lang &&
           this.config.get("locale") &&
           this.uiElement.lang[this.config.get("locale")]
         ) {
-          text = this.uiElement.lang[this.config.get("locale")]
+          text = this.uiElement.lang[this.config.get("locale")];
         }
       }
 
@@ -52,15 +41,14 @@ export default Vue.component("typography", {
       }
 
       // if null then assign default
-      if (
-        (typeof this._value == "undefined" || this._value == null) &&
-        this.uiElement.default
-      ) {
-        text = this.uiElement.default;
-        try {
-          text = eval(this.uiElement.default);
-        } catch {
-          //
+      if (!text || typeof text == "undefined") {
+        if (this.uiElement.default) {
+          text = this.uiElement.default;
+          try {
+            text = eval(this.uiElement.default);
+          } catch (ex) {
+            console.error(ex);
+          }
         }
       }
 
@@ -73,7 +61,6 @@ export default Vue.component("typography", {
         }
       }
 
-      if (this.uiElement.key == "order_qty") console.log(text);
       return text;
     },
   },
