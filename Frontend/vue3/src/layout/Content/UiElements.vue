@@ -12,6 +12,8 @@
       :is="ui.type"
       :data="data"
       :uiElement="ui"
+      :style="ui.layoutStyle"
+      :class="ui.layoutClass"
     >
     </ui-element>
   </div>
@@ -37,21 +39,6 @@ export default defineComponent({
 
       // translate type
       this.ui.translate_type(ui);
-
-      let test = [
-        "typography",
-        "ui-elements",
-        "image-loader",
-        "button-component",
-        "input-component",
-        "data-table",
-        "selection",
-      ];
-
-      if (test.indexOf(ui.type) != -1) {
-        continue;
-      }
-      console.log(ui.type);
     }
   },
 });

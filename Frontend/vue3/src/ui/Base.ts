@@ -1,8 +1,4 @@
 // @ts-nocheck
-import * as obj from "object-path";
-import * as moment from "moment";
-import * as mustache from "mustache";
-//
 export default {
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui", "auth"],

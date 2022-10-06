@@ -4,6 +4,8 @@
     :is="uiElement.type"
     :data="data"
     :uiElement="uiElement"
+    :style="uiElement.layoutStyle"
+    :class="uiElement.layoutClass"
   >
   </component>
 </template>
@@ -25,6 +27,14 @@ import InputComponent from "../../ui/Input.vue";
 import Selection from "../../ui/Selection.vue";
 import DataTable from "../../ui/DataTable.vue";
 import Divider from "../../ui/Divider.vue";
+import Carousel from "../../ui/Carousel.vue";
+import Date from "../../ui/Date.vue";
+import ExpansionPanel from "../../ui/ExpansionPanel.vue";
+import Icon from "../../ui/Icon.vue";
+import IframeComponent from "../../ui/Iframe.vue";
+import ProgressComponent from "../../ui/Progress.vue";
+import Tabs from "../../ui/Tabs.vue";
+import Timer from "../../ui/Timer.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -40,6 +50,14 @@ export default defineComponent({
     DataTable,
     InputComponent,
     Divider,
+    Carousel,
+    Date,
+    ExpansionPanel,
+    Icon,
+    IframeComponent,
+    ProgressComponent,
+    Tabs,
+    Timer,
   },
   data: function () {
     return {

@@ -1,41 +1,57 @@
 <template>
-  <div :style="uiElement.layoutStyle" :class="uiElement.layoutClass">
-    <DynamicScroller
-      :items="rows"
-      :min-item-size="50"
-      key-field="_id"
-      :style="uiElement.style"
-      :class="uiElement.class"
+  <VirtualScroller
+    v-if="!uiElement.tableType || uiElement.tableType == 'virtual'"
+    :items="rows"
+    :itemSize="parseInt(safeGet(uiElement, 'itemHeight', 100))"
+    :style="uiElement.style"
+    :class="uiElement.class"
+  >
+    <template v-slot:item="{ item, options }">
+      <div
+        :style="uiElement.itemBoxStyle"
+        :class="uiElement.itemBoxClass"
+        @click="click($event, uiElement, item)"
+      >
+        <ui-element
+          v-for="(column, index) in uiElement.columns"
+          :key="index"
+          :uiElement="column"
+          :data="item"
+        />
+      </div>
+    </template>
+  </VirtualScroller>
+
+  <div
+    v-if="uiElement.tableType == 'list'"
+    :style="uiElement.style"
+    :class="uiElement.class"
+  >
+    <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
+    <div
+      v-for="(item, index) of rows"
+      :key="index"
+      :style="uiElement.itemBoxStyle"
+      :class="uiElement.itemBoxClass"
+      @click="click($event, uiElement, item)"
     >
-      <template v-slot="{ item, index, active }">
-        <DynamicScrollerItem :item="item" :active="active" :data-index="index">
-          <div
-            :style="uiElement.itemBoxStyle"
-            :class="uiElement.itemBoxClass"
-            @click="click($event, uiElement, item)"
-          >
-            <ui-element
-              v-for="(column, index) in uiElement.columns"
-              :key="index"
-              :uiElement="column"
-              :data="item"
-            />
-          </div>
-        </DynamicScrollerItem>
-      </template>
-    </DynamicScroller>
+      <ui-element
+        v-for="(column, index) in uiElement.columns"
+        v-bind:key="index"
+        v-bind:uiElement="column"
+        v-bind:data="item"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 // @ts-nocheck
-import * as obj from "object-path";
-import * as moment from "moment";
-
 import Base from "./Base";
 import { defineComponent } from "vue";
 export default defineComponent({
   extends: Base,
+  inheritAttrs: false,
   data() {
     return {
       loading: false,

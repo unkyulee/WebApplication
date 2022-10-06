@@ -1,9 +1,5 @@
 <template>
-  <v-app>
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+  <router-view />
 </template>
 
 <script lang="ts">
@@ -37,3 +33,14 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+:deep() .v-main__wrap {
+  display: flex;
+  flex-flow: column;
+}
+
+:deep() p {
+  margin-bottom: 0 !important;
+}
+</style>

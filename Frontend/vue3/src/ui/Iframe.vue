@@ -1,7 +1,10 @@
 <template>
-  <div :class="uiElement.layoutClass" :style="uiElement.layoutStyle">
-    <v-divider :class="uiElement.class" :style="uiElement.style"></v-divider>
-  </div>
+  <iframe
+    v-if="condition(uiElement)"
+    :src="safeEval(uiElement.src)"
+    :style="uiElement.style"
+    :class="uiElement.class"
+  ></iframe>
 </template>
 
 <script lang="ts">

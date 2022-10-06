@@ -18,8 +18,6 @@
 
 <script lang="ts">
 // @ts-nocheck
-import * as obj from "object-path";
-import * as moment from "moment";
 import { debounce } from "debounce";
 
 import Base from "./Base";

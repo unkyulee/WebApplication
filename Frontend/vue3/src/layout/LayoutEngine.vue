@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <Navigation />
-
     <v-main>
       <Content />
     </v-main>
@@ -9,16 +8,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 // Components
-import Navigation from './Navigation/Navigation.vue';
-import Content from './Content/Content.vue';
+import Navigation from "./Navigation/Navigation.vue";
+import Content from "./Content/Content.vue";
 
 export default defineComponent({
   components: {
     Navigation,
-    Content
+    Content,
   },
 });
 </script>

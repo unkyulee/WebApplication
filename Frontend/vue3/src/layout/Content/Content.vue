@@ -1,16 +1,34 @@
 <template>
   <ui-element v-if="ready" :data="data" :uiElement="uiElement"></ui-element>
+  <DialogOverlay />
+  <Splash />
+  <ActionSheet />
+  <Snackbar />
+  <Timer :data="data" />
 </template>
 
 <script lang="ts">
 // @ts-nocheck
 import * as obj from "object-path";
+
+// ui imports
 import UiElement from "./UiElement.vue";
+import DialogOverlay from "../../ui/Dialog.vue";
+import Splash from "../../ui/Splash.vue";
+import ActionSheet from "../../ui/ActionSheet.vue";
+import Snackbar from "../../ui/Snackbar.vue";
+import Timer from "../../ui/Timer.vue";
+
 import { defineComponent } from "vue";
 export default defineComponent({
   inject: ["config", "event", "rest", "ui", "auth"],
   components: {
     UiElement,
+    DialogOverlay,
+    Splash,
+    ActionSheet,
+    Snackbar,
+    Timer,
   },
   data() {
     return {
