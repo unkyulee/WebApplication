@@ -35,6 +35,7 @@ import IframeComponent from "../../ui/Iframe.vue";
 import ProgressComponent from "../../ui/Progress.vue";
 import Tabs from "../../ui/Tabs.vue";
 import Timer from "../../ui/Timer.vue";
+import Gallery from "../../ui/Gallery.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -58,6 +59,7 @@ export default defineComponent({
     ProgressComponent,
     Tabs,
     Timer,
+    Gallery,
   },
   data: function () {
     return {

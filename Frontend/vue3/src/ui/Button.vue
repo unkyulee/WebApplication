@@ -22,12 +22,17 @@
       :left="uiElement.left"
       :bottom="uiElement.bottom"
       :dot="uiElement.dot"
-      :icon="uiElement.badgeIcon"
     >
       <v-icon v-if="uiElement.icon" :style="uiElement.iconStyle">{{
         uiElement.icon
       }}</v-icon>
     </v-badge>
+
+    <v-icon
+      v-if="!uiElement.badge && uiElement.icon"
+      :style="uiElement.iconStyle"
+      >{{ uiElement.icon }}</v-icon
+    >
   </v-btn>
 </template>
 

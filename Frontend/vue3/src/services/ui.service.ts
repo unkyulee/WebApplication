@@ -21,6 +21,9 @@ export default {
 
     return uiElement;
   },
+  timeout(ms) {
+    return new Promise((res) => setTimeout(res, ms));
+  },
   translate_type(uiElement) {
     switch (obj.get(uiElement, "type")) {
       case "layout":

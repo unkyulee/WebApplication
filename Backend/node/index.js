@@ -1,6 +1,5 @@
 const path = require("path");
 const express = require("express");
-const util = require("./src/lib/utility");
 
 // Express Instance
 const app = express();
@@ -37,9 +36,8 @@ if (process.env.TZ) {
 
 // catch all
 const router = require("./src/services/router");
-const auth = require("./src/services/auth");
+const auth = require("./src/services/auth/auth");
 const MongoDB = require("./src/db/mongodb");
-const utility = require("./src/lib/utility");
 
 app.all("*", async (req, res) => {
   handler(req, res);
@@ -79,23 +77,17 @@ async function handler(req, res) {
       res.end();
     }
   } catch (e) {
-    // Hanlding Error
-
     // Respond with 500
     res.status(500);
 
     // Write to the console
-    console.error(e, req);
-
-    // Write to online logger
+    //console.error(e, req);
+    console.error(e);
   } finally {
     // Close MongoDB
     if (db) await db.close();
     res.end();
   }
-
-  // send analytics
-  if (process.env.TID) await utility.sendAnalytics(req, res);
 }
 
 // Initiate the web server
@@ -108,8 +100,6 @@ server.listen(process.env.PORT, process.env.BIND_IP, () => {
   );
 });
 
-
-
 // initialize the WebSocket server
 if (process.env.WS == 1) {
   (async () => {
@@ -118,15 +108,14 @@ if (process.env.WS == 1) {
     const webSocketService = require("./src/services/websocket");
     app.wss = await webSocketService.init(server);
   })();
-
 }
 
 // initialize the MQTT Broker
-if (process.env.MQTT == 1 && process.env.MQTT_PORT) {  
+if (process.env.MQTT == 1 && process.env.MQTT_PORT) {
   console.log();
   console.log(`MQTT BROKER ON`);
   const mqttBrokerService = require("./src/services/mqtt");
   app.mqtt = mqttBrokerService.init({
-    port: process.env.MQTT_PORT
+    port: process.env.MQTT_PORT,
   });
 }

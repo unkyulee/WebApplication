@@ -1,11 +1,11 @@
 <template>
-  <router-view />
+  <Loading v-if="loading" />
+  <router-view v-if="!loading" />
 </template>
 
 <script lang="ts">
 // @ts-nocheck
 import { defineComponent } from "vue";
-import * as moment from "moment";
 
 // services
 import event from "./services/event.service";
@@ -13,6 +13,9 @@ import config from "./services/config.service";
 import ui from "./services/ui.service";
 import auth from "./services/auth.service";
 import rest from "./services/rest.service";
+
+// ui
+import Loading from "./layout/Loading/Loading.vue";
 
 export default defineComponent({
   provide: {
@@ -23,13 +26,26 @@ export default defineComponent({
     rest,
   },
 
+  components: {
+    Loading,
+  },
+
+  data() {
+    return {
+      loading: true,
+    };
+  },
+
   // Global Initialization
-  mounted: async function () {
-    // init moment locale
-    if (config.get("locale")) {
-      moment.locale(config.get("locale"));
-      console.log(`set locale to ${config.get("locale")}`);
-    }
+  created: async function () {
+    // subscribe to loading-complete event
+    event.subscribe("App", "loading-completed", (event) => {
+      this.loading = false;
+    });
+  },
+
+  destroyed: function () {
+    event.unsubscribe_all("App");
   },
 });
 </script>

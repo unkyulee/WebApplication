@@ -85,7 +85,11 @@ import FileUpload from "primevue/fileupload";
 //app.component("FullCalendar", FullCalendar);
 
 import Galleria from "primevue/galleria";
-import Image from "primevue/image";
+app.component("Galleria", Galleria);
+
+//import Image from "primevue/image";
+//app.component("Image", Image);
+
 import InlineMessage from "primevue/inlinemessage";
 import Inplace from "primevue/inplace";
 import InputMask from "primevue/inputmask";
@@ -107,10 +111,15 @@ import Panel from "primevue/panel";
 import PanelMenu from "primevue/panelmenu";
 import Password from "primevue/password";
 import PickList from "primevue/picklist";
-import ProgressBar from "primevue/progressbar";
-import ProgressSpinner from "primevue/progressspinner";
-import RadioButton from "primevue/radiobutton";
-import Rating from "primevue/rating";
+
+//import ProgressBar from "primevue/progressbar";
+//app.component("ProgressBar", ProgressBar);
+//import ProgressSpinner from "primevue/progressspinner";
+//app.component("ProgressSpinner", ProgressSpinner);
+//import RadioButton from "primevue/radiobutton";
+//app.component("RadioButton", RadioButton);
+//import Rating from "primevue/rating";
+//app.component("Rating", Rating);
 
 import Ripple from "primevue/ripple";
 app.directive("ripple", Ripple);
@@ -192,7 +201,6 @@ app.component("Dropdown", Dropdown);
 app.component("Fieldset", Fieldset);
 app.component("FileUpload", FileUpload);
 
-app.component("Image", Image);
 app.component("InlineMessage", InlineMessage);
 app.component("Inplace", Inplace);
 app.component("InputMask", InputMask);
@@ -214,10 +222,7 @@ app.component("Panel", Panel);
 app.component("PanelMenu", PanelMenu);
 app.component("Password", Password);
 app.component("PickList", PickList);
-app.component("ProgressBar", ProgressBar);
-app.component("ProgressSpinner", ProgressSpinner);
-app.component("RadioButton", RadioButton);
-app.component("Rating", Rating);
+
 app.component("Row", Row);
 app.component("ScrollPanel", ScrollPanel);
 app.component("ScrollTop", ScrollTop);
@@ -245,7 +250,6 @@ app.component("Tree", Tree);
 app.component("TreeSelect", TreeSelect);
 app.component("TreeTable", TreeTable);
 app.component("TriStateCheckbox", TriStateCheckbox);
-app.component("Galleria", Galleria);
 
 // global setup
 app.use(router);

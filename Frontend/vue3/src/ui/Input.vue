@@ -1,68 +1,72 @@
 <template>
-  <!-- text area -->
-  <v-textarea
-    v-if="this.uiElement.inputType == 'textarea'"
-    v-model="value"
-    :rows="uiElement.rows"
-    :placeholder="uiElement.placeholder"
-    :class="uiElement.class"
-    :style="uiElement.style"
-    :dense="uiElement.dense"
-    :rounded="uiElement.rounded"
-    :append-icon="uiElement.appendIcon"
-    :append-outer-icon="uiElement.appendOuterIcon"
-    :prepend-icon="uiElement.prependIcon"
-    :clear-icon="uiElement.clearIcon"
-    :clearable="uiElement.clearable"
-    :label="label()"
-    :type="uiElement.inputType"
-    :auto-grow="uiElement.autoGrow ? uiElement.autoGrow : true"
-    :hide-details="safeGet(uiElement, 'hideDetails', false)"
-    @click:append="safeEval(uiElement.clickAppend)"
-    @click:append-outer="safeEval(uiElement.clickAppendOuter)"
-    @click:prepend="safeEval(uiElement.clickPrepend)"
-    @click:clear="safeEval(uiElement.clickClear)"
-  ></v-textarea>
+  <div :class="uiElement.layoutClass" :style="uiElement.layoutStyle">
+    <!-- text area -->
+    <v-textarea
+      v-if="this.uiElement.inputType == 'textarea'"
+      v-model="value"
+      :rows="uiElement.rows"
+      :placeholder="uiElement.placeholder"
+      :class="uiElement.class"
+      :style="uiElement.style"
+      :dense="uiElement.dense"
+      :rounded="uiElement.rounded"
+      :append-icon="uiElement.appendIcon"
+      :append-outer-icon="uiElement.appendOuterIcon"
+      :prepend-icon="uiElement.prependIcon"
+      :clear-icon="uiElement.clearIcon"
+      :clearable="uiElement.clearable"
+      :label="label()"
+      :type="uiElement.inputType"
+      :auto-grow="uiElement.autoGrow ? uiElement.autoGrow : true"
+      :hide-details="safeGet(uiElement, 'hideDetails', false)"
+      @click:append="safeEval(uiElement.clickAppend)"
+      @click:append-outer="safeEval(uiElement.clickAppendOuter)"
+      @click:prepend="safeEval(uiElement.clickPrepend)"
+      @click:clear="safeEval(uiElement.clickClear)"
+    ></v-textarea>
 
-  <!-- input field -->
-  <v-text-field
-    v-if="
-      !this.uiElement.inputType ||
-      this.uiElement.inputType == 'text' ||
-      this.uiElement.inputType == 'email' ||
-      this.uiElement.inputType == 'number' ||
-      this.uiElement.inputType == 'password'
-    "
-    v-model="value"
-    :class="uiElement.class"
-    :style="uiElement.style"
-    :variant="uiElement.variant"
-    :append-icon="uiElement.appendIcon"
-    :append-outer-icon="uiElement.appendOuterIcon"
-    :prepend-icon="uiElement.prependIcon"
-    :prepend-inner-icon="uiElement.prependInnerIcon"
-    :clear-icon="uiElement.clearIcon"
-    :clearable="uiElement.clearable"
-    :label="label()"
-    :type="uiElement.inputType"
-    :readonly="uiElement.readonly"
-    :hide-details="safeGet(uiElement, 'hideDetails', false)"
-    @click:append="safeEval(uiElement.appendIconClick)"
-    @click:append-outer="safeEval(uiElement.appendOuterIconClick)"
-    @click:prepend="safeEval(uiElement.prependIconClick)"
-    @click:prepend-inner="safeEval(uiElement.prependInnerIconClick)"
-    @click:clear="safeEval(uiElement.clearIconClick)"
-  ></v-text-field>
+    <!-- input field -->
+    <v-text-field
+      v-if="
+        !this.uiElement.inputType ||
+        this.uiElement.inputType == 'text' ||
+        this.uiElement.inputType == 'email' ||
+        this.uiElement.inputType == 'number' ||
+        this.uiElement.inputType == 'password'
+      "
+      v-model="value"
+      :class="uiElement.class"
+      :style="uiElement.style"
+      :variant="uiElement.variant"
+      :density="uiElement.density"
+      :append-icon="uiElement.appendIcon"
+      :append-outer-icon="uiElement.appendOuterIcon"
+      :append-inner-icon="uiElement.appendInnerIcon"
+      :prepend-icon="uiElement.prependIcon"
+      :prepend-inner-icon="uiElement.prependInnerIcon"
+      :clear-icon="uiElement.clearIcon"
+      :clearable="uiElement.clearable"
+      :label="label()"
+      :type="uiElement.inputType"
+      :readonly="uiElement.readonly"
+      :hide-details="safeGet(uiElement, 'hideDetails', false)"
+      @click:append="safeEval(uiElement.appendIconClick)"
+      @click:append-outer="safeEval(uiElement.appendOuterIconClick)"
+      @click:prepend="safeEval(uiElement.prependIconClick)"
+      @click:prepend-inner="safeEval(uiElement.prependInnerIconClick)"
+      @click:clear="safeEval(uiElement.clearIconClick)"
+    ></v-text-field>
 
-  <v-checkbox
-    v-if="this.uiElement.inputType == 'checkbox'"
-    v-model="value"
-    :class="uiElement.class"
-    :style="uiElement.style"
-    :label="label()"
-    :color="uiElement.color"
-    :hide-details="safeGet(uiElement, 'hideDetails', false)"
-  ></v-checkbox>
+    <v-checkbox
+      v-if="this.uiElement.inputType == 'checkbox'"
+      v-model="value"
+      :class="uiElement.class"
+      :style="uiElement.style"
+      :label="label()"
+      :color="uiElement.color"
+      :hide-details="safeGet(uiElement, 'hideDetails', false)"
+    ></v-checkbox>
+  </div>
 </template>
 
 <script lang="ts">

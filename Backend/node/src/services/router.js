@@ -1,5 +1,3 @@
-const cache = require("../lib/cache");
-
 class Router {
   async preProcess(db, req, res) {
     res.header(
@@ -66,74 +64,46 @@ class Router {
 
     let nav;
     if (navName == "api") {
-      let apiPath = req.path.split("/")[2];
-      let apiName = req.path.split("/")[3];
+      // api path must be in a format of path / name
+      let paths = req.path.split("/");
+      if (paths.length >= 4) {
+        //
+        let apiPath = paths[2];
+        let apiName = paths[3];
+        let results;
 
-      let results;
-
-      // check cache 15 minutes
-      let cacheKey = `core.websvc_${apiPath}/${apiName}`;
-      if (!cache.has(cacheKey) || cache.isExpired(cacheKey, 900)) {
-        // cache miss, request database
+        //
         results = await db.find("core.websvc", {
           query: {
             url: `${apiPath}/${apiName}`,
           },
         });
 
-        // save to cache
-        cache.set(cacheKey, results);
-
-      } else {
-        // cache hit
-        results = cache.get(cacheKey);        
+        // return with result
+        if (results && results.length > 0) {
+          nav = results[0];
+          nav.module = "websvc";
+        }
       }
-
-      // return with result
-      if (results && results.length > 0) {
-        nav = results[0];
-        nav.module = "websvc";
-      }
-    } else if (navName == "cms") {
-      nav = { module: "cms" };
-    } else if (navName == "google") {
-      nav = { module: "oauth/google" };
-    } else if (navName == "dropbox") {
-      nav = { module: "oauth/dropbox" };
+    } else if (navName == "oauth") {
+      nav = { module: "oauth" };
     } else {
-      let results;
-
-      // check cache 15 minutes
-      let cacheKey = `core.company_${navName}`;
-      if (!cache.has(cacheKey) || cache.isExpired(cacheKey, 900)) {
-        // cache miss, request database
-        results = await db.find("core.company", {
-          query: { url: `/${navName}` },
-        });
-        // save to cache
-        cache.set(cacheKey, results);
-
-      } else {
-        // cache hit
-        results = cache.get(cacheKey);        
-      }
+      // check if nav can be discovered
+      let results = await db.find("core.company", {
+        query: { url: `/${navName}` },
+      });
 
       // if result is not found then load default navigation
       if (results.length == 0) {
-        let cacheKey = `core.company_default`;
-        if (!cache.has(cacheKey) || cache.isExpired(cacheKey, 900)) {
-          // cache miss
-          results = await db.find("core.company", { query: { url: `/` } });
-          // save cache
-          cache.set(cacheKey, results);
-        } else {
-          // cache hit
-          results = cache.get(cacheKey);          
-        }
-      }        
+        results = await db.find("core.company", { query: { url: `/` } });
+      }
 
-      // return with result
-      if (results && results.length > 0) nav = results[0];
+      if (results && results.length > 0) {
+        // found navigation
+        nav = results[0];
+      } else {
+        console.error("at least one core.company setup should exist");
+      }
     }
 
     return nav;
