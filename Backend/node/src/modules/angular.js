@@ -4,41 +4,44 @@ const ObjectID = require("mongodb").ObjectID;
 const obj = require("object-path");
 const util = require("../lib/utility");
 
-module.exports.requiresAuthentication = async function requiresAuthentication(
-  db,
-  req,
-  res
-) {
-  if (req.method == "GET") return false;
-  return true;
-};
+module.exports = {
+  // check if any request needs login process
+  // during the loading of angualr app, doesn't require login
+  // but when method is "POST" then it is authentication request
+  async requiresAuthentication(db, req, res) {
+    if (req.method == "GET") return false;
+    return true;
+  },
 
-module.exports.process = async function process(db, req, res) {
-  // get the filename
-  let paths = req.path.split("/");
-  let filename = paths[paths.length - 1];
+  async process(db, req, res) {
+    // get the filename
+    let paths = req.path.split("/");
+    let filename = paths[paths.length - 1];
 
-  // process index.js
-  if (filename == "index.js") {
-    return await IndexJS(db, req, res);
-  } else if (filename == "index.json") {
-    return await IndexJSON(db, req, res);
-  }
-  // process login screen
-  else if (filename == "login.config") {
-    return await LoginScreen(db, req, res);
-  }
-  // process navigation request
-  else if (filename == "navigation.config") {
-    return await Navigation(db, req, res);
-  }
-  // process ui element request
-  else if (filename == "ui.element") {
-    return await UIElement(db, req, res);
-  }
-  // otherwise return index.html
-  return await IndexHtml(db, req, res);
+    // process index.js
+    if (filename == "index.js") {
+      return await IndexJS(db, req, res);
+    } else if (filename == "index.json") {
+      return await IndexJSON(db, req, res);
+    }
+    // process login screen
+    else if (filename == "login.config") {
+      return await LoginScreen(db, req, res);
+    }
+    // process navigation request
+    else if (filename == "navigation.config") {
+      return await Navigation(db, req, res);
+    }
+    // process ui element request
+    else if (filename == "ui.element") {
+      return await UIElement(db, req, res);
+    }
+    // otherwise return index.html
+    return await IndexHtml(db, req, res);
+  },
 };
+// module export ends
+/////////////////////////////////////////////////////////
 
 // return app configuration js
 async function IndexJS(db, req, res) {
@@ -118,7 +121,7 @@ async function Navigation(db, req, res) {
   // retrieve core.features all at once
   let core_features = await db.find("core.feature", {
     query: { key: { $in: features } },
-    size: 10000
+    size: 10000,
   });
 
   if (core_features && core_features.length > 0) {
@@ -152,7 +155,7 @@ async function Navigation(db, req, res) {
       company_id: obj.get(res.locals, "nav._id"),
       type: { $in: features },
     },
-    size: 10000
+    size: 10000,
   });
   let module = {};
 

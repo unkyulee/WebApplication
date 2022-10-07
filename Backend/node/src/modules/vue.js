@@ -4,54 +4,50 @@ const ObjectID = require("mongodb").ObjectID;
 const obj = require("object-path");
 const util = require("../lib/utility");
 
-module.exports.requiresAuthentication = async function requiresAuthentication(
-  db,
-  req,
-  res
-) {
-  // if the request is POST and the path doesn't have filename
-  let paths = req.url.split("?")[0].split("/");
-  if (paths.length == 3 && req.method == "POST") {
-    // root path POST is authentication request
+module.exports = {
+  // check if any request needs login process
+  // during the loading of vue app, doesn't require login
+  // but when method is "POST" then it is authentication request
+  async requiresAuthentication(db, req, res) {
+    if (req.method == "GET") return false;
     return true;
-  }
+  },
 
-  // otherwise it is open
-  return false;
-};
-
-module.exports.process = async function process(db, req, res) {
-  // get the filename
-  let paths = req.url.split("?")[0].split("/");
-  // cover for the root url
-  if (!paths[2]) paths[2] = "";
-  if (paths[2] == "index.js") {
-    paths[2] = "";
-    paths.push("index.js");
-  }
-  let filename = paths[paths.length - 1];
-
-  // get company config
-  // company name must be passed on the URL
-  if (paths.length >= 2) {
-    // load config of the module from company configuration of the module
-    let [company] = await db.find("core.company", {
-      query: { url: `/${paths[2]}` },
-    });
-    res.locals.company = company;
-
-    // process index.js
-    if (filename == "index.js") {
-      return await IndexJS(db, req, res);
+  async process(db, req, res) {
+    // get the filename
+    let paths = req.url.split("?")[0].split("/");
+    // cover for the root url
+    if (!paths[2]) paths[2] = "";
+    if (paths[2] == "index.js") {
+      paths[2] = "";
+      paths.push("index.js");
     }
-    // process ui element request
-    else if (filename == "ui.element") {
-      return await UIElement(db, req, res);
+    let filename = paths[paths.length - 1];
+
+    // get company config
+    // company name must be passed on the URL
+    if (paths.length >= 2) {
+      // load config of the module from company configuration of the module
+      let [company] = await db.find("core.company", {
+        query: { url: `/${paths[2]}` },
+      });
+      res.locals.company = company;
+
+      // process index.js
+      if (filename == "index.js") {
+        return await IndexJS(db, req, res);
+      }
+      // process ui element request
+      else if (filename == "ui.element") {
+        return await UIElement(db, req, res);
+      }
+      // otherwise return index.html
+      return IndexHtml(db, req, res);
     }
-    // otherwise return index.html
-    return IndexHtml(db, req, res);
-  }
+  },
 };
+// module export ends
+/////////////////////////////////////////////////////////
 
 // return vue application
 async function IndexHtml(db, req, res) {

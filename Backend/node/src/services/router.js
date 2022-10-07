@@ -86,7 +86,7 @@ class Router {
         }
       }
     } else if (navName == "oauth") {
-      nav = { module: "oauth" };
+      nav = { module: "oauth/oauth" };
     } else {
       // check if nav can be discovered
       let results = await db.find("core.company", {

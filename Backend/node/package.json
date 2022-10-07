@@ -21,7 +21,6 @@
     "express": "^4.17.1",
     "googleapis": "^108.0.0",
     "html-pdf": "^3.0.1",
-    "isomorphic-fetch": "^3.0.0",
     "jsonic": "^1.0.1",
     "jsonwebtoken": "^8.3.0",
     "memorystream": "^0.3.1",
