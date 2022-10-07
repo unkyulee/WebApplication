@@ -49,7 +49,7 @@ export default {
       // clear if not authenticated
       if (response.status != 200) {
         // clear localStorage
-        //localStorage.removeItem("token_public");
+        localStorage.removeItem("token_public");
       }
     }
 
