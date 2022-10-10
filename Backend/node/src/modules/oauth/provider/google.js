@@ -41,35 +41,11 @@ async function start(db, req, res) {
     return;
   }
 
-  //
-  let url = `https://accounts.google.com/o/oauth2/v2/auth`;
-  let redirect_uri = `${util.getProtocol(req)}://${req.get("host")}/google/`;
+  // load google client id
   let client_id = obj.get(server, "google.client_id");
-  if (!client_id) {
-    res.send("google client_id not found");
-    res.end();
-    return;
-  }
 
-  return `<script>window.location='${url}?response_type=code&client_id=${client_id}&scope=${req.query.scope}&redirect_uri=${redirect_uri}&state=${req.query.go}&access_type=offline&prompt=consent'</script>`;
-}
-
-async function complete(db, req, res) {
-  // check company_id exists
-  if (!res.locals.token.sub) {
-    res.send("company_id missing");
-    res.end();
-    return;
-  }
-  // load server config
-  let server = await db.find("server", {});
-  if (server && server.length > 0) {
-    server = server[0];
-  } else {
-    res.send("server configuration not found");
-    res.end();
-    return;
-  }
+  // get google config
+  // save the token to the google config
   // load google config
   let config = await db.find("config", {
     query: {
@@ -86,28 +62,88 @@ async function complete(db, req, res) {
     };
   }
 
+  // load scope
+  let scope = obj.get(config, "scope", "");
+  // check if the scope already exists
+  if (scope.indexOf(req.query.scope) == -1) {
+    // add scope
+    scope += ` ${req.query.scope}`;
+  }
+
+  //
+  let url = `https://accounts.google.com/o/oauth2/v2/auth`;
+  let redirect_uri = `${util.getProtocol(req)}://${req.get(
+    "host"
+  )}/oauth/google`;
+
+  if (!client_id) {
+    res.send("google client_id not found");
+    res.end();
+    return;
+  }
+
+  return `<script>window.location='${url}?response_type=code&client_id=${client_id}&scope=${scope}&redirect_uri=${redirect_uri}&state=${req.query.start}&access_type=offline&prompt=consent'</script>`;
+}
+
+async function complete(db, req, res) {
+  // VALIDATE THE REQUEST
+
+  // check if the login is valid when making the request
+  if (!res.locals.token.sub) {
+    console.error("company_id missing");
+    res.status(500);
+    res.end();
+    return;
+  }
+
+  // load server config
+  let server = await db.find("server", {});
+  if (server && server.length > 0) {
+    server = server[0];
+  } else {
+    res.send("server configuration not found");
+    res.end();
+    return;
+  }
+
   // request for token
-  let response = {};
-  let form = {
-    code: req.query.code,
-    client_id: obj.get(server, "google.client_id"),
-    client_secret: obj.get(server, "google.client_secret"),
-    grant_type: "authorization_code",
-    redirect_uri: `${util.getProtocol(req)}://${req.get("host")}/google/`,
-  };
-  response = await rp({
-    method: "POST",
-    uri: "https://oauth2.googleapis.com/token",
-    form,
+  let response = await axios({
+    method: "post",
+    url: `https://oauth2.googleapis.com/token`,
+    params: {
+      code: req.query.code,
+      client_id: obj.get(server, "google.client_id"),
+      client_secret: obj.get(server, "google.client_secret"),
+      grant_type: "authorization_code",
+      redirect_uri: `${util.getProtocol(req)}://${req.get(
+        "host"
+      )}/oauth/google`,
+    },
   });
-  response = JSON.parse(response);
+  response = response.data;
 
   // get google config
   // save the token to the google config
+  // load google config
+  let config = await db.find("config", {
+    query: {
+      company_id: ObjectID(res.locals.token.sub),
+      type: "google",
+    },
+  });
+  if (config && config.length > 0) {
+    config = config[0];
+  } else {
+    config = {
+      type: "google",
+      company_id: ObjectID(res.locals.token.sub),
+    };
+  }
 
   await db.update("config", {
     ...config,
     ...response,
+    _updated: new Date(),
   });
 
   return `<script>window.location='${req.query.state}'</script>`;
