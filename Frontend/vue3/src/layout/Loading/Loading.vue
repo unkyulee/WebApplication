@@ -35,29 +35,90 @@ export default defineComponent({
       this.message = `set locale to <b>${this.config.get("locale")}</b>`;
     }
 
-    // check is logged in
-    this.message = "checking login ...";
-    if (await this.auth.isAuthenticated()) {
-      this.message = "login validated";
-    } else {
-      this.message = "login info not discovered";
+    // reload nav
+    {
+      this.message = "reset navigation ...";
+      this.config.set("navigations", this.config.get("nav"));
     }
 
-    // check if there is any initial script to run
-    this.message = "initializing app ...";
-    //await this.ui.timeout(1000);
+    // check if the app requires login
+    if (this.config.get("login.enabled")) {
+      // check is logged in
+      this.message = "checking login ...";
+      if (await this.auth.isAuthenticated()) {
+        this.message = "login validated";
+      } else {
+        this.message = "login info not discovered";
+        // check if the navigation contains any public entry
+        let navigations = this.config.get("navigations", []);
+        if (navigations.find((x) => x.public == true)) {
+          // there is a page to display without login
+        } else {
+          // there is no page to display without login
+          // login is required before entering the app
+          this.message = "redirecting to login ...";
 
-    // load theme
-    this.message = "loading theme ...";
-    //await this.ui.timeout(1000);
+          // display login screen
+          // update the nav to the login screen
+          this.config.set("navigations", [
+            { name: "Login", pageId: "login", url: "/" },
+          ]);
+        }
+      }
+    }
 
-    // load navigation
-    this.message = "loading navigation ...";
-    //await this.ui.timeout(1000);
+    // Load initial navigation
+    {
+      this.message = "loading initial page ...";
 
-    // setting up first navigation
-    this.message = "setting up the first page ...";
-    //await this.ui.timeout(1000);
+      //
+      let navigations = this.config.get("navigations", []);
+
+      // selected navigations
+      if (this.$route.path == "/" && navigations.length > 0) {
+        // select the first navigation
+        this.$router.push(obj.get("navigations.0.url"));
+      } else {
+        // find matching nav
+        let selectedMenu = navigations.find((x) => x.url == this.$route.path);
+
+        // select the first navigation
+        if (selectedMenu) this.$router.push(selectedMenu.url);
+      }
+      //
+    }
+
+    /*
+// check if embed is passed
+        if (obj.get(this.$route, "query.embed")) {
+            // do not show navigation
+            this.show_navigation = false;
+            return;
+        } else {
+            // show navigation
+            this.show_navigation = true;
+        }
+
+        // load navigations
+        this.menu.navigations = this.config
+            .get("nav", [])
+            .filter((x) => x.type != "hidden");
+
+        // selected navigations
+        if (this.$route.path == "/" && this.config.get("nav", []).length > 0) {
+            // select the first navigation
+            this.$router.push(this.config.get("nav.0.url"));
+            // update selected navigation
+            this.menu.selected = this.config.get("nav.0");
+        }
+        else {
+            // find matching nav
+            this.menu.selected = this.config.get("nav", []).find((x) => x.url == this.$route.path);
+        }
+        //
+        console.log(`set initial navigation: ${this.menu.selected.url}`);
+        this.event.send({ name: "navigation-changed", data: this.menu });
+    */
 
     //
     // LOADING COMPLETED

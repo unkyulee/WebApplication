@@ -1,5 +1,5 @@
 <template>
-  <ui-element v-if="ready" :data="data" :uiElement="uiElement"></ui-element>
+  <ui-element v-if="ready" :data="data" :uiElement="page"></ui-element>
   <DialogOverlay />
   <Splash />
   <ActionSheet />
@@ -33,7 +33,7 @@ export default defineComponent({
   data() {
     return {
       ready: false,
-      uiElement: {},
+      page: {},
       data: {},
     };
   },
@@ -52,9 +52,9 @@ export default defineComponent({
       return;
     }
 
-    // download uiElement
-    this.uiElement = await this.ui.get(obj.get(nav, "uiElementIds.0"));
-    console.log(`loading ui - ${obj.get(this.uiElement, "_id")}`);
+    // download page - page is for the root element
+    this.page = await this.ui.page(obj.get(nav, "pageId"));
+    console.log(`loading page - ${obj.get(nav, "pageId")}`);
     this.ready = true; // start mounting ui
 
     // listen to navigation-changed event
@@ -63,10 +63,8 @@ export default defineComponent({
         this.ready = false; // unload ui
         this.data = {}; // reset data
         // download uiElement
-        this.uiElement = await this.ui.get(
-          obj.get(event, "data.selected.uiElementIds.0")
-        );
-        console.log(`loading ui - ${obj.get(this.uiElement, "_id")}`);
+        this.page = await this.ui.page(obj.get(event, "data.selected.pageId"));
+        console.log(`loading page - ${obj.get(event, "data.selected.pageId")}`);
         this.ready = true; // start mounting ui
       }
     });

@@ -21,6 +21,24 @@ export default {
 
     return uiElement;
   },
+
+  async page(_id) {
+    let uiElement = obj.get(this.storage, _id);
+
+    // return if stored uiElement exists
+    if (!uiElement) {
+      // if storage doesn't have it then load it
+      let url = `${config.get("url")}/page?_id=${_id}`;
+      let response = await rest.request(url);
+
+      // save the uiElement
+      this.storage[_id] = response.data;
+      uiElement = response.data;
+    }
+
+    return uiElement;
+  },
+
   timeout(ms) {
     return new Promise((res) => setTimeout(res, ms));
   },

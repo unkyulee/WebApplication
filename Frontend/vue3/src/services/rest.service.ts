@@ -60,7 +60,10 @@ axios.interceptors.response.use(function (res) {
   // intercepting response
   // see if the headers has authorization
   if (obj.get(res, "headers.authorization")) {
-    let token = obj.get(res, "headers.authorization").replace("Bearer ");
+    let token = obj
+      .get(res, "headers.authorization", "")
+      .replace("Bearer ", "");
+    // save to localStorage
     localStorage.setItem("token_public", token);
   }
 

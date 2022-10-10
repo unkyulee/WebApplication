@@ -39,6 +39,11 @@ export default defineComponent({
   // Global Initialization
   created: async function () {
     // subscribe to loading-complete event
+    event.subscribe("App", "init", (event) => {
+      this.loading = true;
+    });
+
+    // subscribe to loading-complete event
     event.subscribe("App", "loading-completed", (event) => {
       this.loading = false;
     });

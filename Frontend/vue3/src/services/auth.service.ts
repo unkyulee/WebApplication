@@ -14,8 +14,6 @@ export default {
       let response = await rest.request(authUrl, data, "post");
       if (response.status == 200) {
         validated = true;
-        // save token to localStorage - token_public
-        console.log(response.data);
       } else {
         validated = false;
       }
@@ -50,6 +48,8 @@ export default {
       if (response.status != 200) {
         // clear localStorage
         localStorage.removeItem("token_public");
+      } else {
+        authenticated = true;
       }
     }
 

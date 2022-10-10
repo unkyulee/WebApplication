@@ -1,7 +1,7 @@
 const ObjectID = require("mongodb").ObjectID;
-const obj = require("object-path");
 const util = require("../../../lib/utility");
 const jwt = require("jsonwebtoken");
+const obj = require("object-path");
 
 module.exports = {
   async canModuleProcess(db, req, res) {
@@ -73,7 +73,7 @@ module.exports = {
             secret: req.app.locals.secret,
             issuer: req.get("host"),
             subject: req.headers["company_id"],
-            audience: req.get("host"),
+            audience: "user",
             expiresIn: "30d",
             id: user.id,
             name: user.name,
@@ -112,7 +112,11 @@ module.exports = {
         // decoded token will be saved as token in the res.locals
         res.locals.token = jwt.verify(token, req.app.locals.secret);
 
-        if (obj.get(res.locals.token, "groups")) {
+        // check if the token audience is user
+        if (
+          res.locals.token.aud == "user" &&
+          obj.get(res.locals.token, "groups")
+        ) {
           // if authentication is expiring soon then issue a new token
           // if half of the time is passed then renew
           let tokenSpan = res.locals.token.exp - res.locals.token.iat;
@@ -123,7 +127,7 @@ module.exports = {
               secret: req.app.locals.secret,
               issuer: req.get("host"),
               subject: req.headers["company_id"],
-              audience: req.get("host"),
+              audience: "user",
               expiresIn: "30d",
               id: res.locals.token.unique_name,
               name: res.locals.token.nameid,

@@ -41,6 +41,10 @@ module.exports = {
       else if (filename == "ui.element") {
         return await UIElement(db, req, res);
       }
+      // process ui element request
+      else if (filename == "page") {
+        return await Page(db, req, res);
+      }
       // otherwise return index.html
       return IndexHtml(db, req, res);
     }
@@ -68,12 +72,13 @@ async function IndexHtml(db, req, res) {
 // URL must be compose of /[feature]/[company]
 async function IndexJS(db, req, res) {
   // retrieve public config
-  let [theme] = await db.find("config", {
+  let [site_config] = await db.find("config", {
     query: { company_id: res.locals.company._id, type: "public" },
   });
-  if (theme) {
-    delete theme.company_id;
-    delete theme._id;
+  if (site_config) {
+    delete site_config.company_id;
+    delete site_config._id;
+    delete site_config.type;
   }
 
   // retrieve features and load navigation
@@ -100,11 +105,11 @@ async function IndexJS(db, req, res) {
 
   //
   let config = {
-    host: `${util.getProtocol(req)}://${req.get("host")}${req.baseUrl}`,
-    url: `${res.locals.nav.url}${res.locals.company.url}`,
-    theme,
+    ...site_config,
     nav,
     module,
+    host: `${util.getProtocol(req)}://${req.get("host")}${req.baseUrl}`,
+    url: `${res.locals.nav.url}${res.locals.company.url}`,
   };
 
   // remove unnecessaries
@@ -126,4 +131,28 @@ async function UIElement(db, req, res) {
     let results = await db.find("core.ui", { query: { _id: ObjectID(id) } });
     if (results && results.length > 0) return results[0];
   }
+}
+
+async function Page(db, req, res) {
+  let result;
+
+  let _id = obj.get(req.query, "_id");
+  let company_id = req.headers.company_id;
+
+  if (_id == "login") {
+    let results = await db.find("pages", {
+      query: {
+        page_type: "login",
+        company_id: ObjectID(company_id),
+      },
+    });
+    if (results && results.length > 0) result = results[0];
+  } else if (_id) {
+    let results = await db.find("pages", {
+      query: { _id: ObjectID(_id), company_id: ObjectID(company_id) },
+    });
+    if (results && results.length > 0) result = results[0];
+  }
+
+  return result;
 }

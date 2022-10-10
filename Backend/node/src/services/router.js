@@ -102,7 +102,7 @@ class Router {
         // found navigation
         nav = results[0];
       } else {
-        console.error("at least one core.company setup should exist", req.url);
+        //console.error("at least one core.company setup should exist", req.url);
       }
     }
 

@@ -53,8 +53,7 @@ module.exports = {
     // upload to google drive
     let response = await axios({
       method: "POST",
-      url:
-        "https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable",
+      url: "https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable",
       headers: {
         Authorization: `Bearer ${token.access_token}`,
       },
@@ -117,24 +116,25 @@ module.exports = {
         Authorization: `Bearer ${token.access_token}`,
       },
     });
+    try {
+      let file = await axios({
+        method: "GET",
+        responseType: "arraybuffer",
+        url: `https://www.googleapis.com/drive/v2/files/${file_id}?alt=media`,
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+        },
+      });
 
-    let file = await axios({
-      method: "GET",
-      responseType: "arraybuffer",
-      url: `https://www.googleapis.com/drive/v2/files/${file_id}?alt=media`,
-      headers: {
-        Authorization: `Bearer ${token.access_token}`,
-      },
-    });
-
-    // put some header
-    res.setHeader(
-      "Content-disposition",
-      `inline; filename=${encodeURIComponent(metadata.data.title)}`
-    );
-    for (let header of obj.get(params, "headers", [])) {
-      res.setHeader(header.key, header.value);
-    }
-    res.end(file.data, "binary");
+      // put some header
+      res.setHeader(
+        "Content-disposition",
+        `inline; filename=${encodeURIComponent(metadata.data.title)}`
+      );
+      for (let header of obj.get(params, "headers", [])) {
+        res.setHeader(header.key, header.value);
+      }
+      res.end(file.data, "binary");
+    } catch (ex) {}
   },
 };

@@ -5,6 +5,7 @@ module.exports = {
   provider: async function (db, res, req, params = {}) {
     let company_id = params.company_id;
     if (!company_id) company_id = obj.get(res, "locals.token.sub");
+    if (!company_id) company_id = req.headers.company_id;
     if (!company_id) {
       res.status(500);
       throw "storage provider failed: company_id does not exist";
