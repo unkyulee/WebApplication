@@ -39,23 +39,18 @@ export default defineComponent({
   },
   async mounted() {
     // load initial ui
-    let nav;
-    if (this.$route.path == "/" && this.config.get("nav", []).length > 0) {
-      // load from default navigation
-      nav = this.config.get("nav.0");
+    let navigations = this.config.get("navigations", []);
+    // find matching nav
+    let selected = navigations.find((x) => x.url == this.$route.path);
+    if (selected) {
+      // download page - page is for the root element
+      this.page = await this.ui.page(obj.get(selected, "pageId"));
+      console.log(`loading page - ${obj.get(selected, "pageId")}`);
+      this.ready = true; // start mounting ui
     } else {
-      // find matching nav
-      nav = this.config.get("nav", []).find((x) => x.url == this.$route.path);
+      //
+      console.error("selected nav not found");
     }
-    if (!nav) {
-      console.error("navigation loading failed");
-      return;
-    }
-
-    // download page - page is for the root element
-    this.page = await this.ui.page(obj.get(nav, "pageId"));
-    console.log(`loading page - ${obj.get(nav, "pageId")}`);
-    this.ready = true; // start mounting ui
 
     // listen to navigation-changed event
     this.event.subscribe("Content", "navigation-changed", async (event) => {

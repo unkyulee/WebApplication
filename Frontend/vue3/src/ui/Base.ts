@@ -2,7 +2,7 @@
 export default {
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui", "auth"],
-  created: function () {
+  created() {
     // run init if defined
     if (obj.get(this, "uiElement.init")) {
       try {
@@ -12,7 +12,17 @@ export default {
       }
     }
   },
-  destroyed: function () {
+  mounted() {
+    // run init if defined
+    if (obj.get(this, "uiElement.mounted")) {
+      try {
+        eval(this.uiElement.mounted);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
+  },
+  destroyed() {
     //
     this.event.unsubscribe_all(this._uid);
     //

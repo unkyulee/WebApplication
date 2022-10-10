@@ -23,11 +23,11 @@ ren .\wwwroot\index.html angular.html
 REM -------------------------------------------------------------
 REM Build vue app
 REM -------------------------------------------------------------
-pushd ..\..\Frontend\vue
+pushd ..\..\Frontend\vue3
 call build.bat
 popd
 
-xcopy /s /y ..\..\Frontend\vue\dist .\wwwroot
+xcopy /s /y ..\..\Frontend\vue3\dist .\wwwroot
 
 REM remove index.js
 del .\wwwroot\index.js

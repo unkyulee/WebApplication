@@ -12,6 +12,7 @@
   >
     <v-progress-circular indeterminate color="primary"></v-progress-circular>
     <div style="margin-top: 8px; color: dimgray" v-html="message"></div>
+    <v-alert v-if="error" type="error">{{ error }}</v-alert>
   </div>
 </template>
 
@@ -23,6 +24,7 @@ export default defineComponent({
   data() {
     return {
       message: "loading ...",
+      error: "",
     };
   },
 
@@ -73,18 +75,23 @@ export default defineComponent({
 
       //
       let navigations = this.config.get("navigations", []);
-
-      // selected navigations
-      if (this.$route.path == "/" && navigations.length > 0) {
-        // select the first navigation
-        this.$router.push(obj.get("navigations.0.url"));
+      if (navigations.length == 0) {
+        // error - NAVIGATION IS EMPTY
+        this.data.error = "NAVIGATION NOT SET";
+        return;
       } else {
         // find matching nav
         let selectedMenu = navigations.find((x) => x.url == this.$route.path);
 
         // select the first navigation
-        if (selectedMenu) this.$router.push(selectedMenu.url);
+        if (selectedMenu) {
+          this.$router.push(selectedMenu.url);
+        } else {
+          // select the first navigation
+          this.$router.push(obj.get(navigations, "0.url"));
+        }
       }
+
       //
     }
 

@@ -6,11 +6,13 @@ import { loadFonts } from "./plugins/webfontloader";
 
 // global js utility
 import * as obj from "object-path";
-window.obj = obj;
-import * as moment from "moment";
-window.moment = moment;
-import * as mustache from "mustache";
-window.mustache = mustache;
+window.obj = obj.default ? obj.default : obj;
+
+import moment from "moment";
+window.moment = moment.default ? moment.default : moment;
+
+import mustache from "mustache";
+window.mustache = mustache.default ? mustache.default : mustache;
 
 // styles
 import "../style.css";
