@@ -35,7 +35,7 @@
               "node_modules/angular-calendar/css/angular-calendar.css",
               "node_modules/material-design-icons/iconfont/material-icons.css",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
               "src/styles.scss"
             ],
@@ -46,6 +46,10 @@
             ]
           },
           "configurations": {
+            "dev": {
+              "optimization": false,
+              "buildOptimizer": false
+            },
             "production": {
               "optimization": true,
               "outputHashing": "all",
@@ -75,6 +79,9 @@
             "browserTarget": "angular:build"
           },
           "configurations": {
+            "dev": {
+              "browserTarget": "angular:build:dev"
+            },
             "production": {
               "browserTarget": "angular:build:production"
             }

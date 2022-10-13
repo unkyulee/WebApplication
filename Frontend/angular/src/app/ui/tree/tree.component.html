@@ -1,1 +1,2 @@
-<p-tree [value]="tree"></p-tree>
+<p-tree [value]="tree" [selectionMode]="safeGet(uiElement, 'selectionMode', 'single')" [(selection)]="selected">
+</p-tree>

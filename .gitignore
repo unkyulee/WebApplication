@@ -269,7 +269,6 @@ __pycache__/
 /Database/NodeJS/download
 Frontend/angular/src/index.html
 Frontend/angular/src/index.js
-Frontend/angular/package-lock.json
 /Frontend/cordova/config.xml
 /Backend/asp.netcore/Web.Application/wwwroot/*
 /Frontend/cordova/simulation
