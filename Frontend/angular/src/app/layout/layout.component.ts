@@ -25,7 +25,8 @@ import { UIComposerActionsComponent } from "../ui/ui-composer-actions/ui-compose
 })
 export class LayoutComponent
   extends BaseComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   constructor(
     private dialog: MatDialog,
     private bottomSheet: MatBottomSheet,
@@ -80,22 +81,8 @@ export class LayoutComponent
         case "close-dialog":
           // close dialog
           if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0) {
-            obj.set(
-              this.dialog.openDialogs[this.dialog.openDialogs.length - 1],
-              "componentInstance.data.closing",
-              true
-            );
             this.dialog.openDialogs[this.dialog.openDialogs.length - 1].close();
           }
-          this.event.send({ name: "changed" });
-          break;
-        case "close-all-dialog":
-          // close all dialog
-          if (this.dialog.openDialogs && this.dialog.openDialogs.length > 0)
-            for (let dialog of this.dialog.openDialogs) {
-              obj.set(dialog, "componentInstance.data.closing", true);
-              dialog.close();
-            }
           this.event.send({ name: "changed" });
           break;
         case "open-sheet":

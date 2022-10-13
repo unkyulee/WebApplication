@@ -48,7 +48,8 @@
           "configurations": {
             "dev": {
               "optimization": false,
-              "buildOptimizer": false
+              "buildOptimizer": false,
+              "sourceMap": true
             },
             "production": {
               "optimization": true,
