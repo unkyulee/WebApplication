@@ -25,7 +25,6 @@ export default defineComponent({
     };
   },
   mounted() {
-    console.log("mounted");
     if (this.config.get("color.background")) {
       this.main_style.background = this.config.get("color.background");
     }
