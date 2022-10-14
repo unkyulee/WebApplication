@@ -39,9 +39,6 @@ export default {
     return uiElement;
   },
 
-  timeout(ms) {
-    return new Promise((res) => setTimeout(res, ms));
-  },
   translate_type(uiElement) {
     switch (obj.get(uiElement, "type")) {
       case "layout":
@@ -64,6 +61,7 @@ export default {
         break;
     }
   },
+
   async compile(uiElement) {
     // if type is ui-element-id
     if (obj.get(uiElement, "type") == "ui-element-id") {

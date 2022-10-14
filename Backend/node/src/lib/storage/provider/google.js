@@ -109,14 +109,14 @@ module.exports = {
     let file_id = obj.get(params, "filepath");
 
     // download
-    let metadata = await axios({
-      method: "GET",
-      url: `https://www.googleapis.com/drive/v2/files/${file_id}`,
-      headers: {
-        Authorization: `Bearer ${token.access_token}`,
-      },
-    });
     try {
+      let metadata = await axios({
+        method: "GET",
+        url: `https://www.googleapis.com/drive/v2/files/${file_id}`,
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+        },
+      });
       let file = await axios({
         method: "GET",
         responseType: "arraybuffer",

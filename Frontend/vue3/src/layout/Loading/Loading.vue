@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="!splash"
     style="
       display: flex;
       flex-flow: column;
@@ -14,17 +15,30 @@
     <div style="margin-top: 8px; color: dimgray" v-html="message"></div>
     <v-alert v-if="error" type="error">{{ error }}</v-alert>
   </div>
+  <div v-if="splash" :style="splash_style" id="splash">
+    <v-img :src="splash" max-width="200px" max-height="200px">
+      <template v-slot:placeholder>
+        <v-row class="fill-height ma-0" align="center" justify="center">
+          <v-progress-circular
+            indeterminate
+            color="error"
+          ></v-progress-circular>
+        </v-row> </template
+    ></v-img>
+  </div>
 </template>
 
 <script lang="ts">
 // @ts-nocheck
 import { defineComponent } from "vue";
 export default defineComponent({
-  inject: ["config", "event", "rest", "ui", "auth"],
+  inject: ["config", "event", "rest", "ui", "auth", "util", "navigation"],
   data() {
     return {
       message: "loading ...",
       error: "",
+      splash: false,
+      splash_style: {},
     };
   },
 
@@ -39,8 +53,8 @@ export default defineComponent({
 
     // reload nav
     {
-      this.message = "reset navigation ...";
-      this.config.set("navigations", this.config.get("nav"));
+      this.message = "loading navigation ...";
+      await this.navigation.load();
     }
 
     // check if the app requires login
@@ -52,9 +66,10 @@ export default defineComponent({
       } else {
         this.message = "login info not discovered";
         // check if the navigation contains any public entry
-        let navigations = this.config.get("navigations", []);
-        if (navigations.find((x) => x.public == true)) {
+        let navigation = this.config.get("navigation", []);
+        if (navigation.length > 0) {
           // there is a page to display without login
+          //
         } else {
           // there is no page to display without login
           // login is required before entering the app
@@ -62,7 +77,7 @@ export default defineComponent({
 
           // display login screen
           // update the nav to the login screen
-          this.config.set("navigations", [
+          this.config.set("navigation", [
             { name: "Login", pageId: "login", url: "/" },
           ]);
         }
@@ -74,58 +89,46 @@ export default defineComponent({
       this.message = "loading initial page ...";
 
       //
-      let navigations = this.config.get("navigations", []);
-      if (navigations.length == 0) {
+      let navigation = this.config.get("navigation", []);
+      if (navigation.length == 0) {
         // error - NAVIGATION IS EMPTY
-        this.data.error = "NAVIGATION NOT SET";
+        this.error = "NAVIGATION NOT SET";
         return;
       } else {
         // find matching nav
-        let selectedMenu = navigations.find((x) => x.url == this.$route.path);
+        let selectedNav = navigation.find((x) => x.url == this.$route.path);
 
         // select the first navigation
-        if (selectedMenu) {
-          this.$router.push(selectedMenu.url);
+        if (selectedNav) {
+          this.$router.push(selectedNav.url);
         } else {
           // select the first navigation
-          this.$router.push(obj.get(navigations, "0.url"));
+          this.$router.push(obj.get(navigation, "0.url"));
         }
       }
 
       //
     }
 
-    /*
-// check if embed is passed
-        if (obj.get(this.$route, "query.embed")) {
-            // do not show navigation
-            this.show_navigation = false;
-            return;
-        } else {
-            // show navigation
-            this.show_navigation = true;
-        }
-
-        // load navigations
-        this.menu.navigations = this.config
-            .get("nav", [])
-            .filter((x) => x.type != "hidden");
-
-        // selected navigations
-        if (this.$route.path == "/" && this.config.get("nav", []).length > 0) {
-            // select the first navigation
-            this.$router.push(this.config.get("nav.0.url"));
-            // update selected navigation
-            this.menu.selected = this.config.get("nav.0");
-        }
-        else {
-            // find matching nav
-            this.menu.selected = this.config.get("nav", []).find((x) => x.url == this.$route.path);
-        }
-        //
-        console.log(`set initial navigation: ${this.menu.selected.url}`);
-        this.event.send({ name: "navigation-changed", data: this.menu });
-    */
+    {
+      // load splash
+      if (this.config.get("logo.large.0.url")) {
+        this.splash = `${this.config.get("host")}${this.config.get(
+          "logo.large.0.url"
+        )}&company_id=${this.config.get("_id")}`;
+        this.splash_style = {
+          ...this.splash_style,
+          background: this.config.get("color.primary"),
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          padding: "24px",
+          alignItems: "center",
+          justifyContent: "center",
+        };
+      }
+      await this.util.timeout(2000);
+    }
 
     //
     // LOADING COMPLETED
@@ -134,3 +137,24 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+@keyframes myAnimation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+
+#splash {
+  animation-name: myAnimation;
+  animation-duration: 2000ms;
+  animation-fill-mode: forwards;
+}
+</style>

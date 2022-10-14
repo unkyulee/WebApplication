@@ -7,14 +7,12 @@
 
 <script lang="ts">
 // @ts-nocheck
-import { defineComponent } from "vue";
-
-import * as obj from "object-path";
 
 // Components
 import Toolbar from "./Drawer/Toolbar.vue";
 import Drawer from "./Drawer/Drawer.vue";
 
+import { defineComponent } from "vue";
 export default defineComponent({
   inject: ["event", "config", "ui"],
   components: {
@@ -23,23 +21,35 @@ export default defineComponent({
   },
   data() {
     return {
-      show_navigation: false,
+      show_navigation: true,
       menu: {
-        navigations: [],
+        navigation: [],
         selected: null,
       },
     };
+  },
+  mounted() {
+    // initialize navigation
+    //
+    this.menu.navigation = this.config
+      .get("navigation", [])
+      .filter((x) => x.type != "hidden");
+    // find matching nav
+    this.menu.selected = this.config
+      .get("navigation", [])
+      .find((x) => x.url == this.$route.path);
+    //
   },
   watch: {
     // react to route changes...
     $route(to, from) {
       //
-      this.menu.navigations = this.config
-        .get("nav", [])
+      this.menu.navigation = this.config
+        .get("navigation", [])
         .filter((x) => x.type != "hidden");
       // find matching nav
       this.menu.selected = this.config
-        .get("nav", [])
+        .get("navigation", [])
         .find((x) => x.url == to.path);
       //
       this.event.send({ name: "navigation-changed", data: this.menu });

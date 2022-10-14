@@ -45,6 +45,10 @@ module.exports = {
       else if (filename == "page") {
         return await Page(db, req, res);
       }
+      // download navigation
+      else if (filename == "navigation") {
+        return await Navigation(db, req, res);
+      }
       // otherwise return index.html
       return IndexHtml(db, req, res);
     }
@@ -82,7 +86,6 @@ async function IndexJS(db, req, res) {
   }
 
   // retrieve features and load navigation
-  let nav = [];
   let module = {};
   let features = obj.get(res.locals.company, "public_features", []);
   for (let key of features) {
@@ -94,9 +97,6 @@ async function IndexJS(db, req, res) {
       });
       if (!feature_config) feature_config = {};
       if (feature_config && feature_config.enabled != false) {
-        // get navigation
-        let navigations = obj.get(feature, "public_navigations");
-        if (navigations) nav = [...nav, ...navigations];
         // add module config
         module[key] = feature_config.public;
       }
@@ -105,11 +105,11 @@ async function IndexJS(db, req, res) {
 
   //
   let config = {
-    ...site_config,
-    nav,
+    ...site_config.public,
     module,
     host: `${util.getProtocol(req)}://${req.get("host")}${req.baseUrl}`,
     url: `${res.locals.nav.url}${res.locals.company.url}`,
+    _id: res.locals.company._id,
   };
 
   // remove unnecessaries
@@ -152,6 +152,33 @@ async function Page(db, req, res) {
       query: { _id: ObjectID(_id), company_id: ObjectID(company_id) },
     });
     if (results && results.length > 0) result = results[0];
+  }
+
+  return result;
+}
+
+async function Navigation(db, req, res) {
+  let result;
+
+  // retrieve public config
+  let [site_config] = await db.find("config", {
+    query: { company_id: res.locals.company._id, type: "public" },
+  });
+  if (site_config) {
+    result = [];
+    let navigation = obj.get(site_config, "navigation", []);
+
+    // check authentication status
+    const auth = require("../services/auth/provider/client");
+    let isAuthenticated = await auth.isAuthenticated(db, req, res);
+
+    // filter out login status
+    for (let nav of navigation) {
+      if (nav.login && !isAuthenticated) continue;
+      if (nav.login_hide && isAuthenticated) continue;
+
+      result.push(nav);
+    }
   }
 
   return result;

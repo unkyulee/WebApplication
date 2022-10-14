@@ -2,7 +2,7 @@
   "name": "vue3",
   "version": "0.0.0",
   "scripts": {
-    "serve": "vite preview",
+    "serve": "vite",
     "build": "vite build",
     "build-only": "vite build",
     "dev": "vite",

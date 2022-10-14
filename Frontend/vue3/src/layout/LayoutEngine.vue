@@ -1,23 +1,41 @@
 <template>
   <v-app>
     <Navigation />
-    <v-main>
+    <v-main :style="main_style">
       <Content />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-
 // Components
 import Navigation from "./Navigation/Navigation.vue";
 import Content from "./Content/Content.vue";
 
+import { defineComponent } from "vue";
 export default defineComponent({
+  inject: ["event", "config", "ui"],
   components: {
     Navigation,
     Content,
   },
+  data() {
+    return {
+      main_style: {},
+    };
+  },
+  mounted() {
+    console.log("mounted");
+    if (this.config.get("color.background")) {
+      this.main_style.background = this.config.get("color.background");
+    }
+  },
 });
 </script>
+
+<style scoped>
+:deep() .v-main {
+  display: flex;
+  flex-flow: column;
+}
+</style>

@@ -65,7 +65,7 @@ import ColumnGroup from "primevue/columngroup";
 //import ConfirmationService from "primevue/confirmationservice/ConfirmationService";
 import ConfirmDialog from "primevue/confirmdialog";
 import ConfirmPopup from "primevue/confirmpopup";
-import ContextMenu from "primevue/contextmenu";
+
 //import DataTable from "primevue/datatable/DataTable";
 import DataView from "primevue/dataview";
 import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
@@ -189,7 +189,10 @@ app.component("Column", Column);
 app.component("ColumnGroup", ColumnGroup);
 app.component("ConfirmDialog", ConfirmDialog);
 app.component("ConfirmPopup", ConfirmPopup);
+
 app.component("ContextMenu", ContextMenu);
+import ContextMenu from "primevue/contextmenu";
+
 //app.component("DataTable", DataTable);
 app.component("DataView", DataView);
 app.component("DataViewLayoutOptions", DataViewLayoutOptions);

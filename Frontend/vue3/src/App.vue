@@ -13,6 +13,8 @@ import config from "./services/config.service";
 import ui from "./services/ui.service";
 import auth from "./services/auth.service";
 import rest from "./services/rest.service";
+import navigation from "./services/nav.service";
+import util from "./services/util.service";
 
 // ui
 import Loading from "./layout/Loading/Loading.vue";
@@ -24,6 +26,8 @@ export default defineComponent({
     ui,
     auth,
     rest,
+    navigation,
+    util,
   },
 
   components: {
