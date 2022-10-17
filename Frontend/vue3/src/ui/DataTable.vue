@@ -1,46 +1,49 @@
 <template>
-  <VirtualScroller
-    v-if="!uiElement.tableType || uiElement.tableType == 'virtual'"
-    :items="rows"
-    :itemSize="parseInt(safeGet(uiElement, 'itemHeight', 100))"
-    :style="uiElement.style"
-    :class="uiElement.class"
-  >
-    <template v-slot:item="{ item, options }">
+  <div :style="uiElement.layoutStyle" :class="uiElement.layoutClass">
+    <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
+    <VirtualScroller
+      v-if="!uiElement.tableType || uiElement.tableType == 'virtual'"
+      :items="rows"
+      :itemSize="parseInt(safeGet(uiElement, 'itemHeight', 100))"
+      :style="uiElement.style"
+      :class="uiElement.class"
+    >
+      <template v-slot:item="{ item, options }">
+        <div
+          :style="uiElement.itemBoxStyle"
+          :class="uiElement.itemBoxClass"
+          @click="click($event, uiElement, item)"
+        >
+          <ui-element
+            v-for="(column, index) in uiElement.columns"
+            :key="index"
+            :uiElement="column"
+            :data="item"
+          />
+        </div>
+      </template>
+    </VirtualScroller>
+
+    <div
+      v-if="uiElement.tableType == 'list'"
+      :style="uiElement.style"
+      :class="uiElement.class"
+    >
+      <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
       <div
+        v-for="(item, index) of rows"
+        :key="index"
         :style="uiElement.itemBoxStyle"
         :class="uiElement.itemBoxClass"
         @click="click($event, uiElement, item)"
       >
         <ui-element
           v-for="(column, index) in uiElement.columns"
-          :key="index"
-          :uiElement="column"
-          :data="item"
+          v-bind:key="index"
+          v-bind:uiElement="column"
+          v-bind:data="item"
         />
       </div>
-    </template>
-  </VirtualScroller>
-
-  <div
-    v-if="uiElement.tableType == 'list'"
-    :style="uiElement.style"
-    :class="uiElement.class"
-  >
-    <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
-    <div
-      v-for="(item, index) of rows"
-      :key="index"
-      :style="uiElement.itemBoxStyle"
-      :class="uiElement.itemBoxClass"
-      @click="click($event, uiElement, item)"
-    >
-      <ui-element
-        v-for="(column, index) in uiElement.columns"
-        v-bind:key="index"
-        v-bind:uiElement="column"
-        v-bind:data="item"
-      />
     </div>
   </div>
 </template>
@@ -65,18 +68,13 @@ export default defineComponent({
       obj.set(this.data, `${this.uiElement.key}_total`, 0);
 
       //
-      this.event.subscribe(this.uiElement.key, "refresh", (event) => {
+      this.event.subscribe(this._uid, "refresh", (event) => {
         if (event.key == this.uiElement.key) this.requestDownload();
       });
     }
 
     // download request
     this.requestDownload();
-  },
-  destroyed: function () {
-    if (this.uiElement.key) {
-      this.event.unsubscribe_all(this.uiElement.key);
-    }
   },
   methods: {
     async requestDownload() {
@@ -145,7 +143,7 @@ export default defineComponent({
             obj.set(this.data, this.uiElement.key, rows);
           }
         }
-      }, 1000);
+      }, 300);
     },
   },
   computed: {

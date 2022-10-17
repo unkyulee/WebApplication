@@ -20,9 +20,6 @@
 
 <script lang="ts">
 // @ts-nocheck
-import * as obj from "object-path";
-import * as moment from "moment";
-
 import { defineComponent } from "vue";
 export default defineComponent({
   inject: ["config", "event", "rest", "ui", "auth"],

@@ -4,13 +4,7 @@
     :color="uiElement.color"
     :style="uiElement.style"
     :class="uiElement.class"
-    :depressed="uiElement.depressed"
-    :rounded="uiElement.rounded"
-    :plain="uiElement.plain"
-    :fab="uiElement.fab"
-    :dark="uiElement.dark"
-    :small="uiElement.small"
-    :text="uiElement.text"
+    :variant="uiElement.variant"
     @click="click($event, uiElement, data)"
   >
     {{ label() }}
