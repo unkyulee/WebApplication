@@ -34,8 +34,8 @@ import vuetify from "./plugins/vuetify";
 app.use(vuetify);
 
 // prime vue
-import PrimeVue from "primevue/config";
-app.use(PrimeVue, { ripple: true });
+import primevue from "primevue/config";
+app.use(primevue, { ripple: true });
 
 import Accordion from "primevue/accordion";
 app.component("Accordion", Accordion);
@@ -61,6 +61,15 @@ app.component("PanelMenu", PanelMenu);
 import Sidebar from "primevue/sidebar";
 app.component("Sidebar", Sidebar);
 
+//import ConfirmDialog from "primevue/confirmdialog";
+//app.component("ConfirmDialog", ConfirmDialog);
+
+//import ConfirmPopup from "primevue/confirmpopup";
+//app.component("ConfirmPopup", ConfirmPopup);
+
+//import ConfirmationService from "primevue/confirmationservice";
+//app.use(ConfirmationService);
+
 //import Avatar from "primevue/avatar";
 //import AvatarGroup from "primevue/avatargroup";
 //import Badge from "primevue/badge";
@@ -79,9 +88,6 @@ app.component("Sidebar", Sidebar);
 //import ColorPicker from "primevue/colorpicker";
 //import Column from "primevue/column";
 //import ColumnGroup from "primevue/columngroup";
-//import ConfirmationService from "primevue/confirmationservice/ConfirmationService";
-//import ConfirmDialog from "primevue/confirmdialog";
-//import ConfirmPopup from "primevue/confirmpopup";
 
 //import DataTable from "primevue/datatable/DataTable";
 //import DataView from "primevue/dataview";
@@ -195,8 +201,6 @@ app.component("Sidebar", Sidebar);
 //app.component("ColorPicker", ColorPicker);
 //app.component("Column", Column);
 //app.component("ColumnGroup", ColumnGroup);
-//app.component("ConfirmDialog", ConfirmDialog);
-//app.component("ConfirmPopup", ConfirmPopup);
 
 //app.component("ContextMenu", ContextMenu);
 //import ContextMenu from "primevue/contextmenu";

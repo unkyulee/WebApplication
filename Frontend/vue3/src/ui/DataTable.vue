@@ -64,7 +64,7 @@ export default defineComponent({
     // subscribe to refresh
     if (this.uiElement.key) {
       //
-      obj.set(this.data, this.uiElement.key, []);
+      obj.ensureExists(this.data, this.uiElement.key, []);
       obj.set(this.data, `${this.uiElement.key}_total`, 0);
 
       //
