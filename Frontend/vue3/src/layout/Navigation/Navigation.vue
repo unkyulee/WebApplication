@@ -14,7 +14,7 @@ import Drawer from "./Drawer/Drawer.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
-  inject: ["event", "config", "ui"],
+  inject: ["event", "config", "ui", "nav"],
   components: {
     Toolbar,
     Drawer,
@@ -35,24 +35,36 @@ export default defineComponent({
       .get("navigation", [])
       .filter((x) => x.type != "hidden");
     // find matching nav
-    this.menu.selected = this.config
-      .get("navigation", [])
-      .find((x) => x.url == this.$route.path);
+    this.menu.selected = this.nav.find(
+      this.config.get("navigation", []),
+      this.$route.path
+    );
+
     //
   },
   watch: {
     // react to route changes...
     $route(to, from) {
       //
-      this.menu.navigation = this.config
-        .get("navigation", [])
-        .filter((x) => x.type != "hidden");
-      // find matching nav
-      this.menu.selected = this.config
-        .get("navigation", [])
-        .find((x) => x.url == to.path);
+      this.menu.navigation = this.config.get("navigation", []);
+
+      // make an exception for login screen
+      if (to.path == "/login") {
+        //
+        this.menu.selected = { name: "Login", pages: ["login"], url: "/login" };
+        //
+      } else {
+        // find matching nav
+        this.menu.selected = this.nav.find(
+          this.config.get("navigation", []),
+          this.$route.path
+        );
+        //
+      }
+
       //
       this.event.send({ name: "navigation-changed", data: this.menu });
+      //
     },
   },
 });

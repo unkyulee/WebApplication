@@ -32,7 +32,7 @@
 // @ts-nocheck
 import { defineComponent } from "vue";
 export default defineComponent({
-  inject: ["config", "event", "rest", "ui", "auth", "util", "navigation"],
+  inject: ["config", "event", "rest", "ui", "auth", "util", "nav"],
   data() {
     return {
       message: "loading ...",
@@ -54,7 +54,7 @@ export default defineComponent({
     // reload nav
     {
       this.message = "loading navigation ...";
-      await this.navigation.load();
+      await this.nav.load();
     }
 
     // check if the app requires login
@@ -78,7 +78,7 @@ export default defineComponent({
           // display login screen
           // update the nav to the login screen
           this.config.set("navigation", [
-            { name: "Login", pageId: "login", url: "/" },
+            { name: "Login", pages: ["login"], url: "/login" },
           ]);
         }
       }
@@ -95,8 +95,16 @@ export default defineComponent({
         this.error = "NAVIGATION NOT SET";
         return;
       } else {
+        let path = this.$route.path;
+
+        if (this.$route.path == "/login" && this.$route.query.r) {
+          // exception for login redirect
+          path = this.$route.query.r;
+        }
+
         // find matching nav
-        let selectedNav = navigation.find((x) => x.url == this.$route.path);
+        let selectedNav = this.nav.find(navigation, path);
+        console.log(selectedNav);
 
         // select the first navigation
         if (selectedNav) {

@@ -21,7 +21,7 @@ import Timer from "../../ui/Timer.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
-  inject: ["config", "event", "rest", "ui", "auth"],
+  inject: ["config", "event", "rest", "ui", "auth", "nav"],
   components: {
     UiElement,
     DialogOverlay,
@@ -40,8 +40,9 @@ export default defineComponent({
   async mounted() {
     // load initial ui
     let navigation = this.config.get("navigation", []);
+
     // find matching nav
-    let selected = navigation.find((x) => x.url == this.$route.path);
+    let selected = this.nav.find(navigation, this.$route.path);
     if (selected) {
       // download page - page is for the root element
       this.page = await this.ui.page(obj.get(selected, "pages.0"));
@@ -58,7 +59,6 @@ export default defineComponent({
         this.ready = false; // unload ui
         this.data = {}; // reset data
         // download uiElement
-
         this.page = await this.ui.page(obj.get(event, "data.selected.pages.0"));
         console.log(
           `loading page - ${obj.get(event, "data.selected.pages.0")}`

@@ -12,4 +12,21 @@ export default {
 
     return response.data;
   },
+
+  find(children, url) {
+    let found;
+    for (let child of children) {
+      if (child.url == url) {
+        found = child;
+        break;
+      }
+      // search in children
+      if (child.children) {
+        found = this.find(child.children, url);
+        if (found) break;
+      }
+    }
+
+    return found;
+  },
 };

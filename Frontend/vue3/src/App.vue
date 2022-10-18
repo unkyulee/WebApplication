@@ -13,7 +13,7 @@ import config from "./services/config.service";
 import ui from "./services/ui.service";
 import auth from "./services/auth.service";
 import rest from "./services/rest.service";
-import navigation from "./services/nav.service";
+import nav from "./services/nav.service";
 import util from "./services/util.service";
 
 // ui
@@ -26,7 +26,7 @@ export default defineComponent({
     ui,
     auth,
     rest,
-    navigation,
+    nav,
     util,
   },
 

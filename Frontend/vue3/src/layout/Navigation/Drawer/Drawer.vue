@@ -58,6 +58,8 @@ export default defineComponent({
       let _items = [];
       if (parent && parent.children && parent.children.length > 0) {
         for (let child of parent.children) {
+          if (child.hidden) continue;
+
           _items.push({
             label: child.name,
             icon: child.icon,
