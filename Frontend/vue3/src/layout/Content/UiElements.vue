@@ -8,7 +8,6 @@
     <ui-element
       v-for="(ui, index) in uiElement.screens"
       v-if="condition(ui)"
-      :key="index"
       :is="ui.type"
       :data="data"
       :uiElement="ui"
@@ -21,8 +20,6 @@
 
 <script lang="ts">
 // @ts-nocheck
-import * as obj from "object-path";
-import * as moment from "moment";
 
 //
 import Base from "../../ui/Base";

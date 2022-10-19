@@ -49,7 +49,7 @@
       :label="label()"
       :type="uiElement.inputType"
       :readonly="uiElement.readonly"
-      :hide-details="safeGet(uiElement, 'hideDetails', false)"
+      :hide-details="safeGet(uiElement, 'hideDetails', 'auto')"
       @click:append="safeEval(uiElement.appendIconClick)"
       @click:append-outer="safeEval(uiElement.appendOuterIconClick)"
       @click:prepend="safeEval(uiElement.prependIconClick)"

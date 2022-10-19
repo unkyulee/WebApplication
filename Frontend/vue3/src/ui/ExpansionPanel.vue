@@ -5,14 +5,13 @@
     :style="uiElement.style"
     :activeIndex="uiElement.activePanel"
   >
-    <AccordionTab v-for="(panel, i) in uiElement.panels" :key="i">
+    <AccordionTab v-for="(panel, i) in uiElement.panels">
       <template #header>
         <div v-html="panel.header.label" :style="uiElement.headerStyle"></div>
       </template>
 
       <ui-element
-        v-for="(ui, index) in panel.screens"
-        :key="index"
+        v-for="ui in panel.screens"
         :uiElement="ui"
         :data="data"
         :class="ui.layoutClass"

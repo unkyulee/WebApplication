@@ -9,7 +9,6 @@
   >
     <ui-element
       v-for="(ui, index) in uiElement.screens"
-      :key="index"
       :uiElement="ui"
       :data="data"
       :class="ui.layoutClass"

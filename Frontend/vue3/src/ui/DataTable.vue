@@ -16,7 +16,6 @@
         >
           <ui-element
             v-for="(column, index) in uiElement.columns"
-            :key="index"
             :uiElement="column"
             :data="item"
           />
@@ -31,17 +30,15 @@
     >
       <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
       <div
-        v-for="(item, index) of rows"
-        :key="index"
+        v-for="item of rows"
         :style="uiElement.itemBoxStyle"
         :class="uiElement.itemBoxClass"
         @click="click($event, uiElement, item)"
       >
         <ui-element
-          v-for="(column, index) in uiElement.columns"
-          v-bind:key="index"
-          v-bind:uiElement="column"
-          v-bind:data="item"
+          v-for="column in uiElement.columns"
+          :uiElement="column"
+          :data="item"
         />
       </div>
     </div>

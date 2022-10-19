@@ -7,7 +7,7 @@
     :class="uiElement.class"
     :style="uiElement.style"
   >
-    <v-tab v-for="(tab, index) in tabs" :key="index" @click="click(tab)">
+    <v-tab v-for="tab in tabs" @click="click(tab)">
       <v-icon v-if="tab.icon">{{ tab.icon }}</v-icon>
       {{ tab.name }}
     </v-tab>

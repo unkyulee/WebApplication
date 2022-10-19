@@ -26,7 +26,9 @@ export default {
     return validated;
   },
 
-  async logout() {},
+  async logout() {
+    localStorage.removeItem("token_public");
+  },
 
   async isAuthenticated() {
     let authenticated = false;
@@ -54,5 +56,23 @@ export default {
     }
 
     return authenticated;
+  },
+
+  client() {
+    //
+    let token = localStorage.getItem("token_public");
+
+    // do jwt decode
+    if (token) {
+      let base64Url = token.split(".")[1];
+      let base64 = base64Url.replace("-", "+").replace("_", "/");
+
+      let user = JSON.parse(window.atob(base64));
+
+      return {
+        email: user.unique_name,
+        name: user.nameid,
+      };
+    }
   },
 };

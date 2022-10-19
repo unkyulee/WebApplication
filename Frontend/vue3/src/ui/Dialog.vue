@@ -9,8 +9,7 @@
   >
     <div :style="uiElement.layoutStyle">
       <ui-element
-        v-for="(ui, index) in uiElement.screens"
-        v-bind:key="index"
+        v-for="ui in uiElement.screens"
         v-bind:uiElement="ui"
         v-bind:data="data"
       />

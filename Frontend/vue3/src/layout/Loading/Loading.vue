@@ -104,7 +104,6 @@ export default defineComponent({
 
         // find matching nav
         let selectedNav = this.nav.find(navigation, path);
-        console.log(selectedNav);
 
         // select the first navigation
         if (selectedNav) {

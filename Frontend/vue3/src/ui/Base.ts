@@ -4,9 +4,14 @@ export default {
   inject: ["config", "event", "rest", "ui", "auth"],
   created() {
     // run init if defined
-    if (obj.get(this, "uiElement.init")) {
+    if (
+      obj.get(this, "uiElement.init") &&
+      typeof this.ready == "undefined" // when the instance type is converted by "is"
+    ) {
       try {
+        //
         eval(this.uiElement.init);
+        //
       } catch (ex) {
         console.error(ex);
       }
@@ -14,7 +19,10 @@ export default {
   },
   mounted() {
     // run init if defined
-    if (obj.get(this, "uiElement.mounted")) {
+    if (
+      obj.get(this, "uiElement.mounted") &&
+      typeof this.ready == "undefined" // when the instance type is converted by "is"
+    ) {
       try {
         eval(this.uiElement.mounted);
       } catch (ex) {

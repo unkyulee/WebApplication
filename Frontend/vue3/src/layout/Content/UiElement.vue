@@ -12,12 +12,6 @@
 
 <script lang="ts">
 // @ts-nocheck
-
-// implict reference
-import * as obj from "object-path";
-import * as moment from "moment";
-
-//
 import Base from "../../ui/Base";
 import UiElements from "./UiElements.vue";
 import Typography from "../../ui/Typography.vue";
