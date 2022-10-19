@@ -26,6 +26,11 @@ loadFonts();
 // app creation
 const app = createApp(App);
 
+// Datepicker
+import Datepicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+app.component("Datepicker", Datepicker);
+
 // ui-imports
 import UiElement from "./layout/Content/UiElement.vue";
 app.component("ui-element", UiElement);

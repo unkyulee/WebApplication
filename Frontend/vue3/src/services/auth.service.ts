@@ -1,6 +1,7 @@
 // @ts-nocheck
 import rest from "./rest.service";
 import config from "./config.service";
+import event from "./event.service";
 
 export default {
   async login(data) {
@@ -28,6 +29,7 @@ export default {
 
   async logout() {
     localStorage.removeItem("token_public");
+    event.send({ name: "init" });
   },
 
   async isAuthenticated() {
@@ -74,5 +76,11 @@ export default {
         name: user.nameid,
       };
     }
+  },
+
+  async id(email) {
+    let response = await rest.request(`/api/public/client?email=${email}`);
+
+    return obj.get(response, "data.data.0.id");
   },
 };
