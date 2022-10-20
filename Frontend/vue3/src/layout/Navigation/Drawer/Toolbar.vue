@@ -6,8 +6,8 @@
     </template>
 
     <!-- Title -->
-    <v-app-bar-title>
-      <v-img v-if="logo" :src="logo" :max-height="50" :max-width="120"> </v-img>
+    <v-app-bar-title style="display: flex">
+      <img v-if="logo" :src="logo" style="max-height: 38px" />
       <div v-if="!logo">{{ title }}</div>
     </v-app-bar-title>
 
