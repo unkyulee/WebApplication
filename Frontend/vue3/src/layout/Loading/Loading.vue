@@ -13,7 +13,9 @@
   >
     <v-progress-circular indeterminate color="primary"></v-progress-circular>
     <div style="margin-top: 8px; color: dimgray" v-html="message"></div>
-    <v-alert v-if="error" type="error">{{ error }}</v-alert>
+    <v-alert v-if="error" type="error" style="max-height: 120px; width: 90vw">{{
+      error
+    }}</v-alert>
   </div>
   <div v-if="splash" :style="splash_style" id="splash">
     <v-img :src="splash" max-width="200px" max-height="200px">
