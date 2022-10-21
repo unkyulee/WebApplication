@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navigation />
+    <Navigation v-if="config.get('navigation', []).length > 0" />
     <v-main :style="main_style">
       <Content />
     </v-main>
@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-// Components
+// @ts-nocheck
 import Navigation from "./Navigation/Navigation.vue";
 import Content from "./Content/Content.vue";
 

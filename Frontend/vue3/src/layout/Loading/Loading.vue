@@ -53,6 +53,20 @@ export default defineComponent({
       this.message = `set locale to <b>${this.config.get("locale")}</b>`;
     }
 
+    // check if embed is passed
+    if (this.nav.is_embed()) {
+      console.log("embed detected");
+      // hide the navigation
+      this.config.set("embed", true);
+      this.config.set("navigation", []);
+
+      //////////////////
+      // STOPS HERE
+      //////////////////
+      this.event.send({ name: "loading-completed" });
+      return;
+    }
+
     // reload nav
     {
       this.message = "loading navigation ...";
@@ -142,7 +156,7 @@ export default defineComponent({
     //
     // LOADING COMPLETED
     //
-    this.event.send({ name: "loading-completed" });
+    //this.event.send({ name: "loading-completed" });
   },
 });
 </script>

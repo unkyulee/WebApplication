@@ -29,4 +29,11 @@ export default {
 
     return found;
   },
+
+  is_embed() {
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+
+    return urlParams.has("embed");
+  },
 };

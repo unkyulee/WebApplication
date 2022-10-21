@@ -1,5 +1,5 @@
 <template>
-  <div v-if="show_navigation">
+  <div v-if="menu.navigation.length > 0">
     <Toolbar />
     <Drawer :menu="menu" />
   </div>
@@ -21,16 +21,13 @@ export default defineComponent({
   },
   data() {
     return {
-      show_navigation: true,
       menu: {
         navigation: [],
         selected: null,
       },
     };
   },
-  mounted() {
-    // initialize navigation
-    //
+  created() {
     this.menu.navigation = this.config
       .get("navigation", [])
       .filter((x) => x.type != "hidden");
@@ -39,8 +36,6 @@ export default defineComponent({
       this.config.get("navigation", []),
       this.$route.path
     );
-
-    //
   },
   watch: {
     // react to route changes...
