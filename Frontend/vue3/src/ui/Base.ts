@@ -59,7 +59,7 @@ export default {
         try {
           eval(this.uiElement.click);
         } catch (ex) {
-          console.error(ex);
+          console.error(ex, this.uiElement, this.uiElement.click);
         }
       }
     },
