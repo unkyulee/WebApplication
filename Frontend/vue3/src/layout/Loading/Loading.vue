@@ -156,7 +156,7 @@ export default defineComponent({
     //
     // LOADING COMPLETED
     //
-    //this.event.send({ name: "loading-completed" });
+    this.event.send({ name: "loading-completed" });
   },
 });
 </script>

@@ -6,9 +6,8 @@
     :max-height="uiElement.maxHeight"
     :width="uiElement.width"
     :max-width="uiElement.maxWidth"
-    :contain="uiElement.contain"
     :src="safeEval(uiElement.src)"
-    :cover="safeGet(uiElement, 'cover', true)"
+    :cover="safeGet(uiElement, 'cover', false)"
     lazy-src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
     @click="click($event)"
   >
