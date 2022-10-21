@@ -57,7 +57,7 @@ export default defineComponent({
       loading: false,
     };
   },
-  created: function () {
+  async created() {
     // subscribe to refresh
     if (this.uiElement.key) {
       //
@@ -65,13 +65,13 @@ export default defineComponent({
       obj.set(this.data, `${this.uiElement.key}_total`, 0);
 
       //
-      this.event.subscribe(this._uid, "refresh", (event) => {
-        if (event.key == this.uiElement.key) this.requestDownload();
+      this.event.subscribe(this._uid, "refresh", async (event) => {
+        if (event.key == this.uiElement.key) await this.requestDownload();
       });
     }
 
     // download request
-    this.requestDownload();
+    await this.requestDownload();
   },
   methods: {
     async requestDownload() {
@@ -81,11 +81,12 @@ export default defineComponent({
         if (this.uiElement.src) {
           let src = this.uiElement.src;
           try {
-            src = eval(src);
+            src = await eval(src);
           } catch (ex) {
             //
             console.error(ex);
           }
+          if (!src) return;
 
           let method = obj.get(this.uiElement, "method", "get");
 
