@@ -6,7 +6,18 @@ RD /Q /S .\wwwroot
 MD .\wwwroot
 
 
+REM -------------------------------------------------------------
+REM Build angular app
+REM -------------------------------------------------------------
+pushd ..\..\Frontend\angular
+call build.bat
+popd
 
+xcopy /s /y ..\..\Frontend\angular\dist .\wwwroot
+
+REM remove index.js
+del .\wwwroot\index.js
+ren .\wwwroot\index.html angular.html
 
 
 REM -------------------------------------------------------------
