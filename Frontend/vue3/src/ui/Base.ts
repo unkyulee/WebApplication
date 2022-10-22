@@ -5,7 +5,8 @@ export default {
   created() {
     // run init if defined
     if (
-      obj.get(this, "uiElement.init") &&
+      this.uiElement &&
+      this.uiElement.init &&
       typeof this.ready == "undefined" // when the instance type is converted by "is"
     ) {
       try {
@@ -20,7 +21,8 @@ export default {
   mounted() {
     // run init if defined
     if (
-      obj.get(this, "uiElement.mounted") &&
+      this.uiElement &&
+      this.uiElement.mounted &&
       typeof this.ready == "undefined" // when the instance type is converted by "is"
     ) {
       try {

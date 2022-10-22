@@ -14,7 +14,7 @@ import Content from "./Content/Content.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
-  inject: ["event", "config", "ui"],
+  inject: ["event", "config", "ui", "auth", "rest", "nav", "util"],
   components: {
     Navigation,
     Content,

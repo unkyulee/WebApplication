@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from "vue-router";
+// @ts-nocheck
+import { createRouter, createWebHashHistory } from "vue-router";
 import LayoutEngine from "../layout/LayoutEngine.vue";
-import config from "../services/config.service";
 
 const router = createRouter({
-  history: createWebHistory(config.get("url")),
+  history: createWebHashHistory(),
   routes: [
     {
       path: "/:catchAll(.*)",
