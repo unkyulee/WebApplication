@@ -54,6 +54,12 @@ export default defineComponent({
       }
     }
 
+    //
+    // check if init data is passed on
+    if(this.config.get("data")) {
+      this.data = this.config.get("data");
+    }
+
     // load initial ui
     let navigation = this.config.get("navigation", []);
     if (navigation.length > 0) {
@@ -74,7 +80,8 @@ export default defineComponent({
     this.event.subscribe("Content", "navigation-changed", async (event) => {
       if (obj.get(event, "data.selected")) {
         this.ready = false; // unload ui
-        this.data = {}; // reset data
+        this.data = {}; // reset data          
+
         // download uiElement
         this.page = await this.ui.page(obj.get(event, "data.selected.pages.0"));
         console.log(

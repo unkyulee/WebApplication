@@ -122,15 +122,24 @@ export default defineComponent({
         let selectedNav = this.nav.find(navigation, path);
 
         // select the first navigation
-        if (selectedNav) {
-          this.$router.push(selectedNav.url);
-        } else {
+        if (!selectedNav) {
           // select the first navigation
           this.$router.push(obj.get(navigation, "0.url"));
+        } 
+      }
+      //
+    }
+
+    {
+      // load initial script
+      if(this.config.get("script.init")) {
+        try {
+          await eval(this.config.get("script.init"))
+        } catch(ex) {
+          console.error(ex);
+          return;
         }
       }
-
-      //
     }
 
     {

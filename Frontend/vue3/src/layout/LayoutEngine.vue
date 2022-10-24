@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navigation v-if="config.get('navigation', []).length > 0" />
+    <Navigation v-if="show_nav" />
     <v-main :style="main_style">
       <Content />
     </v-main>
@@ -28,6 +28,14 @@ export default defineComponent({
     if (this.config.get("color.background")) {
       this.main_style.background = this.config.get("color.background");
     }
+  },
+  computed: {
+    show_nav() {
+      return (
+        this.config.get("navigation", []).length > 0 &&
+        this.config.get("hide_navigation") != true
+      );
+    },
   },
 });
 </script>
