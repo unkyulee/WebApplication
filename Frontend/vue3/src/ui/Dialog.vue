@@ -5,15 +5,14 @@
     :width="option.width"
     :max-width="option.maxWidth"
     :height="option.height"
-    :max-height="option.maxHeight"
+    :max-height="option.maxHeight"    
   >
-    <div :style="uiElement.layoutStyle">
-      <ui-element
-        v-for="ui in uiElement.screens"
-        v-bind:uiElement="ui"
-        v-bind:data="data"
-      />
-    </div>
+    <ui-element      
+      :uiElement="uiElement"
+      :data="data"
+      :style="uiElement.layoutStyle"
+      :class="uiElement.layoutClass"
+    />
   </v-dialog>
 </template>
 
