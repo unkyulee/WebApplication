@@ -76,6 +76,11 @@ export default defineComponent({
       }
     }
 
+    this.event.subscribe("Content", "data", async (event) => {
+      if(event.data) this.data = { ...event.data };
+    });
+
+
     // listen to navigation-changed event
     this.event.subscribe("Content", "navigation-changed", async (event) => {
       if (obj.get(event, "data.selected")) {
