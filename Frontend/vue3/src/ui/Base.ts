@@ -2,7 +2,7 @@
 export default {
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui", "auth"],
-  created() {
+  async created() {
     // run init if defined
     if (
       this.uiElement &&
@@ -11,14 +11,14 @@ export default {
     ) {
       try {
         //
-        eval(this.uiElement.init);
+        await eval(this.uiElement.init);
         //
       } catch (ex) {
         console.error(ex);
       }
     }
   },
-  mounted() {
+  async mounted() {
     // run init if defined
     if (
       this.uiElement &&
@@ -26,7 +26,7 @@ export default {
       typeof this.ready == "undefined" // when the instance type is converted by "is"
     ) {
       try {
-        eval(this.uiElement.mounted);
+        await eval(this.uiElement.mounted);
       } catch (ex) {
         console.error(ex);
       }

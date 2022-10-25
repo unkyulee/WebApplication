@@ -1,34 +1,18 @@
 <template>
-  <Galleria
-    :value="uiElement.images"
-    :showItemNavigators="safeGet(uiElement, 'showItemNavigators', true)"
-    :showThumbnails="safeGet(uiElement, 'showThumbnails', true)"
-    :style="uiElement.style"
-    :class="uiElement.class"
-  >
+  <Galleria :value="images">
     <template #item="slotProps">
-      <v-img
-        :class="uiElement.imageClass"
+      <img
+        :src="src(slotProps.item)"
+        :alt="slotProps.item.alt"
         :style="uiElement.imageStyle"
-        :height="uiElement.height"
-        :max-height="uiElement.maxHeight"
-        :width="uiElement.width"
-        :max-width="uiElement.maxWidth"
-        :contain="uiElement.contain"
-        :src="slotProps.item.src"
-        :cover="safeGet(uiElement, 'cover', true)"
-        lazy-src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-        @click="click($event)"
-      >
-        <template v-slot:placeholder>
-          <v-row class="fill-height ma-0" align="center" justify="center">
-            <v-progress-circular
-              indeterminate
-              color="error"
-            ></v-progress-circular>
-          </v-row>
-        </template>
-      </v-img>
+      />
+    </template>
+    <template #thumbnail="slotProps">
+      <img
+        :src="src(slotProps.item)"
+        :alt="slotProps.item.alt"
+        :style="uiElement.thumbnailStyle"
+      />
     </template>
   </Galleria>
 </template>
@@ -39,5 +23,21 @@ import Base from "./Base";
 import { defineComponent } from "vue";
 export default defineComponent({
   extends: Base,
+  methods: {
+    src(item) {
+      let _src;
+      try {
+        _src = eval(this.uiElement.src);
+      } catch (ex) {
+        console.error(ex, item.src);
+      }
+      return _src;
+    },
+  },
+  computed: {
+    images() {
+      return obj.get(this.data, this.uiElement.key);
+    },
+  },
 });
 </script>

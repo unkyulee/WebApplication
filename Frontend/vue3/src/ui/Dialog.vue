@@ -42,7 +42,7 @@ export default defineComponent({
       // process init
       if (this.uiElement.init) {
         try {
-          eval(this.uiElement.init);
+          await eval(this.uiElement.init);
         } catch (ex) {
           console.error(this.uiElement.init, ex);
         }

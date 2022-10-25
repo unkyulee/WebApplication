@@ -37,6 +37,28 @@ export default defineComponent({
       data: {},
     };
   },
+  async created() {
+    this.event.subscribe("Content", "data", async (event) => {
+      if (event.data) {        
+        this.data = { ...event.data };
+      }
+    });
+
+    // listen to navigation-changed event
+    this.event.subscribe("Content", "navigation-changed", async (event) => {
+      if (obj.get(event, "data.selected")) {
+        this.ready = false; // unload ui
+        this.data = {}; // reset data
+
+        // download uiElement
+        this.page = await this.ui.page(obj.get(event, "data.selected.pages.0"));
+        console.log(
+          `loading page - ${obj.get(event, "data.selected.pages.0")}`
+        );
+        this.ready = true; // start mounting ui
+      }
+    });
+  },
   async mounted() {
     // check embed
     if (this.nav.is_embed()) {
@@ -56,7 +78,7 @@ export default defineComponent({
 
     //
     // check if init data is passed on
-    if(this.config.get("data")) {
+    if (this.config.get("data")) {
       this.data = this.config.get("data");
     }
 
@@ -75,26 +97,6 @@ export default defineComponent({
         console.error("selected nav not found");
       }
     }
-
-    this.event.subscribe("Content", "data", async (event) => {
-      if(event.data) this.data = { ...event.data };
-    });
-
-
-    // listen to navigation-changed event
-    this.event.subscribe("Content", "navigation-changed", async (event) => {
-      if (obj.get(event, "data.selected")) {
-        this.ready = false; // unload ui
-        this.data = {}; // reset data          
-
-        // download uiElement
-        this.page = await this.ui.page(obj.get(event, "data.selected.pages.0"));
-        console.log(
-          `loading page - ${obj.get(event, "data.selected.pages.0")}`
-        );
-        this.ready = true; // start mounting ui
-      }
-    });
   },
 
   destroyed: function () {
