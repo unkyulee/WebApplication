@@ -112,10 +112,12 @@ export default defineComponent({
         return;
       } else {
         let path = this.$route.path;
-
+        
         if (this.$route.path == "/login" && this.$route.query.r) {
           // exception for login redirect
           path = this.$route.query.r;
+          // select the first navigation
+          this.$router.push(path);
         }
 
         // find matching nav
