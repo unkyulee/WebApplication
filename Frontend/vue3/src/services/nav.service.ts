@@ -31,9 +31,13 @@ export default {
   },
 
   is_embed() {
-    let queryString = window.location.search;
+    let queryString = window.location.hash;
+    if(queryString) {
+      queryString = queryString.replace("#", "");
+      queryString = queryString.replace("/", "");
+    }
     let urlParams = new URLSearchParams(queryString);
-
+    
     return urlParams.has("embed");
   },
 };
