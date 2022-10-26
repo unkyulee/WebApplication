@@ -1,12 +1,12 @@
 const sqlite3 = require("sqlite3");
 
 module.exports = {
-  createTable(path, table, schema) {
-    let db;
-    try {
-      // open db
-      db = new sqlite3.Database(path);
+  init(path) {    
+    return new sqlite3.Database(path);
+  },
 
+  createTable(db, table, schema) {    
+    try {      
       // form columns
       let columns = schema
         .map((x) => {
@@ -20,20 +20,11 @@ module.exports = {
       });
     } catch (ex) {
       console.error(ex);
-    } finally {
-      if (db) {
-        // close db
-        db.close();
-      }
-    }
+    } 
   },
 
-  import(path, table, schema, rows) {
-    let db;
+  async import(db, table, schema, rows) {    
     try {
-      // open db
-      db = new sqlite3.Database(path);
-
       // prepare columns
       let inserts = schema
         .filter((x) => x.skip_insert != true)
@@ -45,30 +36,31 @@ module.exports = {
         .map((x) => x.field)
         .join();
 
-      // insert rows
-      db.serialize(() => {
-        const stmt = db.prepare(
+      // insert rows      
+      let stmt;
+      for (let row of rows) {
+        stmt = db.prepare(
           `INSERT INTO ${table} (${columns}) VALUES (${inserts})`
         );
-        for (let row of rows) {
-          // preapre an array according to the schema
-          let params = [];
-          for (let column of schema) {
-            if (column.skip_insert) continue;
-            if (row[column.field]) params.push(row[column.field]);
-            else params.push("");
-          }          
-          stmt.run(params);          
+
+        // preapre an array according to the schema
+        let params = [];
+        for (let column of schema) {
+          if (column.skip_insert) continue;
+          if (row[column.field]) {
+            // clean the text to be safe 
+            if (typeof row[column.field] === "string" || row[column.field] instanceof String) {
+              row[column.field] = row[column.field].replace(/[]*/g, "");
+            }
+            params.push(row[column.field]);
+          }
+          else params.push("");
         }
-        stmt.finalize();
-      });
+        await stmt.run(params);
+      }
+      if (stmt) await stmt.finalize();
     } catch (ex) {
       console.error(ex);
-    } finally {
-      if (db) {
-        // close db
-        db.close();
-      }
-    }
+    } 
   },
 };

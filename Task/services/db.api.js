@@ -21,8 +21,8 @@ module.exports = {
         if (process) for (let row of parts.data) await process(row);
 
         // append to rows
-        rows = [...rows, ...parts.data];
-        break;
+        rows = [...rows, ...parts.data];      
+        break;          
       }
 
       return rows;
