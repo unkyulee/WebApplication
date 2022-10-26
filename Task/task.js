@@ -5,13 +5,18 @@ const cronParser = require("cron-parser");
 const axios = require("axios");
 const obj = require("object-path");
 const moment = require("moment");
+const XLSX = require("xlsx");
+
+// import services
+const db_sqlite = require("./services/db.sqlite");
+const db_api = require("./services/db.api")
 
 process
-  .on('unhandledRejection', (reason, p) => {
-    console.error(reason, 'Unhandled Rejection at Promise', p);
+  .on("unhandledRejection", (reason, p) => {
+    console.error(reason, "Unhandled Rejection at Promise", p);
   })
-  .on('uncaughtException', err => {
-    console.error(err, 'Uncaught Exception thrown');
+  .on("uncaughtException", (err) => {
+    console.error(err, "Uncaught Exception thrown");
     process.exit(1);
   });
 
@@ -20,15 +25,35 @@ process
 let config = JSON.parse(fs.readFileSync(path.join(__dirname, "config.json")));
 
 // interval in seconds
-function run() {  
-  //
-  if(config.runOnce) {
+function run() {
+  // see if config loads script
+  if (config.script) {
+    console.log("run script");
+    runScript();
+  } else if (config.runOnce) {
     console.log("run once");
     runOnce();
   } else {
     console.log("Scheduling starts");
     cron.schedule(config.cron, runOnce);
-  }  
+  }
+}
+
+async function runScript() {
+  try {
+    ///////////////////////////////////
+    // step 1. login to get auth token
+    await login();
+
+    // perform the task
+    const log = console.log;
+    const task = "";
+    const action = ""
+    let script = fs.readFileSync(config.script).toString();
+    await eval(script);
+  } catch (ex) {
+    console.log(ex);
+  }
 }
 
 async function runOnce() {
@@ -84,7 +109,9 @@ async function resetDeadTask() {
     // is running for more than 1 hour than consider it as a dead task
     {
       _updated: {
-        $lte: new Date(new Date().getTime() - obj.get(config, 'timeout', 3600) * 1000),
+        $lte: new Date(
+          new Date().getTime() - obj.get(config, "timeout", 3600) * 1000
+        ),
       },
     },
     { status: "Running" },
@@ -200,13 +227,6 @@ async function execute() {
           },
         }
       );
-      /*
-      console.log(
-        task,
-        "",
-        `initiate task: ${task.name} - ${moment(task.next_run_date).format('L LT')}`
-      );
-      */
     } catch (e) {
       console.log(e);
     }
@@ -294,7 +314,7 @@ async function execute() {
       //
       await log(task, "", e);
 
-      // 
+      //
       break;
     }
   }
@@ -310,19 +330,17 @@ async function executeActions(task) {
     },
   });
   actions = actions.data;
-  
+
   // go through each action
   let context = {};
   for (let action of obj.get(actions, "data", [])) {
     if (action.enabled != false) {
-      
       //console.log(task, action, `start ${action.name}`);
 
       try {
-        
         // perform the task
         await eval(action.script);
-                
+
         if (context.stop == true) {
           await log(task, action, `== Stop Processing ==`);
           break;
@@ -330,7 +348,7 @@ async function executeActions(task) {
       } catch (e) {
         await log(task, action, `${e.stack}`);
         throw e;
-      }      
+      }
       //console.log(task, action, `finish ${action.name}`);
     }
   }
@@ -352,7 +370,7 @@ async function log(task, action, msg) {
         company_id: config.company_id,
       },
     }
-  );  
+  );
 }
 
 /////////////////////////////////////////////
