@@ -1,12 +1,12 @@
 const sqlite3 = require("sqlite3");
 
 module.exports = {
-  init(path) {    
+  init(path) {
     return new sqlite3.Database(path);
   },
 
-  createTable(db, table, schema) {    
-    try {      
+  createTable(db, table, schema) {
+    try {
       // form columns
       let columns = schema
         .map((x) => {
@@ -20,10 +20,21 @@ module.exports = {
       });
     } catch (ex) {
       console.error(ex);
-    } 
+    }
   },
 
-  async import(db, table, schema, rows) {    
+  async get(db, table) {
+    return new Promise(function (resolve, reject) {
+      db.all(`SELECT * FROM ${table}`, function (err, rows) {
+        if (err) {
+          return reject(err);
+        }
+        resolve(rows);
+      });
+    });
+  },
+
+  async import(db, table, schema, rows) {
     try {
       // prepare columns
       let inserts = schema
@@ -36,7 +47,7 @@ module.exports = {
         .map((x) => x.field)
         .join();
 
-      // insert rows      
+      // insert rows
       let stmt;
       for (let row of rows) {
         stmt = db.prepare(
@@ -48,19 +59,21 @@ module.exports = {
         for (let column of schema) {
           if (column.skip_insert) continue;
           if (row[column.field]) {
-            // clean the text to be safe 
-            if (typeof row[column.field] === "string" || row[column.field] instanceof String) {
+            // clean the text to be safe
+            if (
+              typeof row[column.field] === "string" ||
+              row[column.field] instanceof String
+            ) {
               row[column.field] = row[column.field].replace(/[]*/g, "");
             }
             params.push(row[column.field]);
-          }
-          else params.push("");
+          } else params.push("");
         }
         await stmt.run(params);
       }
       if (stmt) await stmt.finalize();
     } catch (ex) {
       console.error(ex);
-    } 
+    }
   },
 };
