@@ -55,6 +55,7 @@ export default defineComponent({
   data() {
     return {
       loading: false,
+      requestTimeout: null,
     };
   },
   async created() {
@@ -81,7 +82,11 @@ export default defineComponent({
         if (this.uiElement.src) {
           let src = this.uiElement.src;
           try {
+            // start loading
+            this.loading = true;
             src = await eval(src);
+            // start loading
+            this.loading = false;
           } catch (ex) {
             //
             console.error(ex);
@@ -104,16 +109,14 @@ export default defineComponent({
           try {
             // start loading
             this.loading = true;
-
             // download data
             response = await this.rest.request(src, data, method);
             response = response.data;
+            // start loading
+            this.loading = false;
             // download completed
           } catch (ex) {
             console.error(ex);
-          } finally {
-            // stop loading
-            this.loading = false;
           }
 
           // transformed
@@ -141,7 +144,7 @@ export default defineComponent({
             obj.set(this.data, this.uiElement.key, rows);
           }
         }
-      }, 300);
+      }, 1000);
     },
   },
   computed: {

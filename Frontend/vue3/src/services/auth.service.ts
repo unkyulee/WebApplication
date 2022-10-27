@@ -4,6 +4,7 @@ import config from "./config.service";
 import event from "./event.service";
 
 export default {
+  cache: {},
   async login(data) {
     let validated = false;
 
@@ -60,7 +61,7 @@ export default {
     return authenticated;
   },
 
-  client() {
+  async client() {
     //
     let token = localStorage.getItem("token_public");
 
@@ -71,16 +72,26 @@ export default {
 
       let user = JSON.parse(window.atob(base64));
 
-      return {
-        email: user.unique_name,
-        name: user.nameid,
-      };
+      // retrieve id
+      if (user.unique_name) {
+        if (obj.get(this.cache, "id")) {
+          user.id = obj.get(this.cache, "id");
+        } else {
+          // retrieve client id
+          let response = await rest.request(
+            `/api/public/client?email=${user.unique_name}`
+          );
+          this.cache.id = obj.get(response, "data.data.0.id");
+          user.id = obj.get(response, "data.data.0.id");
+        }
+        return {
+          id: user.id,
+          email: user.unique_name,
+          name: user.nameid,
+        };
+      }
     }
-  },
 
-  async id(email) {
-    let response = await rest.request(`/api/public/client?email=${email}`);
-
-    return obj.get(response, "data.data.0.id");
+    return {};
   },
 };
