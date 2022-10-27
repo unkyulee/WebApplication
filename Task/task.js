@@ -11,7 +11,7 @@ const db_sqlite = require("./services/db.sqlite");
 const db_api = require("./services/db.api");
 const db_xlsx = require("./services/db.xsls");
 const db_folder = require("./services/db.folder");
-const util = require("./services/util")
+const util = require("./services/util");
 
 process
   .on("unhandledRejection", (reason, p) => {
@@ -52,6 +52,7 @@ async function runScript() {
     const task = "";
     const action = "";
     let script = fs.readFileSync(config.script).toString();
+
     await eval(script);
   } catch (ex) {
     console.log(ex);
