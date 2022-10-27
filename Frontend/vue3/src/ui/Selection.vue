@@ -49,8 +49,6 @@
 
 <script lang="ts">
 // @ts-nocheck
-import { debounce } from "debounce";
-
 import Base from "./Base";
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -60,12 +58,10 @@ export default defineComponent({
     return {
       value: null,
       searchText: null,
+      requestTimeout: null,
     };
   },
   mounted: function () {
-    // changed
-    this.changed = debounce(this.changed, 200);
-
     // set value
     if (this.data && this.uiElement.key) {
       this.value = obj.get(this.data, this.uiElement.key);
@@ -169,7 +165,7 @@ export default defineComponent({
             obj.set(this.uiElement, "options", rows);
           }
         }
-      }, 300);
+      }, 1000);
     },
   },
 });

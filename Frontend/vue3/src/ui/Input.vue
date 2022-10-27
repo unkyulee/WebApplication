@@ -71,9 +71,6 @@
 
 <script lang="ts">
 // @ts-nocheck
-import { debounce } from "debounce";
-
-// user imports
 import Base from "./Base";
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -85,9 +82,6 @@ export default defineComponent({
     };
   },
   mounted: function () {
-    // changed
-    this.changed = debounce(this.changed, 200);
-
     // set value
     if (this.data && this.uiElement.key)
       this.value = obj.get(this.data, this.uiElement.key);
@@ -107,10 +101,6 @@ export default defineComponent({
   },
   methods: {
     changed(e) {
-      this.event.send({ name: "data" });
-      //this.$set(this, 'data', this.data);
-      this.$forceUpdate();
-
       // trigger custom event
       if (this.uiElement.changed) {
         try {
