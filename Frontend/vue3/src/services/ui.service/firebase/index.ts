@@ -33,7 +33,7 @@ export default {
     } catch (ex) {
       console.error(ex);
     }
-    console.log(page);
+
     return page;
   },
 };
