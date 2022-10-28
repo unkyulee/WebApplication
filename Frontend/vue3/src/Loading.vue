@@ -13,9 +13,9 @@
   >
     <v-progress-circular indeterminate color="primary"></v-progress-circular>
     <div style="margin-top: 8px; color: dimgray" v-html="message"></div>
-    <v-alert v-if="error" type="error" style="max-height: 120px; width: 90vw">{{
-      error
-    }}</v-alert>
+    <div v-if="error" type="error" style="color: crimson">
+      {{ error }}
+    </div>
   </div>
   <div v-if="splash" :style="splash_style" id="splash">
     <v-img :src="splash" max-width="200px" max-height="200px">
@@ -108,11 +108,11 @@ export default defineComponent({
       let navigation = this.config.get("navigation", []);
       if (navigation.length == 0) {
         // error - NAVIGATION IS EMPTY
-        this.error = "NAVIGATION NOT SET";
+        this.error = "failed to load navigation";
         return;
       } else {
         let path = this.$route.path;
-        
+
         if (this.$route.path == "/login" && this.$route.query.r) {
           // exception for login redirect
           path = this.$route.query.r;
@@ -127,17 +127,17 @@ export default defineComponent({
         if (!selectedNav) {
           // select the first navigation
           this.$router.push(obj.get(navigation, "0.url"));
-        } 
+        }
       }
       //
     }
 
     {
       // load initial script
-      if(this.config.get("script.init")) {
+      if (this.config.get("script.init")) {
         try {
-          await eval(this.config.get("script.init"))
-        } catch(ex) {
+          await eval(this.config.get("script.init"));
+        } catch (ex) {
           console.error(ex);
           return;
         }

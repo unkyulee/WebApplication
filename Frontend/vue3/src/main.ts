@@ -26,6 +26,13 @@ loadFonts();
 // app creation
 const app = createApp(App);
 
+// setup firebase
+import { initializeApp } from "firebase/app";
+if (obj.get(window, "__CONFIG__.firebase")) {
+  // initialize firebase
+  window.firebase = initializeApp(window.__CONFIG__.firebase);
+}
+
 // Datepicker
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
