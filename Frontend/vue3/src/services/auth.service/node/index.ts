@@ -1,7 +1,7 @@
 // @ts-nocheck
-import rest from "./rest.service";
-import config from "./config.service";
-import event from "./event.service";
+import rest from "../../rest.service";
+import config from "../../config.service";
+import event from "../../event.service";
 
 export default {
   cache: {},

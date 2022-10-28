@@ -1,16 +1,23 @@
 // @ts-nocheck
-import rest from "./rest.service";
-import config from "./config.service";
+import config from "../config.service";
+import node from "./node";
+import firebase from "./firebase";
 
 export default {
+  loadModule: null,
   async load() {
-    // return if stored uiElement exists
-    let response = await rest.request(`${config.get("url")}/navigation`);
+    if (!this.loadModule) {
+      switch (config.get("module")) {
+        case "firebase":
+          this.loadModule = firebase;
+          break;
+        default:
+          this.loadModule = node;
+          break;
+      }
+    }
 
-    // save to config
-    config.set("navigation", response.data);
-
-    return response.data;
+    return await this.loadModule.load();
   },
 
   find(children, url) {
@@ -32,12 +39,12 @@ export default {
 
   is_embed() {
     let queryString = window.location.hash;
-    if(queryString) {
+    if (queryString) {
       queryString = queryString.replace("#", "");
       queryString = queryString.replace("/", "");
     }
     let urlParams = new URLSearchParams(queryString);
-    
+
     return urlParams.has("embed");
   },
 };

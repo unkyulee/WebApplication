@@ -1,7 +1,6 @@
 // @ts-nocheck
 import axios from "axios";
-import config from "./config.service.ts";
-import * as obj from "object-path";
+import config from "../../config.service.ts";
 
 export default {
   async request(url, data = {}, method, options) {

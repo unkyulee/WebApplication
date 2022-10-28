@@ -17,7 +17,7 @@ import nav from "./services/nav.service";
 import util from "./services/util.service";
 
 // ui
-import Loading from "./layout/Loading/Loading.vue";
+import Loading from "./Loading.vue";
 
 export default defineComponent({
   provide: {
