@@ -33,17 +33,17 @@ if (obj.get(window, "__CONFIG__.firebase")) {
   window.firebase = initializeApp(window.__CONFIG__.firebase);
 }
 
-// Datepicker
-import Datepicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
-app.component("Datepicker", Datepicker);
-
 // ui-imports
 import UiElement from "./layout/Content/UiElement.vue";
 app.component("ui-element", UiElement);
 
 import vuetify from "./plugins/vuetify";
 app.use(vuetify);
+
+// Datepicker
+import Datepicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+app.component("Datepicker", Datepicker);
 
 // prime vue
 import primevue from "primevue/config";
@@ -73,15 +73,25 @@ app.component("PanelMenu", PanelMenu);
 import Sidebar from "primevue/sidebar";
 app.component("Sidebar", Sidebar);
 
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import ColumnGroup from "primevue/columngroup";
+import Row from "primevue/row";
+app.component("DataTable", DataTable);
+app.component("Column", Column);
+app.component("ColumnGroup", ColumnGroup);
+app.component("Row", Row);
+
+// global setup
+app.use(router);
+app.mount("#app");
+
 //import ConfirmDialog from "primevue/confirmdialog";
 //app.component("ConfirmDialog", ConfirmDialog);
-
 //import ConfirmPopup from "primevue/confirmpopup";
 //app.component("ConfirmPopup", ConfirmPopup);
-
 //import ConfirmationService from "primevue/confirmationservice";
 //app.use(ConfirmationService);
-
 //import Avatar from "primevue/avatar";
 //import AvatarGroup from "primevue/avatargroup";
 //import Badge from "primevue/badge";
@@ -98,10 +108,7 @@ app.component("Sidebar", Sidebar);
 //import Chip from "primevue/chip";
 //import Chips from "primevue/chips";
 //import ColorPicker from "primevue/colorpicker";
-//import Column from "primevue/column";
-//import ColumnGroup from "primevue/columngroup";
 
-//import DataTable from "primevue/datatable/DataTable";
 //import DataView from "primevue/dataview";
 //import DataViewLayoutOptions from "primevue/dataviewlayoutoptions";
 //import DeferredContent from "primevue/deferredcontent";
@@ -154,8 +161,6 @@ app.component("Sidebar", Sidebar);
 //app.component("RadioButton", RadioButton);
 //import Rating from "primevue/rating";
 //app.component("Rating", Rating);
-
-//import Row from "primevue/row";
 //import ScrollPanel from "primevue/scrollpanel";
 //import ScrollTop from "primevue/scrolltop";
 //import SelectButton from "primevue/selectbutton";
@@ -211,13 +216,8 @@ app.component("Sidebar", Sidebar);
 //app.component("Chip", Chip);
 //app.component("Chips", Chips);
 //app.component("ColorPicker", ColorPicker);
-//app.component("Column", Column);
-//app.component("ColumnGroup", ColumnGroup);
-
 //app.component("ContextMenu", ContextMenu);
 //import ContextMenu from "primevue/contextmenu";
-
-//app.component("DataTable", DataTable);
 //app.component("DataView", DataView);
 //app.component("DataViewLayoutOptions", DataViewLayoutOptions);
 //app.component("DeferredContent", DeferredContent);
@@ -226,10 +226,8 @@ app.component("Sidebar", Sidebar);
 //app.component("Divider", Divider);
 //app.component("Dock", Dock);
 //app.component("Dropdown", Dropdown);
-
 //app.component("Fieldset", Fieldset);
 //app.component("FileUpload", FileUpload);
-
 //app.component("InlineMessage", InlineMessage);
 //app.component("Inplace", Inplace);
 //app.component("InputMask", InputMask);
@@ -248,16 +246,12 @@ app.component("Sidebar", Sidebar);
 //app.component("OverlayPanel", OverlayPanel);
 //app.component("Paginator", Paginator);
 //app.component("Panel", Panel);
-
 //app.component("Password", Password);
 //app.component("PickList", PickList);
-
-//app.component("Row", Row);
 //app.component("ScrollPanel", ScrollPanel);
 //app.component("ScrollTop", ScrollTop);
 //app.component("SelectButton", SelectButton);
 //app.component("Slider", Slider);
-
 //app.component("Skeleton", Skeleton);
 //app.component("SpeedDial", SpeedDial);
 //app.component("SplitButton", SplitButton);
@@ -279,7 +273,3 @@ app.component("Sidebar", Sidebar);
 //app.component("TreeSelect", TreeSelect);
 //app.component("TreeTable", TreeTable);
 //app.component("TriStateCheckbox", TriStateCheckbox);
-
-// global setup
-app.use(router);
-app.mount("#app");

@@ -1,0 +1,15 @@
+[
+  {
+    "_id": "admin.navigation.detail",
+    "type": "layout",
+    "layoutStyle": {
+      "background": "white"
+    },
+    "screens": [
+      {
+        "type": "typography",
+        "key": "name"
+      }
+    ]
+  }
+]

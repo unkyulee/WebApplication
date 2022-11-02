@@ -1,0 +1,26 @@
+[
+  {
+    "_id": "admin.navigation.table",
+    "type": "data-table",
+    "tableType": "table",
+    "key": "navigations",
+    "src": "`/api/admin/navigation?_sort=order`",
+    "columns": [
+      {
+        "label": "NAME",
+        "key": "name",
+        "type": "typography",
+        "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.navigation.detail', data: this.data})",
+        "layoutStyle": {
+          "fontWeight": "bold",
+          "cursor": "pointer"
+        }
+      },
+      {
+        "label": "ORDER",
+        "key": "order",
+        "type": "typography"
+      }
+    ]
+  }
+]

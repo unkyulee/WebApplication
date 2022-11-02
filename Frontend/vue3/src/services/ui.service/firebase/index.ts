@@ -16,6 +16,7 @@ export default {
     } catch (ex) {
       console.error(ex);
     }
+
     return ui;
   },
 

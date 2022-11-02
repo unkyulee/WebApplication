@@ -1,0 +1,17 @@
+[
+  {
+    "_id": "admin.navigation.toolbar",
+    "type": "layout",
+    "layoutStyle": {
+      "display": "flex",
+      "flexFlow": "row"
+    },
+    "screens": [
+      {
+        "type": "button",
+        "icon": "new",
+        "click": "console.log('hello world')"
+      }
+    ]
+  }
+]

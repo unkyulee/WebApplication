@@ -39,7 +39,7 @@ export default defineComponent({
   },
   async created() {
     this.event.subscribe("Content", "data", async (event) => {
-      if (event.data) {        
+      if (event.data) {
         this.data = { ...event.data };
       }
     });

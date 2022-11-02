@@ -19,7 +19,7 @@ import ImageLoader from "../../ui/Image.vue";
 import ButtonComponent from "../../ui/Button.vue";
 import InputComponent from "../../ui/Input.vue";
 import Selection from "../../ui/Selection.vue";
-import DataTable from "../../ui/DataTable.vue";
+import TableComponent from "../../ui/Table.vue";
 import Divider from "../../ui/Divider.vue";
 import Carousel from "../../ui/Carousel.vue";
 import Date from "../../ui/Date.vue";
@@ -43,7 +43,7 @@ export default defineComponent({
     ImageLoader,
     ButtonComponent,
     Selection,
-    DataTable,
+    TableComponent,
     InputComponent,
     Divider,
     Carousel,

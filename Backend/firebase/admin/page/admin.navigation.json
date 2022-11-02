@@ -1,0 +1,12 @@
+[
+  {
+    "_id": "admin.navigation",
+    "type": "layout",
+    "screens": [
+      {
+        "type": "ui-element-id",
+        "uiElementId": "admin.navigation.table"
+      }
+    ]
+  }
+]

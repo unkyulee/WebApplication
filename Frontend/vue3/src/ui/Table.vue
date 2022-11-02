@@ -42,6 +42,25 @@
         />
       </div>
     </div>
+
+    <DataTable
+      v-if="uiElement.tableType == 'table'"
+      responsiveLayout="scroll"
+      :style="uiElement.style"
+      :class="uiElement.class"
+      :value="rows"
+    >
+      <Column
+        v-for="col of uiElement.columns"
+        :field="col.key"
+        :header="col.label"
+        :key="col.key"
+      >
+        <template #body="slotProps">
+          <ui-element :uiElement="col" :data="slotProps.data" />
+        </template>
+      </Column>
+    </DataTable>
   </div>
 </template>
 
@@ -149,7 +168,9 @@ export default defineComponent({
   },
   computed: {
     rows() {
-      return obj.get(this.data, this.uiElement.key, []);
+      if (this.uiElement && this.uiElement.key)
+        return obj.get(this.data, this.uiElement.key, []);
+      return [];
     },
     total() {
       return obj.get(

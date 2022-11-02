@@ -45,6 +45,9 @@ export default {
       case "iframe":
         uiElement.type = "iframe-component";
         break;
+      case "data-table":
+        uiElement.type = "table-component";
+        break;
     }
   },
 

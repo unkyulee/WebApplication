@@ -19,7 +19,7 @@
     "mustache": "^4.2.0",
     "object-path": "^0.11.8",
     "primeicons": "^5.0.0",
-    "primevue": "^3.17.0",
+    "primevue": "^3.18.1",
     "roboto-fontface": "*",
     "stripe": "^10.15.0",
     "vue": "^3.2.41",

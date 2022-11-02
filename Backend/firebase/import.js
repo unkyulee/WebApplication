@@ -8,32 +8,65 @@ async function main() {
   // check input
   console.log(process.argv);
   if (process.argv.length != 5) {
-    console.log("missing argument");
+    console.error("missing argument");
+    console.error(process.argv);
     return;
   }
 
   // load credentials
   let credential_filepath = process.argv[2];
-  let credential = fs.readFileSync(credential_filepath);
-  credential = JSON.parse(credential);
+  let credential;
+  console.log(`Loading firebase credential from ${credential_filepath}`);
+  try {
+    credential = fs.readFileSync(credential_filepath);
+    credential = JSON.parse(credential);
+  } catch (ex) {
+    console.error(ex);
+    return;
+  }
 
-  // load json file
-  let data_filepath = process.argv[3];
-  let data = fs.readFileSync(data_filepath);
-  data = JSON.parse(data);
+  // setup collection name
+  let collection = process.argv[3];
+  console.log(`Importing to collection - ${collection}`);
 
-  //
-  let collection = process.argv[4];
+  // from folder
+  let folder = process.argv[4];
+  console.log(`Loading data from - ${folder}`);
 
-  // init firebase
-  const app = firebase.initializeApp(credential);
-  const db = firestore.getFirestore(app);
+  let files;
+  try {
+    files = fs.readdirSync(folder);
+  } catch (ex) {
+    console.error(ex);
+    return;
+  }
 
-  //
-  for (let row of data) {
-    if (!row._id) continue;
+  // loop through each files
+  for (let file of files) {
+    let data;
+    try {
+      data = fs.readFileSync(path.join(folder, file)).toString();
+      if (!data) {
+        console.log(`Empty file ${folder} ${file}`);
+        continue;
+      }
+      data = JSON.parse(data);
+    } catch (ex) {
+      console.error(ex);
+      console.error(folder, file, data);
+      continue;
+    }
 
-    await firestore.setDoc(firestore.doc(db, collection, row._id), row);
+    // init firebase
+    const app = firebase.initializeApp(credential);
+    const db = firestore.getFirestore(app);
+
+    //
+    for (let row of data) {
+      if (!row._id) continue;
+      await firestore.setDoc(firestore.doc(db, collection, row._id), row);
+    }
+    console.log(`${data.length} rows imported`);
   }
 }
 
