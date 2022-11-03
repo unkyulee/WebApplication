@@ -8,6 +8,10 @@
     "screens": [
       {
         "type": "typography",
+        "text": "navigation detail"
+      },
+      {
+        "type": "typography",
         "key": "name"
       }
     ]

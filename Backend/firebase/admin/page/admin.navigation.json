@@ -5,6 +5,10 @@
     "screens": [
       {
         "type": "ui-element-id",
+        "uiElementId": "admin.navigation.toolbar"
+      },
+      {
+        "type": "ui-element-id",
         "uiElementId": "admin.navigation.table"
       }
     ]

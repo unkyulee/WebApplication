@@ -5,6 +5,7 @@
     :style="uiElement.style"
     :class="uiElement.class"
     :variant="uiElement.variant"
+    :size="uiElement.size"
     :disabled="safeEval(safeGet(uiElement, 'disabled', false))"
     @click="click($event, uiElement, data)"
   >

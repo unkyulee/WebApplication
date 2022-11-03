@@ -1,17 +1,15 @@
 [
   {
     "_id": "admin.navigation.toolbar",
-    "type": "layout",
+    "type": "button",
+    "icon": "mdi-plus",
+    "color": "primary",
+    "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.navigation.detail'})",
     "layoutStyle": {
-      "display": "flex",
-      "flexFlow": "row"
-    },
-    "screens": [
-      {
-        "type": "button",
-        "icon": "new",
-        "click": "console.log('hello world')"
-      }
-    ]
+      "margin": "4px",
+      "position": "absolute",
+      "bottom": "24px",
+      "right": "24px"
+    }
   }
 ]

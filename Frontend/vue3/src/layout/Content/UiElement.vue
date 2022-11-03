@@ -62,18 +62,20 @@ export default defineComponent({
       ready: false,
     };
   },
-  async mounted() {
+  created() {
     // prepare uielement
     this.ready = false;
 
-    // compile ui
-    await this.ui.compile(this.uiElement);
+    (async () => {
+      // compile ui
+      await this.ui.compile(this.uiElement);
 
-    // translate type
-    this.ui.translate_type(this.uiElement);
+      // translate type
+      this.ui.translate_type(this.uiElement);
 
-    // uiElement ready
-    this.ready = true;
+      // uiElement ready
+      this.ready = true;
+    })();
   },
 });
 </script>

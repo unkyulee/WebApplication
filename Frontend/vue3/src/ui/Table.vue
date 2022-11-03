@@ -15,7 +15,7 @@
           @click="click($event, uiElement, item)"
         >
           <ui-element
-            v-for="(column, index) in uiElement.columns"
+            v-for="column in uiElement?.columns ?? []"
             :uiElement="column"
             :data="item"
           />
@@ -36,7 +36,7 @@
         @click="click($event, uiElement, item)"
       >
         <ui-element
-          v-for="column in uiElement.columns"
+          v-for="column in uiElement?.columns ?? []"
           :uiElement="column"
           :data="item"
         />
@@ -51,7 +51,7 @@
       :value="rows"
     >
       <Column
-        v-for="col of uiElement.columns"
+        v-for="col of uiElement?.columns ?? []"
         :field="col.key"
         :header="col.label"
         :key="col.key"
@@ -77,7 +77,7 @@ export default defineComponent({
       requestTimeout: null,
     };
   },
-  async created() {
+  created() {
     // subscribe to refresh
     if (this.uiElement.key) {
       //
@@ -91,7 +91,7 @@ export default defineComponent({
     }
 
     // download request
-    await this.requestDownload();
+    this.requestDownload();
   },
   methods: {
     async requestDownload() {
