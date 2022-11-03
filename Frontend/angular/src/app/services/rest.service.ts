@@ -30,9 +30,11 @@ export class RestService {
   // Promise Based Request - Never cached
   async requestAsync(url, data?, method?, options?, cached?, wait?) {
     return new Promise((resolve) => {
-      this.request(url, data, method, options, false, wait).subscribe((response) => {
-        resolve(response);
-      });
+      this.request(url, data, method, options, false, wait).subscribe(
+        (response) => {
+          resolve(response);
+        }
+      );
     });
   }
 
@@ -43,17 +45,18 @@ export class RestService {
   //  - wait 300 ms before actual request
   schedule_queue = {};
   hash(value) {
-    var hash = 0, i, chr;
+    var hash = 0,
+      i,
+      chr;
     for (i = 0; i < value.length; i++) {
-      chr   = value.charCodeAt(i);
-      hash  = ((hash << 5) - hash) + chr;
+      chr = value.charCodeAt(i);
+      hash = (hash << 5) - hash + chr;
       hash |= 0; // Convert to 32bit integer
     }
     return `${hash}`;
   }
 
-  schedule(url, data?, method?, options?, cached?, wait?) {    
-    
+  schedule(url, data?, method?, options?, cached?, wait?) {
     // check if existing request
     let cacheKey = this.hash(`${method}_${url}_${JSON.stringify(data)}`);
 
@@ -80,7 +83,6 @@ export class RestService {
   /////////////////////////////
   // Observables
   req(cacheKey, url_passed, data?, method?, options?, cached?, wait?) {
-    
     //
     let completed = false;
     const removeSchedule = (cacheKey, observer) => {
@@ -98,7 +100,7 @@ export class RestService {
         this.event.send({ name: "splash-hide" });
     };
 
-    let observable = new Observable<any>((observer) => {      
+    let observable = new Observable<any>((observer) => {
       // copy value to the observable instance
       let url = `${url_passed}`;
       let cache = `${cacheKey}`;
@@ -210,11 +212,11 @@ export class RestService {
       }
     });
 
-    // make it multicast        
-    return observable.pipe(      
+    // make it multicast
+    return observable.pipe(
       takeWhile((x) => !completed),
       //delay(300),
-      share()      
+      share()
     );
   }
   /////////////////////////////
