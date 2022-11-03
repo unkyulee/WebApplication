@@ -1,19 +1,12 @@
 <mat-sidenav-container fullscreen>
-  <mat-sidenav
-    #drawer
-    fixedInViewport="true"
-    [attr.role]="'dialog'"
-    [mode]="config.isHandset ? 'over' : 'side'"
-  >
+  <mat-sidenav #drawer fixedInViewport="true" [attr.role]="'dialog'" [mode]="config.isHandset ? 'over' : 'side'">
     <nav></nav>
   </mat-sidenav>
 
   <mat-sidenav-content [ngStyle]="config.get('theme.content.layoutStyle')">
-    <ping *ngIf="config.get('ping')"></ping>
-    <toolbar
-      [ngStyle]="config.get('theme.toolbar.layoutStyle')"
-      *ngIf="config.get('theme.toolbar.show', true)"
-    ></toolbar>
+    <toolbar [ngStyle]="config.get('theme.toolbar.layoutStyle')" *ngIf="config.get('theme.toolbar.show', true)">
+    </toolbar>
     <ui-composer [ngStyle]="config.get('theme.content.style')"></ui-composer>
   </mat-sidenav-content>
 </mat-sidenav-container>
+<persist></persist>

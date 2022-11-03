@@ -10,7 +10,7 @@ import { LayoutComponent } from "./layout.component";
 import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { NavComponent } from "./navigation/nav.component";
 import { UserComponent } from "./user/user.component";
-import { PingComponent } from "./ping/ping.component";
+import { PersistComponent } from "./persist/persist.component";
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { PingComponent } from "./ping/ping.component";
     ToolbarComponent,
     NavComponent,
     UserComponent,
-    PingComponent,
+    PersistComponent,
   ],
   exports: [],
   imports: [CommonModule, UIModule],

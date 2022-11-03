@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -42,7 +43,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
     AppComponent,
     ServiceUrlComponent,
     LoginComponent,
-    ErrorComponent    
+    ErrorComponent,
   ],
   imports: [
     BrowserAnimationsModule,

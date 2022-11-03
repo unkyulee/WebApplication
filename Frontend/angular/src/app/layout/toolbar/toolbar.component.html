@@ -1,13 +1,9 @@
 <mat-toolbar [ngClass]="config.get('theme.toolbar.class')" [ngStyle]="config.get('theme.toolbar.style')" *ngIf="show">
-  <mat-icon *ngIf="isOffline">cloud_off</mat-icon>
+	<mat-icon *ngIf="isOffline">cloud_off</mat-icon>
 	<mat-progress-bar *ngIf="showLoadingBar" class="loading-bar" color="accent" mode="indeterminate"></mat-progress-bar>
 
-	<button
-		type="button"
-		mat-icon-button
-		(click)="isTopNav ? event.send({ name: 'drawer-toggle' }) : nav.back()"
-		tabIndex="-1"
-	>
+	<button type="button" mat-icon-button (click)="isTopNav ? event.send({ name: 'drawer-toggle' }) : nav.back()"
+		tabIndex="-1">
 		<mat-icon *ngIf="isTopNav" [inline]="true">menu</mat-icon>
 		<mat-icon *ngIf="!isTopNav" [inline]="true">arrow_back</mat-icon>
 	</button>
