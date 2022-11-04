@@ -37,6 +37,13 @@ export class LoadingComponent {
 
         // init again
         await this.initialize();
+      } else if (event.name == "init") {
+        this.error = "";
+        this.message = "";
+        this.screen = "";
+
+        // init again
+        await this.initialize();
       }
     });
 

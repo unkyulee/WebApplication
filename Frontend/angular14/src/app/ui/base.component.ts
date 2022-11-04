@@ -10,7 +10,6 @@ import { RestService } from "../services/rest.service";
 import { NavService } from "../services/nav.service";
 import { ConfigService } from "../services/config.service";
 import { UserService } from "../services/user/user.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { AuthService } from "../services/auth/auth.service";
 import { UtilService } from "../services/util.service";
 import { UIService } from "../services/ui.service";
@@ -136,9 +135,10 @@ export class BaseComponent {
     let clickScript = script ? script : this.uiElement.click;
     if (clickScript) {
       try {
-        await eval(clickScript);
+        await eval.call(this, clickScript);
       } catch (e) {
         this.event.send({ name: "error", error: `${e} ${e.stack}` });
+        console.log(e);
       }
     }
   }

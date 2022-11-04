@@ -69,7 +69,6 @@ export class RestService {
     }
 
     // add to the schedule queue
-    this.event.send({ name: "splash-show" });
     this.schedule_queue[cacheKey] = this.req(
       cacheKey,
       url,
@@ -97,10 +96,6 @@ export class RestService {
 
       // remove from the schedule queue
       delete this.schedule_queue[cacheKey];
-
-      // hide splash when last request has completed
-      if (Object.keys(this.schedule_queue).length == 0)
-        this.event.send({ name: "splash-hide" });
     };
 
     let observable = new Observable<any>((observer) => {

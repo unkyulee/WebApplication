@@ -49,7 +49,6 @@ export class LoginComponent {
     this.uiElement = await this.rest.requestAsync(
       `${this.config.get("url")}/login.config`
     );
-    console.log(this.uiElement);
     this.loading = false;
   }
 
@@ -64,13 +63,14 @@ export class LoginComponent {
     try {
       // try login
       if (await this.auth.login(this.data)) {
-        this.event.send({ name: "initialize" });
+        this.event.send({ name: "init" });
       }
     } catch (e) {
       // login error
       let message = obj.get(this.uiElement, `errors.${e.status}`, e.message);
       this.data.error = message;
     } finally {
+      // close splash
       this.loading = false;
     }
   }
