@@ -1,0 +1,25 @@
+::ng-deep .mat-tab-body-wrapper {
+	flex: 1 1 100%;
+	height: 100%;
+}
+
+::ng-deep .mat-tab-body-content {
+	flex: 1 1 100%;
+	height: 100%;
+}
+
+::ng-deep .mat-tab-header-pagination {
+	display: none !important;
+}
+
+::ng-deep .mat-tab-header {
+	overflow-x: auto !important;
+}
+
+::ng-deep .mat-tab-label-container {
+	overflow: unset !important;
+}
+
+::ng-deep .mat-tab-header::-webkit-scrollbar {
+	height: 0.7em;
+}

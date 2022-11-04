@@ -1,0 +1,34 @@
+<p-treeTable [value]="tree" [columns]="safeGet(uiElement, 'columns', [])">
+    <ng-template pTemplate="header" let-columns>
+        <tr [ttRow]="columns">
+            <th style="width: 80px;">
+
+            </th>
+            <ng-container *ngFor="let column of columns">
+
+                <th *ngIf="condition(column)">
+                    <!-- Header -->
+                    <div ui-layout-wrapper *ngIf="column.header" [uiElement]="column.header" [data]="data"></div>
+                    <span *ngIf="!column.header">{{ column.label }} </span>
+                </th>
+            </ng-container>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+        <tr>
+            <td>
+                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+            </td>
+            <ng-container *ngFor="let column of columns; let i = index;">
+
+                <td *ngIf="condition(column)" style="overflow: hidden;">
+                    <div ui-layout-wrapper *ngIf="condition(column)" [uiElement]="column" [data]="rowNode.node"
+                        [copy]="true">
+                    </div>
+                </td>
+            </ng-container>
+        </tr>
+
+    </ng-template>
+</p-treeTable>

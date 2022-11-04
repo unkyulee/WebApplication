@@ -1,0 +1,17 @@
+<canvas
+  #signaturePadElement
+  (window:resize)="resize()"
+  [ngStyle]="uiElement.style"
+  [ngClass]="uiElement.class"
+>
+</canvas>
+
+<div [ngStyle]="uiElement.buttonLayoutStyle">
+  <button mat-raised-button class="mb-4" (click)="save()" color="warn">
+    {{ uiElement.saveLabel ? uiElement.saveLabel : "Save" }}
+  </button>
+  <div fxFlex></div>
+  <button mat-raised-button class="mb-4" (click)="clear()">
+    {{ uiElement.clearLabel ? uiElement.clearLabel : "Clear" }}
+  </button>
+</div>

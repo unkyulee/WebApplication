@@ -1,0 +1,21 @@
+.cal-week-view {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cal-week-view .cal-time-events {
+  overflow-y: auto;
+}
+
+.cal-day-columns {
+  height: fit-content;
+}
+
+.cal-week-view .cal-time-events .cal-day-column {
+  margin-right: 10px;
+}
+
+.cal-week-view .cal-hour {
+  width: calc(100% + 10px);
+}

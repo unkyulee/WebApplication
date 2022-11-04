@@ -1,0 +1,34 @@
+<div [ngStyle]="uiElement.style" [ngClass]="uiElement.class">
+	<!-- Section -->
+	<ng-container *ngFor="let ui of uiElement.screens">
+		<div
+			*ngIf="condition(ui)"
+			[ngStyle]="ui.style ? ui.style : safeGet(uiElement, 'section.style')"
+			[ngClass]="ui.class ? ui.class : safeGet(uiElement, 'section.class')"
+		>
+			<!-- Form Group Header -->
+			<div
+				*ngIf="safeGet(ui, 'header.display') != false"
+				[ngStyle]="ui.header?.style ? ui?.header?.style : safeGet(uiElement, 'header.style')"
+				[ngClass]="ui.header?.class ? ui?.header?.class : safeGet(uiElement, 'header.class')"
+			>
+				<button type="button" mat-icon-button (click)="ui.expanded = !ui.expanded">
+					<mat-icon [inline]="true">{{ ui.expanded == false ? 'chevron_right' : 'expand_more' }}</mat-icon>
+				</button>
+				<ng-container *ngFor="let header of ui?.header?.screens">
+					<div ui-layout-wrapper *ngIf="condition(header)" [uiElement]="header" [data]="data"></div>
+				</ng-container>
+			</div>
+			<!-- Form Items -->
+			<div
+				*ngIf="ui?.expanded != false"
+				[ngStyle]="ui.container?.style ? ui.container?.style : safeGet(uiElement, 'container.style')"
+				[ngClass]="ui.container?.class ? ui.container?.class : safeGet(uiElement, 'container.class')"
+			>
+				<ng-container *ngFor="let screen of ui?.screens">
+					<div ui-layout-wrapper *ngIf="condition(screen)" [uiElement]="screen" [data]="data"></div>
+				</ng-container>
+			</div>
+		</div>
+	</ng-container>
+</div>
