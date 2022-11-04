@@ -31,6 +31,7 @@ import Tabs from "../../ui/Tabs.vue";
 import Timer from "../../ui/Timer.vue";
 import Gallery from "../../ui/Gallery.vue";
 import Alert from "../../ui/Alert.vue";
+import CodeEditor from "../../ui/CodeEditor.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -56,6 +57,7 @@ export default defineComponent({
     Timer,
     Gallery,
     Alert,
+    CodeEditor,
   },
   data: function () {
     return {

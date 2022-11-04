@@ -1,16 +1,14 @@
-[
-  {
-    "_id": "admin.navigation",
-    "type": "layout",
-    "screens": [
-      {
-        "type": "ui-element-id",
-        "uiElementId": "admin.navigation.toolbar"
-      },
-      {
-        "type": "ui-element-id",
-        "uiElementId": "admin.navigation.table"
-      }
-    ]
-  }
-]
+{
+  "_id": "admin.navigation",
+  "type": "layout",
+  "screens": [
+    {
+      "type": "ui-element-id",
+      "uiElementId": "admin.navigation.toolbar"
+    },
+    {
+      "type": "ui-element-id",
+      "uiElementId": "admin.navigation.table"
+    }
+  ]
+}

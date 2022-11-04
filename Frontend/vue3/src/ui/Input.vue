@@ -18,7 +18,7 @@
       :label="label()"
       :type="uiElement.inputType"
       :auto-grow="uiElement.autoGrow ? uiElement.autoGrow : true"
-      :hide-details="safeGet(uiElement, 'hideDetails', false)"
+      :hide-details="safeGet(uiElement, 'hideDetails', true)"
       @click:append="safeEval(uiElement.clickAppend)"
       @click:append-outer="safeEval(uiElement.clickAppendOuter)"
       @click:prepend="safeEval(uiElement.clickPrepend)"
@@ -81,12 +81,12 @@ export default defineComponent({
       value: null,
     };
   },
-  mounted: function () {
+  mounted() {
     // set value
     if (this.data && this.uiElement.key)
       this.value = obj.get(this.data, this.uiElement.key);
   },
-  updated: function () {
+  updated() {
     // set value
     if (this.data && this.uiElement.key)
       this.value = obj.get(this.data, this.uiElement.key);

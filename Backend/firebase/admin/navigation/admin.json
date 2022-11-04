@@ -1,27 +1,25 @@
-[
-  {
-    "_id": "admin",
-    "name": "Admin",
-    "order": 9999,
-    "children": [
-      {
-        "_id": "navigation",
-        "name": "Navigation",
-        "pages": ["admin.navigation"],
-        "url": "/admin.navigation"
-      },
-      {
-        "_id": "page",
-        "name": "Page",
-        "pages": ["admin.page"],
-        "url": "/admin.page"
-      },
-      {
-        "_id": "ui",
-        "name": "UI",
-        "pages": ["admin.ui"],
-        "url": "/admin.ui"
-      }
-    ]
-  }
-]
+{
+  "_id": "admin",
+  "name": "Admin",
+  "order": 9999,
+  "children": [
+    {
+      "_id": "navigation",
+      "name": "Navigation",
+      "pages": ["admin.navigation"],
+      "url": "/admin.navigation"
+    },
+    {
+      "_id": "page",
+      "name": "Page",
+      "pages": ["admin.page"],
+      "url": "/admin.page"
+    },
+    {
+      "_id": "ui",
+      "name": "UI",
+      "pages": ["admin.ui"],
+      "url": "/admin.ui"
+    }
+  ]
+}

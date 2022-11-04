@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 const firebase = require("firebase/app");
 const firestore = require("firebase/firestore/lite");
-const { collection } = require("firebase/firestore/lite");
 
 async function main() {
   // check input
@@ -62,11 +61,11 @@ async function main() {
     const db = firestore.getFirestore(app);
 
     //
-    for (let row of data) {
-      if (!row._id) continue;
-      await firestore.setDoc(firestore.doc(db, collection, row._id), row);
+    if (data._id) {
+      await firestore.setDoc(firestore.doc(db, collection, data._id), data);
     }
-    console.log(`${data.length} rows imported`);
+
+    console.log(`${file} imported`);
   }
 }
 

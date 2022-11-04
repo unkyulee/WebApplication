@@ -17,6 +17,6 @@ export default {
       }
     }
 
-    return await this.loadModule.request(url, (data = {}), method, options);
+    return await this.loadModule.request(url, data, method, options);
   },
 };

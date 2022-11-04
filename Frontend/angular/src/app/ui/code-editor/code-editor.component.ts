@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
-import obj from 'object-path';
+import { Component } from "@angular/core";
+import obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";
@@ -8,7 +8,7 @@ import { EMPTY } from "rxjs";
 
 @Component({
   selector: "code-editor",
-  templateUrl: "code-editor.component.html"
+  templateUrl: "code-editor.component.html",
 })
 export class CodeEditorComponent extends BaseComponent {
   error: string;
@@ -19,7 +19,7 @@ export class CodeEditorComponent extends BaseComponent {
     super.ngOnInit();
 
     // subscript to event
-    this.onEvent = this.event.onEvent.subscribe(event =>
+    this.onEvent = this.event.onEvent.subscribe((event) =>
       this.eventHandler(event)
     );
   }
@@ -45,7 +45,7 @@ export class CodeEditorComponent extends BaseComponent {
       obj.ensureExists(this.uiElement, "editorOptions", {});
       this.uiElement.editorOptions = {
         ...this.uiElement.editorOptions,
-        ...event.editorOptions
+        ...event.editorOptions,
       };
     } else if (
       event &&
@@ -90,7 +90,7 @@ export class CodeEditorComponent extends BaseComponent {
       this.rest
         .request(src, data, method)
         .pipe(
-          catchError(err => {
+          catchError((err) => {
             // save failed
             let errorAction = obj.get(this.uiElement, "save.errorAction");
             if (errorAction) {
@@ -106,8 +106,8 @@ export class CodeEditorComponent extends BaseComponent {
             return EMPTY;
           })
         )
-        .subscribe(response => this.saveAction(response));
-    } 
+        .subscribe((response) => this.saveAction(response));
+    }
   }
 
   saveAction(response) {
@@ -157,7 +157,7 @@ export class CodeEditorComponent extends BaseComponent {
   set value(v: any) {
     this.compileError = "";
 
-    if(v != this._value) {
+    if (v != this._value) {
       let data = v;
       if (this.type == "object") {
         // if the type is object then convert string -> object
@@ -168,7 +168,7 @@ export class CodeEditorComponent extends BaseComponent {
           return;
         }
       }
-      if(this.uiElement.path) {
+      if (this.uiElement.path) {
         obj.set(this.data, this.uiElement.path, data);
       } else {
         this.data = data;
