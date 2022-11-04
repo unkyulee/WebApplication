@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable, EMPTY } from "rxjs";
-import { share, delay, takeWhile } from "rxjs/operators";
+import { share, takeWhile } from "rxjs/operators";
 
 //
 import { ConfigService } from "./config.service";
@@ -29,10 +29,13 @@ export class RestService {
 
   // Promise Based Request - Never cached
   async requestAsync(url, data?, method?, options?, cached?, wait?) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       this.request(url, data, method, options, false, wait).subscribe(
         (response) => {
           resolve(response);
+        },
+        (error) => {
+          reject(error);
         }
       );
     });

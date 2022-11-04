@@ -1,0 +1,23 @@
+.fullscreen-centered {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: lightgray;
+}
+
+.spinner {
+  margin-bottom: 8px;
+}
+
+.message {
+  margin-top: 8px;
+  color: gray;
+}
+
+.error {
+  margin-top: 8px;
+  color: crimson;
+}

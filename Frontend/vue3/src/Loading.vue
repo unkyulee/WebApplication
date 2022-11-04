@@ -1,23 +1,10 @@
 <template>
-  <div
-    v-if="!splash"
-    style="
-      display: flex;
-      flex-flow: column;
-      align-items: center;
-      justify-content: center;
-      width: 100vw;
-      height: 100vh;
-      background: lightgray;
-    "
-  >
+  <div v-if="!splash" class="fullscreen-centered">
     <v-progress-circular indeterminate color="primary"></v-progress-circular>
-    <div style="margin-top: 8px; color: dimgray" v-html="message"></div>
-    <div v-if="error" type="error" style="color: crimson">
-      {{ error }}
-    </div>
+    <div class="message" v-html="message"></div>
+    <div class="error" v-html="error"></div>
   </div>
-  <div v-if="splash" :style="splash_style" id="splash">
+  <div v-if="splash" class="fullscreen-centered">
     <v-img :src="splash" max-width="200px" max-height="200px">
       <template v-slot:placeholder>
         <v-row class="fill-height ma-0" align="center" justify="center">
@@ -29,6 +16,28 @@
     ></v-img>
   </div>
 </template>
+
+<style>
+.fullscreen-centered {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: lightgray;
+}
+
+.message {
+  margin-top: 8px;
+  color: dimgray;
+}
+
+.error {
+  margin-top: 8px;
+  color: crimson;
+}
+</style>
 
 <script lang="ts">
 // @ts-nocheck

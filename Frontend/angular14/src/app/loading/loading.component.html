@@ -1,0 +1,6 @@
+<!-- Loading Information -->
+<div class="fullscreen-centered">
+    <mat-spinner strokeWidth="2" diameter="40" class="spinner"></mat-spinner>
+    <div class="message" [innerHtml]="message | safe: 'html'"></div>
+    <div class="error" [innerHtml]="error | safe: 'html'"></div>
+</div>

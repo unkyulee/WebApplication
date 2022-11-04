@@ -25,6 +25,8 @@ export class DefaultInterceptorStrategy {
 
       return req;
     } catch (e) {}
+
+    return req;
   }
 
   // process response
@@ -49,10 +51,9 @@ export class DefaultInterceptorStrategy {
   handleError(error, caught) {
     if (error.status == 403 || error.status == 401) {
       // when there is an error then logout
-      if(localStorage.getItem("token") != null)
-        this.event.send("logout");
+      if (localStorage.getItem("token") != null) this.event.send("logout");
     }
-    this.event.send({name: "error", error})
+    this.event.send({ name: "error", error });
     return error;
   }
 }
