@@ -1,14 +1,14 @@
+// @ts-nocheck
 import { Component, Input } from "@angular/core";
 
 // user imports
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "pagination",
-  templateUrl: "./pagination.component.html"
+  templateUrl: "./pagination.component.html",
 })
 export class PaginationComponent extends BaseComponent {
-
   // pagination
   @Input() key: any;
   @Input() total: any;
@@ -29,7 +29,7 @@ export class PaginationComponent extends BaseComponent {
       name: "pagination",
       key: this.key,
       page: event.pageIndex + 1,
-      size: event.pageSize
+      size: event.pageSize,
     });
   }
 }

@@ -1,12 +1,16 @@
+// @ts-nocheck
 import { Component, Inject, ChangeDetectorRef } from "@angular/core";
-import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from "@angular/material/bottom-sheet";
+import {
+  MatBottomSheetRef,
+  MAT_BOTTOM_SHEET_DATA,
+} from "@angular/material/bottom-sheet";
 
 // user imports
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "ui-composer-actions",
-  templateUrl: "./ui-composer-actions.component.html"
+  templateUrl: "./ui-composer-actions.component.html",
 })
 export class UIComposerActionsComponent extends BaseComponent {
   constructor(
@@ -14,23 +18,23 @@ export class UIComposerActionsComponent extends BaseComponent {
     @Inject(MAT_BOTTOM_SHEET_DATA) public e: any,
     public ref: ChangeDetectorRef
   ) {
-    super()
+    super();
 
     //
     this.uiElement = e.uiElement;
     this.data = e.data;
-    if(e.event) this.event = e.event;
+    if (e.event) this.event = e.event;
   }
 
   ngOnInit() {
     super.ngOnInit();
 
     // subscript to event
-    this.onEvent = this.event.onEvent.subscribe(event => {
+    this.onEvent = this.event.onEvent.subscribe((event) => {
       if (event && event.name == "close-sheet") {
         this.close();
-      } else if(event && event.name == 'changed') {
-        this.cordova.detectChanges(this.ref)
+      } else if (event && event.name == "changed") {
+        this.cordova.detectChanges(this.ref);
       }
     });
   }
@@ -46,11 +50,11 @@ export class UIComposerActionsComponent extends BaseComponent {
   }
 
   close() {
-    if(this.uiElement.close) {
+    if (this.uiElement.close) {
       try {
-        eval(this.uiElement.close)
-      } catch(e) {
-        console.error(e)
+        eval(this.uiElement.close);
+      } catch (e) {
+        console.error(e);
       }
     } else {
       this.bottomSheetRef.dismiss();

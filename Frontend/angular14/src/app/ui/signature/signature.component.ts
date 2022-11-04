@@ -1,9 +1,9 @@
+// @ts-nocheck
 import { Component, ViewChild, ElementRef } from "@angular/core";
 import SignaturePad from "signature_pad";
 
 // user imports
 import { BaseComponent } from "../base.component";
-import obj from "object-path";
 
 @Component({
   selector: "signature",
@@ -28,7 +28,7 @@ export class SignatureComponent extends BaseComponent {
       this.signaturePadElement.nativeElement,
       {
         backgroundColor: obj.get(this.uiElement, "style.background", "#ebebeb"),
-        penColor: obj.get(this.uiElement, "style.color", "rgb(0,0,255)") 
+        penColor: obj.get(this.uiElement, "style.color", "rgb(0,0,255)"),
       }
     );
 

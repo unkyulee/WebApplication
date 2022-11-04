@@ -20,12 +20,32 @@ export class LoadingComponent {
     private auth: AuthService
   ) {}
 
+  onEvent: Subscription;
+
   // ui parameters
+  screen = "";
   message = "";
   error = "";
 
   async ngOnInit() {
+    // subscribe to event
+    this.onEvent = this.event.onEvent.subscribe(async (event) => {
+      if (event.name == "registration-completed") {
+        this.error = "";
+        this.message = "";
+        this.screen = "";
+
+        // init again
+        await this.initialize();
+      }
+    });
+
+    // run initialization
     await this.initialize();
+  }
+
+  ngOnDestroy() {
+    this.onEvent.unsubscribe();
   }
 
   // loading context
@@ -59,10 +79,11 @@ export class LoadingComponent {
   async checkServiceURL() {
     this.context.service_url = localStorage.getItem("service_url");
     if (this.context.service_url != null) {
-      this.message = "Service URL found";
+      this.message = "valid registration";
       return true;
     } else {
-      this.error = "Service URL missing";
+      this.error = "invalid registration";
+      this.screen = "service-registration";
       return false;
     }
   }
@@ -74,6 +95,7 @@ export class LoadingComponent {
     // when network comes online then move on
     //while (true)
     while (true) {
+      this.error = "";
       if (window.navigator.onLine) {
         // web browser says that it is online
         // check if the service url can be loaded
@@ -91,12 +113,16 @@ export class LoadingComponent {
           break;
         } catch (ex) {
           // network still not connected
-          console.error(ex);
+          this.error = `connection to <b>${this.context.service_url}</b> failed`;
+          this.screen = "service-registration";
+          //
+          break;
         }
+      } else {
+        // network is not connected
+        this.error = `Please check your network connection`;
       }
 
-      // network is not connected
-      this.error = `Please check your network connection`;
       await this.util.timeout(10000);
     }
 
@@ -127,9 +153,9 @@ export class LoadingComponent {
     let valid = await this.auth.isAuthenticated();
     if (!valid) {
       // load service_url screen
-      setTimeout(() => {
-        this.view = "login";
-      }, 1000);
+      this.screen = "login";
+    } else {
+      this.message = "Login is valid";
     }
 
     return valid;

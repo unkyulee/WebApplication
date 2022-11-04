@@ -1,30 +1,32 @@
+// @ts-nocheck
 import { Component } from "@angular/core";
-import obj from 'object-path';
+import obj from "object-path";
 
 // user Imports
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "progress-bar",
-  templateUrl: "./progress-bar.component.html"
+  templateUrl: "./progress-bar.component.html",
 })
 export class ProgressBarComponent extends BaseComponent {
-  
   ngOnInit() {
     super.ngOnInit();
     // event handler
-    this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+    this.onEvent = this.event.onEvent.subscribe((event) =>
+      this.eventHandler(event)
+    );
   }
 
-  eventHandler(event){
+  eventHandler(event) {
     if (
       event &&
       event.name == "progress" &&
       (!event.key || event.key == this.uiElement.key)
     ) {
-        // progress
-        this.value = event.value
-        this.bufferValue = event.bufferValue
+      // progress
+      this.value = event.value;
+      this.bufferValue = event.bufferValue;
     }
   }
 
@@ -33,52 +35,55 @@ export class ProgressBarComponent extends BaseComponent {
     this.onEvent.unsubscribe();
   }
 
-  // value  
-  bufferValue = 0
+  // value
+  bufferValue = 0;
 
-  _value = 0
-	get value() {
-		// fixed text
-		if (this.uiElement.value) {
-			// set value
-			this._value = this.uiElement.value;
-		}
+  _value = 0;
+  get value() {
+    // fixed text
+    if (this.uiElement.value) {
+      // set value
+      this._value = this.uiElement.value;
+    }
 
-		// key exists
-		else if (this.data && this.uiElement.key) {
-			// set value
-			this._value = obj.get(this.data, this.uiElement.key);
-		}
+    // key exists
+    else if (this.data && this.uiElement.key) {
+      // set value
+      this._value = obj.get(this.data, this.uiElement.key);
+    }
 
-		// if null then assign default
-		if ((typeof this._value == 'undefined' || this._value == null) && this.uiElement.default) {
-			this._value = this.uiElement.default;
-			try {
-				this._value = eval(this.uiElement.default);
-			} catch (e) {}
-		}
+    // if null then assign default
+    if (
+      (typeof this._value == "undefined" || this._value == null) &&
+      this.uiElement.default
+    ) {
+      this._value = this.uiElement.default;
+      try {
+        this._value = eval(this.uiElement.default);
+      } catch (e) {}
+    }
 
-		// read returns local variable because of the format that can change its own value
-		// and next time it will try to format the already formatted text <- which is to be prevented
-		let v = this._value;
+    // read returns local variable because of the format that can change its own value
+    // and next time it will try to format the already formatted text <- which is to be prevented
+    let v = this._value;
 
-		// if format is specified
-		if (this.uiElement.format) {
-			try {
-				v = eval(this.uiElement.format);
-			} catch (e) {
-				console.error(this.uiElement.format, e);
-			}
-		}
+    // if format is specified
+    if (this.uiElement.format) {
+      try {
+        v = eval(this.uiElement.format);
+      } catch (e) {
+        console.error(this.uiElement.format, e);
+      }
+    }
 
-		return v;
-	}
+    return v;
+  }
 
   set value(v: any) {
-		this._value = v;
+    this._value = v;
 
-		if (this.data && this.uiElement.key) {
-			obj.set(this.data, this.uiElement.key, v);			
-		}		
-	}
+    if (this.data && this.uiElement.key) {
+      obj.set(this.data, this.uiElement.key, v);
+    }
+  }
 }

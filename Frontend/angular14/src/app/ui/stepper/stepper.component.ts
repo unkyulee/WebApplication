@@ -1,17 +1,18 @@
+// @ts-nocheck
 import { Component } from "@angular/core";
-import { BaseComponent } from '../base.component';
-import obj from 'object-path';
+import { BaseComponent } from "../base.component";
+import obj from "object-path";
 
 @Component({
   selector: "stepper",
-  templateUrl: "stepper.component.html"
+  templateUrl: "stepper.component.html",
 })
 export class StepperComponent extends BaseComponent {
   ngOnInit() {
     super.ngOnInit();
 
     // subscript to event
-    this.onEvent = this.event.onEvent.subscribe(event =>
+    this.onEvent = this.event.onEvent.subscribe((event) =>
       this.eventHandler(event)
     );
   }
@@ -28,10 +29,10 @@ export class StepperComponent extends BaseComponent {
         // if exists then do nothing - it's already there
       } else if (
         event.datakey &&
-        data.find(item => item[event.datakey] == event.data[event.datakey])
+        data.find((item) => item[event.datakey] == event.data[event.datakey])
       ) {
         let found = data.find(
-          item => item[event.datakey] == event.data[event.datakey]
+          (item) => item[event.datakey] == event.data[event.datakey]
         );
         if (found) {
           // item found - replace it
@@ -63,13 +64,12 @@ export class StepperComponent extends BaseComponent {
   }
 
   selectionChanged(event) {
-    if(obj.has(this.uiElement, 'selectionChanged')) {
+    if (obj.has(this.uiElement, "selectionChanged")) {
       try {
-        eval(this.uiElement.selectionChanged)
-      } catch(e) {
-        console.error(e)
+        eval(this.uiElement.selectionChanged);
+      } catch (e) {
+        console.error(e);
       }
     }
-
   }
 }

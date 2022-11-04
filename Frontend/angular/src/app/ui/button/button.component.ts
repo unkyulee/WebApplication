@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
-import 'file-saver';
+import "file-saver";
 
 // user imports
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "button-component",
-  templateUrl: "./button.component.html"
+  templateUrl: "./button.component.html",
 })
 export class ButtonComponent extends BaseComponent {
   eval(expression) {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Component } from "@angular/core";
 
 // user Imports
@@ -35,8 +36,8 @@ export class WebViewComponent extends BaseComponent {
         try {
           // save preload script in electron store
           window.store.set(`http://${this.uiElement.preload}`, r.script);
-        } catch(ex) {
-          this.event.send({name: 'error', error: ex})
+        } catch (ex) {
+          this.event.send({ name: "error", error: ex });
         }
 
         // load the webview when preload script is download

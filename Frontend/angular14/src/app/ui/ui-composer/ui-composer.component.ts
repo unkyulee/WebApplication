@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Component } from "@angular/core";
 import obj from "object-path";
 
@@ -23,7 +24,7 @@ export class UIComposerComponent extends BaseComponent {
   }
 
   async eventHandler(event) {
-    if (event.name == "navigation-changed") {      
+    if (event.name == "navigation-changed") {
       // hide all screen
       for (let context of this.context) {
         if (context.key) {

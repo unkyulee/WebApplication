@@ -1,31 +1,39 @@
+// @ts-nocheck
 import { Component } from "@angular/core";
-import obj from "object-path";
-
-// user imports
-import { BaseComponent } from "../../ui/base.component";
-
-// get config from index.html
-declare var window: any;
+import { AuthService } from "src/app/services/auth/auth.service";
+import { ConfigService } from "src/app/services/config.service";
+import { EventService } from "src/app/services/event.service";
+import { RestService } from "src/app/services/rest.service";
 
 @Component({
   selector: "login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  styleUrls: ["./login.component.css"],
 })
-export class LoginComponent extends BaseComponent {
-  loading = false;
+export class LoginComponent {
+  constructor(
+    private event: EventService,
+    private auth: AuthService,
+    private config: ConfigService,
+    private rest: RestService
+  ) {}
+
+  onEvent: Subscription;
+
+  // download uiElement
+  loading = true;
+
+  //
+  data = {};
+  uiElement: any = {};
 
   async ngOnInit() {
-    obj.ensureExists(this, "data", {});
-    obj.ensureExists(this, "uiElement", {});
+    // download uielement
+    await this.download();
 
-    // load uielement
-	this.load();
-	
     // handle events
     this.onEvent = this.event.onEvent.subscribe(async (event) => {
       if (event.name == "login") {
-        if (event.data) this.data = Object.assign(this.data, event.data);
         await this.authenticate();
       }
     });
@@ -35,20 +43,21 @@ export class LoginComponent extends BaseComponent {
     this.onEvent.unsubscribe();
   }
 
-  load() {
+  async download() {
+    this.loading = true;
     // retreive login screen
-    this.rest
-      .request(`${this.config.get("url")}/login.config`, null, "get", {}, true)
-      .subscribe((r) => {
-        this.uiElement = r;
-        this.event.send({ name: "changed" });
-      });
+    this.uiElement = await this.rest.requestAsync(
+      `${this.config.get("url")}/login.config`
+    );
+    console.log(this.uiElement);
+    this.loading = false;
   }
 
   // login
   async authenticate() {
     // try login
     this.loading = true;
+
     // remove error message from the data
     delete this.data.error;
 

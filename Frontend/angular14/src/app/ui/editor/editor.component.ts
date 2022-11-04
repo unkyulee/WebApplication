@@ -1,43 +1,43 @@
-import { Component, ViewChild } from '@angular/core';
-import { BaseComponent } from '../base.component';
-import { Subject } from 'rxjs';
-import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import obj from 'object-path';
-import { Editor } from 'primeng/editor';
+// @ts-nocheck
+import { Component, ViewChild } from "@angular/core";
+import { BaseComponent } from "../base.component";
+import { Subject } from "rxjs";
+import { distinctUntilChanged, debounceTime } from "rxjs/operators";
+import obj from "object-path";
+import { Editor } from "primeng/editor";
 
 @Component({
-	selector: 'editor',
-	templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss'],
+  selector: "editor",
+  templateUrl: "./editor.component.html",
+  styleUrls: ["./editor.component.scss"],
 })
 export class EditorComponent extends BaseComponent {
-  @ViewChild('editor') editor: Editor;
+  @ViewChild("editor") editor: Editor;
 
   typeAheadEventEmitter = new Subject<string>();
 
-	ngOnInit() {
+  ngOnInit() {
     super.ngOnInit();
 
     // not all the input will be sent as an event / rest
     // will be debounced every 700 ms
     this.typeAheadEventEmitter
       .pipe(distinctUntilChanged(), debounceTime(300))
-      .subscribe(v => this.inputChanged(v));
+      .subscribe((v) => this.inputChanged(v));
   }
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
     // eliminate the bug that adds new line after a list
-    this.editor.getQuill().options.modules.clipboard.matchVisual = false
+    this.editor.getQuill().options.modules.clipboard.matchVisual = false;
   }
-
 
   ngOnDestroy() {
     super.ngOnDestroy();
     this.typeAheadEventEmitter.unsubscribe();
-	}
+  }
 
-	_value: any;
+  _value: any;
   get value() {
     if (this.data && this.uiElement.key) {
       // if null then assign default
@@ -74,9 +74,9 @@ export class EditorComponent extends BaseComponent {
     }
 
     this.typeAheadEventEmitter.next(v);
-	}
+  }
 
-	inputChanged(v) {
+  inputChanged(v) {
     // see if there are any input change handlers
     if (this.uiElement.changed) {
       try {

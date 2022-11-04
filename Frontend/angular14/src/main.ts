@@ -2,7 +2,7 @@ import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 import { AppModule } from "./app/app.module";
 import "zone.js/dist/zone"; // Included with Angular CLI.
 
-// dragular
+//
 (window as any).global = window;
 
 import * as obj from "object-path";
@@ -10,6 +10,8 @@ import * as obj from "object-path";
 
 import * as moment from "moment";
 (window as any).moment = moment;
+
+import "file-saver";
 
 platformBrowserDynamic()
   .bootstrapModule(AppModule)

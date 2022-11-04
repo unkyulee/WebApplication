@@ -21,10 +21,7 @@ import { PermissionService } from "./services/permission.service";
 import { UIService } from "./services/ui.service";
 import { WebSocketService } from "./services/websocket.service";
 
-/*
-import { NgxImageCompressService } from "ngx-image-compress";
-
-*/
+import { SafePipe } from "./plugins/safe.pipe";
 
 @NgModule({
   declarations: [AppComponent],
@@ -48,7 +45,6 @@ import { NgxImageCompressService } from "ngx-image-compress";
     UIService,
     WebSocketService,
     PermissionService,
-    //NgxImageCompressService,
   ],
   bootstrap: [AppComponent],
 })

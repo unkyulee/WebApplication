@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Component } from "@angular/core";
 import { Subject } from "rxjs";
 
@@ -8,26 +9,24 @@ import { BaseComponent } from "../base.component";
   selector: "image",
   template: `
     <img
-      *ngIf="condition(uiElement)"      
+      *ngIf="condition(uiElement)"
       [ngStyle]="uiElement.style"
       [ngClass]="uiElement.class"
       [src]="safeEval(uiElement.src)"
       (click)="click($event)"
       (error)="error($event)"
-      observeVisibility
       [debounceTime]="100"
       (visible)="visible()"
     />
   `,
 })
 export class ImageComponent extends BaseComponent {
-  
-  // event handle when becomes visible 
+  // event handle when becomes visible
   private observer: IntersectionObserver | undefined;
   private subject$ = new Subject<{
     entry: IntersectionObserverEntry;
     observer: IntersectionObserver;
-  }>(); 
+  }>();
 
   error(event) {
     if (this.uiElement && this.uiElement.error) {
@@ -38,7 +37,7 @@ export class ImageComponent extends BaseComponent {
       }
     }
   }
- 
+
   visible() {
     if (this.uiElement && this.uiElement.visible) {
       try {

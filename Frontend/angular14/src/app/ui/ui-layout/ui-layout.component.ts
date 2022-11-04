@@ -1,5 +1,5 @@
+// @ts-nocheck
 import { Component, HostListener } from "@angular/core";
-import obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";
@@ -10,7 +10,7 @@ import { BaseComponent } from "../base.component";
     <ng-container *ngFor="let ui of uiElement.screens">
       <ng-container *ngIf="condition(ui)">
         <div
-          ui-layout-wrapper          
+          ui-layout-wrapper
           [uiElement]="ui"
           [data]="data"
           [copy]="copy"
@@ -24,5 +24,5 @@ export class UILayoutComponent extends BaseComponent {
     if (obj.has(this.uiElement, "click")) {
       this.click(event, this.data, this.uiElement.click);
     }
-  }  
+  }
 }

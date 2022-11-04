@@ -1,12 +1,13 @@
+// @ts-nocheck
 import { Component, Input, ViewChild } from "@angular/core";
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuTrigger } from "@angular/material/menu";
 
 // user Imports
-import { BaseComponent } from '../base.component';
+import { BaseComponent } from "../base.component";
 
 @Component({
   selector: "popup-menu",
-  templateUrl: "./popup-menu.component.html"
+  templateUrl: "./popup-menu.component.html",
 })
 export class PopupMenuComponent extends BaseComponent {
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
@@ -14,7 +15,9 @@ export class PopupMenuComponent extends BaseComponent {
   ngOnInit() {
     super.ngOnInit();
     // event handler
-    this.onEvent = this.event.onEvent.subscribe(event => this.eventHandler(event));
+    this.onEvent = this.event.onEvent.subscribe((event) =>
+      this.eventHandler(event)
+    );
   }
 
   ngOnDestroy() {
@@ -28,8 +31,7 @@ export class PopupMenuComponent extends BaseComponent {
       event.name == "popup-trigger" &&
       (!event.key || event.key == this.uiElement.key)
     ) {
-      if (this.trigger)
-        this.trigger.openMenu()
+      if (this.trigger) this.trigger.openMenu();
     }
   }
 
@@ -48,11 +50,14 @@ export class PopupMenuComponent extends BaseComponent {
     }
 
     // if null then assign default
-    if ((typeof this._value == "undefined" || this._value == null) && this.uiElement.default) {
+    if (
+      (typeof this._value == "undefined" || this._value == null) &&
+      this.uiElement.default
+    ) {
       this._value = this.uiElement.default;
       try {
         this._value = eval(this.uiElement.default);
-      } catch (e) { }
+      } catch (e) {}
     }
 
     // if format is specified
@@ -60,7 +65,7 @@ export class PopupMenuComponent extends BaseComponent {
       try {
         this._value = eval(this.uiElement.format);
       } catch (e) {
-        console.error(this.uiElement.format, e)
+        console.error(this.uiElement.format, e);
       }
     }
 

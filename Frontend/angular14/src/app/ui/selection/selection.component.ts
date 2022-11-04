@@ -1,9 +1,10 @@
+// @ts-nocheck
 import { Component, ViewChild, ElementRef } from "@angular/core";
 import { MatSelect } from "@angular/material/select";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import obj from 'object-path';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import obj from "object-path";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
 // user imports
 import { BaseComponent } from "../base.component";
@@ -132,17 +133,16 @@ export class SelectionComponent extends BaseComponent {
   }
 
   drop(event: CdkDragDrop<any[]>) {
-    console.log('drop')
-    if(this.uiElement.drop) {
+    console.log("drop");
+    if (this.uiElement.drop) {
       try {
         eval(this.uiElement.drop);
       } catch (e) {}
     } else {
       moveItemInArray(this._value, event.previousIndex, event.currentIndex);
     }
-    
   }
-  
+
   loadOption() {
     if (this.uiElement.src) {
       // download data through rest web services

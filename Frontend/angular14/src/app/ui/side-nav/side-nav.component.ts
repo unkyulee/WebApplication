@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { Component, HostListener, ViewChild, ElementRef } from "@angular/core";
-import obj from 'object-path';
+import obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";
@@ -7,7 +8,7 @@ import { MatSidenav } from "@angular/material/sidenav";
 
 @Component({
   selector: "side-nav",
-  templateUrl: "side-nav.component.html"
+  templateUrl: "side-nav.component.html",
 })
 export class SideNavComponent extends BaseComponent {
   @HostListener("click") onClick() {
@@ -22,7 +23,7 @@ export class SideNavComponent extends BaseComponent {
 
   ngOnInit() {
     // event handler
-    this.onEvent = this.event.onEvent.subscribe(event =>
+    this.onEvent = this.event.onEvent.subscribe((event) =>
       this.eventHandler(event)
     );
   }
@@ -44,13 +45,13 @@ export class SideNavComponent extends BaseComponent {
       event.name == "open-sidenav" &&
       (!event.key || event.key == this.uiElement.key)
     ) {
-      this.sidenav.open()
+      this.sidenav.open();
     } else if (
       event &&
       event.name == "close-sidenav" &&
       (!event.key || event.key == this.uiElement.key)
     ) {
-      this.sidenav.close()
+      this.sidenav.close();
     }
   }
 }

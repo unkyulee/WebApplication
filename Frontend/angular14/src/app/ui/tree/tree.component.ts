@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Component } from "@angular/core";
 import { BaseComponent } from "../base.component";
 import obj from "object-path";

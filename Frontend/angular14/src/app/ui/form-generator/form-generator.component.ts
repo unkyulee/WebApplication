@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Component, KeyValueDiffer, KeyValueDiffers } from "@angular/core";
 import { EMPTY } from "rxjs";
 import { catchError } from "rxjs/operators";

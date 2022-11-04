@@ -1,10 +1,11 @@
+// @ts-nocheck
 import { Component, HostListener, ElementRef, ViewChild } from "@angular/core";
 import { BaseComponent } from "../base.component";
-import obj from 'object-path';
+import obj from "object-path";
 
 @Component({
   selector: "barcode",
-  templateUrl: "barcode.component.html"
+  templateUrl: "barcode.component.html",
 })
 export class BarcodeComponent extends BaseComponent {
   constructor(public elRef: ElementRef) {
@@ -13,7 +14,7 @@ export class BarcodeComponent extends BaseComponent {
 
   @ViewChild("print") print: ElementRef;
 
-  @HostListener("click", ['$event']) onClick(event) {
+  @HostListener("click", ["$event"]) onClick(event) {
     if (obj.has(this.uiElement, "click")) {
       this.click(event, this.data, this.uiElement.click);
     }

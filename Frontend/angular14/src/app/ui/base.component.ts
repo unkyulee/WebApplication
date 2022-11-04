@@ -1,10 +1,9 @@
+// @ts-nocheck
 import { Component, Input, OnDestroy, NgZone } from "@angular/core";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 import { Subscription, ReplaySubject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { AppInjector } from "../app.component";
-import obj from 'object-path';
-import Swal from 'sweetalert2/dist/sweetalert2.js';  
 
 import { EventService } from "../services/event.service";
 import { RestService } from "../services/rest.service";
@@ -12,7 +11,6 @@ import { NavService } from "../services/nav.service";
 import { ConfigService } from "../services/config.service";
 import { UserService } from "../services/user/user.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { CordovaService } from "../services/cordova.service";
 import { AuthService } from "../services/auth/auth.service";
 import { UtilService } from "../services/util.service";
 import { UIService } from "../services/ui.service";
@@ -20,23 +18,21 @@ import { PermissionService } from "../services/permission.service";
 import { WebSocketService } from "../services/websocket.service";
 
 @Component({
-  template: ""
+  template: "",
 })
 export class BaseComponent {
   constructor() {
     // dependency injection
+    this.zone = AppInjector.get(NgZone);
+    this.router = AppInjector.get(Router);
     this.util = AppInjector.get(UtilService);
     this.event = AppInjector.get(EventService);
     this.rest = AppInjector.get(RestService);
     this.nav = AppInjector.get(NavService);
     this.ui = AppInjector.get(UIService);
     this.config = AppInjector.get(ConfigService);
-    this.user = AppInjector.get(UserService);    
-    this.router = AppInjector.get(Router);
-    this.snackBar = AppInjector.get(MatSnackBar);
-    this.cordova = AppInjector.get(CordovaService);
+    this.user = AppInjector.get(UserService);
     this.auth = AppInjector.get(AuthService);
-    this.zone = AppInjector.get(NgZone);
     this.permission = AppInjector.get(PermissionService);
     this.websocket = AppInjector.get(WebSocketService);
   }
@@ -53,10 +49,8 @@ export class BaseComponent {
   public nav: NavService;
   public ui: UIService;
   public config: ConfigService;
-  public user: UserService;  
+  public user: UserService;
   public router: Router;
-  public snackBar: MatSnackBar;
-  public cordova: CordovaService;
   public auth: AuthService;
   public zone: NgZone;
   public permission: PermissionService;
@@ -71,7 +65,7 @@ export class BaseComponent {
     if (obj.has(this, "uiElement.eventHandler")) {
       this.onCustomEvent = this.event.onEvent
         .pipe(takeUntil(componentDestroyed(this)))
-        .subscribe(event => this.customEventHandler(event));
+        .subscribe((event) => this.customEventHandler(event));
     }
 
     // default
@@ -144,7 +138,7 @@ export class BaseComponent {
       try {
         await eval(clickScript);
       } catch (e) {
-        this.event.send({name: "error", error: `${e} ${e.stack}`})
+        this.event.send({ name: "error", error: `${e} ${e.stack}` });
       }
     }
   }
@@ -256,10 +250,8 @@ export class BaseComponent {
 
   deepCopy(obj) {
     //return obj
-    if(Array.isArray(obj))
-      return [...obj]
-    else
-      return {...obj}
+    if (Array.isArray(obj)) return [...obj];
+    else return { ...obj };
   }
 }
 
