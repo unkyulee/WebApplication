@@ -1,1 +1,3 @@
-Layout Engine
+<side-nav *ngIf="layout == 'side-nav'" [uiElement]="uiElement" [data]="data"></side-nav>
+<top-menu *ngIf="layout == 'top-menu'" [uiElement]="uiElement" [data]="data"></top-menu>
+<overlay></overlay>

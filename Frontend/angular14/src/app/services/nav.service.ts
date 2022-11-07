@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Injectable } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { Location } from "@angular/common";
@@ -119,7 +120,7 @@ export class NavService {
     // find item
     let firstNavItem = null;
     for (const navItem of navigation) {
-      if (this.check(navItem)) {
+      if (this.check_permission(navItem)) {
         // save first navigation item
         if (firstNavItem == null && !navItem.children) {
           if (navItem.type == "desktop" && !this.util.isElectron()) {
@@ -132,7 +133,7 @@ export class NavService {
         // if has children then loop through children
         if (navItem.children) {
           for (const child of navItem.children) {
-            if (this.check(child)) {
+            if (this.check_permission(child)) {
               // save first navigation item
               if (firstNavItem == null && !child.children) {
                 if (navItem.type == "desktop" && !this.util.isElectron()) {
@@ -142,7 +143,11 @@ export class NavService {
                 }
               }
 
-              if (child.url && url == child.url && this.check(navItem))
+              if (
+                child.url &&
+                url == child.url &&
+                this.check_permission(navItem)
+              )
                 return child;
             }
           }
@@ -300,7 +305,7 @@ export class NavService {
     return false;
   }
 
-  check(navItem) {
+  check_permission(navItem) {
     let allowed = false;
 
     if (navItem.permissions) {

@@ -18,6 +18,7 @@ import { AuthService } from "./services/auth/auth.service";
 import { NavService } from "./services/nav.service";
 import { UIService } from "./services/ui.service";
 import { WebSocketService } from "./services/websocket.service";
+import { LayoutModule } from "@angular/cdk/layout";
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { WebSocketService } from "./services/websocket.service";
     BrowserAnimationsModule,
     HttpClientModule,
     LoadingModule,
+    LayoutModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

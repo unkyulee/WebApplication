@@ -47,7 +47,7 @@ export class UIElement {
     // create component based on the type
     const type = obj.get(
       this.component_registry,
-      obj.get(this.uiElement, "type", "")
+      obj.get(this.uiElement, "type", "layout")
     );
 
     // if type exists then create the component
