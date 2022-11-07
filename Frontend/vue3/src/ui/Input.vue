@@ -79,6 +79,7 @@ export default defineComponent({
   data: function () {
     return {
       value: null,
+      changedTimeout: null,
     };
   },
   mounted() {
@@ -101,14 +102,17 @@ export default defineComponent({
   },
   methods: {
     changed(e) {
-      // trigger custom event
-      if (this.uiElement.changed) {
-        try {
-          eval(this.uiElement.changed);
-        } catch (ex) {
-          console.error(ex);
+      clearTimeout(this.changedTimeout);
+      this.changedTimeout = setTimeout(async () => {
+        // trigger custom event
+        if (this.uiElement.changed) {
+          try {
+            eval(this.uiElement.changed);
+          } catch (ex) {
+            console.error(ex);
+          }
         }
-      }
+      }, 1000);
     },
     minus() {
       if (!this.value) this.value = 0;

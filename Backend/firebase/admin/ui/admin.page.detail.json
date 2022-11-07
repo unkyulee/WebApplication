@@ -1,0 +1,81 @@
+{
+  "_id": "admin.page.detail",
+  "type": "layout",
+  "layoutStyle": {
+    "background": "white",
+    "width": "100%",
+    "maxHeight": "90vh",
+    "height": "fit-content",
+    "display": "flex",
+    "flexFlow": "column"
+  },
+  "screens": [
+    {
+      "type": "layout",
+      "layoutStyle": {
+        "flexGrow": 1,
+        "overflow": "auto"
+      },
+      "screens": [
+        {
+          "type": "typography",
+          "text": "NAVIGATION",
+          "layoutStyle": {
+            "width": "100%",
+            "background": "lightgray",
+            "padding": "8px"
+          }
+        },
+        {
+          "type": "code-editor",
+          "key": "",
+          "language": "json",
+          "transform": "value = JSON.stringify(value, null, 4)",
+          "changed": "Object.assign(this.data, JSON.parse(value))",
+          "style": {
+            "width": "100%",
+            "height": "100%",
+            "minHeight": "400px"
+          }
+        }
+      ]
+    },
+    {
+      "type": "layout",
+      "layoutStyle": {
+        "background": "ghostwhite",
+        "position": "relative",
+        "padding": "8px",
+        "display": "flex"
+      },
+      "screens": [
+        {
+          "type": "button",
+          "label": "CLOSE",
+          "click": "this.event.send({name: 'close-dialog'});",
+          "variant": "text"
+        },
+        {
+          "type": "layout",
+          "layoutStyle": {
+            "flexGrow": 1,
+            "width": "1px"
+          }
+        },
+        {
+          "type": "button",
+          "label": "DELETE",
+          "color": "warn",
+          "click": "this.event.send({name: 'close-dialog'});\r\n(async () => {\r\n    // delete\r\n    await this.rest.request(`/api/admin/navigation`, this.data, 'delete');\r\n    this.event.send({name: \"refresh\", key: \"navigations\"})\r\n})();",
+          "variant": "text"
+        },
+        {
+          "type": "button",
+          "label": "SAVE",
+          "color": "primary",
+          "click": "//\r\n(async () => { \r\n    let response = await this.rest.request('/api/admin/navigation', this.data, 'post');\r\n    if(response.status != 200) {\r\n        console.error(response.data);\r\n    } else {\r\n        this.event.send({name: \"snackbar\", text: \"SAVED!\"})\r\n    }\r\n})();"
+        }
+      ]
+    }
+  ]
+}

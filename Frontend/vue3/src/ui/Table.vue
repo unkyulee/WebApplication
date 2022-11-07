@@ -85,13 +85,16 @@ export default defineComponent({
       obj.set(this.data, `${this.uiElement.key}_total`, 0);
 
       //
-      this.event.subscribe(this._uid, "refresh", async (event) => {
+      this.event.subscribe(this.uiElement.key, "refresh", async (event) => {
         if (event.key == this.uiElement.key) await this.requestDownload();
       });
     }
 
     // download request
     this.requestDownload();
+  },
+  destroy() {
+    this.event.unsubscribe_all(this.uiElement.key);
   },
   methods: {
     async requestDownload() {

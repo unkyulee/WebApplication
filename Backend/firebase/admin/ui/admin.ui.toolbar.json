@@ -1,0 +1,13 @@
+{
+  "_id": "admin.ui.toolbar",
+  "type": "button",
+  "icon": "mdi-plus",
+  "color": "primary",
+  "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.navigation.detail'})",
+  "layoutStyle": {
+    "margin": "4px",
+    "position": "absolute",
+    "bottom": "24px",
+    "right": "24px"
+  }
+}

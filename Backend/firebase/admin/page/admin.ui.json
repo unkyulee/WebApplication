@@ -1,0 +1,14 @@
+{
+  "_id": "admin.ui",
+  "type": "layout",
+  "screens": [
+    {
+      "type": "ui-element-id",
+      "uiElementId": "admin.ui.toolbar"
+    },
+    {
+      "type": "ui-element-id",
+      "uiElementId": "admin.ui.table"
+    }
+  ]
+}

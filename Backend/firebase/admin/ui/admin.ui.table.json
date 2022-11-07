@@ -1,0 +1,30 @@
+{
+  "_id": "admin.ui.table",
+  "type": "data-table",
+  "tableType": "table",
+  "key": "uis",
+  "src": "`/api/admin/ui`",
+  "columns": [
+    {
+      "label": "_id",
+      "key": "_id",
+      "type": "typography",
+      "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.ui.detail', data: this.data})",
+      "layoutStyle": {
+        "fontWeight": "bold",
+        "cursor": "pointer"
+      }
+    },
+    {
+      "label": "TYPE",
+      "key": "type",
+      "type": "typography"
+    },
+    {
+      "label": "UPDATED",
+      "key": "_updated",
+      "format": "moment(this.data._updated).format('YYYY.MM.DD HH:MM')",
+      "type": "typography"
+    }
+  ]
+}

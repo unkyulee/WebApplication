@@ -73,7 +73,13 @@ async function post(url, data, method, options) {
   const c = collection(db, name);
 
   // save data
-  if (data._id) await setDoc(doc(db, name, data._id), data);
+  if (data._id) {
+    // update
+    data._updated = new Date();
+    await setDoc(doc(db, name, data._id), data);
+  } else {
+    // insert
+  }
 
   return response;
 }

@@ -135,7 +135,12 @@ export default defineComponent({
         // select the first navigation
         if (!selectedNav) {
           // select the first navigation
-          this.$router.push(obj.get(navigation, "0.url"));
+          if (obj.get(navigation, "0.url")) {
+            this.$router.push(obj.get(navigation, "0.url"));
+          } else {
+            this.error = "initial navigation not specified";
+            return;
+          }
         }
       }
       //
