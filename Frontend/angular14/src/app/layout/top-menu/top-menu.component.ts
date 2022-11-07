@@ -8,11 +8,13 @@ import { UtilService } from "src/app/services/util.service";
 @Component({
   selector: "top-menu",
   templateUrl: "./top-menu.component.html",
+  styleUrls: ["./top-menu.component.css"],
 })
 export class TopMenuComponent {
   @Input() uiElement: any;
   @Input() data: any;
   @Input() navigations: any[];
+  @Input() actions: any[];
 
   constructor(
     public config: ConfigService,

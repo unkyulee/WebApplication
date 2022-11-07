@@ -24,6 +24,7 @@ export class LayoutEngineComponent {
   uiElement = {};
   data = {};
   navigations: [];
+  actions: [];
 
   ngOnInit() {
     // check layout from config

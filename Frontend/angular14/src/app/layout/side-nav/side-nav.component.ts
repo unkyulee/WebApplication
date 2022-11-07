@@ -15,6 +15,7 @@ export class SideNavComponent {
   @Input() uiElement: any;
   @Input() data: any;
   @Input() navigations: any[];
+  @Input() actions: any[];
 
   constructor(
     public config: ConfigService,
@@ -23,9 +24,6 @@ export class SideNavComponent {
     public rest: RestService,
     public util: UtilService
   ) {}
-
-  // toolbar actions
-  actions: [];
 }
 
 /*
