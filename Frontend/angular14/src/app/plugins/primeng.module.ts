@@ -8,6 +8,7 @@ import { ButtonModule } from "primeng/button";
 import { TreeTableModule } from "primeng/treetable";
 import { PanelMenuModule } from "primeng/panelmenu";
 import { SliderModule } from "primeng/slider";
+import { MenubarModule } from "primeng/menubar";
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { SliderModule } from "primeng/slider";
     TreeTableModule,
     PanelMenuModule,
     SliderModule,
+    MenubarModule,
   ],
   exports: [
     EditorModule,
@@ -31,6 +33,7 @@ import { SliderModule } from "primeng/slider";
     TreeTableModule,
     PanelMenuModule,
     SliderModule,
+    MenubarModule,
   ],
 })
 export class PrimeNGModule {}

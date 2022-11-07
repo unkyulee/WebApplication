@@ -1,10 +1,9 @@
+// @ts-nocheck
 import { Injectable } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { EventService } from "./event.service";
-import obj from "object-path";
-
-// get config from index.html
-declare var window: any;
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class ConfigService {
@@ -14,30 +13,11 @@ export class ConfigService {
   ) {
     //
     obj.ensureExists(window, "__CONFIG__", {});
-
-    // event handler
-    this.event.onEvent.subscribe((e) => this.eventHandler(e));
-
-    // observe screen size changes
-    this.checkWindowSize();
   }
 
-  eventHandler(e) {
-    if (e.name == "refresh") {
-      this.checkWindowSize();
-    }
-  }
-
-  // detect window size changes
-  public isHandset: boolean;
-  checkWindowSize() {
-    // observe screen size changes
-    if (this.breakpointObserver.isMatched([Breakpoints.Handset])) {
-      this.isHandset = true;
-    } else {
-      this.isHandset = false;
-    }
-  }
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(map((result) => result.matches));
 
   get(name, def_value?) {
     let v = null;

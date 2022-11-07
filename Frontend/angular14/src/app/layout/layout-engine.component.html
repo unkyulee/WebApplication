@@ -1,3 +1,5 @@
-<side-nav *ngIf="layout == 'side-nav'" [uiElement]="uiElement" [data]="data"></side-nav>
-<top-menu *ngIf="layout == 'top-menu'" [uiElement]="uiElement" [data]="data"></top-menu>
+<side-nav *ngIf="(config.isHandset$ | async)" [uiElement]="uiElement" [data]="data" [navigations]="navigations">
+</side-nav>
+<top-menu *ngIf="!(config.isHandset$ | async)" [uiElement]="uiElement" [data]="data" [navigations]="navigations">
+</top-menu>
 <overlay></overlay>
