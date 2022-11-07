@@ -30,14 +30,7 @@ export class LoadingComponent {
   async ngOnInit() {
     // subscribe to event
     this.onEvent = this.event.onEvent.subscribe(async (event) => {
-      if (event.name == "registration-completed") {
-        this.error = "";
-        this.message = "";
-        this.screen = "";
-
-        // init again
-        await this.initialize();
-      } else if (event.name == "init") {
+      if (event.name == "registration-completed" || event.name == "init") {
         this.error = "";
         this.message = "";
         this.screen = "";
@@ -80,7 +73,7 @@ export class LoadingComponent {
     this.message = "All Good!";
 
     // send navigation updated
-    this.event.sendAsync({ name: "loading-completed" });
+    this.event.send({ name: "loading-completed" });
   }
 
   async checkServiceURL() {

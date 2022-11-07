@@ -16,12 +16,8 @@ import { ConfigService } from "./services/config.service";
 import { EventService } from "./services/event.service";
 import { AuthService } from "./services/auth/auth.service";
 import { NavService } from "./services/nav.service";
-import { UserService } from "./services/user/user.service";
-import { PermissionService } from "./services/permission.service";
 import { UIService } from "./services/ui.service";
 import { WebSocketService } from "./services/websocket.service";
-
-import { SafePipe } from "./plugins/safe.pipe";
 
 @NgModule({
   declarations: [AppComponent],
@@ -40,11 +36,9 @@ import { SafePipe } from "./plugins/safe.pipe";
     ConfigService,
     EventService,
     AuthService,
-    UserService,
     NavService,
     UIService,
     WebSocketService,
-    PermissionService,
   ],
   bootstrap: [AppComponent],
 })

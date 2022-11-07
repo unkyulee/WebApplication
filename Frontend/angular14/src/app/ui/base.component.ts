@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Component, Input, OnDestroy, NgZone } from "@angular/core";
+import { Component, Input, OnDestroy, HostBinding } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subscription, ReplaySubject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -9,20 +9,30 @@ import { EventService } from "../services/event.service";
 import { RestService } from "../services/rest.service";
 import { NavService } from "../services/nav.service";
 import { ConfigService } from "../services/config.service";
-import { UserService } from "../services/user/user.service";
 import { AuthService } from "../services/auth/auth.service";
 import { UtilService } from "../services/util.service";
 import { UIService } from "../services/ui.service";
-import { PermissionService } from "../services/permission.service";
 import { WebSocketService } from "../services/websocket.service";
 
 @Component({
   template: "",
 })
 export class BaseComponent {
+  @Input() uiElement: any;
+  @Input() data: any;
+
+  @HostBinding("class")
+  get class() {
+    return obj.get(this.uiElement, "layoutClass", {});
+  }
+
+  @HostBinding("style")
+  get style() {
+    return obj.get(this.uiElement, "layoutStyle", {});
+  }
+
   constructor() {
     // dependency injection
-    this.zone = AppInjector.get(NgZone);
     this.router = AppInjector.get(Router);
     this.util = AppInjector.get(UtilService);
     this.event = AppInjector.get(EventService);
@@ -30,16 +40,9 @@ export class BaseComponent {
     this.nav = AppInjector.get(NavService);
     this.ui = AppInjector.get(UIService);
     this.config = AppInjector.get(ConfigService);
-    this.user = AppInjector.get(UserService);
     this.auth = AppInjector.get(AuthService);
-    this.permission = AppInjector.get(PermissionService);
     this.websocket = AppInjector.get(WebSocketService);
   }
-
-  // configuration of the ui element
-  @Input() uiElement: any;
-  @Input() data: any;
-  @Input() copy: any;
 
   // global services
   public util: UtilService;
@@ -94,14 +97,35 @@ export class BaseComponent {
     if (this.onCustomEvent) this.onCustomEvent.unsubscribe();
   }
 
-  ngOnChanges() {
-    if (this.uiElement && this.uiElement.onChanges) {
+  //////////////////////////////////////////////////
+  // BASE UTILITIES
+  //////////////////////////////////////////////////
+
+  customEventHandler(event) {
+    if (this.uiElement.eventHandler) {
       try {
-        eval(this.uiElement.onChanges);
+        eval(this.uiElement.eventHandler);
       } catch (e) {
-        console.error(e);
+        console.error(e, this.uiElement.eventHandler);
       }
     }
+  }
+
+  safeGet(data, path, def_value?) {
+    return obj.get(data, path, def_value);
+  }
+
+  condition(uiElement) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(uiElement.condition, e);
+        result = false;
+      }
+    }
+    return result;
   }
 
   default() {
@@ -121,16 +145,6 @@ export class BaseComponent {
     }
   }
 
-  customEventHandler(event) {
-    if (this.uiElement.eventHandler) {
-      try {
-        eval(this.uiElement.eventHandler);
-      } catch (e) {
-        console.error(e, this.uiElement.eventHandler);
-      }
-    }
-  }
-
   async click(event, item?, script?) {
     let clickScript = script ? script : this.uiElement.click;
     if (clickScript) {
@@ -139,16 +153,6 @@ export class BaseComponent {
       } catch (e) {
         this.event.send({ name: "error", error: `${e} ${e.stack}` });
         console.log(e);
-      }
-    }
-  }
-
-  keyupEnter() {
-    if (this.uiElement.keyupEnter) {
-      try {
-        eval(this.uiElement.keyupEnter);
-      } catch (e) {
-        console.error(e);
       }
     }
   }
@@ -170,88 +174,6 @@ export class BaseComponent {
       console.error(e);
     }
     return value;
-  }
-
-  condition(uiElement) {
-    let result = true;
-    if (uiElement && uiElement.condition) {
-      try {
-        result = eval(uiElement.condition);
-      } catch (e) {
-        console.error(uiElement.condition, e);
-        result = false;
-      }
-    }
-    return result;
-  }
-
-  safeEval(script, data?) {
-    try {
-      return eval(script);
-    } catch (e) {
-      console.error(e, script, data);
-    }
-
-    return script;
-  }
-
-  /**
-   * range()
-   *
-   * Returns an array of numbers between a start number and an end number incremented
-   * sequentially by a fixed number(step), beginning with either the start number or
-   * the end number depending on which is greater.
-   *
-   * @param {number} start (Required: The start number.)
-   * @param {number} end (Required: The end number. If end is less than start,
-   *  then the range begins with end instead of start and decrements instead of increment.)
-   * @param {number} step (Optional: The fixed increment or decrement step. Defaults to 1.)
-   *
-   * @return {array} (An array containing the range numbers.)
-   *
-   * @throws {TypeError} (If any of start, end and step is not a finite number.)
-   * @throws {Error} (If step is not a positive number.)
-   */
-  range(start, end, step = 1) {
-    // Test that the first 3 arguments are finite numbers.
-    // Using Array.prototype.every() and Number.isFinite().
-    const allNumbers = [start, end, step].every(Number.isFinite);
-
-    // Throw an error if any of the first 3 arguments is not a finite number.
-    if (!allNumbers) {
-      throw new TypeError("range() expects only finite numbers as arguments.");
-    }
-
-    // Ensure the step is always a positive number.
-    if (step <= 0) {
-      throw new Error("step must be a number greater than 0.");
-    }
-
-    // When the start number is greater than the end number,
-    // modify the step for decrementing instead of incrementing.
-    if (start > end) {
-      step = -step;
-    }
-
-    // Determine the length of the array to be returned.
-    // The length is incremented by 1 after Math.floor().
-    // This ensures that the end number is listed if it falls within the range.
-    const length = Math.floor(Math.abs((end - start) / step)) + 1;
-
-    // Fill up a new array with the range numbers
-    // using Array.from() with a mapping function.
-    // Finally, return the new array.
-    return Array.from(Array(length), (x, index) => start + index * step);
-  }
-
-  safeGet(data, path, def_value?) {
-    return obj.get(data, path, def_value);
-  }
-
-  deepCopy(obj) {
-    //return obj
-    if (Array.isArray(obj)) return [...obj];
-    else return { ...obj };
   }
 }
 

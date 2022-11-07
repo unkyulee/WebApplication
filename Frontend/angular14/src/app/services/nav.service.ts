@@ -5,7 +5,6 @@ import { Location } from "@angular/common";
 // user imports
 import { EventService } from "./event.service";
 import { ConfigService } from "./config.service";
-import { PermissionService } from "./permission.service";
 import { UtilService } from "./util.service";
 
 @Injectable()
@@ -15,7 +14,6 @@ export class NavService {
     private location: Location,
     private event: EventService,
     private config: ConfigService,
-    private permission: PermissionService,
     private util: UtilService
   ) {
     // monitor navigation changes
@@ -121,7 +119,7 @@ export class NavService {
     // find item
     let firstNavItem = null;
     for (const navItem of navigation) {
-      if (this.permission.check(navItem)) {
+      if (this.check(navItem)) {
         // save first navigation item
         if (firstNavItem == null && !navItem.children) {
           if (navItem.type == "desktop" && !this.util.isElectron()) {
@@ -134,7 +132,7 @@ export class NavService {
         // if has children then loop through children
         if (navItem.children) {
           for (const child of navItem.children) {
-            if (this.permission.check(child)) {
+            if (this.check(child)) {
               // save first navigation item
               if (firstNavItem == null && !child.children) {
                 if (navItem.type == "desktop" && !this.util.isElectron()) {
@@ -144,11 +142,7 @@ export class NavService {
                 }
               }
 
-              if (
-                child.url &&
-                url == child.url &&
-                this.permission.check(navItem)
-              )
+              if (child.url && url == child.url && this.check(navItem))
                 return child;
             }
           }
@@ -304,5 +298,45 @@ export class NavService {
     }
 
     return false;
+  }
+
+  check(navItem) {
+    let allowed = false;
+
+    if (navItem.permissions) {
+      // give permission i.e. profile.view does profile.* allows?
+      let allowed_permissions = this.config.get("permissions", []);
+      //
+      for (let permission of navItem.permissions) {
+        for (let allowed_permission of allowed_permissions) {
+          if (this.util.match(permission, allowed_permission)) {
+            allowed = true;
+            break;
+          }
+        }
+      }
+    } else {
+      // if permission is not specified then allow
+      allowed = true;
+    }
+
+    return allowed;
+  }
+
+  permitted(permissions) {
+    let allowed = false;
+    // give permission i.e. profile.view does profile.* allows?
+    let allowed_permissions = this.config.get("permissions", []);
+    //
+    for (let permission of permissions) {
+      for (let allowed_permission of allowed_permissions) {
+        if (this.util.match(permission, allowed_permission)) {
+          allowed = true;
+          break;
+        }
+      }
+    }
+
+    return allowed;
   }
 }

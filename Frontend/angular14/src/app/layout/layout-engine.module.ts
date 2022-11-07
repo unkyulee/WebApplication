@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
-import { LayoutComponent } from "./layout.component";
+import { LayoutEngineComponent } from "./layout-engine.component";
 
 @NgModule({
-  declarations: [LayoutComponent],
+  declarations: [LayoutEngineComponent],
   exports: [],
   imports: [],
 })

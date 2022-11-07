@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { LayoutComponent } from "./layout/layout.component";
-import { LayoutModule } from "./layout/layout.module";
+import { LayoutEngineComponent } from "./layout/layout-engine.component";
+import { LayoutModule } from "./layout/layout-engine.module";
 
-const routes: Routes = [{ path: "**", component: LayoutComponent }];
+const routes: Routes = [{ path: "**", component: LayoutEngineComponent }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes), LayoutModule],

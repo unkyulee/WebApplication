@@ -1,12 +1,6 @@
-import { catchError } from "rxjs/operators";
-import { HttpErrorResponse } from "@angular/common/http";
-import { EMPTY } from "rxjs";
-
 // services
 import { RestService } from "../../rest.service";
 import { ConfigService } from "../../config.service";
-import { EventService } from "../../event.service";
-import { UserService } from "../../user/user.service";
 import { NavService } from "../../nav.service";
 import { UIService } from "../../ui.service";
 
@@ -14,8 +8,6 @@ export class DefaultAuthStrategy {
   constructor(
     private rest: RestService,
     private config: ConfigService,
-    private event: EventService,
-    private user: UserService,
     private nav: NavService,
     private ui: UIService
   ) {}
@@ -54,7 +46,7 @@ export class DefaultAuthStrategy {
     let token = localStorage.getItem("token");
     if (token && this.isValidToken(token) == true) {
       // check if the config navigation_id and the stored navigation_id matches
-      if (this.user.get("sub") == this.config.get("_id")) {
+      if (this.get("sub") == this.config.get("_id")) {
         // when authentication is proven to be valid locally
         // verify with the server when online
         if (navigator.onLine) {
@@ -93,5 +85,34 @@ export class DefaultAuthStrategy {
     }
 
     return isValid;
+  }
+
+  // return user login id
+  id() {
+    return this.get("unique_name");
+  }
+
+  name() {
+    return this.get("nameid");
+  }
+
+  roles() {
+    return this.get("roles");
+  }
+
+  token() {
+    return localStorage.getItem("token");
+  }
+
+  get(name) {
+    let token = this.token();
+    // do jwt decode
+    if (token) {
+      let base64Url = token.split(".")[1];
+      let base64 = base64Url.replace("-", "+").replace("_", "/");
+
+      let user = JSON.parse(window.atob(base64));
+      if (user) return user[name];
+    }
   }
 }

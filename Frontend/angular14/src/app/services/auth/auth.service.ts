@@ -9,9 +9,8 @@ import { NoAuthStrategy } from "./service/noauth";
 import { RestService } from "../rest.service";
 import { EventService } from "../event.service";
 import { ConfigService } from "../config.service";
-import { UserService } from "../user/user.service";
-import { NavService } from '../nav.service';
-import { UIService } from '../ui.service';
+import { NavService } from "../nav.service";
+import { UIService } from "../ui.service";
 
 @Injectable()
 export class AuthService {
@@ -19,7 +18,6 @@ export class AuthService {
     public rest: RestService,
     public event: EventService,
     public config: ConfigService,
-    public user: UserService,
     public nav: NavService,
     public ui: UIService
   ) {
@@ -27,14 +25,14 @@ export class AuthService {
     let strategy = this.config.get("auth");
     switch (strategy) {
       case "NoAuth":
-        this.authStrategy = new NoAuthStrategy(event);
+        this.authStrategy = new NoAuthStrategy();
         break;
       default:
-        this.authStrategy = new DefaultAuthStrategy(rest, config, event, user, nav, ui);
+        this.authStrategy = new DefaultAuthStrategy(rest, config, nav, ui);
     }
 
     // listen to events
-    this.event.onEvent.subscribe(async e => {
+    this.event.onEvent.subscribe(async (e) => {
       if (e == "logout") {
         await this.logout();
       }
@@ -55,6 +53,6 @@ export class AuthService {
 
   async logout() {
     this.authStrategy.logout();
-    this.event.send({name: 'initialize'});    
+    this.event.send({ name: "initialize" });
   }
 }

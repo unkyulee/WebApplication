@@ -1,15 +1,13 @@
-import { EventService } from "../../event.service";
-
 export class NoAuthStrategy {
-  constructor(private event: EventService) {}
+  constructor() {}
 
-  async login(data) {
+  async login() {
     return;
   }
 
   async logout() {}
 
-  async isAuthenticated() {    
+  async isAuthenticated() {
     return true;
   }
 

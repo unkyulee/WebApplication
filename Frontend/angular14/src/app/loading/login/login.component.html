@@ -1,6 +1,5 @@
-<ng-container *ngIf="!loading">
-  <div ui-layout-wrapper [uiElement]="uiElement" [data]="data"></div>
-</ng-container>
+<ng-container *ngIf="!loading" ui-element [uiElement]="uiElement" [data]="data" [style]="uiElement.layoutStyle"
+  [class]="uiElement.layoutClass"></ng-container>
 
 <div *ngIf="loading" class="fullscreen-centered">
   <mat-spinner></mat-spinner>
