@@ -5,6 +5,7 @@ import { MaterialModule } from "../plugins/material.module";
 import { PrimeNGModule } from "../plugins/primeng.module";
 import { UIModule } from "../ui/ui.module";
 import { LayoutEngineComponent } from "./layout-engine.component";
+import { DialogComponent } from "./overlay/dialog/dialog.component";
 import { OverlayComponent } from "./overlay/overlay.component";
 import { SideNavComponent } from "./side-nav/side-nav.component";
 import { TopMenuComponent } from "./top-menu/top-menu.component";
@@ -15,6 +16,7 @@ import { TopMenuComponent } from "./top-menu/top-menu.component";
     SideNavComponent,
     TopMenuComponent,
     OverlayComponent,
+    DialogComponent,
   ],
   exports: [],
   imports: [CommonModule, MaterialModule, PrimeNGModule, FormsModule, UIModule],

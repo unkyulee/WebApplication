@@ -53,6 +53,10 @@ export class LayoutEngineComponent {
     await this.render();
   }
 
+  ngOnDestroy() {
+    this.onEvent.unsubscribe();
+  }
+
   // render page
   async render() {
     //

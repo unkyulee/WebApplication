@@ -1,12 +1,26 @@
 <!-- Table -->
 <ng-container *ngIf="uiElement.tableType == 'table'">
   <p-table [columns]="uiElement.tableColumns" [value]="rows"
-    styleClass="p-datatable-sm p-datatable-striped p-datatable-gridlines"
     [responsiveLayout]="safeGet(uiElement, 'responsiveLayout', 'scroll')"
-    [rowHover]="safeGet(uiElement, 'rowHover', true)" [filterDelay]="safeGet(uiElement, 'filterDelay', 250)"
-    (sortFunction)="customSort($event)" [customSort]="true"
+    [filterDelay]="safeGet(uiElement, 'filterDelay', 250)"
     [selectionMode]="safeGet(uiElement, 'selectionMode', 'single')" [(selection)]="selection"
     (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+
+    <!-- Header -->
+    <ng-template pTemplate="header" let-columns>
+      <tr [style]="uiElement.headerStyle">
+        <ng-container *ngFor="let column of columns">
+          <th *ngIf="condition(column)">
+            <span [style]="column.header?.style">{{ column.label }} </span>
+            <mat-icon *ngIf="column.header?.icon" [style]="column.header?.iconStyle"
+              [matTooltip]="column.header?.tooltip">{{ column.header?.icon }}
+            </mat-icon>
+          </th>
+        </ng-container>
+      </tr>
+    </ng-template>
+
+
     <ng-template pTemplate="colgroup" let-columns>
       <colgroup>
         <ng-container *ngFor="let column of columns">
@@ -14,26 +28,7 @@
         </ng-container>
       </colgroup>
     </ng-template>
-    <ng-template pTemplate="header" let-columns>
-      <tr>
-        <ng-container *ngFor="let column of columns">
-          <th *ngIf="condition(column)">
-            <!-- Header -->
-            <div ui-layout-wrapper *ngIf="column.header" [uiElement]="column.header" [data]="data"></div>
-            <span *ngIf="!column.header">{{ column.label }} </span>
 
-            <!-- Sort Icon -->
-            <p-sortIcon *ngIf="column.sort != false && column.key" [field]="column.key" [pSortableColumn]="column.key">
-            </p-sortIcon>
-
-            <!-- Filter -->
-            <i *ngIf="column.filter" class="pi pi-filter filter-icon" (click)="filterClick(column)"
-              style="margin-left: 8px;"></i>
-
-          </th>
-        </ng-container>
-      </tr>
-    </ng-template>
     <ng-template pTemplate="body" let-row let-columns="columns">
       <tr [pSelectableRow]="row">
         <ng-container *ngFor="let column of columns">
