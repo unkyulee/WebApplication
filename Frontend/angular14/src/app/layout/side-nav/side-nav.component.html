@@ -9,7 +9,7 @@
         <p-panelMenu [model]="navigations" [multiple]="false"></p-panelMenu>
     </mat-sidenav>
 
-    <mat-sidenav-content class="content">
+    <mat-sidenav-content class="sidenav-content">
         <mat-toolbar [style]="config.get('theme.toolbar.style')" [class]="config.get('theme.toolbar.class')">
             <!-- toggle button -->
             <button type="button" mat-icon-button (click)="sidenav.toggle()" tabIndex="-1">
@@ -29,6 +29,8 @@
             </ng-container>
         </mat-toolbar>
 
-        <ng-container ui-element [uiElement]="uiElement" [data]="data"></ng-container>
+        <div class="content">
+            <ng-container ui-element [uiElement]="uiElement" [data]="data"></ng-container>
+        </div>
     </mat-sidenav-content>
 </mat-sidenav-container>

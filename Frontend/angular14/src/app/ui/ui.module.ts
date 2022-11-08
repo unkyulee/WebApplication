@@ -9,11 +9,12 @@ import { PrimeNGModule } from "../plugins/primeng.module";
 
 // user component
 import { SafePipe } from "../plugins/safe.pipe";
-import { UIElement } from "./ui-element/ui-element.directive";
+import { UIElement } from "./ui-element.directive";
 import { LayoutComponent } from "./layout/layout.component";
 import { TypographyComponent } from "./typography/typography.component";
 import { InputComponent } from "./input/input.component";
 import { ButtonComponent } from "./button/button.component";
+import { DataTableComponent } from "./data-table/data-table.component";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ButtonComponent } from "./button/button.component";
     TypographyComponent,
     InputComponent,
     ButtonComponent,
+    DataTableComponent,
   ],
   exports: [
     SafePipe,
@@ -31,6 +33,7 @@ import { ButtonComponent } from "./button/button.component";
     TypographyComponent,
     InputComponent,
     ButtonComponent,
+    DataTableComponent,
   ],
   imports: [
     CommonModule,

@@ -1,9 +1,8 @@
 <button *ngIf="
     (!uiElement.buttonType || uiElement.buttonType == 'mat-raised-button') &&
     condition(uiElement)
-  " mat-raised-button [disabled]="uiElement.disabled == true" [matTooltip]="uiElement.tooltip"
-  (click)="click.call(this, $event)" [color]="uiElement.color" [ngStyle]="uiElement.style"
-  [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1">
+  " mat-raised-button [disabled]="uiElement.disabled == true" [matTooltip]="uiElement.tooltip" (click)="click($event)"
+  [color]="uiElement.color" [ngStyle]="uiElement.style" [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1">
   <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle" [inline]="true">{{
     uiElement.icon
     }}</mat-icon>
@@ -24,7 +23,7 @@
   [color]="uiElement.color" [ngStyle]="uiElement.style" [tabIndex]="uiElement.tabIndex ? uiElement.tabIndex : -1">
   <mat-icon *ngIf="uiElement.icon" [ngStyle]="uiElement.iconStyle" [matBadge]="safeGet(uiElement, 'matBadge', '')"
     [matBadgePosition]="safeGet(uiElement, 'matBadgePosition', '')"
-    [matBadgeColor]="safeGet(uiElement, 'matBadgeColor', '')" [inline]="true">{{ eval(uiElement.icon) }}</mat-icon>
+    [matBadgeColor]="safeGet(uiElement, 'matBadgeColor', '')" [inline]="true">{{uiElement.icon}}</mat-icon>
 </button>
 
 <button *ngIf="uiElement.buttonType == 'mat-fab' && condition(uiElement)" mat-fab

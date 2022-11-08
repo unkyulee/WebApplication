@@ -111,6 +111,16 @@ export class BaseComponent {
     }
   }
 
+  safeEval(script, data?) {
+    try {
+      return eval(script);
+    } catch (e) {
+      console.error(e, script, data);
+    }
+
+    return script;
+  }
+
   safeGet(data, path, def_value?) {
     return obj.get(data, path, def_value);
   }

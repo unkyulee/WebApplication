@@ -1,4 +1,14 @@
-.content {
+.sidenav-content {
+  display: flex;
+  flex-flow: column;
   width: 100vw;
   height: 100vh;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  flex-grow: 1;
+  overflow: auto;
 }
