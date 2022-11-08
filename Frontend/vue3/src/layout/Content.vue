@@ -5,6 +5,7 @@
   <ActionSheet />
   <Snackbar />
   <Timer :data="data" />
+  <ConfirmDialog></ConfirmDialog>
 </template>
 
 <script lang="ts">

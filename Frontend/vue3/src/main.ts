@@ -82,16 +82,20 @@ app.component("Column", Column);
 app.component("ColumnGroup", ColumnGroup);
 app.component("Row", Row);
 
+import ConfirmationService from "primevue/confirmationservice";
+app.use(ConfirmationService);
+import ConfirmDialog from "primevue/confirmdialog";
+app.component("ConfirmDialog", ConfirmDialog);
+
+///////////////////////////////////////////
 // global setup
 app.use(router);
 app.mount("#app");
+///////////////////////////////////////////
 
-//import ConfirmDialog from "primevue/confirmdialog";
-//app.component("ConfirmDialog", ConfirmDialog);
 //import ConfirmPopup from "primevue/confirmpopup";
 //app.component("ConfirmPopup", ConfirmPopup);
-//import ConfirmationService from "primevue/confirmationservice";
-//app.use(ConfirmationService);
+
 //import Avatar from "primevue/avatar";
 //import AvatarGroup from "primevue/avatargroup";
 //import Badge from "primevue/badge";
