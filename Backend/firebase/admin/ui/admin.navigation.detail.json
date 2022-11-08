@@ -1,13 +1,15 @@
 {
   "_id": "admin.navigation.detail",
   "type": "layout",
+  "fullscreen": true,
+  "persistent": true,
   "layoutStyle": {
-    "background": "white",
-    "width": "100%",
-    "maxHeight": "90vh",
-    "height": "fit-content",
     "display": "flex",
-    "flexFlow": "column"
+    "width": "100vw",
+    "height": "100vh",
+    "maxHeight": "100vh",
+    "flexFlow": "column",
+    "background": "white"
   },
   "screens": [
     {

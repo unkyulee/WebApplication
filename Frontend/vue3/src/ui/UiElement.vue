@@ -28,7 +28,6 @@ import Icon from "./Icon.vue";
 import IframeComponent from "./Iframe.vue";
 import ProgressComponent from "./Progress.vue";
 import Tabs from "./Tabs.vue";
-import Timer from "./Timer.vue";
 import Gallery from "./Gallery.vue";
 import Alert from "./Alert.vue";
 import CodeEditor from "./CodeEditor.vue";
@@ -54,7 +53,6 @@ export default defineComponent({
     IframeComponent,
     ProgressComponent,
     Tabs,
-    Timer,
     Gallery,
     Alert,
     CodeEditor,

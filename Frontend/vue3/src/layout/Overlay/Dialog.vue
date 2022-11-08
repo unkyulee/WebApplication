@@ -1,13 +1,14 @@
 <template>
   <v-dialog
     v-model="showDialog"
-    :fullscreen="uiElement.fullscreen ? uiElement.fullscreen : false"
+    :fullscreen="uiElement.fullscreen ?? false"
+    :persistent="uiElement.persistent ?? false"
     :width="option.width"
     :max-width="option.maxWidth"
     :height="option.height"
-    :max-height="option.maxHeight"    
+    :max-height="option.maxHeight"
   >
-    <ui-element      
+    <ui-element
       :uiElement="uiElement"
       :data="data"
       :style="uiElement.layoutStyle"

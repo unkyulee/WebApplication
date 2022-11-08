@@ -11,7 +11,7 @@
 
 <script lang="ts">
 // @ts-nocheck
-import Base from "./Base";
+import Base from "../../ui/Base";
 import { defineComponent } from "vue";
 export default defineComponent({
   extends: Base,
