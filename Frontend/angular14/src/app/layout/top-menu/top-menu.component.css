@@ -1,3 +1,24 @@
 :host {
   max-height: 30px;
 }
+
+#topbar {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.menu {
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.menu a {
+  text-decoration: inherit;
+  color: inherit;
+  cursor: auto;
+  cursor: pointer;
+}
+
+.active {
+  font-weight: bold;
+}

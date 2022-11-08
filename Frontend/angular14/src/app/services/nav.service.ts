@@ -10,6 +10,10 @@ import { UtilService } from "./util.service";
 
 @Injectable()
 export class NavService {
+  // current navigation settings
+  currUrl: string;
+  currNav: any;
+
   constructor(
     private router: Router,
     private location: Location,
@@ -29,6 +33,12 @@ export class NavService {
     this.config.set("theme", null);
   }
 
+  init() {
+    // find the initial navigation and set currNav
+    this.currUrl = this.router.url;
+    this.currNav = this.find(this.router.url);
+  }
+
   routerEventHandler(e) {
     if (e instanceof NavigationEnd) {
       // add to navigation stack
@@ -40,6 +50,8 @@ export class NavService {
       // save current url
       this.currUrl = e.url;
       this.currNav = this.find(e.url);
+
+      //
       if (this.currNav) {
         // check if the current url and found url has the same
         if (this.currNav && this.currUrl.includes(this.currNav.url) == false) {
@@ -89,22 +101,8 @@ export class NavService {
           data: this.currNav,
         });
       }
-    } else if (e.name == "nav-badge") {
-      // find navigation fits the url
-      let navigation = this.config.get("nav");
-      for (let nav of navigation) {
-        if (nav.url == e.url) {
-          nav.badge = e.badge;
-        }
-      }
-      // send navigation updated
-      this.event.send({ name: "navigation-changed" });
     }
   }
-
-  // current navigation settings
-  currUrl: string;
-  currNav: any;
 
   find(url: string) {
     let navigation = this.config.get("nav");
@@ -113,8 +111,8 @@ export class NavService {
     // split by ?
     url = url.split("?")[0];
     // remove trailing slash
-    if (url.substr(-1) === "/") {
-      url = url.substr(0, url.length - 1);
+    if (url.substring(-1) === "/") {
+      url = url.substring(0, url.length - 1);
     }
 
     // find item

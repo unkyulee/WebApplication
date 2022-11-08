@@ -36,8 +36,11 @@ export class UIService {
       let url = `${this.config.get("host")}${this.config.get(
         "url"
       )}/ui.element`;
-      uiElement = await this.rest.requestAsync(url, { uiElementId });      
+      uiElement = await this.rest.requestAsync(url, { uiElementId });
       this.config.set(`ui.${uiElementId}`, uiElement);
+    } else {
+      // if cached then return the copy of it
+      uiElement = { ...uiElement };
     }
 
     // run load script

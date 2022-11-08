@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Component, Input } from "@angular/core";
 import { ConfigService } from "src/app/services/config.service";
 import { EventService } from "src/app/services/event.service";

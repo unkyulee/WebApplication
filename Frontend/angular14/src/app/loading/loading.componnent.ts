@@ -3,6 +3,7 @@ import { Component } from "@angular/core";
 import { AuthService } from "../services/auth/auth.service";
 import { ConfigService } from "../services/config.service";
 import { EventService } from "../services/event.service";
+import { NavService } from "../services/nav.service";
 import { RestService } from "../services/rest.service";
 import { UtilService } from "../services/util.service";
 
@@ -17,7 +18,8 @@ export class LoadingComponent {
     private rest: RestService,
     private config: ConfigService,
     private event: EventService,
-    private auth: AuthService
+    private auth: AuthService,
+    private nav: NavService
   ) {}
 
   onEvent: Subscription;
@@ -179,6 +181,9 @@ export class LoadingComponent {
 
     // save nav
     this.config.set("nav", response.nav);
+
+    // init nav
+    this.nav.init();
 
     return true;
   }

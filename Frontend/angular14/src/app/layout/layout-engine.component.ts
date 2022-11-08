@@ -5,6 +5,7 @@ import { ConfigService } from "../services/config.service";
 import { EventService } from "../services/event.service";
 import { NavService } from "../services/nav.service";
 import { RestService } from "../services/rest.service";
+import { UIService } from "../services/ui.service";
 import { UtilService } from "../services/util.service";
 
 @Component({
@@ -18,7 +19,8 @@ export class LayoutEngineComponent {
     public event: EventService,
     public nav: NavService,
     public rest: RestService,
-    public util: UtilService
+    public util: UtilService,
+    public ui: UIService
   ) {}
 
   uiElement = {};
@@ -26,12 +28,41 @@ export class LayoutEngineComponent {
   navigations: [];
   actions: [];
 
-  ngOnInit() {
+  async ngOnInit() {
     // check layout from config
     this.layout = this.config.get("layout", "side-nav");
 
+    // detect configuration changes
+    this.onEvent = this.event.onEvent.subscribe(async (event) => {
+      if (
+        event.name == "navigation-updated" ||
+        event.name == "navigation-changed"
+      ) {
+        // set initial navigation
+        this.navigations = this.get_navigations();
+
+        // render page
+        await this.render();
+      }
+    });
+
     // set navigations
     this.navigations = this.get_navigations();
+
+    // render page
+    await this.render();
+  }
+
+  // render page
+  async render() {
+    //
+    let currNav = obj.get(this.nav, "currNav");
+    if (currNav) {
+      // load uiElement
+      if (obj.get(currNav, "uiElementIds", []).length > 0) {
+        this.uiElement = await this.ui.get(obj.get(currNav, "uiElementIds.0"));
+      }
+    }
   }
 
   // navigations
@@ -56,7 +87,6 @@ export class LayoutEngineComponent {
         };
 
         // active item
-
         if (this.nav.currNav?.url == n.url) {
           menuItem.styleClass = "active";
         }
@@ -99,6 +129,7 @@ export class LayoutEngineComponent {
           //
           if (this.nav.currNav?.url == child.url) {
             menuItem.expanded = true;
+            menuItem.styleClass = "active";
           }
         }
 
