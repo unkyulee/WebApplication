@@ -10,7 +10,7 @@
 <script lang="ts">
 // @ts-nocheck
 import Navigation from "./Navigation/Navigation.vue";
-import Content from "./Content/Content.vue";
+import Content from "./Content.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({

@@ -12,26 +12,26 @@
 
 <script lang="ts">
 // @ts-nocheck
-import Base from "../../ui/Base";
-import UiElements from "./UiElements.vue";
-import Typography from "../../ui/Typography.vue";
-import ImageLoader from "../../ui/Image.vue";
-import ButtonComponent from "../../ui/Button.vue";
-import InputComponent from "../../ui/Input.vue";
-import Selection from "../../ui/Selection.vue";
-import TableComponent from "../../ui/Table.vue";
-import Divider from "../../ui/Divider.vue";
-import Carousel from "../../ui/Carousel.vue";
-import Date from "../../ui/Date.vue";
-import ExpansionPanel from "../../ui/ExpansionPanel.vue";
-import Icon from "../../ui/Icon.vue";
-import IframeComponent from "../../ui/Iframe.vue";
-import ProgressComponent from "../../ui/Progress.vue";
-import Tabs from "../../ui/Tabs.vue";
-import Timer from "../../ui/Timer.vue";
-import Gallery from "../../ui/Gallery.vue";
-import Alert from "../../ui/Alert.vue";
-import CodeEditor from "../../ui/CodeEditor.vue";
+import Base from "./Base";
+import Layout from "./Layout.vue";
+import Typography from "./Typography.vue";
+import ImageLoader from "./Image.vue";
+import ButtonComponent from "./Button.vue";
+import InputComponent from "./Input.vue";
+import Selection from "./Selection.vue";
+import TableComponent from "./Table.vue";
+import Divider from "./Divider.vue";
+import Carousel from "./Carousel.vue";
+import Date from "./Date.vue";
+import ExpansionPanel from "./ExpansionPanel.vue";
+import Icon from "./Icon.vue";
+import IframeComponent from "./Iframe.vue";
+import ProgressComponent from "./Progress.vue";
+import Tabs from "./Tabs.vue";
+import Timer from "./Timer.vue";
+import Gallery from "./Gallery.vue";
+import Alert from "./Alert.vue";
+import CodeEditor from "./CodeEditor.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -39,7 +39,7 @@ export default defineComponent({
   props: ["uiElement", "data"],
   inject: ["config", "event", "rest", "ui", "auth"],
   components: {
-    UiElements,
+    Layout,
     Typography,
     ImageLoader,
     ButtonComponent,

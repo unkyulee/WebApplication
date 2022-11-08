@@ -12,12 +12,12 @@
 import * as obj from "object-path";
 
 // ui imports
-import UiElement from "./UiElement.vue";
-import DialogOverlay from "../../ui/Dialog.vue";
-import Splash from "../../ui/Splash.vue";
-import ActionSheet from "../../ui/ActionSheet.vue";
-import Snackbar from "../../ui/Snackbar.vue";
-import Timer from "../../ui/Timer.vue";
+import UiElement from "../ui/UiElement.vue";
+import DialogOverlay from "../ui/Dialog.vue";
+import Splash from "../ui/Splash.vue";
+import ActionSheet from "../ui/ActionSheet.vue";
+import Snackbar from "../ui/Snackbar.vue";
+import Timer from "../ui/Timer.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({

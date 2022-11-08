@@ -34,7 +34,7 @@ if (obj.get(window, "__CONFIG__.firebase")) {
 }
 
 // ui-imports
-import UiElement from "./layout/Content/UiElement.vue";
+import UiElement from "./ui/UiElement.vue";
 app.component("ui-element", UiElement);
 
 import vuetify from "./plugins/vuetify";

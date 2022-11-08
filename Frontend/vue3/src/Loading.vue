@@ -134,9 +134,15 @@ export default defineComponent({
 
         // select the first navigation
         if (!selectedNav) {
+          // get initial url
+          let url = obj.get(navigation, "0.url");
+          if (!url && obj.get(navigation, "0.children.0.url")) {
+            // check childrent
+            url = obj.get(navigation, "0.children.0.url");
+          }
           // select the first navigation
-          if (obj.get(navigation, "0.url")) {
-            this.$router.push(obj.get(navigation, "0.url"));
+          if (url) {
+            this.$router.push(url);
           } else {
             this.error = "initial navigation not specified";
             return;

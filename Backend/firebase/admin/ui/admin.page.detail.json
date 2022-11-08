@@ -19,7 +19,7 @@
       "screens": [
         {
           "type": "typography",
-          "text": "NAVIGATION",
+          "text": "PAGE",
           "layoutStyle": {
             "width": "100%",
             "background": "lightgray",
@@ -27,16 +27,48 @@
           }
         },
         {
-          "type": "code-editor",
-          "key": "",
-          "language": "json",
+          "layoutStyle": {
+            "display": "flex",
+            "flex": "row",
+            "width": "100%"
+          },
+          "type": "layout",
+          "screens": [
+            {
+              "label": "JSON Path",
+              "key": "_params_.path",
+              "changed": "this.event.send({name: 'path', path: this.value});",
+              "layoutStyle": {
+                "flexGrow": 1
+              },
+              "density": "compact",
+              "type": "input"
+            },
+            {
+              "label": "LANGUAGE",
+              "key": "_params_.lang",
+              "type": "input",
+              "changed": "this.event.send({name: 'lang', lang: this.value});",
+              "density": "compact",
+              "layoutStyle": {
+                "width": "120px"
+              }
+            }
+          ]
+        },
+        {
           "transform": "value = JSON.stringify(value, null, 4)",
-          "changed": "Object.assign(this.data, JSON.parse(value))",
           "style": {
             "width": "100%",
-            "height": "100%",
-            "minHeight": "400px"
-          }
+            "minHeight": "400px",
+            "height": "100%"
+          },
+          "key": "",
+          "destroy": "this.event.unsubscribe_all('code-editor');",
+          "type": "code-editor",
+          "language": "json",
+          "init": "this.event.subscribe(\r\n    'code-editor',\r\n    'path',\r\n    async (event) => {\r\n\r\n        let path = event.path;\r\n        if (!path) path = '';\r\n\r\n        // update the value with path\r\n        // see if the value path exists\r\n        if (obj.get(this.data, path)) {\r\n            let value = obj.get(this.data, path)\r\n\r\n            if (value && value.constructor != \"\".constructor) {\r\n                this.data._params_.type = \"object\";\r\n                this.value = JSON.stringify(value, null, 2);\r\n            } else {\r\n                this.data._params_.type = \"string\";\r\n                this.value = value;\r\n            }\r\n\r\n        }\r\n        \r\n    }\r\n);\r\n\r\nthis.event.subscribe(\r\n    'code-editor',\r\n    'lang',\r\n    (event) => {\r\n        this.uiElement.language = event.lang\r\n    }\r\n);",
+          "changed": "let type = obj.get(this.data, '_params_.type');\r\nlet path = obj.get(this.data, '_params_.path', '');\r\nif (!type || type == 'object') {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, JSON.parse(value))\r\n    } else {\r\n        obj.set(this.data, path, JSON.parse(value))\r\n    }\r\n\r\n} else {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, value)\r\n    } else {\r\n        //\r\n        obj.set(this.data, path, value)\r\n    }\r\n}\r\n\r\n"
         }
       ]
     },
@@ -66,14 +98,14 @@
           "type": "button",
           "label": "DELETE",
           "color": "warn",
-          "click": "this.event.send({name: 'close-dialog'});\r\n(async () => {\r\n    // delete\r\n    await this.rest.request(`/api/admin/navigation`, this.data, 'delete');\r\n    this.event.send({name: \"refresh\", key: \"navigations\"})\r\n})();",
+          "click": "this.event.send({name: 'close-dialog'});\r\n(async () => {\r\n    // delete\r\n    await this.rest.request(`/api/admin/page`, this.data, 'delete');\r\n    this.event.send({name: \"refresh\", key: \"navigations\"})\r\n})();",
           "variant": "text"
         },
         {
-          "type": "button",
           "label": "SAVE",
-          "color": "primary",
-          "click": "//\r\n(async () => { \r\n    let response = await this.rest.request('/api/admin/navigation', this.data, 'post');\r\n    if(response.status != 200) {\r\n        console.error(response.data);\r\n    } else {\r\n        this.event.send({name: \"snackbar\", text: \"SAVED!\"})\r\n    }\r\n})();"
+          "type": "button",
+          "click": "//\r\n(async () => { \r\n    let data = {...this.data};\r\n    // delete _params_\r\n    delete data._params_;\r\n\r\n    let response = await this.rest.request('/api/admin/page', data, 'post');\r\n    if(response.status != 200) {\r\n        console.error(response.data);\r\n    } else {\r\n        this.event.send({name: \"snackbar\", text: \"SAVED!\"})\r\n    }\r\n    \r\n})();",
+          "color": "primary"
         }
       ]
     }

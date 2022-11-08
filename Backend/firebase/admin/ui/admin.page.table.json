@@ -3,21 +3,22 @@
   "type": "data-table",
   "tableType": "table",
   "key": "navigations",
-  "src": "`/api/admin/navigation?_sort=order`",
+  "src": "`/api/admin/page?_sort=_id`",
   "columns": [
     {
-      "label": "NAME",
-      "key": "name",
+      "label": "_id",
+      "key": "_id",
       "type": "typography",
-      "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.navigation.detail', data: this.data})",
+      "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.page.detail', data: this.data})",
       "layoutStyle": {
         "fontWeight": "bold",
         "cursor": "pointer"
       }
     },
     {
-      "label": "ORDER",
-      "key": "order",
+      "label": "UPDATED",
+      "key": "_updated",
+      "format": "moment(this.data._updated).format('YYYY.MM.DD HH:MM')",
       "type": "typography"
     }
   ]

@@ -1,4 +1,14 @@
 {
+  "_id": "admin.ui.detail",
+  "type": "layout",
+  "layoutStyle": {
+    "display": "flex",
+    "maxHeight": "90vh",
+    "width": "100%",
+    "height": "80vh",
+    "flexFlow": "column",
+    "background": "white"
+  },
   "screens": [
     {
       "type": "layout",
@@ -63,6 +73,7 @@
       ]
     },
     {
+      "type": "layout",
       "screens": [
         {
           "type": "button",
@@ -96,23 +107,7 @@
         "padding": "8px",
         "display": "flex",
         "background": "ghostwhite"
-      },
-      "type": "layout"
+      }
     }
-  ],
-  "_id": "admin.ui.detail",
-  "type": "layout",
-  "layoutStyle": {
-    "display": "flex",
-    "maxHeight": "90vh",
-    "width": "100%",
-    "height": "80vh",
-    "flexFlow": "column",
-    "background": "white"
-  },
-  "_params_": {
-    "path": "",
-    "lang": "javascript",
-    "type": "object"
-  }
+  ]
 }

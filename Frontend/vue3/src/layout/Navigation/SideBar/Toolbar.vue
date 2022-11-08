@@ -48,6 +48,15 @@ export default defineComponent({
     this.style = {
       color: this.config.get("color.font", ""),
     };
+
+    // subscribe to loading-complete event
+    this.event.subscribe("Toolbar", "navigation-changed", (event) => {
+      this.title = obj.get(event.data, "selected.name");
+    });
+  },
+
+  destroyed: function () {
+    this.event.unsubscribe_all("Toolbar");
   },
 
   methods: {

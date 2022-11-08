@@ -9,8 +9,8 @@
 // @ts-nocheck
 
 // Components
-import Toolbar from "./Drawer/Toolbar.vue";
-import Drawer from "./Drawer/Drawer.vue";
+import Toolbar from "./SideBar/Toolbar.vue";
+import Drawer from "./SideBar/Drawer.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({

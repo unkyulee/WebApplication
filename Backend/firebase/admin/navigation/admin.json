@@ -3,7 +3,6 @@
   "name": "Admin",
   "order": 9999,
   "pages": ["admin.navigation"],
-  "url": "/admin.navigation",
   "children": [
     {
       "_id": "navigation",

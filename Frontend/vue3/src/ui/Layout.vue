@@ -21,7 +21,7 @@
 // @ts-nocheck
 
 //
-import Base from "../../ui/Base";
+import Base from "./Base";
 
 //
 import { defineComponent } from "vue";

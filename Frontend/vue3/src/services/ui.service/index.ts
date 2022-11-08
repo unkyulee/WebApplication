@@ -27,9 +27,6 @@ export default {
 
   translate_type(uiElement) {
     switch (obj.get(uiElement, "type")) {
-      case "layout":
-        uiElement.type = "ui-elements";
-        break;
       case "image":
         uiElement.type = "image-loader";
         break;

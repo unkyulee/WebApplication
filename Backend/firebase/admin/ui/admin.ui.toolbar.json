@@ -3,7 +3,7 @@
   "type": "button",
   "icon": "mdi-plus",
   "color": "primary",
-  "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.navigation.detail'})",
+  "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.page.detail'})",
   "layoutStyle": {
     "margin": "4px",
     "position": "absolute",
