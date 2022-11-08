@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Component } from "@angular/core";
+import { Component, ChangeDetectorRef, NgZone } from "@angular/core";
 
 import { ConfigService } from "../services/config.service";
 import { EventService } from "../services/event.service";
@@ -20,7 +20,9 @@ export class LayoutEngineComponent {
     public nav: NavService,
     public rest: RestService,
     public util: UtilService,
-    public ui: UIService
+    public ui: UIService,
+    private zone: NgZone,
+    private ref: ChangeDetectorRef
   ) {}
 
   uiElement = {};
@@ -43,6 +45,12 @@ export class LayoutEngineComponent {
 
         // render page
         await this.render();
+      } else if (event.name == "changed") {
+        setTimeout(() => {
+          this.zone.run(() => {
+            this.ref.detectChanges();
+          });
+        });
       }
     });
 

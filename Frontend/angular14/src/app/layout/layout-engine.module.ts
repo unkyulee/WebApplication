@@ -20,5 +20,6 @@ import { TopMenuComponent } from "./top-menu/top-menu.component";
   ],
   exports: [],
   imports: [CommonModule, MaterialModule, PrimeNGModule, FormsModule, UIModule],
+  entryComponents: [DialogComponent],
 })
 export class LayoutModule {}

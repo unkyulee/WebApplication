@@ -45,6 +45,22 @@ export class OverlayComponent {
   }
 
   async openDialog(event) {
-    this.dialogService.open(DialogComponent, event.option ?? {});
+    if (!event.uiElementId) {
+      //
+      console.error("no uiElementId passed", event);
+      return;
+    }
+
+    let uiElement = await this.ui.get(event.uiElementId);
+
+    this.dialogService.open(DialogComponent, {
+      data: {
+        uiElement,
+        data: event.data ?? {},
+      },
+      ...(event.option ?? {}),
+    });
+
+    this.event.send({ name: "changed" });
   }
 }
