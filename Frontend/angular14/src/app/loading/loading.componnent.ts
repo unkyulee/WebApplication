@@ -106,7 +106,6 @@ export class LoadingComponent {
           let response = await this.rest.requestAsync(
             `${this.context.service_url}/index.json`
           );
-          console.log(response);
 
           // when downloaded save to global config
           obj.set(window, "__CONFIG__", response);

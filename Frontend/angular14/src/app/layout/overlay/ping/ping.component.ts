@@ -1,7 +1,14 @@
 // @ts-nocheck
 import { Component } from "@angular/core";
-import { Observable, of } from "rxjs";
-import { delay, filter, map, retryWhen, switchMap, tap } from "rxjs/operators";
+import { Observable, of, timer } from "rxjs";
+import {
+  delayWhen,
+  filter,
+  map,
+  retryWhen,
+  switchMap,
+  tap,
+} from "rxjs/operators";
 import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 
 import { ConfigService } from "../../../services/config.service";
@@ -18,9 +25,9 @@ import { UtilService } from "../../../services/util.service";
 })
 export class PingComponent {
   connection$: WebSocketSubject<any>;
-  RETRY_SECONDS = 10;
+  RETRY_SECONDS = 3;
 
-  visible: boolean = false;
+  offline: boolean = false;
 
   constructor(
     public config: ConfigService,
@@ -50,30 +57,37 @@ export class PingComponent {
       filter((url) => !!url),
       // https becomes wws, http becomes ws
       map((url) => url.replace(/^http/, "ws") + "/PING"),
-      switchMap((wsUrl) => {
-        // send online status
-        this.event.send({ name: "online" });
-
+      switchMap((url) => {
         //
         if (this.connection$) {
           return this.connection$;
         } else {
-          this.connection$ = webSocket(wsUrl);
+          this.connection$ = webSocket({
+            url,
+            openObserver: {
+              next: () => {
+                this.event.send({ name: "online" });
+                this.offline = false;
+              },
+            },
+          });
+
           return this.connection$;
         }
       }),
       retryWhen((errors) =>
         errors.pipe(
           tap((d) => {
-            if (d.type == "error") {
+            if (d.type == "error" || d.type == "close") {
+              // close the connection
+              this.close();
+
               // offline
               this.event.send({ name: "offline" });
-              this.visible = true;
-            } else {
-              this.visible = false;
+              this.offline = true;
             }
           }),
-          delay(this.RETRY_SECONDS * 1000)
+          delayWhen(() => timer(this.RETRY_SECONDS * 1000))
         )
       )
     );
