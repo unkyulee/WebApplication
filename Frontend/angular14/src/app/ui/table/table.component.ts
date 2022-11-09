@@ -6,11 +6,11 @@ import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import { BaseComponent } from "../base.component";
 
 @Component({
-  selector: "data-table",
-  templateUrl: "./data-table.component.html",
-  styleUrls: ["./data-table.component.css"],
+  selector: "table-component",
+  templateUrl: "./table.component.html",
+  styleUrls: ["./table.component.css"],
 })
-export class DataTableComponent extends BaseComponent {
+export class TableComponent extends BaseComponent {
   ///
   _rows = [];
   get rows() {

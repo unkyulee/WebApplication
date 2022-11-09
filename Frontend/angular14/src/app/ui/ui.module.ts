@@ -14,7 +14,7 @@ import { LayoutComponent } from "./layout/layout.component";
 import { TypographyComponent } from "./typography/typography.component";
 import { InputComponent } from "./input/input.component";
 import { ButtonComponent } from "./button/button.component";
-import { DataTableComponent } from "./data-table/data-table.component";
+import { TableComponent } from "./table/table.component";
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { DataTableComponent } from "./data-table/data-table.component";
     TypographyComponent,
     InputComponent,
     ButtonComponent,
-    DataTableComponent,
+    TableComponent,
   ],
   exports: [
     SafePipe,
@@ -33,7 +33,7 @@ import { DataTableComponent } from "./data-table/data-table.component";
     TypographyComponent,
     InputComponent,
     ButtonComponent,
-    DataTableComponent,
+    TableComponent,
   ],
   imports: [
     CommonModule,

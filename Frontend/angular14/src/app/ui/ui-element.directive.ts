@@ -15,12 +15,23 @@ import { LayoutComponent } from "./layout/layout.component";
 import { TypographyComponent } from "./typography/typography.component";
 import { InputComponent } from "./input/input.component";
 import { ButtonComponent } from "./button/button.component";
-import { DataTableComponent } from "./data-table/data-table.component";
+import { TableComponent } from "./table/table.component";
 
 @Directive({
   selector: "[ui-element]",
 })
 export class UIElement {
+  // register component type
+  component_registry = {
+    layout: LayoutComponent,
+    div: LayoutComponent,
+    typography: TypographyComponent,
+    input: InputComponent,
+    button: ButtonComponent,
+    "data-table": TableComponent,
+  };
+  componentRef;
+
   @Input() uiElement: any;
   @Input() data: any;
 
@@ -35,16 +46,6 @@ export class UIElement {
     public auth: AuthService
   ) {}
 
-  // register component type
-  component_registry = {
-    layout: LayoutComponent,
-    typography: TypographyComponent,
-    input: InputComponent,
-    button: ButtonComponent,
-    "data-table": DataTableComponent,
-  };
-
-  componentRef;
   async ngOnChanges(changes: SimpleChanges) {
     if (!this.uiElement) return;
     if (this.componentRef) this.componentRef.destroy();
