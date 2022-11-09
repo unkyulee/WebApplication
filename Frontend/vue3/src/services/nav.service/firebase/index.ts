@@ -1,12 +1,13 @@
 // @ts-nocheck
 import {
   query,
-  orderBy,
+  where,
   getFirestore,
   collection,
   getDocs,
 } from "firebase/firestore/lite";
 import config from "../../config.service";
+import auth from "../../auth.service";
 
 export default {
   async load() {
@@ -15,14 +16,32 @@ export default {
     // setup page title
     document.title = config.get("title");
 
+    // check login status
+    let isAuthenticated = await auth.isAuthenticated();
+
     // load from firestore
     try {
       const db = getFirestore(firebase);
-      const navCol = collection(db, "navigation");
-      const navQuery = query(navCol, orderBy("order"));
-      const navSnapshot = await getDocs(navQuery);
+      const c = collection(db, "navigation");
 
+      // build query
+      let queryParams = [c];
+
+      // auth status filter
+      if (isAuthenticated) {
+        // display navigation includes login
+        queryParams.push(where("login_hide", "==", false));
+      } else {
+        // display navigation where it doesn't require login
+        queryParams.push(where("login", "==", false));
+      }
+
+      // fetch data
+      const navSnapshot = await getDocs(query(...queryParams));
       navList = navSnapshot.docs.map((doc) => doc.data());
+
+      // sort by order
+      navList.sort((a, b) => a.order - b.order);
     } catch (ex) {
       console.error(ex);
     }

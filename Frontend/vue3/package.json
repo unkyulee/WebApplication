@@ -15,6 +15,7 @@
     "@vuepic/vue-datepicker": "^3.5.2",
     "axios": "^0.27.2",
     "firebase": "^9.13.0",
+    "firebaseui": "^6.0.1",
     "moment": "^2.29.4",
     "monaco-editor-vue3": "^0.1.6",
     "mustache": "^4.2.0",

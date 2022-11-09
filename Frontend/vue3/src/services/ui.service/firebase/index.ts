@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { getFirestore, doc, getDoc } from "firebase/firestore/lite";
+import auth from "../../auth.service";
 
 export default {
   cache: {},
@@ -26,6 +27,11 @@ export default {
   },
 
   async page(_id) {
+    if (_id == "login") {
+      // requested login page
+      return await auth.login();
+    }
+
     // load from firestore
     let page = {};
     if (this.cache[_id]) {

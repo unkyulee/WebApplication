@@ -103,7 +103,7 @@ export default defineComponent({
           // display login screen
           // update the nav to the login screen
           this.config.set("navigation", [
-            { name: "Login", pages: ["login"], url: "/login" },
+            { name: "Login", pages: ["login"], url: "/login", hidden: true },
           ]);
         }
       }
