@@ -41,7 +41,6 @@ export class BaseComponent {
     this.ui = AppInjector.get(UIService);
     this.config = AppInjector.get(ConfigService);
     this.auth = AppInjector.get(AuthService);
-    this.websocket = AppInjector.get(WebSocketService);
   }
 
   // global services
@@ -56,7 +55,6 @@ export class BaseComponent {
   public auth: AuthService;
   public zone: NgZone;
   public permission: PermissionService;
-  public websocket: WebSocketService;
 
   // event subscription
   onEvent: Subscription;

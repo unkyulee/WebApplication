@@ -1,0 +1,3 @@
+::ng-deep .p-sidebar {
+  height: fit-content !important;
+}

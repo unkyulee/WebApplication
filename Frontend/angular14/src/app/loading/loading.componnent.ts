@@ -106,6 +106,7 @@ export class LoadingComponent {
           let response = await this.rest.requestAsync(
             `${this.context.service_url}/index.json`
           );
+          console.log(response);
 
           // when downloaded save to global config
           obj.set(window, "__CONFIG__", response);
@@ -115,10 +116,7 @@ export class LoadingComponent {
           break;
         } catch (ex) {
           // network still not connected
-          this.error = `connection to <b>${this.context.service_url}</b> failed`;
-          this.screen = "service-registration";
-          //
-          break;
+          this.error = `connection to <b onclick='localStorage.removeItem("service_url"); location.reload();'>${this.context.service_url}</b> failed`;
         }
       } else {
         // network is not connected

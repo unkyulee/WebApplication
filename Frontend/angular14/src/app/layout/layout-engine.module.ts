@@ -5,10 +5,13 @@ import { MaterialModule } from "../plugins/material.module";
 import { PrimeNGModule } from "../plugins/primeng.module";
 import { UIModule } from "../ui/ui.module";
 import { LayoutEngineComponent } from "./layout-engine.component";
-import { DialogComponent } from "./overlay/dialog/dialog.component";
-import { OverlayComponent } from "./overlay/overlay.component";
 import { SideNavComponent } from "./side-nav/side-nav.component";
 import { TopMenuComponent } from "./top-menu/top-menu.component";
+import { OverlayComponent } from "./overlay/overlay.component";
+import { DialogComponent } from "./overlay/dialog/dialog.component";
+import { ActionSheetComponent } from "./overlay/actions-sheet/action-sheet.component";
+import { SnackbarComponent } from "./overlay/snackbar/snackbar.component";
+import { PingComponent } from "./overlay/ping/ping.component";
 
 @NgModule({
   declarations: [
@@ -17,6 +20,9 @@ import { TopMenuComponent } from "./top-menu/top-menu.component";
     TopMenuComponent,
     OverlayComponent,
     DialogComponent,
+    ActionSheetComponent,
+    SnackbarComponent,
+    PingComponent,
   ],
   exports: [],
   imports: [CommonModule, MaterialModule, PrimeNGModule, FormsModule, UIModule],

@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { Component } from "@angular/core";
-import { DynamicDialogRef } from "primeng/dynamicdialog";
-import { DynamicDialogConfig } from "primeng/dynamicdialog";
+import { MessageService } from "primeng/api";
 
 import { ConfigService } from "../../../services/config.service";
 import { EventService } from "../../../services/event.service";
@@ -11,18 +10,13 @@ import { UIService } from "../../../services/ui.service";
 import { UtilService } from "../../../services/util.service";
 
 @Component({
-  selector: "[dialog]",
-  template: `<ng-container
-    ui-element
-    [uiElement]="uiElement"
-    [data]="data"
-  ></ng-container>`,
+  selector: "snackbar",
+  templateUrl: "./snackbar.component.html",
+  styleUrls: ["./snackbar.component.css"],
+  providers: [MessageService],
 })
-export class DialogComponent {
+export class SnackbarComponent {
   onEvent: Subscription;
-
-  uiElement: any = {};
-  data: any = {};
 
   constructor(
     public config: ConfigService,
@@ -31,15 +25,23 @@ export class DialogComponent {
     public rest: RestService,
     public util: UtilService,
     public ui: UIService,
-    public ref: DynamicDialogRef,
-    public d: DynamicDialogConfig
-  ) {
-    // assign uiElement and data
-    this.uiElement = d.data.uiElement;
-    this.data = d.data.data;
+    private messageService: MessageService
+  ) {}
+
+  ngOnInit() {
+    // subscript to event
+    this.onEvent = this.event.onEvent.subscribe(async (event) => {
+      if (event?.name == "snackbar") {
+        this.messageService.add({
+          severity: event.type ?? "success",
+          summary: event.header ?? "",
+          detail: event.message ?? "",
+        });
+      }
+    });
   }
 
-  ngOnInit() {}
-
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.onEvent.unsubscribe();
+  }
 }

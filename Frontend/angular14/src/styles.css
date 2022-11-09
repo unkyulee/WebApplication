@@ -8,7 +8,7 @@ body {
   font-family: "Roboto", sans-serif;
   display: flex;
   width: 100%;
-  height: 100%
+  height: 100%;
 }
 
 /* scroll bar */
@@ -17,29 +17,13 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 *::-webkit-scrollbar-thumb {
   background-color: darkgrey;
   outline: 1px solid slategrey;
 }
-
-.full-width-dialog {
-  max-width: 100vw !important;
-}
-
-.mat-dialog-container {
-  padding: 0 !important;
-  overflow-x: hidden !important;
-}
-
-.mat-datepicker-content-touch {
-  margin: 0 !important
-}
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 p {
   margin: 0 !important;

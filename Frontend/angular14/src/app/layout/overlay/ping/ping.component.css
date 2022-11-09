@@ -1,0 +1,12 @@
+.offline {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: lightgray;
+  position: absolute;
+  top: 0;
+  opacity: 0.7;
+}

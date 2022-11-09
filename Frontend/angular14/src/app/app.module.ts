@@ -17,7 +17,6 @@ import { EventService } from "./services/event.service";
 import { AuthService } from "./services/auth/auth.service";
 import { NavService } from "./services/nav.service";
 import { UIService } from "./services/ui.service";
-import { WebSocketService } from "./services/websocket.service";
 import { LayoutModule } from "@angular/cdk/layout";
 
 @NgModule({
@@ -40,7 +39,6 @@ import { LayoutModule } from "@angular/cdk/layout";
     AuthService,
     NavService,
     UIService,
-    WebSocketService,
   ],
   bootstrap: [AppComponent],
 })

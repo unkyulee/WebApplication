@@ -10,6 +10,8 @@ import { PanelMenuModule } from "primeng/panelmenu";
 import { SliderModule } from "primeng/slider";
 import { MenuModule } from "primeng/menu";
 import { DynamicDialogModule } from "primeng/dynamicdialog";
+import { SidebarModule } from "primeng/sidebar";
+import { ToastModule } from "primeng/toast";
 
 @NgModule({
   imports: [
@@ -24,6 +26,8 @@ import { DynamicDialogModule } from "primeng/dynamicdialog";
     SliderModule,
     MenuModule,
     DynamicDialogModule,
+    SidebarModule,
+    ToastModule,
   ],
   exports: [
     EditorModule,
@@ -37,6 +41,8 @@ import { DynamicDialogModule } from "primeng/dynamicdialog";
     SliderModule,
     MenuModule,
     DynamicDialogModule,
+    SidebarModule,
+    ToastModule,
   ],
 })
 export class PrimeNGModule {}
