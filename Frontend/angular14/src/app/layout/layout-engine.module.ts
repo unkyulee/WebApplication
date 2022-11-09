@@ -12,6 +12,8 @@ import { DialogComponent } from "./overlay/dialog/dialog.component";
 import { ActionSheetComponent } from "./overlay/actions-sheet/action-sheet.component";
 import { SnackbarComponent } from "./overlay/snackbar/snackbar.component";
 import { PingComponent } from "./overlay/ping/ping.component";
+import { ErrorDialogService } from "./overlay/error/error-dialog.service";
+import { ErrorDialogComponent } from "./overlay/error/error-dialog.component";
 
 @NgModule({
   declarations: [
@@ -23,9 +25,11 @@ import { PingComponent } from "./overlay/ping/ping.component";
     ActionSheetComponent,
     SnackbarComponent,
     PingComponent,
+    ErrorDialogComponent,
   ],
   exports: [],
   imports: [CommonModule, MaterialModule, PrimeNGModule, FormsModule, UIModule],
+  providers: [ErrorDialogService],
   entryComponents: [DialogComponent],
 })
 export class LayoutModule {}

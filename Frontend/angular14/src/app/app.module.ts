@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { ErrorHandler, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { CommonModule } from "@angular/common";
 import { AppRoutingModule } from "./app.routing";
@@ -18,6 +18,7 @@ import { AuthService } from "./services/auth/auth.service";
 import { NavService } from "./services/nav.service";
 import { UIService } from "./services/ui.service";
 import { LayoutModule } from "@angular/cdk/layout";
+import { GlobalErrorHandler } from "./layout/overlay/error/global-error-handler";
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +32,11 @@ import { LayoutModule } from "@angular/cdk/layout";
     LayoutModule,
   ],
   providers: [
+    {
+      // processes all errors
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler,
+    },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     UtilService,
     RestService,
