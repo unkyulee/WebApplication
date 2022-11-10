@@ -8,7 +8,8 @@
 
                 <th *ngIf="condition(column)">
                     <!-- Header -->
-                    <div ui-layout-wrapper *ngIf="column.header" [uiElement]="column.header" [data]="data"></div>
+                    <ng-container ui-element *ngIf="column.header" [uiElement]="column.header" [data]="data">
+                    </ng-container>
                     <span *ngIf="!column.header">{{ column.label }} </span>
                 </th>
             </ng-container>
@@ -23,9 +24,8 @@
             <ng-container *ngFor="let column of columns; let i = index;">
 
                 <td *ngIf="condition(column)" style="overflow: hidden;">
-                    <div ui-layout-wrapper *ngIf="condition(column)" [uiElement]="column" [data]="rowNode.node"
-                        [copy]="true">
-                    </div>
+                    <ng-container ui-element *ngIf="condition(column)" [uiElement]="column" [data]="rowNode.node">
+                    </ng-container>
                 </td>
             </ng-container>
         </tr>

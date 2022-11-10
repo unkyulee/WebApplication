@@ -68,6 +68,14 @@ export class BaseComponent {
         .subscribe((event) => this.customEventHandler(event));
     }
 
+    if (obj.has(this, "uiElement.init")) {
+      try {
+        eval(this.uiElement.init);
+      } catch (e) {
+        console.error(e, this.uiElement);
+      }
+    }
+
     // default
     this.default();
   }
@@ -157,7 +165,7 @@ export class BaseComponent {
     let clickScript = script ? script : this.uiElement.click;
     if (clickScript) {
       try {
-        await eval.call(this, clickScript);
+        await eval(clickScript);
       } catch (e) {
         this.event.send({ name: "error", error: `${e} ${e.stack}` });
         console.log(e);

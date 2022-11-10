@@ -3,7 +3,7 @@
     <ng-template matMenuContent>
         <ng-container *ngFor="let menu of uiElement.menus">
             <ng-container *ngIf="condition(menu)">
-                <div ui-layout-wrapper [uiElement]="menu" [data]="data"></div>
+                <ng-container ui-element [uiElement]="menu" [data]="data"></ng-container>
             </ng-container>
         </ng-container>
     </ng-template>
@@ -11,7 +11,7 @@
 
 <ng-container *ngFor="let ui of uiElement.screens">
     <ng-container *ngIf="condition(ui)">
-        <div ui-layout-wrapper [uiElement]="ui" [data]="data"></div>
+        <ng-container ui-element [uiElement]="ui" [data]="data"></ng-container>
     </ng-container>
 </ng-container>
 

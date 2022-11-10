@@ -1,8 +1,5 @@
 // @ts-nocheck
-import { Component } from "@angular/core";
-import { EMPTY } from "rxjs";
-import { catchError } from "rxjs/operators";
-import obj from "object-path";
+import { Component, KeyValueDiffer, KeyValueDiffers } from "@angular/core";
 
 // user imports
 import { BaseComponent } from "../base.component";
@@ -13,25 +10,40 @@ import { BaseComponent } from "../base.component";
   styleUrls: ["./form.component.css"],
 })
 export class FormComponent extends BaseComponent {
+  // change detection parameters
   changed = false;
   prev_data = {};
+  check_timer;
+
+  constructor(private differs: KeyValueDiffers) {
+    super();
+  }
 
   async ngOnInit() {
     super.ngOnInit();
+
+    if (this.uiElement?.change?.check) {
+      this.prev_data = { ...this.data };
+      this.check_timer = setInterval(() => {
+        this.changeDetection();
+      }, 3000);
+    }
 
     // download data
     await this.requestDownload();
   }
 
-  ngDoCheck() {
+  override ngOnDestroy(): void {
+    if (this.check_timer) clearInterval(this.check_timer);
+  }
+
+  async changeDetection() {
     // check if this.uiElement.change.all is true
-    if (this.uiElement?.change?.check) {
-      // then check all diff
-      for (let key of Object.keys(this.data)) {
-        // compare key by key
-        if (this.data[key] != this.prev_data[key]) {
-          this.changed = true;
-        }
+    // then check all diff
+    for (let key of Object.keys(this.data)) {
+      // compare key by key
+      if (this.data[key] != this.prev_data[key]) {
+        this.changed = true;
       }
     }
   }
@@ -66,8 +78,8 @@ export class FormComponent extends BaseComponent {
     Object.assign(this.data, response);
 
     // save the copy
-    this.prev_data = { ...this.data };
     this.changed = false;
+    this.prev_data = { ...this.data };
   }
 
   async save() {
@@ -101,8 +113,8 @@ export class FormComponent extends BaseComponent {
     }
 
     // save the copy
-    this.prev_data = { ...this.data };
     this.changed = false;
+    this.prev_data = { ...this.data };
   }
 
   async delete() {

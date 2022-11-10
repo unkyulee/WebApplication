@@ -342,4 +342,8 @@ export class TableComponent extends BaseComponent {
       option: obj.get(column.filter, "option"),
     });
   }
+
+  copy(uiElement) {
+    return { ...uiElement };
+  }
 }

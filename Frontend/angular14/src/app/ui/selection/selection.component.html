@@ -1,23 +1,9 @@
-<ng-container
-  *ngIf="!uiElement.selectionType || uiElement.selectionType == 'selection'"
->
-  <mat-form-field
-    *ngIf="condition(uiElement)"
-    [ngStyle]="uiElement.style"
-    [ngClass]="uiElement.class"
-    [appearance]="uiElement.appearance"
-    [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
-  >
-    <mat-select
-      #select
-      [evalValidate]="uiElement.errorCondition"
-      [multiple]="uiElement.multiple"
-      [(ngModel)]="value"
-      [required]="uiElement.required"
-      [placeholder]="uiElement.placeholder"
-      (selectionChange)="selected($event.value)"
-      (openedChange)="openChanged($event)"
-    >
+<ng-container *ngIf="!uiElement.selectionType || uiElement.selectionType == 'selection'">
+  <mat-form-field *ngIf="condition(uiElement)" [ngStyle]="uiElement.style" [ngClass]="uiElement.class"
+    [appearance]="uiElement.appearance" [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'">
+    <mat-select #select [evalValidate]="uiElement.errorCondition" [multiple]="uiElement.multiple" [(ngModel)]="value"
+      [required]="uiElement.required" [placeholder]="uiElement.placeholder" (selectionChange)="selected($event.value)"
+      (openedChange)="openChanged($event)">
       <mat-option *ngIf="uiElement.multiple != true"> </mat-option>
       <mat-option disabled *ngIf="!uiElement.options">
         <div style="display: flex; align-items: center">
@@ -25,15 +11,11 @@
           <mat-spinner class="spinner" diameter="20"></mat-spinner>
         </div>
       </mat-option>
-      <mat-option
-        *ngFor="let option of uiElement.options"
-        [value]="
+      <mat-option *ngFor="let option of uiElement.options" [value]="
           uiElement.optionKey
             ? safeGet(option, uiElement.optionKey, option)
             : option
-        "
-        [ngStyle]="safeGet(option, 'style', uiElement.optionStyle)"
-      >
+        " [ngStyle]="safeGet(option, 'style', uiElement.optionStyle)">
         {{ format(option) }}
       </mat-option>
     </mat-select>
@@ -45,60 +27,30 @@
 </ng-container>
 
 <ng-container *ngIf="uiElement.selectionType == 'autocomplete'">
-  <mat-form-field
-    *ngIf="condition(uiElement)"
-    [ngStyle]="uiElement.style"
-    [ngClass]="uiElement.class"
-    [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
-    [appearance]="uiElement.appearance"
-  >
+  <mat-form-field *ngIf="condition(uiElement)" [ngStyle]="uiElement.style" [ngClass]="uiElement.class"
+    [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'" [appearance]="uiElement.appearance">
     <mat-label>{{ uiElement.label }}</mat-label>
-    <input
-      matInput
-      #autocomplete
-      [placeholder]="uiElement.placeholder"
-      [evalValidate]="uiElement.errorCondition"
-      [(ngModel)]="value"
-      [matAutocomplete]="auto"
-      [required]="uiElement.required"
-      [autofocus]="uiElement.autofocus ? uiElement.autofocus : false"
-    />
-    <button
-      type="button"
-      matSuffix
-      mat-icon-button
-      (click)="click($event)"
-      *ngIf="uiElement.icon"
-      [ngStyle]="uiElement.iconStyle"
-    >
+    <input matInput #autocomplete [placeholder]="uiElement.placeholder" [evalValidate]="uiElement.errorCondition"
+      [(ngModel)]="value" [matAutocomplete]="auto" [required]="uiElement.required"
+      [autofocus]="uiElement.autofocus ? uiElement.autofocus : false" />
+    <button type="button" matSuffix mat-icon-button (click)="click($event)" *ngIf="uiElement.icon"
+      [ngStyle]="uiElement.iconStyle">
       <mat-icon [style.color]="uiElement.iconColor || 'green'">{{
         uiElement.icon
-      }}</mat-icon>
+        }}</mat-icon>
     </button>
     <mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>
     <mat-error>{{ uiElement.errorMessage }}</mat-error>
 
-    <mat-autocomplete
-      #auto="matAutocomplete"
-      (optionSelected)="selected($event.option.value)"
-      [panelWidth]="uiElement.width"
-    >
-      <mat-option
-        *ngFor="let option of uiElement.options"
-        [value]="
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event.option.value)"
+      [panelWidth]="uiElement.width">
+      <mat-option *ngFor="let option of uiElement.options" [value]="
           uiElement.optionKey
             ? safeGet(option, uiElement.optionKey, option)
             : option
-        "
-        [ngStyle]="safeGet(option, 'style', uiElement.optionStyle)"
-      >
-        <div
-          *ngIf="uiElement.optionTemplate"
-          ui-layout-wrapper
-          [uiElement]="uiElement.optionTemplate"
-          [data]="option"
-          [copy]="true"
-        ></div>
+        " [ngStyle]="safeGet(option, 'style', uiElement.optionStyle)">
+        <ng-container *ngIf="uiElement.optionTemplate" ui-element [uiElement]="uiElement.optionTemplate" [data]="option"
+          [copy]="true"></ng-container>
 
         <ng-container *ngIf="!uiElement.optionTemplate">
           {{ format(option) }}
@@ -110,43 +62,20 @@
 
 <!-- TAGS -->
 <ng-container *ngIf="uiElement.selectionType == 'tag'">
-  <mat-form-field
-    *ngIf="condition(uiElement)"
-    [ngStyle]="uiElement.style"
-    [ngClass]="uiElement.class"
-    [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
-    [appearance]="uiElement.appearance"
-  >
+  <mat-form-field *ngIf="condition(uiElement)" [ngStyle]="uiElement.style" [ngClass]="uiElement.class"
+    [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'" [appearance]="uiElement.appearance">
     <mat-label>{{ uiElement.label }}</mat-label>
     <mat-select-trigger>
-      <mat-chip-list
-        #chipList
-        cdkDropList
-        cdkDropListOrientation="uiElement.cdkDropListOrientation"
-        (cdkDropListDropped)="drop($event)"
-      >
-        <mat-chip
-          *ngFor="let v of safeGet(value, [])"
-          cdkDrag
-          [selectable]="safeGet(uiElement, 'selectable', true)"
-          [removable]="safeGet(uiElement, 'removable', true)"
-          (removed)="remove(v)"
-          >{{ format(v) }}
-          <mat-icon matChipRemove *ngIf="safeGet(uiElement, 'removable', true)"
-            >cancel</mat-icon
-          ></mat-chip
-        >
+      <mat-chip-list #chipList cdkDropList cdkDropListOrientation="uiElement.cdkDropListOrientation"
+        (cdkDropListDropped)="drop($event)">
+        <mat-chip *ngFor="let v of safeGet(value, [])" cdkDrag [selectable]="safeGet(uiElement, 'selectable', true)"
+          [removable]="safeGet(uiElement, 'removable', true)" (removed)="remove(v)">{{ format(v) }}
+          <mat-icon matChipRemove *ngIf="safeGet(uiElement, 'removable', true)">cancel</mat-icon>
+        </mat-chip>
       </mat-chip-list>
     </mat-select-trigger>
-    <input
-      matInput
-      [matChipInputFor]="chipList"
-      [matChipInputAddOnBlur]="safeGet(uiElement, 'addOnBlur', true)"
-      [placeholder]="uiElement.placeholder"
-      [evalValidate]="uiElement.errorCondition"
-      [required]="uiElement.required"
-      [autofocus]="uiElement.autofocus ? uiElement.autofocus : false"
-      (matChipInputTokenEnd)="add($event)"
-    />
+    <input matInput [matChipInputFor]="chipList" [matChipInputAddOnBlur]="safeGet(uiElement, 'addOnBlur', true)"
+      [placeholder]="uiElement.placeholder" [evalValidate]="uiElement.errorCondition" [required]="uiElement.required"
+      [autofocus]="uiElement.autofocus ? uiElement.autofocus : false" (matChipInputTokenEnd)="add($event)" />
   </mat-form-field>
 </ng-container>

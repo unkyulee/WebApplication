@@ -33,7 +33,7 @@
       <tr [pSelectableRow]="row">
         <ng-container *ngFor="let column of columns">
           <td *ngIf="condition(column)" style="overflow: hidden">
-            <div ui-layout-wrapper *ngIf="condition(column)" [uiElement]="column" [data]="row" [copy]="true"></div>
+            <div ui-element *ngIf="condition(column)" [uiElement]="column" [data]="row" [copy]="true"></div>
           </td>
         </ng-container>
       </tr>
@@ -52,7 +52,7 @@
       " *ngFor="let row of rows" (click)="click($event, row, uiElement.click)" [ngStyle]="uiElement.itemBoxStyle"
       [ngClass]="uiElement.itemBoxClass">
       <ng-container *ngFor="let column of uiElement.columns">
-        <div ui-layout-wrapper [uiElement]="column" [data]="row"></div>
+        <div ui-element [uiElement]="column" [data]="row"></div>
       </ng-container>
     </mat-card>
   </div>
@@ -61,14 +61,14 @@
 
 <!-- Simple List -->
 <div *ngIf="uiElement.tableType == 'list'" cdkDropList [cdkDropListData]="rows" (cdkDropListDropped)="drop($event)"
-  [ngStyle]="uiElement.contentLayoutStyle" [ngClass]="uiElement.contentLayoutClass">
+  [style]="uiElement.contentLayoutStyle" [style]="uiElement.contentLayoutClass">
   <div cdkDrag [cdkDragDisabled]="
       uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
-    " *ngFor="let row of rows" [ngStyle]="row.itemBoxStyle ? row.itemBoxStyle : uiElement.itemBoxStyle"
+    " *ngFor="let row of rows" [style]="row.itemBoxStyle ? row.itemBoxStyle : uiElement.itemBoxStyle"
     [ngClass]="row.itemBoxClass ? row.itemBoxClass : uiElement.itemBoxClass"
     (click)="click($event, row, uiElement.click)">
     <ng-container *ngFor="let column of uiElement.columns">
-      <div ui-layout-wrapper [uiElement]="column" [data]="row"></div>
+      <ng-container ui-element [uiElement]="copy(column)" [data]="row"></ng-container>
     </ng-container>
   </div>
 </div>
@@ -78,7 +78,7 @@
   <div *ngFor="let row of rows" [ngStyle]="uiElement.itemBoxStyle" [ngClass]="uiElement.itemBoxClass"
     (click)="click($event, row, uiElement.click)">
     <ng-container *ngFor="let column of uiElement.columns">
-      <div ui-layout-wrapper [uiElement]="column" [data]="row"></div>
+      <div ui-element [uiElement]="column" [data]="row"></div>
     </ng-container>
   </div>
 </div>

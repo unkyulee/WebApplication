@@ -15,11 +15,15 @@ export class ConfigService {
     obj.ensureExists(window, "__CONFIG__", {});
   }
 
+  isHandset = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Small)
     .pipe(
       debounceTime(300),
-      map((result) => result.matches)
+      map((result) => {
+        this.isHandset = result.matches;
+        return result.matches;
+      })
     );
 
   get(name, def_value?) {
