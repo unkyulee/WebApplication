@@ -10,17 +10,17 @@ export class GlobalErrorHandler implements ErrorHandler {
   ) {}
 
   handleError(error: any) {
+    if (!error) return;
+    if (error.code == -100) return;
+
     // Check if it's an error from an HTTP response
-    if (!(error instanceof HttpErrorResponse)) {
-      error = error.rejection; // get the error object
-    }
     this.zone.run(() => {
       this.errorDialogService.openDialog(
-        error?.message || "Undefined client error",
-        error?.status
+        error?.message || "Unhandled Error",
+        error?.status,
+        error?.stack
       );
     });
-
-    console.error("Error from global error handler", error);
+    console.error("global error", error);
   }
 }

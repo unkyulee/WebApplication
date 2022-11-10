@@ -8,11 +8,11 @@ export class ErrorDialogService {
 
   constructor(private dialog: MatDialog) {}
 
-  openDialog(message: string, status?: number): void {
+  openDialog(message: string, status?: number, stack?: string): void {
     if (!this.opened) {
       this.opened = true;
       const dialogRef = this.dialog.open(ErrorDialogComponent, {
-        data: { message, status },
+        data: { message, status, stack },
         maxHeight: "100%",
         width: "540px",
         maxWidth: "100%",

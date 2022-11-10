@@ -15,6 +15,7 @@ import { TypographyComponent } from "./typography/typography.component";
 import { InputComponent } from "./input/input.component";
 import { ButtonComponent } from "./button/button.component";
 import { TableComponent } from "./table/table.component";
+import { FormComponent } from "./form/form.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { TableComponent } from "./table/table.component";
     InputComponent,
     ButtonComponent,
     TableComponent,
+    FormComponent,
   ],
   exports: [
     SafePipe,
@@ -34,6 +36,7 @@ import { TableComponent } from "./table/table.component";
     InputComponent,
     ButtonComponent,
     TableComponent,
+    FormComponent,
   ],
   imports: [
     CommonModule,

@@ -77,6 +77,65 @@ export class LayoutEngineComponent {
     }
   }
 
+  // base data operations
+  data_operations(event) {
+    //
+    if (event?.name == "merge-data") {
+      this.data = Object.assign(this.data, event.data);
+    } else if (event?.name == "insert-data") {
+      obj.ensureExists(this.data, event.path, []);
+      let data = obj.get(this.data, event.path);
+      if (!data) data = [];
+
+      if (data.indexOf(event.data) > -1) {
+        // if exists then do nothing - it's already there
+      } else if (
+        event.datakey &&
+        data.find((item) => item[event.datakey] == event.data[event.datakey])
+      ) {
+        let found = data.find(
+          (item) => item[event.datakey] == event.data[event.datakey]
+        );
+        if (found) {
+          // item found - replace it
+          let index = data.indexOf(found);
+          data[index] = event.data;
+        }
+      } else {
+        // if not exists then add
+        obj.push(this.data, event.path, event.data);
+        obj.set(
+          this.data,
+          event.path,
+          JSON.parse(JSON.stringify(obj.get(this.data, event.path)))
+        );
+      }
+    } else if (
+      event &&
+      event.name == "delete-data" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
+      let data = obj.get(this.data, event.path);
+      if (data) {
+        if (data.indexOf(event.data) > -1) {
+          // delete data
+          data.splice(data.indexOf(event.data), 1);
+        } else if (
+          event.datakey &&
+          data.find((item) => item[event.datakey] == event.data[event.datakey])
+        ) {
+          let found = data.find(
+            (item) => item[event.datakey] == event.data[event.datakey]
+          );
+          if (found) {
+            // item found - delete it
+            data.splice(data.indexOf(found), 1);
+          }
+        }
+      }
+    }
+  }
+
   // navigations
   get_navigations() {
     // form nav model

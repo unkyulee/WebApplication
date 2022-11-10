@@ -16,6 +16,7 @@ import { TypographyComponent } from "./typography/typography.component";
 import { InputComponent } from "./input/input.component";
 import { ButtonComponent } from "./button/button.component";
 import { TableComponent } from "./table/table.component";
+import { FormComponent } from "./form/form.component";
 
 @Directive({
   selector: "[ui-element]",
@@ -28,7 +29,8 @@ export class UIElement {
     typography: TypographyComponent,
     input: InputComponent,
     button: ButtonComponent,
-    "data-table": TableComponent,
+    table: TableComponent,
+    form: FormComponent,
   };
   componentRef;
 
@@ -56,7 +58,7 @@ export class UIElement {
       let element = await this.ui.get(this.uiElement.uiElementId);
       if (element) {
         //
-        this.uiElement = Object.assign(this.uiElement, element);
+        Object.assign(this.uiElement, element);
       } else {
         console.error(`uiElement missing ${this.uiElement.uiElementId}`);
       }

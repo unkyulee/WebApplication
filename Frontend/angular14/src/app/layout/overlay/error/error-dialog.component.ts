@@ -9,6 +9,6 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 export class ErrorDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public data: { message: string; status?: number }
+    public data: { message: string; status?: number; stack?: string }
   ) {}
 }

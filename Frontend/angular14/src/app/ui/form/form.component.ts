@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Component, KeyValueDiffer, KeyValueDiffers } from "@angular/core";
+import { Component } from "@angular/core";
 import { EMPTY } from "rxjs";
 import { catchError } from "rxjs/operators";
 import obj from "object-path";
@@ -8,142 +8,20 @@ import obj from "object-path";
 import { BaseComponent } from "../base.component";
 
 @Component({
-  selector: "form-generator",
-  templateUrl: "./form-generator.component.html",
+  selector: "form-component",
+  templateUrl: "./form.component.html",
+  styleUrls: ["./form.component.css"],
 })
-export class FormGeneratorComponent extends BaseComponent {
-  constructor(private differs: KeyValueDiffers) {
-    super();
-  }
-
-  //
-  dataDiffer: KeyValueDiffer<string, any>;
-  ngOnInit() {
+export class FormComponent extends BaseComponent {
+  async ngOnInit() {
     super.ngOnInit();
+
     // download data
-    this.requestDownload(this.uiElement.cached != false);
-
-    // subscript to event
-    this.onEvent = this.event.onEvent.subscribe((event) =>
-      this.eventHandler(event)
-    );
-
-    // detect changes on this.data
-    this.dataDiffer = this.differs.find(this.data).create();
-  }
-
-  ngOnDestroy() {
-    // check if the data is changed
-    if (this.changed && this.uiElement.dirty) {
-      try {
-        eval(this.uiElement.dirty);
-      } catch {}
-    }
-    //
-    super.ngOnDestroy();
-    this.onEvent.unsubscribe();
-  }
-
-  ngDoCheck() {
-    if (this.dataDiffer) {
-      this.detectChanges();
-    }
-  }
-
-  changed = false;
-  changeDetectionTimer;
-  detectChanges() {
-    // stop the previous execution
-    clearTimeout(this.changeDetectionTimer);
-
-    // initiate new exuction after a delay
-    this.changeDetectionTimer = setTimeout(() => {
-      const changes = this.dataDiffer.diff(this.data);
-      if (changes) {
-        changes.forEachChangedItem((record) => {
-          this.changed = true;
-        });
-      }
-    }, 1000);
+    await this.requestDownload();
   }
 
   eventHandler(event) {
     if (
-      event &&
-      event.name == "refresh" &&
-      (!event.key || event.key == this.uiElement.key)
-    ) {
-      // run refresh script
-      if (this.uiElement.refresh) {
-        try {
-          eval(this.uiElement.refresh);
-        } catch (e) {
-          console.error(e);
-        }
-      }
-      this.requestDownload(false);
-    } else if (
-      event &&
-      event.name == "merge-data" &&
-      (!event.key || event.key == this.uiElement.key)
-    ) {
-      this.data = Object.assign(this.data, event.data);
-    } else if (
-      event &&
-      event.name == "insert-data" &&
-      (!event.key || event.key == this.uiElement.key)
-    ) {
-      obj.ensureExists(this.data, event.path, []);
-      let data = obj.get(this.data, event.path);
-      if (!data) data = [];
-
-      if (data.indexOf(event.data) > -1) {
-        // if exists then do nothing - it's already there
-      } else if (
-        event.datakey &&
-        data.find((item) => item[event.datakey] == event.data[event.datakey])
-      ) {
-        let found = data.find(
-          (item) => item[event.datakey] == event.data[event.datakey]
-        );
-        if (found) {
-          // item found - replace it
-          let index = data.indexOf(found);
-          data[index] = event.data;
-        }
-      } else {
-        // if not exists then add
-        obj.push(this.data, event.path, event.data);
-        obj.set(
-          this.data,
-          event.path,
-          JSON.parse(JSON.stringify(obj.get(this.data, event.path)))
-        );
-      }
-    } else if (
-      event &&
-      event.name == "delete-data" &&
-      (!event.key || event.key == this.uiElement.key)
-    ) {
-      let data = obj.get(this.data, event.path);
-      if (data) {
-        if (data.indexOf(event.data) > -1) {
-          // delete data
-          data.splice(data.indexOf(event.data), 1);
-        } else if (
-          event.datakey &&
-          data.find((item) => item[event.datakey] == event.data[event.datakey])
-        ) {
-          let found = data.find(
-            (item) => item[event.datakey] == event.data[event.datakey]
-          );
-          if (found) {
-            // item found - delete it
-            data.splice(data.indexOf(found), 1);
-          }
-        }
-      }
-    } else if (
       event &&
       event.name == "save" &&
       (!event.key || event.key == this.uiElement.key)
@@ -173,6 +51,7 @@ export class FormGeneratorComponent extends BaseComponent {
   }
 
   requestDownload(cached?) {
+    /*
     // retrieve REST information
     let src = this.uiElement.src;
     try {
@@ -207,6 +86,7 @@ export class FormGeneratorComponent extends BaseComponent {
         )
         .subscribe((response) => this.responseDownload(response));
     }
+    */
   }
 
   responseDownload(response) {
