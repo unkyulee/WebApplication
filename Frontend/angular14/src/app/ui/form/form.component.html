@@ -1,11 +1,10 @@
 <div [style]="uiElement.style" [class]="uiElement.class">
 	<!-- Toolbar -->
-	<div [style]="uiElement.toolbar?.style" [class]="uiElement.toolbar?.class">
+	<div [style]="uiElement.toolbar?.style" class="toolbar">
 		<button *ngIf="uiElement.save && safeEval(uiElement.save?.condition)" mat-icon-button (click)="save($event)">
 			<mat-icon>save</mat-icon>
 		</button>
-		<span
-			*ngIf="uiElement.save?.detectChange && safeEval(uiElement.save?.detectChange)">{{uiElement.save?.detectChangeMessage}}</span>
+		<span *ngIf="changed" [style]="uiElement.change?.style">{{uiElement.change?.message}}</span>
 		<div class="spacer"></div>
 		<button *ngIf="uiElement.delete && safeEval(uiElement.delete?.condition)" mat-icon-button
 			(click)="save($event)">
@@ -21,7 +20,7 @@
 			<div *ngIf="safeGet(ui, 'header.display') != false"
 				[style]="ui.header?.style ? ui?.header?.style : safeGet(uiElement, 'header.style')"
 				[class]="ui.header?.class ? ui?.header?.class : safeGet(uiElement, 'header.class')">
-				<button type="button" mat-icon-button (click)="ui.expanded = !ui.expanded">
+				<button type="button" mat-icon-button (click)="ui.expanded = !(ui.expanded ?? true)">
 					<mat-icon [inline]="true">{{ ui.expanded == false ? 'chevron_right' : 'expand_more' }}</mat-icon>
 				</button>
 				<ng-container *ngFor="let header of ui?.header?.screens">

@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 import { EventService } from "./event.service";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, debounceTime } from "rxjs/operators";
 
 @Injectable()
 export class ConfigService {
@@ -16,8 +16,11 @@ export class ConfigService {
   }
 
   isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
-    .pipe(map((result) => result.matches));
+    .observe(Breakpoints.Small)
+    .pipe(
+      debounceTime(300),
+      map((result) => result.matches)
+    );
 
   get(name, def_value?) {
     let v = null;
