@@ -78,7 +78,7 @@ export default defineComponent({
 
     // reload nav
     {
-      this.message = "loading navigation ...";
+      this.message = "loading ...";
       await this.nav.load();
     }
 
@@ -86,7 +86,9 @@ export default defineComponent({
     if (this.config.get("login.enabled")) {
       // check is logged in
       this.message = "checking login ...";
-      if (await this.auth.isAuthenticated()) {
+
+      let isAuthenticated = await this.auth.isAuthenticated();
+      if (isAuthenticated) {
         this.message = "login validated";
       } else {
         this.message = "login info not discovered";

@@ -12,6 +12,22 @@
     </v-app-bar-title>
 
     <!-- Action Items -->
+    <v-spacer></v-spacer>
+    <v-menu v-if="isAuthenticated">
+      <template v-slot:activator="{ props }">
+        <v-btn
+          v-bind="props"
+          :style="style_account"
+          icon="mdi-account"
+          size="x-small"
+        ></v-btn>
+      </template>
+      <v-list>
+        <v-list-item :value="1" @click="auth.logout()">
+          <v-list-item-title>Logout</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
 
     <!-- Overflow menu -->
   </v-app-bar>
@@ -22,18 +38,20 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  inject: ["event", "config", "ui"],
+  inject: ["event", "config", "ui", "auth"],
 
   data: function () {
     return {
       title: "",
       background: null,
       style: null,
+      style_account: null,
       logo: null,
+      isAuthenticated: false,
     };
   },
 
-  mounted: function () {
+  async mounted() {
     // load toolbar theme
     this.title = this.config.get("title", "");
     this.background = this.config.get("color.primary");
@@ -48,6 +66,14 @@ export default defineComponent({
     this.style = {
       color: this.config.get("color.font", ""),
     };
+
+    this.style_account = {
+      color: this.config.get("color.accent_font", ""),
+      background: this.config.get("color.accent", ""),
+    };
+
+    // user icon
+    this.isAuthenticated = await this.auth.isAuthenticated();
 
     // subscribe to loading-complete event
     this.event.subscribe("Toolbar", "navigation-changed", (event) => {
