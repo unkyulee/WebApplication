@@ -62,7 +62,10 @@ export class UIElement {
         //
         Object.assign(this.uiElement, element);
       } else {
-        console.error(`uiElement missing ${this.uiElement.uiElementId}`);
+        console.error(
+          `uiElement missing ${this.uiElement.uiElementId}`,
+          this.uiElement
+        );
       }
     }
 
@@ -78,7 +81,10 @@ export class UIElement {
       this.componentRef.instance.data = this.data;
       this.componentRef.instance.uiElement = this.uiElement;
     } else {
-      console.error(`missing ui element registry: ${this.uiElement.type}`);
+      console.error(
+        `missing ui element registry: ${this.uiElement.type}`,
+        this.uiElement
+      );
     }
   }
 

@@ -1,0 +1,15 @@
+::ng-deep .cdk-overlay-container {
+  z-index: 999999;
+}
+
+.error-message {
+  background: #eee;
+  padding: 1rem;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.stack-message {
+  font-size: x-small;
+  padding: 1rem;
+}
