@@ -37,6 +37,7 @@ export default {
     try {
       let result = await getRedirectResult(auth);
       if (result && result.user) {
+        console.log(auth);
         return true;
       }
     } catch (ex) {
@@ -55,6 +56,15 @@ export default {
   },
 
   async client() {
-    return {};
+    const auth = getAuth(firebase);
+    return new Promise((resolve) => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          resolve(user);
+        } else {
+          resolve({});
+        }
+      });
+    });
   },
 };

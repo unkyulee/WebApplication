@@ -5,6 +5,7 @@
   "pages": ["admin.navigation"],
   "login": true,
   "login_hide": false,
+  "roles": ["admin"],
   "children": [
     {
       "_id": "navigation",

@@ -1,71 +1,69 @@
 {
-  "fullscreen": true,
+  "_id": "admin.ui.detail",
   "type": "layout",
   "layoutStyle": {
-    "maxHeight": "100vh",
     "width": "100vw",
-    "flexFlow": "column",
-    "background": "white",
     "height": "100vh",
-    "display": "flex"
+    "background": "white",
+    "display": "flex",
+    "maxHeight": "100vh",
+    "flexFlow": "column"
   },
-  "_id": "admin.ui.detail",
-  "persistent": true,
   "screens": [
     {
       "screens": [
         {
-          "type": "typography",
-          "text": "UI",
           "layoutStyle": {
-            "padding": "8px",
+            "background": "lightgray",
             "width": "100%",
-            "background": "lightgray"
-          }
+            "padding": "8px"
+          },
+          "type": "typography",
+          "text": "UI"
         },
         {
           "type": "layout",
           "screens": [
             {
-              "key": "_params_.path",
-              "density": "compact",
-              "label": "JSON Path",
-              "changed": "this.event.send({name: 'path', path: this.value});",
               "layoutStyle": {
                 "flexGrow": 1
               },
+              "density": "compact",
+              "label": "JSON Path",
+              "key": "_params_.path",
+              "changed": "this.event.send({name: 'path', path: this.value});",
               "type": "input"
             },
             {
-              "label": "LANGUAGE",
+              "key": "_params_.lang",
+              "changed": "this.event.send({name: 'lang', lang: this.value});",
               "layoutStyle": {
                 "width": "120px"
               },
-              "changed": "this.event.send({name: 'lang', lang: this.value});",
               "density": "compact",
-              "type": "input",
-              "key": "_params_.lang"
+              "label": "LANGUAGE",
+              "type": "input"
             }
           ],
           "layoutStyle": {
-            "width": "100%",
+            "display": "flex",
             "flex": "row",
-            "display": "flex"
+            "width": "100%"
           }
         },
         {
+          "changed": "let type = obj.get(this.data, '_params_.type');\r\nlet path = obj.get(this.data, '_params_.path', '');\r\nif (!type || type == 'object') {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, JSON.parse(value))\r\n    } else {\r\n        obj.set(this.data, path, JSON.parse(value))\r\n    }\r\n\r\n} else {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, value)\r\n    } else {\r\n        //\r\n        obj.set(this.data, path, value)\r\n    }\r\n}\r\n\r\n",
           "init": "this.event.subscribe(\r\n    'code-editor',\r\n    'path',\r\n    async (event) => {\r\n\r\n        let path = event.path;\r\n        if (!path) path = '';\r\n\r\n        // update the value with path\r\n        // see if the value path exists\r\n        if (obj.get(this.data, path)) {\r\n            let value = obj.get(this.data, path)\r\n\r\n            if (value && value.constructor != \"\".constructor) {\r\n                this.data._params_.type = \"object\";\r\n                this.value = JSON.stringify(value, null, 2);\r\n            } else {\r\n                this.data._params_.type = \"string\";\r\n                this.value = value;\r\n            }\r\n\r\n        }\r\n        \r\n    }\r\n);\r\n\r\nthis.event.subscribe(\r\n    'code-editor',\r\n    'lang',\r\n    (event) => {\r\n        this.uiElement.language = event.lang\r\n    }\r\n);",
-          "destroy": "this.event.unsubscribe_all('code-editor');",
-          "key": "",
           "style": {
             "height": "100%",
             "width": "100%",
             "minHeight": "400px"
           },
-          "transform": "value = JSON.stringify(value, null, 4)",
           "language": "json",
-          "changed": "let type = obj.get(this.data, '_params_.type');\r\nlet path = obj.get(this.data, '_params_.path', '');\r\nif (!type || type == 'object') {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, JSON.parse(value))\r\n    } else {\r\n        obj.set(this.data, path, JSON.parse(value))\r\n    }\r\n\r\n} else {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, value)\r\n    } else {\r\n        //\r\n        obj.set(this.data, path, value)\r\n    }\r\n}\r\n\r\n",
-          "type": "code-editor"
+          "key": "",
+          "type": "code-editor",
+          "transform": "value = JSON.stringify(value, null, 4)",
+          "destroy": "this.event.unsubscribe_all('code-editor');"
         }
       ],
       "type": "layout",
@@ -75,45 +73,41 @@
       }
     },
     {
+      "type": "layout",
       "screens": [
         {
+          "label": "CLOSE",
           "click": "this.event.send({name: 'close-dialog'});",
-          "variant": "text",
           "type": "button",
-          "label": "CLOSE"
+          "variant": "text"
         },
         {
           "type": "layout",
           "layoutStyle": {
-            "width": "1px",
-            "flexGrow": 1
+            "flexGrow": 1,
+            "width": "1px"
           }
         },
         {
-          "variant": "text",
+          "color": "warn",
           "click": "this.event.send({ name: 'close-dialog' });\r\nthis.$confirm.require({\r\n    message: 'Are you sure you want to delete?',\r\n    header: 'Confirmation',\r\n    icon: 'pi pi-exclamation-triangle',\r\n    accept: async () => {\r\n        //callback to execute when user confirms the action\r\n        // delete\r\n        await this.rest.request(`/api/admin/ui`, this.data, 'delete');\r\n        this.event.send({ name: \"refresh\", key: \"uis\" })\r\n    },\r\n    reject: () => {\r\n        //callback to execute when user rejects the action\r\n    },\r\n    onHide: () => {\r\n        //Callback to execute when dialog is hidden\r\n    }\r\n});\r\n",
-          "label": "DELETE",
           "type": "button",
-          "color": "warn"
+          "label": "DELETE",
+          "variant": "text"
         },
         {
-          "click": "//\r\n(async () => { \r\n    let data = {...this.data};\r\n    // delete _params_\r\n    delete data._params_;\r\n\r\n    let response = await this.rest.request('/api/admin/ui', data, 'post');\r\n    if(response.status != 200) {\r\n        console.error(response.data);\r\n    } else {\r\n        this.event.send({name: \"snackbar\", text: \"SAVED!\"})\r\n    }\r\n    \r\n})();",
           "color": "primary",
-          "type": "button",
-          "label": "SAVE"
+          "label": "SAVE",
+          "click": "//\r\n(async () => {\r\n    let data = { ...this.data };\r\n    // delete _params_\r\n    delete data._params_;\r\n\r\n    try {\r\n        let response = await this.rest.request('/api/admin/ui', data, 'post');\r\n        this.event.send({ name: \"snackbar\", text: \"SAVED!\" });        \r\n    } catch (ex) {\r\n        this.event.send({ name: \"snackbar\", text: ex })\r\n    }\r\n    \r\n})();",
+          "type": "button"
         }
       ],
       "layoutStyle": {
-        "background": "ghostwhite",
+        "padding": "8px",
         "position": "relative",
-        "display": "flex",
-        "padding": "8px"
-      },
-      "type": "layout"
+        "background": "ghostwhite",
+        "display": "flex"
+      }
     }
-  ],
-  "_updated": {
-    "seconds": 1667896563,
-    "nanoseconds": 334000000
-  }
+  ]
 }
