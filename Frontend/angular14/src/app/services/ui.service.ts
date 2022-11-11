@@ -1,35 +1,14 @@
-import { Injectable, isDevMode } from "@angular/core";
-import * as moment from "moment";
+import { Injectable } from "@angular/core";
 
 // services
 import { ConfigService } from "./config.service";
 import { RestService } from "./rest.service";
-import { NavService } from "./nav.service";
-
-// get config from index.html
-declare var window: any;
 
 @Injectable()
 export class UIService {
-  constructor(
-    private config: ConfigService,
-    private rest: RestService,
-    private nav: NavService
-  ) {
-    // save the point in time to trigger the next refresh
-    this.loadedAt = moment();
-  }
+  constructor(private config: ConfigService, private rest: RestService) {}
 
-  loadedAt: any;
   async get(uiElementId) {
-    // check if loadedAt is within 6 hour
-    if (moment().add(-6, "hours") > this.loadedAt) {
-      this.loadedAt = moment();
-
-      // clear UI cache
-      this.clear();
-    }
-
     let uiElement = this.config.get(`ui.${uiElementId}`);
     if (!uiElement) {
       // use cache when offline
@@ -37,21 +16,13 @@ export class UIService {
         "url"
       )}/ui.element`;
       uiElement = await this.rest.requestAsync(url, { uiElementId });
+      if (!uiElement) {
+        throw `ui element missing ${uiElementId}`;
+      }
       this.config.set(`ui.${uiElementId}`, uiElement);
     } else {
       // if cached then return the copy of it
       uiElement = { ...uiElement };
-    }
-
-    // run load script
-    if (uiElement) {
-      if (uiElement.load) {
-        try {
-          eval(uiElement.load);
-        } catch (e) {
-          console.error(e);
-        }
-      }
     }
 
     return uiElement;

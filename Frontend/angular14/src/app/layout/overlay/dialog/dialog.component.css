@@ -1,0 +1,7 @@
+::ng-deep .p-dialog {
+  max-height: unset !important;
+}
+
+::ng-deep .p-dialog-content {
+  padding: 0 !important;
+}

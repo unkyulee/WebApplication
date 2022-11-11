@@ -17,6 +17,7 @@ import { UtilService } from "../../../services/util.service";
     [uiElement]="uiElement"
     [data]="data"
   ></ng-container>`,
+  styleUrls: ["./dialog.component.css"],
 })
 export class DialogComponent {
   onEvent: Subscription;

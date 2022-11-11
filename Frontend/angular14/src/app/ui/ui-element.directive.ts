@@ -17,6 +17,7 @@ import { InputComponent } from "./input/input.component";
 import { ButtonComponent } from "./button/button.component";
 import { TableComponent } from "./table/table.component";
 import { FormComponent } from "./form/form.component";
+import { DateComponent } from "./date/date.component";
 
 @Directive({
   selector: "[ui-element]",
@@ -31,6 +32,7 @@ export class UIElement {
     button: ButtonComponent,
     table: TableComponent,
     form: FormComponent,
+    date: DateComponent,
   };
   componentRef;
 

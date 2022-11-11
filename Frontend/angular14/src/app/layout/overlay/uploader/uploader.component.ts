@@ -6,7 +6,7 @@ import { NgxImageCompressService } from "ngx-image-compress";
 import obj from "object-path";
 
 // user imports
-import { BaseComponent } from "../base.component";
+import { BaseComponent } from "../../../ui/base.component";
 
 @Component({
   selector: "uploader",

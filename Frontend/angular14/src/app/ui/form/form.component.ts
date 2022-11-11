@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Component, KeyValueDiffer, KeyValueDiffers } from "@angular/core";
+import { Component } from "@angular/core";
 
 // user imports
 import { BaseComponent } from "../base.component";
@@ -12,18 +12,24 @@ import { BaseComponent } from "../base.component";
 export class FormComponent extends BaseComponent {
   // change detection parameters
   changed = false;
-  prev_data = {};
+  prev_data = null;
   check_timer;
 
-  constructor(private differs: KeyValueDiffers) {
+  constructor() {
     super();
   }
 
   async ngOnInit() {
     super.ngOnInit();
 
+    // if formType is sidenav - choose the first menu
+    if (this.uiElement.formType == "sidenav") {
+      obj.ensureExists(this.uiElement, "sidenav", {});
+      this.uiElement.sidenav.uiElement = obj.get(this.uiElement, "screens.0");
+    }
+
+    // change detection
     if (this.uiElement?.change?.check) {
-      this.prev_data = { ...this.data };
       this.check_timer = setInterval(() => {
         this.changeDetection();
       }, 3000);
@@ -38,12 +44,18 @@ export class FormComponent extends BaseComponent {
   }
 
   async changeDetection() {
+    // initial prev_data saves
+    if (!this.prev_data) {
+      this.prev_data = { ...this.data };
+    }
+
     // check if this.uiElement.change.all is true
     // then check all diff
     for (let key of Object.keys(this.data)) {
       // compare key by key
       if (this.data[key] != this.prev_data[key]) {
         this.changed = true;
+        console.log(`change detected - ${key} - ${this.data[key]}`);
       }
     }
   }
@@ -79,7 +91,7 @@ export class FormComponent extends BaseComponent {
 
     // save the copy
     this.changed = false;
-    this.prev_data = { ...this.data };
+    this.prev_data = null;
   }
 
   async save() {
@@ -114,7 +126,7 @@ export class FormComponent extends BaseComponent {
 
     // save the copy
     this.changed = false;
-    this.prev_data = { ...this.data };
+    this.prev_data = null;
   }
 
   async delete() {
@@ -146,5 +158,9 @@ export class FormComponent extends BaseComponent {
         console.error(e);
       }
     }
+  }
+
+  async sectionChanged($event) {
+    console.log("section changed", $event);
   }
 }

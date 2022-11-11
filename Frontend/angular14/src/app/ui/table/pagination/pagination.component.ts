@@ -2,7 +2,7 @@
 import { Component, Input } from "@angular/core";
 
 // user imports
-import { BaseComponent } from "../base.component";
+import { BaseComponent } from "../../base.component";
 
 @Component({
   selector: "pagination",

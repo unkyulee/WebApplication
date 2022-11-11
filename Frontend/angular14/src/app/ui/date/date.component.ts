@@ -1,8 +1,5 @@
 // @ts-nocheck
 import { Component } from "@angular/core";
-import obj from "object-path";
-import * as moment from "moment";
-
 import { BaseComponent } from "../base.component";
 import {
   MAT_MOMENT_DATE_FORMATS,
@@ -100,7 +97,7 @@ export class DateComponent extends BaseComponent {
         v = d;
       }
 
-      obj.set(this.data, this.uiElement.key, moment(v));
+      obj.set(this.data, this.uiElement.key, moment(v).toDate());
     }
 
     // see if there are any input change handlers
