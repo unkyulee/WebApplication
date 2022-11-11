@@ -17,7 +17,7 @@ export class ConfigService {
 
   isHandset = false;
   isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Small)
+    .observe(Breakpoints.Handset)
     .pipe(
       debounceTime(300),
       map((result) => {
