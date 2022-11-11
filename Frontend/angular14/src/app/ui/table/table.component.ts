@@ -13,65 +13,8 @@ import { BaseComponent } from "../base.component";
 export class TableComponent extends BaseComponent {
   ///
   _rows = [];
-  get rows() {
-    if (this.data && this.uiElement.key) {
-      this._rows = obj.get(this.data, this.uiElement.key);
-    }
-
-    //
-    if (typeof this._rows != "undefined" && !Array.isArray(this._rows)) {
-      let rows = [];
-      for (let key of Object.keys(this._rows)) {
-        rows.push(this._rows[key]);
-      }
-      this._rows = rows;
-    }
-
-    return this._rows;
-  }
-
-  set rows(v: any) {
-    if (this.data && this.uiElement.key) {
-      obj.set(this.data, this.uiElement.key, v);
-    }
-
-    // set default when value is empty
-    if (!v && this.uiElement.key && this.uiElement.default) {
-      let defaultValue = this.uiElement.default;
-      try {
-        defaultValue = eval(this.uiElement.default);
-      } catch (e) {
-        console.error(e, this.uiElement);
-      }
-      obj.set(this.data, this.uiElement.key, defaultValue);
-    }
-  }
-
   _selection;
-  get selection() {
-    return this._selection;
-  }
-  set selection(item: any) {
-    this._selection = item;
-  }
-
-  onRowSelect(event) {
-    let item = event.data;
-    if (obj.get(this.uiElement, "click")) {
-      try {
-        eval(this.uiElement.click);
-      } catch {}
-    }
-  }
-
-  onRowUnselect(event) {
-    let item = event.data;
-    if (obj.get(this.uiElement, "click")) {
-      try {
-        eval(this.uiElement.click);
-      } catch {}
-    }
-  }
+  onGoingSort = false;
 
   // pagination information
   total: number = 0;
@@ -80,8 +23,9 @@ export class TableComponent extends BaseComponent {
 
   ngOnInit() {
     super.ngOnInit();
+
     // check if there is any page configuration available
-    this.getPage();
+    //this.getPage();
 
     // download data through rest web services
     this.requestDownload();
@@ -125,85 +69,6 @@ export class TableComponent extends BaseComponent {
   ngOnDestroy() {
     super.ngOnDestroy();
     this.onEvent.unsubscribe();
-  }
-
-  //
-  onGoingSort = false;
-  customSort(event) {
-    // check if the sort option already exists
-    let already = obj.get(this.uiElement, "sort", []).find((x) => {
-      let exists = false;
-      if (event.field == x.prop) {
-        if (event.order == -1 && x.dir == "desc") exists = true;
-        if (event.order == 1 && x.dir == "asc") exists = true;
-      }
-
-      return exists;
-    });
-    // do not sort again when already sorted
-    if (already) return;
-
-    //
-    obj.set(this.uiElement, "sort", []);
-
-    // add sort filter
-    if (event.order == 1) {
-      this.uiElement.sort.push({
-        dir: "asc",
-        prop: event.field,
-      });
-    } else if (event.order == -1) {
-      this.uiElement.sort.push({
-        dir: "desc",
-        prop: event.field,
-      });
-    }
-
-    //
-    setTimeout(() => this.requestDownload());
-  }
-
-  // Get Pagination information
-  getPage() {
-    let params = this.nav.getParams();
-
-    // default page is 1
-    if (!this.page) {
-      this.page = 1;
-      // if nav param has page then use it
-      if (this.uiElement.externalPaging != false && params["page"]) {
-        this.page = params["page"];
-      }
-    }
-
-    // if the page size is determined in the url then use that otherwise use the one from the uiElement
-    if (!this.size) {
-      this.size = this.uiElement.size ? this.uiElement.size : 10;
-      // if nav param has page then use it
-      if (this.uiElement.externalPaging != false && params["size"]) {
-        this.size = params["size"];
-      }
-    }
-  }
-
-  // setting page will set the values to the URL
-  setPage(page, size) {
-    // save pagination
-    this.page = page;
-    this.size = size;
-
-    // parameters
-    // do not set pagination when card or list
-    if (
-      this.uiElement.tableType != "card" &&
-      this.uiElement.tableType != "list" &&
-      this.uiElement.useNavParams != false
-    ) {
-      if (this.uiElement._id) {
-        this.nav.setParam("page", this.page);
-        this.nav.setParam("size", this.size);
-      }
-    }
   }
 
   async requestDownload(pageInfo?) {
@@ -301,6 +166,144 @@ export class TableComponent extends BaseComponent {
 
     // hide splash
     this.event.send({ name: "changed" });
+  }
+
+  get rows() {
+    if (this.data && this.uiElement.key) {
+      this._rows = obj.get(this.data, this.uiElement.key);
+    }
+
+    //
+    if (typeof this._rows != "undefined" && !Array.isArray(this._rows)) {
+      let rows = [];
+      for (let key of Object.keys(this._rows)) {
+        rows.push(this._rows[key]);
+      }
+      this._rows = rows;
+    }
+
+    return this._rows;
+  }
+
+  set rows(v: any) {
+    if (this.data && this.uiElement.key) {
+      obj.set(this.data, this.uiElement.key, v);
+    }
+
+    // set default when value is empty
+    if (!v && this.uiElement.key && this.uiElement.default) {
+      let defaultValue = this.uiElement.default;
+      try {
+        defaultValue = eval(this.uiElement.default);
+      } catch (e) {
+        console.error(e, this.uiElement);
+      }
+      obj.set(this.data, this.uiElement.key, defaultValue);
+    }
+  }
+
+  get selection() {
+    return this._selection;
+  }
+  set selection(item: any) {
+    this._selection = item;
+  }
+
+  onRowSelect(event) {
+    let item = event.data;
+    if (obj.get(this.uiElement, "click")) {
+      try {
+        eval(this.uiElement.click);
+      } catch {}
+    }
+  }
+
+  onRowUnselect(event) {
+    let item = event.data;
+    if (obj.get(this.uiElement, "click")) {
+      try {
+        eval(this.uiElement.click);
+      } catch {}
+    }
+  }
+
+  //
+
+  customSort(event) {
+    // check if the sort option already exists
+    let already = obj.get(this.uiElement, "sort", []).find((x) => {
+      let exists = false;
+      if (event.field == x.prop) {
+        if (event.order == -1 && x.dir == "desc") exists = true;
+        if (event.order == 1 && x.dir == "asc") exists = true;
+      }
+
+      return exists;
+    });
+    // do not sort again when already sorted
+    if (already) return;
+
+    //
+    obj.set(this.uiElement, "sort", []);
+
+    // add sort filter
+    if (event.order == 1) {
+      this.uiElement.sort.push({
+        dir: "asc",
+        prop: event.field,
+      });
+    } else if (event.order == -1) {
+      this.uiElement.sort.push({
+        dir: "desc",
+        prop: event.field,
+      });
+    }
+
+    //
+    setTimeout(() => this.requestDownload());
+  }
+
+  // Get Pagination information
+  getPage() {
+    let params = this.nav.getParams();
+
+    // default page is 1
+    if (!this.page) {
+      this.page = 1;
+      // if nav param has page then use it
+      if (this.uiElement.externalPaging != false && params["page"]) {
+        this.page = params["page"];
+      }
+    }
+
+    // if the page size is determined in the url then use that otherwise use the one from the uiElement
+    if (!this.size) {
+      this.size = this.uiElement.size ? this.uiElement.size : 10;
+      // if nav param has page then use it
+      if (this.uiElement.externalPaging != false && params["size"]) {
+        this.size = params["size"];
+      }
+    }
+  }
+
+  // setting page will set the values to the URL
+  setPage(page, size) {
+    // save pagination
+    this.page = page;
+    this.size = size;
+
+    // parameters
+    // do not set pagination when card or list
+    if (
+      this.uiElement.tableType != "card" &&
+      this.uiElement.tableType != "list" &&
+      this.uiElement.useNavParams != false
+    ) {
+      if (this.uiElement._id) {
+        this.nav.setParam("page", this.page);
+        this.nav.setParam("size", this.size);
+      }
+    }
   }
 
   sort: any;
