@@ -3,8 +3,8 @@
   <ng-container *ngIf="uiElement.tableType == 'table'">
 
     <p-table [columns]="uiElement.tableColumns" [value]="rows"
-      [responsiveLayout]="safeGet(uiElement, 'responsiveLayout', 'scroll')"
-      [filterDelay]="safeGet(uiElement, 'filterDelay', 250)"
+      [responsiveLayout]="safeGet(uiElement, 'responsiveLayout', 'scroll')" (sortFunction)="customSort($event)"
+      [customSort]="true" [filterDelay]="safeGet(uiElement, 'filterDelay', 250)"
       [selectionMode]="safeGet(uiElement, 'selectionMode', 'single')" [(selection)]="selection"
       (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" [styleClass]="uiElement.styleClass"
       [scrollable]="true" scrollHeight="flex">
