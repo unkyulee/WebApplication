@@ -14,21 +14,20 @@ export class TableComponent extends BaseComponent {
   ///
   _rows = [];
   _selection;
+
+  //
+  sort: any;
   onGoingSort = false;
 
   // pagination information
+  loading = false;
   total: number = 0;
   page: number = 0;
-  size: number = 0;
+  size: number = 10;
+  pageInfo = {};
 
   ngOnInit() {
     super.ngOnInit();
-
-    // check if there is any page configuration available
-    //this.getPage();
-
-    // download data through rest web services
-    this.requestDownload();
 
     // event handler
     this.onEvent = this.event.onEvent.subscribe((event) =>
@@ -42,25 +41,6 @@ export class TableComponent extends BaseComponent {
         event.name == "refresh" &&
         (!event.key || event.key == this.uiElement.key)
       ) {
-        // run refresh script
-        if (event.page) this.page = event.page;
-        else this.page = 1;
-        if (event.size) this.size = event.size;
-
-        if (this.uiElement.refresh) {
-          try {
-            eval(this.uiElement.refresh);
-          } catch (e) {
-            console.error(e, this.uiElement);
-          }
-        }
-        setTimeout(() => this.requestDownload(), 0);
-      } else if (
-        event.name == "pagination" &&
-        (!event.key || event.key == this.uiElement.key)
-      ) {
-        this.page = event.page;
-        this.size = event.size;
         setTimeout(() => this.requestDownload(), 0);
       }
     }
@@ -72,14 +52,12 @@ export class TableComponent extends BaseComponent {
   }
 
   async requestDownload(pageInfo?) {
-    // get page
-    this.getPage();
+    if (pageInfo) this.pageInfo = pageInfo;
+    else pageInfo = this.pageInfo;
 
-    // set pagination
-    if (!pageInfo) pageInfo = { offset: this.page - 1 };
-
-    // save the pagination passed by data-table
-    this.setPage(pageInfo.offset + 1, this.size);
+    // parse page information
+    this.size = pageInfo?.rows ?? 10;
+    this.page = Math.ceil((pageInfo?.first + 1) / (this.size ?? 10));
 
     // download data through rest web services
     let src = this.uiElement.src;
@@ -91,16 +69,10 @@ export class TableComponent extends BaseComponent {
       }
 
       // look at query params and pass it on to the request
-      let data = obj.get(this.uiElement, "data", {});
-      // apply nav parameters if necessary
-      if (this.uiElement.useNavParams != false) {
-        let params = this.nav.getParams();
-        delete params["_id"];
-        data = Object.assign({}, data, params);
-      }
+      let filter = this.data?.filter ?? {};
 
       // apply pagination
-      data = Object.assign(data, {
+      filter = Object.assign(filter, {
         page: this.page,
         size: this.size,
       });
@@ -113,14 +85,7 @@ export class TableComponent extends BaseComponent {
         }
       }
 
-      let options = {};
-      if (this.uiElement.options) {
-        options = this.uiElement.options;
-        try {
-          options = eval(`${options}`);
-        } catch {}
-      }
-
+      // apply pre Process
       if (this.uiElement.preProcess) {
         try {
           eval(this.uiElement.preProcess);
@@ -130,16 +95,21 @@ export class TableComponent extends BaseComponent {
       }
 
       // send REST request
+      this.loading = true;
       this.rest
         .request(
           src,
-          data,
+          filter,
           this.uiElement.method,
-          options,
+          this.uiElement?.options ?? {},
           this.uiElement.cached
         )
-        .subscribe((response) => this.responseDownload(response));
+        .subscribe((response) => {
+          this.responseDownload(response);
+          this.loading = false;
+        });
     } else {
+      // calculate the page, size and total when src is not given
       this.total = this.rows ? this.rows.length : 0;
       this.size = this.total;
     }
@@ -263,50 +233,6 @@ export class TableComponent extends BaseComponent {
     setTimeout(() => this.requestDownload());
   }
 
-  // Get Pagination information
-  getPage() {
-    let params = this.nav.getParams();
-
-    // default page is 1
-    if (!this.page) {
-      this.page = 1;
-      // if nav param has page then use it
-      if (this.uiElement.externalPaging != false && params["page"]) {
-        this.page = params["page"];
-      }
-    }
-
-    // if the page size is determined in the url then use that otherwise use the one from the uiElement
-    if (!this.size) {
-      this.size = this.uiElement.size ? this.uiElement.size : 10;
-      // if nav param has page then use it
-      if (this.uiElement.externalPaging != false && params["size"]) {
-        this.size = params["size"];
-      }
-    }
-  }
-
-  // setting page will set the values to the URL
-  setPage(page, size) {
-    // save pagination
-    this.page = page;
-    this.size = size;
-
-    // parameters
-    // do not set pagination when card or list
-    if (
-      this.uiElement.tableType != "card" &&
-      this.uiElement.tableType != "list" &&
-      this.uiElement.useNavParams != false
-    ) {
-      if (this.uiElement._id) {
-        this.nav.setParam("page", this.page);
-        this.nav.setParam("size", this.size);
-      }
-    }
-  }
-
-  sort: any;
   onSort(event: any) {
     // event.sorts.dir / prop
     this.sort = event.sorts[0];
@@ -321,29 +247,6 @@ export class TableComponent extends BaseComponent {
         console.error(e, this.uiElement);
       }
     }
-  }
-
-  filterClick(column) {
-    this.event.send({
-      name: "open-dialog",
-      data: this.data,
-      uiElement: {
-        name: column.label,
-        toolbar: {
-          style: {
-            display: "none",
-          },
-        },
-        contentStyle: {
-          padding: "12px",
-          display: "flex",
-          width: "100%",
-          height: "100%",
-        },
-        screens: [column.filter],
-      },
-      option: obj.get(column.filter, "option"),
-    });
   }
 
   copy(uiElement) {

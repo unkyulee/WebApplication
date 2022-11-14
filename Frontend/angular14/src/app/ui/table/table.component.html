@@ -1,26 +1,97 @@
-<div [style]="uiElement.style" [class]="uiElement.class">
+<div
+  [style]="uiElement.style"
+  [class]="uiElement.class">
   <!-- Table -->
-  <ng-container *ngIf="uiElement.tableType == 'table'">
+  <ng-container
+    *ngIf="uiElement.tableType == 'table'">
 
-    <p-table [columns]="uiElement.tableColumns" [value]="rows"
-      [responsiveLayout]="safeGet(uiElement, 'responsiveLayout', 'scroll')" (sortFunction)="customSort($event)"
-      [customSort]="true" [filterDelay]="safeGet(uiElement, 'filterDelay', 250)"
-      [selectionMode]="safeGet(uiElement, 'selectionMode', 'single')" [(selection)]="selection"
-      (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" [styleClass]="uiElement.styleClass"
-      [scrollable]="true" scrollHeight="flex">
+    <p-table
+      [loading]="loading"
+      [lazy]="true"
+      (onLazyLoad)="requestDownload($event)"
+      [value]="rows"
+      [columns]="uiElement.tableColumns"
+      [customSort]="true"
+      [totalRecords]="total"
+      [rows]="size"
+      [page]="page"
+      [paginator]="true"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="{totalRecords}"
+      [rowsPerPageOptions]="[10,25,50, 100, 500]"
+      (sortFunction)="customSort($event)"
+      [selectionMode]="safeGet(uiElement, 'selectionMode', 'single')"
+      [(selection)]="selection"
+      (onRowSelect)="onRowSelect($event)"
+      (onRowUnselect)="onRowUnselect($event)"
+      [styleClass]="uiElement.styleClass"
+      [scrollable]="true"
+      scrollHeight="flex"
+      [responsiveLayout]="safeGet(uiElement, 'responsiveLayout', 'scroll')">
+
+      <!-- Caption Area -->
+      <ng-template
+        pTemplate="caption">
+        <button
+          *ngIf="uiElement.filter"
+          mat-icon-button
+          (click)="filters.hidden = !filters.hidden">
+          <mat-icon>
+            filter_list
+          </mat-icon>
+        </button>
+
+        <div
+          #filters
+          hidden="true"
+          [style]="uiElement.filter?.style"
+          [class]="uiElement.filter?.class">
+
+          <ng-container
+            *ngFor="let ui of uiElement.filter?.screens??[]">
+            <ng-container
+              ui-element
+              *ngIf="condition(ui)"
+              [uiElement]="ui"
+              [data]="data">
+            </ng-container>
+          </ng-container>
+
+        </div>
+      </ng-template>
 
       <!-- Column Header -->
-      <ng-template pTemplate="header" let-columns>
-        <tr [style]="uiElement.header?.style" [class]="uiElement.header?.class">
-          <ng-container *ngFor="let column of columns">
-            <th *ngIf="condition(column)" [style]="column?.header?.style" [class]="column?.header?.class"
+      <ng-template
+        pTemplate="header"
+        let-columns>
+        <tr
+          [style]="uiElement.header?.style"
+          [class]="uiElement.header?.class">
+          <ng-container
+            *ngFor="let column of columns">
+            <th
+              *ngIf="condition(column)"
+              [style]="column?.header?.style"
+              [class]="column?.header?.class"
               [pSortableColumn]="column?.key">
-              <ng-container *ngFor="let ui of column.header?.screens??[]">
-                <ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="{}"></ng-container>
+              <ng-container
+                *ngFor="let ui of column.header?.screens??[]">
+                <ng-container
+                  ui-element
+                  *ngIf="condition(ui)"
+                  [uiElement]="ui"
+                  [data]="{}">
+                </ng-container>
               </ng-container>
 
-              <ng-container *ngIf="column?.label">{{column.label}}</ng-container>
-              <p-sortIcon *ngIf="column?.key" [field]="column?.key"></p-sortIcon>
+              <ng-container
+                *ngIf="column?.label">
+                {{column.label}}
+              </ng-container>
+              <p-sortIcon
+                *ngIf="column?.key"
+                [field]="column?.key">
+              </p-sortIcon>
             </th>
           </ng-container>
 
@@ -29,16 +100,33 @@
 
 
       <!-- Column Header -->
-      <ng-template pTemplate="body" let-row let-columns="columns">
-        <tr [pSelectableRow]="row" [style]="uiElement.content?.style" [class]="uiElement.content?.class">
-          <ng-container *ngFor="let column of columns">
-            <td *ngIf="condition(column)" [style]="column.header?.style" [class]="column.header?.class">
+      <ng-template
+        pTemplate="body"
+        let-row
+        let-columns="columns">
+        <tr
+          [pSelectableRow]="row"
+          [style]="uiElement.content?.style"
+          [class]="uiElement.content?.class">
+          <ng-container
+            *ngFor="let column of columns">
+            <td
+              *ngIf="condition(column)"
+              [style]="column.header?.style"
+              [class]="column.header?.class">
 
-              <ng-container *ngFor="let ui of column?.screens??[]">
-                <ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="row"></ng-container>
+              <ng-container
+                *ngFor="let ui of column?.screens??[]">
+                <ng-container
+                  ui-element
+                  *ngIf="condition(ui)"
+                  [uiElement]="copy(ui)"
+                  [data]="row">
+                </ng-container>
               </ng-container>
 
-              <ng-container *ngIf="!(column?.screens)">
+              <ng-container
+                *ngIf="!(column?.screens)">
                 {{row[column?.key]}}
               </ng-container>
 
@@ -50,41 +138,84 @@
   </ng-container>
 
   <!-- Card List -->
-  <ng-container *ngIf="uiElement.tableType == 'card'">
-    <div cdkDropList [cdkDropListData]="rows" (cdkDropListDropped)="drop($event)"
-      [ngStyle]="uiElement.contentLayoutStyle" [ngClass]="uiElement.contentLayoutClass">
-      <mat-card cdkDrag [cdkDragDisabled]="
+  <ng-container
+    *ngIf="uiElement.tableType == 'card'">
+    <div
+      cdkDropList
+      [cdkDropListData]="rows"
+      (cdkDropListDropped)="drop($event)"
+      [ngStyle]="uiElement.contentLayoutStyle"
+      [ngClass]="uiElement.contentLayoutClass">
+      <mat-card
+        cdkDrag
+        [cdkDragDisabled]="
         uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
-      " *ngFor="let row of rows" (click)="click($event, row, uiElement.click)" [ngStyle]="uiElement.itemBoxStyle"
+      " *ngFor="let row of rows"
+        (click)="click($event, row, uiElement.click)"
+        [ngStyle]="uiElement.itemBoxStyle"
         [ngClass]="uiElement.itemBoxClass">
-        <ng-container *ngFor="let column of uiElement.columns">
-          <div ui-element [uiElement]="column" [data]="row"></div>
+        <ng-container
+          *ngFor="let column of uiElement.columns">
+          <div
+            ui-element
+            [uiElement]="column"
+            [data]="row">
+          </div>
         </ng-container>
       </mat-card>
     </div>
-    <pagination [key]="uiElement.key" [total]="total" [page]="page" [size]="size"></pagination>
+    <pagination
+      [key]="uiElement.key"
+      [total]="total"
+      [page]="page"
+      [size]="size">
+    </pagination>
   </ng-container>
 
   <!-- Simple List -->
-  <div *ngIf="uiElement.tableType == 'list'" cdkDropList [cdkDropListData]="rows" (cdkDropListDropped)="drop($event)"
-    [style]="uiElement.contentLayoutStyle" [style]="uiElement.contentLayoutClass">
-    <div cdkDrag [cdkDragDisabled]="
+  <div
+    *ngIf="uiElement.tableType == 'list'"
+    cdkDropList
+    [cdkDropListData]="rows"
+    (cdkDropListDropped)="drop($event)"
+    [style]="uiElement.contentLayoutStyle"
+    [style]="uiElement.contentLayoutClass">
+    <div
+      cdkDrag
+      [cdkDragDisabled]="
       uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
-    " *ngFor="let row of rows" [style]="row.itemBoxStyle ? row.itemBoxStyle : uiElement.itemBoxStyle"
+    " *ngFor="let row of rows"
+      [style]="row.itemBoxStyle ? row.itemBoxStyle : uiElement.itemBoxStyle"
       [ngClass]="row.itemBoxClass ? row.itemBoxClass : uiElement.itemBoxClass"
       (click)="click($event, row, uiElement.click)">
-      <ng-container *ngFor="let column of uiElement.columns">
-        <ng-container ui-element [uiElement]="copy(column)" [data]="row"></ng-container>
+      <ng-container
+        *ngFor="let column of uiElement.columns">
+        <ng-container
+          ui-element
+          [uiElement]="copy(column)"
+          [data]="row">
+        </ng-container>
       </ng-container>
     </div>
   </div>
 
   <!-- Drop group -->
-  <div *ngIf="uiElement.tableType == 'drop-group'" cdkDropListGroup [ngStyle]="uiElement.contentLayoutStyle">
-    <div *ngFor="let row of rows" [ngStyle]="uiElement.itemBoxStyle" [ngClass]="uiElement.itemBoxClass"
+  <div
+    *ngIf="uiElement.tableType == 'drop-group'"
+    cdkDropListGroup
+    [ngStyle]="uiElement.contentLayoutStyle">
+    <div
+      *ngFor="let row of rows"
+      [ngStyle]="uiElement.itemBoxStyle"
+      [ngClass]="uiElement.itemBoxClass"
       (click)="click($event, row, uiElement.click)">
-      <ng-container *ngFor="let column of uiElement.columns">
-        <div ui-element [uiElement]="column" [data]="row"></div>
+      <ng-container
+        *ngFor="let column of uiElement.columns">
+        <div
+          ui-element
+          [uiElement]="column"
+          [data]="row">
+        </div>
       </ng-container>
     </div>
   </div>

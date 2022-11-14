@@ -44,8 +44,10 @@ export class DateComponent extends BaseComponent {
     super.ngOnDestroy();
   }
 
+  //
   _value: any;
   get value() {
+    // date type
     if (this.data && this.uiElement.key) {
       // if null then assign default
       if (typeof obj.get(this.data, this.uiElement.key) == "undefined") {
@@ -69,7 +71,6 @@ export class DateComponent extends BaseComponent {
         }
       }
     }
-
     // Transform
     if (this.uiElement.transform) {
       try {
@@ -98,6 +99,75 @@ export class DateComponent extends BaseComponent {
       }
 
       obj.set(this.data, this.uiElement.key, moment(v).toDate());
+    }
+
+    // see if there are any input change handlers
+    if (this.uiElement.changed) {
+      try {
+        eval(this.uiElement.changed);
+      } catch (ex) {
+        console.error(ex);
+      }
+    }
+  }
+
+  // apply to range
+  _start: any;
+  get start() {
+    // date type
+    if (
+      this.data &&
+      this.uiElement.keys &&
+      obj.get(this.uiElement, "keys", []).length == 2
+    ) {
+      let key = obj.get(this.uiElement, "keys.0");
+
+      // get value
+      if (obj.get(this.data, key)) {
+        this._start = moment(obj.get(this.data, key)).toISOString();
+      }
+    }
+    return this._start;
+  }
+  set start(v: any) {
+    this._start = v;
+    if (
+      this.data &&
+      this.uiElement.keys &&
+      obj.get(this.uiElement, "keys", []).length == 2
+    ) {
+      let key = obj.get(this.uiElement, "keys.0");
+      obj.set(this.data, key, moment(v).toDate());
+    }
+  }
+
+  _end: any;
+  get end() {
+    // date type
+    if (
+      this.data &&
+      this.uiElement.keys &&
+      obj.get(this.uiElement, "keys", []).length == 2
+    ) {
+      let key = obj.get(this.uiElement, "keys.1");
+
+      // set value
+      if (obj.get(this.data, key)) {
+        this._end = moment(obj.get(this.data, key)).toISOString();
+      }
+    }
+
+    return this._end;
+  }
+  set end(v: any) {
+    this._end = v;
+    if (
+      this.data &&
+      this.uiElement.keys &&
+      obj.get(this.uiElement, "keys", []).length == 2
+    ) {
+      let key = obj.get(this.uiElement, "keys.1");
+      obj.set(this.data, key, moment(v).toDate());
     }
 
     // see if there are any input change handlers
