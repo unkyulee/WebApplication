@@ -76,11 +76,13 @@
       "type": "layout",
       "screens": [
         {
-          "label": "CLOSE",
-          "click": "this.event.send({name: 'close-dialog'});",
+          "color": "warn",
+          "click": "this.event.send({ name: 'close-dialog' });\r\nthis.$confirm.require({\r\n    message: 'Are you sure you want to delete?',\r\n    header: 'Confirmation',\r\n    icon: 'pi pi-exclamation-triangle',\r\n    accept: async () => {\r\n        //callback to execute when user confirms the action\r\n        // delete\r\n        await this.rest.request(`/api/admin/ui`, this.data, 'delete');\r\n        this.event.send({ name: \"refresh\", key: \"uis\" })\r\n    },\r\n    reject: () => {\r\n        //callback to execute when user rejects the action\r\n    },\r\n    onHide: () => {\r\n        //Callback to execute when dialog is hidden\r\n    }\r\n});\r\n",
           "type": "button",
+          "label": "DELETE",
           "variant": "text"
         },
+
         {
           "type": "layout",
           "layoutStyle": {
@@ -89,10 +91,9 @@
           }
         },
         {
-          "color": "warn",
-          "click": "this.event.send({ name: 'close-dialog' });\r\nthis.$confirm.require({\r\n    message: 'Are you sure you want to delete?',\r\n    header: 'Confirmation',\r\n    icon: 'pi pi-exclamation-triangle',\r\n    accept: async () => {\r\n        //callback to execute when user confirms the action\r\n        // delete\r\n        await this.rest.request(`/api/admin/ui`, this.data, 'delete');\r\n        this.event.send({ name: \"refresh\", key: \"uis\" })\r\n    },\r\n    reject: () => {\r\n        //callback to execute when user rejects the action\r\n    },\r\n    onHide: () => {\r\n        //Callback to execute when dialog is hidden\r\n    }\r\n});\r\n",
+          "label": "CLOSE",
+          "click": "this.event.send({name: 'close-dialog'});",
           "type": "button",
-          "label": "DELETE",
           "variant": "text"
         },
         {

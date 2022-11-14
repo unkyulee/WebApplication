@@ -31,6 +31,7 @@ import Tabs from "./Tabs.vue";
 import Gallery from "./Gallery.vue";
 import Alert from "./Alert.vue";
 import CodeEditor from "./CodeEditor.vue";
+import FileUploadComponent from "./FileUpload.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -56,6 +57,7 @@ export default defineComponent({
     Gallery,
     Alert,
     CodeEditor,
+    FileUploadComponent,
   },
   data: function () {
     return {

@@ -1,7 +1,7 @@
 // @ts-nocheck
 export default {
   props: ["uiElement", "data"],
-  inject: ["config", "event", "rest", "ui", "auth"],
+  inject: ["config", "event", "rest", "ui", "auth", "storage"],
   async created() {
     // run init if defined
     if (

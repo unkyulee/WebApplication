@@ -1,0 +1,14 @@
+{
+  "_id": "admin.storage.toolbar",
+  "layoutStyle": {
+    "margin": "4px",
+    "position": "absolute",
+    "bottom": "24px",
+    "right": "24px",
+    "zIndex": 1
+  },
+  "type": "button",
+  "icon": "mdi-plus",
+  "color": "primary",
+  "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.storage.upload'})"
+}

@@ -1,0 +1,14 @@
+{
+  "_id": "admin.storage",
+  "type": "layout",
+  "screens": [
+    {
+      "type": "ui-element-id",
+      "uiElementId": "admin.storage.toolbar"
+    },
+    {
+      "type": "ui-element-id",
+      "uiElementId": "admin.storage.table"
+    }
+  ]
+}

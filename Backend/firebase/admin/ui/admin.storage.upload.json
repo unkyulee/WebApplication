@@ -1,0 +1,63 @@
+{
+  "_id": "admin.storage.upload",
+  "type": "layout",
+  "fullscreen": true,
+  "persistent": true,
+  "layoutStyle": {
+    "width": "100vw",
+    "height": "100vh",
+    "maxHeight": "100vh",
+    "background": "white",
+    "display": "flex",
+    "flexFlow": "column"
+  },
+  "screens": [
+    {
+      "type": "layout",
+      "layoutStyle": {
+        "overflow": "auto",
+        "flexGrow": 1
+      },
+      "screens": [
+        {
+          "type": "typography",
+          "text": "File Upload",
+          "layoutStyle": {
+            "background": "lightgray",
+            "width": "100%",
+            "padding": "8px"
+          }
+        },
+        {
+          "type": "file-upload",
+          "customUpload": true,
+          "customUploader": ""
+        }
+      ]
+    },
+    {
+      "type": "layout",
+      "layoutStyle": {
+        "padding": "8px",
+        "position": "relative",
+        "background": "ghostwhite",
+        "display": "flex"
+      },
+      "screens": [
+        {
+          "type": "layout",
+          "layoutStyle": {
+            "flexGrow": 1,
+            "width": "1px"
+          }
+        },
+        {
+          "color": "primary",
+          "label": "CLOSE",
+          "click": "this.event.send({name: 'close-dialog'});",
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}

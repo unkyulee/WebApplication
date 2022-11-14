@@ -87,6 +87,9 @@ app.use(ConfirmationService);
 import ConfirmDialog from "primevue/confirmdialog";
 app.component("ConfirmDialog", ConfirmDialog);
 
+import FileUpload from "primevue/fileupload";
+app.component("FileUpload", FileUpload);
+
 ///////////////////////////////////////////
 // global setup
 app.use(router);
@@ -122,19 +125,13 @@ app.mount("#app");
 //import Dock from "primevue/dock";
 //import Dropdown from "primevue/dropdown";
 //import DynamicDialog from "primevue/dynamicdialog";
-
 //import Editor from "primevue/editor/Editor";
 //app.component("Editor", Editor);
-
 //import Fieldset from "primevue/fieldset";
-//import FileUpload from "primevue/fileupload";
-
 //import FullCalendar from "primevue/fullcalendar";
 //app.component("FullCalendar", FullCalendar);
-
 //import Image from "primevue/image";
 //app.component("Image", Image);
-
 //import InlineMessage from "primevue/inlinemessage";
 //import Inplace from "primevue/inplace";
 //import InputMask from "primevue/inputmask";

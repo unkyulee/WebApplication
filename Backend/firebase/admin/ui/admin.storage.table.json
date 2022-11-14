@@ -1,0 +1,28 @@
+{
+  "_id": "admin.storage.table",
+  "key": "files",
+  "type": "data-table",
+  "tableType": "table",
+  "src": "",
+  "init": "// refresh the files\r\n(async () => {     \r\n    this.data.files = await this.storage.list(this.data.path ?? '');     \r\n})();\r\n\r\nthis.event.subscribe(this.uiElement.key, \"path\", async (event) => {        \r\n    // path refresh\r\n    this.data.files = await this.storage.list(event.path ?? '');    \r\n});",
+  "columns": [
+    {
+      "condition": "this.data.type == 'folder'",
+      "click": "this.event.send({name: 'path', path: this.data.path})",
+      "key": "name",
+      "layoutStyle": {
+        "fontWeight": "bold"
+      },
+      "type": "typography"
+    },
+    {
+      "type": "typography",
+      "key": "name",
+      "condition": "this.data.type == 'file'",
+      "click": "(async () => { \r\n    let url = await this.storage.url(this.data.path);\r\n    // open link\r\n    window.open(url, '_blank')\r\n})();\r\n",
+      "layoutStyle": {
+        "fontWeight": "bold"
+      }
+    }
+  ]
+}

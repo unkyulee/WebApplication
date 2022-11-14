@@ -15,6 +15,7 @@ import auth from "./services/auth.service";
 import rest from "./services/rest.service";
 import nav from "./services/nav.service";
 import util from "./services/util.service";
+import storage from "./services/storage.service";
 
 // ui
 import Loading from "./Loading.vue";
@@ -28,6 +29,7 @@ export default defineComponent({
     rest,
     nav,
     util,
+    storage,
   },
 
   components: {

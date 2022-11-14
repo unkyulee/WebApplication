@@ -24,6 +24,12 @@
       "name": "UI",
       "pages": ["admin.ui"],
       "url": "/admin.ui"
+    },
+    {
+      "_id": "storage",
+      "name": "Storage",
+      "pages": ["admin.storage"],
+      "url": "/admin.storage"
     }
   ]
 }

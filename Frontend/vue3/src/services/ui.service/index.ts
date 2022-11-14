@@ -45,6 +45,9 @@ export default {
       case "data-table":
         uiElement.type = "table-component";
         break;
+      case "file-upload":
+        uiElement.type = "file-upload-component";
+        break;
     }
   },
 

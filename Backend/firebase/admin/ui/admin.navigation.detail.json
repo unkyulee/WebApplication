@@ -53,10 +53,12 @@
       "screens": [
         {
           "type": "button",
-          "label": "CLOSE",
-          "click": "this.event.send({name: 'close-dialog'});",
+          "label": "DELETE",
+          "color": "warn",
+          "click": "this.event.send({name: 'close-dialog'});\r\n(async () => {\r\n    // delete\r\n    await this.rest.request(`/api/admin/navigation`, this.data, 'delete');\r\n    this.event.send({name: \"refresh\", key: \"navigations\"})\r\n})();",
           "variant": "text"
         },
+
         {
           "type": "layout",
           "layoutStyle": {
@@ -66,9 +68,8 @@
         },
         {
           "type": "button",
-          "label": "DELETE",
-          "color": "warn",
-          "click": "this.event.send({name: 'close-dialog'});\r\n(async () => {\r\n    // delete\r\n    await this.rest.request(`/api/admin/navigation`, this.data, 'delete');\r\n    this.event.send({name: \"refresh\", key: \"navigations\"})\r\n})();",
+          "label": "CLOSE",
+          "click": "this.event.send({name: 'close-dialog'});",
           "variant": "text"
         },
         {
