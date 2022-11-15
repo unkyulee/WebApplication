@@ -1,7 +1,16 @@
 ::ng-deep .p-dialog {
   max-height: unset !important;
+  height: auto;
 }
 
 ::ng-deep .p-dialog-content {
   padding: 0 !important;
+}
+
+::ng-deep .p-dialog-header {
+  padding: 0 0 0 12px !important;
+}
+
+::ng-deep .p-dialog-title {
+  font-size: small !important;
 }

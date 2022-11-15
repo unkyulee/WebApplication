@@ -1,32 +1,76 @@
-<div [style]="uiElement.style" [class]="uiElement.class">
+<div [style]="uiElement.style"
+	[class]="uiElement.class">
 	<!-- Toolbar -->
-	<div [style]="uiElement.toolbar?.style" class="toolbar">
-		<button *ngIf="uiElement.save && safeEval(uiElement.save?.condition)" mat-icon-button (click)="save($event)">
-			<mat-icon>save</mat-icon>
+	<div [style]="uiElement.toolbar?.style"
+		class="toolbar">
+		<button
+			*ngIf="uiElement.save && safeEval(uiElement.save?.condition) && uiElement.formType == 'preview'"
+			mat-icon-button
+			(click)="edit($event)">
+			<mat-icon>
+				edit
+			</mat-icon>
 		</button>
-		<span *ngIf="changed" [style]="uiElement.change?.style">{{uiElement.change?.message}}</span>
-		<div class="spacer"></div>
-		<button *ngIf="uiElement.delete && safeEval(uiElement.delete?.condition)" mat-icon-button
+		<button
+			*ngIf="uiElement.save && safeEval(uiElement.save?.condition) && uiElement.formType != 'preview'"
+			mat-icon-button
 			(click)="save($event)">
-			<mat-icon>delete</mat-icon>
+			<mat-icon>
+				save
+			</mat-icon>
+		</button>
+		<span
+			*ngIf="changed"
+			[style]="uiElement.change?.style">{{uiElement.change?.message}}</span>
+		<div
+			class="spacer">
+		</div>
+		<button
+			*ngIf="uiElement.delete && safeEval(uiElement.delete?.condition) && uiElement.formType != 'preview'"
+			mat-icon-button
+			(click)="save($event)">
+			<mat-icon>
+				delete
+			</mat-icon>
 		</button>
 	</div>
 
 	<!-- Section: Form Type: form -->
-	<ng-container *ngIf="!uiElement.formType">
-		<ng-container *ngFor="let ui of uiElement.screens">
-			<div *ngIf="condition(ui)" [style]="ui.style ? ui.style : safeGet(uiElement, 'section.style')"
+	<ng-container
+		*ngIf="!uiElement.formType">
+		<ng-container
+			*ngFor="let ui of uiElement.screens">
+			<div *ngIf="condition(ui)"
+				[style]="ui.style ? ui.style : safeGet(uiElement, 'section.style')"
 				[class]="ui.class ? ui.class : safeGet(uiElement, 'section.class')">
 				<!-- Form Group Header -->
 				<div *ngIf="safeGet(ui, 'header.display') != false"
 					[style]="ui.header?.style ? ui?.header?.style : safeGet(uiElement, 'header.style')"
 					[class]="ui.header?.class ? ui?.header?.class : safeGet(uiElement, 'header.class')">
-					<button type="button" mat-icon-button (click)="ui.expanded = !(ui.expanded ?? true)">
-						<mat-icon [inline]="true">{{ ui.expanded == false ? 'chevron_right' : 'expand_more' }}
+					<button
+						type="button"
+						mat-icon-button
+						(click)="ui.expanded = !(ui.expanded ?? true)">
+						<mat-icon
+							[inline]="true">
+							{{
+							ui.expanded
+							==
+							false
+							?
+							'chevron_right'
+							:
+							'expand_more'
+							}}
 						</mat-icon>
 					</button>
-					<ng-container *ngFor="let header of ui?.header?.screens">
-						<ng-container ui-element *ngIf="condition(header)" [uiElement]="header" [data]="data">
+					<ng-container
+						*ngFor="let header of ui?.header?.screens">
+						<ng-container
+							ui-element
+							*ngIf="condition(header)"
+							[uiElement]="header"
+							[data]="data">
 						</ng-container>
 					</ng-container>
 				</div>
@@ -34,9 +78,15 @@
 				<div *ngIf="ui?.expanded != false"
 					[style]="ui.container?.style ? ui.container?.style : safeGet(uiElement, 'container.style')"
 					[class]="ui.container?.class ? ui.container?.class : safeGet(uiElement, 'container.class')">
-					<ng-container *ngFor="let ui of ui.screens">
-						<ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="data"
-							[style]="ui.layoutStyle" [class]="ui.layoutClass">
+					<ng-container
+						*ngFor="let ui of ui.screens">
+						<ng-container
+							ui-element
+							*ngIf="condition(ui)"
+							[uiElement]="ui"
+							[data]="data"
+							[style]="ui.layoutStyle"
+							[class]="ui.layoutClass">
 						</ng-container>
 					</ng-container>
 				</div>
@@ -45,18 +95,31 @@
 	</ng-container>
 
 	<!-- Form Type: step -->
-	<ng-container *ngIf="uiElement.formType == 'step'">
-		<mat-horizontal-stepper *ngIf="!uiElement.stepType || uiElement.stepType == 'horizontal'"
-			(selectionChange)="sectionChanged($event)" [style]="uiElement.step?.style" [class]="uiElement.step?.class">
+	<ng-container
+		*ngIf="uiElement.formType == 'step'">
+		<mat-horizontal-stepper
+			*ngIf="!uiElement.stepType || uiElement.stepType == 'horizontal'"
+			(selectionChange)="sectionChanged($event)"
+			[style]="uiElement.step?.style"
+			[class]="uiElement.step?.class">
 
 
-			<ng-container *ngFor="let ui of uiElement.screens">
-				<mat-step *ngIf="condition(ui)" [label]="ui?.header?.label">
+			<ng-container
+				*ngFor="let ui of uiElement.screens">
+				<mat-step
+					*ngIf="condition(ui)"
+					[label]="ui?.header?.label">
 
-					<div [style]="uiElement.step?.content?.style" [class]="uiElement.step?.content?.class">
+					<div [style]="uiElement.step?.content?.style"
+						[class]="uiElement.step?.content?.class">
 
-						<ng-container *ngFor="let ui of ui.screens">
-							<ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="data">
+						<ng-container
+							*ngFor="let ui of ui.screens">
+							<ng-container
+								ui-element
+								*ngIf="condition(ui)"
+								[uiElement]="ui"
+								[data]="data">
 							</ng-container>
 						</ng-container>
 
@@ -67,17 +130,29 @@
 
 		</mat-horizontal-stepper>
 
-		<mat-vertical-stepper *ngIf="uiElement.stepType == 'vertical'" (selectionChange)="sectionChanged($event)"
-			[style]="uiElement.step?.style" [class]="uiElement.step?.style">
+		<mat-vertical-stepper
+			*ngIf="uiElement.stepType == 'vertical'"
+			(selectionChange)="sectionChanged($event)"
+			[style]="uiElement.step?.style"
+			[class]="uiElement.step?.style">
 
-			<ng-container *ngFor="let ui of uiElement.screens">
-				<mat-step *ngIf="condition(ui)" [label]="ui?.header?.label"
+			<ng-container
+				*ngFor="let ui of uiElement.screens">
+				<mat-step
+					*ngIf="condition(ui)"
+					[label]="ui?.header?.label"
 					[style]="ui.style ? ui.style : safeGet(uiElement, 'section.style')"
 					[class]="ui.class ? ui.class : safeGet(uiElement, 'section.class')">
 
-					<ng-container *ngFor="let ui of ui.screens">
-						<ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="data"
-							[style]="ui.layoutStyle" [class]="ui.layoutClass">
+					<ng-container
+						*ngFor="let ui of ui.screens">
+						<ng-container
+							ui-element
+							*ngIf="condition(ui)"
+							[uiElement]="ui"
+							[data]="data"
+							[style]="ui.layoutStyle"
+							[class]="ui.layoutClass">
 						</ng-container>
 					</ng-container>
 				</mat-step>
@@ -87,26 +162,39 @@
 	</ng-container>
 
 	<!-- Form Type: SIDENAV -->
-	<ng-container *ngIf="uiElement.formType == 'sidenav'">
-		<mat-sidenav-container [style]="uiElement.sidenav?.container?.style"
-			[class]="uiElement.sidenav?.container?.class">
+	<ng-container
+		*ngIf="uiElement.formType == 'sidenav'">
+		<mat-sidenav-container
+			[style]="uiElement.sidenav?.style"
+			[class]="uiElement.sidenav?.class">
 
 			<!-- SIDE NAV -->
-			<mat-sidenav #sidenav [opened]="uiElement.opened ?? true" [mode]="uiElement.sidenav?.mode ?? 'side'"
-				[position]="uiElement.position ?? 'start'" [style]="uiElement.sidenav?.sidenav?.style"
+			<mat-sidenav
+				#sidenav
+				[opened]="uiElement.opened ?? true"
+				[mode]="uiElement.sidenav?.mode ?? 'side'"
+				[position]="uiElement.position ?? 'start'"
+				[style]="uiElement.sidenav?.sidenav?.style"
 				[class]="uiElement.sidenav?.sidenav?.class">
 
-				<div *ngFor="let ui of uiElement.screens">
+				<div
+					*ngFor="let ui of uiElement.screens">
 
 					<!-- MENU TO EACH SECTION -->
-					<button mat-button *ngIf="condition(ui)" [style]="uiElement.sidenav?.item?.style"
-						[class]="uiElement.sidenav?.item?.class" (click)="uiElement.sidenav.uiElement = ui">
+					<button
+						mat-button
+						*ngIf="condition(ui)"
+						[style]="uiElement.sidenav?.item?.style"
+						[class]="uiElement.sidenav?.item?.class"
+						(click)="uiElement.sidenav.uiElement = ui">
 
-						<ng-container *ngIf="uiElement.sidenav.uiElement != ui">
+						<ng-container
+							*ngIf="uiElement.sidenav.uiElement != ui">
 							{{ui.header?.label}}
 						</ng-container>
 
-						<b *ngIf="uiElement.sidenav.uiElement == ui">
+						<b
+							*ngIf="uiElement.sidenav.uiElement == ui">
 							{{ui.header?.label}}
 						</b>
 
@@ -117,22 +205,78 @@
 			</mat-sidenav>
 
 			<!-- CONTENT -->
-			<mat-sidenav-content *ngIf="uiElement.sidenav?.uiElement" [style]="uiElement.sidenav?.content?.style"
-				[class]="uiElement.sidenav?.content?.class" #content>
+			<mat-sidenav-content
+				*ngIf="uiElement.sidenav?.uiElement"
+				[style]="uiElement.sidenav?.content?.style"
+				[class]="uiElement.sidenav?.content?.class"
+				#content>
 
-				<div [style]="uiElement.sidenav?.header?.style" [class]="uiElement.sidenav?.header?.class">
-					<ng-container *ngFor="let header of uiElement.sidenav?.uiElement?.header?.screens">
-						<ng-container ui-element *ngIf="condition(header)" [uiElement]="header" [data]="data">
+				<div [style]="uiElement.sidenav?.header?.style"
+					[class]="uiElement.sidenav?.header?.class">
+					<ng-container
+						*ngFor="let header of uiElement.sidenav?.uiElement?.header?.screens">
+						<ng-container
+							ui-element
+							*ngIf="condition(header)"
+							[uiElement]="header"
+							[data]="data">
 						</ng-container>
 					</ng-container>
 				</div>
 
-				<ng-container ui-element [uiElement]="uiElement.sidenav?.uiElement" [data]="data">
+				<ng-container
+					ui-element
+					[uiElement]="uiElement.sidenav?.uiElement"
+					[data]="data">
 				</ng-container>
 
 
 			</mat-sidenav-content>
 
 		</mat-sidenav-container>
+	</ng-container>
+
+
+	<!-- Form Type: preview -->
+	<ng-container
+		*ngIf="uiElement.formType == 'preview'">
+
+		<ng-container
+			*ngFor="let ui of uiElement.screens">
+			<div *ngIf="condition(ui)"
+				[style]="ui.style ? ui.style : safeGet(uiElement, 'preview.style')"
+				[class]="ui.class ? ui.class : safeGet(uiElement, 'preview.class')">
+
+				<!-- Header -->
+				<div *ngIf="safeGet(ui, 'header.display') != false"
+					[style]="ui.header?.style ? ui?.header?.style : safeGet(uiElement, 'preview.header.style')"
+					[class]="ui.header?.class ? ui?.header?.class : safeGet(uiElement, 'preview.header.class')">
+
+					<ng-container
+						*ngFor="let header of ui?.header?.screens">
+						<ng-container
+							ui-element
+							*ngIf="condition(header)"
+							[uiElement]="header"
+							[data]="data">
+						</ng-container>
+					</ng-container>
+
+				</div>
+				<!-- Form Items -->
+				<div [style]="ui.container?.style ? ui.container?.style : safeGet(uiElement, 'preview.content.style')"
+					[class]="ui.container?.class ? ui.container?.class : safeGet(uiElement, 'preview.content.class')">
+					<ng-container
+						*ngFor="let ui of ui.previews">
+						<ng-container
+							ui-element
+							*ngIf="condition(ui)"
+							[uiElement]="ui"
+							[data]="data">
+						</ng-container>
+					</ng-container>
+				</div>
+			</div>
+		</ng-container>
 	</ng-container>
 </div>
