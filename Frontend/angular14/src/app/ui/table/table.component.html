@@ -11,7 +11,6 @@
       (onLazyLoad)="requestDownload($event)"
       [value]="rows"
       [columns]="uiElement.tableColumns"
-      [customSort]="true"
       [totalRecords]="total"
       [rows]="size"
       [page]="page"
@@ -19,6 +18,7 @@
       [showCurrentPageReport]="true"
       currentPageReportTemplate="{totalRecords}"
       [rowsPerPageOptions]="[10,25,50, 100, 500]"
+      [customSort]="true"
       (sortFunction)="customSort($event)"
       [selectionMode]="safeGet(uiElement, 'selectionMode', 'single')"
       [(selection)]="selection"
@@ -41,6 +41,18 @@
           </mat-icon>
         </button>
 
+        <!-- actions -->
+        <ng-container
+          *ngFor="let ui of uiElement.actions??[]">
+          <ng-container
+            ui-element
+            *ngIf="condition(ui)"
+            [uiElement]="ui"
+            [data]="data">
+          </ng-container>
+        </ng-container>
+
+        <!-- filter screen -->
         <div
           #filters
           hidden="true"

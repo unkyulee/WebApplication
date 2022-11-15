@@ -1,7 +1,5 @@
 // @ts-nocheck
 import { Component } from "@angular/core";
-import { DynamicDialogRef } from "primeng/dynamicdialog";
-import { DynamicDialogConfig } from "primeng/dynamicdialog";
 
 import { ConfigService } from "../../../services/config.service";
 import { EventService } from "../../../services/event.service";
@@ -9,19 +7,15 @@ import { NavService } from "../../../services/nav.service";
 import { RestService } from "../../../services/rest.service";
 import { UIService } from "../../../services/ui.service";
 import { UtilService } from "../../../services/util.service";
+import { ConfirmationService } from "primeng/api";
 
 @Component({
-  selector: "[dialog]",
-  template: `<ng-container
-    ui-element
-    [uiElement]="uiElement"
-    [data]="data"
-  ></ng-container>`,
-  styleUrls: ["./dialog.component.css"],
+  selector: "confirm",
+  templateUrl: "./confirm.component.html",
+  styleUrls: ["./confirm.component.css"],
 })
-export class DialogComponent {
-  uiElement: any = {};
-  data: any = {};
+export class ConfirmComponent {
+  onEvent: Subscription;
 
   constructor(
     public config: ConfigService,
@@ -30,11 +24,23 @@ export class DialogComponent {
     public rest: RestService,
     public util: UtilService,
     public ui: UIService,
-    public ref: DynamicDialogRef,
-    public d: DynamicDialogConfig
-  ) {
-    // assign uiElement and data
-    this.uiElement = d.data.uiElement;
-    this.data = d.data.data;
+    public confirmationService: ConfirmationService
+  ) {}
+
+  ngOnInit() {
+    // subscript to event
+    this.onEvent = this.event.onEvent.subscribe(async (event) => {
+      if (event?.name == "confirm") {
+        // show confirm dialog
+        this.confirmationService.confirm({
+          message: event.message,
+          accept: event.accept,
+        });
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.onEvent.unsubscribe();
   }
 }

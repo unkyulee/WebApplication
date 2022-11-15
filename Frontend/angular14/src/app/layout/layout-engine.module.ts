@@ -14,6 +14,8 @@ import { SnackbarComponent } from "./overlay/snackbar/snackbar.component";
 import { PingComponent } from "./overlay/ping/ping.component";
 import { ErrorDialogService } from "./overlay/error/error-dialog.service";
 import { ErrorDialogComponent } from "./overlay/error/error-dialog.component";
+import { ConfirmComponent } from "./overlay/confirm/confirm.component";
+import { ConfirmationService } from "primeng/api";
 
 @NgModule({
   declarations: [
@@ -26,10 +28,11 @@ import { ErrorDialogComponent } from "./overlay/error/error-dialog.component";
     SnackbarComponent,
     PingComponent,
     ErrorDialogComponent,
+    ConfirmComponent,
   ],
   exports: [],
   imports: [CommonModule, MaterialModule, PrimeNGModule, FormsModule, UIModule],
-  providers: [ErrorDialogService],
+  providers: [ErrorDialogService, ConfirmationService],
   entryComponents: [DialogComponent],
 })
 export class LayoutModule {}

@@ -78,11 +78,10 @@ export class TableComponent extends BaseComponent {
       });
 
       // sorting options
-      if (this.uiElement.sort) {
-        for (let sort of this.uiElement.sort) {
-          if (sort.dir == "asc") data["_sort"] = sort.prop;
-          else if (sort.dir == "desc") data["_sort_desc"] = sort.prop;
-        }
+      if (pageInfo?.sortField) {
+        if (pageInfo?.sortOrder == 1) filter["_sort"] = pageInfo?.sortField;
+        else if ((pageInfo?.sortOrder = -1))
+          filter["_sort_desc"] = pageInfo?.sortField;
       }
 
       // apply pre Process
@@ -195,48 +194,6 @@ export class TableComponent extends BaseComponent {
         eval(this.uiElement.click);
       } catch {}
     }
-  }
-
-  //
-
-  customSort(event) {
-    // check if the sort option already exists
-    let already = obj.get(this.uiElement, "sort", []).find((x) => {
-      let exists = false;
-      if (event.field == x.prop) {
-        if (event.order == -1 && x.dir == "desc") exists = true;
-        if (event.order == 1 && x.dir == "asc") exists = true;
-      }
-
-      return exists;
-    });
-    // do not sort again when already sorted
-    if (already) return;
-
-    //
-    obj.set(this.uiElement, "sort", []);
-
-    // add sort filter
-    if (event.order == 1) {
-      this.uiElement.sort.push({
-        dir: "asc",
-        prop: event.field,
-      });
-    } else if (event.order == -1) {
-      this.uiElement.sort.push({
-        dir: "desc",
-        prop: event.field,
-      });
-    }
-
-    //
-    setTimeout(() => this.requestDownload());
-  }
-
-  onSort(event: any) {
-    // event.sorts.dir / prop
-    this.sort = event.sorts[0];
-    if (this.sort) this.requestDownload();
   }
 
   drop(event: CdkDragDrop<string[]>) {

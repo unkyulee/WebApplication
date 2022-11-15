@@ -39,8 +39,12 @@ export class FormComponent extends BaseComponent {
     await this.requestDownload();
   }
 
-  override ngOnDestroy(): void {
+  override async ngOnDestroy(): void {
     if (this.check_timer) clearInterval(this.check_timer);
+    // see if it is changed
+    if (this.changed && this.uiElement?.change?.dirty) {
+      await eval(this.uiElement.change.dirty);
+    }
   }
 
   async changeDetection() {
@@ -55,7 +59,6 @@ export class FormComponent extends BaseComponent {
       // compare key by key
       if (this.data[key] != this.prev_data[key]) {
         this.changed = true;
-        console.log(`change detected - ${key} - ${this.data[key]}`);
       }
     }
   }
@@ -102,33 +105,17 @@ export class FormComponent extends BaseComponent {
 
   async save() {
     // run before save
-    if (this.uiElement.save?.before) {
-      try {
-        await eval(this.uiElement.save?.before);
-      } catch (e) {
-        console.error(e);
-      }
-    }
+    if (this.uiElement.save?.before) await eval(this.uiElement.save?.before);
 
     // retrieve REST information
-    let src = this.uiElement.save?.src;
-    let method = this.uiElement.save?.method ?? "post";
-    try {
-      src = eval(src);
-    } catch (e) {}
-
+    let src = eval(this.uiElement.save?.src);
     if (!src) return;
 
+    let method = this.uiElement.save?.method ?? "post";
     let response = await this.rest.requestAsync(src, this.data, method);
 
     // run after save
-    if (this.uiElement.save?.after) {
-      try {
-        await eval(this.uiElement.save?.after);
-      } catch (e) {
-        console.error(e);
-      }
-    }
+    if (this.uiElement.save?.after) await eval(this.uiElement.save?.after);
 
     // save the copy
     this.changed = false;
@@ -137,32 +124,18 @@ export class FormComponent extends BaseComponent {
 
   async delete() {
     // run before save
-    if (this.uiElement.delete?.before) {
-      try {
-        await eval(this.uiElement.delete?.before);
-      } catch (e) {
-        console.error(e);
-      }
-    }
+    if (this.uiElement.delete?.before)
+      await eval(this.uiElement.delete?.before);
 
     // retrieve REST information
-    let src = this.uiElement.delete?.src;
-    let method = this.uiElement.delete?.method ?? "delete";
-    try {
-      src = eval(src);
-    } catch (e) {}
-
+    let src = eval(this.uiElement.delete?.src);
     if (!src) return;
-
+    let method = this.uiElement.delete?.method ?? "delete";
     let response = await this.rest.requestAsync(src, this.data, method);
 
     // run after save
     if (this.uiElement?.delete?.after) {
-      try {
-        await eval(this.uiElement?.delete?.after);
-      } catch (e) {
-        console.error(e);
-      }
+      await eval(this.uiElement?.delete?.after);
     }
   }
 

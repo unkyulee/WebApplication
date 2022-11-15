@@ -1,0 +1,4 @@
+::ng-deep .p-confirm-dialog-message {
+  padding: 24px !important;
+  margin-left: unset !important;
+}

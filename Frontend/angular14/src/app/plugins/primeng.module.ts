@@ -13,6 +13,7 @@ import { DynamicDialogModule } from "primeng/dynamicdialog";
 import { SidebarModule } from "primeng/sidebar";
 import { ToastModule } from "primeng/toast";
 import { PaginatorModule } from "primeng/paginator";
+import { ConfirmDialogModule } from "primeng/confirmdialog";
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { PaginatorModule } from "primeng/paginator";
     SidebarModule,
     ToastModule,
     PaginatorModule,
+    ConfirmDialogModule,
   ],
   exports: [
     EditorModule,
@@ -46,6 +48,7 @@ import { PaginatorModule } from "primeng/paginator";
     SidebarModule,
     ToastModule,
     PaginatorModule,
+    ConfirmDialogModule,
   ],
 })
 export class PrimeNGModule {}
