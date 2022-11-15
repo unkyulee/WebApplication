@@ -1,6 +1,8 @@
 {
   "_id": "admin.ui.detail",
   "type": "layout",
+  "fullscreen": true,
+  "persistent": true,
   "layoutStyle": {
     "width": "100vw",
     "height": "100vh",

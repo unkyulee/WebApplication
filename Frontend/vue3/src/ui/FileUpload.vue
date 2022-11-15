@@ -4,6 +4,8 @@
     :multiple="uiElement.multiple ?? true"
     :accept="uiElement.accept ?? 'image/*'"
     :maxFileSize="uiElement.maxFileSize ?? 1000000"
+    :auto="uiElement.auto ?? false"
+    :mode="uiElement.mode ?? 'basic'"
     :customUpload="uiElement.customUpload ?? false"
     @uploader="customUploader"
     @upload="uploadComplete($event)"
@@ -37,15 +39,10 @@ export default defineComponent({
   },
   methods: {
     async customUploader(event) {
-      console.log(event);
-      for (let file of event.files) {
-        this.storage.upload(`images/${file.name}`, file);
-      }
-
       //
       if (this.uiElement?.customUploader) {
         try {
-          eval(this.uiElement.customUploader);
+          await eval(this.uiElement.customUploader);
         } catch (ex) {
           console.error(ex);
         }

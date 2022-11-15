@@ -1,14 +1,11 @@
 {
   "_id": "admin.storage.toolbar",
   "layoutStyle": {
-    "margin": "4px",
-    "position": "absolute",
-    "bottom": "24px",
-    "right": "24px",
-    "zIndex": 1
+    "margin": "4px"
   },
-  "type": "button",
-  "icon": "mdi-plus",
-  "color": "primary",
+  "type": "file-upload",
+  "auto": true,
+  "customUpload": true,
+  "customUploader": "(async () => {\r\n    // for each files \r\n    for (let file of event.files) {\r\n        // resize image\r\n        let image = await this.util.resize(file, { quality: 0.9, width: 800, height: 600 });\r\n        image.name = file.name;\r\n\r\n        // upload to firestore\r\n        await this.storage.upload(`images/${file.name}`, image);\r\n    }\r\n})();\r\n",
   "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.storage.upload'})"
 }
