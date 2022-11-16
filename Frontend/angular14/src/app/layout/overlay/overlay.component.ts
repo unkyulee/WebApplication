@@ -53,7 +53,7 @@ export class OverlayComponent {
 
     let uiElement = await this.ui.get(event.uiElementId);
 
-    this.dialogService.open(DialogComponent, {
+    this.currDialog = this.dialogService.open(DialogComponent, {
       data: {
         uiElement,
         data: event.data ?? {},

@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 //
 import { MaterialModule } from "../plugins/material.module";
@@ -47,6 +48,7 @@ import { DateComponent } from "./date/date.component";
     MaterialModule,
     PrimeNGModule,
     FormsModule,
+    DragDropModule,
   ],
   providers: [],
 })

@@ -81,10 +81,9 @@ export class UIElement {
       this.componentRef.instance.data = this.data;
       this.componentRef.instance.uiElement = this.uiElement;
     } else {
-      console.error(
-        `missing ui element registry: ${this.uiElement.type}`,
-        this.uiElement
-      );
+      throw `missing ui element registry: ${
+        this.uiElement.type
+      }${JSON.stringify(this.uiElement, null, 4)}`;
     }
   }
 

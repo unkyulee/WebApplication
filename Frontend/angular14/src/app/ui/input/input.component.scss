@@ -12,3 +12,8 @@
   /*change color of underline when focused*/
   background-color: rgb(255, 255, 255) !important;
 }
+
+.color-picker {
+  display: flex; 
+  align-items: center;
+}

@@ -1,67 +1,150 @@
 <!-- material input -->
-<mat-form-field *ngIf="
+<mat-form-field
+	*ngIf="
 		!uiElement.type ||
 		!uiElement.inputType ||
 		uiElement.inputType == 'text' ||
 		uiElement.inputType == 'number' ||
 		uiElement.inputType == 'email' ||
 		uiElement.inputType == 'password'
-	" [appearance]="uiElement.appearance" [ngStyle]="uiElement.style" [ngClass]="uiElement.class"
-	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'">
-	<mat-label>{{ uiElement.label }}</mat-label>
-	<input matInput #input [evalValidate]="uiElement.errorCondition"
-		[type]="uiElement.inputType ? uiElement.inputType : 'text'" [placeholder]="uiElement.placeholder"
-		[(ngModel)]="value" [required]="uiElement.required" [readonly]="uiElement.readonly" (keyup.enter)="keyupEnter()"
-		(input)="typeAheadEventEmitter.next($event)" (focus)="focus($event)" />
-	<button type="button" matSuffix mat-icon-button (click)="click($event)" *ngIf="uiElement.icon"
+	" [appearance]="uiElement.appearance ?? 'fill'"
+	[ngStyle]="uiElement.style"
+	[ngClass]="uiElement.class"
+	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'auto'">
+	<mat-label>
+		{{
+		uiElement.label
+		}}
+	</mat-label>
+	<input
+		matInput
+		#input
+		[evalValidate]="uiElement.errorCondition"
+		[type]="uiElement.inputType ? uiElement.inputType : 'text'"
+		[placeholder]="uiElement.placeholder"
+		[(ngModel)]="value"
+		[required]="uiElement.required"
+		[readonly]="uiElement.readonly"
+		(keyup.enter)="keyupEnter()"
+		(input)="typeAheadEventEmitter.next($event)"
+		(focus)="focus($event)" />
+	<button
+		type="button"
+		matSuffix
+		mat-icon-button
+		(click)="click($event)"
+		*ngIf="uiElement.icon"
 		[ngStyle]="uiElement.iconStyle">
-		<mat-icon>{{ uiElement.icon }}</mat-icon>
+		<mat-icon>
+			{{
+			uiElement.icon
+			}}
+		</mat-icon>
 	</button>
 
-	<mat-hint *ngIf="uiElement.hint">{{ uiElement.hint }}</mat-hint>
-	<mat-error>{{ uiElement.errorMessage }}</mat-error>
+	<mat-hint
+		*ngIf="uiElement.hint">
+		{{
+		uiElement.hint
+		}}
+	</mat-hint>
+	<mat-error>
+		{{
+		uiElement.errorMessage
+		}}
+	</mat-error>
 </mat-form-field>
 
 <!-- hidden -->
-<input *ngIf="uiElement.inputType == 'hidden'" type="hidden" [value]="value" />
+<input
+	*ngIf="uiElement.inputType == 'hidden'"
+	type="hidden"
+	[value]="value" />
 
 <!-- simple -->
-<input *ngIf="uiElement.inputType == 'simple'" [type]="uiElement.type" [ngStyle]="uiElement.style"
-	[ngClass]="uiElement.class" [placeholder]="uiElement.placeholder" [(ngModel)]="value" />
+<input
+	*ngIf="uiElement.inputType == 'simple'"
+	[type]="uiElement.type"
+	[ngStyle]="uiElement.style"
+	[ngClass]="uiElement.class"
+	[placeholder]="uiElement.placeholder"
+	[(ngModel)]="value" />
 
 <!-- textarea -->
-<mat-form-field *ngIf="uiElement.inputType == 'textarea'" [appearance]="uiElement.appearance"
-	[ngStyle]="uiElement.style" [ngClass]="uiElement.class"
-	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'">
-	<mat-label>{{ uiElement.label }}</mat-label>
-	<textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" [cdkAutosizeMinRows]="uiElement.rows"
-		[(ngModel)]="value" [placeholder]="uiElement.placeholder" [readonly]="uiElement.readonly"
-		[required]="uiElement.required" [maxlength]="uiElement.maxlength ? uiElement.maxlength : '-1'"
-		(click)="click($event)" (focus)="focus($event)"></textarea>
+<mat-form-field
+	*ngIf="uiElement.inputType == 'textarea'"
+	[appearance]="uiElement.appearance ?? 'fill'"
+	[ngStyle]="uiElement.style"
+	[ngClass]="uiElement.class"
+	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'auto'">
+	<mat-label>
+		{{
+		uiElement.label
+		}}
+	</mat-label>
+	<textarea
+		matInput
+		cdkTextareaAutosize
+		#autosize="cdkTextareaAutosize"
+		[cdkAutosizeMinRows]="uiElement.rows"
+		[(ngModel)]="value"
+		[placeholder]="uiElement.placeholder"
+		[readonly]="uiElement.readonly"
+		[required]="uiElement.required"
+		[maxlength]="uiElement.maxlength ? uiElement.maxlength : '-1'"
+		(click)="click($event)"
+		(focus)="focus($event)"></textarea>
 </mat-form-field>
 
 <!-- checkbox -->
-<ng-container *ngIf="uiElement.inputType == 'checkbox'">
-	<mat-checkbox [ngStyle]="uiElement.checkboxStyle" [(ngModel)]="value" [(indeterminate)]="uiElement.indeterminate"
-		[(labelPosition)]="uiElement.labelPosition" [disabled]="uiElement.disabled">
-		<div *ngIf="uiElement.label" [ngStyle]="uiElement.style" [ngClass]="uiElement.class"
-			[innerHtml]="uiElement.label | safe: 'html'"></div>
+<ng-container
+	*ngIf="uiElement.inputType == 'checkbox'">
+	<mat-checkbox
+		[ngStyle]="uiElement.checkboxStyle"
+		[(ngModel)]="value"
+		[(indeterminate)]="uiElement.indeterminate"
+		[(labelPosition)]="uiElement.labelPosition"
+		[disabled]="uiElement.disabled">
+		<div *ngIf="uiElement.label"
+			[ngStyle]="uiElement.style"
+			[ngClass]="uiElement.class"
+			[innerHtml]="uiElement.label | safe: 'html'">
+		</div>
 	</mat-checkbox>
 </ng-container>
 
 <!-- color picker -->
-<mat-form-field *ngIf="uiElement.inputType == 'color-picker'" [appearance]="uiElement.appearance"
-	[style]="uiElement.style" [class]="uiElement.class"
-	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'" [color]="value">
-	<mat-label>{{ uiElement.label }}</mat-label>
-	<div style="display: flex; align-items: flex-start;">
+<mat-form-field
+	*ngIf="uiElement.inputType == 'color-picker'"
+	[appearance]="uiElement.appearance ?? 'fill'"
+	[style]="uiElement.style"
+	[class]="uiElement.class"
+	[floatLabel]="'always'"
+	[color]="value">
+	<mat-label>
+		{{
+		uiElement.label
+		}}
+	</mat-label>
+	<div
+		class="color-picker">
 
-		<p-colorPicker [(ngModel)]="value" [readonly]="true"></p-colorPicker>
-		<input matInput #input [evalValidate]="uiElement.errorCondition"
-			[type]="uiElement.inputType ? uiElement.inputType : 'text'" [placeholder]="uiElement.placeholder"
-			[(ngModel)]="value" [required]="uiElement.required" [readonly]="uiElement.readonly"
-			(keyup.enter)="keyupEnter()" (input)="typeAheadEventEmitter.next($event)" (focus)="focus($event)" />
-		<p-colorPicker [(ngModel)]="value" [inline]="uiElement.inline ?? true"></p-colorPicker>
+		<p-colorPicker
+			[(ngModel)]="value"
+			appendTo="body">
+		</p-colorPicker>
+		<input
+			matInput
+			#input
+			[evalValidate]="uiElement.errorCondition"
+			[type]="uiElement.inputType ? uiElement.inputType : 'text'"
+			[placeholder]="uiElement.placeholder"
+			[(ngModel)]="value"
+			[required]="uiElement.required"
+			[readonly]="uiElement.readonly"
+			(keyup.enter)="keyupEnter()"
+			(input)="typeAheadEventEmitter.next($event)"
+			(focus)="focus($event)" />
 
 	</div>
 
