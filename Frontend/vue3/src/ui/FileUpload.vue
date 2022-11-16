@@ -7,6 +7,8 @@
     :auto="uiElement.auto ?? false"
     :mode="uiElement.mode ?? 'basic'"
     :customUpload="uiElement.customUpload ?? false"
+    :chooseLabel="uiElement.label"
+    :style="uiElement.style"
     @uploader="customUploader"
     @upload="uploadComplete($event)"
   >

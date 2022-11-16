@@ -4,10 +4,11 @@
     <v-textarea
       v-if="this.uiElement.inputType == 'textarea'"
       v-model="value"
-      :rows="uiElement.rows"
-      :placeholder="uiElement.placeholder"
       :class="uiElement.class"
       :style="uiElement.style"
+      :variant="uiElement.variant"
+      :rows="uiElement.rows"
+      :placeholder="uiElement.placeholder"
       :dense="uiElement.dense"
       :rounded="uiElement.rounded"
       :append-icon="uiElement.appendIcon"
