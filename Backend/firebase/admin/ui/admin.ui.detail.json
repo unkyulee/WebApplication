@@ -13,65 +13,42 @@
   },
   "screens": [
     {
+      "layoutStyle": {
+        "background": "lightgray",
+        "width": "100%",
+        "padding": "8px"
+      },
+      "type": "typography",
+      "text": "UI"
+    },
+    {
+      "type": "layout",
       "screens": [
         {
           "layoutStyle": {
-            "background": "lightgray",
-            "width": "100%",
-            "padding": "8px"
+            "flexGrow": 1
           },
-          "type": "typography",
-          "text": "UI"
+          "density": "compact",
+          "label": "JSON Path",
+          "key": "_params_.path",
+          "changed": "this.event.send({name: 'path', path: this.value});",
+          "type": "input"
         },
         {
-          "type": "layout",
-          "screens": [
-            {
-              "layoutStyle": {
-                "flexGrow": 1
-              },
-              "density": "compact",
-              "label": "JSON Path",
-              "key": "_params_.path",
-              "changed": "this.event.send({name: 'path', path: this.value});",
-              "type": "input"
-            },
-            {
-              "key": "_params_.lang",
-              "changed": "this.event.send({name: 'lang', lang: this.value});",
-              "layoutStyle": {
-                "width": "120px"
-              },
-              "density": "compact",
-              "label": "LANGUAGE",
-              "type": "input"
-            }
-          ],
+          "key": "_params_.lang",
+          "changed": "this.event.send({name: 'lang', lang: this.value});",
           "layoutStyle": {
-            "display": "flex",
-            "flex": "row",
-            "width": "100%"
-          }
-        },
-        {
-          "changed": "let type = obj.get(this.data, '_params_.type');\r\nlet path = obj.get(this.data, '_params_.path', '');\r\nif (!type || type == 'object') {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, JSON.parse(value))\r\n    } else {\r\n        obj.set(this.data, path, JSON.parse(value))\r\n    }\r\n\r\n} else {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, value)\r\n    } else {\r\n        //\r\n        obj.set(this.data, path, value)\r\n    }\r\n}\r\n\r\n",
-          "init": "this.event.subscribe(\r\n    'code-editor',\r\n    'path',\r\n    async (event) => {\r\n\r\n        let path = event.path;\r\n        if (!path) path = '';\r\n\r\n        // update the value with path\r\n        // see if the value path exists\r\n        if (obj.get(this.data, path)) {\r\n            let value = obj.get(this.data, path)\r\n\r\n            if (value && value.constructor != \"\".constructor) {\r\n                this.data._params_.type = \"object\";\r\n                this.value = JSON.stringify(value, null, 2);\r\n            } else {\r\n                this.data._params_.type = \"string\";\r\n                this.value = value;\r\n            }\r\n\r\n        }\r\n        \r\n    }\r\n);\r\n\r\nthis.event.subscribe(\r\n    'code-editor',\r\n    'lang',\r\n    (event) => {\r\n        this.uiElement.language = event.lang\r\n    }\r\n);",
-          "style": {
-            "height": "100%",
-            "width": "100%",
-            "minHeight": "400px"
+            "width": "120px"
           },
-          "language": "json",
-          "key": "",
-          "type": "code-editor",
-          "transform": "value = JSON.stringify(value, null, 4)",
-          "destroy": "this.event.unsubscribe_all('code-editor');"
+          "density": "compact",
+          "label": "LANGUAGE",
+          "type": "input"
         }
       ],
-      "type": "layout",
       "layoutStyle": {
-        "overflow": "auto",
-        "flexGrow": 1
+        "display": "flex",
+        "flex": "row",
+        "width": "100%"
       }
     },
     {
@@ -84,7 +61,6 @@
           "label": "DELETE",
           "variant": "text"
         },
-
         {
           "type": "layout",
           "layoutStyle": {
@@ -110,6 +86,20 @@
         "position": "relative",
         "background": "ghostwhite",
         "display": "flex"
+      }
+    },
+    {
+      "type": "code-editor",
+      "language": "json",
+      "key": "",
+      "transform": "value = JSON.stringify(value, null, 4)",
+      "destroy": "this.event.unsubscribe_all('code-editor');",
+      "changed": "let type = obj.get(this.data, '_params_.type');\r\nlet path = obj.get(this.data, '_params_.path', '');\r\nif (!type || type == 'object') {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, JSON.parse(value))\r\n    } else {\r\n        obj.set(this.data, path, JSON.parse(value))\r\n    }\r\n\r\n} else {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, value)\r\n    } else {\r\n        //\r\n        obj.set(this.data, path, value)\r\n    }\r\n}\r\n\r\n",
+      "init": "this.event.subscribe(\r\n    'code-editor',\r\n    'path',\r\n    (event) => {\r\n        let path = event.path;\r\n        if (!path) path = '';       \r\n\r\n        // update the value with path\r\n        // see if the value path exists\r\n        if (obj.get(this.data, path)) {\r\n            let value = obj.get(this.data, path)\r\n\r\n            if (value && value.constructor != \"\".constructor) {\r\n                obj.set(this.data, '_params_.type', 'object');\r\n                this.event.send({name: \"value\", value: JSON.stringify(value, null, 4)});\r\n            } else {\r\n                obj.set(this.data, '_params_.type', 'string');\r\n                this.event.send({name: \"value\", value});\r\n            }            \r\n        }        \r\n    }\r\n);\r\n\r\nthis.event.subscribe(\r\n    'code-editor',\r\n    'lang',\r\n    (event) => {\r\n        this.uiElement.language = event.lang\r\n    }\r\n);",
+      "style": {
+        "height": "100%",
+        "width": "100%",
+        "minHeight": "400px"
       }
     }
   ]

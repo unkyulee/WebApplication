@@ -113,7 +113,7 @@ export default defineComponent({
             console.error(ex);
           }
         }
-      }, 1000);
+      }, 300);
     },
     minus() {
       if (!this.value) this.value = 0;

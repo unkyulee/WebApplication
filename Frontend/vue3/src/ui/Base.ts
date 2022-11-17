@@ -7,8 +7,9 @@ export default {
     if (
       this.uiElement &&
       this.uiElement.init &&
-      typeof this.ready == "undefined" // when the instance type is converted by "is"
+      !this.uiElement.init_processed // make it run just once
     ) {
+      this.uiElement.init_processed = true;
       try {
         //
         await eval(this.uiElement.init);
@@ -23,8 +24,9 @@ export default {
     if (
       this.uiElement &&
       this.uiElement.mounted &&
-      typeof this.ready == "undefined" // when the instance type is converted by "is"
+      !this.uiElement.mounted_processed // make it run just once
     ) {
+      this.uiElement.mounted_processed = true;
       try {
         await eval(this.uiElement.mounted);
       } catch (ex) {

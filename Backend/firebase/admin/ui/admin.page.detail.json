@@ -13,64 +13,41 @@
   },
   "screens": [
     {
-      "type": "layout",
+      "type": "typography",
+      "text": "PAGE",
       "layoutStyle": {
-        "flexGrow": 1,
-        "overflow": "auto"
+        "width": "100%",
+        "background": "lightgray",
+        "padding": "8px"
+      }
+    },
+    {
+      "layoutStyle": {
+        "display": "flex",
+        "flex": "row",
+        "width": "100%"
       },
+      "type": "layout",
       "screens": [
         {
-          "type": "typography",
-          "text": "PAGE",
+          "label": "JSON Path",
+          "key": "_params_.path",
+          "changed": "this.event.send({name: 'path', path: this.value});",
           "layoutStyle": {
-            "width": "100%",
-            "background": "lightgray",
-            "padding": "8px"
+            "flexGrow": 1
+          },
+          "density": "compact",
+          "type": "input"
+        },
+        {
+          "label": "LANGUAGE",
+          "key": "_params_.lang",
+          "type": "input",
+          "changed": "this.event.send({name: 'lang', lang: this.value});",
+          "density": "compact",
+          "layoutStyle": {
+            "width": "120px"
           }
-        },
-        {
-          "layoutStyle": {
-            "display": "flex",
-            "flex": "row",
-            "width": "100%"
-          },
-          "type": "layout",
-          "screens": [
-            {
-              "label": "JSON Path",
-              "key": "_params_.path",
-              "changed": "this.event.send({name: 'path', path: this.value});",
-              "layoutStyle": {
-                "flexGrow": 1
-              },
-              "density": "compact",
-              "type": "input"
-            },
-            {
-              "label": "LANGUAGE",
-              "key": "_params_.lang",
-              "type": "input",
-              "changed": "this.event.send({name: 'lang', lang: this.value});",
-              "density": "compact",
-              "layoutStyle": {
-                "width": "120px"
-              }
-            }
-          ]
-        },
-        {
-          "transform": "value = JSON.stringify(value, null, 4)",
-          "style": {
-            "width": "100%",
-            "minHeight": "400px",
-            "height": "100%"
-          },
-          "key": "",
-          "destroy": "this.event.unsubscribe_all('code-editor');",
-          "type": "code-editor",
-          "language": "json",
-          "init": "this.event.subscribe(\r\n    'code-editor',\r\n    'path',\r\n    async (event) => {\r\n\r\n        let path = event.path;\r\n        if (!path) path = '';\r\n\r\n        // update the value with path\r\n        // see if the value path exists\r\n        if (obj.get(this.data, path)) {\r\n            let value = obj.get(this.data, path)\r\n\r\n            if (value && value.constructor != \"\".constructor) {\r\n                this.data._params_.type = \"object\";\r\n                this.value = JSON.stringify(value, null, 2);\r\n            } else {\r\n                this.data._params_.type = \"string\";\r\n                this.value = value;\r\n            }\r\n\r\n        }\r\n        \r\n    }\r\n);\r\n\r\nthis.event.subscribe(\r\n    'code-editor',\r\n    'lang',\r\n    (event) => {\r\n        this.uiElement.language = event.lang\r\n    }\r\n);",
-          "changed": "let type = obj.get(this.data, '_params_.type');\r\nlet path = obj.get(this.data, '_params_.path', '');\r\nif (!type || type == 'object') {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, JSON.parse(value))\r\n    } else {\r\n        obj.set(this.data, path, JSON.parse(value))\r\n    }\r\n\r\n} else {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, value)\r\n    } else {\r\n        //\r\n        obj.set(this.data, path, value)\r\n    }\r\n}\r\n\r\n"
         }
       ]
     },
@@ -111,6 +88,20 @@
           "color": "primary"
         }
       ]
+    },
+    {
+      "type": "code-editor",
+      "language": "json",
+      "key": "",
+      "transform": "delete value._updated; value = JSON.stringify(value, null, 4); console.log(value);",
+      "destroy": "this.event.unsubscribe_all('code-editor');",
+      "init": "this.event.subscribe(\r\n    'code-editor',\r\n    'path',\r\n    (event) => {\r\n        let path = event.path;\r\n        if (!path) path = '';       \r\n\r\n        // update the value with path\r\n        // see if the value path exists\r\n        if (obj.get(this.data, path)) {\r\n            let value = obj.get(this.data, path)\r\n\r\n            if (value && value.constructor != \"\".constructor) {\r\n                obj.set(this.data, '_params_.type', 'object');\r\n                this.event.send({name: \"value\", value: JSON.stringify(value, null, 4)});\r\n            } else {\r\n                obj.set(this.data, '_params_.type', 'string');\r\n                this.event.send({name: \"value\", value});\r\n            }            \r\n        }        \r\n    }\r\n);\r\n\r\nthis.event.subscribe(\r\n    'code-editor',\r\n    'lang',\r\n    (event) => {\r\n        this.uiElement.language = event.lang\r\n    }\r\n);",
+      "changed": "let type = obj.get(this.data, '_params_.type');\r\nlet path = obj.get(this.data, '_params_.path', '');\r\nif (!type || type == 'object') {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, JSON.parse(value))\r\n    } else {\r\n        obj.set(this.data, path, JSON.parse(value))\r\n    }\r\n\r\n} else {\r\n    // if path is specified    \r\n    if (!path) {\r\n        // convert from string to object\r\n        Object.assign(this.data, value)\r\n    } else {\r\n        //\r\n        obj.set(this.data, path, value)\r\n    }\r\n}\r\n\r\n",
+      "style": {
+        "width": "100%",
+        "minHeight": "400px",
+        "height": "100%"
+      }
     }
   ]
 }

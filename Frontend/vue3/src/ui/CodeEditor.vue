@@ -4,8 +4,8 @@
     :theme="uiElement.theme || 'vs-dark'"
     :language="uiElement.language || 'json'"
     :options="uiElement.options"
-    @change="onChange"
     v-model:value="value"
+    @change="onChange"
   ></MonacoEditor>
 </template>
 
@@ -41,8 +41,16 @@ export default defineComponent({
       }
       // set value
       this.value = value;
+
+      this.event.subscribe("code-editor", "value", (event) => {
+        this.value = event.value;
+      });
     }
   },
+  destroyed() {
+    this.event.unsubscribe_all("code-editor");
+  },
+
   methods: {
     onChange(value) {
       // trigger custom event

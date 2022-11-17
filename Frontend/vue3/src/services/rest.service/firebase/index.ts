@@ -6,6 +6,7 @@ import {
   collection,
   getDocs,
   setDoc,
+  addDoc,
   deleteDoc,
   doc,
 } from "firebase/firestore/lite";
@@ -79,6 +80,17 @@ async function post(url, data, method, options) {
     await setDoc(doc(db, name, data._id), data);
   } else {
     // insert
+    data._created = new Date();
+    data._updated = new Date();
+
+    // remove all keys that is not defined
+    for (let key of Object.keys(data)) {
+      if (typeof data[key] == "undefined") delete data[key];
+    }
+    const docRef = await addDoc(c, data);
+
+    // save id
+    data._id = docRef.id;
   }
 
   return response;
