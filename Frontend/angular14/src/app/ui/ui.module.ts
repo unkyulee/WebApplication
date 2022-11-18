@@ -18,6 +18,7 @@ import { ButtonComponent } from "./button/button.component";
 import { TableComponent } from "./table/table.component";
 import { FormComponent } from "./form/form.component";
 import { DateComponent } from "./date/date.component";
+import { SelectionComponent } from "./selection/selection.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { DateComponent } from "./date/date.component";
     TableComponent,
     FormComponent,
     DateComponent,
+    SelectionComponent,
   ],
   exports: [
     SafePipe,
@@ -41,6 +43,7 @@ import { DateComponent } from "./date/date.component";
     TableComponent,
     FormComponent,
     DateComponent,
+    SelectionComponent,
   ],
   imports: [
     CommonModule,

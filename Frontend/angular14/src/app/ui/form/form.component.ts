@@ -139,7 +139,5 @@ export class FormComponent extends BaseComponent {
     }
   }
 
-  async sectionChanged($event) {
-    console.log("section changed", $event);
-  }
+  async sectionChanged($event) {}
 }

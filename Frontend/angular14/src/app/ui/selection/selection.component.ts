@@ -3,7 +3,6 @@ import { Component, ViewChild, ElementRef } from "@angular/core";
 import { MatSelect } from "@angular/material/select";
 import { Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged } from "rxjs/operators";
-import obj from "object-path";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
 // user imports
@@ -13,6 +12,7 @@ import { MatChipInputEvent } from "@angular/material/chips";
 @Component({
   selector: "selection",
   templateUrl: "./selection.component.html",
+  styleUrls: ["./selection.component.css"],
 })
 export class SelectionComponent extends BaseComponent {
   @ViewChild("select") select: MatSelect;
@@ -133,7 +133,6 @@ export class SelectionComponent extends BaseComponent {
   }
 
   drop(event: CdkDragDrop<any[]>) {
-    console.log("drop");
     if (this.uiElement.drop) {
       try {
         eval(this.uiElement.drop);
