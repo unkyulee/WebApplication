@@ -111,7 +111,7 @@
       </ng-template>
 
 
-      <!-- Column Header -->
+      <!-- Body -->
       <ng-template
         pTemplate="body"
         let-row
@@ -125,7 +125,7 @@
             <td
               *ngIf="condition(column)"
               [style]="column.header?.style"
-              [class]="column.header?.class">
+              class="td-content">
 
               <ng-container
                 *ngFor="let ui of column?.screens??[]">
@@ -168,11 +168,11 @@
         [ngClass]="uiElement.itemBoxClass">
         <ng-container
           *ngFor="let column of uiElement.columns">
-          <div
+          <ng-container
             ui-element
             [uiElement]="column"
             [data]="row">
-          </div>
+          </ng-container>
         </ng-container>
       </mat-card>
     </div>
@@ -204,7 +204,7 @@
         *ngFor="let column of uiElement.columns">
         <ng-container
           ui-element
-          [uiElement]="copy(column)"
+          [uiElement]="column"
           [data]="row">
         </ng-container>
       </ng-container>

@@ -1,3 +1,7 @@
 ::ng-deep .p-datatable-header {
   padding: 0 !important;
 }
+
+.td-content {
+  overflow: hidden;
+}

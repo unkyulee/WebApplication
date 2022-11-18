@@ -5,6 +5,8 @@
 
 ::ng-deep .p-dialog-content {
   padding: 0 !important;
+  max-height: calc(100vh - 35px);
+  overflow: auto;
 }
 
 ::ng-deep .p-dialog-header {
