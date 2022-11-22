@@ -139,5 +139,11 @@ export class FormComponent extends BaseComponent {
     }
   }
 
-  async sectionChanged($event) {}
+  async sectionChanged($event) {
+    // fetch screen of the index
+    let screen = obj.get(this.uiElement, `screens.${$event.selectedIndex}`, {});
+    if (obj.get(screen, "sectionChanged")) {
+      eval(obj.get(screen, "sectionChanged"));
+    }
+  }
 }

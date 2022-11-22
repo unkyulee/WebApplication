@@ -11,6 +11,9 @@ import * as obj from "object-path";
 import * as moment from "moment";
 (window as any).moment = moment;
 
+import * as mustache from "mustache";
+(window as any).mustache = mustache.default;
+
 import "file-saver";
 
 platformBrowserDynamic()

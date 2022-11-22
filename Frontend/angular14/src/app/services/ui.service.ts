@@ -20,12 +20,9 @@ export class UIService {
         throw `ui element missing ${uiElementId}`;
       }
       this.config.set(`ui.${uiElementId}`, uiElement);
-    } else {
-      // if cached then return the copy of it
-      uiElement = { ...uiElement };
     }
 
-    return uiElement;
+    return JSON.parse(JSON.stringify(uiElement));
   }
 
   clear() {

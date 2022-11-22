@@ -100,14 +100,12 @@
 <ng-container
 	*ngIf="uiElement.inputType == 'checkbox'">
 	<mat-checkbox
-		[ngStyle]="uiElement.checkboxStyle"
+		[style]="uiElement.style"
 		[(ngModel)]="value"
 		[(indeterminate)]="uiElement.indeterminate"
 		[(labelPosition)]="uiElement.labelPosition"
 		[disabled]="uiElement.disabled">
 		<div *ngIf="uiElement.label"
-			[ngStyle]="uiElement.style"
-			[ngClass]="uiElement.class"
 			[innerHtml]="uiElement.label | safe: 'html'">
 		</div>
 	</mat-checkbox>

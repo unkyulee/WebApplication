@@ -62,7 +62,7 @@ export class UIElement {
       let element = await this.ui.get(this.uiElement.uiElementId);
       if (element) {
         //
-        Object.assign(this.uiElement, element);
+        this.uiElement = Object.assign({}, this.uiElement, element);
       } else {
         console.error(
           `uiElement missing ${this.uiElement.uiElementId}`,
