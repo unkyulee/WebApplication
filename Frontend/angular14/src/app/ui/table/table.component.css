@@ -1,7 +1,13 @@
 ::ng-deep .p-datatable-header {
   padding: 0 !important;
+  font-weight: unset !important;
 }
 
 .td-content {
   overflow: hidden;
+}
+
+.filter {
+  display: flex;
+  flex-flow: row wrap;
 }

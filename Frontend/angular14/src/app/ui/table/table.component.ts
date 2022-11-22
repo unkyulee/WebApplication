@@ -26,6 +26,9 @@ export class TableComponent extends BaseComponent {
   size: number = 10;
   pageInfo = {};
 
+  //
+  show_filter = false;
+
   ngOnInit() {
     super.ngOnInit();
 

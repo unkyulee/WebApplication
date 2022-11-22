@@ -35,7 +35,7 @@
         <button
           *ngIf="uiElement.filter"
           mat-icon-button
-          (click)="filters.hidden = !filters.hidden">
+          (click)="show_filter = !show_filter">
           <mat-icon>
             filter_list
           </mat-icon>
@@ -54,8 +54,7 @@
 
         <!-- filter screen -->
         <div
-          #filters
-          hidden="true"
+          *ngIf="show_filter"
           [style]="uiElement.filter?.style"
           [class]="uiElement.filter?.class">
 
