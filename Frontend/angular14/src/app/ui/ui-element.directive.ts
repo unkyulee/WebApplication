@@ -19,6 +19,8 @@ import { TableComponent } from "./table/table.component";
 import { FormComponent } from "./form/form.component";
 import { DateComponent } from "./date/date.component";
 import { SelectionComponent } from "./selection/selection.component";
+import { ProgressBarComponent } from "./progress-bar/progress-bar.component";
+import { IconComponent } from "./icon/icon.component";
 
 @Directive({
   selector: "[ui-element]",
@@ -35,6 +37,8 @@ export class UIElement {
     form: FormComponent,
     date: DateComponent,
     selection: SelectionComponent,
+    progress: ProgressBarComponent,
+    icon: IconComponent,
   };
   componentRef;
 

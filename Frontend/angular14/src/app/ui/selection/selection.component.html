@@ -132,8 +132,7 @@
         *ngIf="uiElement.optionTemplate"
         ui-element
         [uiElement]="uiElement.optionTemplate"
-        [data]="option"
-        [copy]="true">
+        [data]="option">
       </ng-container>
 
       <ng-container
@@ -191,3 +190,31 @@
     [autofocus]="uiElement.autofocus ? uiElement.autofocus : false"
     (matChipInputTokenEnd)="add($event)" />
 </mat-form-field>
+
+
+<!-- Pick List -->
+<p-pickList
+  *ngIf="uiElement.selectionType == 'picklist'"
+  [dragdrop]="uiElement.dragdrop ?? true"
+  [source]="uiElement.options"
+  [target]="value">
+  <ng-template
+    let-option
+    pTemplate="item">
+
+    <ng-container
+      *ngIf="uiElement.optionTemplate"
+      ui-element
+      [uiElement]="uiElement.optionTemplate"
+      [data]="option">
+    </ng-container>
+
+    <ng-container
+      *ngIf="!uiElement.optionTemplate">
+      {{
+      format(option)
+      }}
+    </ng-container>
+
+  </ng-template>
+</p-pickList>
