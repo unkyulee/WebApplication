@@ -105,7 +105,9 @@ export class FormComponent extends BaseComponent {
 
   async save() {
     // run before save
-    if (this.uiElement.save?.before) await eval(this.uiElement.save?.before);
+    if (this.uiElement.save?.before) {
+      if ((await eval(this.uiElement.save?.before)) == false) return;
+    }
 
     // retrieve REST information
     let src = eval(this.uiElement.save?.src);

@@ -6,10 +6,13 @@
 		uiElement.inputType == 'text' ||
 		uiElement.inputType == 'number' ||
 		uiElement.inputType == 'email' ||
-		uiElement.inputType == 'password'
+		uiElement.inputType == 'password' ||
+		uiElement.inputType == 'url' ||
+		uiElement.inputType == 'search' ||
+		uiElement.inputType == 'tel' 
 	" [appearance]="uiElement.appearance ?? 'fill'"
-	[ngStyle]="uiElement.style"
-	[ngClass]="uiElement.class"
+	[style]="uiElement.style"
+	[class]="uiElement.class"
 	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'auto'">
 	<mat-label>
 		{{
@@ -25,7 +28,9 @@
 		[(ngModel)]="value"
 		[required]="uiElement.required"
 		[readonly]="uiElement.readonly"
-		(keyup.enter)="keyupEnter()"
+		[disabled]="uiElement.disabled"
+		(keyup.enter)="
+		keyupEnter()"
 		(input)="typeAheadEventEmitter.next($event)"
 		(focus)="focus($event)" />
 	<button
@@ -34,7 +39,7 @@
 		mat-icon-button
 		(click)="click($event)"
 		*ngIf="uiElement.icon"
-		[ngStyle]="uiElement.iconStyle">
+		[style]="uiElement.iconStyle">
 		<mat-icon>
 			{{
 			uiElement.icon
@@ -65,8 +70,8 @@
 <input
 	*ngIf="uiElement.inputType == 'simple'"
 	[type]="uiElement.type"
-	[ngStyle]="uiElement.style"
-	[ngClass]="uiElement.class"
+	[style]="uiElement.style"
+	[class]="uiElement.class"
 	[placeholder]="uiElement.placeholder"
 	[(ngModel)]="value" />
 
@@ -74,8 +79,8 @@
 <mat-form-field
 	*ngIf="uiElement.inputType == 'textarea'"
 	[appearance]="uiElement.appearance ?? 'fill'"
-	[ngStyle]="uiElement.style"
-	[ngClass]="uiElement.class"
+	[style]="uiElement.style"
+	[class]="uiElement.class"
 	[floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'auto'">
 	<mat-label>
 		{{

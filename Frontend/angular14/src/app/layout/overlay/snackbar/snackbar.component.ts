@@ -35,7 +35,7 @@ export class SnackbarComponent {
         this.messageService.add({
           severity: event.type ?? "success",
           summary: event.header ?? "",
-          detail: event.message ?? "",
+          detail: event.text ?? "",
         });
       }
     });

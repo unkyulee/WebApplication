@@ -28,7 +28,13 @@ export class AuthService {
         this.authStrategy = new NoAuthStrategy();
         break;
       default:
-        this.authStrategy = new DefaultAuthStrategy(rest, config, nav, ui);
+        this.authStrategy = new DefaultAuthStrategy(
+          rest,
+          event,
+          config,
+          nav,
+          ui
+        );
     }
 
     // listen to events

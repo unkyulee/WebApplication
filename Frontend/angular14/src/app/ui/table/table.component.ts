@@ -23,7 +23,6 @@ export class TableComponent extends BaseComponent {
   loading = false;
   total: number = 0;
   page: number = 0;
-  size: number = 10;
   pageInfo = {};
 
   //
@@ -59,7 +58,7 @@ export class TableComponent extends BaseComponent {
     else pageInfo = this.pageInfo;
 
     // parse page information
-    this.size = pageInfo?.rows ?? 10;
+    this.uiElement.size = pageInfo?.rows ?? 10;
     this.page = Math.ceil((pageInfo?.first + 1) / (this.size ?? 10));
 
     // download data through rest web services
@@ -77,7 +76,7 @@ export class TableComponent extends BaseComponent {
       // apply pagination
       filter = Object.assign(filter, {
         page: this.page,
-        size: this.size,
+        size: this.uiElement.size,
       });
 
       // sorting options

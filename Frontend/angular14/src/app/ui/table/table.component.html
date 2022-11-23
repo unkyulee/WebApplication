@@ -12,7 +12,7 @@
       [value]="rows"
       [columns]="uiElement.tableColumns"
       [totalRecords]="total"
-      [rows]="size"
+      [rows]="uiElement.size"
       [page]="page"
       [paginator]="true"
       [showCurrentPageReport]="true"
@@ -24,7 +24,7 @@
       [(selection)]="selection"
       (onRowSelect)="onRowSelect($event)"
       (onRowUnselect)="onRowUnselect($event)"
-      [styleClass]="uiElement.styleClass"
+      [styleClass]="uiElement.styleClass ?? 'p-datatable-sm p-datatable-striped'"
       [scrollable]="true"
       scrollHeight="flex"
       [responsiveLayout]="safeGet(uiElement, 'responsiveLayout', 'scroll')">
@@ -56,7 +56,7 @@
         <div
           *ngIf="show_filter"
           [style]="uiElement.filter?.style"
-          [class]="uiElement.filter?.class">
+          class="filter">
 
           <ng-container
             *ngFor="let ui of uiElement.filter?.screens??[]">

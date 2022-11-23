@@ -1,5 +1,6 @@
 // services
 import { RestService } from "../../rest.service";
+import { EventService } from "../../event.service";
 import { ConfigService } from "../../config.service";
 import { NavService } from "../../nav.service";
 import { UIService } from "../../ui.service";
@@ -7,6 +8,7 @@ import { UIService } from "../../ui.service";
 export class DefaultAuthStrategy {
   constructor(
     private rest: RestService,
+    private event: EventService,
     private config: ConfigService,
     private nav: NavService,
     private ui: UIService
@@ -37,6 +39,9 @@ export class DefaultAuthStrategy {
     this.nav.clear();
     this.ui.clear();
     localStorage.removeItem("token");
+
+    // reset
+    this.event.send({ name: "init" });
   }
 
   async isAuthenticated() {

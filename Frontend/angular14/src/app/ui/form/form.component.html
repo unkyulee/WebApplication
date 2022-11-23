@@ -8,7 +8,7 @@
     <button
       *ngIf="
         uiElement.save &&
-        safeEval(uiElement.save?.condition) &&
+        condition(uiElement.save) &&
         uiElement.formType == 'preview'
       "
       mat-icon-button
@@ -20,7 +20,7 @@
     <button
       *ngIf="
         uiElement.save &&
-        safeEval(uiElement.save?.condition) &&
+        condition(uiElement.save) &&
         uiElement.formType != 'preview'
       "
       mat-icon-button
@@ -174,20 +174,20 @@
         *ngFor="let ui of uiElement.screens">
         <mat-step
           *ngIf="condition(ui)"
-          [label]="ui?.header?.label"
-          [style]="ui.style ? ui.style : safeGet(uiElement, 'section.style')"
-          [class]="ui.class ? ui.class : safeGet(uiElement, 'section.class')">
-          <ng-container
-            *ngFor="let ui of ui.screens">
+          [label]="ui?.header?.label">
+          <div
+            [style]="uiElement.step?.content?.style"
+            [class]="uiElement.step?.content?.class">
             <ng-container
-              ui-element
-              *ngIf="condition(ui)"
-              [uiElement]="ui"
-              [data]="data"
-              [style]="ui.layoutStyle"
-              [class]="ui.layoutClass">
+              *ngFor="let ui of ui.screens">
+              <ng-container
+                ui-element
+                *ngIf="condition(ui)"
+                [uiElement]="ui"
+                [data]="data">
+              </ng-container>
             </ng-container>
-          </ng-container>
+          </div>
         </mat-step>
       </ng-container>
     </mat-vertical-stepper>
