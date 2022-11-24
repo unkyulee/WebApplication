@@ -40,6 +40,8 @@ import { defineComponent } from "vue";
 export default defineComponent({
   inject: ["event", "config", "ui", "auth"],
 
+  props: ["menu"],
+
   data: function () {
     return {
       title: "",
@@ -53,7 +55,9 @@ export default defineComponent({
 
   async mounted() {
     // load toolbar theme
-    this.title = this.config.get("title", "");
+    this.title = this.menu.selected
+      ? this.menu.selected.name
+      : this.config.get("title", "");
     this.background = this.config.get("color.primary");
 
     // load toolbar logo

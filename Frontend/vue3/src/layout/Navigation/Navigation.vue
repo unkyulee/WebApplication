@@ -1,6 +1,6 @@
 <template>
   <div v-if="menu.navigation.length > 0">
-    <Toolbar />
+    <Toolbar :menu="menu" />
     <Drawer :menu="menu" />
   </div>
 </template>

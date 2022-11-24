@@ -164,6 +164,7 @@ export class LayoutEngineComponent {
           if (this.nav.currNav?.url == child.url) {
             menuItem.expanded = true;
             menuItem.styleClass = "active";
+            child.styleClass = "active";
           }
         }
 

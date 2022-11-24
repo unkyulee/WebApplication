@@ -1,44 +1,3 @@
-<template>
-  <div v-if="!splash" class="fullscreen-centered">
-    <v-progress-circular indeterminate color="primary"></v-progress-circular>
-    <div class="message" v-html="message"></div>
-    <div class="error" v-html="error"></div>
-  </div>
-  <div v-if="splash" class="fullscreen-centered">
-    <v-img :src="splash" max-width="200px" max-height="200px">
-      <template v-slot:placeholder>
-        <v-row class="fill-height ma-0" align="center" justify="center">
-          <v-progress-circular
-            indeterminate
-            color="error"
-          ></v-progress-circular>
-        </v-row> </template
-    ></v-img>
-  </div>
-</template>
-
-<style>
-.fullscreen-centered {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  background: lightgray;
-}
-
-.message {
-  margin-top: 8px;
-  color: dimgray;
-}
-
-.error {
-  margin-top: 8px;
-  color: crimson;
-}
-</style>
-
 <script lang="ts">
 // @ts-nocheck
 import { defineComponent } from "vue";
@@ -193,6 +152,47 @@ export default defineComponent({
   },
 });
 </script>
+
+<template>
+  <div v-if="!splash" class="fullscreen-centered">
+    <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    <div class="message" v-html="message"></div>
+    <div class="error" v-html="error"></div>
+  </div>
+  <div v-if="splash" class="fullscreen-centered">
+    <v-img :src="splash" max-width="200px" max-height="200px">
+      <template v-slot:placeholder>
+        <v-row class="fill-height ma-0" align="center" justify="center">
+          <v-progress-circular
+            indeterminate
+            color="error"
+          ></v-progress-circular>
+        </v-row> </template
+    ></v-img>
+  </div>
+</template>
+
+<style>
+.fullscreen-centered {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: lightgray;
+}
+
+.message {
+  margin-top: 8px;
+  color: dimgray;
+}
+
+.error {
+  margin-top: 8px;
+  color: crimson;
+}
+</style>
 
 <style>
 @keyframes myAnimation {

@@ -7,6 +7,7 @@
   >
     <ui-element
       v-for="ui in uiElement.screens"
+      v-if="condition(ui)"
       :is="ui.type"
       :data="data"
       :uiElement="ui"

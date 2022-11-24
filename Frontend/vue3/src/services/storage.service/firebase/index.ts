@@ -13,9 +13,7 @@ export default {
     const storage = getStorage(firebase);
     const storageRef = ref(storage, path);
 
-    uploadBytes(storageRef, file).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
-    });
+    await uploadBytes(storageRef, file);
   },
 
   async list(path) {
