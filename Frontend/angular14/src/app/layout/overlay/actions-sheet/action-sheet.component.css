@@ -1,3 +1,12 @@
 ::ng-deep .p-sidebar {
   height: fit-content !important;
 }
+
+::ng-deep .p-sidebar-header {
+  padding: 0 0 0 12px !important;
+}
+
+::ng-deep .p-sidebar-content {
+  display: flex;
+  justify-content: center;
+}

@@ -30,6 +30,7 @@ export class UIElement {
   component_registry = {
     layout: LayoutComponent,
     div: LayoutComponent,
+
     typography: TypographyComponent,
     input: InputComponent,
     button: ButtonComponent,
