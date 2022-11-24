@@ -126,19 +126,27 @@ export class FormComponent extends BaseComponent {
 
   async delete() {
     // run before save
-    if (this.uiElement.delete?.before)
-      await eval(this.uiElement.delete?.before);
-
-    // retrieve REST information
-    let src = eval(this.uiElement.delete?.src);
-    if (!src) return;
-    let method = this.uiElement.delete?.method ?? "delete";
-    let response = await this.rest.requestAsync(src, this.data, method);
-
-    // run after save
-    if (this.uiElement?.delete?.after) {
-      await eval(this.uiElement?.delete?.after);
+    if (this.uiElement.delete?.before) {
+      if ((await eval(this.uiElement.delete?.before)) == false) return;
     }
+
+    // confirm
+    this.event.send({
+      name: "confirm",
+      message: this.uiElement.delete?.message,
+      accept: async () => {
+        // retrieve REST information
+        let src = eval(this.uiElement.delete?.src);
+        if (!src) return;
+        let method = this.uiElement.delete?.method ?? "delete";
+        let response = await this.rest.requestAsync(src, this.data, method);
+
+        // run after save
+        if (this.uiElement?.delete?.after) {
+          await eval(this.uiElement?.delete?.after);
+        }
+      },
+    });
   }
 
   async sectionChanged($event) {

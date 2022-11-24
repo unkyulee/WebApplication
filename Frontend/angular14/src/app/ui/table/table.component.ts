@@ -58,8 +58,8 @@ export class TableComponent extends BaseComponent {
     else pageInfo = this.pageInfo;
 
     // parse page information
-    this.uiElement.size = pageInfo?.rows ?? 10;
-    this.page = Math.ceil((pageInfo?.first + 1) / (this.size ?? 10));
+    this.uiElement.size = pageInfo?.rows ?? 100;
+    this.page = Math.ceil((pageInfo?.first + 1) / (this.uiElement.size ?? 10));
 
     // download data through rest web services
     let src = this.uiElement.src;
