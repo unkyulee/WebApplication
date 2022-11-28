@@ -12,3 +12,8 @@
   flex-flow: row wrap;
   margin-bottom: 12px;
 }
+
+.toolbar {
+  display: flex;
+  flex-flow: row wrap;
+}

@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { Component, HostListener } from "@angular/core";
-import obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";

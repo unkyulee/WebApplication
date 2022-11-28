@@ -32,34 +32,20 @@
       <!-- Caption Area -->
       <ng-template
         pTemplate="caption">
-        <button
-          *ngIf="uiElement.filter"
-          mat-icon-button
-          (click)="show_filter = !show_filter">
-          <mat-icon>
-            filter_list
-          </mat-icon>
-        </button>
-
-        <!-- actions -->
-        <ng-container
-          *ngFor="let ui of uiElement.actions??[]">
-          <ng-container
-            ui-element
-            *ngIf="condition(ui)"
-            [uiElement]="ui"
-            [data]="data">
-          </ng-container>
-        </ng-container>
-
-        <!-- filter screen -->
         <div
-          *ngIf="show_filter"
-          [style]="uiElement.filter?.style"
-          class="filter">
+          class="toolbar">
+          <button
+            *ngIf="uiElement.filter"
+            mat-icon-button
+            (click)="show_filter = !show_filter">
+            <mat-icon>
+              filter_list
+            </mat-icon>
+          </button>
 
+          <!-- actions -->
           <ng-container
-            *ngFor="let ui of uiElement.filter?.screens??[]">
+            *ngFor="let ui of uiElement.actions??[]">
             <ng-container
               ui-element
               *ngIf="condition(ui)"
@@ -68,6 +54,23 @@
             </ng-container>
           </ng-container>
 
+          <!-- filter screen -->
+          <div
+            *ngIf="show_filter"
+            [style]="uiElement.filter?.style"
+            class="filter">
+
+            <ng-container
+              *ngFor="let ui of uiElement.filter?.screens??[]">
+              <ng-container
+                ui-element
+                *ngIf="condition(ui)"
+                [uiElement]="ui"
+                [data]="data">
+              </ng-container>
+            </ng-container>
+
+          </div>
         </div>
       </ng-template>
 
