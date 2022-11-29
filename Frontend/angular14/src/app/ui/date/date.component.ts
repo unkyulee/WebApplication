@@ -124,7 +124,9 @@ export class DateComponent extends BaseComponent {
 
       // get value
       if (obj.get(this.data, key)) {
-        this._start = moment(obj.get(this.data, key)).toISOString();
+        this._start = moment(obj.get(this.data, key))
+          .startOf("day")
+          .toISOString();
       }
     }
     return this._start;
@@ -153,7 +155,7 @@ export class DateComponent extends BaseComponent {
 
       // set value
       if (obj.get(this.data, key)) {
-        this._end = moment(obj.get(this.data, key)).toISOString();
+        this._end = moment(obj.get(this.data, key)).endOf("day").toISOString();
       }
     }
 
