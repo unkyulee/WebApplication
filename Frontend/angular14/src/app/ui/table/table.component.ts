@@ -207,8 +207,4 @@ export class TableComponent extends BaseComponent {
       }
     }
   }
-
-  copy(uiElement) {
-    return { ...uiElement };
-  }
 }

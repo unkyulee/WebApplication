@@ -32,7 +32,7 @@ export class FormComponent extends BaseComponent {
     if (this.uiElement?.change?.check) {
       this.check_timer = setInterval(() => {
         this.changeDetection();
-      }, 3000);
+      }, 5000);
     }
 
     // download data
@@ -56,6 +56,7 @@ export class FormComponent extends BaseComponent {
     // check if this.uiElement.change.all is true
     // then check all diff
     for (let key of Object.keys(this.data)) {
+      if (key == "_params_") continue;
       // compare key by key
       if (this.data[key] != this.prev_data[key]) {
         this.changed = true;

@@ -57,6 +57,10 @@ export class UtilService {
     return regex.test(str);
   }
 
+  escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+  }
+
   /**
    * range()
    *

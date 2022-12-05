@@ -68,7 +68,7 @@ module.exports.process = async function process(db, req, res) {
       try {
         result = await eval(workflow.script);
       } catch (ex) {
-        console.error(ex, workflow.script);
+        console.error(ex, workflow._id);
       }
     }
   }

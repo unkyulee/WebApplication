@@ -191,6 +191,14 @@ export class BaseComponent {
     }
     return value;
   }
+
+  copy(element) {
+    return { ...element };
+  }
+
+  log(message) {
+    console.log(message);
+  }
 }
 
 function componentDestroyed(component: OnDestroy) {

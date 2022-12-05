@@ -173,21 +173,29 @@
       <ng-container
         *ngFor="let ui of uiElement.screens">
         <mat-step
-          *ngIf="condition(ui)"
-          [label]="ui?.header?.label">
-          <div
-            [style]="uiElement.step?.content?.style"
-            [class]="uiElement.step?.content?.class">
-            <ng-container
-              *ngFor="let ui of ui.screens">
+          *ngIf="condition(ui)">
+          <ng-template
+            matStepLabel>
+            {{ui?.header?.label}}
+          </ng-template>
+          <ng-template
+            matStepContent>
+            <div
+              [style]="uiElement.step?.content?.style"
+              [class]="uiElement.step?.content?.class">
               <ng-container
-                ui-element
-                *ngIf="condition(ui)"
-                [uiElement]="ui"
-                [data]="data">
+                *ngFor="let ui of ui.screens">
+                <ng-container
+                  ui-element
+                  *ngIf="condition(ui)"
+                  [uiElement]="ui"
+                  [data]="data">
+                </ng-container>
               </ng-container>
-            </ng-container>
-          </div>
+            </div>
+          </ng-template>
+
+
         </mat-step>
       </ng-container>
     </mat-vertical-stepper>
