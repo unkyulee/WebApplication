@@ -1,0 +1,10 @@
+<!-- material input -->
+<ngx-monaco-editor
+	[ngStyle]="uiElement.style"
+	[options]="uiElement.editorOptions"
+	[(ngModel)]="value">
+</ngx-monaco-editor>
+<pre
+	*ngIf="error">{{ error }}</pre>
+<pre
+	*ngIf="compileError">{{ compileError }}</pre>

@@ -3,13 +3,12 @@ import { Component, ViewChild } from "@angular/core";
 import { BaseComponent } from "../base.component";
 import { Subject } from "rxjs";
 import { distinctUntilChanged, debounceTime } from "rxjs/operators";
-import obj from "object-path";
 import { Editor } from "primeng/editor";
 
 @Component({
   selector: "editor",
   templateUrl: "./editor.component.html",
-  styleUrls: ["./editor.component.scss"],
+  styleUrls: ["./editor.component.css"],
 })
 export class EditorComponent extends BaseComponent {
   @ViewChild("editor") editor: Editor;
@@ -29,7 +28,7 @@ export class EditorComponent extends BaseComponent {
   ngAfterViewInit() {
     super.ngAfterViewInit();
     // eliminate the bug that adds new line after a list
-    this.editor.getQuill().options.modules.clipboard.matchVisual = false;
+    //this.editor.getQuill().options.modules.clipboard.matchVisual = false;
   }
 
   ngOnDestroy() {

@@ -7,6 +7,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 //
 import { MaterialModule } from "../plugins/material.module";
 import { PrimeNGModule } from "../plugins/primeng.module";
+import { MonacoEditorModule } from "ngx-monaco-editor-14";
 
 // user component
 import { SafePipe } from "../plugins/safe.pipe";
@@ -21,6 +22,8 @@ import { DateComponent } from "./date/date.component";
 import { SelectionComponent } from "./selection/selection.component";
 import { ProgressBarComponent } from "./progress-bar/progress-bar.component";
 import { IconComponent } from "./icon/icon.component";
+import { EditorComponent } from "./editor/editor.component";
+import { CodeComponent } from "./code/code.component";
 
 @NgModule({
   declarations: [
@@ -36,6 +39,8 @@ import { IconComponent } from "./icon/icon.component";
     SelectionComponent,
     ProgressBarComponent,
     IconComponent,
+    EditorComponent,
+    CodeComponent,
   ],
   exports: [
     SafePipe,
@@ -50,6 +55,8 @@ import { IconComponent } from "./icon/icon.component";
     SelectionComponent,
     ProgressBarComponent,
     IconComponent,
+    EditorComponent,
+    CodeComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +65,7 @@ import { IconComponent } from "./icon/icon.component";
     PrimeNGModule,
     FormsModule,
     DragDropModule,
+    MonacoEditorModule,
   ],
   providers: [],
 })

@@ -7,10 +7,10 @@ import { catchError } from "rxjs/operators";
 import { EMPTY } from "rxjs";
 
 @Component({
-  selector: "code-editor",
-  templateUrl: "code-editor.component.html",
+  selector: "code",
+  templateUrl: "code.component.html",
 })
-export class CodeEditorComponent extends BaseComponent {
+export class CodeComponent extends BaseComponent {
   error: string;
   type: string;
   compileError: string;
