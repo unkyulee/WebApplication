@@ -4,11 +4,11 @@
     <VirtualScroller
       v-if="!uiElement.tableType || uiElement.tableType == 'virtual'"
       :items="rows"
-      :itemSize="parseInt(safeGet(uiElement, 'itemHeight', 100))"
+      :itemSize="parseInt(uiElement?.itemHeight ?? 100)"
       :style="uiElement.style"
       :class="uiElement.class"
     >
-      <template v-slot:item="{ item, options }">
+      <template v-slot:item="{ item }">
         <div
           :style="uiElement.itemBoxStyle"
           :class="uiElement.itemBoxClass"
