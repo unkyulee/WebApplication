@@ -22,7 +22,7 @@ export class UIService {
       this.config.set(`ui.${uiElementId}`, uiElement);
     }
 
-    return JSON.parse(JSON.stringify(uiElement));
+    return { ...uiElement };
   }
 
   clear() {

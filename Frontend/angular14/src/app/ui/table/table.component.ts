@@ -35,6 +35,10 @@ export class TableComponent extends BaseComponent {
     this.onEvent = this.event.onEvent.subscribe((event) =>
       this.eventHandler(event)
     );
+
+    if (this.uiElement.tableType != "table") {
+      this.requestDownload();
+    }
   }
 
   eventHandler(event) {
