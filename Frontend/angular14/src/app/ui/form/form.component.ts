@@ -99,9 +99,9 @@ export class FormComponent extends BaseComponent {
   }
 
   async edit(event) {
-    obj.ensureExists(this.uiElement, "sidenav", {});
-    this.uiElement.sidenav.uiElement = obj.get(this.uiElement, "screens.0");
-    this.uiElement.formType = "sidenav";
+    if (this.uiElement.edit?.click) {
+      eval(this.uiElement.edit.click);
+    }
   }
 
   async save() {

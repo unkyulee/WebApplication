@@ -42,7 +42,6 @@ class Router {
       if (!req.query.print) {
         // strip out bearer and company_id
         delete req.query.bearer;
-        delete req.query.company_id;
 
         // shall be redirected
         let redirectUrl = url.format({

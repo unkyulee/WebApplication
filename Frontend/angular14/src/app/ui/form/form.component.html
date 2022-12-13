@@ -5,8 +5,8 @@
 		class="toolbar">
 		<button
 			*ngIf="
-        uiElement.save &&
-        condition(uiElement.save) &&
+        uiElement.edit &&
+        condition(uiElement.edit) &&
         uiElement.formType == 'preview'
       " mat-icon-button
 			(click)="edit($event)">
@@ -39,6 +39,9 @@
 			[style]="uiElement.change?.style">{{
 			uiElement.change?.message
 			}}</span>
+		<div
+			class="spacer">
+		</div>
 		<button
 			*ngIf="
         uiElement.delete &&
