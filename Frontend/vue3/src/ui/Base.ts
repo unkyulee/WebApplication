@@ -71,7 +71,7 @@ export default {
       try {
         return eval(script);
       } catch (ex) {
-        console.error(script, ex);
+        console.error(this.uiElement._id, script, ex);
       }
       return script;
     },

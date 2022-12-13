@@ -8,6 +8,7 @@
     "margin": "4px",
     "position": "absolute",
     "bottom": "24px",
-    "right": "24px"
+    "right": "24px",
+    "zIndex": 1
   }
 }
