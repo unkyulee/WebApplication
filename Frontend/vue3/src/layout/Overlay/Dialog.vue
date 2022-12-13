@@ -37,7 +37,7 @@ export default defineComponent({
 
       // download the uiElement
       this.uiElement = await this.ui.get(event.uiElementId);
-      this.data = event.data;
+      this.data = event.data ?? {};
       this.option = obj.get(event, "option", {});
 
       // process init
