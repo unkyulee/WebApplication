@@ -1,18 +1,12 @@
 // @ts-nocheck
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  ViewEncapsulation,
-} from "@angular/core";
+import { Component, ElementRef, ViewEncapsulation } from "@angular/core";
 import {
   CalendarEvent,
   CalendarEventTimesChangedEvent,
   CalendarMonthViewDay,
-  CalendarView,
   DAYS_OF_WEEK,
 } from "angular-calendar";
-import * as moment from "moment";
+import moment from "moment";
 import obj from "object-path";
 
 // user Imports
@@ -40,7 +34,7 @@ export class CalendarComponent extends BaseComponent {
 
     this.locale = this.config.get("locale");
     // weekStartsOn option is ignored when using moment, as it needs to be configured globally for the moment locale
-    moment.updateLocale("locale", {
+    moment.updateLocale(this.locale, {
       week: {
         dow: DAYS_OF_WEEK.MONDAY,
         doy: 0,

@@ -19,10 +19,12 @@ import { TableComponent } from "./table/table.component";
 import { FormComponent } from "./form/form.component";
 import { DateComponent } from "./date/date.component";
 import { SelectionComponent } from "./selection/selection.component";
-import { ProgressBarComponent } from "./progress-bar/progress-bar.component";
+import { ProgressComponent } from "./progress/progress.component";
 import { IconComponent } from "./icon/icon.component";
 import { EditorComponent } from "./editor/editor.component";
 import { CodeComponent } from "./code/code.component";
+import { MenuComponent } from "./menu/menu.component";
+import { CalendarComponent } from "./calendar/calendar.component";
 
 @Directive({
   selector: "[ui-element]",
@@ -39,10 +41,12 @@ export class UIElement {
     form: FormComponent,
     date: DateComponent,
     selection: SelectionComponent,
-    progress: ProgressBarComponent,
+    progress: ProgressComponent,
     icon: IconComponent,
     editor: EditorComponent,
     code: CodeComponent,
+    menu: MenuComponent,
+    calendar: CalendarComponent,
   };
   componentRef;
 

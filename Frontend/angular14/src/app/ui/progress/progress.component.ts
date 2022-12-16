@@ -1,17 +1,14 @@
 // @ts-nocheck
-import { Component, Input, ViewChild } from "@angular/core";
-import { MatMenuTrigger } from "@angular/material/menu";
+import { Component } from "@angular/core";
 
 // user Imports
 import { BaseComponent } from "../base.component";
 
 @Component({
-  selector: "popup-menu",
-  templateUrl: "./popup-menu.component.html",
+  selector: "progress",
+  templateUrl: "./progress.component.html",
 })
-export class PopupMenuComponent extends BaseComponent {
-  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
-
+export class ProgressComponent extends BaseComponent {
   ngOnInit() {
     super.ngOnInit();
     // event handler
@@ -20,33 +17,38 @@ export class PopupMenuComponent extends BaseComponent {
     );
   }
 
+  eventHandler(event) {
+    if (
+      event &&
+      event.name == "progress" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
+      // progress
+      this.value = event.value;
+      this.bufferValue = event.bufferValue;
+    }
+  }
+
   ngOnDestroy() {
     super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 
-  eventHandler(event) {
-    if (
-      event &&
-      event.name == "popup-trigger" &&
-      (!event.key || event.key == this.uiElement.key)
-    ) {
-      if (this.trigger) this.trigger.openMenu();
-    }
-  }
+  // value
+  bufferValue = 0;
 
-  _value;
+  _value = 0;
   get value() {
     // fixed text
-    if (this.uiElement.text) {
+    if (this.uiElement.value) {
       // set value
-      this._value = this.uiElement.text;
+      this._value = this.uiElement.value;
     }
 
     // key exists
     else if (this.data && this.uiElement.key) {
       // set value
-      this._value = this.data[this.uiElement.key];
+      this._value = obj.get(this.data, this.uiElement.key);
     }
 
     // if null then assign default
@@ -60,15 +62,27 @@ export class PopupMenuComponent extends BaseComponent {
       } catch (e) {}
     }
 
+    // read returns local variable because of the format that can change its own value
+    // and next time it will try to format the already formatted text <- which is to be prevented
+    let v = this._value;
+
     // if format is specified
     if (this.uiElement.format) {
       try {
-        this._value = eval(this.uiElement.format);
+        v = eval(this.uiElement.format);
       } catch (e) {
         console.error(this.uiElement.format, e);
       }
     }
 
-    return this._value;
+    return v;
+  }
+
+  set value(v: any) {
+    this._value = v;
+
+    if (this.data && this.uiElement.key) {
+      obj.set(this.data, this.uiElement.key, v);
+    }
   }
 }

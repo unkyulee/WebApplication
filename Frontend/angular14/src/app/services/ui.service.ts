@@ -9,6 +9,10 @@ export class UIService {
   constructor(private config: ConfigService, private rest: RestService) {}
 
   async get(uiElementId) {
+    if (!uiElementId) {
+      return;
+    }
+
     let uiElement = this.config.get(`ui.${uiElementId}`);
     if (!uiElement) {
       // use cache when offline

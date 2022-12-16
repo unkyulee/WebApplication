@@ -20,10 +20,32 @@ import { TableComponent } from "./table/table.component";
 import { FormComponent } from "./form/form.component";
 import { DateComponent } from "./date/date.component";
 import { SelectionComponent } from "./selection/selection.component";
-import { ProgressBarComponent } from "./progress-bar/progress-bar.component";
+import { ProgressComponent } from "./progress/progress.component";
 import { IconComponent } from "./icon/icon.component";
 import { EditorComponent } from "./editor/editor.component";
 import { CodeComponent } from "./code/code.component";
+import { MenuComponent } from "./menu/menu.component";
+import { CalendarComponent } from "./calendar/calendar.component";
+
+// calendar modules
+import * as moment from "moment";
+import {
+  CalendarDateFormatter,
+  CalendarModule,
+  CalendarMomentDateFormatter,
+  DateAdapter,
+  MOMENT,
+} from "angular-calendar";
+import { adapterFactory } from "angular-calendar/date-adapters/moment";
+export function momentAdapterFactory() {
+  return adapterFactory(moment);
+}
+
+//
+// locale registration
+import { registerLocaleData } from "@angular/common";
+import it from "@angular/common/locales/it";
+registerLocaleData(it);
 
 @NgModule({
   declarations: [
@@ -37,10 +59,12 @@ import { CodeComponent } from "./code/code.component";
     FormComponent,
     DateComponent,
     SelectionComponent,
-    ProgressBarComponent,
+    ProgressComponent,
     IconComponent,
     EditorComponent,
     CodeComponent,
+    MenuComponent,
+    CalendarComponent,
   ],
   exports: [
     SafePipe,
@@ -53,10 +77,12 @@ import { CodeComponent } from "./code/code.component";
     FormComponent,
     DateComponent,
     SelectionComponent,
-    ProgressBarComponent,
+    ProgressComponent,
     IconComponent,
     EditorComponent,
     CodeComponent,
+    MenuComponent,
+    CalendarComponent,
   ],
   imports: [
     CommonModule,
@@ -66,7 +92,24 @@ import { CodeComponent } from "./code/code.component";
     FormsModule,
     DragDropModule,
     MonacoEditorModule,
+    CalendarModule.forRoot(
+      {
+        provide: DateAdapter,
+        useFactory: momentAdapterFactory,
+      },
+      {
+        dateFormatter: {
+          provide: CalendarDateFormatter,
+          useClass: CalendarMomentDateFormatter,
+        },
+      }
+    ),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MOMENT,
+      useValue: moment,
+    },
+  ],
 })
 export class UIModule {}

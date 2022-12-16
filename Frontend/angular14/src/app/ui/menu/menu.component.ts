@@ -1,14 +1,17 @@
 // @ts-nocheck
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
+import { MatMenuTrigger } from "@angular/material/menu";
 
 // user Imports
 import { BaseComponent } from "../base.component";
 
 @Component({
-  selector: "progress-bar",
-  templateUrl: "./progress-bar.component.html",
+  selector: "menu",
+  templateUrl: "./menu.component.html",
 })
-export class ProgressBarComponent extends BaseComponent {
+export class MenuComponent extends BaseComponent {
+  @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
+
   ngOnInit() {
     super.ngOnInit();
     // event handler
@@ -17,38 +20,33 @@ export class ProgressBarComponent extends BaseComponent {
     );
   }
 
-  eventHandler(event) {
-    if (
-      event &&
-      event.name == "progress" &&
-      (!event.key || event.key == this.uiElement.key)
-    ) {
-      // progress
-      this.value = event.value;
-      this.bufferValue = event.bufferValue;
-    }
-  }
-
   ngOnDestroy() {
     super.ngOnDestroy();
     this.onEvent.unsubscribe();
   }
 
-  // value
-  bufferValue = 0;
+  eventHandler(event) {
+    if (
+      event &&
+      event.name == "popup-trigger" &&
+      (!event.key || event.key == this.uiElement.key)
+    ) {
+      if (this.trigger) this.trigger.openMenu();
+    }
+  }
 
-  _value = 0;
+  _value;
   get value() {
     // fixed text
-    if (this.uiElement.value) {
+    if (this.uiElement.text) {
       // set value
-      this._value = this.uiElement.value;
+      this._value = this.uiElement.text;
     }
 
     // key exists
     else if (this.data && this.uiElement.key) {
       // set value
-      this._value = obj.get(this.data, this.uiElement.key);
+      this._value = this.data[this.uiElement.key];
     }
 
     // if null then assign default
@@ -62,27 +60,15 @@ export class ProgressBarComponent extends BaseComponent {
       } catch (e) {}
     }
 
-    // read returns local variable because of the format that can change its own value
-    // and next time it will try to format the already formatted text <- which is to be prevented
-    let v = this._value;
-
     // if format is specified
     if (this.uiElement.format) {
       try {
-        v = eval(this.uiElement.format);
+        this._value = eval(this.uiElement.format);
       } catch (e) {
         console.error(this.uiElement.format, e);
       }
     }
 
-    return v;
-  }
-
-  set value(v: any) {
-    this._value = v;
-
-    if (this.data && this.uiElement.key) {
-      obj.set(this.data, this.uiElement.key, v);
-    }
+    return this._value;
   }
 }
