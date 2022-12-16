@@ -11,10 +11,7 @@ class MongoDB {
   }
 
   async connect() {
-    this.client = await MongoClient.connect(this.url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    this.client = await MongoClient.connect(this.url);
     this.db = this.client.db(this.dbName);
   }
 
@@ -40,7 +37,7 @@ class MongoDB {
       return;
     }
 
-    if(!query) query = {};
+    if (!query) query = {};
     if (!query.size) query.size = 10;
     if (!query.query) query.query = {};
 
