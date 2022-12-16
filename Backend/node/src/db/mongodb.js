@@ -11,7 +11,10 @@ class MongoDB {
   }
 
   async connect() {
-    this.client = await MongoClient.connect(this.url);
+    this.client = await MongoClient.connect(this.url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     this.db = this.client.db(this.dbName);
   }
 
