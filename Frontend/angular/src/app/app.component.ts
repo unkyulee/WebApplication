@@ -198,6 +198,7 @@ export class AppComponent {
     // is authenticated?
     let valid = await this.auth.isAuthenticated();
     if (!valid) {
+      localStorage.removeItem("token");
       // load service_url screen
       setTimeout(() => {
         this.view = "login";
