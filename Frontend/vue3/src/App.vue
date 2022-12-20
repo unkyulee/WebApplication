@@ -55,7 +55,7 @@ export default defineComponent({
     });
   },
 
-  destroyed: function () {
+  unmounted() {
     event.unsubscribe_all("App");
   },
 });

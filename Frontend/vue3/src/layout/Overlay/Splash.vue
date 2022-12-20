@@ -35,7 +35,7 @@ export default defineComponent({
       (event) => (this.overlay = false)
     );
   },
-  destroyed: function () {
+  unmounted() {
     this.event.unsubscribe_all("Splash");
   },
 });

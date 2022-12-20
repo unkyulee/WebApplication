@@ -35,7 +35,7 @@ export default defineComponent({
       }
     });
   },
-  destroyed: function () {
+  unmounted() {
     this.event.unsubscribe_all("Timer");
   },
 });

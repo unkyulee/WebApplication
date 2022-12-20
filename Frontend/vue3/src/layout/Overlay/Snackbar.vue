@@ -32,7 +32,7 @@ export default defineComponent({
       this.show = true;
     });
   },
-  destroyed: function () {
+  unmounted() {
     this.event.unsubscribe_all(this._uid);
   },
   methods: {

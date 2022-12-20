@@ -34,7 +34,7 @@ export default {
       }
     }
   },
-  destroyed() {
+  unmounted() {
     //
     this.event.unsubscribe_all(this._uid);
     //

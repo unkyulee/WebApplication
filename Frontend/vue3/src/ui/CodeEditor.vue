@@ -25,6 +25,7 @@ export default defineComponent({
   components: {
     MonacoEditor,
   },
+
   mounted() {
     // get value
     if (this.data && typeof this.uiElement.key != "undefined") {
@@ -47,7 +48,7 @@ export default defineComponent({
       });
     }
   },
-  destroyed() {
+  unmounted() {
     this.event.unsubscribe_all("code-editor");
   },
 

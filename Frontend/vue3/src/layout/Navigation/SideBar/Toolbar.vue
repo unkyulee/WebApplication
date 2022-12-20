@@ -78,7 +78,7 @@ export default defineComponent({
     this.isAuthenticated = await this.auth.isAuthenticated();
   },
 
-  destroyed: function () {
+  unmounted() {
     this.event.unsubscribe_all("Toolbar");
   },
 

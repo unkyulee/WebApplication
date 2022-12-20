@@ -93,7 +93,7 @@ export default defineComponent({
     // download request
     this.requestDownload();
   },
-  destroyed() {
+  unmounted() {
     this.event.unsubscribe_all(this.uiElement.key);
   },
   methods: {

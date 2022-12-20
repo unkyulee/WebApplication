@@ -48,7 +48,7 @@ export default defineComponent({
       this.showSheet = false;
     });
   },
-  destroyed: function () {
+  unmounted() {
     this.event.unsubscribe_all("actionsheet");
   },
   methods: {

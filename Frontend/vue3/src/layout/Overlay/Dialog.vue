@@ -1,5 +1,6 @@
 <template>
   <v-dialog
+    v-if="d"
     v-model="showDialog"
     :fullscreen="uiElement.fullscreen ?? false"
     :persistent="uiElement.persistent ?? false"
@@ -25,12 +26,13 @@ export default defineComponent({
   data: function () {
     return {
       showDialog: false,
+      d: false,
       uiElement: {},
       data: {},
       option: {},
     };
   },
-  mounted: async function () {
+  async mounted() {
     this.event.subscribe("dialog", "open-dialog", async (event) => {
       // reset screen
       this.uiElement = {};
@@ -51,29 +53,18 @@ export default defineComponent({
 
       // open dialog
       this.showDialog = true;
-
-      this.scrollTop();
+      this.d = true;
     });
 
     this.event.subscribe("dialog", "close-dialog", (event) => {
       this.showDialog = false;
+      this.d = false;
+      this.data = {};
+      this.uiElement = {};
     });
   },
-  destroyed: function () {
+  unmounted() {
     this.event.unsubscribe_all("dialog");
-  },
-  methods: {
-    scrollTop() {
-      let container = document.getElementsByClassName("v-dialog")[0];
-      if (container) {
-        let event = new CustomEvent("scroll", {});
-        container.pageYOffset = 0;
-        setTimeout(() => {
-          container.scrollTop = 0;
-        }, 200);
-        container.dispatchEvent(event);
-      }
-    },
   },
 });
 </script>

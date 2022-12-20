@@ -31,13 +31,13 @@ export default defineComponent({
   data: () => ({
     panel: [],
   }),
-  mounted: function () {
+  mounted() {
     // data refresh
     this.event.subscribe(this._uid, "panel", (event) => {
       this.panel = event.panel;
     });
   },
-  destroyed: function () {
+  unmounted() {
     //
     this.event.unsubscribe_all(this._uid);
   },
