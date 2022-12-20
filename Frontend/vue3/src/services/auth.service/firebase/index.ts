@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 
 import event from "../../event.service";
+import rest from "../../rest.service";
 
 export default {
   async login(data) {
@@ -37,7 +38,10 @@ export default {
     try {
       let result = await getRedirectResult(auth);
       if (result && result.user) {
-        console.log(auth);
+        // register auth data to database
+        let data = JSON.parse(JSON.stringify(auth.currentUser));
+        data._id = data.email;
+        await rest.request(`/api/admin/user`, data, "post");
         return true;
       }
     } catch (ex) {

@@ -2,7 +2,13 @@
   <v-app-bar density="compact" :color="background" :style="style" :flat="true">
     <!-- App Bar Icon -->
     <template v-slot:prepend>
-      <v-app-bar-nav-icon @click.stop="toggleDrawer()"></v-app-bar-nav-icon>
+      <v-btn v-if="menu.selected?.back" icon @click.stop="back()">
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
+      <v-app-bar-nav-icon
+        v-if="!menu.selected?.back"
+        @click.stop="toggleDrawer()"
+      ></v-app-bar-nav-icon>
     </template>
 
     <!-- Title -->
@@ -85,6 +91,10 @@ export default defineComponent({
   methods: {
     toggleDrawer() {
       this.event.send({ name: "toggle-drawer" });
+    },
+    back() {
+      console.log(this.menu.selected);
+      this.$router.push(this.menu.selected.back);
     },
   },
 });

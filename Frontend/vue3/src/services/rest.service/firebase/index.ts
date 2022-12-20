@@ -9,7 +9,10 @@ import {
   addDoc,
   deleteDoc,
   doc,
+  where,
 } from "firebase/firestore/lite";
+
+import auth from "../../auth.service";
 
 export default {
   async request(url, data, method, options) {
@@ -40,10 +43,21 @@ async function get(url, data, method, options) {
   let queryParams = [c];
 
   // sorting
-  if (parameters.has("_sort_desc"))
+  if (parameters.has("_sort_desc")) {
     queryParams.push(orderBy(parameters.get("_sort_desc"), "desc"));
-  if (parameters.has("_sort"))
+    parameters.delete("_sort_desc");
+  }
+
+  if (parameters.has("_sort")) {
     queryParams.push(orderBy(parameters.get("_sort")));
+    parameters.delete("_sort");
+  }
+
+  // apply filter
+  parameters.forEach((value, key) => {
+    // display navigation where it doesn't require login
+    queryParams.push(where(key, "==", value));
+  });
 
   // request data
   const q = query(...queryParams);
@@ -69,14 +83,28 @@ async function post(url, data, method, options) {
   let locations = location.split("/");
   let name = locations[locations.length - 1];
 
-  // clean up data
+  // remove all keys that is not defined
   for (let key of Object.keys(data)) {
-    if (!data[key]) delete data[key];
+    if (typeof data[key] == "undefined") delete data[key];
   }
 
   // request data from the collection
   const db = getFirestore(firebase);
   const c = collection(db, name);
+
+  // who created
+  if (await auth.isAuthenticated()) {
+    let user = await auth.client();
+    if (user) {
+      if (!data._id) {
+        data._createdBy = user.uid;
+        data._createdByName = user.displayName;
+      } else {
+        data._updatedBy = user.uid;
+        data._updatedByName = user.displayName;
+      }
+    }
+  }
 
   // save data
   if (data._id) {

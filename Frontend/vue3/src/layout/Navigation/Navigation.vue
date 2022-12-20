@@ -50,15 +50,17 @@ export default defineComponent({
         //
       } else {
         // find matching nav
-        this.menu.selected = this.nav.find(
+        let found = this.nav.find(
           this.config.get("navigation", []),
           this.$route.path
         );
+        if (found) {
+          this.menu.selected = found;
+          //
+          this.event.send({ name: "navigation-changed", data: this.menu });
+        }
         //
       }
-
-      //
-      this.event.send({ name: "navigation-changed", data: this.menu });
       //
     },
   },

@@ -4,11 +4,7 @@ export default {
   inject: ["config", "event", "rest", "ui", "auth", "storage", "util", "nav"],
   async created() {
     // run init if defined
-    if (
-      this.uiElement &&
-      this.uiElement.init &&
-      !this.uiElement.init_processed // make it run just once
-    ) {
+    if (this.uiElement && this.uiElement.init) {
       this.uiElement.init_processed = true;
       try {
         //
@@ -21,11 +17,7 @@ export default {
   },
   async mounted() {
     // run init if defined
-    if (
-      this.uiElement &&
-      this.uiElement.mounted &&
-      !this.uiElement.mounted_processed // make it run just once
-    ) {
+    if (this.uiElement && this.uiElement.mounted) {
       this.uiElement.mounted_processed = true;
       try {
         await eval(this.uiElement.mounted);
