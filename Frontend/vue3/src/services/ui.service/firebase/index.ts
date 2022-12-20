@@ -23,7 +23,7 @@ export default {
       console.error(ex);
     }
 
-    return ui;
+    return { ...ui };
   },
 
   async page(_id) {

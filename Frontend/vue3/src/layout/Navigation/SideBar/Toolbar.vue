@@ -6,7 +6,7 @@
     </template>
 
     <!-- Title -->
-    <v-app-bar-title style="display: flex">
+    <v-app-bar-title style="display: flex" class="title">
       <img v-if="logo" :src="logo" style="max-height: 38px" />
       <div v-if="!logo">{{ title }}</div>
     </v-app-bar-title>
@@ -55,9 +55,7 @@ export default defineComponent({
 
   async mounted() {
     // load toolbar theme
-    this.title = this.menu.selected
-      ? this.menu.selected.name
-      : this.config.get("title", "");
+    this.title = this.config.get("title", "");
     this.background = this.config.get("color.primary");
 
     // load toolbar logo
@@ -78,11 +76,6 @@ export default defineComponent({
 
     // user icon
     this.isAuthenticated = await this.auth.isAuthenticated();
-
-    // subscribe to loading-complete event
-    this.event.subscribe("Toolbar", "navigation-changed", (event) => {
-      this.title = obj.get(event.data, "selected.name");
-    });
   },
 
   destroyed: function () {
@@ -96,3 +89,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.title {
+  font-weight: bold;
+}
+</style>

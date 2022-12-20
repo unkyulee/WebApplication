@@ -16,7 +16,7 @@
         >
           <ui-element
             v-for="column in uiElement?.columns ?? []"
-            :uiElement="column"
+            :uiElement="{ ...column }"
             :data="item"
           />
         </div>

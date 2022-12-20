@@ -32,6 +32,7 @@ import Gallery from "./Gallery.vue";
 import Alert from "./Alert.vue";
 import CodeEditor from "./CodeEditor.vue";
 import FileUploadComponent from "./FileUpload.vue";
+import Stepper from "./Stepper.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -58,6 +59,7 @@ export default defineComponent({
     Alert,
     CodeEditor,
     FileUploadComponent,
+    Stepper,
   },
   data: function () {
     return {

@@ -69,6 +69,11 @@ async function post(url, data, method, options) {
   let locations = location.split("/");
   let name = locations[locations.length - 1];
 
+  // clean up data
+  for (let key of Object.keys(data)) {
+    if (!data[key]) delete data[key];
+  }
+
   // request data from the collection
   const db = getFirestore(firebase);
   const c = collection(db, name);

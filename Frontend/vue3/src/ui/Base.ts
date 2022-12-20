@@ -1,7 +1,7 @@
 // @ts-nocheck
 export default {
   props: ["uiElement", "data"],
-  inject: ["config", "event", "rest", "ui", "auth", "storage", "util"],
+  inject: ["config", "event", "rest", "ui", "auth", "storage", "util", "nav"],
   async created() {
     // run init if defined
     if (
@@ -71,7 +71,7 @@ export default {
       try {
         return eval(script);
       } catch (ex) {
-        console.error(this.uiElement._id, script, ex);
+        console.error(this.uiElement, script, ex);
       }
       return script;
     },
