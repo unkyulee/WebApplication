@@ -43,7 +43,9 @@ export default defineComponent({
       if (selected) {
         if ((this.currStep ?? {})._id != selected.uiElementId) {
           // load uiElement
-          this.currStep = await this.ui.get(selected.uiElementId);
+          this.currStep = null;
+          let uiElement = await this.ui.get(selected.uiElementId);
+          this.currStep = uiElement;
         }
       }
       //

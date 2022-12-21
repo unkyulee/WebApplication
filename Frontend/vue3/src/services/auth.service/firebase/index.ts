@@ -12,6 +12,8 @@ import event from "../../event.service";
 import rest from "../../rest.service";
 
 export default {
+  _client: {},
+
   async login(data) {
     const auth = getAuth(firebase);
     const provider = new GoogleAuthProvider();
@@ -51,6 +53,7 @@ export default {
     return new Promise((resolve) => {
       onAuthStateChanged(auth, (user) => {
         if (user) {
+          this._client = user;
           resolve(true);
         } else {
           resolve(false);
@@ -60,15 +63,6 @@ export default {
   },
 
   async client() {
-    const auth = getAuth(firebase);
-    return new Promise((resolve) => {
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          resolve(user);
-        } else {
-          resolve({});
-        }
-      });
-    });
+    return this._client;
   },
 };

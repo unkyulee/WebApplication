@@ -93,7 +93,6 @@ export default defineComponent({
       this.event.send({ name: "toggle-drawer" });
     },
     back() {
-      console.log(this.menu.selected);
       this.$router.push(this.menu.selected.back);
     },
   },
