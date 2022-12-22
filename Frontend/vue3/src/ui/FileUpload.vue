@@ -3,7 +3,7 @@
     name="files[]"
     :multiple="uiElement.multiple ?? true"
     :accept="uiElement.accept ?? 'image/*'"
-    :maxFileSize="uiElement.maxFileSize ?? 1000000"
+    :maxFileSize="uiElement.maxFileSize ?? 10000000"
     :auto="uiElement.auto ?? false"
     :mode="uiElement.mode ?? 'basic'"
     :customUpload="uiElement.customUpload ?? false"
