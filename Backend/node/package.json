@@ -22,7 +22,7 @@
     "googleapis": "^108.0.0",
     "html-pdf": "^3.0.1",
     "jsonic": "^1.0.1",
-    "jsonwebtoken": "^8.3.0",
+    "jsonwebtoken": "^9.0.0",
     "memorystream": "^0.3.1",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.35",
