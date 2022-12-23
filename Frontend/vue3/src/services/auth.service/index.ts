@@ -30,4 +30,7 @@ export default {
   async client() {
     return await this.getModule().client();
   },
+  user() {
+    return this.getModule().user();
+  },
 };

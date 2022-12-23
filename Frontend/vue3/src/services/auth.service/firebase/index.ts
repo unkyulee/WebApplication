@@ -65,4 +65,8 @@ export default {
   async client() {
     return this._client;
   },
+
+  user() {
+    return this._client;
+  },
 };
