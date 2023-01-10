@@ -1,5 +1,9 @@
 <template>
   <ui-element v-if="ready" :data="data" :uiElement="page"></ui-element>
+  <div
+    v-if="config.get('nav_type') == 'bottom'"
+    style="margin-bottom: 72px"
+  ></div>
   <DialogOverlay />
   <Splash />
   <ActionSheet />

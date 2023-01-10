@@ -1,7 +1,8 @@
 <template>
+  <Toolbar :menu="menu" />
   <div v-if="menu.navigation.length > 0">
-    <Toolbar :menu="menu" />
-    <Drawer :menu="menu" />
+    <Drawer v-if="!config.get('nav_type')" :menu="menu" />
+    <Bottom v-if="config.get('nav_type') == 'bottom'" :menu="menu" />
   </div>
 </template>
 
@@ -9,8 +10,9 @@
 // @ts-nocheck
 
 // Components
-import Toolbar from "./SideBar/Toolbar.vue";
+import Toolbar from "./Toolbar.vue";
 import Drawer from "./SideBar/Drawer.vue";
+import Bottom from "./Bottom/Bottom.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -18,6 +20,7 @@ export default defineComponent({
   components: {
     Toolbar,
     Drawer,
+    Bottom,
   },
   data() {
     return {
@@ -28,6 +31,7 @@ export default defineComponent({
     };
   },
   created() {
+    //
     this.menu.navigation = this.config
       .get("navigation", [])
       .filter((x) => x.type != "hidden");

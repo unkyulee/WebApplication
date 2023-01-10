@@ -6,7 +6,7 @@
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <v-app-bar-nav-icon
-        v-if="!menu.selected?.back"
+        v-if="!menu.selected?.back && !config.get('nav_type')"
         @click.stop="toggleDrawer()"
       ></v-app-bar-nav-icon>
     </template>

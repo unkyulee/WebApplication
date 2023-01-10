@@ -6,7 +6,7 @@
     :max-height="uiElement.maxHeight"
     :width="uiElement.width"
     :max-width="uiElement.maxWidth"
-    :src="safeEval(uiElement.src)"
+    :src="image"
     :cover="safeGet(uiElement, 'cover', false)"
     lazy-src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
     @click="click($event)"
@@ -25,5 +25,33 @@ import Base from "./Base";
 import { defineComponent } from "vue";
 export default defineComponent({
   extends: Base,
+  data() {
+    return {
+      refreshKey: 0,
+      // ...
+    };
+  },
+  async created() {
+    if (this.uiElement.srcType == "firebase") {
+      if (this.uiElement.key) {
+        let path = obj.get(this.data, this.uiElement.key, "");
+        if (path) {
+          let src = await this.storage.url(path);
+          this.uiElement.src = `"${src}"`;
+
+          // in order to trigger async changes to be applied in computed
+          this.refreshKey = new Date().getTime();
+        }
+      }
+    }
+  },
+  computed: {
+    image() {
+      //
+      this.refreshKey;
+
+      return this.safeEval(this.uiElement.src);
+    },
+  },
 });
 </script>

@@ -86,7 +86,7 @@ export default defineComponent({
 
       //
       this.event.subscribe(this.uiElement.key, "refresh", async (event) => {
-        if (event.key == this.uiElement.key) await this.requestDownload();
+        if (event.key == this.uiElement.key) this.requestDownload();
       });
     }
 
@@ -142,37 +142,39 @@ export default defineComponent({
           }
 
           // transformed
-          let rows = response;
+          let rows = response ?? [];
           if (this.uiElement.transform) {
             try {
-              rows = eval(this.uiElement.transform);
+              rows = await eval(this.uiElement.transform);
             } catch (ex) {
               console.error(ex);
             }
+          }
+
+          // save to data
+          if (this.uiElement.key) {
+            obj.set(this.data, this.uiElement.key, [...rows]);
           }
 
           let total = rows.length;
           if (this.uiElement.transformTotal) {
             try {
-              total = eval(this.uiElement.transformTotal);
+              total = await eval(this.uiElement.transformTotal);
             } catch (ex) {
               console.error(ex);
             }
           }
           obj.set(this.data, `${this.uiElement.key}_total`, total);
-
-          // save to data
-          if (this.uiElement.key) {
-            obj.set(this.data, this.uiElement.key, rows);
-          }
         }
-      }, 1000);
+      }, 400);
     },
   },
   computed: {
     rows() {
-      if (this.uiElement && this.uiElement.key)
+      if (this.uiElement && this.uiElement.key) {
         return obj.get(this.data, this.uiElement.key, []);
+      }
+
       return [];
     },
     total() {

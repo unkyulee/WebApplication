@@ -5,7 +5,6 @@ export default {
   async created() {
     // run init if defined
     if (this.uiElement && this.uiElement.init) {
-      this.uiElement.init_processed = true;
       try {
         //
         await eval(this.uiElement.init);
@@ -18,7 +17,6 @@ export default {
   async mounted() {
     // run init if defined
     if (this.uiElement && this.uiElement.mounted) {
-      this.uiElement.mounted_processed = true;
       try {
         await eval(this.uiElement.mounted);
       } catch (ex) {

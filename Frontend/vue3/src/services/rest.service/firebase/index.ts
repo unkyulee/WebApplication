@@ -54,16 +54,38 @@ async function get(url, data, method, options) {
   }
 
   // apply filter
+  let search = false;
   parameters.forEach((value, key) => {
-    // display navigation where it doesn't require login
-    queryParams.push(where(key, "==", value));
+    if (key.endsWith("_like")) {
+      search = true;
+    } else {
+      // display navigation where it doesn't require login
+      queryParams.push(where(key, "==", value));
+    }
   });
 
   // request data
   const q = query(...queryParams);
   const s = await getDocs(q);
 
-  response.data = s.docs.map((doc) => doc.data());
+  let results = s.docs.map((doc) => doc.data());
+
+  // if search is true then filter the results
+  if (search) {
+    for (let row of results) {
+      parameters.forEach((value, key) => {
+        if (key.endsWith("_like")) {
+          let search_key = key.replace("_like", "");
+          console.log(search_key, row, value);
+          if (row[search_key].toLowerCase().includes(value.toLowerCase())) {
+            response.data.push(row);
+          }
+        }
+      });
+    }
+  } else {
+    response.data = results;
+  }
 
   return response;
 }
