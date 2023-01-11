@@ -120,7 +120,7 @@ async function post(url, data, method, options) {
   if (await auth.isAuthenticated()) {
     let user = await auth.client();
     if (user) {
-      if (!data._id) {
+      if (!data._createdBy) {
         data._createdBy = user.uid;
         data._createdByName = user.displayName;
       } else {
