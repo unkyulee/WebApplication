@@ -28,6 +28,7 @@ export default defineComponent({
   data() {
     return {
       refreshKey: 0,
+      src: "",
       // ...
     };
   },
@@ -37,7 +38,7 @@ export default defineComponent({
         let path = obj.get(this.data, this.uiElement.key, "");
         if (path) {
           let src = await this.storage.url(path);
-          this.uiElement.src = `"${src}"`;
+          this.src = `"${src}"`;
 
           // in order to trigger async changes to be applied in computed
           this.refreshKey = new Date().getTime();
@@ -49,8 +50,7 @@ export default defineComponent({
     image() {
       //
       this.refreshKey;
-
-      return this.safeEval(this.uiElement.src);
+      return this.safeEval(this.src);
     },
   },
 });

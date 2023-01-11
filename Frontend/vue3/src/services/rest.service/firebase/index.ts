@@ -58,6 +58,9 @@ async function get(url, data, method, options) {
   parameters.forEach((value, key) => {
     if (key.endsWith("_like")) {
       search = true;
+    } else if (key.endsWith("_contains")) {
+      let _key = key.replace("_contains", "");
+      queryParams.push(where(_key, "array-contains", value));
     } else {
       // display navigation where it doesn't require login
       queryParams.push(where(key, "==", value));
@@ -76,7 +79,6 @@ async function get(url, data, method, options) {
       parameters.forEach((value, key) => {
         if (key.endsWith("_like")) {
           let search_key = key.replace("_like", "");
-          console.log(search_key, row, value);
           if (row[search_key].toLowerCase().includes(value.toLowerCase())) {
             response.data.push(row);
           }
@@ -146,6 +148,7 @@ async function post(url, data, method, options) {
 
     // save id
     data._id = docRef.id;
+    await setDoc(doc(db, name, data._id), data);
   }
 
   return response;

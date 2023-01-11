@@ -3,7 +3,7 @@
     <v-tabs stacked>
       <v-tab v-for="item of items" @click="click(item)">
         <v-icon>{{ item.icon }}</v-icon>
-        {{ item.label }}
+        <span v-if="item.name">{{ item.label }}</span>
       </v-tab>
     </v-tabs>
   </div>

@@ -68,7 +68,7 @@
       :style="uiElement.style"
       :label="label()"
       :color="uiElement.color"
-      :hide-details="safeGet(uiElement, 'hideDetails', false)"
+      :hide-details="safeGet(uiElement, 'hideDetails', true)"
     ></v-checkbox>
   </div>
 </template>
