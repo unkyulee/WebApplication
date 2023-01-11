@@ -7,7 +7,7 @@
   "columns": [
     {
       "label": "NAME",
-      "key": "name",
+      "format": "obj.get(this.data, 'name', '...')",
       "type": "typography",
       "click": "this.event.send({name: 'open-dialog', uiElementId: 'admin.navigation.detail', data: this.data})",
       "layoutStyle": {

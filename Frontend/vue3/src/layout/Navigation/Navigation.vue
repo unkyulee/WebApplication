@@ -16,7 +16,7 @@ import Bottom from "./Bottom/Bottom.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
-  inject: ["event", "config", "ui", "nav"],
+  inject: ["event", "config", "ui", "nav", "auth"],
   components: {
     Toolbar,
     Drawer,
@@ -60,6 +60,7 @@ export default defineComponent({
         );
         if (found) {
           this.menu.selected = found;
+
           //
           this.event.send({ name: "navigation-changed", data: this.menu });
         }

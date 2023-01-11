@@ -55,6 +55,14 @@ export default defineComponent({
         this.ready = false; // unload ui
         this.data = {}; // reset data
 
+        let selected = obj.get(event, "data.selected");
+        console.log(selected);
+        if (selected.login_ask && !this.auth.user().uid) {
+          // ask login
+          this.auth.login();
+          return;
+        }
+
         // download uiElement
         this.page = await this.ui.page(obj.get(event, "data.selected.pages.0"));
         console.log(
@@ -92,7 +100,14 @@ export default defineComponent({
     if (navigation.length > 0) {
       // find matching nav
       let selected = this.nav.find(navigation, this.$route.path);
+
       if (selected) {
+        if (selected.login_ask && !this.auth.user().uid) {
+          // ask login
+          this.auth.login();
+          return;
+        }
+
         // download page - page is for the root element
         this.page = await this.ui.page(obj.get(selected, "pages.0"));
         console.log(`loading page - ${obj.get(selected, "pages.0")}`);

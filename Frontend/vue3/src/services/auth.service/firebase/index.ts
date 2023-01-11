@@ -28,6 +28,7 @@ export default {
 
     // signout from firebase
     await signOut(auth);
+    this._client = {};
 
     //
     // Sign-out successful.
