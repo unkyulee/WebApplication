@@ -13,6 +13,7 @@ module.exports = {
       res.clearCookie("company_id");
       res.clearCookie("authorization");
       res.set("Authorization", ``);
+      res.set("Set-Cookie", ``);
 
       return false;
     }
