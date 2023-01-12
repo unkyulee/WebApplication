@@ -9,7 +9,13 @@ module.exports = {
   // during the loading of angualr app, doesn't require login
   // but when method is "POST" then it is authentication request
   async requiresAuthentication(db, req, res) {
-    if (req.method == "GET") return false;
+    if (req.method == "GET") {
+      res.clearCookie("company_id");
+      res.clearCookie("authorization");
+      res.set("Authorization", ``);
+
+      return false;
+    }
     return true;
   },
 
@@ -36,6 +42,7 @@ module.exports = {
     else if (filename == "ui.element") {
       return await UIElement(db, req, res);
     }
+
     // otherwise return index.html
     return await IndexHtml(db, req, res);
   },
@@ -51,10 +58,6 @@ async function IndexJS(db, req, res) {
   };
   config = Object.assign(config, res.locals.nav);
 
-  // remove authorization header and cookie
-  res.header("Authorization", "");
-  res.cookie("authorization", "");
-
   return `window.__CONFIG__ = ${JSON.stringify(config)}`;
 }
 
@@ -65,10 +68,6 @@ async function IndexJSON(db, req, res) {
     host: `${util.getProtocol(req)}://${req.get("host")}${req.baseUrl}`,
   };
   config = Object.assign(config, res.locals.nav);
-
-  // remove authorization header and cookie
-  res.header("Authorization", "");
-  res.cookie("authorization", "");
 
   return config;
 }
@@ -81,11 +80,6 @@ async function LoginScreen(db, req, res) {
     let results = await db.find("core.ui", { query: { _id } });
     if (results && results.length > 0) return results[0];
   }
-
-  // remove authorization
-  res.clearCookie("company_id");
-  res.clearCookie("authorization");
-  res.set("Authorization", ``);
 }
 
 async function Navigation(db, req, res) {
