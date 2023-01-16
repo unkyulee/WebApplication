@@ -36,9 +36,22 @@ export class LayoutEngineComponent {
 
     // detect configuration changes
     this.onEvent = this.event.onEvent.subscribe(async (event) => {
-      this.data_operations(event);
-
-      if (
+      //
+      if (event?.name == "touch-array" && event.path) {
+        let array = obj.get(this.data, event.path);
+        if (array && Array.isArray(array)) {
+          obj.set(this.data, event.path, [...array]);
+        }
+      } else if (event?.name == "delete-array" && event.path) {
+        let array = obj.get(this.data, event.path);
+        if (array && Array.isArray(array)) {
+          if (array.indexOf(event.data) > -1) {
+            // delete data
+            array.splice(array.indexOf(event.data), 1);
+            obj.set(this.data, event.path, [...array]);
+          }
+        }
+      } else if (
         event.name == "navigation-updated" ||
         event.name == "navigation-changed"
       ) {
@@ -75,26 +88,6 @@ export class LayoutEngineComponent {
       // load uiElement
       if (obj.get(currNav, "uiElementIds", []).length > 0) {
         this.uiElement = await this.ui.get(obj.get(currNav, "uiElementIds.0"));
-      }
-    }
-  }
-
-  // base data operations
-  data_operations(event) {
-    //
-    if (event?.name == "touch-array" && event.path) {
-      let array = obj.get(this.data, event.path);
-      if (array && Array.isArray(array)) {
-        obj.set(this.data, event.path, [...array]);
-      }
-    } else if (event?.name == "delete-array" && event.path) {
-      let array = obj.get(this.data, event.path);
-      if (array && Array.isArray(array)) {
-        if (array.indexOf(event.data) > -1) {
-          // delete data
-          array.splice(array.indexOf(event.data), 1);
-          obj.set(this.data, event.path, [...array]);
-        }
       }
     }
   }

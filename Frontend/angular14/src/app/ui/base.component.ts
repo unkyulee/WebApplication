@@ -69,11 +69,7 @@ export class BaseComponent {
     }
 
     if (obj.has(this, "uiElement.init")) {
-      try {
-        eval(this.uiElement.init);
-      } catch (e) {
-        console.error(e, this.uiElement);
-      }
+      eval(this.uiElement.init);
     }
 
     // default
@@ -82,21 +78,13 @@ export class BaseComponent {
 
   ngAfterViewInit() {
     if (this.uiElement && this.uiElement.afterInit) {
-      try {
-        eval(this.uiElement.afterInit);
-      } catch (e) {
-        console.error(e, this.uiElement);
-      }
+      eval(this.uiElement.afterInit);
     }
   }
 
   ngOnDestroy() {
     if (this.uiElement && this.uiElement.destroy) {
-      try {
-        eval(this.uiElement.destroy);
-      } catch (e) {
-        console.error(e);
-      }
+      eval(this.uiElement.destroy);
     }
 
     if (this.onEvent) this.onEvent.unsubscribe();
