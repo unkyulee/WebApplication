@@ -4,6 +4,7 @@ import {
   CalendarEvent,
   CalendarEventTimesChangedEvent,
   CalendarMonthViewDay,
+  CalendarEventTitleFormatter,
   DAYS_OF_WEEK,
 } from "angular-calendar";
 import moment from "moment";
@@ -11,12 +12,19 @@ import obj from "object-path";
 
 // user Imports
 import { BaseComponent } from "../base.component";
+import { CalendarTitleProvider } from "./calendar.title.provider";
 
 @Component({
   selector: "calendar",
   templateUrl: "calendar.component.html",
   encapsulation: ViewEncapsulation.None,
   styleUrls: ["calendar.component.scss"],
+  providers: [
+    {
+      provide: CalendarEventTitleFormatter,
+      useClass: CalendarTitleProvider,
+    },
+  ],
 })
 export class CalendarComponent extends BaseComponent {
   constructor(public elRef: ElementRef) {
@@ -116,6 +124,7 @@ export class CalendarComponent extends BaseComponent {
   }
 
   dayClicked(day): void {
+    this.viewDate = day.date;
     try {
       eval(this.uiElement.dayClicked);
     } catch (e) {
