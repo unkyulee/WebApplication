@@ -140,7 +140,7 @@ export class CalendarComponent extends BaseComponent {
     }
   }
 
-  eventTimesChanged({
+  async eventTimesChanged({
     event,
     newStart,
     newEnd,
@@ -148,7 +148,7 @@ export class CalendarComponent extends BaseComponent {
     if (`${event.start}` != `${newStart}` || `${event.end}` != `${newEnd}`) {
       // update event
       try {
-        eval(this.uiElement.eventTimesChanged);
+        await eval(this.uiElement.eventTimesChanged);
       } catch (e) {
         console.error(e);
       }

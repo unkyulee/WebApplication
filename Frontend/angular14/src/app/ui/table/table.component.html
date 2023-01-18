@@ -204,6 +204,7 @@
       <ng-container
         *ngFor="let column of uiElement.columns">
         <ng-container
+          *ngIf="condition(column, row)"
           ui-element
           [uiElement]="column"
           [data]="row">

@@ -157,6 +157,12 @@ export class TableComponent extends BaseComponent {
       this._rows = rows;
     }
 
+    // if there is a filter
+    if (this.uiElement.filter) {
+      obj.ensureExists(this, "_rows", []);
+      this._rows = this._rows.filter((item) => eval(this.uiElement.filter));
+    }
+
     return this._rows;
   }
 
@@ -210,5 +216,19 @@ export class TableComponent extends BaseComponent {
         console.error(e, this.uiElement);
       }
     }
+  }
+
+  condition(uiElement, row) {
+    let result = true;
+    if (uiElement && uiElement.condition) {
+      try {
+        result = eval(uiElement.condition);
+      } catch (e) {
+        console.error(uiElement.condition, e);
+        result = false;
+      }
+    }
+
+    return result;
   }
 }
