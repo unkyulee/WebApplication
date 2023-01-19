@@ -34,11 +34,11 @@
 		(input)="typeAheadEventEmitter.next($event)"
 		(focus)="focus($event)" />
 	<button
+		*ngIf="uiElement.icon"
 		type="button"
 		matSuffix
 		mat-icon-button
 		(click)="click($event)"
-		*ngIf="uiElement.icon"
 		[style]="uiElement.iconStyle">
 		<mat-icon>
 			{{
