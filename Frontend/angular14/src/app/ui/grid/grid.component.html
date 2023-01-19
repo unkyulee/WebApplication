@@ -1,0 +1,7 @@
+<div
+    [style]="uiElement?.column?.style">
+    <div *ngFor="let column of uiElement?.columns"
+        [style]="uiElement?.cell?.style">
+        {{column.label}}
+    </div>
+</div>
