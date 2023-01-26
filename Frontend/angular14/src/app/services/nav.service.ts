@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { Injectable } from "@angular/core";
-import { Router, NavigationEnd } from "@angular/router";
+import { Router, NavigationEnd, RoutesRecognized } from "@angular/router";
 import { Location } from "@angular/common";
+import { filter, pairwise } from "rxjs/operators";
 
 // user imports
 import { EventService } from "./event.service";
@@ -13,6 +14,8 @@ export class NavService {
   // current navigation settings
   currUrl: string;
   currNav: any;
+  prev_url;
+  curr_url;
 
   constructor(
     private router: Router,
@@ -23,6 +26,17 @@ export class NavService {
   ) {
     // monitor navigation changes
     router.events.subscribe((e) => this.routerEventHandler(e));
+
+    // register previous url
+    this.router.events
+      .pipe(
+        filter((evt: any) => evt instanceof RoutesRecognized),
+        pairwise()
+      )
+      .subscribe((events: RoutesRecognized[]) => {
+        this.prev_url = events[0].urlAfterRedirects;
+        this.curr_url = events[1].urlAfterRedirects;
+      });
 
     // event handler
     this.event.onEvent.subscribe((e) => this.eventHandler(e));

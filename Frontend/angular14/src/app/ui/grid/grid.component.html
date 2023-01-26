@@ -1,7 +1,46 @@
 <div
-    [style]="uiElement?.column?.style">
-    <div *ngFor="let column of uiElement?.columns"
-        [style]="uiElement?.cell?.style">
-        {{column.label}}
+    [style]="uiElement?.style">
+
+    <!-- Column Header -->
+    <div
+        [style]="uiElement?.column?.layoutStyle">
+        <div *ngFor="let column of uiElement?.column?.data"
+            [style]="uiElement?.column?.style">
+
+            <ng-container
+                ui-element
+                [uiElement]="uiElement?.column?.screen"
+                [data]="column">
+            </ng-container>
+
+        </div>
+    </div>
+
+    <!-- rows -->
+    <div *ngFor="let row of rows"
+        [style]="uiElement?.row?.style">
+
+        <!-- row header -->
+        <div
+            [style]="uiElement?.row?.header?.layoutStyle">
+            <ng-container
+                ui-element
+                [uiElement]="uiElement?.row?.header?.screen"
+                [data]="row">
+            </ng-container>
+        </div>
+
+        <!-- columns -->
+        <div *ngFor="let column of uiElement?.column?.data"
+            [style]="uiElement?.cell?.style">
+
+            <ng-container
+                ui-element
+                [uiElement]="uiElement?.cell?.screen"
+                [data]="row[column.key]">
+            </ng-container>
+
+        </div>
+
     </div>
 </div>

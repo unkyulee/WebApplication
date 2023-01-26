@@ -5,7 +5,7 @@ import { Component } from "@angular/core";
 import { BaseComponent } from "../base.component";
 
 @Component({
-  selector: "typography",
+  selector: "grid",
   templateUrl: `./grid.component.html`,
 })
 export class GridComponent extends BaseComponent {

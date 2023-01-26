@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { Component, ChangeDetectorRef, NgZone } from "@angular/core";
+import { Router } from "@angular/router";
 
 import { ConfigService } from "../services/config.service";
 import { EventService } from "../services/event.service";
@@ -22,11 +23,13 @@ export class LayoutEngineComponent {
     public util: UtilService,
     public ui: UIService,
     private zone: NgZone,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   uiElement = {};
   data = {};
+  data_cache = {};
   navigations: [];
   actions: [];
 
@@ -57,6 +60,18 @@ export class LayoutEngineComponent {
       ) {
         // set initial navigation
         this.navigations = this.get_navigations();
+
+        // save cache
+        if (this.nav.prev_url) {
+          this.data_cache[this.nav.prev_url] = this.data;
+        }
+
+        // restore from cache
+        if (this.nav.curr_url && this.data_cache[this.nav.curr_url]) {
+          this.data = this.data_cache[this.nav.curr_url];
+        } else {
+          this.data = {};
+        }
 
         // render page
         await this.render();

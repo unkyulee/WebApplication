@@ -15,6 +15,7 @@ import { ToastModule } from "primeng/toast";
 import { PaginatorModule } from "primeng/paginator";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { PickListModule } from "primeng/picklist";
+import { SplitterModule } from "primeng/splitter";
 
 @NgModule({
   imports: [
@@ -34,6 +35,7 @@ import { PickListModule } from "primeng/picklist";
     PaginatorModule,
     ConfirmDialogModule,
     PickListModule,
+    SplitterModule,
   ],
   exports: [
     EditorModule,
@@ -52,6 +54,7 @@ import { PickListModule } from "primeng/picklist";
     PaginatorModule,
     ConfirmDialogModule,
     PickListModule,
+    SplitterModule,
   ],
 })
 export class PrimeNGModule {}

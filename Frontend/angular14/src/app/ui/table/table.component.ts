@@ -146,6 +146,8 @@ export class TableComponent extends BaseComponent {
   get rows() {
     if (this.data && this.uiElement.key) {
       this._rows = obj.get(this.data, this.uiElement.key);
+    } else if (Array.isArray(this.data)) {
+      this._rows = this.data;
     }
 
     //
@@ -162,7 +164,6 @@ export class TableComponent extends BaseComponent {
       obj.ensureExists(this, "_rows", []);
       this._rows = this._rows.filter((item) => eval(this.uiElement.filter));
     }
-
     return this._rows;
   }
 
