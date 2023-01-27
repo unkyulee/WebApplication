@@ -1,5 +1,5 @@
-<div
-    [style]="uiElement?.style">
+<div [style]="uiElement?.style"
+    cdkDropListGroup>
 
     <!-- Column Header -->
     <div
@@ -33,13 +33,25 @@
 
         <!-- columns -->
         <div *ngFor="let column of uiElement?.column?.data"
-            [style]="uiElement?.cell?.style">
+            [style]="uiElement?.cell?.style"
+            cdkDropList
+            [cdkDropListData]="{row, column}"
+            (cdkDropListDropped)="drop($event)">
 
-            <ng-container
-                ui-element
-                [uiElement]="copy(uiElement?.cell?.screen)"
-                [data]="{data: row[column.key], column}">
-            </ng-container>
+            <div *ngFor="let cell of row[column.key] ?? []"
+                cdkDrag
+                [cdkDragData]="cell"
+                [cdkDragDisabled]="safeEval(uiElement.cdkDragDisabled ?? 'true')"
+                (click)="click($event, cell, uiElement?.cell?.itemClick)"
+                [style]="uiElement?.cell?.screenStyle">
+
+                <ng-container
+                    ui-element
+                    [uiElement]="copy(uiElement?.cell?.screen)"
+                    [data]="{cell, column}">
+                </ng-container>
+
+            </div>
 
         </div>
 

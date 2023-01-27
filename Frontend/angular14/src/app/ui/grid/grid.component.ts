@@ -49,4 +49,14 @@ export class GridComponent extends BaseComponent {
       obj.set(this.data, this.uiElement.key, defaultValue);
     }
   }
+
+  drop(event: CdkDragDrop<string[]>) {
+    if (this.uiElement?.cell?.drop) {
+      try {
+        eval(this.uiElement?.cell?.drop);
+      } catch (e) {
+        console.error(e, this.uiElement);
+      }
+    }
+  }
 }
