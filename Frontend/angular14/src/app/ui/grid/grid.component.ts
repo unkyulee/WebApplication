@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 
 // user Imports
 import { BaseComponent } from "../base.component";
@@ -7,6 +7,7 @@ import { BaseComponent } from "../base.component";
 @Component({
   selector: "grid",
   templateUrl: `./grid.component.html`,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class GridComponent extends BaseComponent {
   get rows() {

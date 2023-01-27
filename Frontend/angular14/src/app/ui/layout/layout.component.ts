@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Component, HostListener } from "@angular/core";
+import { Component } from "@angular/core";
 import { BaseComponent } from "../base.component";
 
 @Component({
@@ -18,10 +18,4 @@ import { BaseComponent } from "../base.component";
     </ng-container>
   `,
 })
-export class LayoutComponent extends BaseComponent {
-  @HostListener("click", [`$event`]) onClick(event) {
-    if (obj.has(this.uiElement, "click")) {
-      this.click(event, this.data, this.uiElement.click);
-    }
-  }
-}
+export class LayoutComponent extends BaseComponent {}

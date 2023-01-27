@@ -181,7 +181,7 @@ export class BaseComponent {
   }
 
   copy(element) {
-    return { ...element };
+    return JSON.parse(JSON.stringify(element));
   }
 
   log(message) {

@@ -16,6 +16,7 @@
         </div>
     </div>
 
+
     <!-- rows -->
     <div *ngFor="let row of rows"
         [style]="uiElement?.row?.style">
@@ -36,11 +37,12 @@
 
             <ng-container
                 ui-element
-                [uiElement]="uiElement?.cell?.screen"
-                [data]="row[column.key]">
+                [uiElement]="copy(uiElement?.cell?.screen)"
+                [data]="{data: row[column.key], column}">
             </ng-container>
 
         </div>
 
     </div>
+
 </div>
