@@ -61,4 +61,20 @@ export class AuthService {
     this.authStrategy.logout();
     this.event.send({ name: "initialize" });
   }
+
+  id() {
+    return this.authStrategy.id();
+  }
+
+  name() {
+    return this.authStrategy.name();
+  }
+
+  roles() {
+    return this.authStrategy.roles();
+  }
+
+  token() {
+    return this.authStrategy.token();
+  }
 }

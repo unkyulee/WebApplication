@@ -25,7 +25,21 @@ export class FormComponent extends BaseComponent {
     // if formType is sidenav - choose the first menu
     if (this.uiElement.formType == "sidenav") {
       obj.ensureExists(this.uiElement, "sidenav", {});
-      this.uiElement.sidenav.uiElement = obj.get(this.uiElement, "screens.0");
+
+      // check if tab params exists
+      let hash = this.nav.getHash();
+      if (hash["tab"]) {
+        //
+        let key = hash["tab"];
+        obj.ensureExists(this.uiElement, "screens", []);
+        let uiElement = this.uiElement.screens.find((x) => x.key == key);
+        this.uiElement.sidenav.uiElement = uiElement;
+      }
+
+      if (!this.uiElement.sidenav.uiElement) {
+        // assign first tab as default
+        this.uiElement.sidenav.uiElement = obj.get(this.uiElement, "screens.0");
+      }
     }
 
     // change detection
@@ -34,6 +48,11 @@ export class FormComponent extends BaseComponent {
         this.changeDetection();
       }, 5000);
     }
+
+    // event handler
+    this.onEvent = this.event.onEvent.subscribe((event) =>
+      this.eventHandler(event)
+    );
 
     // download data
     await this.requestDownload();
@@ -44,6 +63,19 @@ export class FormComponent extends BaseComponent {
     // see if it is changed
     if (this.changed && this.uiElement?.change?.dirty) {
       await eval(this.uiElement.change.dirty);
+    }
+
+    this.onEvent.unsubscribe();
+  }
+
+  eventHandler(event) {
+    if (event && (!event.key || event.key == this.uiElement.key)) {
+      if (
+        event.name == "save" &&
+        (!event.key || event.key == this.uiElement.key)
+      ) {
+        this.save();
+      }
     }
   }
 
