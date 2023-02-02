@@ -15,6 +15,7 @@ class Router {
     if (req.headers.authorization) {
       res.header("Authorization", req.headers.authorization);
       res.cookie("authorization", req.headers.authorization);
+    } else if (req.cookies.authorization) {
     }
 
     // copy back the company_id
