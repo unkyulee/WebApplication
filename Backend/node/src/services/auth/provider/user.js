@@ -97,12 +97,12 @@ module.exports = {
 
     // do the JWT toekn thingy
     let token;
-    if (req.query.bearer && req.method == "GET") {
-      token = req.query.bearer;
-    } else if (req.cookies.authorization && req.method == "GET") {
-      token = req.cookies.authorization.replace("Bearer ", "");
-    } else if (req.headers.authorization) {
+    if (req.headers.authorization) {
       token = req.headers.authorization.replace("Bearer ", "");
+    } else if (req.query.bearer) {
+      token = req.query.bearer;
+    } else if (req.cookies.authorization) {
+      token = req.cookies.authorization.replace("Bearer ", "");
     }
 
     if (token) {
