@@ -10,11 +10,6 @@ module.exports = {
   // but when method is "POST" then it is authentication request
   async requiresAuthentication(db, req, res) {
     if (req.method == "GET") {
-      res.clearCookie("company_id");
-      res.clearCookie("authorization");
-      res.set("Authorization", ``);
-      res.set("Set-Cookie", ``);
-
       return false;
     }
     return true;
