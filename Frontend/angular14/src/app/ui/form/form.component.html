@@ -39,9 +39,7 @@
 			[style]="uiElement.change?.style">{{
 			uiElement.change?.message
 			}}</span>
-		<div
-			class="spacer">
-		</div>
+
 		<button
 			*ngIf="
         uiElement.delete &&
@@ -51,6 +49,17 @@
 			(click)="delete($event)">
 			<mat-icon>
 				delete
+			</mat-icon>
+		</button>
+		<div
+			class="spacer">
+		</div>
+		<button
+			*ngIf="uiElement.formType != 'preview'"
+			mat-icon-button
+			(click)="close($event)">
+			<mat-icon>
+				close
 			</mat-icon>
 		</button>
 	</div>

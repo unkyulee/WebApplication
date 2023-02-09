@@ -182,6 +182,14 @@ export class FormComponent extends BaseComponent {
     });
   }
 
+  close(event) {
+    if (this.nav.prev_url) {
+      history.back();
+    } else if (this.nav.currNav?.parent_url) {
+      this.nav.navigateByUrl(this.nav.currNav?.parent_url);
+    }
+  }
+
   async sectionChanged($event) {
     // fetch screen of the index
     let screen = obj.get(this.uiElement, `screens.${$event.selectedIndex}`, {});
