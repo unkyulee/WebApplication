@@ -1,9 +1,11 @@
+// @ts-nocheck
 // services
 import { RestService } from "../../rest.service";
 import { EventService } from "../../event.service";
 import { ConfigService } from "../../config.service";
 import { NavService } from "../../nav.service";
 import { UIService } from "../../ui.service";
+import { CookieService } from "ngx-cookie-service";
 
 export class DefaultAuthStrategy {
   constructor(
@@ -11,7 +13,8 @@ export class DefaultAuthStrategy {
     private event: EventService,
     private config: ConfigService,
     private nav: NavService,
-    private ui: UIService
+    private ui: UIService,
+    private cookie: CookieService
   ) {}
 
   async login(data) {
@@ -34,14 +37,15 @@ export class DefaultAuthStrategy {
     });
   }
 
-  async logout() {
+  logout() {
     // clear
     this.nav.clear();
     this.ui.clear();
     localStorage.removeItem("token");
+    this.cookie.deleteAll();
 
-    // reset
-    this.event.send({ name: "init" });
+    // go to initial screen
+    location.href = `${this.config.get("host")}${this.config.get("url")}`;
   }
 
   async isAuthenticated() {

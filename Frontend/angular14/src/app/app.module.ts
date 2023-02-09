@@ -19,7 +19,7 @@ import { NavService } from "./services/nav.service";
 import { UIService } from "./services/ui.service";
 import { LayoutModule } from "@angular/cdk/layout";
 import { GlobalErrorHandler } from "./layout/overlay/error/global-error-handler";
-
+import { CookieService } from "ngx-cookie-service";
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -46,6 +46,7 @@ import { GlobalErrorHandler } from "./layout/overlay/error/global-error-handler"
     AuthService,
     NavService,
     UIService,
+    CookieService,
   ],
   bootstrap: [AppComponent],
 })

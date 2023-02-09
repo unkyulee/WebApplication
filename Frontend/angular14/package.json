@@ -25,6 +25,7 @@
     "file-saver": "^2.0.5",
     "moment": "^2.29.4",
     "mustache": "^4.2.0",
+    "ngx-cookie-service": "^15.0.0",
     "ngx-image-compress": "^13.1.13",
     "ngx-monaco-editor-14": "^14.0.0",
     "object-path": "^0.11.8",

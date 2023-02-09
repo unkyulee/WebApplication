@@ -138,7 +138,9 @@
 
               <ng-container
                 *ngIf="!(column?.screens)">
-                {{row[column?.key]}}
+                {{safeGet(row,
+                column?.key,
+                '')}}
               </ng-container>
 
             </td>

@@ -11,6 +11,7 @@ import { EventService } from "../event.service";
 import { ConfigService } from "../config.service";
 import { NavService } from "../nav.service";
 import { UIService } from "../ui.service";
+import { CookieService } from "ngx-cookie-service";
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,8 @@ export class AuthService {
     public event: EventService,
     public config: ConfigService,
     public nav: NavService,
-    public ui: UIService
+    public ui: UIService,
+    public cookie: CookieService
   ) {
     // setup authentication strategy
     let strategy = this.config.get("auth");
@@ -33,7 +35,8 @@ export class AuthService {
           event,
           config,
           nav,
-          ui
+          ui,
+          cookie
         );
     }
 
@@ -57,9 +60,8 @@ export class AuthService {
     return this.authStrategy.isAuthenticated();
   }
 
-  async logout() {
+  logout() {
     this.authStrategy.logout();
-    this.event.send({ name: "initialize" });
   }
 
   id() {

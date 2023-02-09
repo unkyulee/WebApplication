@@ -139,7 +139,7 @@ export class DateComponent extends BaseComponent {
       obj.get(this.uiElement, "keys", []).length == 2
     ) {
       let key = obj.get(this.uiElement, "keys.0");
-      obj.set(this.data, key, moment(v).toDate());
+      obj.set(this.data, key, moment(v).startOf("day").toISOString());
     }
   }
 
@@ -169,7 +169,7 @@ export class DateComponent extends BaseComponent {
       obj.get(this.uiElement, "keys", []).length == 2
     ) {
       let key = obj.get(this.uiElement, "keys.1");
-      obj.set(this.data, key, moment(v).toDate());
+      obj.set(this.data, key, moment(v).endOf("day").toISOString());
     }
 
     // see if there are any input change handlers
