@@ -55,7 +55,7 @@
 			class="spacer">
 		</div>
 		<button
-			*ngIf="uiElement.formType != 'preview'"
+			*ngIf="uiElement.formType != 'preview' && nav.currNav?.parent_url"
 			mat-icon-button
 			(click)="close($event)">
 			<mat-icon>
