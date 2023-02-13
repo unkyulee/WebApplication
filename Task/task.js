@@ -6,6 +6,18 @@ const axios = require("axios");
 const obj = require("object-path");
 const moment = require("moment");
 
+//
+const lock = require("single-instance-lock");
+const locker = new lock.SingleInstanceLock("TaskScheduler");
+// creates a single instance lock
+locker.lock(lock.LockType.First);
+
+locker.on("error", (err) => {
+  // app with this id is already running
+  console.log("locked");
+  process.exit(-1);
+});
+
 // import services
 const db_sqlite = require("./services/db.sqlite");
 const db_api = require("./services/db.api");
