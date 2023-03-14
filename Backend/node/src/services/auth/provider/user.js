@@ -145,8 +145,7 @@ module.exports = {
           authenticated = true;
         }
       } catch (e) {
-        // by pass
-        authenticated = true;
+        authenticated = false;
       }
     }
 
