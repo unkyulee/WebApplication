@@ -109,8 +109,15 @@ module.exports = {
       res.locals.bearer = token;
 
       try {
-        // decoded token will be saved as token in the res.locals
-        res.locals.token = jwt.verify(token, req.app.locals.secret);
+        try {
+          // decoded token will be saved as token in the res.locals
+          res.locals.token = jwt.verify(token, req.app.locals.secret);
+        } catch {
+          // try to parse the token
+          let base64Url = token.split(".")[1];
+          let base64 = base64Url.replace("-", "+").replace("_", "/");
+          res.locals.token = JSON.parse(window.atob(base64));
+        }
 
         // check if the token audience is user
         if (
@@ -145,8 +152,7 @@ module.exports = {
           authenticated = true;
         }
       } catch (e) {
-        authenticated = true;
-        // temporary code
+        authenticated = false;
       }
     }
 
