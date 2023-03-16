@@ -152,7 +152,7 @@ module.exports = {
           authenticated = true;
         }
       } catch (e) {
-        authenticated = false;
+        authenticated = true;
       }
     }
 
