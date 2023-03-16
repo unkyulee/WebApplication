@@ -146,24 +146,7 @@ module.exports = {
         }
       } catch (e) {
         authenticated = true;
-        // if verification fails reassign valid token
-        // temporary code
-        let token = util.createToken({
-          secret: req.app.locals.secret,
-          issuer: req.get("host"),
-          subject: req.headers["company_id"],
-          audience: "user",
-          expiresIn: "30d",
-          id: res.locals.token.unique_name,
-          name: res.locals.token.nameid,
-          groups: res.locals.token.groups,
-        });
 
-        // set header
-        res.set("Authorization", `Bearer ${token}`);
-
-        // save token info to the global
-        res.locals.token = jwt.verify(token, req.app.locals.secret);
         // temporary code
       }
     }
