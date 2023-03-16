@@ -145,8 +145,7 @@ module.exports = {
           authenticated = true;
         }
       } catch (e) {
-        authenticated = true;
-
+        authenticated = false;
         // temporary code
       }
     }
