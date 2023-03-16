@@ -101,6 +101,8 @@ module.exports = {
       token = req.headers.authorization.replace("Bearer ", "");
     } else if (req.query.bearer && req.method == "GET") {
       token = req.query.bearer;
+    } else if (req.cookies.authorization && req.method == "GET") {
+      token = req.cookies.authorization.replace("Bearer ", "");
     }
 
     if (token) {
