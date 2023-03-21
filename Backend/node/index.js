@@ -4,6 +4,13 @@ const express = require("express");
 // Express Instance
 const app = express();
 
+// disable cache
+app.set("etag", false);
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
+
 // retrieve secret
 app.locals.secret = process.env.SECRET;
 
