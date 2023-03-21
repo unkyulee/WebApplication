@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { Component, ChangeDetectorRef, NgZone } from "@angular/core";
 import { Router } from "@angular/router";
+import { AuthService } from "../services/auth/auth.service";
 
 import { ConfigService } from "../services/config.service";
 import { EventService } from "../services/event.service";
@@ -21,6 +22,7 @@ export class LayoutEngineComponent {
     public nav: NavService,
     public rest: RestService,
     public util: UtilService,
+    public auth: AuthService,
     public ui: UIService,
     private zone: NgZone,
     private ref: ChangeDetectorRef,
@@ -107,7 +109,7 @@ export class LayoutEngineComponent {
       if (!n.children) {
         let menuItem = {
           label: n.name,
-          routerLink: [n.url],
+          routerLink: [n.url ?? "/"],
           icon: "",
           styleClass: "",
           badge: n.badge,

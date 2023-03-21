@@ -44,8 +44,7 @@ export class DefaultAuthStrategy {
     localStorage.removeItem("token");
     this.cookie.deleteAll();
 
-    // go to initial screen
-    location.href = `${this.config.get("host")}${this.config.get("url")}`;
+    this.event.sendAsync({ name: "init" });
   }
 
   async isAuthenticated() {

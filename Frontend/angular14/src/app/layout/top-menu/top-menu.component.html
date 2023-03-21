@@ -1,9 +1,21 @@
-<div id="topbar" [style]="config.get('theme.topbar.style')" [class]="config.get('theme.topbar.class')">
-    <div *ngFor="let n of navigations" class="menu" [class]="n.styleClass">
-        <a *ngIf="!n.items" [routerLink]="n.routerLink">{{n.label}}</a>
-        <a *ngIf="n.items" (click)="menu.toggle($event)">{{n.label}}</a>
-        <p-menu #menu [popup]="true" [model]="n.items"></p-menu>
+<div id="topbar"
+    [style]="config.get('theme.topbar.style')"
+    [class]="config.get('theme.topbar.class')">
+    <div *ngFor="let n of navigations"
+        class="menu"
+        [class]="n.styleClass">
+        <a *ngIf="!n.items"
+            [routerLink]="n.routerLink">{{n.label}}</a>
+        <a *ngIf="n.items"
+            (click)="menu.toggle($event)">{{n.label}}</a>
+        <p-menu
+            #menu
+            [popup]="true"
+            [model]="n.items"></p-menu>
     </div>
 </div>
 
-<ng-container ui-element [uiElement]="uiElement" [data]="data"></ng-container>
+<ng-container
+    ui-element
+    [uiElement]="uiElement"
+    [data]="data"></ng-container>

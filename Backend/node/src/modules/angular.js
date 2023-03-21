@@ -12,6 +12,7 @@ module.exports = {
     if (req.method == "GET") {
       res.clearCookie("company_id");
       res.clearCookie("authorization");
+      res.set("Authorization", ``);
 
       return false;
     }
