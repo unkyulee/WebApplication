@@ -39,12 +39,13 @@ export class DefaultAuthStrategy {
 
   logout() {
     // clear
-    this.nav.clear();
-    this.ui.clear();
-    localStorage.removeItem("token");
-    this.cookie.deleteAll();
-
-    this.event.sendAsync({ name: "init" });
+    setTimeout(() => {
+      this.nav.clear();
+      this.ui.clear();
+      localStorage.removeItem("token");
+      this.cookie.deleteAll();
+      this.event.sendAsync({ name: "init" });
+    }, 1000);
   }
 
   async isAuthenticated() {
