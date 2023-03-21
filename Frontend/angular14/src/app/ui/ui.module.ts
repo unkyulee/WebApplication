@@ -7,7 +7,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 //
 import { MaterialModule } from "../plugins/material.module";
 import { PrimeNGModule } from "../plugins/primeng.module";
-import { MonacoEditorModule } from "ngx-monaco-editor-14";
+import { MonacoEditorModule } from "ngx-monaco-editor";
 
 // user component
 import { SafePipe } from "../plugins/safe.pipe";

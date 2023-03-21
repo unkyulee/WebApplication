@@ -2,7 +2,7 @@
   *ngIf="(!uiElement.selectionType || uiElement.selectionType == 'selection') && condition(uiElement)"
   [style]="uiElement.style"
   [class]="uiElement.class"
-  [appearance]="uiElement.appearance"
+  [appearance]="uiElement.appearance ?? 'fill'"
   [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'auto'">
 
   <mat-select
@@ -75,7 +75,7 @@
   [ngStyle]="uiElement.style"
   [ngClass]="uiElement.class"
   [floatLabel]="uiElement.floatLabel ? uiElement.floatLabel : 'always'"
-  [appearance]="uiElement.appearance">
+  [appearance]="uiElement.appearance ?? 'fill'">
   <mat-label>
     {{
     uiElement.label

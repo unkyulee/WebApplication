@@ -3,7 +3,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { CommonModule } from "@angular/common";
 import { AppRoutingModule } from "./app.routing";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MonacoEditorModule } from "ngx-monaco-editor-14";
+import { MonacoEditorModule } from "ngx-monaco-editor";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AuthInterceptor } from "./services/auth/auth.interceptor";

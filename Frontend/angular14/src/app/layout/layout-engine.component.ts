@@ -39,22 +39,7 @@ export class LayoutEngineComponent {
 
     // detect configuration changes
     this.onEvent = this.event.onEvent.subscribe(async (event) => {
-      //
-      if (event?.name == "touch-array" && event.path) {
-        let array = obj.get(this.data, event.path);
-        if (array && Array.isArray(array)) {
-          obj.set(this.data, event.path, [...array]);
-        }
-      } else if (event?.name == "delete-array" && event.path) {
-        let array = obj.get(this.data, event.path);
-        if (array && Array.isArray(array)) {
-          if (array.indexOf(event.data) > -1) {
-            // delete data
-            array.splice(array.indexOf(event.data), 1);
-            obj.set(this.data, event.path, [...array]);
-          }
-        }
-      } else if (
+      if (
         event.name == "navigation-updated" ||
         event.name == "navigation-changed"
       ) {
