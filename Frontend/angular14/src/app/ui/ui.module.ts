@@ -27,6 +27,7 @@ import { CodeComponent } from "./code/code.component";
 import { MenuComponent } from "./menu/menu.component";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { GridComponent } from "./grid/grid.component";
+import { DropGroupComponent } from "./drop-group/drop-group.component";
 
 // calendar modules
 import * as moment from "moment";
@@ -67,6 +68,7 @@ registerLocaleData(it);
     MenuComponent,
     CalendarComponent,
     GridComponent,
+    DropGroupComponent,
   ],
   exports: [
     SafePipe,
@@ -86,6 +88,7 @@ registerLocaleData(it);
     MenuComponent,
     CalendarComponent,
     GridComponent,
+    DropGroupComponent,
   ],
   imports: [
     CommonModule,
