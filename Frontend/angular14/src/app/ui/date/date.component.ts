@@ -181,4 +181,10 @@ export class DateComponent extends BaseComponent {
       }
     }
   }
+
+  setMonthAndYear(date: Moment, datepicker: MatDatepicker<Moment>) {
+    if (this.uiElement.setMonthAndYear) {
+      eval(this.uiElement.setMonthAndYear);
+    }
+  }
 }

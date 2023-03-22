@@ -17,16 +17,16 @@
         [placeholder]="uiElement.placeholder"
         [(ngModel)]="value"
         [required]="uiElement.required"
-        [readonly]="uiElement.readonly"
-        (keyup.enter)="keyupEnter()"
-        (focus)="focus($event)" />
+        [readonly]="uiElement.readonly" />
     <mat-datepicker-toggle
         matPrefix
         [for]="picker"
-        [ngStyle]="uiElement.iconStyle">
+        [style]="uiElement.iconStyle">
     </mat-datepicker-toggle>
     <mat-datepicker
-        #picker>
+        #picker
+        [startView]="uiElement.startView ?? 'month'"
+        (monthSelected)="setMonthAndYear($event, picker)">
     </mat-datepicker>
 </mat-form-field>
 
