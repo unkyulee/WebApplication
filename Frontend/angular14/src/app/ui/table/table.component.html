@@ -100,8 +100,9 @@
                 *ngIf="column?.label">
                 {{column.label}}
               </ng-container>
+
               <p-sortIcon
-                *ngIf="column?.key"
+                *ngIf="column?.key && column?.sort != false"
                 [field]="column?.key">
               </p-sortIcon>
             </th>
@@ -202,6 +203,7 @@
     [style]="row.itemBoxStyle ? row.itemBoxStyle : uiElement.itemBoxStyle"
     [class]="row.itemBoxClass ? row.itemBoxClass : uiElement.itemBoxClass"
     cdkDrag
+    [cdkDragData]="row"
     [cdkDragDisabled]="
       uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
     "
@@ -218,25 +220,4 @@
     </ng-container>
   </div>
 
-</div>
-
-<!-- Drop group -->
-<div
-  *ngIf="uiElement.tableType == 'drop-group'"
-  cdkDropListGroup
-  [ngStyle]="uiElement.contentLayoutStyle">
-  <div
-    *ngFor="let row of rows"
-    [ngStyle]="uiElement.itemBoxStyle"
-    [ngClass]="uiElement.itemBoxClass"
-    (click)="click($event, row, uiElement.click)">
-    <ng-container
-      *ngFor="let column of uiElement.columns">
-      <div
-        ui-element
-        [uiElement]="column"
-        [data]="row">
-      </div>
-    </ng-container>
-  </div>
 </div>

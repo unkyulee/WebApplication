@@ -41,7 +41,7 @@
             <div *ngFor="let cell of row[column.key] ?? []"
                 cdkDrag
                 [cdkDragData]="cell"
-                [cdkDragDisabled]="safeEval(uiElement.cdkDragDisabled ?? 'true')"
+                [cdkDragDisabled]="safeEval(uiElement.cdkDragDisabled ?? 'false')"
                 (click)="click($event, cell, uiElement?.cell?.itemClick)"
                 [style]="uiElement?.cell?.screenStyle">
 
