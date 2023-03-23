@@ -31,7 +31,7 @@ class WebSocketService {
       await db.connect();
 
       // load routers from the database
-      let routers = await db.find("protocol_router", {
+      let routers = await db.find("server.router", {
         size: 1000,
         sort: { priority: -1 },
         query: {
@@ -48,7 +48,7 @@ class WebSocketService {
           this.router[router.id.toLowerCase()] = router;
 
           // load handlers
-          let handlers = await db.find("protocol_handler", {
+          let handlers = await db.find("server.handler", {
             size: 1000,
             query: { protocol: router.id },
           });
@@ -82,9 +82,6 @@ class WebSocketService {
       // save the request object
       ws.req = req;
 
-      // parse out router from the url
-      let urls = req.url.split("/");
-
       // if the router name is not passed then close the connection
       if (urls.length <= 1) {
         console.log(`router missing ${req.url}`);
@@ -98,8 +95,6 @@ class WebSocketService {
         ws.close();
         return;
       }
-
-      ws.router = this.router[urls[1].toLowerCase()];
 
       ws.on("error", (err) => {
         console.error(ws.router.id, err);
@@ -115,6 +110,10 @@ class WebSocketService {
 
       // listen to connection
       ws.on("message", async (msg) => {
+        // relocate router on every message
+        let urls = req.url.split("/");
+        ws.router = this.router[urls[1].toLowerCase()];
+
         // see if there is a hook
         if (ws.hook) {
           try {
@@ -161,7 +160,7 @@ class WebSocketService {
       await db.connect();
 
       // load routers from the database
-      await db.insert("protocol_log", {
+      await db.insert("server.log", {
         id,
         incoming,
         protocol,
