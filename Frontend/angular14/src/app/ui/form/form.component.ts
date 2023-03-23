@@ -188,7 +188,7 @@ export class FormComponent extends BaseComponent {
         let src = eval(this.uiElement.delete?.src);
         if (!src) return;
         let method = this.uiElement.delete?.method ?? "delete";
-        let response = await this.rest.requestAsync(src, this.data, method);
+        await this.rest.requestAsync(src, null, method);
 
         // run after save
         if (this.uiElement?.delete?.after) {

@@ -26,7 +26,7 @@ export class TableComponent extends BaseComponent {
   pageInfo = {};
 
   //
-  show_filter = false;
+  show_filter = true;
 
   ngOnInit() {
     super.ngOnInit();

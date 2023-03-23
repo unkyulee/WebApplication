@@ -27,6 +27,7 @@ import { MenuComponent } from "./menu/menu.component";
 import { CalendarComponent } from "./calendar/calendar.component";
 import { GridComponent } from "./grid/grid.component";
 import { DropGroupComponent } from "./drop-group/drop-group.component";
+import { ImageComponent } from "./image/image.component";
 
 @Directive({
   selector: "[ui-element]",
@@ -51,6 +52,7 @@ export class UIElement {
     calendar: CalendarComponent,
     grid: GridComponent,
     dropgroup: DropGroupComponent,
+    image: ImageComponent,
   };
   componentRef;
 
