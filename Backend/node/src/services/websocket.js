@@ -139,6 +139,7 @@ class WebSocketService {
           try {
             await eval(handler.process);
           } catch (ex) {
+            console.error(handler.process, ex);
             await log(ws.id, ws.router.id, handler.handler, `${ex.stack}`);
           }
         } else {
