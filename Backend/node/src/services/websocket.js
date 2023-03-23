@@ -76,11 +76,7 @@ class WebSocketService {
 
     // wait connection
     wss.on("connection", async (ws, req) => {
-      // assign unique id
-      ws.id = `${new Date().getTime()}`;
-
-      // save the request object
-      ws.req = req;
+      let urls = req.url.split("/");
 
       // if the router name is not passed then close the connection
       if (urls.length <= 1) {
@@ -95,6 +91,12 @@ class WebSocketService {
         ws.close();
         return;
       }
+
+      // assign unique id
+      ws.id = urls[2];
+
+      // save the request object
+      ws.req = req;
 
       ws.on("error", (err) => {
         console.error(ws.router.id, err);
@@ -146,7 +148,7 @@ class WebSocketService {
       });
 
       // register the connection
-      await log(ws.id, ws.router.id, "connection", req.url);
+      await log(ws.id, urls[1], "connection", req.url);
     });
 
     console.log("Web Socket server started listening");
