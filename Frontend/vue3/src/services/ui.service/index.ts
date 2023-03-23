@@ -67,7 +67,7 @@ export default {
           ...uiElement,
         });
       } else {
-        console.error(`uiElement missing ${this.uiElement.uiElementId}`);
+        console.error(`uiElement missing ${uiElement?.uiElementId}`);
       }
     }
   },

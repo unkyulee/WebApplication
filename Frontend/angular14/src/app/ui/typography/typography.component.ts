@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Component, HostListener } from "@angular/core";
+import { Component } from "@angular/core";
 
 // user Imports
 import { BaseComponent } from "../base.component";
@@ -12,6 +12,7 @@ import { BaseComponent } from "../base.component";
       [ngStyle]="uiElement.style"
       [ngClass]="uiElement.class"
       [innerHtml]="value | safe : 'html'"
+      (click)="click($event, row, uiElement.click)"
     ></div>
   `,
 })
