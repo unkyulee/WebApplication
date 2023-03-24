@@ -127,6 +127,15 @@ class WebSocketService {
           }
         }
 
+        // run init code
+        if(ws.router.init) {
+          try {
+            await eval(ws.router.init);
+          } catch(ex) {
+            await log(ws.id, ws.router.id, "router init", `${ex} ${ex.stack}`);
+          }          
+        }
+
         // find the matching handler
         let handler = eval(ws.router.router);
         if (handler) {
@@ -137,10 +146,9 @@ class WebSocketService {
 
           // process the request
           try {
-            await eval(handler.process);
+            await eval(handler.process).catch(e => {throw e});
           } catch (ex) {
-            console.error(handler.process, ex);
-            await log(ws.id, ws.router.id, handler.handler, `${ex.stack}`);
+            await log(ws.id, ws.router.id, handler.handler, `${ex} ${ex.stack}`);
           }
         } else {
           // handler not found
