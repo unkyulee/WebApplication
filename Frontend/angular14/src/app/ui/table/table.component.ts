@@ -26,7 +26,7 @@ export class TableComponent extends BaseComponent {
   pageInfo = {};
 
   //
-  show_filter = true;
+  show_filter = !this.config.isHandset;
 
   ngOnInit() {
     super.ngOnInit();

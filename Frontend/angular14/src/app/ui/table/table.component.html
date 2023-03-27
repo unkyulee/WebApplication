@@ -134,6 +134,7 @@
               <ng-container
                 *ngFor="let ui of column?.screens??[]">
                 <ng-container
+                  *ngIf="condition(ui, row)"
                   ui-element
                   [uiElement]="copy(ui)"
                   [data]="row">
