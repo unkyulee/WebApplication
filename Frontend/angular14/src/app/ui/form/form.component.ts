@@ -153,6 +153,8 @@ export class FormComponent extends BaseComponent {
   }
 
   async save() {
+    let data = { ...this.data };
+
     // run before save
     if (this.uiElement.save?.before) {
       if ((await eval(this.uiElement.save?.before)) == false) return;
@@ -163,7 +165,7 @@ export class FormComponent extends BaseComponent {
     if (!src) return;
 
     let method = this.uiElement.save?.method ?? "post";
-    let response = await this.rest.requestAsync(src, this.data, method);
+    let response = await this.rest.requestAsync(src, data, method);
 
     // run after save
     if (this.uiElement.save?.after) await eval(this.uiElement.save?.after);
