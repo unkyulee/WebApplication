@@ -16,6 +16,7 @@ import { PaginatorModule } from "primeng/paginator";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { PickListModule } from "primeng/picklist";
 import { SplitterModule } from "primeng/splitter";
+import { FileUploadModule } from "primeng/fileupload";
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { SplitterModule } from "primeng/splitter";
     ConfirmDialogModule,
     PickListModule,
     SplitterModule,
+    FileUploadModule,
   ],
   exports: [
     EditorModule,
@@ -55,6 +57,7 @@ import { SplitterModule } from "primeng/splitter";
     ConfirmDialogModule,
     PickListModule,
     SplitterModule,
+    FileUploadModule,
   ],
 })
 export class PrimeNGModule {}

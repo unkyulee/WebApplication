@@ -1,0 +1,3 @@
+<p-fileUpload [mode]="uiElement.mode ?? 'basic'" [name]="uiElement.name" [url]="uploadUrl(uiElement.url)"
+    [accept]="uiElement.accept" [maxFileSize]="uiElement.maxFileSize ?? 10000000" (onUpload)="onUpload($event)"
+    [auto]="uiElement.auto ?? false" [chooseLabel]="uiElement.label"></p-fileUpload>

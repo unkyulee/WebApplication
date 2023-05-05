@@ -29,6 +29,7 @@ import { GridComponent } from "./grid/grid.component";
 import { DropGroupComponent } from "./drop-group/drop-group.component";
 import { ImageComponent } from "./image/image.component";
 import { TreeComponent } from "./tree/tree.component";
+import { UploaderComponent } from "./uploader/uploader.component";
 
 @Directive({
   selector: "[ui-element]",
@@ -55,6 +56,7 @@ export class UIElement {
     dropgroup: DropGroupComponent,
     image: ImageComponent,
     tree: TreeComponent,
+    uploader: UploaderComponent,
   };
   componentRef;
 

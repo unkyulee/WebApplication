@@ -30,6 +30,7 @@ import { GridComponent } from "./grid/grid.component";
 import { DropGroupComponent } from "./drop-group/drop-group.component";
 import { ImageComponent } from "./image/image.component";
 import { TreeComponent } from "./tree/tree.component";
+import { UploaderComponent } from "./uploader/uploader.component";
 
 // calendar modules
 import * as moment from "moment";
@@ -73,6 +74,7 @@ registerLocaleData(it);
     DropGroupComponent,
     ImageComponent,
     TreeComponent,
+    UploaderComponent,
   ],
   exports: [
     SafePipe,
@@ -95,6 +97,7 @@ registerLocaleData(it);
     DropGroupComponent,
     ImageComponent,
     TreeComponent,
+    UploaderComponent,
   ],
   imports: [
     CommonModule,

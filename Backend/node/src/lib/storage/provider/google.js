@@ -3,6 +3,7 @@ const obj = require("object-path");
 const axios = require("axios");
 const moment = require("moment");
 const MemoryStream = require("memorystream");
+const { SYSTEM_USER_COLLECTION } = require("mongodb/lib/db");
 
 module.exports = {
   getToken: async function (db, res, req, params) {
@@ -45,10 +46,19 @@ module.exports = {
 
     // get uploaded filestream
     let file = await this.fileContent(req);
+    if (file && file.filename && file.filename.filename) {
+    }
     if (req.query.filename) file.filename = req.query.filename;
 
     // folder id
     let folder_id = obj.get(params, "config.folder_id", "root");
+
+    // if folder name is passed then check
+    // https://developers.google.com/drive/api/reference/rest/v3/files/list
+    let folder = obj.get(req, "query.folder", "").trim();
+    if (folder) {
+      folder_id = await this.getFolderId(token, folder);
+    }
 
     // upload to google drive
     let response = await axios({
@@ -80,6 +90,29 @@ module.exports = {
     return [response.data.id];
   },
 
+  async getFolderId(token, folder) {
+    let url = `https://www.googleapis.com/drive/v3/files?q=`;
+    let q = `mimeType='application/vnd.google-apps.folder' and trashed=false and name='${folder}'`;
+    url = url + encodeURIComponent(q);
+    try {
+      let response = await axios({
+        method: "GET",
+        url,
+        headers: {
+          Authorization: `Bearer ${token.access_token}`,
+        },
+      });
+
+      //
+      if (response.status == 200) {
+        // create the folder
+        return obj.get(response.data, "files.0.id");
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  },
+
   async fileContent(req) {
     return new Promise(function (resolve, reject) {
       let _filename;
@@ -89,6 +122,8 @@ module.exports = {
         function (fieldname, file, filename, encoding, mimetype) {
           // save filename
           _filename = filename;
+          if (_filename && _filename.filename) _filename = _filename.filename;
+
           // write to the memory buffer
           file.pipe(memStream);
         }
