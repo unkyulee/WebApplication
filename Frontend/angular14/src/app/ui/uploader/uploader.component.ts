@@ -8,7 +8,9 @@ import { BaseComponent } from "../base.component";
 })
 export class UploaderComponent extends BaseComponent {
   onUpload(event) {
-    console.log(event);
+    if (this.uiElement.onUpload) {
+      eval(this.uiElement.onUpload);
+    }
   }
   uploadUrl(url) {
     try {
