@@ -10,8 +10,8 @@ import { BaseComponent } from "../base.component";
   template: `
     <img
       *ngIf="condition(uiElement)"
-      [ngStyle]="uiElement.style"
-      [ngClass]="uiElement.class"
+      [style]="uiElement.style"
+      [class]="uiElement.class"
       [src]="safeEval(uiElement.src)"
       (click)="click($event)"
       (error)="error($event)"
