@@ -128,30 +128,36 @@ class WebSocketService {
         }
 
         // find the matching handler
-        let handler = await eval(ws.router.router);
-        if (handler) {
-          if (!obj.get(handler, "skiplog", false)) {
-            // register the transaction
-            await log(ws.id, ws.router.id, handler.handler, `${msg}`);
+        try {
+          let handler = await eval(ws.router.router);
+          if (handler) {
+            if (!obj.get(handler, "skiplog", false)) {
+              // register the transaction
+              await log(ws.id, ws.router.id, handler.handler, `${msg}`);
+            }
+  
+            // process the request
+            try {
+              await eval(handler.process).catch((e) => {
+                throw e;
+              });
+            } catch (ex) {
+              await log(
+                ws.id,
+                ws.router.id,
+                handler.handler,
+                `${ex} ${ex.stack}`
+              );
+            }
+          } else {
+            // handler not found
+            await log(ws.id, ws.router.id, "NOT HANDLED", `${msg}`);
           }
-
-          // process the request
-          try {
-            await eval(handler.process).catch((e) => {
-              throw e;
-            });
-          } catch (ex) {
-            await log(
-              ws.id,
-              ws.router.id,
-              handler.handler,
-              `${ex} ${ex.stack}`
-            );
-          }
-        } else {
-          // handler not found
-          await log(ws.id, ws.router.id, "NOT HANDLED", `${msg}`);
+        } catch(ex) {
+          console.error(ex);
+          return;
         }
+        
       });
 
       // register the connection
