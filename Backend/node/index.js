@@ -126,3 +126,14 @@ if (process.env.MQTT == 1 && process.env.MQTT_PORT) {
     port: process.env.MQTT_PORT,
   });
 }
+
+// initialize Proxy Server
+if (process.env.PROXY_PORT) {
+  (async () => {
+    console.log();
+    console.log(`PROXY SERVER ON`);
+    const proxyService = require("./src/services/proxy");
+    app.proxy = proxyService;
+    await proxyService.init(process.env.PROXY_PORT);
+  })();
+}
