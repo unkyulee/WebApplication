@@ -1,5 +1,6 @@
 const net = require("net");
 const MongoDB = require("../db/mongodb");
+const moment = require("moment");
 
 class ProxyService {
   server = null;
@@ -16,7 +17,7 @@ class ProxyService {
     });
 
     this.server.on("close", () => {
-      console.log("client disconnected");
+      console.log("Client disconnected");
     });
     this.server.on("error", (err) => {
       console.error("Internal server error");
@@ -28,7 +29,7 @@ class ProxyService {
   }
 
   async onConnection(client) {
-    console.log("client connected");
+    console.log("Client connected. Waiting for authorization request.");
 
     // receive bootstrap info once
     client.once("data", async (data) => {
@@ -70,7 +71,7 @@ class ProxyService {
         // open a server on a random port and redirect the data to the client
         let proxy_server = net.createServer();
         proxy_server.listen({ port: 0, host: "0.0.0.0" });
-
+        console.log("Creating reverse proxy server");
         await {
           then(r, f) {
             proxy_server.on("listening", r);
@@ -84,12 +85,32 @@ class ProxyService {
         await db.update("iot_provisioning", {
           _id: provision._id,
           proxy_port: address.port,
+          proxy_expiry_date: moment().add(3, "hours").toDate(),
         });
-        console.log(`port assigned to ${address.port}`);
+        console.log(`Reverse proxy server port assigned to ${address.port}`);
+
+        // when proxy server receives a connection
+        proxy_server.on("connection", async (proxy_client) => {
+          //
+          console.log("Reverse proxy client connected");
+
+          // pipe the commnunication channel
+          client.pipe(proxy_client);
+          proxy_client.pipe(client);
+
+          // closing detection
+          proxy_client.on("close", () => {
+            //
+            console.log("Proxy client disconnected");
+            proxy_client.destroy();
+            client.destroy();
+            proxy_server.close();
+          });
+        });
 
         // close condition
         proxy_server.on("close", () => {
-          console.log(`closing proxy server ${address.port}`);
+          console.log(`Closing reverse proxy server ${address.port}`);
         });
 
         // close condition
