@@ -13,7 +13,7 @@ pushd ..\..\Frontend\angular14
 call build.bat
 popd
 
-xcopy /s /y ..\..\Frontend\angular14\dist\angular14 .\wwwroot
+xcopy /s /y /q ..\..\Frontend\angular14\dist\angular14 .\wwwroot
 
 REM remove index.js
 del .\wwwroot\index.js
@@ -27,7 +27,7 @@ pushd ..\..\Frontend\vue3
 call build.bat
 popd
 
-xcopy /s /y ..\..\Frontend\vue3\dist .\wwwroot
+xcopy /s /y /q ..\..\Frontend\vue3\dist .\wwwroot
 
 REM remove index.js
 del .\wwwroot\index.js

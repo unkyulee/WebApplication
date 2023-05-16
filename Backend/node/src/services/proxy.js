@@ -25,6 +25,11 @@ class ProxyService {
     });
     this.server.on("connection", async (client) => {
       await this.onConnection(client);
+
+      // after certain amount of time listening close it
+      setTimeout(() => {
+        client.destroy();
+      }, 3 * 60 * 60 * 1000); // proxy server can be alive for 3 hours max
     });
   }
 
@@ -112,12 +117,6 @@ class ProxyService {
         proxy_server.on("close", () => {
           console.log(`Closing reverse proxy server ${address.port}`);
         });
-
-        // close condition
-        // after certain amount of time listening close it
-        setTimeout(() => {
-          proxy_server.close();
-        }, 3 * 60 * 60 * 1000); // proxy server can be alive for 3 hours max
 
         // close condition
         client.on("close", () => {
