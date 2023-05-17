@@ -52,7 +52,11 @@ export class CodeComponent extends BaseComponent {
       event.name == "load-code" &&
       (!event.key || event.key == this.uiElement.key)
     ) {
-      this.data = event.data;
+      if (event.key) {
+        obj.set(this.data, event.key, event.data);
+      } else {
+        this.data = event.data;
+      }
     } else if (
       event &&
       event.name == "save" &&
@@ -168,10 +172,19 @@ export class CodeComponent extends BaseComponent {
           return;
         }
       }
+
+      // save data
       if (this.uiElement.path) {
-        obj.set(this.data, this.uiElement.path, data);
+        let path = this.uiElement.path;
+        if (this.uiElement.key)
+          path = `${this.uiElement.key}.${this.uiElement.path}`;
+        obj.set(this.data, path, data);
       } else {
-        this.data = data;
+        if (this.uiElement.key) {
+          obj.set(this.data, this.uiElement.key, data);
+        } else {
+          this.data = data;
+        }
       }
     }
   }
