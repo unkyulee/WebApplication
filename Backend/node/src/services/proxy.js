@@ -125,10 +125,8 @@ class ProxyService {
         // close condition
         client.on("close", () => {
           console.log("Client Closed");
-          proxy_client.end();
-
+          client.end();
           setTimeout(() => {
-            proxy_client.destroy();
             client.destroy();
             proxy_server.close();
           }, 10000);
