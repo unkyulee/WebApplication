@@ -103,17 +103,14 @@ class ProxyService {
           client.pipe(proxy_client);
           proxy_client.pipe(client);
 
+          proxy_client.on("error", (err) => {
+            console.error(err);
+          });
+
           // closing detection
           proxy_client.on("close", () => {
             //
             console.log("Proxy client disconnected");
-            proxy_client.end();
-            client.end();
-            setTimeout(() => {
-              proxy_client.destroy();
-              client.destroy();
-              proxy_server.close();
-            }, 10000);
           });
         });
 
