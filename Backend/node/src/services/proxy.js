@@ -65,7 +65,7 @@ class ProxyService {
         }
         // check if reverse proxy is allowed
         let provision = results[0];
-        if (provision.proxy) {
+        if (moment(provision.proxy_expiry_date) > moment()) {
           console.log("Opening proxy server");
         } else {
           console.error("Proxy not allowed");
