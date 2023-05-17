@@ -15,7 +15,7 @@ async function test() {
       console.log("Client connected");
 
       // send id to authorization
-      proxy_client.write(JSON.stringify({ id: "IOT-PRINTER-20230420" }));
+      proxy_client.write(JSON.stringify({ id: "TEST" }));
 
       // establish connection to tunnel
       let client = net.createConnection(
@@ -35,23 +35,35 @@ async function test() {
       // proxy_client close
       proxy_client.on("close", () => {
         console.log("Proxy client disconnected");
-        proxy_client.destroy();
-        client.destroy();
+        proxy_client.end();
+        client.end();
+        setTimeout(() => {
+          proxy_client.destroy();
+          client.destroy();
+        }, 10000);
       });
 
       // client closure
       client.on("close", () => {
-        console.log("Proxy client disconnected");
-        proxy_client.destroy();
-        client.destroy();
+        console.log("Client disconnected");
+        proxy_client.end();
+        client.end();
+        setTimeout(() => {
+          proxy_client.destroy();
+          client.destroy();
+        }, 10000);
       });
 
       // timeout
       setTimeout(() => {
         console.log("Timeout proxy");
-        proxy_client.destroy();
-        client.destroy();
-      }, 60 * 1000);
+        proxy_client.end();
+        client.end();
+        setTimeout(() => {
+          proxy_client.destroy();
+          client.destroy();
+        }, 10000);
+      }, 60 * 60 * 1000);
     }
   );
 }

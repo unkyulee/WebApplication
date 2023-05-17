@@ -107,9 +107,13 @@ class ProxyService {
           proxy_client.on("close", () => {
             //
             console.log("Proxy client disconnected");
-            proxy_client.destroy();
-            client.destroy();
-            proxy_server.close();
+            proxy_client.end();
+            client.end();
+            setTimeout(() => {
+              proxy_client.destroy();
+              client.destroy();
+              proxy_server.close();
+            }, 10000);
           });
         });
 
@@ -120,7 +124,14 @@ class ProxyService {
 
         // close condition
         client.on("close", () => {
-          proxy_server.close();
+          console.log("Client Closed");
+          proxy_client.end();
+
+          setTimeout(() => {
+            proxy_client.destroy();
+            client.destroy();
+            proxy_server.close();
+          }, 10000);
         });
       } catch (ex) {
         // json parse error
