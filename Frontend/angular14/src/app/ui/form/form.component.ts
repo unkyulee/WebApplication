@@ -75,6 +75,11 @@ export class FormComponent extends BaseComponent {
         (!event.key || event.key == this.uiElement.key)
       ) {
         this.save();
+      } else if (
+        event.name == "reload" &&
+        (!event.key || event.key == this.uiElement.key)
+      ) {
+        this.requestDownload();
       }
       //
       else if (event?.name == "touch-array" && event.path) {
