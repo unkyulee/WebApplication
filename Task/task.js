@@ -28,6 +28,7 @@ const util = require("./services/util");
 process
   .on("unhandledRejection", (reason, p) => {
     console.error(reason, "Unhandled Rejection at Promise", p);
+    process.exit(1);
   })
   .on("uncaughtException", (err) => {
     console.error(err, "Uncaught Exception thrown");
@@ -39,18 +40,22 @@ process
 let config = JSON.parse(fs.readFileSync(path.join(__dirname, "config.json")));
 
 // interval in seconds
-function run() {
+async function run() {
   // see if config loads script
   if (config.script) {
     console.log("run script");
-    runScript();
+    await runScript();
+    // lock has to be released so that process ends
+    locker.unlock();
   } else if (config.runOnce) {
     console.log("run once");
-    runOnce();
+    await runOnce();    
+    // lock has to be released so that process ends
+    locker.unlock();
   } else {
     console.log("Scheduling starts");
     cron.schedule(config.cron, runOnce);
-  }
+  }  
 }
 
 async function runScript() {
@@ -86,6 +91,7 @@ async function runOnce() {
     // step 4. execute task
     await execute();
     ///////////////////////////////////
+    
   } catch (ex) {
     console.log(ex);
   }
@@ -116,6 +122,7 @@ async function login() {
     console.log(`Login failed - ${config.host}/${config.url}`);
     throw "login failed";
   }
+  console.log("Login success")
 }
 
 async function resetDeadTask() {
