@@ -6,62 +6,52 @@ async function test() {
   await proxy.init(8888);
 
   // try to connect to port 8888 and send id
-  let proxy_client = net.createConnection(
+  let proxyHost = net.createConnection(
     {
       host: "localhost",
       port: 8888,
     },
     async () => {
-      console.log("Client connected");
+      console.log("[TEST] Host established channel with Proxy Server");
 
       // send id to authorization
-      proxy_client.write(JSON.stringify({ id: "TEST" }));
+      proxyHost.write(JSON.stringify({ id: "TEST" }));
 
       // establish connection to tunnel
-      let client = net.createConnection(
+      let targetHost = net.createConnection(
         {
           host: "localhost",
           port: 27017,
         },
         () => {
-          console.log("Connected to 27017 localhost");
+          console.log(
+            "[TEST] Target Host connected to port 27017 in localhost"
+          );
           // pipe the commnunication channel
-          client.pipe(proxy_client);
-          proxy_client.pipe(client);
+          targetHost.pipe(proxyHost);
+          proxyHost.pipe(targetHost);
         }
       );
 
       // closing condition
-      // proxy_client close
-      proxy_client.on("close", () => {
-        console.log("Proxy client disconnected");
-        proxy_client.end();
-        client.end();
-        setTimeout(() => {
-          proxy_client.destroy();
-          client.destroy();
-        }, 10000);
+      // proxyHost close
+      proxyHost.on("close", () => {
+        console.log("[TEST] Proxy targetHost disconnected");
       });
 
-      // client closure
-      client.on("close", () => {
-        console.log("Client disconnected");
-        proxy_client.end();
-        client.end();
-        setTimeout(() => {
-          proxy_client.destroy();
-          client.destroy();
-        }, 10000);
+      // targetHost closure
+      targetHost.on("close", () => {
+        console.log("[TEST] targetHost disconnected");
       });
 
       // timeout
       setTimeout(() => {
-        console.log("Timeout proxy");
-        proxy_client.end();
-        client.end();
+        console.log("[TEST] Timeout proxy");
+        proxyHost.end();
+        targetHost.end();
         setTimeout(() => {
-          proxy_client.destroy();
-          client.destroy();
+          proxyHost.destroy();
+          targetHost.destroy();
         }, 10000);
       }, 60 * 60 * 1000);
     }
