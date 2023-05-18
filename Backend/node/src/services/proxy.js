@@ -118,6 +118,7 @@ class ProxyService {
       host.pipe(client);
 
       client.on("error", (err) => {
+        console.log("Client connection error");
         console.error(err);
       });
 
