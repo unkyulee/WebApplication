@@ -93,6 +93,12 @@ app.component("FileUpload", FileUpload);
 import Steps from "primevue/steps";
 app.component("Steps", Steps);
 
+import ToastService from "primevue/toastservice";
+app.use(ToastService);
+
+import Toast from "primevue/toast";
+app.component("Toast", Toast);
+
 ///////////////////////////////////////////
 // global setup
 app.use(router);

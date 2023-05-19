@@ -1,12 +1,5 @@
 <template>
-  <v-snackbar v-model="show" :timeout="timeout">
-    {{ text }}
-    <template v-slot:action="{ attrs }">
-      <v-btn color="pink" text v-if="action" v-bind="attrs" @click="click()">
-        {{ action.label }}
-      </v-btn>
-    </template>
-  </v-snackbar>
+  <Toast />
 </template>
 
 <script lang="ts">
@@ -15,37 +8,31 @@ import Base from "../../ui/Base";
 import { defineComponent } from "vue";
 export default defineComponent({
   extends: Base,
-  data: function () {
-    return {
-      show: false,
-      text: "",
-      timeout: 3000,
-      action: null,
-    };
-  },
-  mounted: function () {
+  mounted() {
     // subscribe to refresh
     this.event.subscribe(this._uid, "snackbar", (event) => {
-      this.text = event.text;
-      this.action = event.action;
-      this.timeout = obj.get(event, "timeout", 3000);
-      this.show = true;
+      console.log(event);
+      let text = event.text;
+
+      // check if lang option exists
+      if (
+        event.lang &&
+        this.config.get("locale") &&
+        event.lang[this.config.get("locale")]
+      ) {
+        text = event.lang[this.config.get("locale")];
+      }
+
+      this.$toast.add({
+        severity: obj.get(event, "type", "info"),
+        summary: obj.get(event, "title", ""),
+        detail: text,
+        life: obj.get(event, "timeout", 3000),
+      });
     });
   },
   unmounted() {
     this.event.unsubscribe_all(this._uid);
-  },
-  methods: {
-    click() {
-      this.show = false;
-      if (obj.get(this, "action.click")) {
-        try {
-          eval(obj.get(this, "action.click"));
-        } catch (ex) {
-          console.error(ex);
-        }
-      }
-    },
   },
 });
 </script>
