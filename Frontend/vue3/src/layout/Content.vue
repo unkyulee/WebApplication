@@ -7,7 +7,7 @@
   <DialogOverlay />
   <Splash />
   <ActionSheet />
-  <Snackbar />
+  <Toast />
   <Timer :data="data" />
   <ConfirmDialog></ConfirmDialog>
 </template>
@@ -21,7 +21,6 @@ import UiElement from "../ui/UiElement.vue";
 import DialogOverlay from "./Overlay/Dialog.vue";
 import Splash from "./Overlay/Splash.vue";
 import ActionSheet from "./Overlay/ActionSheet.vue";
-import Snackbar from "./Overlay/Snackbar.vue";
 import Timer from "./Overlay/Timer.vue";
 
 import { defineComponent } from "vue";
@@ -32,7 +31,6 @@ export default defineComponent({
     DialogOverlay,
     Splash,
     ActionSheet,
-    Snackbar,
     Timer,
   },
   data() {
@@ -70,6 +68,27 @@ export default defineComponent({
         );
         this.ready = true; // start mounting ui
       }
+    });
+
+    // subscribe to snackbar
+    this.event.subscribe("Content", "snackbar", (event) => {
+      let text = event.text;
+
+      // check if lang option exists
+      if (
+        event.lang &&
+        this.config.get("locale") &&
+        event.lang[this.config.get("locale")]
+      ) {
+        text = event.lang[this.config.get("locale")];
+      }
+
+      this.$toast.add({
+        severity: obj.get(event, "type", "info"),
+        summary: obj.get(event, "title", ""),
+        detail: text,
+        life: obj.get(event, "timeout", 3000),
+      });
     });
   },
   async mounted() {
