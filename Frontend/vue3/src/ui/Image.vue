@@ -39,12 +39,14 @@ export default defineComponent({
         if (path) {
           let src = await this.storage.url(path);
           this.src = `"${src}"`;
-
-          // in order to trigger async changes to be applied in computed
-          this.refreshKey = new Date().getTime();
         }
       }
+    } else {
+      this.src = this.uiElement.src;
     }
+
+    // in order to trigger async changes to be applied in computed
+    this.refreshKey = new Date().getTime();
   },
   computed: {
     image() {

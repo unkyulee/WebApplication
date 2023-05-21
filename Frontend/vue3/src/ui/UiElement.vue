@@ -61,25 +61,23 @@ export default defineComponent({
     FileUploadComponent,
     Stepper,
   },
-  data: function () {
+  data() {
     return {
       ready: false,
     };
   },
-  created() {
+  async created() {
     // prepare uielement
     this.ready = false;
 
-    (async () => {
-      // compile ui
-      await this.ui.compile(this.uiElement);
+    // compile ui
+    await this.ui.compile(this.uiElement);
 
-      // translate type
-      this.ui.translate_type(this.uiElement);
+    // translate type
+    this.ui.translate_type(this.uiElement);
 
-      // uiElement ready
-      this.ready = true;
-    })();
+    // uiElement ready
+    this.ready = true;
   },
 });
 </script>
