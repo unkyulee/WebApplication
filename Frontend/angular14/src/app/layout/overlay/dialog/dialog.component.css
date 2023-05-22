@@ -10,7 +10,7 @@
 }
 
 ::ng-deep .p-dialog-header {
-  padding: 0 0 0 12px !important;
+  padding: 4px 4px 4px 12px !important;
 }
 
 ::ng-deep .p-dialog-title {
