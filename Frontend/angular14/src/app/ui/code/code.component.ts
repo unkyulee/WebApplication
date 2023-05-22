@@ -74,10 +74,15 @@ export class CodeComponent extends BaseComponent {
     } catch {}
 
     // see if any transform to be done
-    let data = this._value;
-    try {
-      data = JSON.parse(this._value);
-    } catch {}
+    let data;
+    if (this.uiElement.key) {
+      data = this._value;
+      try {
+        data = JSON.parse(this._value);
+      } catch {}
+    } else {
+      data = { ...this.data };
+    }
     // remove _params_
     delete data._params_;
     if (obj.has(this.uiElement, "save.transform")) {
