@@ -26,8 +26,6 @@ export default {
   },
   unmounted() {
     //
-    this.event.unsubscribe_all(this._uid);
-    //
     if (this.uiElement && this.uiElement.destroy) {
       try {
         eval(this.uiElement.destroy);

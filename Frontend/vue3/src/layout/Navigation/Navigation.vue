@@ -52,6 +52,8 @@ export default defineComponent({
         //
         this.menu.selected = { name: "Login", pages: ["login"], url: "/login" };
         //
+        this.event.send({ name: "navigation-changed", data: this.menu });
+        //
       } else {
         // find matching nav
         let found = this.nav.find(

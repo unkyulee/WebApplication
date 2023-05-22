@@ -33,13 +33,13 @@ export default defineComponent({
   }),
   mounted() {
     // data refresh
-    this.event.subscribe(this._uid, "panel", (event) => {
+    this.event.subscribe("ExpansionPanel", "panel", (event) => {
       this.panel = event.panel;
     });
   },
   unmounted() {
     //
-    this.event.unsubscribe_all(this._uid);
+    this.event.unsubscribe_all("ExpansionPanel");
   },
   watch: {
     panel: function (curr, old) {
