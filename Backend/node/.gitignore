@@ -8,6 +8,7 @@ test.bat
 /tmp
 /out-tsc
 /wwwroot/*
+/wwwroot_/*
 task.bat
 
 # dependencies
