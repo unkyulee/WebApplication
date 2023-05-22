@@ -62,7 +62,7 @@ export class CodeComponent extends BaseComponent {
     }
   }
 
-  save() {
+  async save() {
     // retrieve REST information
     let src = obj.get(this.uiElement, "save.src");
     try {
@@ -74,7 +74,10 @@ export class CodeComponent extends BaseComponent {
     } catch {}
 
     // see if any transform to be done
-    let data = { ...this.data };
+    let data = this._value;
+    try {
+      data = JSON.parse(this._value);
+    } catch {}
     // remove _params_
     delete data._params_;
     if (obj.has(this.uiElement, "save.transform")) {
@@ -87,26 +90,23 @@ export class CodeComponent extends BaseComponent {
 
     // update data through rest web services
     if (src) {
-      this.rest
-        .request(src, data, method)
-        .pipe(
-          catchError((err) => {
-            // save failed
-            let errorAction = obj.get(this.uiElement, "save.errorAction");
-            if (errorAction) {
-              try {
-                eval(errorAction);
-              } catch (e) {
-                console.error(e);
-              }
-            } else {
-              console.error(err);
-            }
-
-            return EMPTY;
-          })
-        )
-        .subscribe((response) => this.saveAction(response));
+      try {
+        let response = await this.rest.requestAsync(src, data, method);
+        this.saveAction(response);
+      } catch (ex) {
+        // save failed
+        let errorAction = obj.get(this.uiElement, "save.errorAction");
+        if (errorAction) {
+          try {
+            eval(errorAction);
+          } catch (e) {
+            console.error(e);
+          }
+        } else {
+          console.error(err);
+        }
+        return;
+      }
     }
   }
 
@@ -136,7 +136,6 @@ export class CodeComponent extends BaseComponent {
 
     // remove _params_
     let data = { ...this.data };
-    delete data._params_;
 
     // when path is not specified then display the entire this.data
     data = obj.get(data, this.uiElement.path);
