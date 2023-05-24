@@ -167,7 +167,8 @@
 			<!-- CONTENT -->
 			<mat-sidenav-content *ngIf="uiElement.sidenav?.uiElement" [style]="uiElement.sidenav?.content?.style"
 				[class]="uiElement.sidenav?.content?.class" #content>
-				<div [style]="uiElement.sidenav?.header?.style" [class]="uiElement.sidenav?.header?.class">
+				<div *ngIf="uiElement.sidenav?.uiElement?.header?.screens" [style]="uiElement.sidenav?.header?.style"
+					[class]="uiElement.sidenav?.header?.class">
 					<ng-container *ngFor="let header of uiElement.sidenav?.uiElement?.header?.screens">
 						<ng-container ui-element *ngIf="condition(header)" [uiElement]="header" [data]="data">
 						</ng-container>
