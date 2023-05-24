@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { createApp } from "vue";
 import App from "./App.vue";
+import router from "./router";
 import { loadFonts } from "./plugins/webfontloader";
 
 // global js utility
@@ -100,5 +101,6 @@ app.component("Toast", Toast);
 
 ///////////////////////////////////////////
 // global setup
+app.use(router);
 app.mount("#app");
 ///////////////////////////////////////////

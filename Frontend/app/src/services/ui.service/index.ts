@@ -21,9 +21,6 @@ export default {
   async get(uiElementId) {
     return await this.getModule().get(uiElementId);
   },
-  async page(_id) {
-    return await this.getModule().page(_id);
-  },
 
   translate_type(uiElement) {
     switch (obj.get(uiElement, "type")) {

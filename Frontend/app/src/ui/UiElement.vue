@@ -70,7 +70,6 @@ export default defineComponent({
     // prepare uielement
     this.ready = false;
 
-    // compile ui
     await this.ui.compile(this.uiElement);
 
     // translate type
