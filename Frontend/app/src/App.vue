@@ -1,6 +1,6 @@
 <template>
   <Loading v-if="loading" />
-  <router-view v-if="!loading" />
+  <Content v-if="!loading" />
 </template>
 
 <script lang="ts">
@@ -13,12 +13,12 @@ import config from "./services/config.service";
 import ui from "./services/ui.service";
 import auth from "./services/auth.service";
 import rest from "./services/rest.service";
-import nav from "./services/nav.service";
 import util from "./services/util.service";
 import storage from "./services/storage.service";
 
 // ui
 import Loading from "./Loading.vue";
+import Content from "./layout/Content.vue";
 
 export default defineComponent({
   provide: {
@@ -27,13 +27,13 @@ export default defineComponent({
     ui,
     auth,
     rest,
-    nav,
     util,
     storage,
   },
 
   components: {
     Loading,
+    Content,
   },
 
   data() {
