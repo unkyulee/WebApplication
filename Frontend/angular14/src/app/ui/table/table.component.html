@@ -118,7 +118,7 @@
     " (click)="click($event, row, uiElement.click)">
 
     <ng-container *ngFor="let column of uiElement.columns">
-      <ng-container *ngIf="condition(column, row)" ui-element [uiElement]="column" [data]="row">
+      <ng-container ui-element [uiElement]="column" [data]="row">
       </ng-container>
     </ng-container>
   </div>
