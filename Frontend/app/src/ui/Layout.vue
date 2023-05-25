@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="ready && condition(uiElement)"
+    v-if="condition(uiElement)"
     :class="uiElement.layoutClass"
     :style="uiElement.layoutStyle"
     :id="uiElement.id"
@@ -28,23 +28,5 @@ import Base from "./Base";
 import { defineComponent } from "vue";
 export default defineComponent({
   extends: Base,
-  data: function () {
-    return {
-      ready: false,
-    };
-  },
-  async created() {
-    this.ready = false;
-
-    // translate type
-    for (let ui of obj.get(this.uiElement, "screens", [])) {
-      await this.ui.compile(ui);
-
-      // translate type
-      this.ui.translate_type(ui);
-    }
-
-    this.ready = true;
-  },
 });
 </script>

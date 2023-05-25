@@ -14,6 +14,7 @@
 // @ts-nocheck
 import Base from "./Base";
 import Layout from "./Layout.vue";
+import UiElementId from "./UiElementId.vue";
 import Typography from "./Typography.vue";
 import ImageLoader from "./Image.vue";
 import ButtonComponent from "./Button.vue";
@@ -41,6 +42,7 @@ export default defineComponent({
   inject: ["config", "event", "rest", "ui", "auth"],
   components: {
     Layout,
+    UiElementId,
     Typography,
     ImageLoader,
     ButtonComponent,
@@ -69,8 +71,6 @@ export default defineComponent({
   async created() {
     // prepare uielement
     this.ready = false;
-
-    await this.ui.compile(this.uiElement);
 
     // translate type
     this.ui.translate_type(this.uiElement);
