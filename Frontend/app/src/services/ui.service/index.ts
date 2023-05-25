@@ -1,5 +1,6 @@
 // @ts-nocheck
 import config from "../config.service";
+import rest from "../rest.service";
 
 export default {
   storage: {},

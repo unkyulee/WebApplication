@@ -26,8 +26,6 @@ import UiElement from "../ui/UiElement.vue";
 export default {
   init(app) {
     app.component("Datepicker", Datepicker);
-    app.component(VueQrcode.name, VueQrcode);
     app.component("ui-element", UiElement);
-    app.use(VueCookies);
   },
 };
