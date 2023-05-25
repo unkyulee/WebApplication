@@ -1,25 +1,23 @@
 // @ts-nocheck
 import config from "../config.service";
-import node from "./node";
-import firebase from "./firebase";
 
 export default {
-  loadModule: null,
-  getModule() {
-    if (!this.loadModule) {
-      switch (config.get("module")) {
-        case "firebase":
-          this.loadModule = firebase;
-          break;
-        default:
-          this.loadModule = node;
-          break;
-      }
-    }
-    return this.loadModule;
-  },
+  storage: {},
   async get(uiElementId) {
-    return await this.getModule().get(uiElementId);
+    let uiElement = obj.get(this.storage, uiElementId);
+
+    // return if stored uiElement exists
+    if (!uiElement) {
+      // if storage doesn't have it then load it
+      let url = `${config.get("url")}/ui.element?uiElementId=${uiElementId}`;
+      let response = await rest.request(url);
+
+      // save the uiElement
+      this.storage[uiElementId] = response.data;
+      uiElement = response.data;
+    }
+
+    return uiElement;
   },
 
   translate_type(uiElement) {
