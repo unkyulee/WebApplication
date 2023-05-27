@@ -39,6 +39,8 @@ module.exports = {
 async function Init(db, req, res) {
   // URL must be compose of /[site]/[company]/[profile_id]
   let paths = req.url.split("?")[0].split("/");
+  // if last path is empty then remove it
+  if (!paths[paths.length - 1]) paths.pop();
 
   //
   let [company] = await db.find("core.company", {
