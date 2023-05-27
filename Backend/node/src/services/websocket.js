@@ -135,7 +135,7 @@ class WebSocketService {
               // register the transaction
               await log(ws.id, ws.router.id, handler.handler, `${msg}`);
             }
-  
+
             // process the request
             try {
               await eval(handler.process).catch((e) => {
@@ -153,15 +153,22 @@ class WebSocketService {
             // handler not found
             await log(ws.id, ws.router.id, "NOT HANDLED", `${msg}`);
           }
-        } catch(ex) {
+        } catch (ex) {
           console.error(ex);
           return;
         }
-        
       });
 
       // register the connection
       await log(ws.id, urls[1], "connection", req.url);
+
+      // control connection
+      ws.router = this.router[urls[1].toLowerCase()];
+      if (ws.router.connect) {
+        if (!(await eval(ws.router.connect))) {
+          ws.close();
+        }
+      }
     });
 
     console.log("Web Socket server started listening");
