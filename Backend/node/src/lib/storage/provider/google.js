@@ -14,13 +14,18 @@ module.exports = {
     }
     server = server[0];
 
+    //
+    let company_id = obj.get(res, "locals.token.sub", params.company_id);
+    if (!company_id) company_id = params.company_id;
+    if (!company_id) {
+      throw "company_id mising";
+    }
+
     // retrieve google config
     let google = await db.find("config", {
       query: {
         type: "google",
-        company_id: ObjectID(
-          obj.get(res, "locals.token.sub", params.company_id)
-        ),
+        company_id: ObjectID(company_id),
       },
     });
     if (google.length == 0) {

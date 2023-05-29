@@ -17,6 +17,15 @@ export class UtilService {
     return new Promise((res) => setTimeout(res, ms));
   }
 
+  async toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
   b64toBlob(b64Data, contentType?, sliceSize?) {
     contentType = contentType || "";
     sliceSize = sliceSize || 512;
@@ -39,6 +48,34 @@ export class UtilService {
 
     var blob = new Blob(byteArrays, { type: contentType });
     return blob;
+  }
+
+  async getImageDimensions(file) {
+    return new Promise(function (resolved, rejected) {
+      var i = new Image();
+      i.onload = function () {
+        resolved({ w: i.width, h: i.height });
+      };
+      i.src = file;
+    });
+  }
+
+  dataURItoFile(dataURI, filename) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI.split(",")[1]);
+    // separate out the mime component
+    var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+    // write the bytes of the string to an ArrayBuffer
+    var ab = new ArrayBuffer(byteString.length);
+    var dw = new DataView(ab);
+    for (var i = 0; i < byteString.length; i++) {
+      dw.setUint8(i, byteString.charCodeAt(i));
+    }
+    // write the ArrayBuffer to a blob, and you're done
+    let b: any = new Blob([ab], { type: mimeString });
+    b.name = filename;
+    return b;
   }
 
   match(str, rule) {
