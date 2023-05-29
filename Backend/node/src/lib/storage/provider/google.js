@@ -15,8 +15,9 @@ module.exports = {
     server = server[0];
 
     //
-    let company_id = obj.get(res, "locals.token.sub", params.company_id);
-    if (!company_id) company_id = params.company_id;
+    let company_id = params.company_id;
+    if (!company_id)
+      company_id = obj.get(res, "locals.token.sub", params.company_id);
     if (!company_id) {
       throw "company_id mising";
     }
