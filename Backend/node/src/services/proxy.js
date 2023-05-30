@@ -27,15 +27,7 @@ class ProxyService {
     //
     this.server = net.createServer();
     this.server.listen({ host: "0.0.0.0", port }, async () => {
-      // load routers from the database
-      await this.db.insert("server.log", {
-        id: "server",
-        incoming: false,
-        protocol: "proxy",
-        handler: "proxy",
-        message: `Proxy server at port ${port}`,
-        _created: new Date(),
-      });
+      console.log(`Proxy server at port ${port}`);
     });
 
     this.server.on("close", async () => {

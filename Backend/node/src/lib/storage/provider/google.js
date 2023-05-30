@@ -100,22 +100,19 @@ module.exports = {
     let url = `https://www.googleapis.com/drive/v3/files?q=`;
     let q = `mimeType='application/vnd.google-apps.folder' and trashed=false and name='${folder}'`;
     url = url + encodeURIComponent(q);
-    try {
-      let response = await axios({
-        method: "GET",
-        url,
-        headers: {
-          Authorization: `Bearer ${token.access_token}`,
-        },
-      });
 
-      //
-      if (response.status == 200) {
-        // create the folder
-        return obj.get(response.data, "files.0.id");
-      }
-    } catch (ex) {
-      console.log(ex);
+    let response = await axios({
+      method: "GET",
+      url,
+      headers: {
+        Authorization: `Bearer ${token.access_token}`,
+      },
+    });
+
+    //
+    if (response.status == 200) {
+      // create the folder
+      return obj.get(response.data, "files.0.id");
     }
   },
 

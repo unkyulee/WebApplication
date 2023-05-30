@@ -10,8 +10,6 @@ module.exports = {
       throw "email provider failed: company_id does not exist";
     }
 
-    console.log(params);
-
     // retrieve email configuration
     params.config = await db.find("config", {
       query: {
@@ -19,7 +17,6 @@ module.exports = {
         company_id: ObjectID(company_id),
       },
     });
-    console.log(company_id);
 
     if (params.config && params.config.length > 0) {
       params.config = params.config[0];

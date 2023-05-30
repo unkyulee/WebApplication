@@ -44,6 +44,10 @@ module.exports = {
       throw "email body missing";
     }
 
+    if (!config.email_from) {
+      throw "email sender address missing";
+    }
+
     // retrieve access token
     let token = await axios.post("https://oauth2.googleapis.com/token", {
       grant_type: "refresh_token",
@@ -52,8 +56,6 @@ module.exports = {
       refresh_token: obj.get(google, "refresh_token"),
     });
     token = token.data;
-
-    console.log(params);
 
     // send email
     let message = [
@@ -64,12 +66,8 @@ module.exports = {
       )}; charset="UTF-8"\n`,
       "MIME-Version: 1.0\n",
       "Content-Transfer-Encoding: 7bit\n",
-      "to: ",
-      params.to,
-      "\n",
-      "from: ",
-      config.email_from,
-      "\n",
+      `to: ${params.to}\n`,
+      `from: ${obj.get(params, "from", "")} <${config.email_from}>\n`,
       "subject: =?UTF-8?B?",
       Buffer.from(params.title, "utf-8").toString("base64"),
       "?=\n\n",
@@ -83,17 +81,15 @@ module.exports = {
       .replace(/\+/g, "-");
 
     //
-    let response;
     try {
-      response = await axios.post(
+      let response = await axios.post(
         "https://www.googleapis.com/gmail/v1/users/me/messages/send?alt=json",
         { raw: message },
         { headers: { Authorization: `Bearer ${token.access_token}` } }
       );
+      return response.data;
     } catch (ex) {
-      throw JSON.stringify(ex.response.data, null, 4);
+      throw ex;
     }
-
-    return response;
   },
 };

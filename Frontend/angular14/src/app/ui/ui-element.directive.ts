@@ -11,24 +11,24 @@ import { AuthService } from "../services/auth/auth.service";
 import { UIService } from "../services/ui.service";
 
 // components
-import { LayoutComponent } from "./layout/layout.component";
-import { TypographyComponent } from "./typography/typography.component";
-import { InputComponent } from "./input/input.component";
 import { ButtonComponent } from "./button/button.component";
-import { TableComponent } from "./table/table.component";
-import { FormComponent } from "./form/form.component";
-import { DateComponent } from "./date/date.component";
-import { SelectionComponent } from "./selection/selection.component";
-import { ProgressComponent } from "./progress/progress.component";
-import { IconComponent } from "./icon/icon.component";
-import { EditorComponent } from "./editor/editor.component";
 import { CodeComponent } from "./code/code.component";
-import { MenuComponent } from "./menu/menu.component";
 import { CalendarComponent } from "./calendar/calendar.component";
-import { GridComponent } from "./grid/grid.component";
+import { DateComponent } from "./date/date.component";
 import { DropGroupComponent } from "./drop-group/drop-group.component";
+import { EditorComponent } from "./editor/editor.component";
+import { FormComponent } from "./form/form.component";
+import { GridComponent } from "./grid/grid.component";
+import { IconComponent } from "./icon/icon.component";
 import { ImageComponent } from "./image/image.component";
+import { InputComponent } from "./input/input.component";
+import { LayoutComponent } from "./layout/layout.component";
+import { MenuComponent } from "./menu/menu.component";
+import { ProgressComponent } from "./progress/progress.component";
+import { SelectionComponent } from "./selection/selection.component";
+import { TableComponent } from "./table/table.component";
 import { TreeComponent } from "./tree/tree.component";
+import { TypographyComponent } from "./typography/typography.component";
 import { UploaderComponent } from "./uploader/uploader.component";
 
 @Directive({
