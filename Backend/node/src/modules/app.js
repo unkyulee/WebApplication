@@ -127,7 +127,7 @@ async function IndexHtml(db, req, res) {
   }
 
   let result = contents
-    .replace("@title", res.locals.company.name)
+    .replace("@title", app_profile.name)
     .replace("@base_href", `<base href='${base_href}'>`)
     .replace("@path", base_href)
     .replace("@script", `window.__CONFIG__ = ${JSON.stringify(config)}`);
