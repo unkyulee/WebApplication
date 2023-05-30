@@ -20,9 +20,6 @@ window.axios = axios;
 import mustache from "mustache";
 window.mustache = mustache.default ? mustache.default : mustache;
 
-// vue-cookies
-import cookies from "vue-cookies";
-
 // ui-imports
 import UiElement from "../ui/UiElement.vue";
 
@@ -30,8 +27,5 @@ export default {
   init(app) {
     app.component("Datepicker", Datepicker);
     app.component("ui-element", UiElement);
-
-    // vue cookies
-    app.use(cookies);
   },
 };

@@ -29,22 +29,14 @@ class Router {
       return false;
     }
 
-    // redirect case
     if (req.query.bearer) {
       // save to cookie
       res.cookie("authorization", req.query.bearer);
+    }
 
-      //
-      delete req.query.bearer;
-
-      // shall be redirected
-      const url = require("url");
-      let redirectUrl = url.format({
-        pathname: url.parse(req.url).pathname,
-        query: req.query,
-      });
-      res.redirect(redirectUrl);
-      return false;
+    if (req.query.company_id) {
+      // save to cookie
+      res.cookie("company_id", req.query.company_id);
     }
 
     // otherwise move on to the next process

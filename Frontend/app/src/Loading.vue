@@ -23,8 +23,11 @@ export default defineComponent({
 
     {
       // check authentication
-      if ($cookies.get("authorization")) {
-        let token = $cookies.get("authorization");
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+
+      if (urlParams.get("bearer")) {
+        let token = urlParams.get("bearer");
         token = token.replace("Bearer ", "");
 
         // validate the authorization against the server
@@ -36,10 +39,7 @@ export default defineComponent({
             text: "Login Expired",
           });
         }
-        // remove cookie
-        this.$cookies.remove("authorization");
-      }
-      if (localStorage.getItem("token_public")) {
+      } else if (localStorage.getItem("token_public")) {
         if (!(await this.auth.isAuthenticated())) {
           this.event.send({
             type: "error",
