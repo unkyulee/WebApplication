@@ -30,28 +30,21 @@ class Router {
     }
 
     // redirect case
-    if (req.query.bearer && req.query.company_id) {
+    if (req.query.bearer) {
+      // save to cookie
+      res.cookie("authorization", req.query.bearer);
+
+      //
+      delete req.query.bearer;
+
+      // shall be redirected
       const url = require("url");
-
-      // assign cookie with authentication
-      res.cookie("authorization", `Bearer ${req.query.bearer}`);
-      res.cookie("company_id", req.query.company_id);
-
-      // should it redirect?
-      // image should be displayed in the print page
-      // so do not redirect in that case
-      if (!req.query.print) {
-        // strip out bearer and company_id
-        delete req.query.bearer;
-
-        // shall be redirected
-        let redirectUrl = url.format({
-          pathname: url.parse(req.url).pathname,
-          query: req.query,
-        });
-        res.redirect(redirectUrl);
-        return false;
-      }
+      let redirectUrl = url.format({
+        pathname: url.parse(req.url).pathname,
+        query: req.query,
+      });
+      res.redirect(redirectUrl);
+      return false;
     }
 
     // otherwise move on to the next process

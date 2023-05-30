@@ -9,6 +9,7 @@ module.exports = {
     if (obj.get(res.locals, "nav.module")) {
       switch (res.locals.nav.module) {
         case "vue":
+        case "app":
           return require("./provider/client");
         default:
           return require("./provider/user");

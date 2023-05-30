@@ -22,14 +22,11 @@ export default defineComponent({
     }
 
     {
-      // load initial script
-      if (this.config.get("init")) {
-        try {
-          await eval(this.config.get("init"));
-        } catch (ex) {
-          console.error(ex);
-          return;
-        }
+      // check authentication
+      if ($cookies.get("authorization")) {
+        // validate the authorization against the server
+        localStorage.setItem("token_public", $cookies.get("authorization"));
+        await this.auth.isAuthenticated();
       }
     }
 
