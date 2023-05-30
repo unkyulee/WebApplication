@@ -32,8 +32,16 @@ module.exports = {
       },
     });
     if (!config) {
-      res.status(500);
       throw "send failed: email Config does not exists";
+    }
+
+    // check if title and body exists
+    if (!params.title) {
+      throw "email title missing";
+    }
+
+    if (!params.body) {
+      throw "email body missing";
     }
 
     // retrieve access token
@@ -44,6 +52,8 @@ module.exports = {
       refresh_token: obj.get(google, "refresh_token"),
     });
     token = token.data;
+
+    console.log(params);
 
     // send email
     let message = [
@@ -65,6 +75,8 @@ module.exports = {
       "?=\n\n",
       params.body,
     ].join("");
+
+    // sanitize the message
     message = Buffer.from(message, "utf-8")
       .toString("base64")
       .replace(/\//g, "_")

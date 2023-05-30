@@ -86,10 +86,18 @@ async function handler(req, res) {
   } catch (e) {
     // Respond with 500
     res.status(500);
-
-    // Write to the console
-    //console.error(e, req);
     console.error(e);
+    res.send(`${e}`);
+
+    // load routers from the database
+    await db.insert("server.log", {
+      id: "server",
+      incoming: true,
+      protocol: "http",
+      handler: req.url,
+      message: e.stack,
+      _created: new Date(),
+    });
   } finally {
     // Close MongoDB
     if (db) await db.close();
