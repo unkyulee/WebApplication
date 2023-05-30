@@ -26,7 +26,23 @@ export default defineComponent({
       if ($cookies.get("authorization")) {
         // validate the authorization against the server
         localStorage.setItem("token_public", $cookies.get("authorization"));
-        await this.auth.isAuthenticated();
+        if (!(await this.auth.isAuthenticated())) {
+          this.$cookies.remove("authorization");
+          this.event.send({
+            type: "error",
+            name: "snackbar",
+            text: "Login Expired",
+          });
+        }
+      }
+      if (localStorage.getItem("token_public")) {
+        if (!(await this.auth.isAuthenticated())) {
+          this.event.send({
+            type: "error",
+            name: "snackbar",
+            text: "Login Expired",
+          });
+        }
       }
     }
 

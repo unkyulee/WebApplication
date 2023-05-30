@@ -1,6 +1,7 @@
 <template>
   <Loading v-if="loading" />
   <Content v-if="!loading" />
+  <Toast />
 </template>
 
 <script lang="ts">
@@ -50,6 +51,27 @@ export default defineComponent({
     // subscribe to loading-complete event
     event.subscribe("App", "loading-completed", (event) => {
       this.loading = false;
+    });
+
+    // subscribe to snackbar
+    event.subscribe("App", "snackbar", (event) => {
+      let text = event.text;
+
+      // check if lang option exists
+      if (
+        event.lang &&
+        this.config.get("locale") &&
+        event.lang[this.config.get("locale")]
+      ) {
+        text = event.lang[this.config.get("locale")];
+      }
+
+      this.$toast.add({
+        severity: obj.get(event, "type", "info"),
+        summary: obj.get(event, "title", ""),
+        detail: text,
+        life: obj.get(event, "timeout", 3000),
+      });
     });
   },
 

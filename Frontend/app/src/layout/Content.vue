@@ -3,7 +3,6 @@
   <DialogOverlay />
   <Splash />
   <ActionSheet />
-  <Toast />
   <Timer :data="data" />
   <ConfirmDialog></ConfirmDialog>
 </template>
@@ -41,27 +40,6 @@ export default defineComponent({
       if (event.data) {
         this.data = { ...event.data };
       }
-    });
-
-    // subscribe to snackbar
-    this.event.subscribe("Content", "snackbar", (event) => {
-      let text = event.text;
-
-      // check if lang option exists
-      if (
-        event.lang &&
-        this.config.get("locale") &&
-        event.lang[this.config.get("locale")]
-      ) {
-        text = event.lang[this.config.get("locale")];
-      }
-
-      this.$toast.add({
-        severity: obj.get(event, "type", "info"),
-        summary: obj.get(event, "title", ""),
-        detail: text,
-        life: obj.get(event, "timeout", 3000),
-      });
     });
   },
   async mounted() {
