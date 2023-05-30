@@ -4,6 +4,7 @@
     :class="uiElement.layoutClass"
     :style="uiElement.layoutStyle"
     :id="uiElement.id"
+    @click="click($event)"
   >
     <ui-element
       v-for="ui in uiElement.screens"
