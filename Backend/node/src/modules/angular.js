@@ -77,7 +77,7 @@ async function LoginScreen(db, req, res) {
   // retrieve login screen
   let _id = obj.get(res.locals, "nav._id");
   if (_id) {
-    let results = await db.find("core.ui", { query: { _id } });
+    let results = await db.find("login", { query: { _id } });
     if (results && results.length > 0) return results[0];
   }
 }
