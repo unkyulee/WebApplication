@@ -130,30 +130,33 @@ module.exports = {
         // decoded token will be saved as token in the res.locals
         res.locals.token = jwt.verify(token, req.app.locals.secret);
         if (res.locals.token.aud == "client") {
-          // authenticated
-          authenticated = true;
-          // if authentication is expiring soon then issue a new token
-          // if half of the time is passed then renew
-          let tokenSpan = res.locals.token.exp - res.locals.token.iat;
-          let currSpan = res.locals.token.exp - new Date() / 1000;
-          if (tokenSpan / 2 > currSpan) {
-            // create token
-            let token = util.createToken({
-              secret: req.app.locals.secret,
-              issuer: req.get("host"),
-              subject: req.headers["company_id"],
-              audience: "client",
-              expiresIn: "30d",
-              id: res.locals.token.unique_name,
-              name: res.locals.token.nameid,
-              groups: res.locals.token.groups,
-            });
+          // check if company_id is same
+          if (res.locals.token.sub == req.headers.company_id) {
+            // authenticated
+            authenticated = true;
+            // if authentication is expiring soon then issue a new token
+            // if half of the time is passed then renew
+            let tokenSpan = res.locals.token.exp - res.locals.token.iat;
+            let currSpan = res.locals.token.exp - new Date() / 1000;
+            if (tokenSpan / 2 > currSpan) {
+              // create token
+              let token = util.createToken({
+                secret: req.app.locals.secret,
+                issuer: req.get("host"),
+                subject: req.headers["company_id"],
+                audience: "client",
+                expiresIn: "30d",
+                id: res.locals.token.unique_name,
+                name: res.locals.token.nameid,
+                groups: res.locals.token.groups,
+              });
 
-            // set header
-            res.set("Authorization", `Bearer ${token}`);
+              // set header
+              res.set("Authorization", `Bearer ${token}`);
 
-            // save token info to the global
-            res.locals.token = jwt.verify(token, req.app.locals.secret);
+              // save token info to the global
+              res.locals.token = jwt.verify(token, req.app.locals.secret);
+            }
           }
         }
       } catch (e) {
