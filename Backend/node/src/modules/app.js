@@ -106,6 +106,7 @@ async function IndexHtml(db, req, res) {
     delete app_profile.default;
     delete app_profile._created;
     delete app_profile._updated;
+    delete app_profile.private;
   }
 
   //
