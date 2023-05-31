@@ -39,6 +39,11 @@ export default defineComponent({
             text: "Login Expired",
           });
         }
+
+        // remove bearer from the url
+        location = this.util.removeURLParameter(location.href, "bearer");
+
+        ///
       } else if (localStorage.getItem("token_public")) {
         if (!(await this.auth.isAuthenticated())) {
           this.event.send({
