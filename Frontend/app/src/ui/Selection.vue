@@ -6,8 +6,9 @@
   >
     <v-select
       v-model="value"
-      :id="uiElement.key"
       :items="uiElement.options"
+      :item-title="uiElement.itemTitle"
+      :item-value="uiElement.itemValue"
       :class="uiElement.class"
       :style="uiElement.style"
       :filled="uiElement.appearance == 'fill'"
