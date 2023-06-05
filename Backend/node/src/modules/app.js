@@ -42,24 +42,11 @@ async function Init(db, req, res) {
   // if last path is empty then remove it
   if (!paths[paths.length - 1]) paths.pop();
 
-  //
-  let [company] = await db.find("core.company", {
-    query: { url: `/${paths[2]}` },
-  });
-  // check if existing company_id
-  if (!company) {
-    console.error(`company_id not found: ${paths[2]}`);
-    return false;
-  }
-  // save company_id to global
-  res.locals.company = company;
-
   // get app profile
-  if (paths.length > 3) {
+  if (paths.length > 2) {
     let [app_profile] = await db.find("app_profile", {
       query: {
-        company_id: res.locals.company._id,
-        id: paths[3],
+        id: paths[2],
       },
     });
     // check if existing company_id
@@ -67,25 +54,20 @@ async function Init(db, req, res) {
       console.error(`app_profile not found: ${paths[3]}`);
       return false;
     }
-    // save company_id to global
+    // save app_profile to global
     res.locals.app_profile = app_profile;
-  } else {
-    // load default profile
-    let [app_profile] = await db.find("app_profile", {
-      query: {
-        company_id: res.locals.company._id,
-        default: true,
-      },
+
+    // load company_id
+    let [company] = await db.find("core.company", {
+      query: { _id: app_profile.company_id },
     });
     // check if existing company_id
-    if (!app_profile) {
-      console.error(
-        `default app_profile not found: ${paths[2]} ${res.locals.company._id}`
-      );
+    if (!company) {
+      console.error(`company_id not found: ${app_profile.company_id}`);
       return false;
     }
     // save company_id to global
-    res.locals.app_profile = app_profile;
+    res.locals.company = company;
   }
 
   return true;
