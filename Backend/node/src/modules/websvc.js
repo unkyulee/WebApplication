@@ -66,7 +66,8 @@ module.exports.process = async function process(db, req, res) {
       let workflow = workflows[0];
       // run script
       result = await eval(workflow.script).catch((e) => {
-        throw new Error(`Error in workflow: ${workflow._id}\n${e}`);
+        (e.workflow = workflow._id), (e.url = req.url);
+        throw e;
       });
     }
   }
