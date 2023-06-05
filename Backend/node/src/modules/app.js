@@ -78,7 +78,6 @@ async function IndexHtml(db, req, res) {
   // read "index.tmpl" from static folder
   let filepath = path.join(req.app.locals.wwwroot, "/vue.html");
   let contents = fs.readFileSync(filepath, "utf8");
-  let base_href = `${res.locals.nav.url}${res.locals.company.url}`;
 
   // retrieve app_profile
   let app_profile = { ...res.locals.app_profile };
@@ -111,8 +110,6 @@ async function IndexHtml(db, req, res) {
 
   let result = contents
     .replace("@title", app_profile.name)
-    .replace("@base_href", `<base href='${base_href}'>`)
-    .replace("@path", base_href)
     .replace("@script", `window.__CONFIG__ = ${JSON.stringify(config)}`);
 
   return result;
