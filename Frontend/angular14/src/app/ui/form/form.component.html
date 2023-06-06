@@ -183,12 +183,14 @@
 
 	<!-- Form Type: preview -->
 	<ng-container *ngIf="uiElement.formType == 'preview'">
-		<ng-container *ngFor="let ui of uiElement.screens">
-			<div *ngIf="condition(ui) && ui.previews"
-				[style]="ui.style ? ui.style : safeGet(uiElement, 'preview.style')"
-				[class]="ui.class ? ui.class : safeGet(uiElement, 'preview.class')">
-				<!-- Header -->
-				<div *ngIf="safeGet(ui, 'header.display') != false" [style]="
+		<div [style]="ui.style ? ui.style : safeGet(uiElement, 'preview.layoutStyle')"
+			[class]="ui.class ? ui.class : safeGet(uiElement, 'preview.layoutClass')">
+			<ng-container *ngFor="let ui of uiElement.screens">
+				<div *ngIf="condition(ui) && ui.previews"
+					[style]="ui.style ? ui.style : safeGet(uiElement, 'preview.style')"
+					[class]="ui.class ? ui.class : safeGet(uiElement, 'preview.class')">
+					<!-- Header -->
+					<div *ngIf="safeGet(ui, 'header.display') != false" [style]="
             ui.header?.style
               ? ui?.header?.style
               : safeGet(uiElement, 'preview.header.style')
@@ -197,13 +199,13 @@
               ? ui?.header?.class
               : safeGet(uiElement, 'preview.header.class')
           ">
-					<ng-container *ngFor="let header of ui?.header?.screens">
-						<ng-container ui-element *ngIf="condition(header)" [uiElement]="header" [data]="data">
+						<ng-container *ngFor="let header of ui?.header?.screens">
+							<ng-container ui-element *ngIf="condition(header)" [uiElement]="header" [data]="data">
+							</ng-container>
 						</ng-container>
-					</ng-container>
-				</div>
-				<!-- Form Items -->
-				<div [style]="
+					</div>
+					<!-- Form Items -->
+					<div [style]="
             ui.container?.style
               ? ui.container?.style
               : safeGet(uiElement, 'preview.content.style')
@@ -212,12 +214,13 @@
               ? ui.container?.class
               : safeGet(uiElement, 'preview.content.class')
           ">
-					<ng-container *ngFor="let ui of ui.previews">
-						<ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="data">
+						<ng-container *ngFor="let ui of ui.previews">
+							<ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="data">
+							</ng-container>
 						</ng-container>
-					</ng-container>
+					</div>
 				</div>
-			</div>
-		</ng-container>
+			</ng-container>
+		</div>
 	</ng-container>
 </div>
