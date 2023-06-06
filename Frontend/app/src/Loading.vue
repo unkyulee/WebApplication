@@ -31,7 +31,7 @@ export default defineComponent({
         token = token.replace("Bearer ", "");
 
         // validate the authorization against the server
-        localStorage.setItem("token_public", token);
+        localStorage.setItem(`token_public_${this.config.get("id")}`, token);
         if (!(await this.auth.isAuthenticated())) {
           this.event.send({
             type: "error",
@@ -44,7 +44,9 @@ export default defineComponent({
         location = this.util.removeURLParameter(location.href, "bearer");
 
         ///
-      } else if (localStorage.getItem("token_public")) {
+      } else if (
+        localStorage.getItem(`token_public_${this.config.get("id")}`)
+      ) {
         if (!(await this.auth.isAuthenticated())) {
           this.event.send({
             type: "error",

@@ -46,7 +46,7 @@ axios.interceptors.request.use(function (req) {
     req.headers["company_id"] = config.get("_id");
 
     // attach token if exists
-    let token = localStorage.getItem("token_public");
+    let token = localStorage.getItem(`token_public_${config.get("id")}`);
     if (token) req.headers["Authorization"] = `Bearer ${token}`;
   } catch (ex) {
     console.error(ex);
@@ -63,7 +63,7 @@ axios.interceptors.response.use(function (res) {
       .get(res, "headers.authorization", "")
       .replace("Bearer ", "");
     // save to localStorage
-    localStorage.setItem("token_public", token);
+    localStorage.setItem(`token_public_${config.get("id")}`, token);
   }
 
   return res;

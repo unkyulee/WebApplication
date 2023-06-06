@@ -28,7 +28,7 @@ export default {
   },
 
   async logout() {
-    localStorage.removeItem("token_public");
+    localStorage.removeItem(`token_public_${config.get("id")}`);
     event.send({ name: "init" });
   },
 
@@ -36,24 +36,33 @@ export default {
     let authenticated = false;
 
     // check if the token_public exists
-    let token = localStorage.getItem("token_public");
+    let token = localStorage.getItem(`token_public_${config.get("id")}`);
     if (!token) {
       authenticated = false;
     } else {
       // token exists
-      // validate token
-      let response = await rest.request(
-        `${config.get("host")}${config.get("url")}`,
-        {},
-        "post"
-      );
+      let base64Url = token.split(".")[1];
+      let base64 = base64Url.replace("-", "+").replace("_", "/");
 
-      // clear if not authenticated
-      if (response.status != 200) {
-        // clear localStorage
-        localStorage.removeItem("token_public");
+      // check apps
+      let user = JSON.parse(window.atob(base64));
+      if (!obj.get(user, "groups", []).includes(config.get("id"))) {
+        authenticated = false;
       } else {
-        authenticated = true;
+        // validate token
+        let response = await rest.request(
+          `${config.get("host")}${config.get("url")}`,
+          {},
+          "post"
+        );
+
+        // clear if not authenticated
+        if (response.status != 200) {
+          // clear localStorage
+          localStorage.removeItem(`token_public_${config.get("id")}`);
+        } else {
+          authenticated = true;
+        }
       }
     }
 
@@ -62,7 +71,7 @@ export default {
 
   async client() {
     //
-    let token = localStorage.getItem("token_public");
+    let token = localStorage.getItem(`token_public_${config.get("id")}`);
 
     // do jwt decode
     if (token) {
