@@ -36,6 +36,7 @@ export class InputComponent extends BaseComponent {
       try {
         eval(this.uiElement.changed);
       } catch (ex) {
+        console.error(this.uiElement.changed);
         console.error(ex);
       }
     }
