@@ -1,63 +1,66 @@
 import { NgModule } from "@angular/core";
-import { EditorModule } from "primeng/editor";
-import { ColorPickerModule } from "primeng/colorpicker";
-import { TableModule } from "primeng/table";
-import { VirtualScrollerModule } from "primeng/virtualscroller";
-import { InputTextModule } from "primeng/inputtext";
 import { ButtonModule } from "primeng/button";
-import { TreeTableModule } from "primeng/treetable";
-import { PanelMenuModule } from "primeng/panelmenu";
-import { SliderModule } from "primeng/slider";
-import { MenuModule } from "primeng/menu";
-import { DynamicDialogModule } from "primeng/dynamicdialog";
-import { SidebarModule } from "primeng/sidebar";
-import { ToastModule } from "primeng/toast";
-import { PaginatorModule } from "primeng/paginator";
+import { ChartModule } from "primeng/chart";
+import { ColorPickerModule } from "primeng/colorpicker";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
-import { PickListModule } from "primeng/picklist";
-import { SplitterModule } from "primeng/splitter";
+import { DynamicDialogModule } from "primeng/dynamicdialog";
+import { EditorModule } from "primeng/editor";
 import { FileUploadModule } from "primeng/fileupload";
+import { InputTextModule } from "primeng/inputtext";
+import { MenuModule } from "primeng/menu";
+import { PaginatorModule } from "primeng/paginator";
+import { PanelMenuModule } from "primeng/panelmenu";
+import { PickListModule } from "primeng/picklist";
+import { SliderModule } from "primeng/slider";
+import { SidebarModule } from "primeng/sidebar";
+import { SplitterModule } from "primeng/splitter";
+import { TableModule } from "primeng/table";
+import { ToastModule } from "primeng/toast";
+import { TreeTableModule } from "primeng/treetable";
+import { VirtualScrollerModule } from "primeng/virtualscroller";
 
 @NgModule({
   imports: [
-    EditorModule,
-    ColorPickerModule,
-    TableModule,
-    VirtualScrollerModule,
-    InputTextModule,
     ButtonModule,
-    TreeTableModule,
-    PanelMenuModule,
-    SliderModule,
-    MenuModule,
-    DynamicDialogModule,
-    SidebarModule,
-    ToastModule,
-    PaginatorModule,
+    ChartModule,
+    ColorPickerModule,
     ConfirmDialogModule,
-    PickListModule,
-    SplitterModule,
+    DynamicDialogModule,
+    EditorModule,
     FileUploadModule,
+    InputTextModule,
+    TableModule,
+    MenuModule,
+    PaginatorModule,
+    PanelMenuModule,
+    PickListModule,
+    SidebarModule,
+    SliderModule,
+    ToastModule,
+    TreeTableModule,
+    SplitterModule,
+    VirtualScrollerModule,
   ],
   exports: [
-    EditorModule,
-    ColorPickerModule,
-    TableModule,
-    VirtualScrollerModule,
-    InputTextModule,
     ButtonModule,
-    TreeTableModule,
-    PanelMenuModule,
-    SliderModule,
-    MenuModule,
-    DynamicDialogModule,
-    SidebarModule,
-    ToastModule,
-    PaginatorModule,
+    ChartModule,
+    ColorPickerModule,
     ConfirmDialogModule,
-    PickListModule,
-    SplitterModule,
+    DynamicDialogModule,
+    EditorModule,
     FileUploadModule,
+    InputTextModule,
+    TableModule,
+    MenuModule,
+    PaginatorModule,
+    PanelMenuModule,
+    PickListModule,
+    SidebarModule,
+    SliderModule,
+    ToastModule,
+    TreeTableModule,
+    SplitterModule,
+    VirtualScrollerModule,
   ],
 })
 export class PrimeNGModule {}

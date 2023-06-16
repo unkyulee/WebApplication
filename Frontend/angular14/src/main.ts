@@ -14,6 +14,9 @@ import * as moment from "moment";
 import * as mustache from "mustache";
 (window as any).mustache = mustache.default;
 
+import * as csv from "csvtojson";
+(window as any).csv = csv;
+
 import "file-saver";
 
 platformBrowserDynamic()

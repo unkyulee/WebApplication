@@ -19,7 +19,7 @@ export class ConfigService {
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
-      debounceTime(300),
+      debounceTime(100),
       map((result) => {
         this.isHandset = result.matches;
         return result.matches;

@@ -30,6 +30,7 @@ import { TableComponent } from "./table/table.component";
 import { TreeComponent } from "./tree/tree.component";
 import { TypographyComponent } from "./typography/typography.component";
 import { UploaderComponent } from "./uploader/uploader.component";
+import { ChartComponent } from "./chart/chart.component";
 
 @Directive({
   selector: "[ui-element]",
@@ -42,19 +43,20 @@ export class UIElement {
     typography: TypographyComponent,
     input: InputComponent,
     button: ButtonComponent,
-    table: TableComponent,
-    form: FormComponent,
-    date: DateComponent,
-    selection: SelectionComponent,
-    progress: ProgressComponent,
-    icon: IconComponent,
-    editor: EditorComponent,
-    code: CodeComponent,
-    menu: MenuComponent,
     calendar: CalendarComponent,
-    grid: GridComponent,
+    code: CodeComponent,
+    chart: ChartComponent,
+    date: DateComponent,
     dropgroup: DropGroupComponent,
+    editor: EditorComponent,
+    form: FormComponent,
+    grid: GridComponent,
+    icon: IconComponent,
     image: ImageComponent,
+    menu: MenuComponent,
+    progress: ProgressComponent,
+    selection: SelectionComponent,
+    table: TableComponent,
     tree: TreeComponent,
     uploader: UploaderComponent,
   };
