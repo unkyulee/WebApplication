@@ -3,7 +3,10 @@ const axios = require("axios");
 module.exports = {
   async get(api, option, process) {
     // retrieve data
-    let url = `${api}?size=0`;
+    let url = api;
+    if (api.includes("?")) url += "&size=0";
+    else url += "?size=0";
+
     let response = await axios.get(url, option);
     response = response.data;
 
@@ -13,7 +16,12 @@ module.exports = {
       let size = 1000;
       let total_page = Math.ceil(response.total / size);
       for (let page = 0; page < total_page; page++) {
-        url = `${api}?size=${size}&page=${page + 1}`;
+        if (api.includes("?")) {
+          url = `${api}&size=${size}&page=${page + 1}`;
+        } else {
+          url = `${api}?size=${size}&page=${page + 1}`;
+        }
+
         let parts = await axios.get(url, option);
         parts = parts.data;
 
@@ -21,7 +29,7 @@ module.exports = {
         if (process) for (let row of parts.data) await process(row);
 
         // append to rows
-        rows = [...rows, ...parts.data];                     
+        rows = [...rows, ...parts.data];
       }
 
       return rows;
