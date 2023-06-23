@@ -28,9 +28,9 @@ export class RestService {
   }
 
   // Promise Based Request - Never cached
-  async requestAsync(url, data?, method?, options?, cached?, wait?) {
+  async requestAsync(url, data?, method?, options?, cached = false, wait?) {
     return new Promise((resolve, reject) => {
-      this.request(url, data, method, options, false, wait).subscribe(
+      this.request(url, data, method, options, cached, wait).subscribe(
         (response) => {
           resolve(response);
         },

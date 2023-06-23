@@ -7,6 +7,9 @@ import { NavService } from "../services/nav.service";
 import { RestService } from "../services/rest.service";
 import { UtilService } from "../services/util.service";
 
+//
+import { take } from "rxjs/operators";
+
 @Component({
   selector: "loading",
   templateUrl: "./loading.component.html",
@@ -64,13 +67,16 @@ export class LoadingComponent {
     if (!(await this.setLocale())) return;
 
     // clear cache
-    if (!(await this.clearCache())) return;
+    //if (!(await this.clearCache())) return;
 
     // check login
     if (!(await this.checkLogin())) return;
 
     // download navigation
     if (!(await this.downloadNavigation())) return;
+
+    // wait until all config is loaded
+    if (!(await this.finalized())) return;
 
     this.message = "All Good!";
 
@@ -181,6 +187,20 @@ export class LoadingComponent {
 
     // init nav
     this.nav.init();
+
+    return true;
+  }
+
+  async finalized() {
+    const config = this.config;
+    await {
+      then(r, f) {
+        // wait until isHandset$ is set
+        config.isHandset$.pipe(take(1)).subscribe((x) => {
+          r(x);
+        });
+      },
+    };
 
     return true;
   }
