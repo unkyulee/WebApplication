@@ -8,6 +8,7 @@ import { BaseComponent } from "../base.component";
 import { Chart } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 Chart.register(ChartDataLabels);
+import "chartjs-adapter-moment";
 
 @Component({
   selector: "chart",
@@ -29,20 +30,7 @@ export class ChartComponent extends BaseComponent {
       this._value = obj.get(this.data, this.uiElement.key);
     }
 
-    // read returns local variable because of the format that can change its own value
-    // and next time it will try to format the already formatted text <- which is to be prevented
-    let v = this._value;
-
-    // if format is specified
-    if (this.uiElement.format) {
-      try {
-        v = eval(this.uiElement.format);
-      } catch (e) {
-        console.error(this.uiElement.format, e);
-      }
-    }
-
-    return v;
+    return this._value;
   }
 
   _options;
@@ -53,11 +41,7 @@ export class ChartComponent extends BaseComponent {
       this._options = obj.get(this.data, this.uiElement.optionsKey);
     }
 
-    // read returns local variable because of the format that can change its own value
-    // and next time it will try to format the already formatted text <- which is to be prevented
-    let v = this._options;
-
-    return v;
+    return this._options;
   }
 
   onDataSelect(event) {
