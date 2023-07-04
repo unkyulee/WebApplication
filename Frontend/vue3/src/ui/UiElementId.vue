@@ -24,8 +24,6 @@ export default defineComponent({
     };
   },
   async created() {
-    console.log(this.uiElement);
-
     // prepare uielement
     this.ready = false;
 
