@@ -6,6 +6,7 @@
     :uiElement="uiElement"
     :style="uiElement.layoutStyle"
     :class="uiElement.layoutClass"
+    :transitionDelay="uiElement.transitionDelay"
   >
   </component>
 </template>
@@ -15,25 +16,29 @@
 import Base from "./Base";
 import Layout from "./Layout.vue";
 import UiElementId from "./UiElementId.vue";
-import Typography from "./Typography.vue";
-import ImageLoader from "./Image.vue";
+
+//
+import Alert from "./Alert.vue";
 import ButtonComponent from "./Button.vue";
-import InputComponent from "./Input.vue";
-import Selection from "./Selection.vue";
-import TableComponent from "./Table.vue";
-import Divider from "./Divider.vue";
 import Carousel from "./Carousel.vue";
 import Date from "./Date.vue";
+import Divider from "./Divider.vue";
+import CodeEditor from "./CodeEditor.vue";
 import ExpansionPanel from "./ExpansionPanel.vue";
+import FileUploadComponent from "./FileUpload.vue";
+import FloatingAction from "./FloatingAction.vue";
+import Gallery from "./Gallery.vue";
 import Icon from "./Icon.vue";
 import IframeComponent from "./Iframe.vue";
+import Typography from "./Typography.vue";
+import ImageLoader from "./Image.vue";
+import InputComponent from "./Input.vue";
 import ProgressComponent from "./Progress.vue";
-import Tabs from "./Tabs.vue";
-import Gallery from "./Gallery.vue";
-import Alert from "./Alert.vue";
-import CodeEditor from "./CodeEditor.vue";
-import FileUploadComponent from "./FileUpload.vue";
+import PopupMenu from "./PopupMenu.vue";
+import Selection from "./Selection.vue";
 import Stepper from "./Stepper.vue";
+import TableComponent from "./Table.vue";
+import Tabs from "./Tabs.vue";
 
 import { defineComponent } from "vue";
 export default defineComponent({
@@ -43,25 +48,27 @@ export default defineComponent({
   components: {
     Layout,
     UiElementId,
-    Typography,
-    ImageLoader,
+    Alert,
     ButtonComponent,
-    Selection,
-    TableComponent,
-    InputComponent,
-    Divider,
     Carousel,
+    CodeEditor,
     Date,
+    Divider,
     ExpansionPanel,
+    FileUploadComponent,
+    FloatingAction,
+    Gallery,
+    InputComponent,
     Icon,
     IframeComponent,
+    ImageLoader,
     ProgressComponent,
-    Tabs,
-    Gallery,
-    Alert,
-    CodeEditor,
-    FileUploadComponent,
+    PopupMenu,
+    Selection,
     Stepper,
+    Tabs,
+    Typography,
+    TableComponent,
   },
   data() {
     return {
