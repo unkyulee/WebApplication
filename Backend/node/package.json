@@ -31,6 +31,7 @@
     "mustache": "^4.0.1",
     "node-excel-export": "^1.4.4",
     "object-path": "^0.11.8",
+    "pdf-puppeteer": "^1.1.10",
     "receiptline": "^1.15.0",
     "stripe": "^8.193.0",
     "ws": "^8.2.2"
