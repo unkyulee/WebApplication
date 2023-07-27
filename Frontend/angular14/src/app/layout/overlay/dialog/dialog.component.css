@@ -3,13 +3,11 @@
 }
 
 ::ng-deep .p-dialog {
-  max-height: unset !important;
   height: auto;
 }
 
 ::ng-deep .p-dialog-content {
   padding: 0 !important;
-  max-height: calc(100vh - 35px);
   overflow: auto;
 }
 
