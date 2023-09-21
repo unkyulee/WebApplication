@@ -54,16 +54,12 @@ export default defineComponent({
     });
 
     // subscribe to snackbar
-    event.subscribe("App", "snackbar", (event) => {
-      let text = event.text;
+    event.subscribe("App", "snackbar", (e) => {
+      let text = e.text;
 
       // check if lang option exists
-      if (
-        event.lang &&
-        this.config.get("locale") &&
-        event.lang[this.config.get("locale")]
-      ) {
-        text = event.lang[this.config.get("locale")];
+      if (e.lang && config.get("locale") && e.lang[this.config.get("locale")]) {
+        text = e.lang[config.get("locale")];
       }
 
       this.$toast.add({
