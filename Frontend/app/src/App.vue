@@ -58,7 +58,7 @@ export default defineComponent({
       let text = e.text;
 
       // check if lang option exists
-      if (e.lang && config.get("locale") && e.lang[this.config.get("locale")]) {
+      if (e.lang && config.get("locale") && e.lang[config.get("locale")]) {
         text = e.lang[config.get("locale")];
       }
 
