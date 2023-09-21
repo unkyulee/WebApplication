@@ -113,7 +113,6 @@ class ProxyService {
     //
     // open a server on a random port and create a channel between proxy host and proxy server
     let proxyServer = net.createServer();
-    proxyServer.listen({ port: 0, host: "0.0.0.0" });
     await this.db.insert("server.log", {
       id: "server",
       incoming: false,
@@ -124,6 +123,7 @@ class ProxyService {
     });
     await {
       then(r, f) {
+        proxyServer.listen({ port: 0, host: "0.0.0.0" });
         proxyServer.on("listening", r);
         proxyServer.on("error", f);
       },
