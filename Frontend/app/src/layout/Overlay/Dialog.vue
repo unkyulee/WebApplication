@@ -62,6 +62,12 @@ export default defineComponent({
       this.data = {};
       this.uiElement = {};
     });
+
+    this.event.subscribe("dialog", "data", async (event) => {
+      if (event.data) {
+        this.data = { ...this.data };
+      }
+    });
   },
   unmounted() {
     this.event.unsubscribe_all("dialog");
