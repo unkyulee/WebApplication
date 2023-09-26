@@ -63,10 +63,10 @@ export default defineComponent({
       }
 
       this.$toast.add({
-        severity: obj.get(event, "type", "info"),
-        summary: obj.get(event, "title", ""),
+        severity: obj.get(e, "type", "info"),
+        summary: obj.get(e, "title", ""),
         detail: text,
-        life: obj.get(event, "timeout", 3000),
+        life: obj.get(e, "timeout", 3000),
       });
     });
   },
