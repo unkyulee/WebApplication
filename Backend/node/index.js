@@ -29,7 +29,7 @@ app.use(cookieParser());
 
 // process forms
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({ limit: 10000000 }));
 
 // process multiparts
 var busboy = require("connect-busboy");
