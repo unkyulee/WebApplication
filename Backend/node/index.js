@@ -1,6 +1,12 @@
 const path = require("path");
 const express = require("express");
 
+//
+process.on("uncaughtException", (err) => {
+  console.log("Uncaught Exception thrown");
+  console.log(err);
+});
+
 // Express Instance
 const app = express();
 
@@ -145,3 +151,5 @@ if (process.env.PROXY_PORT) {
     await proxyService.init(process.env.PROXY_PORT);
   })();
 }
+
+throw 1;
