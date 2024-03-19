@@ -1,19 +1,39 @@
 <!-- Table -->
 <ng-container *ngIf="uiElement.tableType == 'table'">
   <div [style]="uiElement.style">
-    <p-table [loading]="loading" [lazy]="true" (onLazyLoad)="requestDownload($event)" [value]="rows"
-      [columns]="uiElement.tableColumns" [totalRecords]="total" [rows]="uiElement.size" [page]="page" [paginator]="true"
-      [showCurrentPageReport]="true" currentPageReportTemplate="{totalRecords}"
-      [rowsPerPageOptions]="[25, 50, 100, 500]" [customSort]="true" (sortFunction)="customSort($event)"
-      [selectionMode]="safeGet(uiElement, 'selectionMode', 'single')" [(selection)]="selection"
-      (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
-      [styleClass]="uiElement.styleClass ?? 'p-datatable-sm p-datatable-striped'" [scrollable]="true"
-      scrollHeight="flex" [responsiveLayout]="safeGet(uiElement, 'responsiveLayout', 'scroll')">
+    <p-table
+      [loading]="loading"
+      [lazy]="true"
+      (onLazyLoad)="requestDownload($event)"
+      [value]="rows"
+      [columns]="uiElement.tableColumns"
+      [totalRecords]="total"
+      [rows]="uiElement.size"
+      [page]="page"
+      [paginator]="true"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="{totalRecords}"
+      [rowsPerPageOptions]="[25, 50, 100, 500]"
+      [customSort]="true"
+      (sortFunction)="customSort($event)"
+      [selectionMode]="safeGet(uiElement, 'selectionMode', 'single')"
+      [(selection)]="selection"
+      (onRowSelect)="onRowSelect($event)"
+      (onRowUnselect)="onRowUnselect($event)"
+      [styleClass]="uiElement.styleClass ?? 'p-datatable-sm p-datatable-striped'"
+      [scrollable]="true"
+      scrollHeight="flex"
+      [responsiveLayout]="safeGet(uiElement, 'responsiveLayout', 'scroll')"
+    >
 
       <!-- Caption Area -->
       <ng-template pTemplate="caption">
         <div class="toolbar">
-          <button *ngIf="uiElement.filter" mat-icon-button (click)="show_filter = !show_filter">
+          <button
+            *ngIf="uiElement.filter"
+            mat-icon-button
+            (click)="show_filter = !show_filter"
+          >
             <mat-icon>
               filter_list
             </mat-icon>
@@ -21,17 +41,31 @@
 
           <!-- actions -->
           <ng-container *ngFor="let ui of uiElement.actions??[]">
-            <ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="data">
+            <ng-container
+              ui-element
+              *ngIf="condition(ui)"
+              [uiElement]="ui"
+              [data]="data"
+            >
             </ng-container>
           </ng-container>
 
           <!-- filter screen -->
           <div style="width: 100%;">
           </div>
-          <div *ngIf="show_filter" [style]="uiElement.filter?.style" class="filter">
+          <div
+            *ngIf="show_filter"
+            [style]="uiElement.filter?.style"
+            class="filter"
+          >
 
             <ng-container *ngFor="let ui of uiElement.filter?.screens??[]">
-              <ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="data">
+              <ng-container
+                ui-element
+                *ngIf="condition(ui)"
+                [uiElement]="ui"
+                [data]="data"
+              >
               </ng-container>
             </ng-container>
 
@@ -40,13 +74,28 @@
       </ng-template>
 
       <!-- Column Header -->
-      <ng-template pTemplate="header" let-columns>
-        <tr [style]="uiElement.header?.style" [class]="uiElement.header?.class">
+      <ng-template
+        pTemplate="header"
+        let-columns
+      >
+        <tr
+          [style]="uiElement.header?.style"
+          [class]="uiElement.header?.class"
+        >
           <ng-container *ngFor="let column of columns">
-            <th *ngIf="condition(column)" [style]="column?.header?.style" [class]="column?.header?.class"
-              [pSortableColumn]="column?.key">
+            <th
+              *ngIf="condition(column)"
+              [style]="column?.header?.style"
+              [class]="column?.header?.class"
+              [pSortableColumn]="column?.key"
+            >
               <ng-container *ngFor="let ui of column.header?.screens??[]">
-                <ng-container ui-element *ngIf="condition(ui)" [uiElement]="ui" [data]="{}">
+                <ng-container
+                  ui-element
+                  *ngIf="condition(ui)"
+                  [uiElement]="ui"
+                  [data]="{}"
+                >
                 </ng-container>
               </ng-container>
 
@@ -54,7 +103,10 @@
                 {{column.label}}
               </ng-container>
 
-              <p-sortIcon *ngIf="column?.key && column?.sort != false" [field]="column?.key">
+              <p-sortIcon
+                *ngIf="column?.key && column?.sort != false"
+                [field]="column?.key"
+              >
               </p-sortIcon>
             </th>
           </ng-container>
@@ -64,13 +116,30 @@
 
 
       <!-- Body -->
-      <ng-template pTemplate="body" let-row let-columns="columns">
-        <tr [pSelectableRow]="row" [style]="uiElement.content?.style" [class]="uiElement.content?.class">
+      <ng-template
+        pTemplate="body"
+        let-row
+        let-columns="columns"
+      >
+        <tr
+          [pSelectableRow]="row"
+          [style]="uiElement.content?.style"
+          [class]="uiElement.content?.class"
+        >
           <ng-container *ngFor="let column of columns">
-            <td *ngIf="condition(column)" [style]="column.header?.style" class="td-content">
+            <td
+              *ngIf="condition(column)"
+              [style]="column.header?.style"
+              class="td-content"
+            >
 
               <ng-container *ngFor="let ui of column?.screens??[]">
-                <ng-container *ngIf="condition(ui, row)" ui-element [uiElement]="copy(ui)" [data]="row">
+                <ng-container
+                  *ngIf="condition(ui, row)"
+                  ui-element
+                  [uiElement]="copy(ui)"
+                  [data]="row"
+                >
                 </ng-container>
               </ng-container>
 
@@ -91,34 +160,70 @@
 
 <!-- Card List -->
 <ng-container *ngIf="uiElement.tableType == 'card'">
-  <div cdkDropList [cdkDropListData]="rows" (cdkDropListDropped)="drop($event)" [style]="uiElement.contentLayoutStyle"
-    [class]="uiElement.contentLayoutClass">
-    <mat-card cdkDrag [cdkDragDisabled]="
+  <div
+    cdkDropList
+    [cdkDropListData]="rows"
+    (cdkDropListDropped)="drop($event)"
+    [style]="uiElement.contentLayoutStyle"
+    [class]="uiElement.contentLayoutClass"
+  >
+    <mat-card
+      cdkDrag
+      [cdkDragDisabled]="
         uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
-      " *ngFor="let row of rows" (click)="click($event, row, uiElement.click)" [style]="uiElement.itemBoxStyle"
-      [class]="uiElement.itemBoxClass">
+      "
+      *ngFor="let row of rows"
+      (click)="click($event, row, uiElement.click)"
+      [style]="uiElement.itemBoxStyle"
+      [class]="uiElement.itemBoxClass"
+    >
       <ng-container *ngFor="let column of uiElement.columns">
-        <ng-container ui-element [uiElement]="column" [data]="row">
+        <ng-container
+          ui-element
+          [uiElement]="column"
+          [data]="row"
+        >
         </ng-container>
       </ng-container>
     </mat-card>
   </div>
-  <pagination [key]="uiElement.key" [total]="total" [page]="page" [size]="size">
+  <pagination
+    [key]="uiElement.key"
+    [total]="total"
+    [page]="page"
+    [size]="size"
+  >
   </pagination>
 </ng-container>
 
 <!-- Simple List -->
-<div *ngIf="uiElement.tableType == 'list'" [style]="uiElement.contentLayoutStyle" [class]="uiElement.contentLayoutClass"
-  cdkDropList [cdkDropListData]="rows" (cdkDropListDropped)="drop($event)">
+<div
+  *ngIf="uiElement.tableType == 'list'"
+  [style]="uiElement.contentLayoutStyle"
+  [class]="uiElement.contentLayoutClass"
+  cdkDropList
+  [cdkDropListData]="rows"
+  (cdkDropListDropped)="drop($event)"
+>
 
-  <div *ngFor="let row of rows" [style]="row.itemBoxStyle ? row.itemBoxStyle : uiElement.itemBoxStyle"
-    [class]="row.itemBoxClass ? row.itemBoxClass : uiElement.itemBoxClass" cdkDrag [cdkDragData]="row"
+  <div
+    *ngFor="let row of rows"
+    [style]="row.itemBoxStyle ? row.itemBoxStyle : uiElement.itemBoxStyle"
+    [class]="row.itemBoxClass ? row.itemBoxClass : uiElement.itemBoxClass"
+    cdkDrag
+    [cdkDragData]="row"
     [cdkDragDisabled]="
       uiElement.cdkDragDisabled ? safeEval(uiElement.cdkDragDisabled) : true
-    " (click)="click($event, row, uiElement.click)">
+    "
+    (click)="click($event, row, uiElement.click)"
+  >
 
     <ng-container *ngFor="let column of uiElement.columns">
-      <ng-container ui-element [uiElement]="column" [data]="row">
+      <ng-container
+        ui-element
+        [uiElement]="column"
+        [data]="row"
+      >
       </ng-container>
     </ng-container>
   </div>
