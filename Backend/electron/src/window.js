@@ -5,12 +5,15 @@ const {
   Menu,
   dialog,
   ipcMain,
+  session,
 } = require("electron");
 const windowStateKeeper = require("electron-window-state");
 const url = require("url");
 const path = require("path");
 // services
 const config = require("./config");
+
+const userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36";
 
 module.exports = {
   window: null,
@@ -44,6 +47,7 @@ module.exports = {
           nodeIntegration: true,
           webSecurity: false,
           enableRemoteModule: true,
+          contextIsolation: false,
         },
         // Hides main window until it is ready to show
         show: false,
@@ -92,7 +96,13 @@ module.exports = {
 
       //
       let debug = false;
-      this.window.webContents.openDevTools();
+      //this.window.webContents.openDevTools();
+      session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+        details.requestHeaders['User-Agent'] = userAgent;
+        callback({ cancel: false, requestHeaders: details.requestHeaders });
+      });
+
+
       if (debug) {
         this.window.loadURL("http://localhost:4200");
       } else {
